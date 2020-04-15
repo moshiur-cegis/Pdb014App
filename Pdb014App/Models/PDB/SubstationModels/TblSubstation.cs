@@ -91,6 +91,8 @@ namespace Pdb014App.Models.PDB.SubstationModels
         [Display(Name = "Longitude")]
         public decimal? Longitude { get; set; }
 
+
+        //Added By Anisur Rahman
         [Column("DefaultZoomLevel", Order = 12, TypeName = "int")]
         [DataType(DataType.Text)]
         [Display(Name = "Default Zoom Level")]
