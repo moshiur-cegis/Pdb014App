@@ -1,0 +1,37 @@
+﻿@model Pdb014App.Models.PDB.MeteringPanelModels.LookupControlSwitch
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LookupControlSwitch</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ControlSwitch)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ControlSwitch)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ManufacturesNameCountry)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ManufacturesNameCountry)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ManufacturesModelTypeNo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ManufacturesModelTypeNo)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ControlSwitchId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

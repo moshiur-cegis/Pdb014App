@@ -1,0 +1,49 @@
+﻿@model Pdb014App.Models.PDB.MeteringPanelModels.LookupControlSwitch
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Create</h2>
+
+<h4>LookupControlSwitch</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+            <legend>Add Control Switch</legend>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ControlSwitch" class="control-label"></label>
+                <input asp-for="ControlSwitch" class="form-control" />
+                <span asp-validation-for="ControlSwitch" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManufacturesNameCountry" class="control-label"></label>
+                <input asp-for="ManufacturesNameCountry" class="form-control" />
+                <span asp-validation-for="ManufacturesNameCountry" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManufacturesModelTypeNo" class="control-label"></label>
+                <input asp-for="ManufacturesModelTypeNo" class="form-control" />
+                <span asp-validation-for="ManufacturesModelTypeNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Back</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

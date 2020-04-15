@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Advanced Attribute Editing - 4.14</title>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.14/"></script>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #info {
+        padding: 14px;
+        border-radius: 5px;
+        width: 25%;
+      }
+
+      #update {
+        padding: 6px;
+      }
+
+      #form {
+        background: #fff;
+      }
+
+      /* replaces esri-widget--panel */
+
+      .esri-button {
+        height: 36px;
+      }
+
+      .scroller {
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+    </style>
+
+    <script>
+      var view;
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/widgets/FeatureForm",
+        "esri/layers/FeatureLayer"
+      ], function(Map, MapView, FeatureForm, FeatureLayer) {
+        let highlight, editFeature;
+
+        const featureLayer = new FeatureLayer({
+          portalItem: {
+            id: "1e6a26701cd94ca1880e6fc9c908f410" // Citizen problems portal layer
+          }
+        });
+
+        const map = new Map({
+          basemap: "streets",
+          layers: [featureLayer]
+        });
+
+        view = new MapView({
+          map: map,
+          container: "viewDiv",
+          center: [-88.149, 41.773],
+          zoom: 14
+        });
+
+        // Add a new feature form with grouped fields
+        const form = new FeatureForm({
+          container: "form",
+          groupDisplay: "sequential", // only display one group at a time
+          layer: featureLayer,
+          fieldConfig: [
+            {
+              name: "status",
+              editable: false, // not an editable field
+              label: "Issue status",
+              description:
+                "E.g. submitted, received, in progress, or completed."
+            },
+            {
+              name: "resolution",
+              label: "Resolution",
+              editable: false,
+              description: "Resolution if status is 'Completed'",
+              visibilityExpression:
+                "($feature.status == 'Completed') && (!(IsEmpty($feature.resolution)))"
+            },
+
+            {
+              //autocastable to FieldGroupConfig
+              // First group with three visible fields
+              // Initial field grouping for entering the problem information
+              label: "Update issue",
+              description:
+                "If work has not yet begun on issue, categorize and detail the problem",
+              visibilityExpression:
+                "($feature.status == 'Submitted') || ($feature.status == 'Received')",
+              // Individual field configurations within the group
+              fieldConfig: [
+                {
+                  // autocastable as FieldConfig
+                  name: "category",
+                  label: "Category"
+                },
+                {
+                  // Show the sub categories (problem types) if category is set
+                  name: "AnimalProbType",
+                  label: "Animal problem type",
+                  visibilityExpression: "$feature.category == 'Animal'",
+                  description: "E.g. barking dog, bite, etc."
+                },
+                {
+                  name: "BlightProbType",
+                  label: "Blight problem type",
+                  description: "E.g. graffiti, abandoned vehicle, etc.",
+                  visibilityExpression: "$feature.category == 'Blight'"
+                },
+                {
+                  name: "HealthProbType",
+                  label: "Health problem type",
+                  description: "E.g. food poisoning, mosquito, etc.",
+                  visibilityExpression: "$feature.category == 'Health'"
+                },
+                {
+                  name: "LanUseProbType",
+                  label: "Land Use problem type",
+                  description:
+                    "E.g. illegal parking, work without permit, etc.",
+                  visibilityExpression: "$feature.category == 'Land Use'"
+                },
+                {
+                  name: "ParktreeProbType",
+                  label: "Park/Tree problem type",
+                  description: "E.g. unsafe tree, light out, etc.",
+                  visibilityExpression: "$feature.category == 'Park/Tree'"
+                },
+                {
+                  name: "RoadProbType",
+                  label: "Road problem type",
+                  description: "E.g. pothole, sidewalk damage, etc.",
+                  visibilityExpression: "$feature.category == 'Road'"
+                },
+                {
+                  name: "SnowIceProbType",
+                  label: "Snow/Ice problem type",
+                  description: "E.g. sidewalk not cleared, etc.",
+                  visibilityExpression: "$feature.category == 'Snow/Ice'"
+                },
+                {
+                  name: "TrashProbType",
+                  label: "Trash problem type",
+                  description: "E.g. bulk item pickup, recycling pickup, etc.",
+                  visibilityExpression: "$feature.category == 'Trash'"
+                },
+                {
+                  name: "UtiltiesProbType",
+                  label: "Utility problem type",
+                  description: "E.g. storm drain clog, water leak, etc.",
+                  visibilityExpression: "$feature.category == 'Utility'"
+                },
+                {
+                  name: "details",
+                  label: "Details",
+                  description: "Enter additional details about the problem",
+
+                  // If the category is a value and the sub categories are NOT NULL, show the details field
+                  visibilityExpression:
+                    "($feature.category == 'Animal' && (!IsEmpty($feature.AnimalProbType))) || ($feature.category == 'Blight' && (!IsEmpty($feature.BlightProbType))) || ($feature.category == 'Health' && (!IsEmpty($feature.HealthProbType))) || ($feature.category == 'Land Use' && (!IsEmpty($feature.LanUseProbType))) || ($feature.category == 'Park/Tree' && (!IsEmpty($feature.ParktreeProbtype))) || ($feature.category == 'Road' && (!IsEmpty($feature.RoadProbtype))) || ($feature.category == 'Snow/Ice' && (!IsEmpty($feature.SnowIceProbtype))) || ($feature.category == 'Trash' && (!IsEmpty($feature.TrashProbType))) || ($feature.category == 'Utility' && (!IsEmpty($feature.UtiltiesProbType)))"
+                }
+              ]
+            }, // Second grouping specific to point of contact information
+            {
+              label: "Point of contact information",
+              description: "Who should we contact regarding this problem?",
+              fieldConfig: [
+                {
+                  name: "pocfirstname",
+                  label: "First name"
+                },
+                {
+                  name: "poclastname",
+                  label: "Last name"
+                },
+                {
+                  name: "pocphone",
+                  label: "Telephone number",
+                  // Only show the telephone field if both first and last names are entered
+                  visibilityExpression:
+                    "((!IsEmpty($feature.pocfirstname)) && (!IsEmpty($feature.poclastname))) "
+                },
+                {
+                  name: "pocemail",
+                  label: "Email",
+                  visibilityExpression:
+                    "((!IsEmpty($feature.pocfirstname)) && (!IsEmpty($feature.poclastname))) "
+                }
+              ]
+            }
+          ]
+        });
+
+        // Disable popup
+        view.popup.autoOpenEnabled = false;
+
+        view.on("click", function(event) {
+          // Unselect any currently selected features
+          unselectFeature();
+          // Listen for when the user clicks on the view
+          view.hitTest(event).then(function(response) {
+            // If user selects a feature, select it
+            const results = response.results;
+            if (
+              results.length > 0 &&
+              results[0].graphic &&
+              results[0].graphic.layer === featureLayer
+            ) {
+              selectFeature(
+                results[0].graphic.attributes[featureLayer.objectIdField]
+              );
+            } else {
+              // Hide the form and show the info div
+              document.getElementById("update").classList.add("esri-hidden");
+            }
+          });
+        });
+
+        // Function to unselect features
+        function unselectFeature() {
+          if (highlight) {
+            highlight.remove();
+          }
+        }
+
+        // Highlight the clicked feature and display
+        // its attributes in the featureform.
+        function selectFeature(objectId) {
+          // query feature from the server
+          featureLayer
+            .queryFeatures({
+              objectIds: [objectId],
+              outFields: ["*"],
+              returnGeometry: true
+            })
+            .then(function(results) {
+              if (results.features.length > 0) {
+                editFeature = results.features[0];
+
+                // display the attributes of selected feature in the form
+                form.feature = editFeature;
+
+                // highlight the feature on the view
+                view.whenLayerView(editFeature.layer).then(function(layerView) {
+                  highlight = layerView.highlight(editFeature);
+                });
+
+                if (
+                  document
+                    .getElementById("update")
+                    .classList.contains("esri-hidden")
+                ) {
+                  document.getElementById("info").classList.add("esri-hidden");
+                  document
+                    .getElementById("update")
+                    .classList.remove("esri-hidden");
+                }
+              }
+            });
+        }
+
+        // Listen to the feature form's submit event.
+        form.on("submit", function() {
+          if (editFeature) {
+            // Grab updated attributes from the form.
+            const updated = form.getValues();
+
+            // Loop through updated attributes and assign
+            // the updated values to feature attributes.
+            Object.keys(updated).forEach(function(name) {
+              editFeature.attributes[name] = updated[name];
+            });
+
+            // Setup the applyEdits parameter with updates.
+            const edits = {
+              updateFeatures: [editFeature]
+            };
+            applyAttributeUpdates(edits);
+          }
+        });
+
+        // Call FeatureLayer.applyEdits() with specified params.
+        function applyAttributeUpdates(params) {
+          document.getElementById("btnUpdate").style.cursor = "progress";
+          featureLayer
+            .applyEdits(params)
+            .then(function(editsResult) {
+              // Get the objectId of the newly added feature.
+              // Call selectFeature function to highlight the new feature.
+              if (editsResult.addFeatureResults.length > 0) {
+                const objectId = editsResult.addFeatureResults[0].objectId;
+                selectFeature(objectId);
+              }
+              document.getElementById("btnUpdate").style.cursor = "pointer";
+            })
+            .catch(function(error) {
+              console.log("===============================================");
+              console.error(
+                "[ applyEdits ] FAILURE: ",
+                error.code,
+                error.name,
+                error.message
+              );
+              console.log("error = ", error);
+              document.getElementById("btnUpdate").style.cursor = "pointer";
+            });
+        }
+
+        document.getElementById("btnUpdate").onclick = function() {
+          // Fires feature form's submit event.
+          form.submit();
+        };
+
+        view.ui.add("update", "top-right");
+        view.ui.add("info", {
+          position: "top-left",
+          index: 1
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+    <div id="info" class="esri-widget">
+      <h3>Select a feature to begin editing</h3>
+      <h4>
+        You will only be able to update an issue if work has not yet begun on
+        it, e.g. status is either 'Submitted' or 'Received'.
+        <p>
+          If work has already begun, you have the ability to update the contact
+          information. If no first and last names are provided, no option is
+          given to enter a telephone number or email.
+        </p>
+      </h4>
+    </div>
+
+    <div id="update" class="esri-widget esri-hidden">
+      <div id="form" class="scroller esri-component"></div>
+      <input
+        type="button"
+        class="esri-button"
+        value="Update assessment"
+        id="btnUpdate"
+      />
+    </div>
+  </body>
+</html>

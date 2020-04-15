@@ -1,0 +1,97 @@
+﻿@model Pdb014App.Models.PDB.SwitchGearModels.LookUpPotentialTrans33KV
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LookUpPotentialTrans33KV</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PotentialTransformerToSwitchGear)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PotentialTransformerToSwitchGear.SwitchGearID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NameoftheManufacturer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NameoftheManufacturer)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TypeAndModelNo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TypeAndModelNo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NominalSystemVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NominalSystemVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HeightsSystemVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HeightsSystemVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RatedPrimaryVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RatedPrimaryVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RatedSecondaryVoltageandTertiaryVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RatedSecondaryVoltageandTertiaryVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ImpulseWithstAndVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ImpulseWithstAndVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MicroSec12or50)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MicroSec12or50)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PowerFrequencyWithstandVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PowerFrequencyWithstandVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BurdenOrClass)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BurdenOrClass)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MeteringWinding)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MeteringWinding)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ProtectionWinding)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ProtectionWinding)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PotentialTransformerId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

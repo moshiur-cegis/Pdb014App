@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.MeteringPanelModels.LookUpDimensionAndWeight>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>List of Dimension And Weight</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Width)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Depth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WeightIncludingCircuitBreaker)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Width)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Depth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WeightIncludingCircuitBreaker)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DimensionAndWeightId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DimensionAndWeightId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DimensionAndWeightId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,297 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.InsulatorModels.TblInsulator>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+
+    <style type="text/css">
+
+        table.table {
+            table-layout: fixed;
+        }
+
+            table.table tr th,
+            table.table tr td {
+                border-color: #e9e9e9;
+            }
+
+            table.table th {
+                min-width: 80px;
+            }
+
+                table.table th:last-child {
+                    width: 100px;
+                }
+
+                table.table th i {
+                    font-size: 13px;
+                    margin: 0 5px;
+                    cursor: pointer;
+                }
+
+            table.table td a {
+                cursor: pointer;
+                display: inline-block;
+                margin: 0 5px;
+                min-width: 24px;
+            }
+
+                table.table td a.add {
+                    color: #27C46B;
+                }
+
+                table.table td a.edit {
+                    color: #FFC107;
+                }
+
+                table.table td a.delete {
+                    color: #E34724;
+                }
+
+            table.table td i {
+                font-size: 19px;
+            }
+
+            table.table td a.add i {
+                font-size: 24px;
+                margin-right: -1px;
+                position: relative;
+                top: 3px;
+            }
+
+
+            table.table .form-control {
+                width: 100%;
+                padding: 2px 5px;
+                line-height: 1.0;
+            }
+
+                table.table .form-control.error {
+                    border-color: #f50000;
+                }
+
+            table.table td .add {
+                display: none;
+            }
+    </style>
+
+}
+
+<h2>List of Insulator</h2>
+<hr>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-view" id="updatePanel">
+            <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                <table id="multi-form-view" class="table table-responsive multi-form-view">
+                    <thead>
+                        <tr>
+
+                             <th>
+                                @*@Html.DisplayNameFor(model => model.InsulatorId)*@
+                                 Insulator Id
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Installation)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NominalSystemVoltage)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.InsulatorType)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MaximumSystemVoltage)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TypeOfSystem)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.InsulatorVoltageClass)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.InsulatorMaterials)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MinimumCreepageDistance)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MinimumWithstandVoltage)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PowerFrequencyDry)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PowerFrequencyWet)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ImpulseWithstandVoltage)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MinimumPowerFrequencyFlashoverDry)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MinimumPowerFrequencyFlashoverWet)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FiftyPctImpulseFlashoverWavePositive)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FiftyPctImpulseFlashoverWaveNegative)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PowerFrequencyPuncherVoltage)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MinimumDryArchingDistance)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PowerFrequencyTestVoltageRmsToGround)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MinimumRadioInfluenceVoltageRIVAt1000KcInMicroVolt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MinimumNeckDiameter)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MinimumDiameterOfInsulator)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MinimumHeightOfTheInsulator)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MinimumGroveDiameter)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MinimumMechanicalFailingLoad)
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.InsulatorToLookUpCondition)*@
+                                Insulator Condition
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Quantity)
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.InsulatorToPole)*@
+                                Pole Id
+                            </th>
+                            @*<th>Action</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.InsulatorId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.InsulatorId)</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Installation)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NominalSystemVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InsulatorType.InsulatorTypeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MaximumSystemVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TypeOfSystem)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InsulatorVoltageClass)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InsulatorMaterials)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MinimumCreepageDistance)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MinimumWithstandVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PowerFrequencyDry)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PowerFrequencyWet)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImpulseWithstandVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MinimumPowerFrequencyFlashoverDry)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MinimumPowerFrequencyFlashoverWet)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FiftyPctImpulseFlashoverWavePositive)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FiftyPctImpulseFlashoverWaveNegative)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PowerFrequencyPuncherVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MinimumDryArchingDistance)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PowerFrequencyTestVoltageRmsToGround)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MinimumRadioInfluenceVoltageRIVAt1000KcInMicroVolt)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MinimumNeckDiameter)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MinimumDiameterOfInsulator)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MinimumHeightOfTheInsulator)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MinimumGroveDiameter)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MinimumMechanicalFailingLoad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InsulatorToLookUpCondition.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InsulatorToPole.PoleId)
+                                </td>
+                                @*<td>
+                                    <a asp-action="Edit" asp-route-id="@item.InsulatorId">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.InsulatorId">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.InsulatorId">Delete</a>
+                                </td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

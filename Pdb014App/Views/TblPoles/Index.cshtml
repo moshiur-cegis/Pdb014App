@@ -1,0 +1,346 @@
+﻿@*@model IEnumerable<Pdb014App.Models.PDB.TblPole>*@
+
+@model ReflectionIT.Mvc.Paging.PagingList<Pdb014App.Models.PDB.TblPole>
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
+
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Styles {
+
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+
+    <style type="text/css">
+
+        table.table {
+            table-layout: fixed;
+        }
+
+            table.table tr th,
+            table.table tr td {
+                border-color: #e9e9e9;
+            }
+
+            table.table th {
+                min-width: 80px;
+            }
+
+                table.table th:last-child {
+                    width: 100px;
+                }
+
+                table.table th i {
+                    font-size: 13px;
+                    margin: 0 5px;
+                    cursor: pointer;
+                }
+
+            table.table td a {
+                cursor: pointer;
+                display: inline-block;
+                margin: 0 5px;
+                min-width: 24px;
+            }
+
+                table.table td a.add {
+                    color: #27C46B;
+                }
+
+                table.table td a.edit {
+                    color: #FFC107;
+                }
+
+                table.table td a.delete {
+                    color: #E34724;
+                }
+
+            table.table td i {
+                font-size: 19px;
+            }
+
+            table.table td a.add i {
+                font-size: 24px;
+                margin-right: -1px;
+                position: relative;
+                top: 3px;
+            }
+
+
+            table.table .form-control {
+                width: 100%;
+                padding: 2px 5px;
+                line-height: 1.0;
+            }
+
+                table.table .form-control.error {
+                    border-color: #f50000;
+                }
+
+            table.table td .add {
+                display: none;
+            }
+    </style>
+
+}
+
+<div class="container">
+    <h2>List of Pole</h2>
+    <hr>
+
+    <p>
+        <a asp-action="Create">Add New Pole</a>
+    </p>
+
+    <div class="row">
+
+        <div class="col-12">
+            <div class="float-md-right">
+                <form method="get" class="form-inline">
+                    <input name="filter" class="form-control" placeholder="filter"
+                           value="@Model.RouteValue["Filter"]" />
+                    <button type="submit" class="btn btn-info">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-view" id="updatePanel">
+                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                    <table id="multi-form-view" class="table table-responsive multi-form-view">
+                        <thead>
+                            <tr>
+                                @*<th>
+            @Html.DisplayNameFor(model => model.PoleUid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FeederLineUid)
+        </th>*@
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PoleId)
+
+
+                                  
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyDate)
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.PoleToRoute)*@
+                                Route Name
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.PoleToFeederLine)*@
+                                    FeederLine Name
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SurveyorName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PoleNo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PreviousPoleNo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Latitude)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Longitude)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PoleType)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.PoleCondition)*@
+                                    Pole Condition
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.LookUpLineType)*@
+                                    Line Type
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BackSpan)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.LookUpTypeOfWire)*@
+                                    Wire Type
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NoOfWireHt)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NoOfWireLt)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.WireLength)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.WireLookUpCondition)*@
+                                    Wire Condition
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MSJNo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SleeveNo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TwistNo)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.PhaseACondition)*@
+                                    Phase A Condition
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.PhaseBCondition)*@
+                                    Phase B Condition
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.PhaseCCondition)*@
+                                    Phase C Condition
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Neutral)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.StreetLight)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TransformerExist)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CommonPole)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Tap)
+                                </th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                                        @*<td>
+                                    @Html.DisplayFor(modelItem => item.PoleUid)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FeederLineUid)
+                                </td>*@
+
+                                <td>
+                                    @*@Html.DisplayFor(modelItem => item.PoleId)*@
+
+                                <a asp-action="Edit" asp-route-id="@item.PoleId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.PoleId)</a>
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SurveyDate)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleToRoute.RouteName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleToFeederLine.FeederName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SurveyorName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PreviousPoleNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Latitude)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Longitude)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleType.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleCondition.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LookUpLineType.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BackSpan)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LookUpTypeOfWire.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoOfWireHt)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoOfWireLt)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WireLength)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WireLookUpCondition.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MSJNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SleeveNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TwistNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PhaseACondition.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PhaseBCondition.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PhaseCCondition.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Neutral)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StreetLight)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TransformerExist)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CommonPole)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Tap)
+                                </td>
+                               
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="text-align: center;">
+    <vc:pager paging-list="@Model" />
+</div>

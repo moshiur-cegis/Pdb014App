@@ -1,0 +1,509 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="1">
+      <BADC Ref="2" type="Stimulsoft.Report.Dictionary.StiSqlDatabase" isKey="true">
+        <Alias>BADC</Alias>
+        <ConnectionStringEncrypted>9FTPC9cIAcjiX9XY9ez2XtHEzePGSpPVemvoXPC4YWfRWq3LXVnzbfJd+dRqAfZ74xZprU1UQq3iTKyly5yxv+FWUyjFSzH5cGG5/XCE4XvVVNkDVlki2WhN7cxiXGJ70TTBb0sIQu1pSv2Bd2zhRuJ2mS3jW9NB7Fs=</ConnectionStringEncrypted>
+        <Name>BADC</Name>
+      </BADC>
+    </Databases>
+    <DataSources isList="true" count="1">
+      <TblUpazilaWiseSurveyInfos Ref="3" type="Stimulsoft.Report.Dictionary.StiSqlSource" isKey="true">
+        <Alias>TblUpazilaWiseSurveyInfos</Alias>
+        <Columns isList="true" count="16">
+          <value>Id,System.Int32</value>
+          <value>EquipmentId,System.Int32</value>
+          <value>DistCode,System.String</value>
+          <value>UpazCode,System.String</value>
+          <value>Organization,System.String</value>
+          <value>ElectricityPdb,System.Int32</value>
+          <value>ElectricityReb,System.Int32</value>
+          <value>ElectricityTotal,System.Int32</value>
+          <value>ElectricityArea,System.Int32</value>
+          <value>ElectricityFarmer,System.Int32</value>
+          <value>DieselUnit,System.Int32</value>
+          <value>DieselArea,System.Int32</value>
+          <value>DieselFarmer,System.Int32</value>
+          <value>TotalUnit,System.Int32</value>
+          <value>TotalArea,System.Int32</value>
+          <value>TotalFarmer,System.Int32</value>
+        </Columns>
+        <CommandTimeout>30</CommandTimeout>
+        <Dictionary isRef="1" />
+        <Name>TblUpazilaWiseSurveyInfos</Name>
+        <NameInSource>BADC</NameInSource>
+        <Parameters isList="true" count="0" />
+        <SqlCommand>select * from TblUpazilaWiseSurveyInfos</SqlCommand>
+      </TblUpazilaWiseSurveyInfos>
+    </DataSources>
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Resources isList="true" count="0" />
+    <Variables isList="true" count="0" />
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <Key>bb78dcf710ad4b819ad00b0b027f8e84</Key>
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page2 Ref="4" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="1">
+        <TableTblUpazilaWiseSurveyInfos Ref="5" type="Stimulsoft.Report.Components.Table.StiTable" isKey="true">
+          <Brush>Transparent</Brush>
+          <BusinessObjectGuid isNull="true" />
+          <ClientRectangle>0,0,7.72,0.9</ClientRectangle>
+          <ColumnCount>4</ColumnCount>
+          <Components isList="true" count="12">
+            <TableTblUpazilaWiseSurveyInfos_Cell1 Ref="6" type="TableCell" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>0,0,2,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <ID>0</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>TableTblUpazilaWiseSurveyInfos_Cell1</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>District Code</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </TableTblUpazilaWiseSurveyInfos_Cell1>
+            <TableTblUpazilaWiseSurveyInfos_Cell2 Ref="7" type="TableCell" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>2,0,1.9,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <ID>1</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>TableTblUpazilaWiseSurveyInfos_Cell2</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>UpazCode</Text>
+              <TextBrush>Black</TextBrush>
+            </TableTblUpazilaWiseSurveyInfos_Cell2>
+            <TableTblUpazilaWiseSurveyInfos_Cell3 Ref="8" type="TableCell" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>3.9,0,1.9,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <ID>2</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>TableTblUpazilaWiseSurveyInfos_Cell3</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>Organization</Text>
+              <TextBrush>Black</TextBrush>
+            </TableTblUpazilaWiseSurveyInfos_Cell3>
+            <TableTblUpazilaWiseSurveyInfos_Cell4 Ref="9" type="TableCell" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>5.8,0,1.92,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <ID>3</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>TableTblUpazilaWiseSurveyInfos_Cell4</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>ElectricityPdb</Text>
+              <TextBrush>Black</TextBrush>
+            </TableTblUpazilaWiseSurveyInfos_Cell4>
+            <TableTblUpazilaWiseSurveyInfos_Cell5 Ref="10" type="TableCell" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>0,0.3,2,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <ID>4</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>TableTblUpazilaWiseSurveyInfos_Cell5</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{TblUpazilaWiseSurveyInfos.DistCode}</Text>
+              <TextBrush>Black</TextBrush>
+            </TableTblUpazilaWiseSurveyInfos_Cell5>
+            <TableTblUpazilaWiseSurveyInfos_Cell6 Ref="11" type="TableCell" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>2,0.3,1.9,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <ID>5</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>TableTblUpazilaWiseSurveyInfos_Cell6</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{TblUpazilaWiseSurveyInfos.UpazCode}</Text>
+              <TextBrush>Black</TextBrush>
+            </TableTblUpazilaWiseSurveyInfos_Cell6>
+            <TableTblUpazilaWiseSurveyInfos_Cell7 Ref="12" type="TableCell" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>3.9,0.3,1.9,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <ID>6</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>TableTblUpazilaWiseSurveyInfos_Cell7</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{TblUpazilaWiseSurveyInfos.Organization}</Text>
+              <TextBrush>Black</TextBrush>
+            </TableTblUpazilaWiseSurveyInfos_Cell7>
+            <TableTblUpazilaWiseSurveyInfos_Cell8 Ref="13" type="TableCell" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>5.8,0.3,1.92,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <ID>7</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>TableTblUpazilaWiseSurveyInfos_Cell8</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <Text>{TblUpazilaWiseSurveyInfos.ElectricityPdb}</Text>
+              <TextBrush>Black</TextBrush>
+            </TableTblUpazilaWiseSurveyInfos_Cell8>
+            <TableTblUpazilaWiseSurveyInfos_Cell9 Ref="14" type="TableCell" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>0,0.6,2,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <ID>8</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>TableTblUpazilaWiseSurveyInfos_Cell9</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <TextBrush>Black</TextBrush>
+            </TableTblUpazilaWiseSurveyInfos_Cell9>
+            <TableTblUpazilaWiseSurveyInfos_Cell10 Ref="15" type="TableCell" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>2,0.6,1.9,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <ID>9</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>TableTblUpazilaWiseSurveyInfos_Cell10</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <TextBrush>Black</TextBrush>
+            </TableTblUpazilaWiseSurveyInfos_Cell10>
+            <TableTblUpazilaWiseSurveyInfos_Cell11 Ref="16" type="TableCell" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>3.9,0.6,1.9,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <ID>10</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>TableTblUpazilaWiseSurveyInfos_Cell11</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <TextBrush>Black</TextBrush>
+            </TableTblUpazilaWiseSurveyInfos_Cell11>
+            <TableTblUpazilaWiseSurveyInfos_Cell12 Ref="17" type="TableCell" isKey="true">
+              <Brush>White</Brush>
+              <ClientRectangle>5.8,0.6,1.92,0.3</ClientRectangle>
+              <Conditions isList="true" count="0" />
+              <Font>Arial,9</Font>
+              <ID>11</ID>
+              <JoinCells isList="true" count="0" />
+              <Margins>0,0,0,0</Margins>
+              <Name>TableTblUpazilaWiseSurveyInfos_Cell12</Name>
+              <Page isRef="4" />
+              <Parent isRef="5" />
+              <Restrictions>AllowMove, AllowSelect, AllowChange</Restrictions>
+              <TextBrush>Black</TextBrush>
+            </TableTblUpazilaWiseSurveyInfos_Cell12>
+          </Components>
+          <Conditions isList="true" count="0" />
+          <DataSourceName>TblUpazilaWiseSurveyInfos</DataSourceName>
+          <Filters isList="true" count="0" />
+          <FooterRowsCount>1</FooterRowsCount>
+          <HeaderRowsCount>1</HeaderRowsCount>
+          <MinHeight>0.30000000000000004</MinHeight>
+          <Name>TableTblUpazilaWiseSurveyInfos</Name>
+          <NumberID>12</NumberID>
+          <Page isRef="4" />
+          <Parent isRef="4" />
+          <RowCount>3</RowCount>
+          <Sort isList="true" count="0" />
+        </TableTblUpazilaWiseSurveyInfos>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>14d64aa5d11446d0a8b21d866543a941</Guid>
+      <Margins>0.39,0.39,0.39,0.39</Margins>
+      <Name>Page2</Name>
+      <PageHeight>11</PageHeight>
+      <PageWidth>8.5</PageWidth>
+      <PaperSize>Letter</PaperSize>
+      <Report isRef="0" />
+    </Page2>
+  </Pages>
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>Report</ReportAlias>
+  <ReportChanged>3/25/2019 3:59:26 PM</ReportChanged>
+  <ReportCreated>3/25/2019 3:47:06 PM</ReportCreated>
+  <ReportFile>D:\PDB014\Pdb014App\Pdb014App\Reports\ReportUpazila.mrt</ReportFile>
+  <ReportGuid>927d31facabe43ef9fcc5c5594764e9f</ReportGuid>
+  <ReportName>Report</ReportName>
+  <ReportUnit>Inches</ReportUnit>
+  <ReportVersion>2019.2.2.0</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class Report : Stimulsoft.Report.StiReport
+    {
+        public Report()        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+        #endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="12">
+    <Chestnut_Report_Title1 Ref="18" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[134:82:64];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Chestnut</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item18 Ref="19" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentType>Text, Primitive, Image</ComponentType>
+          <Placement>ReportTitle</Placement>
+          <Type>ComponentType, Placement, PlacementNestedLevel</Type>
+        </Item18>
+      </Conditions>
+      <Font>Arial,14,Bold</Font>
+      <Name>Chestnut_Report_Title1</Name>
+      <NegativeTextBrush>Red</NegativeTextBrush>
+      <TextBrush>[142:115:106]</TextBrush>
+    </Chestnut_Report_Title1>
+    <Chestnut_Report_Title2 Ref="20" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[134:82:64];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Chestnut</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item20 Ref="21" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentType>Text, Primitive, Image</ComponentType>
+          <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
+          <Placement>ReportTitle</Placement>
+          <PlacementNestedLevel>2</PlacementNestedLevel>
+          <Type>ComponentType, Placement, PlacementNestedLevel</Type>
+        </Item20>
+      </Conditions>
+      <Font>Arial,10,Bold</Font>
+      <Name>Chestnut_Report_Title2</Name>
+      <NegativeTextBrush>Red</NegativeTextBrush>
+      <TextBrush>[142:115:106]</TextBrush>
+    </Chestnut_Report_Title2>
+    <Chestnut_Report_Summary Ref="22" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[134:82:64];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Chestnut</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item22 Ref="23" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentType>Text, Primitive, Image</ComponentType>
+          <Placement>ReportSummary</Placement>
+          <Type>ComponentType, Placement</Type>
+        </Item22>
+      </Conditions>
+      <Font>Arial,10,Bold</Font>
+      <Name>Chestnut_Report_Summary</Name>
+      <NegativeTextBrush>Red</NegativeTextBrush>
+      <TextBrush>[184:132:114]</TextBrush>
+    </Chestnut_Report_Summary>
+    <Chestnut_Page_Header Ref="24" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[134:82:64];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Chestnut</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item24 Ref="25" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentType>Text, Primitive, Image</ComponentType>
+          <Placement>PageHeader</Placement>
+          <Type>ComponentType, Placement</Type>
+        </Item24>
+      </Conditions>
+      <Font>Arial,10</Font>
+      <Name>Chestnut_Page_Header</Name>
+      <NegativeTextBrush>Red</NegativeTextBrush>
+      <TextBrush>[184:132:114]</TextBrush>
+    </Chestnut_Page_Header>
+    <Chestnut_Page_Footer Ref="26" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[134:82:64];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Chestnut</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item26 Ref="27" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentType>Text, Primitive, Image</ComponentType>
+          <Placement>PageFooter</Placement>
+          <Type>ComponentType, Placement</Type>
+        </Item26>
+      </Conditions>
+      <Font>Arial,10</Font>
+      <Name>Chestnut_Page_Footer</Name>
+      <NegativeTextBrush>Red</NegativeTextBrush>
+      <TextBrush>[184:132:114]</TextBrush>
+    </Chestnut_Page_Footer>
+    <Chestnut_Group_Header1 Ref="28" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[134:82:64];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Chestnut</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item28 Ref="29" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentType>Text, Primitive, Image</ComponentType>
+          <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
+          <Placement>GroupHeader</Placement>
+          <Type>ComponentType, Placement, PlacementNestedLevel</Type>
+        </Item28>
+      </Conditions>
+      <Font>Arial,13,Bold</Font>
+      <Name>Chestnut_Group_Header1</Name>
+      <NegativeTextBrush>Red</NegativeTextBrush>
+      <TextBrush>[184:132:114]</TextBrush>
+    </Chestnut_Group_Header1>
+    <Chestnut_Group_Footer1 Ref="30" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <Border>None;[134:82:64];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Chestnut</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item30 Ref="31" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentType>Text, Primitive, Image</ComponentType>
+          <Placement>GroupFooter</Placement>
+          <Type>ComponentType, Placement, PlacementNestedLevel</Type>
+        </Item30>
+      </Conditions>
+      <Font>Arial,13,Bold</Font>
+      <Name>Chestnut_Group_Footer1</Name>
+      <NegativeTextBrush>Red</NegativeTextBrush>
+      <TextBrush>[184:132:114]</TextBrush>
+    </Chestnut_Group_Footer1>
+    <Chestnut_Header1 Ref="32" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <AllowUseBorderSidesFromLocation>True</AllowUseBorderSidesFromLocation>
+      <Border>None;[134:82:64];1;Solid;False;4;Black;True</Border>
+      <Brush>[184:132:114]</Brush>
+      <CollectionName>Chestnut</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item32 Ref="33" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentType>Text, Primitive, Image</ComponentType>
+          <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
+          <Placement>Header</Placement>
+          <Type>ComponentType, Placement, PlacementNestedLevel</Type>
+        </Item32>
+      </Conditions>
+      <Font>Arial,8,Bold</Font>
+      <Name>Chestnut_Header1</Name>
+      <NegativeTextBrush>Red</NegativeTextBrush>
+      <TextBrush>White</TextBrush>
+    </Chestnut_Header1>
+    <Chestnut_Data1 Ref="34" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <AllowUseBorderSidesFromLocation>True</AllowUseBorderSidesFromLocation>
+      <Border>None;[134:82:64];1;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <CollectionName>Chestnut</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item34 Ref="35" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentType>Text, Primitive, Image, CheckBox</ComponentType>
+          <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
+          <Placement>Data</Placement>
+          <Type>ComponentType, Placement, PlacementNestedLevel</Type>
+        </Item34>
+      </Conditions>
+      <Font>Arial,8</Font>
+      <Name>Chestnut_Data1</Name>
+      <NegativeTextBrush>Red</NegativeTextBrush>
+      <TextBrush>[0:0:0]</TextBrush>
+    </Chestnut_Data1>
+    <Chestnut_Data1_Odd_x0020_Style Ref="36" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <AllowUseBorderSidesFromLocation>True</AllowUseBorderSidesFromLocation>
+      <Border>None;[134:82:64];1;Solid;False;4;Black</Border>
+      <Brush>[250:218:122]</Brush>
+      <CollectionName>Chestnut</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item36 Ref="37" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
+          <Placement>DataOddStyle</Placement>
+          <Type>Placement, PlacementNestedLevel</Type>
+        </Item36>
+      </Conditions>
+      <Font>Arial,8</Font>
+      <Name>Chestnut_Data1_Odd Style</Name>
+      <NegativeTextBrush>Red</NegativeTextBrush>
+      <TextBrush>[0:0:0]</TextBrush>
+    </Chestnut_Data1_Odd_x0020_Style>
+    <Chestnut_Data1_Even_x0020_Style Ref="38" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <AllowUseBorderSidesFromLocation>True</AllowUseBorderSidesFromLocation>
+      <Border>None;[134:82:64];1;Solid;False;4;Black</Border>
+      <Brush>[210:218:122]</Brush>
+      <CollectionName>Chestnut</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item38 Ref="39" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <OperationPlacementNestedLevel>GreaterThanOrEqualTo</OperationPlacementNestedLevel>
+          <Placement>DataEvenStyle</Placement>
+          <Type>Placement, PlacementNestedLevel</Type>
+        </Item38>
+      </Conditions>
+      <Font>Arial,8</Font>
+      <Name>Chestnut_Data1_Even Style</Name>
+      <NegativeTextBrush>Red</NegativeTextBrush>
+      <TextBrush>[0:0:0]</TextBrush>
+    </Chestnut_Data1_Even_x0020_Style>
+    <Chestnut_Footer1 Ref="40" type="Stimulsoft.Report.StiStyle" isKey="true">
+      <AllowUseBorderSidesFromLocation>True</AllowUseBorderSidesFromLocation>
+      <Border>None;[134:82:64];1;Solid;False;4;Black</Border>
+      <Brush>[194:142:124]</Brush>
+      <CollectionName>Chestnut</CollectionName>
+      <Conditions isList="true" count="1">
+        <Item40 Ref="41" type="Stimulsoft.Report.StiStyleCondition" isKey="true">
+          <ComponentType>Text, Primitive, Image</ComponentType>
+          <Placement>Footer</Placement>
+          <Type>ComponentType, Placement, PlacementNestedLevel</Type>
+        </Item40>
+      </Conditions>
+      <Font>Arial,8</Font>
+      <Name>Chestnut_Footer1</Name>
+      <NegativeTextBrush>Red</NegativeTextBrush>
+      <TextBrush>[0:0:0]</TextBrush>
+    </Chestnut_Footer1>
+  </Styles>
+</StiSerializer>

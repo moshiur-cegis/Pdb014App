@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SwitchGearModels.LookUpCurrentTransformer>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Current Transformer</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CurrentTransformerId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccuracyClassMetering)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccuracyClassOCEFProtection)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccuracyClassDifferentialProtection)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedCurrentRatio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Burden)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedFrequency)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <th>
+                @Html.DisplayFor(modelItem => item.CurrentTransformerId)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccuracyClassMetering)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccuracyClassOCEFProtection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccuracyClassDifferentialProtection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedCurrentRatio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Burden)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedFrequency)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CurrentTransformerId">Edit</a>
+                @*<a asp-action="Details" asp-route-id="@item.CurrentTransformerId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.CurrentTransformerId">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,208 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SubstationModels.TblSubstation>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+@section Styles {
+
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+
+    <style type="text/css">
+
+        table.table {
+            table-layout: fixed;
+        }
+
+            table.table tr th,
+            table.table tr td {
+                border-color: #e9e9e9;
+            }
+
+            table.table th {
+                min-width: 80px;
+            }
+
+                table.table th:last-child {
+                    width: 100px;
+                }
+
+                table.table th i {
+                    font-size: 13px;
+                    margin: 0 5px;
+                    cursor: pointer;
+                }
+
+            table.table td a {
+                cursor: pointer;
+                display: inline-block;
+                margin: 0 5px;
+                min-width: 24px;
+            }
+
+                table.table td a.add {
+                    color: #27C46B;
+                }
+
+                table.table td a.edit {
+                    color: #FFC107;
+                }
+
+                table.table td a.delete {
+                    color: #E34724;
+                }
+
+            table.table td i {
+                font-size: 19px;
+            }
+
+            table.table td a.add i {
+                font-size: 24px;
+                margin-right: -1px;
+                position: relative;
+                top: 3px;
+            }
+
+
+            table.table .form-control {
+                width: 100%;
+                padding: 2px 5px;
+                line-height: 1.0;
+            }
+
+                table.table .form-control.error {
+                    border-color: #f50000;
+                }
+
+            table.table td .add {
+                display: none;
+            }
+    </style>
+
+}
+
+<div class="container">
+    <h2>List of Substation</h2>
+    <hr>
+
+    <p>
+        <a asp-action="Create">Add New Substation</a>
+    </p>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-view" id="updatePanel">
+                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                    <table id="multi-form-view" class="table table-responsive multi-form-view">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Substation Id
+                                </th>
+                                <th>
+
+                                    Substation Type
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SubstationName)
+
+                                </th>
+                                <th>
+
+                                    S&D Code
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NominalVoltage)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.InstalledCapacity)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MaximumDemand)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PeakLoad)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Location)
+                                </th>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.AreaOfSubstation)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Latitude)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Longitude)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.YearOfComissioning)
+                                    </th>*@
+                                @*<th>Action</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @*@Html.DisplayFor(modelItem => item.SubstationId)*@
+                                        <a asp-action="Edit" asp-route-id="@item.SubstationId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.SubstationId)</a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubstationType.SubstationTypeId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubstationName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.SnDCode)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NominalVoltage)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InstalledCapacity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MaximumDemand)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PeakLoad)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Location)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.AreaOfSubstation)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Latitude)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Longitude)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.YearOfComissioning)
+                                        </td>*@
+                                    @*<td>
+                                        <a asp-action="Edit" asp-route-id="@item.SubstationId">Edit</a>
+                                        <a asp-action="Details" asp-route-id="@item.SubstationId">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.SubstationId">Delete</a>
+                                    </td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,183 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SubstationModels.TblAutoCircuitReCloser>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>List of Auto Circuit Re-Closer</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.AutoCircuitReCloserId)*@
+            Auto Circuit Re-Closer Id
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.AutoCircuitReCloserType)*@
+            Auto Circuit Re-Closer Type
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.AutoCircuitReCloserIdToSubstation)*@
+            Substation
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManufacturersNameAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CountryOfOrigin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeOfModel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InterruptingMedium)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HermeticallySealed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ControlSystemforACR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsulatingMedium)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalSystemVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaximumVoltage)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.RatedFrequency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsulationLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImpulseWithstandVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PowerFrequencyWithstandVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedContinuousCurrent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaximumRatedCurrent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedShortCircuitCurrent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SymmetricalInterruptingCurrent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AsymmetricalInterrupting)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SymmetricalMakinoCurrent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShortTimewithstandCurrent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProtectionAndMeterningCTration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GasPressureIndicator)
+        </th>*@
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AutoCircuitReCloserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AutoCircuitReCloserType.AutoCircuitReCloserTypeIdName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AutoCircuitReCloserIdToSubstation.SubstationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ManufacturersNameAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CountryOfOrigin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeOfModel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InterruptingMedium)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HermeticallySealed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ControlSystemforACR)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsulatingMedium)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NominalSystemVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaximumVoltage)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.RatedFrequency)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsulationLevel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImpulseWithstandVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PowerFrequencyWithstandVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatedContinuousCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaximumRatedCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatedShortCircuitCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SymmetricalInterruptingCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AsymmetricalInterrupting)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SymmetricalMakinoCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShortTimewithstandCurrent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProtectionAndMeterningCTration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GasPressureIndicator)
+        </td>*@
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.AutoCircuitReCloserId">Edit</a>
+            @*<a asp-action="Details" asp-route-id="@item.AutoCircuitReCloserId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.AutoCircuitReCloserId">Delete</a>*@
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

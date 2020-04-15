@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.CopperCableModels.TblCopperCables>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Copper Cables </h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.CopperCablesType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CableSize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Material)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumbersAndDiameterofWires)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaximumResistanceat30degC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalThicknessofInsulation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalThicknessofSheath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ColorofSheath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApproximateOuterDiameter)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ApproximateWeight)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.ContinuousPermissibleServiceVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CurrentRatingAt30degCambientTemperatureUorG)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CurrentRatingat35degCambientinAir)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConductorToPole)
+        </th>*@
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.CopperCablesId)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.CopperCablesType.CopperCablesTypeId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CableSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Material)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumbersAndDiameterofWires)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaximumResistanceat30degC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NominalThicknessofInsulation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NominalThicknessofSheath)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ColorofSheath)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApproximateOuterDiameter)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApproximateWeight)
+        </td>
+        @*<td>
+                @Html.DisplayFor(modelItem => item.ContinuousPermissibleServiceVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentRatingAt30degCambientTemperatureUorG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentRatingat35degCambientinAir)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConductorToPole.PoleId)
+            </td>*@
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+            @*<a asp-action="Details" asp-route-id="@item.CopperCablesId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CopperCablesId">Delete</a>*@
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

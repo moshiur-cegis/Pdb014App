@@ -1,0 +1,44 @@
+﻿@model Pdb014App.Models.PDB.LookUpModels.LookUpCircleInfo
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        
+        <fieldset>
+        <legend>Update Circle Information</legend>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CircleCode" />
+            <div class="form-group">
+                <label asp-for="CircleName" class="control-label"></label>
+                <input asp-for="CircleName" class="form-control" />
+                <span asp-validation-for="CircleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SortingNo" class="control-label"></label>
+                <input asp-for="SortingNo" class="form-control" />
+                <span asp-validation-for="SortingNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ZoneCode" class="control-label"></label>
+                <select asp-for="ZoneCode" class="form-control" asp-items="ViewBag.ZoneCode"></select>
+                <span asp-validation-for="ZoneCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-success float-right" />
+                <a class="btn btn-success left-right" asp-action="Index">Cencel</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

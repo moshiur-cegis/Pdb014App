@@ -1,0 +1,187 @@
+﻿@using Pdb014App.Models.MapViewer.Settings
+@using Pdb014App.Models.PDB.LookUpModels;
+@using Pdb014App.Models.PDB.SubstationModels;
+
+@{
+    Layout = null;
+    ViewData["Title"] = "BPDB :: Map Viewer";
+
+    LookUpMapViewGisServer gisServerDetails = null;
+    LookUpMapViewApplicationServer appServerDetails = null;
+    LookUpMapViewBaseMapDetail baseMapDetails = null;
+    LookUpZoneInfo zoneBasicInfo = null;
+    LookUpCircleInfo circleBasicInfo = null;
+    LookUpSnDInfo sndBasicInfo = null;
+    TblSubstation substationBasicInfo = null;
+
+
+    if (ViewData["GisServer"] != null)
+    {
+        gisServerDetails = ViewData["GisServer"] as LookUpMapViewGisServer;
+    }
+
+    if (ViewData["ApplicationServer"] != null)
+    {
+        appServerDetails = ViewData["ApplicationServer"] as LookUpMapViewApplicationServer;
+    }
+
+    if (ViewData["BaseMap"] != null)
+    {
+        baseMapDetails = ViewData["BaseMap"] as LookUpMapViewBaseMapDetail;
+    }
+}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <!--
+    ArcGIS API for JavaScript, https://js.arcgis.com
+    For more information about the layers-mapimagelayer-definitionexpression sample, read the original sample description at developers.arcgis.com.
+    https://developers.arcgis.com/javascript/latest/sample-code/layers-mapimagelayer-definitionexpression/index.html
+    -->
+    <title>
+        MapImageLayer - Set definition expressions on sublayers - 4.14
+    </title>
+
+    <link rel="stylesheet"
+          href="https://js.arcgis.com/4.14/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.14/"></script>
+
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #viewDiv {
+            position: absolute;
+            right: 0;
+            left: 0;
+            top: 0;
+            bottom: 100px;
+        }
+
+        #info-div {
+            background-color: white;
+            border-radius: 8px;
+            padding: 8px;
+            opacity: 0.92;
+        }
+    </style>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/layers/MapImageLayer"
+        ], function (Map, MapView, MapImageLayer) {
+
+            var renderer = {
+                type: "simple",  // autocasts as new SimpleRenderer()
+                symbol: {
+                    type: "simple-fill",  // autocasts as new LineSymbol3D()
+                    color: [245, 105, 07, 0.3],
+                    style: "solid",
+                    outline: {  // autocasts as new SimpleLineSymbol()
+                        color: [245, 105, 07, 0.7],
+                        width: 1
+                    }
+                }
+            }
+
+            /*****************************************************************
+             * Create a MapImageLayer instance pointing to a Map Service
+             * containing data about US Cities, Counties, States and Highways.
+             * Define sublayers with visibility for each layer in Map Service.
+             *****************************************************************/
+            const allLayers = new MapImageLayer({
+                url:
+                    "http://202.53.173.185:6080/arcgis/rest/services/pdb014/BpdbMaps/MapServer",
+                sublayers: [
+                    {
+                        id: 5,
+                        visible: true,
+                        //definitionExpression: "ZoneId=2",
+                        renderer: {
+                            type: "simple",  // autocasts as new SimpleRenderer()
+                            symbol: {
+                                type: "simple-fill",  // autocasts as new LineSymbol3D()
+                                color: [245, 105, 07, 0.4],
+                                style: "solid",
+                                outline: {  // autocasts as new SimpleLineSymbol()
+                                    color: [245, 105, 07, 0.9],
+                                    width: 1
+                                }
+                            }
+                        }
+                    },
+                    {
+                        id: 1,
+                        visible: true,
+                        // definitionExpression: "ZoneId=2",
+                    },
+                    {
+                        id: 0,
+                        visible: true,
+                        //definitionExpression: "ZoneId=2",
+                    }
+                ]
+            });
+
+            /*****************************************************************
+             * Add the layer to a map
+             *****************************************************************/
+            const map = new Map({
+                basemap: "streets",
+                layers: [allLayers]
+            });
+
+            const view = new MapView({
+                container: "viewDiv",
+                map: map,
+                zoom: 7,
+                center: [90.537777, 23.737777]
+            });
+
+            /*****************************************************************
+             * Listen for events on when the slider values have changed.
+             * When the slider value changes, apply the new value to the
+             * MapImageLayer definitionExpression.
+             *****************************************************************/
+            view.ui.add("info-div", "top-right");
+
+            view.when(function () {
+                // change where clause when selection changes
+                document
+                    .getElementById("layer-select")
+                    .addEventListener("change", function (event) {
+                        var newValue = event.target.value;
+                        allLayers.findSublayerById(5).definitionExpression = newValue;
+                        allLayers.findSublayerById(1).definitionExpression = newValue;
+                        allLayers.findSublayerById(0).definitionExpression = newValue;
+                        map.layers.add(allLayers);
+
+                    });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+    <div id="info-div" class="esri-widget">
+        Filter by Zone<br /><br />
+        <select id="layer-select">
+            <option value="" selected>All</option>
+            <option value=" ZoneId = 1">Chattogram</option>
+            <option value=" ZoneId = 2">Cumilla</option>
+            <option value=" ZoneId = 3">Mymensingh</option>
+            <option value=" ZoneId = 4">Sylhet</option>
+        </select>
+    </div>
+</body>
+</html>

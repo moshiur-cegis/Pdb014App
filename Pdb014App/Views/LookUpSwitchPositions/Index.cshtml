@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SwitchGearModels.LookUpSwitchPosition>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>List of Switch Position</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ElectricalAndMechanicalInterlock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentTransformer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccuracyClassMetering)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccuracyClassOCEFProtection)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedCurrentRatio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Burden)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedFrequency)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ElectricalAndMechanicalInterlock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentTransformer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccuracyClassMetering)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccuracyClassOCEFProtection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedCurrentRatio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Burden)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedFrequency)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SwitchPositionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SwitchPositionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SwitchPositionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,213 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SwitchGearModels.TblXLPEaluminiumCopperGalvanize11KV>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List 11Kv Aluminium Copper Galvanizes</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.XLPEaluminiumCopperGalvanize11KVId)*@
+            Id
+           
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.TblSwitchGear)*@
+            Switch Gear Id
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalCrossSectionalAreaofPhaseConductor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiameterofPhaseConductor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SingleCoreStranding)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ThicknessofInsulation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiameterOverInsulationApproximately)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalCrossSectionalAreaofScreen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ThicknessofOverSheath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverallDiameterApproximately)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GalvanizedSteelRopeNominalCrossSectionalAreaofRope)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stranding)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.ThicknessofCovering)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OverallDiameterofRope)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThreeCoresStrandedAroundSuspensionUnitDiameterof)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StrandedBundleApproximately)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalWeightApproximately)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NominalVoltageratingUOorU)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaximumAdmissibleContinuousWorkingVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaximumDCResistanceAt20C)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkingInductance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkingCapacitance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EarthLeakageCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortCircuitCurrentOfConductor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfScreen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentRatingatAmbienttempof40C)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ACTestVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CopperGalvanize11KVTo33or11kVSubStationID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CopperGalvanize11KVTo132or33kVSubStation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentCarryingCapacity)
+            </th>*@
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.XLPEaluminiumCopperGalvanize11KVId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TblSwitchGear.SwitchGearID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NominalCrossSectionalAreaofPhaseConductor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiameterofPhaseConductor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SingleCoreStranding)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThicknessofInsulation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiameterOverInsulationApproximately)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NominalCrossSectionalAreaofScreen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThicknessofOverSheath)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OverallDiameterApproximately)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GalvanizedSteelRopeNominalCrossSectionalAreaofRope)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stranding)
+        </td>
+        @*<td>
+                @Html.DisplayFor(modelItem => item.ThicknessofCovering)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OverallDiameterofRope)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThreeCoresStrandedAroundSuspensionUnitDiameterof)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StrandedBundleApproximately)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalWeightApproximately)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NominalVoltageratingUOorU)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaximumAdmissibleContinuousWorkingVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaximumDCResistanceAt20C)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkingInductance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkingCapacitance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EarthLeakageCurrent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortCircuitCurrentOfConductor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfScreen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentRatingatAmbienttempof40C)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ACTestVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CopperGalvanize11KVTo33or11kVSubStationID.SubstationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CopperGalvanize11KVTo132or33kVSubStation.SubstationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentCarryingCapacity)
+            </td>*@
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.XLPEaluminiumCopperGalvanize11KVId">Edit</a>
+            @*<a asp-action="Details" asp-route-id="@item.XLPEaluminiumCopperGalvanize11KVId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.XLPEaluminiumCopperGalvanize11KVId">Delete</a>*@
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

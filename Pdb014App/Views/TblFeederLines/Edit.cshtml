@@ -1,0 +1,97 @@
+﻿@model Pdb014App.Models.PDB.TblFeederLine
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Edit</h2>
+
+<h4>TblFeederLine</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        
+        <fieldset>
+            <legend>Update Feeder Line Information</legend>
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="FeederLineId" />
+                <div class="form-group" style="display: none">
+                    <label asp-for="FeederLineUId" class="control-label"></label>
+                    <input asp-for="FeederLineUId" class="form-control" />
+                    <span asp-validation-for="FeederLineUId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FeederLineTypeId" class="control-label"></label>
+                    <select asp-for="FeederLineTypeId" class="form-control" asp-items="ViewBag.FeederLineTypeId"></select>
+                    <span asp-validation-for="FeederLineTypeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RouteCode" class="control-label"></label>
+                    <select asp-for="RouteCode" class="form-control" asp-items="ViewBag.RouteCode"></select>
+                    <span asp-validation-for="RouteCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FeederName" class="control-label"></label>
+                    <input asp-for="FeederName" class="form-control" />
+                    <span asp-validation-for="FeederName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NominalVoltage" class="control-label"></label>
+                    <input asp-for="NominalVoltage" class="form-control" />
+                    <span asp-validation-for="NominalVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FeederLocation" class="control-label"></label>
+                    <input asp-for="FeederLocation" class="form-control" />
+                    <span asp-validation-for="FeederLocation" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FeederMeterNumber" class="control-label"></label>
+                    <input asp-for="FeederMeterNumber" class="form-control" />
+                    <span asp-validation-for="FeederMeterNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MeterCurrentRating" class="control-label"></label>
+                    <input asp-for="MeterCurrentRating" class="form-control" />
+                    <span asp-validation-for="MeterCurrentRating" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MeterVoltageRating" class="control-label"></label>
+                    <input asp-for="MeterVoltageRating" class="form-control" />
+                    <span asp-validation-for="MeterVoltageRating" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaximumDemand" class="control-label"></label>
+                    <input asp-for="MaximumDemand" class="form-control" />
+                    <span asp-validation-for="MaximumDemand" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PeakDemand" class="control-label"></label>
+                    <input asp-for="PeakDemand" class="form-control" />
+                    <span asp-validation-for="PeakDemand" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaximumLoad" class="control-label"></label>
+                    <input asp-for="MaximumLoad" class="form-control" />
+                    <span asp-validation-for="MaximumLoad" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SanctionedLoad" class="control-label"></label>
+                    <input asp-for="SanctionedLoad" class="form-control" />
+                    <span asp-validation-for="SanctionedLoad" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-success float-right" />
+                    <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+                </div>
+            </form>
+            </fieldset>
+</div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

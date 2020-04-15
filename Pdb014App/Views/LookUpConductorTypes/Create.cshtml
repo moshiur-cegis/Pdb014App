@@ -1,0 +1,41 @@
+﻿@model Pdb014App.Models.PDB.ConductorModels.LookUpConductorType
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@*<h4>Add Conductor Type</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        
+        <fieldset>
+            <legend>Add Conductor Type</legend>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="ConductorTypeId" class="control-label"></label>
+                <input asp-for="ConductorTypeId" class="form-control" />
+                <span asp-validation-for="ConductorTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConductorTypeName" class="control-label"></label>
+                <input asp-for="ConductorTypeName" class="form-control" />
+                <span asp-validation-for="ConductorTypeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Back</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

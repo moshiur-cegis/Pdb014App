@@ -1,0 +1,152 @@
+﻿@model Pdb014App.Models.PDB.SubstationModels.TblAutoCircuitReCloser
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Create</h2>
+
+<h4>TblAutoCircuitReCloser</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+            <legend>Add Auto Circuit Re-Closer</legend>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AutoCircuitReCloserTypeId" class="control-label"></label>
+                <select asp-for="AutoCircuitReCloserTypeId" class="form-control" asp-items="ViewBag.AutoCircuitReCloserTypeId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubstationId" class="control-label"></label>
+                <select asp-for="SubstationId" class="form-control" asp-items="ViewBag.SubstationId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManufacturersNameAddress" class="control-label"></label>
+                <input asp-for="ManufacturersNameAddress" class="form-control" />
+                <span asp-validation-for="ManufacturersNameAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountryOfOrigin" class="control-label"></label>
+                <input asp-for="CountryOfOrigin" class="form-control" />
+                <span asp-validation-for="CountryOfOrigin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeOfModel" class="control-label"></label>
+                <input asp-for="TypeOfModel" class="form-control" />
+                <span asp-validation-for="TypeOfModel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InterruptingMedium" class="control-label"></label>
+                <input asp-for="InterruptingMedium" class="form-control" />
+                <span asp-validation-for="InterruptingMedium" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HermeticallySealed" class="control-label"></label>
+                <input asp-for="HermeticallySealed" class="form-control" />
+                <span asp-validation-for="HermeticallySealed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ControlSystemforACR" class="control-label"></label>
+                <input asp-for="ControlSystemforACR" class="form-control" />
+                <span asp-validation-for="ControlSystemforACR" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InsulatingMedium" class="control-label"></label>
+                <input asp-for="InsulatingMedium" class="form-control" />
+                <span asp-validation-for="InsulatingMedium" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NominalSystemVoltage" class="control-label"></label>
+                <input asp-for="NominalSystemVoltage" class="form-control" />
+                <span asp-validation-for="NominalSystemVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximumVoltage" class="control-label"></label>
+                <input asp-for="MaximumVoltage" class="form-control" />
+                <span asp-validation-for="MaximumVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedFrequency" class="control-label"></label>
+                <input asp-for="RatedFrequency" class="form-control" />
+                <span asp-validation-for="RatedFrequency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InsulationLevel" class="control-label"></label>
+                <input asp-for="InsulationLevel" class="form-control" />
+                <span asp-validation-for="InsulationLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImpulseWithstandVoltage" class="control-label"></label>
+                <input asp-for="ImpulseWithstandVoltage" class="form-control" />
+                <span asp-validation-for="ImpulseWithstandVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PowerFrequencyWithstandVoltage" class="control-label"></label>
+                <input asp-for="PowerFrequencyWithstandVoltage" class="form-control" />
+                <span asp-validation-for="PowerFrequencyWithstandVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedContinuousCurrent" class="control-label"></label>
+                <input asp-for="RatedContinuousCurrent" class="form-control" />
+                <span asp-validation-for="RatedContinuousCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximumRatedCurrent" class="control-label"></label>
+                <input asp-for="MaximumRatedCurrent" class="form-control" />
+                <span asp-validation-for="MaximumRatedCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedShortCircuitCurrent" class="control-label"></label>
+                <input asp-for="RatedShortCircuitCurrent" class="form-control" />
+                <span asp-validation-for="RatedShortCircuitCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SymmetricalInterruptingCurrent" class="control-label"></label>
+                <input asp-for="SymmetricalInterruptingCurrent" class="form-control" />
+                <span asp-validation-for="SymmetricalInterruptingCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AsymmetricalInterrupting" class="control-label"></label>
+                <input asp-for="AsymmetricalInterrupting" class="form-control" />
+                <span asp-validation-for="AsymmetricalInterrupting" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SymmetricalMakinoCurrent" class="control-label"></label>
+                <input asp-for="SymmetricalMakinoCurrent" class="form-control" />
+                <span asp-validation-for="SymmetricalMakinoCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShortTimewithstandCurrent" class="control-label"></label>
+                <input asp-for="ShortTimewithstandCurrent" class="form-control" />
+                <span asp-validation-for="ShortTimewithstandCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProtectionAndMeterningCTration" class="control-label"></label>
+                <input asp-for="ProtectionAndMeterningCTration" class="form-control" />
+                <span asp-validation-for="ProtectionAndMeterningCTration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GasPressureIndicator" class="control-label"></label>
+                <input asp-for="GasPressureIndicator" class="form-control" />
+                <span asp-validation-for="GasPressureIndicator" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Back</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

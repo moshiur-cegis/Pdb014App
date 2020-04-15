@@ -1,0 +1,176 @@
+﻿@model Pdb014App.Models.PDB.InsulatorModels.TblInsulatorDisk
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles
+{
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap-select.css" rel="stylesheet" />
+}
+
+@*<h4>Add Isulator (Disk)</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        <fieldset>
+            <legend>Add Isulator (Disk)</legend>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Installation" class="control-label"></label>
+                    <input asp-for="Installation" class="form-control" />
+                    <span asp-validation-for="Installation" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NominalSystemVoltage" class="control-label"></label>
+                    <input asp-for="NominalSystemVoltage" class="form-control" />
+                    <span asp-validation-for="NominalSystemVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InsulatorDiskTypeId" class="control-label"></label>
+                    <select asp-for="InsulatorDiskTypeId" class="form-control" asp-items="ViewBag.InsulatorDiskTypeId">
+                        <option>--Select--</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaximumSystemVoltage" class="control-label"></label>
+                    <input asp-for="MaximumSystemVoltage" class="form-control" />
+                    <span asp-validation-for="MaximumSystemVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TypeOfSystem" class="control-label"></label>
+                    <input asp-for="TypeOfSystem" class="form-control" />
+                    <span asp-validation-for="TypeOfSystem" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NumberOfDiskPerString" class="control-label"></label>
+                    <input asp-for="NumberOfDiskPerString" class="form-control" />
+                    <span asp-validation-for="NumberOfDiskPerString" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MinimumCreepageDistance" class="control-label"></label>
+                    <input asp-for="MinimumCreepageDistance" class="form-control" />
+                    <span asp-validation-for="MinimumCreepageDistance" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MinimumWithstandVoltage" class="control-label"></label>
+                    <input asp-for="MinimumWithstandVoltage" class="form-control" />
+                    <span asp-validation-for="MinimumWithstandVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PowerFrequencyDry" class="control-label"></label>
+                    <input asp-for="PowerFrequencyDry" class="form-control" />
+                    <span asp-validation-for="PowerFrequencyDry" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PowerFrequencyWet" class="control-label"></label>
+                    <input asp-for="PowerFrequencyWet" class="form-control" />
+                    <span asp-validation-for="PowerFrequencyWet" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImpulseWithstandVoltage" class="control-label"></label>
+                    <input asp-for="ImpulseWithstandVoltage" class="form-control" />
+                    <span asp-validation-for="ImpulseWithstandVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MinimumPowerFrequencyFlashoverDry" class="control-label"></label>
+                    <input asp-for="MinimumPowerFrequencyFlashoverDry" class="form-control" />
+                    <span asp-validation-for="MinimumPowerFrequencyFlashoverDry" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MinimumPowerFrequencyFlashoverWet" class="control-label"></label>
+                    <input asp-for="MinimumPowerFrequencyFlashoverWet" class="form-control" />
+                    <span asp-validation-for="MinimumPowerFrequencyFlashoverWet" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FiftyPctImpulseFlashoverWavePositive" class="control-label"></label>
+                    <input asp-for="FiftyPctImpulseFlashoverWavePositive" class="form-control" />
+                    <span asp-validation-for="FiftyPctImpulseFlashoverWavePositive" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FiftyPctImpulseFlashoverWaveNegative" class="control-label"></label>
+                    <input asp-for="FiftyPctImpulseFlashoverWaveNegative" class="form-control" />
+                    <span asp-validation-for="FiftyPctImpulseFlashoverWaveNegative" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PowerFrequencyPuncherVoltage" class="control-label"></label>
+                    <input asp-for="PowerFrequencyPuncherVoltage" class="form-control" />
+                    <span asp-validation-for="PowerFrequencyPuncherVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MinimumDryArchingDistance" class="control-label"></label>
+                    <input asp-for="MinimumDryArchingDistance" class="form-control" />
+                    <span asp-validation-for="MinimumDryArchingDistance" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PowerFrequencyTestVoltageRmsToGround" class="control-label"></label>
+                    <input asp-for="PowerFrequencyTestVoltageRmsToGround" class="form-control" />
+                    <span asp-validation-for="PowerFrequencyTestVoltageRmsToGround" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MinimumRadioInfluenceVoltageRIVAt1000KcInMicroVolt" class="control-label"></label>
+                    <input asp-for="MinimumRadioInfluenceVoltageRIVAt1000KcInMicroVolt" class="form-control" />
+                    <span asp-validation-for="MinimumRadioInfluenceVoltageRIVAt1000KcInMicroVolt" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MinimumElectromechanicalStrength" class="control-label"></label>
+                    <input asp-for="MinimumElectromechanicalStrength" class="form-control" />
+                    <span asp-validation-for="MinimumElectromechanicalStrength" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MinimumMechanicalFailingLoad" class="control-label"></label>
+                    <input asp-for="MinimumMechanicalFailingLoad" class="form-control" />
+                    <span asp-validation-for="MinimumMechanicalFailingLoad" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                    <label asp-for="TypeOfInsulator" class="control-label"></label>
+                    <input asp-for="TypeOfInsulator" class="form-control" />
+                    <span asp-validation-for="TypeOfInsulator" class="text-danger"></span>
+                </div>*@
+                <div class="form-group">
+                    <label asp-for="DiameterOfInsulator" class="control-label"></label>
+                    <input asp-for="DiameterOfInsulator" class="form-control" />
+                    <span asp-validation-for="DiameterOfInsulator" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MinimumUnitSpacing" class="control-label"></label>
+                    <input asp-for="MinimumUnitSpacing" class="form-control" />
+                    <span asp-validation-for="MinimumUnitSpacing" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CouplingSize" class="control-label"></label>
+                    <input asp-for="CouplingSize" class="form-control" />
+                    <span asp-validation-for="CouplingSize" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PoleId" class="control-label"></label>
+                    <select asp-for="PoleId" data-live-search="true" title="Select Pole Id" class="form-control selectpicker" asp-items="ViewBag.PoleId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success float-right" />
+                    <a class="btn btn-success float-left" asp-action="Index">Back</a>
+                </div>
+            </form>
+        
+        </fieldset>
+        </div>   
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts
+{
+    <script src="~/lib/bootstrap/dist/js/bootstrap-select.js"></script>
+    @*https://developer.snapappointments.com/bootstrap-select/*@
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".selectpicker").selectpicker({
+
+            });
+        });
+    </script>
+}

@@ -1,0 +1,103 @@
+﻿@model Pdb014App.Models.PDB.CopperCableModels.TblCopperCables
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Create</h2>
+
+<h4>TblCopperCables</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        <fieldset>
+        <legend>Add Copper Cable </legend>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+                <label asp-for="CopperCablesId" class="control-label">Copper Cable Id</label>
+                <input asp-for="CopperCablesId" class="form-control" />
+                <span asp-validation-for="CopperCablesId" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="CopperCablesTypeId" class="control-label"></label>
+                <select asp-for="CopperCablesTypeId" class="form-control" asp-items="ViewBag.CopperCablesTypeId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CableSize" class="control-label"></label>
+                <input asp-for="CableSize" class="form-control" />
+                <span asp-validation-for="CableSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Material" class="control-label"></label>
+                <input asp-for="Material" class="form-control" />
+                <span asp-validation-for="Material" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumbersAndDiameterofWires" class="control-label"></label>
+                <input asp-for="NumbersAndDiameterofWires" class="form-control" />
+                <span asp-validation-for="NumbersAndDiameterofWires" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximumResistanceat30degC" class="control-label"></label>
+                <input asp-for="MaximumResistanceat30degC" class="form-control" />
+                <span asp-validation-for="MaximumResistanceat30degC" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NominalThicknessofInsulation" class="control-label"></label>
+                <input asp-for="NominalThicknessofInsulation" class="form-control" />
+                <span asp-validation-for="NominalThicknessofInsulation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NominalThicknessofSheath" class="control-label"></label>
+                <input asp-for="NominalThicknessofSheath" class="form-control" />
+                <span asp-validation-for="NominalThicknessofSheath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ColorofSheath" class="control-label"></label>
+                <input asp-for="ColorofSheath" class="form-control" />
+                <span asp-validation-for="ColorofSheath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ApproximateOuterDiameter" class="control-label"></label>
+                <input asp-for="ApproximateOuterDiameter" class="form-control" />
+                <span asp-validation-for="ApproximateOuterDiameter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ApproximateWeight" class="control-label"></label>
+                <input asp-for="ApproximateWeight" class="form-control" />
+                <span asp-validation-for="ApproximateWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContinuousPermissibleServiceVoltage" class="control-label"></label>
+                <input asp-for="ContinuousPermissibleServiceVoltage" class="form-control" />
+                <span asp-validation-for="ContinuousPermissibleServiceVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentRatingAt30degCambientTemperatureUorG" class="control-label"></label>
+                <input asp-for="CurrentRatingAt30degCambientTemperatureUorG" class="form-control" />
+                <span asp-validation-for="CurrentRatingAt30degCambientTemperatureUorG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentRatingat35degCambientinAir" class="control-label"></label>
+                <input asp-for="CurrentRatingat35degCambientinAir" class="form-control" />
+                <span asp-validation-for="CurrentRatingat35degCambientinAir" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PoleId" class="control-label"></label>
+                <select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Back</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

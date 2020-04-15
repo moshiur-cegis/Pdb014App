@@ -1,0 +1,210 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.ServicePointModels.TblServicePoint>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+
+<link href="~/css/datastyle.css" rel="stylesheet" />
+
+<style type="text/css">
+
+    table.table {
+        table-layout: fixed;
+    }
+
+        table.table tr th,
+        table.table tr td {
+            border-color: #e9e9e9;
+        }
+
+        table.table th {
+            min-width: 80px;
+        }
+
+            table.table th:last-child {
+                width: 100px;
+            }
+
+            table.table th i {
+                font-size: 13px;
+                margin: 0 5px;
+                cursor: pointer;
+            }
+
+        table.table td a {
+            cursor: pointer;
+            display: inline-block;
+            margin: 0 5px;
+            min-width: 24px;
+        }
+
+            table.table td a.add {
+                color: #27C46B;
+            }
+
+            table.table td a.edit {
+                color: #FFC107;
+            }
+
+            table.table td a.delete {
+                color: #E34724;
+            }
+
+        table.table td i {
+            font-size: 19px;
+        }
+
+        table.table td a.add i {
+            font-size: 24px;
+            margin-right: -1px;
+            position: relative;
+            top: 3px;
+        }
+
+
+        table.table .form-control {
+            width: 100%;
+            padding: 2px 5px;
+            line-height: 1.0;
+        }
+
+            table.table .form-control.error {
+                border-color: #f50000;
+            }
+
+        table.table td .add {
+            display: none;
+        }
+</style>
+
+}
+
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-view" id="updatePanel">
+            <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                <table id="multi-form-view" class="table table-responsive multi-form-view">
+                    <thead>
+                        <tr>
+                            <th>
+                                Service point Id
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ServicePointToPole)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VoltageCategory)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TransformerNumber)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ServicePointType)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AggregateLoadkw)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NoOFConsumersR)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NoOFConsumersY)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NoOFConsumersB)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NoOfConsumersRyb)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.RoadName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VillageOrAreaName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Ward)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CityTown)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PrimaryLandmark)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ServicePointId)
+                                    <a asp-action="Edit" asp-route-id="@item.ServicePointId" class="text-success hover-dark">@Html.DisplayFor(modelItem => item.ServicePointId)</a>
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ServicePointToPole.PoleId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VoltageCategory.VoltageCategoryName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TransformerNumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ServicePointType.ServicePointTypeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AggregateLoadkw)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoOFConsumersR)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoOFConsumersY)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoOFConsumersB)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoOfConsumersRyb)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RoadName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VillageOrAreaName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ward)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CityTown)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PrimaryLandmark)
+                                </td>
+                                @*<td>
+                                        <a asp-action="Edit" asp-route-id="@item.ServicePointId">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.ServicePointId">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.ServicePointId">Delete</a>
+                                    </td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

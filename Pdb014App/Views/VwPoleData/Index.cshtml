@@ -1,0 +1,680 @@
+﻿@*@model Pdb014App.Models.PDB.PoleModels.VwPoleData*@
+
+@model ReflectionIT.Mvc.Paging.PagingList<Pdb014App.Models.PDB.TblPole>
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
+
+@{
+    ViewData["Title"] = "CustomSearch";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles
+    {
+    @*<link href="~/css/datastyle.p.css" rel="stylesheet" />*@
+
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+}
+
+
+<div class="container">
+    <h2>Pole Data Search</h2>
+
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <form style="margin-bottom: 10px">
+
+                @*<div class="form-group">
+                        <label class="control-label">Select Field(s)</label>
+                        @Html.ListBox("FieldNameList", ViewBag.FieldNameList as MultiSelectList)
+                    </div>*@
+
+
+
+                <div class="row" style="display:none;">
+                    <div class="col-md-12">
+
+                        <div class="col-md-4 float-left">
+                            <div class="row">
+                                @*<div class="form-group">
+                                *@
+                                <label class="control-label">Select Field(s)</label>
+                                <select id="lbFieldList" class="form-control" asp-items="ViewBag.FieldName" value="@ViewBag.FieldName" multiple="multiple" size="10">
+                                    @*
+                                        <option value="" selected="selected">--- Select ---</option>*@
+                                </select>
+                                @*
+                                    </div>*@
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 float-left">
+                            <div class="row">
+
+                                <label class="control-label">Selected Field(s)</label>
+                                <br />
+                                <br />
+                                <button id="btn_add_single_list" type="button" class="btn btn-primary" onclick="Add_List()" style="Width:110px !important;">Add</button>
+                                @*<input id="btn_add_single" type="submit" value="Add" class="btn btn-primary" onclick="Add_List()" />*@
+                                <br />
+                                <button id="btn_remove_single_list" type="button" class="btn btn-primary" onclick="Remove_List()" style="Width:110px !important;">Remove</button>
+                                @*<input type="submit" value="Remove" class="btn btn-primary" />*@
+                                <br />
+                                <button id="btn_add_all_list" type="button" class="btn btn-primary" onclick="Add_All_List()" style="Width:110px !important;">Add All</button>
+                                @*<input type="submit" value="Add All" class="btn btn-primary" />*@
+                                <br />
+                                <button id="btn_remove_all_list" type="button" class="btn btn-primary" onclick="Remove_All_List()" style="Width:110px !important;">Remove All</button>
+                                @*<input type="submit" value="Remove All" class="btn btn-primary" />*@
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 float-left">
+                            <div class="row">
+                                <label class="control-label">Selected Field(s)</label>
+                                <select id="lbSelectedFieldList" class="form-control" multiple="multiple" size="10">
+                                    @*
+                                        <option value="" selected="selected">--- Select ---</option>*@
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<br />
+                    <br />
+                    <br />*@
+
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <table id="tblCustomSearch" class="table table-responsive multi-form-view" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="width:250px">Field Name</th>
+                                    <th style="width:250px">Operator</th>
+                                    <th style="width:250px">Field Value</th>
+                                    <th style="width:250px">And/Or</th>
+                                    @*
+                                        <th></th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @*@foreach (Customer customer in Model)
+                                    {
+                                    <tr>
+                                        <td>@customer.Name</td>
+                                        <td>@customer.Name</td>
+                                        <td>@customer.Country</td>
+                                        <td><input type="button" value="Remove" onclick="Remove(this)" /></td>
+                                    </tr>
+
+
+                                    <option value=" and ">And</option>
+                                    <option value=" or ">Or</option>
+
+                                    }*@
+                            </tbody>
+                            <tfoot>
+                                @*
+                                    <tr>
+                                        <td><select id="ddlSelectFieldName" class="form-control" asp-items="ViewBag.FieldName" value="@ViewBag.FieldName" onchange="GetSelectedFieldValues()"><option value="-1" selected="selected">--- Select ---</option></select></td>
+                                        <td>
+                                            <select id="ddlSelectOperator" class="form-control">
+                                                <option value=" = " selected="selected">Equals</option>
+                                                <option value=" <> ">Not Equals</option>
+                                                <option value=" > ">Greater Than</option>
+                                                <option value=" < ">Less Than</option>
+                                                <option value=" >= ">Greater Than and Equals</option>
+                                                <option value=" <= ">Less Than and Equals</option>
+                                                <option value=" null ">Is Null</option>
+                                                <option value=" not null ">Is Not Null</option>
+                                            </select>
+                                        </td>
+                                        <td><select id="ddlSelectFieldValue" class="form-control"><option value=" " selected="selected">--- Select ---</option></select></td>
+                                        <td>
+                                            <select id="ddlSelectAndOr" class="form-control">
+                                                <option value=" " selected="selected">--- Select ---</option>
+                                                <option value=" And ">And</option>
+                                                <option value=" Or ">Or</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="button" id="btnAdd" value="Add" class="btn btn-primary" onclick="AddNewRow()" /></td>
+                                    </tr>*@
+                                <tr>
+                                    <td>
+                                        <select id="ddlSelectFieldName1" class="form-control">
+                                            @*asp-items="ViewBag.FieldName" value="@ViewBag.FieldName"*@
+                                            <option value="null" selected="selected">--- Select ---</option>
+                                            <option value="PoleId">Pole Id</option>
+                                            <option value="FeederName">Feeder Name</option>
+                                            <option value="SurveyDate">Survey Date</option>
+                                            <option value="RouteName">Route Name</option>
+                                            <option value="PreviousPoleNo">Previous Pole No</option>
+                                            <option value="Name">Pole Type</option>
+                                            <option value="PoleConditionId">Pole Condition</option>
+                                            <option value="MSJNo">MSJ No</option>
+                                            <option value="SleeveNo">Sleeve No</option>
+                                            <option value="TwistNo">Twist No</option>
+                                            <option value="PhaseAId">Phase A</option>
+                                            <option value="PhaseBId">Phase B</option>
+                                            <option value="PhaseCId">Phase C</option>
+                                            <option value="Neutral">Neutral</option>
+                                            <option value="StreetLight">Street Light</option>
+                                            <option value="TargetCableId">Target Cable Id</option>
+                                            <option value="Latitude">Latitude</option>
+                                            <option value="Longitude">Longitude</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select id="ddlSelectOperator1" class="form-control">
+                                            <option value="=" selected="selected">Equals</option>
+                                            <option value="!=">Not Equals</option>
+                                            <option value=">">Greater Than</option>
+                                            <option value="<">Less Than</option>
+                                            <option value=">=">Greater Than and Equals</option>
+                                            <option value="<=">Less Than and Equals</option>
+                                            <option value="null">Is Null</option>
+                                            <option value="not null">Is Not Null</option>
+                                        </select>
+                                    </td>
+                                    <td><input id="txtSelectFieldValue1" class="form-control" /></td>
+                                    <td>
+                                        <select id="ddlSelectAndOr1" class="form-control">
+                                            @*
+                                                <option value="null" selected="selected">--- Select ---</option>*@
+                                            <option value="ALL">And</option>
+                                            <option value="ANY">Or</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select id="ddlSelectFieldName2" class="form-control">
+                                            @*asp-items="ViewBag.FieldName" value="@ViewBag.FieldName"*@
+                                            <option value="null" selected="selected">--- Select ---</option>
+                                            <option value="PoleId">Pole Id</option>
+                                            <option value="FeederName">Feeder Name</option>
+                                            <option value="SurveyDate">Survey Date</option>
+                                            <option value="RouteName">Route Name</option>
+                                            <option value="PreviousPoleNo">Previous Pole No</option>
+                                            <option value="Name">Pole Type</option>
+                                            <option value="PoleConditionId">Pole Condition</option>
+                                            <option value="MSJNo">MSJ No</option>
+                                            <option value="SleeveNo">Sleeve No</option>
+                                            <option value="TwistNo">Twist No</option>
+                                            <option value="PhaseAId">Phase A</option>
+                                            <option value="PhaseBId">Phase B</option>
+                                            <option value="PhaseCId">Phase C</option>
+                                            <option value="Neutral">Neutral</option>
+                                            <option value="StreetLight">Street Light</option>
+                                            <option value="TargetCableId">Target Cable Id</option>
+                                            <option value="Latitude">Latitude</option>
+                                            <option value="Longitude">Longitude</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select id="ddlSelectOperator2" class="form-control">
+                                            <option value="=" selected="selected">Equals</option>
+                                            <option value="!=">Not Equals</option>
+                                            <option value=">">Greater Than</option>
+                                            <option value="<">Less Than</option>
+                                            <option value=">=">Greater Than and Equals</option>
+                                            <option value="<=">Less Than and Equals</option>
+                                            <option value="null">Is Null</option>
+                                            <option value="not null">Is Not Null</option>
+                                        </select>
+                                    </td>
+                                    <td><input id="txtSelectFieldValue2" class="form-control" /></td>
+                                    <td>
+                                        <select id="ddlSelectAndOr2" class="form-control">
+                                            @*
+                                                <option value="null" selected="selected">--- Select ---</option>*@
+                                            <option value="ALL">And</option>
+                                            <option value="ANY">Or</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select id="ddlSelectFieldName3" class="form-control">
+                                            @*asp-items="ViewBag.FieldName" value="@ViewBag.FieldName"*@
+                                            <option value="null" selected="selected">--- Select ---</option>
+                                            <option value="PoleId">Pole Id</option>
+                                            <option value="FeederName">Feeder Name</option>
+                                            <option value="SurveyDate">Survey Date</option>
+                                            <option value="RouteName">Route Name</option>
+                                            <option value="PreviousPoleNo">Previous Pole No</option>
+                                            <option value="Name">Pole Type</option>
+                                            <option value="PoleConditionId">Pole Condition</option>
+                                            <option value="MSJNo">MSJ No</option>
+                                            <option value="SleeveNo">Sleeve No</option>
+                                            <option value="TwistNo">Twist No</option>
+                                            <option value="PhaseAId">Phase A</option>
+                                            <option value="PhaseBId">Phase B</option>
+                                            <option value="PhaseCId">Phase C</option>
+                                            <option value="Neutral">Neutral</option>
+                                            <option value="StreetLight">Street Light</option>
+                                            <option value="TargetCableId">Target Cable Id</option>
+                                            <option value="Latitude">Latitude</option>
+                                            <option value="Longitude">Longitude</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select id="ddlSelectOperator3" class="form-control">
+                                            <option value="=" selected="selected">Equals</option>
+                                            <option value="!=">Not Equals</option>
+                                            <option value=">">Greater Than</option>
+                                            <option value="<">Less Than</option>
+                                            <option value=">=">Greater Than and Equals</option>
+                                            <option value="<=">Less Than and Equals</option>
+                                            <option value="null">Is Null</option>
+                                            <option value="not null">Is Not Null</option>
+                                        </select>
+                                    </td>
+                                    <td><input id="txtSelectFieldValue3" class="form-control" /></td>
+                                    <td>
+                                        @*<select id="ddlSelectAndOr3" class="form-control">
+                                                <option value=" " selected="selected">--- Select ---</option>
+                                                <option value=" And ">And</option>
+                                                <option value=" Or ">Or</option>
+                                            </select>*@
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <br />
+
+                        <input type="button" id="Search" value="Search" onclick="SearchData()" class="btn btn-primary float-right" style="font-weight:bold" />
+                        @*
+                            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                            <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>*@
+
+                    </div>
+                </div>
+
+
+            </form>
+
+            <br />
+            <br />
+            <br />
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-view" id="updatePanel">
+                        <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                            <table id="multi-form-view" class="table table-responsive multi-form-view">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.PoleId)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederName)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.SurveyDate)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.PoleToRoute.RouteName)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.PoleNo)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.PreviousPoleNo)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.PoleTypeId)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.PoleConditionId)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.MSJNo)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.SleeveNo)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.TwistNo)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.PhaseAId)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.PhaseBId)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.PhaseCId)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.Neutral)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.StreetLight)
+                                        </th>
+                                        @*<th>
+                                            @Html.SortableHeaderFor(model => model.SourceCableId)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.TargetCableId)
+                                        </th>*@
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.Latitude)
+                                        </th>
+                                        <th>
+                                            @Html.SortableHeaderFor(model => model.Longitude)
+                                        </th>
+                                        @*
+                                            <th>Action</th>*@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PoleId)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PoleToFeederLine.FeederName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SurveyDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PoleToRoute.RouteName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PoleNo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PreviousPoleNo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PoleType.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PoleCondition.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MSJNo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.SleeveNo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TwistNo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PhaseACondition.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PhaseBCondition.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PhaseBCondition.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Neutral)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.StreetLight)
+                                            </td>
+                                            @*<td>
+                                                @Html.DisplayFor(modelItem => item.PoleToSourceFeederLine.FeederName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PoleToTargetFeederLine.FeederName)
+                                            </td>*@
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Latitude)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Longitude)
+                                            </td>
+                                            @*
+                                                <td>
+                                                    <a asp-action="Edit" asp-route-id="@item.PoleId">Edit</a>
+                                                    <a asp-action="Delete" asp-route-id="@item.PoleId">Delete</a>
+                                                </td>*@
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div style="text-align: center;">
+                        <vc:pager paging-list="@Model" />
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            @*</form>*@
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        function Add_List() {
+
+            //alert(document.getElementById('lbFieldList'));
+
+            var list_from = document.getElementById('lbFieldList');
+            var list_to = document.getElementById('lbSelectedFieldList');
+            var list_from_count = list_from.options.length;
+            for (var i = 0; i < list_from_count; i++) {
+                if (list_from.options[i].selected)
+                    list_to.add(new Option(list_from.options[i].text, list_from.options[i].value));
+            }
+        }
+
+        function Remove_List() {
+            var list_from = document.getElementById('lbSelectedFieldList');
+            var listLength = list_from.options.length;
+            for (var i = 0; i < listLength; i++) {
+                if (list_from.options[i].selected)
+                    list_from.remove(new Option(list_from.options[i].text, list_from.options[i].value));
+            }
+        }
+
+        function Add_All_List() {
+            var sel = document.getElementById('lbFieldList');
+            var listLength = sel.options.length;
+            for (var i = 0; i < listLength; i++) {
+                document.getElementById('lbSelectedFieldList').add(new Option(sel.options[i].text, sel.options[i].value));
+            }
+        }
+
+        function Remove_All_List() {
+            var sel = document.getElementById('lbSelectedFieldList');
+            var listLength = sel.options.length;
+            for (var i = 0; i < listLength; i++) {
+                document.getElementById('lbSelectedFieldList').remove(new Option(sel.options[0].text, sel.options[0].value));
+            }
+        }
+
+    </script>
+    <script type="text/javascript">
+
+                            //$("#Search").on("click", function () {
+        function SearchData() {
+
+            //alert("OK");
+                                var FieldName1 = $("#ddlSelectFieldName1").val();
+                                var Operator1 = $("#ddlSelectOperator1").val();
+                                var FieldValue1 = $("#txtSelectFieldValue1").val();
+                                var AndOr1 = $("#ddlSelectAndOr1").val();
+
+                                var FieldName2 = $("#ddlSelectFieldName2").val();
+                                var Operator2 = $("#ddlSelectOperator2").val();
+                                var FieldValue2 = $("#txtSelectFieldValue2").val();
+                                var AndOr2 = $("#ddlSelectAndOr2").val();
+
+                                var FieldName3 = $("#ddlSelectFieldName3").val();
+                                var Operator3 = $("#ddlSelectOperator3").val();
+                                var FieldValue3 = $("#txtSelectFieldValue3").val();
+                                var AndOr3 = "ALL";
+
+                                var getUrl = window.location.origin;
+                                var urL;
+
+                                //how to pass parameter to Index function from a button dot net MVC core
+                                //URL = getUrl + '@Url.Action("CreatePerson", "Person", new { id = "ID" })'.replace("ID",id);
+
+            urL = getUrl + "/bpdb/VwPoleData/Index/?FieldName1=" + FieldName1 + "&Operator1=" + Operator1 + "&FieldValue1=" + FieldValue1 + "&AndOr1=" + AndOr1 + "&FieldName2=" + FieldName2 + "&Operator2=" + Operator2 + "&FieldValue2=" + FieldValue2 + "&AndOr2=" + AndOr2 + "&FieldName3=" + FieldName3 + "&Operator3=" + Operator3 + "&FieldValue3=" + FieldValue3 + "&AndOr3=" + AndOr3;
+                                window.location.href = urL;
+
+                              //alert("URL=" + urL);
+                            };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            function AddNewRow() {
+                                //Reference the SelectFieldName, SelectOperator and SelectFieldValue Dropdownlist.
+                                var ddlSelectFieldName = $("#ddlSelectFieldName"); //document.getElementById('ddlSelectFieldName');                   //$("#ddlSelectFieldName");
+                                var ddlSelectOperator = $("#ddlSelectOperator");    //document.getElementById('ddlSelectOperator');                   //$("#ddlSelectOperator");
+                                var ddlSelectFieldValue = $("#ddlSelectFieldValue"); //document.getElementById('ddlSelectFieldValue');                   //$("#ddlSelectFieldValue");
+                                var ddlSelectAndOr = $("#ddlSelectAndOr");          //document.getElementById('ddlSelectAndOr');                   //$("#ddlSelectAndOr");
+
+                                //Get the reference of the Table's TBODY element.
+                                var tBody = $("#tblCustomSearch > TBODY")[0];
+
+                                //Add Row.
+                                var row = tBody.insertRow(-1);
+
+                                //Add SelectFieldName cell.
+                                var cell = $(row.insertCell(-1));
+                                cell.html(ddlSelectFieldName.val());
+                                @*cell.html("<select id=\"ddlSelectFieldName\" class=\"form-control\" asp-items=\"ViewBag.FieldName\" value=\"@ViewBag.FieldName\"><option value=\"-1\" selected=\"selected\">--- Select ---</option></select>");*@
+
+                                //Add ddlSelectOperator cell.
+                                cell = $(row.insertCell(-1));
+                                cell.html(ddlSelectOperator.val());
+                                //cell.html("<select id=\"ddlSelectOperator\" class=\"form-control\"> <option value = \" = \" selected = \"selected\" > Equals</option > <option value=\" <> \">Not Equals</option> <option value=\" > \">Greater Than</option> <option value=\" < \">Less Than</option> <option value=\" >= \">Greater Than and Equals</option> <option value=\" <= \">Less Than and Equals</option> <option value=\" null \">Is Null</option> <option value=\" not null \">Is Not Null</option> </select >");
+
+                                //Add ddlSelectFieldValue cell.
+                                cell = $(row.insertCell(-1));
+                                cell.html(ddlSelectFieldValue.val());
+                                //cell.html("<select id=\"ddlSelectFieldValue\" class=\"form-control\"><option value=\" \" selected=\"selected\">--- Select ---</option></select>");
+
+                                //Add ddlSelectAndOr cell.
+                                cell = $(row.insertCell(-1));
+                                cell.html(ddlSelectAndOr.val());
+                                //cell.html("<select id=\"ddlSelectAndOr\" class=\"form-control\"> < option value = \" \" selected = \"selected\" > --- Select-- -</option > <option value=\" And \">And</option> <option value=\" Or \">Or</option> </select >");
+
+                                //Add Button cell.
+                                cell = $(row.insertCell(-1));
+                                var btnRemove = $("<input />");
+                                btnRemove.attr("type", "button");
+                                btnRemove.attr("onclick", "Remove(this);");
+                                btnRemove.val("Remove");
+                                cell.append(btnRemove);
+
+                                //Clear the TextBoxes.
+                                //txtName.val("");
+                                //txtCountry.val("");
+                            };
+
+                            function Remove(button) {
+                                //Determine the reference of the Row using the Button.
+                                var row = $(button).closest("TR");
+                                var name = $("TD", row).eq(0).html();
+                                if (confirm("Do you want to delete: " + name)) {
+                                    //Get the reference of the Table.
+                                    var table = $("#tblCustomSearch")[0];
+
+                                    //Delete the Table row using it's Index.
+                                    table.deleteRow(row[0].rowIndex);
+                                }
+                            };
+
+                                                    //$("body").on("click", "#btnSave", function () {
+                                                    //    //Loop through the Table rows and build a JSON array.
+                                                    //    var customers = new Array();
+                                                    //    $("#tblCustomers TBODY TR").each(function () {
+                                                    //        var row = $(this);
+                                                    //        var customer = {};
+                                                    //        customer.Name = row.find("TD").eq(0).html();
+                                                    //        customer.Country = row.find("TD").eq(1).html();
+                                                    //        customers.push(customer);
+                                                    //    });
+
+                                                    //    //Send the JSON array to Controller using AJAX.
+                                                    //    $.ajax({
+                                                    //        type: "POST",
+                                                    //        url: "/Home/InsertCustomers",
+                                                    //        data: JSON.stringify(customers),
+                                                    //        contentType: "application/json; charset=utf-8",
+                                                    //        dataType: "json",
+                                                    //        success: function (r) {
+                                                    //            alert(r + " record(s) inserted.");
+                                                    //        }
+                                                    //    });
+                                                    //});
+
+
+
+                            //$("#ddlSelectFieldName").on("change",
+                                function GetSelectedFieldValues() {
+                                    var FieldName = $("#ddlSelectFieldName").val(),
+                                        $FieldValue = $("#ddlSelectFieldValue");
+
+                                    $FieldValue.empty();
+                                    //$(".dist-code").val(distCode);
+                                    $.ajax({
+                                        type: "POST",
+                                        @*url: "@Url.Action("GetSelectedFieldValue")",*@
+                                        dataType: "json",
+                                        data: { FieldName: FieldName,dfds:dfsd,df:sdf },
+                                        //before: $("#busy-indicator").fadeIn(150),
+                                        success: function (FieldValues) {
+                                            //alert(circles);
+
+                                            $FieldValue.append('<option value="" selected="selected" disabled="disabled">----- Select -----</option>');
+                                            $.each(FieldValues, function (i, FieldValue) {
+
+                                                //console.log(circles);
+                                                //alert(circles);
+                                                $("<option />").val(FieldValue.value).html(FieldValue.text).appendTo($FieldValue);
+                                                });
+                                        },
+                                        error: function (ex) {
+                                            window.msg.init("error", "Error... . . !", "Failed to load FieldValue list. " + ex.error);
+                                        },
+                                        //complete: $("#busy-indicator").fadeOut(150)
+                                    });
+                                    return false;
+                            };
+
+
+
+    </script>
+
+}

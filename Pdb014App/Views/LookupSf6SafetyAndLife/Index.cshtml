@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SwitchGearModels.LookupSf6SafetyAndLife>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>Add Sf6 Safety And Life</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SF6Pressure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedPressureAt20C)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinimumfunctionalpressureAt20C)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BurstingPressure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GasLeakageRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SafetyIndication)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CapacitiveVoltageIndicatorEUJapanUSAOrigin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GasPressureManometer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BusBarGasPressureManometer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LifeEnduranceOfSwitchgear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CircuitBreakers)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DisconnectorsAndEarthingSwitches)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SF6Pressure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedPressureAt20C)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinimumfunctionalpressureAt20C)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BurstingPressure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GasLeakageRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SafetyIndication)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CapacitiveVoltageIndicatorEUJapanUSAOrigin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GasPressureManometer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BusBarGasPressureManometer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LifeEnduranceOfSwitchgear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CircuitBreakers)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisconnectorsAndEarthingSwitches)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Sf6SafetyAndLifeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Sf6SafetyAndLifeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Sf6SafetyAndLifeId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

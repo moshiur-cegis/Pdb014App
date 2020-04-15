@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SwitchGearModels.TblIndoorOutdoorTypeProgrammableEnergyMeter>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Indoor Outdoor Type Programmable Energy Meter</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.IndoorOutdoorTypeProgrammableEnergyMeterToSwitchGear)*@
+                Switch Gear Id
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersNameAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersTypeAndModel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConstructionConnection)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Installation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinimumBiasingVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VariationOfFrequency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VariationOfVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccuracyClass)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NominalCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaximumCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MeterConstant)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfTerminal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearOfManufacture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MeterSealingCondition)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IndoorOutdoorTypeProgrammableEnergyMeterToSwitchGear.SwitchGearID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturersNameAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturersTypeAndModel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConstructionConnection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Installation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinimumBiasingVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VariationOfFrequency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VariationOfVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccuracyClass)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedCurrent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NominalCurrent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaximumCurrent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeterConstant)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoOfTerminal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.YearOfManufacture)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeterSealingCondition)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.EnergyMeterId">Edit</a>
+                @*<a asp-action="Details" asp-route-id="@item.EnergyMeterId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EnergyMeterId">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

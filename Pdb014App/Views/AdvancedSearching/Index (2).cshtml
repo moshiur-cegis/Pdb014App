@@ -1,0 +1,189 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.ServicePointModels.TblConsumerData>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>List of Consumer Data</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ConsumerId)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.ConsumerDataToServicePoint)*@
+                Service Point
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.ConsumerDataToDistributionTransformer)*@
+                Distribution Transformer
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tariff)
+            </th>
+            @*<th>
+            @Html.DisplayNameFor(model => model.PhasingCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OperatingVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+                @Html.DisplayNameFor(model => model.CriticalCustomer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MeterNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SanctionedLoad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConnectedLoad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BusinessType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConnectionStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecialCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpecialType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BillGroup)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BcCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ws)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OmfKwh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MeterReading)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastReadingDate)
+            </th>*@
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConsumerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConsumerDataToServicePoint.ServicePointId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DistributionTransformerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tariff)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.PhasingCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OperatingVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CriticalCustomer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MeterNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SanctionedLoad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConnectedLoad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BusinessType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConnectionStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpecialCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpecialType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillGroup)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BcCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ws)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OmfKwh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MeterReading)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastReadingDate)
+        </td>*@
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ConsumerId">Edit</a>
+                @*<a asp-action="Details" asp-route-id="@item.ConsumerId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.ConsumerId">Delete</a>*@
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

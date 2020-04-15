@@ -1,0 +1,65 @@
+﻿@model Pdb014App.Models.PDB.SwitchGearModels.LookUpCurrentTransformer
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Create</h2>
+
+<h4>LookUpCurrentTransformer</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        <fieldset>
+            <legend>Add Current Transformer </legend>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RatedVoltage" class="control-label"></label>
+                <input asp-for="RatedVoltage" class="form-control" />
+                <span asp-validation-for="RatedVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccuracyClassMetering" class="control-label"></label>
+                <input asp-for="AccuracyClassMetering" class="form-control" />
+                <span asp-validation-for="AccuracyClassMetering" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccuracyClassOCEFProtection" class="control-label"></label>
+                <input asp-for="AccuracyClassOCEFProtection" class="form-control" />
+                <span asp-validation-for="AccuracyClassOCEFProtection" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccuracyClassDifferentialProtection" class="control-label"></label>
+                <input asp-for="AccuracyClassDifferentialProtection" class="form-control" />
+                <span asp-validation-for="AccuracyClassDifferentialProtection" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedCurrentRatio" class="control-label"></label>
+                <input asp-for="RatedCurrentRatio" class="form-control" />
+                <span asp-validation-for="RatedCurrentRatio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Burden" class="control-label"></label>
+                <input asp-for="Burden" class="form-control" />
+                <span asp-validation-for="Burden" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedFrequency" class="control-label"></label>
+                <input asp-for="RatedFrequency" class="form-control" />
+                <span asp-validation-for="RatedFrequency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Back</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

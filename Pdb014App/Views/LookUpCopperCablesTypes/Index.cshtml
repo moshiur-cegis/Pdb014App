@@ -1,0 +1,134 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.CopperCableModels.LookUpCopperCablesType>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+
+    <style type="text/css">
+
+        table.table {
+            table-layout: fixed;
+        }
+
+            table.table tr th,
+            table.table tr td {
+                border-color: #e9e9e9;
+            }
+
+            table.table th {
+                min-width: 80px;
+            }
+
+                table.table th:last-child {
+                    width: 100px;
+                }
+
+                table.table th i {
+                    font-size: 13px;
+                    margin: 0 5px;
+                    cursor: pointer;
+                }
+
+            table.table td a {
+                cursor: pointer;
+                display: inline-block;
+                margin: 0 5px;
+                min-width: 24px;
+            }
+
+                table.table td a.add {
+                    color: #27C46B;
+                }
+
+                table.table td a.edit {
+                    color: #FFC107;
+                }
+
+                table.table td a.delete {
+                    color: #E34724;
+                }
+
+            table.table td i {
+                font-size: 19px;
+            }
+
+            table.table td a.add i {
+                font-size: 24px;
+                margin-right: -1px;
+                position: relative;
+                top: 3px;
+            }
+
+
+            table.table .form-control {
+                width: 100%;
+                padding: 2px 5px;
+                line-height: 1.0;
+            }
+
+                table.table .form-control.error {
+                    border-color: #f50000;
+                }
+
+            table.table td .add {
+                display: none;
+            }
+    </style>
+
+}
+
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-view" id="updatePanel">
+            <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                <table id="multi-form-view" class="table table-responsive multi-form-view">
+                    <thead>
+                        <tr>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.CopperCablesTypeId)*@
+                                Type Id
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CopperCablesTypeName)
+                            </th>
+                            @*<th></th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @*@Html.DisplayFor(modelItem => item.CopperCablesTypeId)*@
+
+                                    <a asp-action="Edit" asp-route-id="@item.CopperCablesTypeId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        @Html.DisplayFor(modelItem => item.CopperCablesTypeId)
+                                    </a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CopperCablesTypeName)
+                                </td>
+                                @*<td>
+                                        <a asp-action="Edit" asp-route-id="@item.CopperCablesTypeId">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.CopperCablesTypeId">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.CopperCablesTypeId">Delete</a>
+                                    </td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

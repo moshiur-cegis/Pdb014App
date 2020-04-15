@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SwitchGearModels.LookupBusBar>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BusBarType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Material)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CrossSection)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NominalCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Accessories)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CableConnection)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VoltageTransformer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SurgeArrester)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BusBarType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Material)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CrossSection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NominalCurrent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Accessories)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CableConnection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VoltageTransformer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SurgeArrester)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.BusBarId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.BusBarId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.BusBarId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

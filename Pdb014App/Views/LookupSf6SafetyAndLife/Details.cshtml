@@ -1,0 +1,91 @@
+﻿@model Pdb014App.Models.PDB.SwitchGearModels.LookupSf6SafetyAndLife
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LookupSf6SafetyAndLife</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SF6Pressure)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SF6Pressure)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RatedPressureAt20C)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RatedPressureAt20C)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MinimumfunctionalpressureAt20C)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MinimumfunctionalpressureAt20C)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BurstingPressure)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BurstingPressure)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GasLeakageRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GasLeakageRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SafetyIndication)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SafetyIndication)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CapacitiveVoltageIndicatorEUJapanUSAOrigin)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CapacitiveVoltageIndicatorEUJapanUSAOrigin)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GasPressureManometer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GasPressureManometer)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BusBarGasPressureManometer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BusBarGasPressureManometer)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LifeEnduranceOfSwitchgear)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LifeEnduranceOfSwitchgear)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CircuitBreakers)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CircuitBreakers)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DisconnectorsAndEarthingSwitches)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DisconnectorsAndEarthingSwitches)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Sf6SafetyAndLifeId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,33 @@
+﻿@model Pdb014App.Models.PDB.ServicePointModels.LookUpOperatingVoltage
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>LookUpOperatingVoltage</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="OperatingVoltageId" />
+            <div class="form-group">
+                <label asp-for="OperatingVoltageName" class="control-label"></label>
+                <input asp-for="OperatingVoltageName" class="form-control" />
+                <span asp-validation-for="OperatingVoltageName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

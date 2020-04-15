@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.ServicePointModels.LookUpServicePointType>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>List of Service Point Type </h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ServicePointTypeName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServicePointTypeName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ServicePointTypeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ServicePointTypeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ServicePointTypeId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

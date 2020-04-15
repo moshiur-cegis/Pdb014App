@@ -1,0 +1,337 @@
+﻿@model Pdb014App.Models.PDB.ServicePointModels.TblConsumerData
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    //var separators = new[] {'-', '.', '/'};
+    var installDate = Model.InstallDate;
+
+    if (!string.IsNullOrEmpty(installDate) && installDate.Length == 4)
+    {
+        installDate = Model.InstallDate.Replace('.', '-').Replace('/', '-');
+
+        if (installDate.Split('-').Length == 1)
+        {
+            installDate = $"01-01-{installDate}";
+        }
+        else if (installDate.Split('-').Length == 2)
+        {
+            installDate = $"01-{installDate}";
+        }
+    }
+
+    Model.InstallDate = installDate;
+}
+
+
+
+@section Styles {
+    <link href="~/css/datetimepicker.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-select.css" rel="stylesheet" />
+}
+
+
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        <fieldset>
+            <legend>Update Consumer Information</legend>
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ConsumerId" />
+                <div class="form-group">
+                    <label asp-for="ServicePointId" class="control-label"></label>
+                    <select asp-for="ServicePointId" class="form-control" asp-items="ViewBag.ServicePointId"></select>
+                    <span asp-validation-for="ServicePointId" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                        <label asp-for="DistributionTransformerId" class="control-label"></label>
+                        <select asp-for="DistributionTransformerId" class="form-control" asp-items="ViewBag.DistributionTransformerId">
+                            <option>--Select--</option>
+                        </select>
+                        <span asp-validation-for="DistributionTransformerId" class="text-danger"></span>
+                    </div>*@
+                <div class="form-group">
+                    <label asp-for="CustomerName" class="control-label"></label>
+                    <input asp-for="CustomerName" class="form-control" />
+                    <span asp-validation-for="CustomerName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CustomerMobileNo" class="control-label"></label>
+                    <input asp-for="CustomerMobileNo" class="form-control" />
+                    <span asp-validation-for="CustomerMobileNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConsumerNo" class="control-label"></label>
+                    <input asp-for="ConsumerNo" class="form-control" />
+                    <span asp-validation-for="ConsumerNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Tariff" class="control-label"></label>
+                    <input asp-for="Tariff" class="form-control" />
+                    <span asp-validation-for="Tariff" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhasingCodeId" class="control-label"></label>
+                    <select asp-for="PhasingCodeId" class="form-control" asp-items="ViewBag.PhasingCodeId"></select>
+                    <span asp-validation-for="PhasingCodeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConsumerTypeId" class="control-label"></label>
+                    <select asp-for="ConsumerTypeId" class="form-control" asp-items="ViewBag.ConsumerTypeId"></select>
+                    <span asp-validation-for="ConsumerTypeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OperatingVoltageId" class="control-label"></label>
+                    <select asp-for="OperatingVoltageId" class="form-control" asp-items="ViewBag.OperatingVoltageId"></select>
+                    <span asp-validation-for="OperatingVoltageId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InstallDate" class="control-label"></label>
+                    <div class="input-group">
+                        <input asp-for="InstallDate" id="InstallDate" class="form-control" placeholder="DD-MM-YYYY" />
+                        <span class="input-group-append" id="dpInstallDate">
+                            <span class="input-group-text fas fa-calendar-alt calendar-icon"></span>
+                        </span>
+                    </div>
+                    <span asp-validation-for="InstallDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConnectionStatusId" class="control-label"></label>
+                    <select asp-for="ConnectionStatusId" class="form-control" asp-items="ViewBag.ConnectionStatusId"></select>
+                    <span asp-validation-for="ConnectionStatusId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConnectionTypeId" class="control-label"></label>
+                    <select asp-for="ConnectionTypeId" class="form-control" asp-items="ViewBag.ConnectionTypeId"></select>
+                    <span asp-validation-for="ConnectionTypeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MeterTypeId" class="control-label"></label>
+                    <select asp-for="MeterTypeId" class="form-control" asp-items="ViewBag.MeterTypeId"></select>
+                    <span asp-validation-for="MeterTypeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MeterNumber" class="control-label"></label>
+                    <input asp-for="MeterNumber" class="form-control" />
+                    <span asp-validation-for="MeterNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MeterModel" class="control-label"></label>
+                    <input asp-for="MeterModel" class="form-control" />
+                    <span asp-validation-for="MeterModel" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MeterManufacturer" class="control-label"></label>
+                    <input asp-for="MeterManufacturer" class="form-control" />
+                    <span asp-validation-for="MeterManufacturer" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SanctionedLoad" class="control-label"></label>
+                    <input asp-for="SanctionedLoad" class="form-control" />
+                    <span asp-validation-for="SanctionedLoad" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConnectedLoad" class="control-label"></label>
+                    <input asp-for="ConnectedLoad" class="form-control" />
+                    <span asp-validation-for="ConnectedLoad" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BusinessTypeId" class="control-label"></label>
+                    <select asp-for="BusinessTypeId" class="form-control" asp-items="ViewBag.BusinessTypeId"></select>
+                    <span asp-validation-for="BusinessTypeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OthersBusiness" class="control-label"></label>
+                    <input asp-for="OthersBusiness" class="form-control" />
+                    <span asp-validation-for="OthersBusiness" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AccountNumber" class="control-label"></label>
+                    <input asp-for="AccountNumber" class="form-control" />
+                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SpecialCode" class="control-label"></label>
+                    <input asp-for="SpecialCode" class="form-control" />
+                    <span asp-validation-for="SpecialCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SpecialType" class="control-label"></label>
+                    <input asp-for="SpecialType" class="form-control" />
+                    <span asp-validation-for="SpecialType" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LocationId" class="control-label"></label>
+                    <select asp-for="LocationId" class="form-control" asp-items="ViewBag.LocationId"></select>
+                    <span asp-validation-for="LocationId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BillGroup" class="control-label"></label>
+                    <input asp-for="BillGroup" class="form-control" />
+                    <span asp-validation-for="BillGroup" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BookNumber" class="control-label"></label>
+                    <input asp-for="BookNumber" class="form-control" />
+                    <span asp-validation-for="BookNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OmfKwh" class="control-label"></label>
+                    <input asp-for="OmfKwh" class="form-control" />
+                    <span asp-validation-for="OmfKwh" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MeterReading" class="control-label"></label>
+                    <input asp-for="MeterReading" class="form-control" />
+                    <span asp-validation-for="MeterReading" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ServiceCableSize" class="control-label"></label>
+                    <input asp-for="ServiceCableSize" class="form-control" />
+                    <span asp-validation-for="ServiceCableSize" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ServiceCableTypeId" class="control-label"></label>
+                    <select asp-for="ServiceCableTypeId" class="form-control" asp-items="ViewBag.ServiceCableTypeId"></select>
+                    <span asp-validation-for="ServiceCableTypeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CustomerAddress" class="control-label"></label>
+                    <input asp-for="CustomerAddress" class="form-control" />
+                    <span asp-validation-for="CustomerAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PlotNo" class="control-label"></label>
+                    <input asp-for="PlotNo" class="form-control" />
+                    <span asp-validation-for="PlotNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BuildingApptNo" class="control-label"></label>
+                    <input asp-for="BuildingApptNo" class="form-control" />
+                    <span asp-validation-for="BuildingApptNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PremiseName" class="control-label"></label>
+                    <input asp-for="PremiseName" class="form-control" />
+                    <span asp-validation-for="PremiseName" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                        <label asp-for="SurveyDate" class="control-label"></label>
+                        <input name="SurveyDate" id="SurveyDate" class="form-control" value="@Model.SurveyDate?.ToString("dd-MM-yyyy")" />
+                        <span asp-validation-for="SurveyDate" class="text-danger"></span>
+                    </div>*@
+
+                <div class="form-group">
+                    <label asp-for="SurveyDate" class="control-label"></label>
+                    <input asp-for="SurveyDate" type="hidden" id="SurveyDate" />
+                    <div class="input-group">
+                        <input type="text" id="altSurveyDate" value="@Model?.SurveyDate?.ToString("dd-MM-yyyy")" class="form-control" placeholder="DD-MM-YYYY" />
+                        <span class="input-group-append" id="dpSurveyDate">
+                            <span class="input-group-text fas fa-calendar-alt calendar-icon"></span>
+                        </span>
+                    </div>
+                    <span asp-validation-for="SurveyDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Latitude" class="control-label"></label>
+                    <input asp-for="Latitude" class="form-control" />
+                    <span asp-validation-for="Latitude" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Longitude" class="control-label"></label>
+                    <input asp-for="Longitude" class="form-control" />
+                    <span asp-validation-for="Longitude" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StructureId" class="control-label"></label>
+                    <input asp-for="StructureId" class="form-control" />
+                    <span asp-validation-for="StructureId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StructureMapNo" class="control-label"></label>
+                    <input asp-for="StructureMapNo" class="form-control" />
+                    <span asp-validation-for="StructureMapNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StructureTypeId" class="control-label"></label>
+                    <select asp-for="StructureTypeId" class="form-control" asp-items="ViewBag.StructureTypeId"></select>
+                    <span asp-validation-for="StructureTypeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NumberOfFloor" class="control-label"></label>
+                    <input asp-for="NumberOfFloor" class="form-control" />
+                    <span asp-validation-for="NumberOfFloor" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <a class="btn btn-success float-left" asp-action="Index">Cancel</a>
+
+                    <input type="submit" value="Update" class="btn btn-success float-right" />
+                </div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script src="~/js/datetimepicker.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap-select.js"></script>
+
+    <script>
+
+        $(function () {
+
+            $("#InstallDate").datetimepicker({
+                lang: "en",
+                format: "d-m-Y",
+                formatTime: "",
+                formatDate: "d-m-Y",
+                timepicker: false
+            });
+            $("#dpInstallDate").on("click", function () { $("#InstallDate").datetimepicker("show"); });
+
+
+            $("#altSurveyDate").datetimepicker({
+                lang: "en",
+                format: "d-m-Y",
+                formatTime: "",
+                formatDate: "d-m-Y",
+                timepicker: false,
+                onChangeDateTime: function (dp, $inp) {
+                    $("#SurveyDate").val($inp.val() ? format_date($inp.val()) : "");
+                }
+            });
+            $("#dpSurveyDate").on("click", function () { $("#altSurveyDate").datetimepicker("show"); });
+
+        });
+        
+        function format_date(strDate) {
+            if (!strDate)
+                return "";
+            if (strDate.match(/\-/g).length < 2 &&
+                strDate.match(/\./g).length < 2 &&
+                strDate.match(/\//g).length < 2)
+                return "";
+            var regExpDate = new RegExp(/^(0?[1-9]|[12][0-9]|3[01])[\/\-\.](0?[1-9]|1[012])[\/\-\.](\d{4})$/);
+            var matchDates = regExpDate.exec(strDate);
+            if (matchDates == null)
+                return "";
+            var year = parseInt(matchDates[3], 10),
+                month = parseInt(matchDates[2], 10),
+                day = parseInt(matchDates[1], 10),
+                date = new Date(year, month - 1, day);
+            return (date.getFullYear() == year && date.getMonth() == (month - 1) && date.getDate() == day)
+                ? year + "/" + month + "/" + day
+                : "";
+        }
+
+    </script>
+
+}
+

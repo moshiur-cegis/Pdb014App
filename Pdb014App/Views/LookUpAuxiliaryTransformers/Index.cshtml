@@ -1,0 +1,188 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SubstationModels.LookUpAuxiliaryTransformer>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>List Of Auxiliary Transformer</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.AuxiliaryTransformerId)*@
+            Auxiliary Transformer Id
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.AuxiliaryTransformerToSubstation)*@
+            Substation
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManufacturersNameAndAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManufacturersTypeAndModelNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KVARating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfPhases)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedFrequencyHz)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedPrimaryvoltageKV)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedNoloadsecVoltageV)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VectorGroup)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HighestSystemVoltageof)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrimaryWindingKV)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecondaryWindingKv)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.BasicInsulationLevelKV)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PowerFrequencyWithstandVoltageKV)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HTSide)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LTSide)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeOfCooling)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaxTempRiseover40CofambientSupportedByCalculation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WindingdegC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TopOildegC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeofPrimaryTappingOffload)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PercentageImpedanceAt75C)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoloadLossWatts)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LoadLossesAtRatedFullLoadAt75CWatts)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalWeightOfOilKg)
+        </th>*@
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AuxiliaryTransformerId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AuxiliaryTransformerToSubstation.SubstationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ManufacturersNameAndAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ManufacturersTypeAndModelNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KVARating)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfPhases)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatedFrequencyHz)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatedPrimaryvoltageKV)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatedNoloadsecVoltageV)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VectorGroup)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HighestSystemVoltageof)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrimaryWindingKV)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondaryWindingKv)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.BasicInsulationLevelKV)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PowerFrequencyWithstandVoltageKV)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HTSide)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LTSide)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeOfCooling)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaxTempRiseover40CofambientSupportedByCalculation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WindingdegC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TopOildegC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeofPrimaryTappingOffload)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PercentageImpedanceAt75C)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoloadLossWatts)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LoadLossesAtRatedFullLoadAt75CWatts)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalWeightOfOilKg)
+        </td>*@
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.AuxiliaryTransformerId">Edit</a>
+            @*<a asp-action="Details" asp-route-id="@item.AuxiliaryTransformerId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.AuxiliaryTransformerId">Delete</a>*@
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

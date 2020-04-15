@@ -1,0 +1,95 @@
+﻿@model Pdb014App.Models.PDB.SwitchGearModels.LookupSf6SafetyAndLife
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Edit</h2>
+
+<h4>LookupSf6SafetyAndLife</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+        <legend>Update Sf6 Safety And Life</legend>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Sf6SafetyAndLifeId" />
+            <div class="form-group">
+                <label asp-for="SF6Pressure" class="control-label"></label>
+                <input asp-for="SF6Pressure" class="form-control" />
+                <span asp-validation-for="SF6Pressure" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedPressureAt20C" class="control-label"></label>
+                <input asp-for="RatedPressureAt20C" class="form-control" />
+                <span asp-validation-for="RatedPressureAt20C" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimumfunctionalpressureAt20C" class="control-label"></label>
+                <input asp-for="MinimumfunctionalpressureAt20C" class="form-control" />
+                <span asp-validation-for="MinimumfunctionalpressureAt20C" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BurstingPressure" class="control-label"></label>
+                <input asp-for="BurstingPressure" class="form-control" />
+                <span asp-validation-for="BurstingPressure" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GasLeakageRate" class="control-label"></label>
+                <input asp-for="GasLeakageRate" class="form-control" />
+                <span asp-validation-for="GasLeakageRate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SafetyIndication" class="control-label"></label>
+                <input asp-for="SafetyIndication" class="form-control" />
+                <span asp-validation-for="SafetyIndication" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CapacitiveVoltageIndicatorEUJapanUSAOrigin" class="control-label"></label>
+                <input asp-for="CapacitiveVoltageIndicatorEUJapanUSAOrigin" class="form-control" />
+                <span asp-validation-for="CapacitiveVoltageIndicatorEUJapanUSAOrigin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GasPressureManometer" class="control-label"></label>
+                <input asp-for="GasPressureManometer" class="form-control" />
+                <span asp-validation-for="GasPressureManometer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BusBarGasPressureManometer" class="control-label"></label>
+                <input asp-for="BusBarGasPressureManometer" class="form-control" />
+                <span asp-validation-for="BusBarGasPressureManometer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LifeEnduranceOfSwitchgear" class="control-label"></label>
+                <input asp-for="LifeEnduranceOfSwitchgear" class="form-control" />
+                <span asp-validation-for="LifeEnduranceOfSwitchgear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CircuitBreakers" class="control-label"></label>
+                <input asp-for="CircuitBreakers" class="form-control" />
+                <span asp-validation-for="CircuitBreakers" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DisconnectorsAndEarthingSwitches" class="control-label"></label>
+                <input asp-for="DisconnectorsAndEarthingSwitches" class="form-control" />
+                <span asp-validation-for="DisconnectorsAndEarthingSwitches" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

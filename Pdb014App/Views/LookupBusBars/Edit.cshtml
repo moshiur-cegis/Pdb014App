@@ -1,0 +1,73 @@
+﻿@model Pdb014App.Models.PDB.SwitchGearModels.LookupBusBar
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Edit</h2>
+
+<h4>LookupBusBar</h4>
+<hr />*@
+<div class="row">
+
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+            <legend>Add Bus Bar</legend>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BusBarId" />
+            <div class="form-group">
+                <label asp-for="BusBarType" class="control-label"></label>
+                <input asp-for="BusBarType" class="form-control" />
+                <span asp-validation-for="BusBarType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Material" class="control-label"></label>
+                <input asp-for="Material" class="form-control" />
+                <span asp-validation-for="Material" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CrossSection" class="control-label"></label>
+                <input asp-for="CrossSection" class="form-control" />
+                <span asp-validation-for="CrossSection" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NominalCurrent" class="control-label"></label>
+                <input asp-for="NominalCurrent" class="form-control" />
+                <span asp-validation-for="NominalCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Accessories" class="control-label"></label>
+                <input asp-for="Accessories" class="form-control" />
+                <span asp-validation-for="Accessories" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CableConnection" class="control-label"></label>
+                <input asp-for="CableConnection" class="form-control" />
+                <span asp-validation-for="CableConnection" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VoltageTransformer" class="control-label"></label>
+                <input asp-for="VoltageTransformer" class="form-control" />
+                <span asp-validation-for="VoltageTransformer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SurgeArrester" class="control-label"></label>
+                <input asp-for="SurgeArrester" class="form-control" />
+                <span asp-validation-for="SurgeArrester" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success left-right" asp-action="Index">Cencel</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

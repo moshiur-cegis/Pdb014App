@@ -1,0 +1,130 @@
+﻿@model Pdb014App.Models.PDB.InsulatorModels.TblInsulatorShackleOrGuy
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TblInsulatorShackleOrGuy</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LookUpInsulatorShackleOrGuyType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LookUpInsulatorShackleOrGuyType.InsulatorShackleOrGuyTypeId)
+        </dd class>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Installation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Installation)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NominalSystemVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NominalSystemVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MaximumSystemVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MaximumSystemVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TypeOfSystem)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TypeOfSystem)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MinimumDiameterOfInsulator)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MinimumDiameterOfInsulator)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MinimumHeightOfTheInsulator)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MinimumHeightOfTheInsulator)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MinimumMechanicalFailingLoadTransverse)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MinimumMechanicalFailingLoadTransverse)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DryFlashover)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DryFlashover)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WetFlashoverVertical)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WetFlashoverVertical)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WetFlashoverHorizontal)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WetFlashoverHorizontal)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.InsulationClass)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.InsulationClass)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AtmosphericCondition)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AtmosphericCondition)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Dimension)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Dimension)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FlashOverVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FlashOverVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PowerFrequencyPunctureVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PowerFrequencyPunctureVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MechanicalStrength)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MechanicalStrength)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.InsulatorShackleOrGuyToPole)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.InsulatorShackleOrGuyToPole.PoleId)
+        </dd class>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="InsulatorShackleOrGuyId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

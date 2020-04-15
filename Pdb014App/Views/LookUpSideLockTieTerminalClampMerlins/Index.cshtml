@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.LookUpSideLockTieTerminalClampMerlin>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Side Lock Tie Terminal Clamp Merlin</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SideLockTieTerminalClampMerlinId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SideLockTieTerminalClampMerlinType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Materials)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Standard)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UltimateTensileStrength)
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.SideLockTieTerminalClampMerlinToPole)*@
+            Pole Id
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SideLockTieTerminalClampMerlinId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SideLockTieTerminalClampMerlinType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Materials)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Standard)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UltimateTensileStrength)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SideLockTieTerminalClampMerlinToPole.PoleId)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.SideLockTieTerminalClampMerlinId">Edit</a> 
+            @*<a asp-action="Details" asp-route-id="@item.SideLockTieTerminalClampMerlinId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.SideLockTieTerminalClampMerlinId">Delete</a>*@
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

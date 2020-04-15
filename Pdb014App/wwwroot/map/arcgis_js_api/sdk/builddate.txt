@@ -1,0 +1,3 @@
+arcgis-js-sdk.git
+6b922e623ad78ec505f9cf7f831cdefee0d15f29
+JS SDK 4.14 build date: Thursday 2020-01-09 11:37:08 by fang7211

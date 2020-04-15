@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Daylight widget - 4.14</title>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.14/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/SceneView",
+        "esri/layers/SceneLayer",
+        "esri/widgets/Daylight",
+        "esri/widgets/Expand"
+      ], function(Map, SceneView, SceneLayer, Daylight, Expand) {
+        const map = new Map({
+          basemap: "satellite",
+          ground: "world-elevation",
+          layers: [
+            new SceneLayer({
+              portalItem: {
+                id: "b343e14455fe45b98a2c20ebbceec0b0"
+              }
+            })
+          ]
+        });
+
+        const view = new SceneView({
+          map: map,
+          container: "viewDiv",
+
+          // position in Brest, France
+          camera: {
+            position: [-4.49292254, 48.38118005, 29.41383],
+            heading: 250.18,
+            tilt: 87.91
+          },
+          qualityProfile: "high",
+          environment: {
+            atmosphere: {
+              // creates a realistic view of the atmosphere
+              quality: "high"
+            },
+            lighting: {
+              // gets the current date at the user's location
+              // and converts it to the local date in Brest, France
+              date: new Date(),
+              directShadowsEnabled: true
+            }
+          },
+
+          ui: {
+            components: ["attribution"]
+          }
+        });
+
+        /**************************************
+         * Initialize the daylight widget
+         **************************************/
+
+        const daylightWidget = new Daylight({
+          view: view,
+          // plays the animation twice as fast than the default one
+          playSpeedMultiplier: 2,
+          // disable the timezone selection button
+          visibleElements: {
+            timezone: false
+          }
+        });
+
+        // add the daylight widget inside of Expand widget
+        const expand = new Expand({
+          expandIconClass: "esri-icon-time-clock",
+          expandTooltip: "Expand daylight widget",
+          view: view,
+          content: daylightWidget,
+          expanded: true
+        });
+        view.ui.add(expand, "top-right");
+      });
+    </script>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>

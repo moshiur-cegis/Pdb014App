@@ -1,0 +1,490 @@
+<html>
+  <head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--The viewport meta tag is used to improve the presentation and behavior of the samples on iOS devices-->
+    <meta
+      name="viewport"
+      content="initial-scale=1, maximum-scale=1,user-scalable=no"
+    />
+    <title>Color Ramps</title>
+    <link
+      rel="stylesheet"
+      href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css"
+    />
+    <script src="https://js.arcgis.com/4.14/"></script>
+    <style>
+      .ramps {
+        padding: 4px;
+        float: left;
+        cursor: pointer;
+      }
+      .color-ramp-container {
+        display: flex;
+        cursor: pointer;
+        height: 100%;
+      }
+
+      .color-ramp-hex-label {
+        width: 100%;
+        display: flex;
+        height: 32px;
+      }
+
+      .a-color-ramp-hex-label {
+        padding-left: 20px;
+        margin-top: auto;
+      }
+
+      .card-content-dark {
+        background: #323232;
+        color: #ffffff;
+      }
+
+      .card-is-duplicate,
+      .block-is-duplicate {
+        border: 5px solid red;
+      }
+    </style>
+
+    <script>
+      // --------------------------------------------------------------------
+      // color ramp div elements as an array
+      // --------------------------------------------------------------------
+      var cardBlockArray = [];
+      // --------------------------------------------------------------------
+      // an array of numbers that represent the count of numbers available
+      // in a color ramp
+      // --------------------------------------------------------------------
+      var colorRampsColorCombinationsArray = [];
+      // --------------------------------------------------------------------
+      // an array of objects containing the color ramp metadata that will be
+      // used to create the lunr search index
+      // --------------------------------------------------------------------
+      var lunrData = [];
+      // --------------------------------------------------------------------
+      // unique id counter for color ramp card css selectors such as card-id-1
+      // --------------------------------------------------------------------
+      var globalCardId = 1;
+      // --------------------------------------------------------------------
+      // array of all unique color ramp card css selectors
+      // --------------------------------------------------------------------
+      var cardIds = [];
+
+      require([
+        "esri/symbols/support/symbolUtils",
+        "esri/renderers/smartMapping/symbology/support/colorRamps"
+      ], function(symbolUtils, colorRamps) {
+        /**
+         * Creates the hexadecimal labels for the color ramp cards.
+         *
+         * @param colors - array of colors for the the color ramp
+         * @returns {HTMLDivElement}
+         */
+        function createLabel(colors) {
+          const maxHeight = 32 * colors.length;
+          let labelElement = document.createElement("div");
+
+          labelElement.style.width = "16px";
+          labelElement.style.height = maxHeight + "px";
+
+          if (colors.forEach) {
+            colors.forEach(function(color) {
+              let label = document.createElement("div");
+              label.classList.add("color-ramp-hex-label");
+              let rampLabelAnchor = document.createElement("span");
+              rampLabelAnchor.classList.add(
+                "code-face",
+                "a-color-ramp-hex-label"
+              );
+              rampLabelAnchor.innerHTML = color.toHex();
+              label.appendChild(rampLabelAnchor);
+              labelElement.appendChild(label);
+            });
+          }
+
+          return labelElement;
+        }
+        /**
+         * Creates the canvas element for the color ramp card.
+         *
+         * @param colors - array of colors that participate in the canvas element
+         * @param displayAsGradient - creates a gradient also if there is more than one color
+         * @returns {HTMLDivElement}
+         */
+        function createCanvas(colors, displayAsGradient) {
+          const maxHeight = 32 * colors.length;
+          let canvasElement = symbolUtils.renderColorRampPreviewHTML(colors, {
+            align: "vertical",
+            gradient: displayAsGradient,
+            height: maxHeight,
+            width: 16
+          });
+
+          if (displayAsGradient) {
+            canvasElement.classList.add("canvas-gradient");
+          }
+
+          return canvasElement;
+        }
+        /**
+         * creates the container for all the a elements
+         * @returns {HTMLDivElement}
+         */
+        function createColorRampContainer() {
+          const element = document.createElement("div");
+          element.classList.add("card-last", "color-ramp-container");
+          return element;
+        }
+
+        /**
+         * Creates the card-content div element
+         * @returns {HTMLDivElement}
+         */
+        function createCardContentContainer() {
+          // --------------------------------------------------------------------
+          // Card Content: <div class="card-content">
+          // --------------------------------------------------------------------
+          const element = document.createElement("div");
+          element.classList.add("card-content");
+          return element;
+        }
+
+        /**
+         * Creates the main color ramp card block div container.
+         *
+         * @param ramp - the color ramp object
+         * @param colors - array of default colors for the the color ramp
+         * @param isDefault - boolean as to whether or not this color ramp is the default set of colors
+         * @param isDuplicate - boolean if the default colors also match an array of colors in the classBreaks
+         * @returns {HTMLDivElement}
+         */
+        function createCardBlockContainer(
+          ramp,
+          colors,
+          isDefault,
+          isDuplicate
+        ) {
+          var guidValue = "card-id-" + globalCardId++;
+          cardIds.push(guidValue);
+          // --------------------------------------------------------------------
+          // add item to lunr data item that will be added to the lunr search index
+          // --------------------------------------------------------------------
+          lunrData.push({
+            id: guidValue,
+            color_count: colors.hasOwnProperty("length") ? colors.length : 0,
+            hex_colors: colors
+              .map(function(color) {
+                return color.toHex();
+              })
+              .join("|"),
+            tags: ramp.tags.join(","),
+            is_default: isDefault,
+            is_duplicate: isDuplicate
+          });
+          // --------------------------------------------------------------------
+          // Card Block: <div class="card block trailer-1">
+          // --------------------------------------------------------------------
+          const element = document.createElement("div");
+          element.classList.add("card", "block", "trailer-1");
+          element.classList.add(
+            "card-block-color-ramp",
+            "js-card-block-color-ramp"
+          );
+          element.classList.add(guidValue);
+          element.setAttribute("data-id", guidValue);
+          element.setAttribute("data-ramp-title", ramp.name);
+          element.setAttribute("data-ramp-colors", colors.join("|"));
+          element.setAttribute("data-ramp-tags", ramp.tags.join(","));
+          element.setAttribute(
+            "data-ramp-hex-colors",
+            colors
+              .map(function(color) {
+                return color.toHex();
+              })
+              .join("|")
+          );
+          return element;
+        }
+
+        /**
+         * Assembles the individual components to make up the color ramp card.
+         *
+         * @param ramp - the color ramp object
+         * @param colors - array of default colors for the the color ramp
+         * @param isDefault - boolean as to whether or not this color ramp is the default set of colors
+         * @param isDuplicate - boolean if the default colors also match an array of colors in the classBreaks
+         * @returns {HTMLDivElement}
+         */
+        function createCardBlock(ramp, colors, isDefault, isDuplicate) {
+          // div class="card block"
+          const cardBlock = createCardBlockContainer(
+            ramp,
+            colors,
+            isDefault,
+            isDuplicate
+          );
+          // div class="card-content
+          const cardContent = createCardContentContainer();
+          if (/dark/i.test(ramp.tags)) {
+            cardContent.classList.add("card-content-dark");
+          }
+          // div class="color-ramp-container
+          const colorRampContainer = createColorRampContainer();
+          // add color-ramp-container
+          if (colors.length > 1) {
+            colorRampContainer.appendChild(createCanvas(colors, true));
+          }
+          colorRampContainer.appendChild(createCanvas(colors, false));
+
+          colorRampContainer.appendChild(createLabel(colors));
+
+          // header container
+          const colorRampHeaderContainer = document.createElement("div");
+          colorRampHeaderContainer.classList.add("clearfix");
+          // h5
+          const nameLabelElement = document.createElement("h5");
+          nameLabelElement.classList.add("left");
+          nameLabelElement.innerHTML = ramp.name;
+          // a info element
+          const moreInformationAnchor = document.createElement("a");
+          moreInformationAnchor.setAttribute(
+            "data-selector-id",
+            "." + cardBlock.getAttribute("data-id")
+          );
+          moreInformationAnchor.classList.add(
+            "right",
+            "card-block-color-ramp-more-info",
+            "js-card-block-color-ramp-more-info"
+          );
+          moreInformationAnchor.classList.add("tooltip", "tooltip-top");
+          moreInformationAnchor.setAttribute("aria-label", "More information");
+          moreInformationAnchor.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M31.297 16.047c0 8.428-6.826 15.25-15.25 15.25S.797 24.475.797 16.047c0-8.424 6.826-15.25 15.25-15.25s15.25 6.826 15.25 15.25zM18 24V12h-4v12h-2v2h8v-2h-2zm0-18h-4v4h4V6z"/></svg>';
+
+          // populate header
+          colorRampHeaderContainer.appendChild(nameLabelElement);
+          colorRampHeaderContainer.appendChild(moreInformationAnchor);
+
+          // buttons
+          const copyButton = document.createElement("button");
+          copyButton.classList.add(
+            "btn",
+            "btn-clear",
+            "leader-half",
+            "js-card-block-color-ramp-copy"
+          );
+          copyButton.setAttribute(
+            "data-selector-id",
+            "." + cardBlock.getAttribute("data-id")
+          );
+          copyButton.innerHTML = "Copy hex values";
+
+          // --------------------------------------------------------------------
+          // populate the card content
+          // --------------------------------------------------------------------
+          cardContent.appendChild(colorRampHeaderContainer);
+          cardContent.appendChild(colorRampContainer);
+          cardContent.appendChild(copyButton);
+          // --------------------------------------------------------------------
+          // <div class="card block">
+          //    <div class="card-content">
+          //      <div class="color-ramp-container">
+          //        <div><canvas>
+          //        <div><canvas>
+          //        <div><div class="color-ramp-hex-label">
+          //      <div>Theme Name
+          // --------------------------------------------------------------------
+          cardBlock.appendChild(cardContent);
+          // --------------------------------------------------------------------
+          // isDefault
+          // --------------------------------------------------------------------
+          if (isDefault) {
+            cardBlock.setAttribute("data-default-display", "true");
+          } else {
+            cardBlock.classList.add("hide");
+          }
+          // --------------------------------------------------------------------
+          // isDuplicate
+          // --------------------------------------------------------------------
+          if (!isDuplicate) {
+            cardBlock.setAttribute("data-is-duplicate", "false");
+          } else {
+            cardBlock.classList.add("hide");
+            cardBlock.setAttribute("data-is-duplicate", "true");
+            cardBlock.classList.add("card-is-duplicate", "block-is-duplicate");
+          }
+          return cardBlock;
+        }
+
+        /**
+         * creates the color ramp block container
+         *
+         * @param ramp - the color ramp object
+         * @param colors - array of default colors for the the color ramp
+         * @param classBreaks - array of additional colors for the color ramp
+         * @returns {Array} - array of HTMLDivElement
+         */
+        function createBlockContainer(ramp, colors, classBreaks) {
+          let blocks = [];
+
+          if (colors && colors.length) {
+            // gradient canvas, gradient, hex labels
+            if (colors.length > 1) {
+              const cardDefault = createCardBlock(ramp, colors, true, false);
+              blocks.push(cardDefault);
+            }
+          } else {
+            console.log("This shouldn't happen");
+          }
+          // --------------------------------------------------------------------
+          // arrays with two or more colors need a gradient
+          // --------------------------------------------------------------------
+          if (classBreaks && classBreaks.length) {
+            // gradient canvas, gradient, hex labels
+            if (classBreaks.length > 0) {
+              for (let classBreak of classBreaks) {
+                // --------------------------------------------------------------------
+                // check to see if there is a break that is the same as the default
+                // --------------------------------------------------------------------
+                if (
+                  colors.length === classBreak.colors.length &&
+                  classBreak.colors.length === classBreak.numClasses &&
+                  JSON.stringify(colors) === JSON.stringify(classBreak.colors)
+                ) {
+                  // --------------------------------------------------------------------
+                  // colors array length and class break colors array length same
+                  // class break colors length and class breaks number classes same
+                  // color signature the same
+                  // --------------------------------------------------------------------
+                  const cardDuplicate = createCardBlock(
+                    ramp,
+                    classBreak.colors,
+                    false,
+                    true
+                  );
+                  blocks.push(cardDuplicate);
+                } else {
+                  const cardClassBreak = createCardBlock(
+                    ramp,
+                    classBreak.colors,
+                    false,
+                    false
+                  );
+                  blocks.push(cardClassBreak);
+                }
+              }
+            } else {
+              console.log("this shouldn't happen");
+            }
+          }
+
+          return blocks.sort(function(a, b) {
+            const aCount = parseInt(a.dataset.rampColorsCount);
+            const bCount = parseInt(b.dataset.rampColorsCount);
+            if (aCount > bCount) {
+              return 1;
+            } else {
+              return -1;
+            }
+          });
+        }
+
+        // --------------------------------------------------------------------
+        // main
+        // --------------------------------------------------------------------
+        let colorCombinationsArray = [];
+
+        function createColorRamps() {
+          const ramps = colorRamps.all().filter(function(item) {
+            return !/group-similar/i.test(item.tags);
+          });
+          const cardBlockContainerArray = [];
+
+          // --------------------------------------------------------------------
+          //
+          // --------------------------------------------------------------------
+          ramps.forEach((ramp) => {
+            const colorsArray = ramp.hasOwnProperty("colors")
+              ? ramp.colors
+              : undefined;
+            const classBreaksArray = ramp.hasOwnProperty("colorsForClassBreaks")
+              ? ramp.colorsForClassBreaks
+              : undefined;
+            // new
+            cardBlockContainerArray.push(
+              createBlockContainer(ramp, colorsArray, classBreaksArray)
+            );
+
+            // --------------------------------------------------------------------
+            // colorsForClassBreaks
+            // --------------------------------------------------------------------
+            colorCombinationsArray.push(ramp.colors.length);
+
+            ramp.colorsForClassBreaks.forEach((ramp) => {
+              colorCombinationsArray.push(ramp.colors.length);
+            });
+          });
+          colorRampsColorCombinationsArray = [
+            ...new Set(...[colorCombinationsArray.sort()])
+          ];
+          const flattenedArray = [].concat(...cardBlockContainerArray);
+
+          cardBlockArray = flattenedArray
+            .filter(function(item) {
+              // --------------------------------------------------------------------
+              // Remove the group-similar category and any duplicate color ramps
+              // --------------------------------------------------------------------
+              return !(
+                /group-similar/i.test(item.dataset.rampTags) ||
+                /true/i.test(item.dataset.isDuplicate)
+              );
+            })
+            .sort(function(a, b) {
+              return a.dataset.rampTitle.localeCompare(
+                b.dataset.rampTitle,
+                undefined,
+                {
+                  numeric: true,
+                  sensitivity: "base"
+                }
+              );
+            })
+            .map(function(item) {
+              // --------------------------------------------------------------------
+              // data-is-duplicate="false
+              // --------------------------------------------------------------------
+              item.removeAttribute("data-is-duplicate");
+              return item;
+            });
+
+          // --------------------------------------------------------------------
+          // uncomment to display color ramp containers in standalone sample
+          // when testing, otherwise no need to display them as this page is
+          // loaded into an iframe in the esri-color-ramps guide page.
+          // https://developers.arcgis.com/javascript/latest/guide/esri-color-ramps/index.html
+          // --------------------------------------------------------------------
+          /*
+          const rampsDiv = document.querySelector(".js-block-group-color-ramps-container");
+          for (let node of cardBlockArray) {
+            rampsDiv.appendChild(node);
+          }
+           */
+        }
+
+        createColorRamps();
+      });
+    </script>
+  </head>
+
+  <body>
+    <div class="grid-container">
+      <div class="column-4 post-1 trailer-1"></div>
+      <main class="column-15">
+        <div
+          class="block-group block-group-3-up tablet-block-group-2-up phone-block-group-1-up js-block-group-color-ramps-container"
+        ></div>
+      </main>
+      <div class="column-4"></div>
+    </div>
+  </body>
+</html>

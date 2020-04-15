@@ -1,0 +1,93 @@
+﻿@model Pdb014App.Models.PDB.SubstationModels.TblSubstation
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Edit</h2>
+
+<h4>TblSubstation</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        <fieldset>
+        <legend>Update Substation Information</legend>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SubstationId" />
+            <div class="form-group">
+                <label asp-for="SubstationTypeId" class="control-label"></label>
+                <select asp-for="SubstationTypeId" class="form-control" asp-items="ViewBag.SubstationTypeId">
+                    @*<option>--Select--</option>*@
+                </select>
+                <span asp-validation-for="SubstationTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubstationName" class="control-label"></label>
+                <input asp-for="SubstationName" class="form-control" />
+                <span asp-validation-for="SubstationName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SnDCode" class="control-label"></label>
+                <select asp-for="SnDCode" class="form-control" asp-items="ViewBag.SnDCode"></select>
+                <span asp-validation-for="SnDCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NominalVoltage" class="control-label"></label>
+                <input asp-for="NominalVoltage" class="form-control" />
+                <span asp-validation-for="NominalVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstalledCapacity" class="control-label"></label>
+                <input asp-for="InstalledCapacity" class="form-control" />
+                <span asp-validation-for="InstalledCapacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximumDemand" class="control-label"></label>
+                <input asp-for="MaximumDemand" class="form-control" />
+                <span asp-validation-for="MaximumDemand" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PeakLoad" class="control-label"></label>
+                <input asp-for="PeakLoad" class="form-control" />
+                <span asp-validation-for="PeakLoad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AreaOfSubstation" class="control-label"></label>
+                <input asp-for="AreaOfSubstation" class="form-control" />
+                <span asp-validation-for="AreaOfSubstation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Latitude" class="control-label"></label>
+                <input asp-for="Latitude" class="form-control" />
+                <span asp-validation-for="Latitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Longitude" class="control-label"></label>
+                <input asp-for="Longitude" class="form-control" />
+                <span asp-validation-for="Longitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YearOfComissioning" class="control-label"></label>
+                <input asp-for="YearOfComissioning" class="form-control" />
+                <span asp-validation-for="YearOfComissioning" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-success float-right" />
+                <a class="btn btn-success left-right" asp-action="Index">Cencel</a>
+            </div>
+        </form>
+     </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

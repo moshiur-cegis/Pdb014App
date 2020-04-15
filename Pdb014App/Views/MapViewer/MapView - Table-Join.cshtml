@@ -1,0 +1,303 @@
+﻿@using Pdb014App.Models.MapViewer.Settings
+@using Pdb014App.Models.PDB.LookUpModels;
+@using Pdb014App.Models.PDB.SubstationModels;
+
+@{
+    Layout = null;
+    ViewData["Title"] = "BPDB :: Map Viewer";
+
+    LookUpMapViewGisServer gisServerDetails = null;
+    LookUpMapViewApplicationServer appServerDetails = null;
+    LookUpMapViewBaseMapDetail baseMapDetails = null;
+    LookUpZoneInfo zoneBasicInfo = null;
+    LookUpCircleInfo circleBasicInfo = null;
+    LookUpSnDInfo sndBasicInfo = null;
+    TblSubstation substationBasicInfo = null;
+
+
+    if (ViewData["GisServer"] != null)
+    {
+        gisServerDetails = ViewData["GisServer"] as LookUpMapViewGisServer;
+    }
+
+    if (ViewData["ApplicationServer"] != null)
+    {
+        appServerDetails = ViewData["ApplicationServer"] as LookUpMapViewApplicationServer;
+    }
+
+    if (ViewData["BaseMap"] != null)
+    {
+        baseMapDetails = ViewData["BaseMap"] as LookUpMapViewBaseMapDetail;
+    }
+}
+
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <!--
+    ArcGIS API for JavaScript, https://js.arcgis.com
+    For more information about the layers-dynamicdatalayer-table-join sample, read the original sample description at developers.arcgis.com.
+    https://developers.arcgis.com/javascript/latest/sample-code/layers-dynamicdatalayer-table-join/index.html
+    -->
+    <title>MapImageLayer - dynamic data layer with table join - 4.14</title>
+
+    <link rel="stylesheet"
+          href="https://js.arcgis.com/4.14/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.14/"></script>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+
+    <script>
+
+        var activeWidget = null;
+        var isAllLayerSelected = "@ViewBag.IsAllLayersSelected";
+        var exprUpToZone = "@ViewBag.ExprZone";
+        var exprUpToCircle = "@ViewBag.ExprCircle";
+        var exprUpToSnDDiv = "@ViewBag.ExprSnDDiv";
+        var exprUpToSubStation = "@ViewBag.ExprSubStation";
+        var exprUpToRoute = "@ViewBag.ExprRoute";
+        var exprUpToFeederLine = "@ViewBag.ExprFeederLine";
+        var queryExpression = "@ViewBag.DefExpression";
+
+        var gisServerUrl = "@((gisServerDetails.GisServerFullUrl != null) ? gisServerDetails.GisServerFullUrl : "")";
+
+        console.log(gisServerUrl);
+
+
+        var gisServerIpAddress = "@((gisServerDetails.GisServerIPAddress != null) ? gisServerDetails.GisServerIPAddress : "")";
+        var applicationServerUrl = "@((appServerDetails.AppServerFullUrl != null) ? appServerDetails.AppServerFullUrl : "")";
+
+        var defaultBaseMapName = "@((baseMapDetails.BaseMapName != null) ? baseMapDetails.BaseMapName : "")";
+        var defaultZoomLevel = "@((baseMapDetails.DefaultZoomLevel != null) ? baseMapDetails.DefaultZoomLevel : 0)";
+        var centerLatitude ="@((baseMapDetails.BaseMapCenterLat != null) ? baseMapDetails.BaseMapCenterLat : 0)";
+        var centerLongitude = "@((baseMapDetails.BaseMapCenterLong != null) ? baseMapDetails.BaseMapCenterLong : 0)";
+        var minScale = "@((baseMapDetails.MinScale != null) ? baseMapDetails.MinScale : 0)";
+        var maxScale = 0;
+
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/layers/MapImageLayer",
+            "esri/widgets/Legend"
+        ], function (Map, MapView, MapImageLayer, Legend) {
+            // helper function to create a symbol
+            function createSymbol(color) {
+                return {
+                    type: "simple-fill", // autocasts as new SimpleFillSymbol()
+                    color: color,
+                    outline: {
+                        width: 0.5,
+                        color: [255, 255, 255, 0.4]
+                    },
+                    style: "solid"
+                };
+            }
+
+            /*****************************************************************
+             * Create a MapImageLayer instance pointing to a Map Service
+             * containing US state boundary geometries. A sublayer is added to
+             * the layer with a dynamic data layer source. The dynamic layer
+             * is created by joining a table with demographic attributes to an
+             * existing map service layer with geometries (states).
+             *
+             * The data exist in a registered workspace in the map service.
+             *****************************************************************/
+
+
+             var renderer = {
+                    type: "simple",  // autocasts as new SimpleRenderer()
+                    symbol: {
+                        type: "simple-fill",  // autocasts as new LineSymbol3D()
+                        color: [245,05,07, 0.2],
+                        style: "solid",
+                        outline: {  // autocasts as new SimpleLineSymbol()
+                            color: [245,05,07, 0.6],
+                            width: 1
+                        }
+                    }
+             }
+
+            var layer = new MapImageLayer({
+                url:
+                    //"https://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer",
+                    "http://202.53.173.185:6080/arcgis/rest/services/pdb014/BpdbMaps/MapServer",
+                title: "Substation",
+                sublayers: [
+                    {
+                        title: "Substation",
+                        id: 2,                        
+                        renderer: renderer,
+                        opacity: 0.75,
+                        /*source: {
+                            // indicates the source of the sublayer is a dynamic data layer
+                            type: "data-layer",
+                            // this object defines the data source of the layer
+                            // in this case it's a joined table
+                            dataSource: {
+                                type: "join-table",
+                                // for joined tables you need to define a left table source
+                                // and a right table source. In this case, the left table
+                                // is the map layer containing feature geometries. The ID
+                                // is the layer ID of the sublayer in the service.
+                                leftTableSource: {
+                                    type: "map-layer",
+                                    mapLayerId: 2
+                                },
+                                // The right table source is another data layer object.
+                                // In this case it is a plain table that resides in the
+                                // workspace. Simply indicate the ID of the workspace and
+                                // the name of the table
+                                rightTableSource: {
+                                    type: "data-layer",
+                                    dataSource: {
+                                        type: "table",
+                                        workspaceId: "MyDatabaseWorkspaceID",
+                                        dataSourceName: "LookUpZoneInfo"
+                                    }
+                                },
+                                // For the joint to be complete, you must indicate the
+                                // primary key and the foreign key to match the table
+                                // records from each respective source. In this case
+                                // we will match table records with the state name.
+                                // So we must indicate the field in each table containing
+                                // the state name.
+                                leftTableKey: "ZoneId",
+                                rightTableKey: "ZoneCode",
+                                // Indicates the join type. In this case all records from
+                                // the map layer are retained even if they don't have
+                                // matching records in the ancestry table.
+                                joinType: "left-outer-join"
+                            }
+                        },
+                        popupTemplate: {
+                            // autocasts as new PopupTemplate() bpdbdb.dbo.vGeoDbSubStation
+                            title: "{vGeoDbSubStation.SubstationName}",
+                            content: [
+                                {
+                                    type: "fields",
+                                    fieldInfos: [
+                                        {
+                                            fieldName: "vGeoDbSubStation.SubstationName",
+                                            label: "S/S Name",
+                                            visible: true,
+                                            format: {
+                                                digitSeparator: true,
+                                                places: 0
+                                            }
+                                        }//,
+                                        //{
+                                        //    fieldName: "LookUpZoneInfo.ZoneName",
+                                        //    label: "Zone",
+                                        //    visible: true,
+                                        //    format: {
+                                        //        digitSeparator: true,
+                                        //        places: 0
+                                        //    }
+                                        //}
+                                    ]
+                                }
+                            ]
+                        }*/
+                    }
+                ]
+            });
+
+            /*****************************************************************
+             * Create a renderer for the dynamic layer. Note the field names
+             * must be prefixed by the table name for the renderer to read
+             * field values. In this sample we are visualizing the number of
+             * people with Norwegian ancestry (from the ancestry table) and
+             * normalizing by the total population (from the states map layer).
+             *****************************************************************/
+
+
+            //var renderer = {
+            //    type: "class-breaks", // autocasts as new ClassBreaksRenderer()
+            //    field: "ancestry.Norwegian",
+            //    normalizationField: "states.POP2007",
+            //    normalizationType: "field",
+            //    classBreakInfos: [
+            //        {
+            //            minValue: 0,
+            //            maxValue: 0.0126,
+            //            symbol: createSymbol("#f8e3c2"),
+            //            label: "0 - 1.26%"
+            //        },
+            //        {
+            //            minValue: 0.0126,
+            //            maxValue: 0.026,
+            //            symbol: createSymbol("#e5998c"),
+            //            label: "1.26 - 2.6%"
+            //        },
+            //        {
+            //            minValue: 0.026,
+            //            maxValue: 0.15,
+            //            symbol: createSymbol("#d86868"),
+            //            label: "2.6 - 15%"
+            //        },
+            //        {
+            //            minValue: 0.15,
+            //            maxValue: 0.5,
+            //            symbol: createSymbol("#9b3557"),
+            //            label: "15 - 50%"
+            //        }
+            //    ]
+            //};
+
+            // Get the sublayer to apply the renderer to
+            //var norwegianSublayer = layer.sublayers.find(function (sublayer) {
+            //    return (
+            //        //sublayer.title === "Share of population with Norwegian Ancestry"
+
+            //        sublayer.title === "Substation"
+            //    );
+            //});
+            //// set the renderer on the sublayer
+            //norwegianSublayer.renderer = renderer;
+
+            /*****************************************************************
+             * Add the layer to a map
+             *****************************************************************/
+
+            var map = new Map({
+                //basemap: "hybrid",
+                basemap: "streets",
+                layers: [layer]
+            });
+
+            var view = new MapView({
+                container: "viewDiv",
+                map: map,
+                //zoom: 5,
+                //center: [-101.088, 40.969]
+
+                center: [90.537777,23.737777],
+                zoom :7                    
+            });
+
+            view.when(function () {
+                var legend = new Legend({
+                    view: view
+                });
+                //view.ui.add(legend, "bottom-left");
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+</body>
+</html>

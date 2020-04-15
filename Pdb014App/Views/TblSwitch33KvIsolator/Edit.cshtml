@@ -1,0 +1,100 @@
+﻿@model Pdb014App.Models.PDB.SubstationModels.TblSwitch33KvIsolator
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Edit</h2>
+
+<h4>TblSwitch33KvIsolator</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+            <legend>Update Switch (33 Kv Isolator)</legend>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Switch33KvIsolatorId" />
+            <div class="form-group">
+                <label asp-for="TypeIsolatorSwitch" class="control-label"></label>
+                <input asp-for="TypeIsolatorSwitch" class="form-control" />
+                <span asp-validation-for="TypeIsolatorSwitch" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SwitchID" class="control-label"></label>
+                <input asp-for="SwitchID" class="form-control" />
+                <span asp-validation-for="SwitchID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NominalVoltage" class="control-label"></label>
+                <input asp-for="NominalVoltage" class="form-control" />
+                <span asp-validation-for="NominalVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BreakingType" class="control-label"></label>
+                <input asp-for="BreakingType" class="form-control" />
+                <span asp-validation-for="BreakingType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManufactureMonthAndYear" class="control-label"></label>
+                <input asp-for="ManufactureMonthAndYear" class="form-control" />
+                <span asp-validation-for="ManufactureMonthAndYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstallationDate" class="control-label"></label>
+                <input asp-for="InstallationDate" class="form-control" />
+                <span asp-validation-for="InstallationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NormalStatus" class="control-label"></label>
+                <input asp-for="NormalStatus" class="form-control" />
+                <span asp-validation-for="NormalStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedCurrent" class="control-label"></label>
+                <input asp-for="RatedCurrent" class="form-control" />
+                <span asp-validation-for="RatedCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedVoltage" class="control-label"></label>
+                <input asp-for="RatedVoltage" class="form-control" />
+                <span asp-validation-for="RatedVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConnectionStatus" class="control-label"></label>
+                <input asp-for="ConnectionStatus" class="form-control" />
+                <span asp-validation-for="ConnectionStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SwitchNo" class="control-label"></label>
+                <input asp-for="SwitchNo" class="form-control" />
+                <span asp-validation-for="SwitchNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FeederLineId" class="control-label"></label>
+                <select asp-for="FeederLineId" class="form-control" asp-items="ViewBag.FeederLineId"></select>
+                <span asp-validation-for="FeederLineId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubstationId" class="control-label"></label>
+                <select asp-for="SubstationId" class="form-control" asp-items="ViewBag.SubstationId"></select>
+                <span asp-validation-for="SubstationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

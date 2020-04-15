@@ -1,0 +1,124 @@
+﻿@model Pdb014App.Models.PDB.SwitchGearModels.LookUpCircuitBreaker
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Create</h2>
+
+<h4>LookUpCircuitBreaker</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+            <legend>Add Circuit Breaker</legend>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedVoltage" class="control-label"></label>
+                <input asp-for="RatedVoltage" class="form-control" />
+                <span asp-validation-for="RatedVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedCurrent" class="control-label"></label>
+                <input asp-for="RatedCurrent" class="form-control" />
+                <span asp-validation-for="RatedCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OperatingCycle" class="control-label"></label>
+                <input asp-for="OperatingCycle" class="form-control" />
+                <span asp-validation-for="OperatingCycle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedShortCktBreakingCurrent" class="control-label"></label>
+                <input asp-for="RatedShortCktBreakingCurrent" class="form-control" />
+                <span asp-validation-for="RatedShortCktBreakingCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedShortCktMakingCurrent" class="control-label"></label>
+                <input asp-for="RatedShortCktMakingCurrent" class="form-control" />
+                <span asp-validation-for="RatedShortCktMakingCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedBreakingTime" class="control-label"></label>
+                <input asp-for="RatedBreakingTime" class="form-control" />
+                <span asp-validation-for="RatedBreakingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpeningTime" class="control-label"></label>
+                <input asp-for="OpeningTime" class="form-control" />
+                <span asp-validation-for="OpeningTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClosingTime" class="control-label"></label>
+                <input asp-for="ClosingTime" class="form-control" />
+                <span asp-validation-for="ClosingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedOperatingSequence" class="control-label"></label>
+                <input asp-for="RatedOperatingSequence" class="form-control" />
+                <span asp-validation-for="RatedOperatingSequence" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ControlVoltage" class="control-label"></label>
+                <input asp-for="ControlVoltage" class="form-control" />
+                <span asp-validation-for="ControlVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MotorVoltageForSpringCharge" class="control-label"></label>
+                <input asp-for="MotorVoltageForSpringCharge" class="form-control" />
+                <span asp-validation-for="MotorVoltageForSpringCharge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThreePositionDisconnectorSwitch" class="control-label"></label>
+                <input asp-for="ThreePositionDisconnectorSwitch" class="form-control" />
+                <span asp-validation-for="ThreePositionDisconnectorSwitch" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type2" class="control-label"></label>
+                <input asp-for="Type2" class="form-control" />
+                <span asp-validation-for="Type2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedVoltage2" class="control-label"></label>
+                <input asp-for="RatedVoltage2" class="form-control" />
+                <span asp-validation-for="RatedVoltage2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedCurrent2" class="control-label"></label>
+                <input asp-for="RatedCurrent2" class="form-control" />
+                <span asp-validation-for="RatedCurrent2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SwitchPositions" class="control-label"></label>
+                <input asp-for="SwitchPositions" class="form-control" />
+                <span asp-validation-for="SwitchPositions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ElectricalAndMechanicalInterlock" class="control-label"></label>
+                <input asp-for="ElectricalAndMechanicalInterlock" class="form-control" />
+                <span asp-validation-for="ElectricalAndMechanicalInterlock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success left-right" asp-action="Index">Back</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

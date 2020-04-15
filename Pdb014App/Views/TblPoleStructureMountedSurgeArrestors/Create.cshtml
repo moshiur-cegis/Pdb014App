@@ -1,0 +1,124 @@
+﻿@model Pdb014App.Models.PDB.DistributionTransformerModel.TblPoleStructureMountedSurgeArrestor
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Create</h2>
+
+<h4>TblPoleStructureMountedSurgeArrestor</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        <fieldset>
+            <legend>Add Pole Structure Mounted Surge Arrestor </legend>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="PoleStructureMountedSurgeArrestorId" class="control-label">Surge Arrestor Id</label>
+                    <input asp-for="PoleStructureMountedSurgeArrestorId" class="form-control" />
+                    <span asp-validation-for="PoleStructureMountedSurgeArrestorId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Standard" class="control-label"></label>
+                    <input asp-for="Standard" class="form-control" />
+                    <span asp-validation-for="Standard" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Installation" class="control-label"></label>
+                    <input asp-for="Installation" class="form-control" />
+                    <span asp-validation-for="Installation" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TypeorModel" class="control-label"></label>
+                    <input asp-for="TypeorModel" class="form-control" />
+                    <span asp-validation-for="TypeorModel" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Construction" class="control-label"></label>
+                    <input asp-for="Construction" class="form-control" />
+                    <span asp-validation-for="Construction" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Application" class="control-label"></label>
+                    <input asp-for="Application" class="form-control" />
+                    <span asp-validation-for="Application" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NominalRatedVoltage" class="control-label"></label>
+                    <input asp-for="NominalRatedVoltage" class="form-control" />
+                    <span asp-validation-for="NominalRatedVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaximumSystemVoltage" class="control-label"></label>
+                    <input asp-for="MaximumSystemVoltage" class="form-control" />
+                    <span asp-validation-for="MaximumSystemVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SystemFrequency" class="control-label"></label>
+                    <input asp-for="SystemFrequency" class="form-control" />
+                    <span asp-validation-for="SystemFrequency" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TypeofSystem" class="control-label"></label>
+                    <input asp-for="TypeofSystem" class="form-control" />
+                    <span asp-validation-for="TypeofSystem" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RatedArresterVoltage" class="control-label"></label>
+                    <input asp-for="RatedArresterVoltage" class="form-control" />
+                    <span asp-validation-for="RatedArresterVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Class" class="control-label"></label>
+                    <input asp-for="Class" class="form-control" />
+                    <span asp-validation-for="Class" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RatedArresterCurrent" class="control-label"></label>
+                    <input asp-for="RatedArresterCurrent" class="form-control" />
+                    <span asp-validation-for="RatedArresterCurrent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="HighCurrentWithstand" class="control-label"></label>
+                    <input asp-for="HighCurrentWithstand" class="form-control" />
+                    <span asp-validation-for="HighCurrentWithstand" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PressureReliefClass" class="control-label"></label>
+                    <input asp-for="PressureReliefClass" class="form-control" />
+                    <span asp-validation-for="PressureReliefClass" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BasicInsulationlevelBILat12or50MicroSecImpulses" class="control-label"></label>
+                    <input asp-for="BasicInsulationlevelBILat12or50MicroSecImpulses" class="form-control" />
+                    <span asp-validation-for="BasicInsulationlevelBILat12or50MicroSecImpulses" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LightningImpulseResidualVoltageAt8or20MicrosecCurrentWave" class="control-label"></label>
+                    <input asp-for="LightningImpulseResidualVoltageAt8or20MicrosecCurrentWave" class="form-control" />
+                    <span asp-validation-for="LightningImpulseResidualVoltageAt8or20MicrosecCurrentWave" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreepageDistance" class="control-label"></label>
+                    <input asp-for="CreepageDistance" class="form-control" />
+                    <span asp-validation-for="CreepageDistance" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DistributionTransformerId" class="control-label"></label>
+                    <select asp-for="DistributionTransformerId" class="form-control" asp-items="ViewBag.DistributionTransformerId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success float-right" />
+                    <a class="btn btn-success float-left" asp-action="Index">Back</a>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

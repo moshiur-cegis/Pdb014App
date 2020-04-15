@@ -1,0 +1,37 @@
+﻿@model Pdb014App.Models.PDB.SwitchGearModels.LookUpSwitchGearType
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Create</h2>
+
+    <h4>LookUpSwitchGearType</h4>
+    <hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+            <legend>Add SwitchGear Types</legend>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="SwitchGearTypeName" class="control-label"></label>
+                    <input asp-for="SwitchGearTypeName" class="form-control" />
+                    <span asp-validation-for="SwitchGearTypeName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success float-right" />
+                    <a class="btn btn-success float-left" asp-action="Index">Back</a>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

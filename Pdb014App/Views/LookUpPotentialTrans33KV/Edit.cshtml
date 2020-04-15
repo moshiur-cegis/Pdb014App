@@ -1,0 +1,100 @@
+﻿@model Pdb014App.Models.PDB.SwitchGearModels.LookUpPotentialTrans33KV
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Edit</h2>
+
+<h4>LookUpPotentialTrans33KV</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+            <legend>Add Potential Transfer</legend>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PotentialTransformerId" />
+            <div class="form-group">
+                <label asp-for="SwitchGearID" class="control-label"></label>
+                <select asp-for="SwitchGearID" class="form-control" asp-items="ViewBag.SwitchGearID"></select>
+                <span asp-validation-for="SwitchGearID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NameoftheManufacturer" class="control-label"></label>
+                <input asp-for="NameoftheManufacturer" class="form-control" />
+                <span asp-validation-for="NameoftheManufacturer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeAndModelNo" class="control-label"></label>
+                <input asp-for="TypeAndModelNo" class="form-control" />
+                <span asp-validation-for="TypeAndModelNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NominalSystemVoltage" class="control-label"></label>
+                <input asp-for="NominalSystemVoltage" class="form-control" />
+                <span asp-validation-for="NominalSystemVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HeightsSystemVoltage" class="control-label"></label>
+                <input asp-for="HeightsSystemVoltage" class="form-control" />
+                <span asp-validation-for="HeightsSystemVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedPrimaryVoltage" class="control-label"></label>
+                <input asp-for="RatedPrimaryVoltage" class="form-control" />
+                <span asp-validation-for="RatedPrimaryVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedSecondaryVoltageandTertiaryVoltage" class="control-label"></label>
+                <input asp-for="RatedSecondaryVoltageandTertiaryVoltage" class="form-control" />
+                <span asp-validation-for="RatedSecondaryVoltageandTertiaryVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImpulseWithstAndVoltage" class="control-label"></label>
+                <input asp-for="ImpulseWithstAndVoltage" class="form-control" />
+                <span asp-validation-for="ImpulseWithstAndVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MicroSec12or50" class="control-label"></label>
+                <input asp-for="MicroSec12or50" class="form-control" />
+                <span asp-validation-for="MicroSec12or50" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PowerFrequencyWithstandVoltage" class="control-label"></label>
+                <input asp-for="PowerFrequencyWithstandVoltage" class="form-control" />
+                <span asp-validation-for="PowerFrequencyWithstandVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BurdenOrClass" class="control-label"></label>
+                <input asp-for="BurdenOrClass" class="form-control" />
+                <span asp-validation-for="BurdenOrClass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MeteringWinding" class="control-label"></label>
+                <input asp-for="MeteringWinding" class="form-control" />
+                <span asp-validation-for="MeteringWinding" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProtectionWinding" class="control-label"></label>
+                <input asp-for="ProtectionWinding" class="form-control" />
+                <span asp-validation-for="ProtectionWinding" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

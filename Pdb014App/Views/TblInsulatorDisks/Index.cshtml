@@ -1,0 +1,193 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.InsulatorModels.TblInsulatorDisk>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List Of Insulator (DISK)</h2>
+
+<p>
+    <a asp-action="Create">Add New Insulator</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.InsulatorDisktId)*@
+            Insulator Id
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Installation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalSystemVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LookUpInsulatorDiskType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaximumSystemVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeOfSystem)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfDiskPerString)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumCreepageDistance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumWithstandVoltage)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.PowerFrequencyDry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PowerFrequencyWet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImpulseWithstandVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumPowerFrequencyFlashoverDry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumPowerFrequencyFlashoverWet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FiftyPctImpulseFlashoverWavePositive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FiftyPctImpulseFlashoverWaveNegative)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PowerFrequencyPuncherVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumDryArchingDistance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PowerFrequencyTestVoltageRmsToGround)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumRadioInfluenceVoltageRIVAt1000KcInMicroVolt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumElectromechanicalStrength)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumMechanicalFailingLoad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeOfInsulator)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiameterOfInsulator)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumUnitSpacing)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CouplingSize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsulatorDiskToPole)
+        </th>*@
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsulatorDisktId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Installation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NominalSystemVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LookUpInsulatorDiskType.InsulatorDiskTypeId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaximumSystemVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeOfSystem)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfDiskPerString)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumCreepageDistance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumWithstandVoltage)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.PowerFrequencyDry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PowerFrequencyWet)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImpulseWithstandVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumPowerFrequencyFlashoverDry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumPowerFrequencyFlashoverWet)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FiftyPctImpulseFlashoverWavePositive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FiftyPctImpulseFlashoverWaveNegative)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PowerFrequencyPuncherVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumDryArchingDistance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PowerFrequencyTestVoltageRmsToGround)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumRadioInfluenceVoltageRIVAt1000KcInMicroVolt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumElectromechanicalStrength)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumMechanicalFailingLoad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeOfInsulator)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiameterOfInsulator)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumUnitSpacing)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CouplingSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsulatorDiskToPole.PoleId)
+        </td>*@
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.InsulatorDisktId">Edit</a>
+            @*<a asp-action="Details" asp-route-id="@item.InsulatorDisktId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.InsulatorDisktId">Delete</a>*@
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

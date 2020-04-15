@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SubstationModels.LookUpNiCdBattery110vDc>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Ni-Cd Battery (110 V DC)</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.NiCdBattery110vDcId)*@
+            Ni-Cd Battery 110 V DC Id
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.NiCdBattery110VDcToSubstation)*@
+            Substation
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManufacturersNameAndAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManufacturersModelNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OperatingVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfCells)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VoltagePerCell)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NiCdBattery110vDcId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NiCdBattery110VDcToSubstation.SubstationId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ManufacturersNameAndAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ManufacturersModelNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OperatingVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfCells)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VoltagePerCell)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.NiCdBattery110vDcId">Edit</a>
+            @*<a asp-action="Details" asp-route-id="@item.NiCdBattery110vDcId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.NiCdBattery110vDcId">Delete</a>*@
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

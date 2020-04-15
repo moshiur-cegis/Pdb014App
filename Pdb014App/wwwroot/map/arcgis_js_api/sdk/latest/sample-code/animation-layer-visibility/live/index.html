@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Animate layer visibility - 4.14</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.14/"></script>
+
+    <script>
+      require([
+        "esri/WebMap",
+        "esri/views/MapView",
+        "esri/widgets/LayerList",
+        "esri/core/watchUtils"
+      ], function(WebMap, MapView, LayerList, watchUtils) {
+        const map = new WebMap({
+          portalItem: {
+            id: "6a991f8722dd42628f951ee2e6906ca5"
+          }
+        });
+
+        const view = new MapView({
+          map: map,
+          container: "viewDiv"
+        });
+
+        const layerList = new LayerList({
+          view: view
+        });
+        view.ui.add(layerList, "top-right");
+
+        function fadeVisibilityOn(layer) {
+          let animating = true;
+          let opacity = 0;
+          // fade layer's opacity from 0 to
+          // whichever value the user has configured
+          const finalOpacity = layer.opacity;
+          layer.opacity = opacity;
+
+          view.whenLayerView(layer).then(function(layerView) {
+            function incrementOpacityByFrame() {
+              if (opacity >= finalOpacity && animating) {
+                animating = false;
+                return;
+              }
+
+              layer.opacity = opacity;
+              opacity += 0.05;
+
+              requestAnimationFrame(incrementOpacityByFrame);
+            }
+
+            // Wait for tiles to finish loading before beginning the fade
+            watchUtils.whenFalseOnce(layerView, "updating", function(updating) {
+              requestAnimationFrame(incrementOpacityByFrame);
+            });
+          });
+        }
+
+        view.when().then(function() {
+          // When the user toggles a layer on, transition
+          // the layer's visibility using opacity
+          layerList.operationalItems.forEach(function(item) {
+            item.watch("visible", function(visible) {
+              if (visible) {
+                fadeVisibilityOn(item.layer);
+              }
+            });
+          });
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>

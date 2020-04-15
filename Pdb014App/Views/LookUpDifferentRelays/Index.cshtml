@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.MeteringPanelModels.LookUpDifferentRelay>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List Of Relay</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountryOfOrigin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersModelNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DifferentTypesOfRelay)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturersName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryOfOrigin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturersModelNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DifferentTypesOfRelay.RelayTypeId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DifferentRelayId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DifferentRelayId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DifferentRelayId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

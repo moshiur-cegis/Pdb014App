@@ -1,0 +1,55 @@
+﻿@model Pdb014App.Models.PDB.MeteringPanelModels.LookupAnnuciator
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Edit</h2>
+
+<h4>LookupAnnuciator</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+            <legend>Update Annuciator</legend>
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="AnnuciatorId" />
+                <div class="form-group">
+                    <label asp-for="Annunciator" class="control-label"></label>
+                    <input asp-for="Annunciator" class="form-control" />
+                    <span asp-validation-for="Annunciator" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ManufacturesName" class="control-label"></label>
+                    <input asp-for="ManufacturesName" class="form-control" />
+                    <span asp-validation-for="ManufacturesName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CountryofOrigin" class="control-label"></label>
+                    <input asp-for="CountryofOrigin" class="form-control" />
+                    <span asp-validation-for="CountryofOrigin" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ManufacturesModelNo" class="control-label"></label>
+                    <input asp-for="ManufacturesModelNo" class="form-control" />
+                    <span asp-validation-for="ManufacturesModelNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success float-right" />
+                    <a class="btn btn-success left-right" asp-action="Index">Cencel</a>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

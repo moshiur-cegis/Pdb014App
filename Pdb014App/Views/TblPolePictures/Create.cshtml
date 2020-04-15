@@ -1,0 +1,130 @@
+﻿@model Pdb014App.Models.PDB.PoleModels.TblPolePicture
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles{
+    <link href="~/lib/bootstrap/dist/css/bootstrap-select.css" rel="stylesheet" />
+    <style>
+        #image {
+            float: left;
+            border: 3px solid #ccc;
+            width: 300px;
+            height: 300px;
+            overflow: hidden;
+            background-size: 100% 100%;
+            background-color: #fff;
+            background-repeat: no-repeat;
+        }
+
+            #image strong {
+                position: relative;
+                right: 0px;
+                bottom: -258px;
+                float: right;
+                border: 1px solid #ddd;
+                padding: 5px 8px;
+                color: #2383d7;
+                background-color: rgba(250, 250, 250, 0.85);
+                transition: bottom .5s ease-out;
+            }
+
+            #image:hover strong {
+                bottom: 0px;
+            }
+    </style>
+}
+
+
+<h4>Upload Pole Picture</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Id" class="control-label">Picture Id</label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PictureName" class="control-label">Picture Name</label>
+                <input asp-for="PictureName" class="form-control" />
+                <span asp-validation-for="PictureName" class="text-danger"></span>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="form-group">
+
+                    <label asp-for="PictureName" class="control-label">Upload Picture</label>
+                    <div class="col-md-10">
+                        <label>
+                            <div id="image">
+                                <strong>Browse</strong>
+                            </div>
+                            <input name="file" style="display: none" accept="image/*" id="inputImage" type="file" class="upload_files" data-filename-placement="image upload" access="image/*" />
+                            @*@Html.TextBox("file", "", new { type = "file", name = "file", accept = "image/*", id = "inputImage", style = "display: none", value = @ViewBag.Signature })*@
+                        </label>
+                    </div>
+                    <label style="color: red">* Resulation Must Be 300*300 and Maximum Size 100 KB</label>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="PictureLocation" class="control-label"></label>
+                <input asp-for="PictureLocation" class="form-control" />
+                <span asp-validation-for="PictureLocation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PoleId" class="control-label"></label>
+                <select asp-for="PoleId" data-live-search="true" title="Select Pole Id" class="form-control selectpicker" asp-items="ViewBag.PoleId"></select>
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-success float-left" asp-action="Index">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section scripts{
+    <script src="~/lib/bootstrap/dist/js/bootstrap-select.js"></script>
+    @*https://developer.snapappointments.com/bootstrap-select/*@
+    <script type="text/javascript">
+
+        var urls = "../../PolePictures/";
+
+        $(document).ready(function () {
+
+            var inputImage = "@ViewBag.Signature";
+
+        var imgUrl = urls + "no_img.png";
+
+        var imgText = " Upload";
+
+        if (inputImage != '') {
+            imgUrl = urls + inputImage;
+            imgText = "Change ";
+        }
+        $("#image").css("background-image", "url('" + imgUrl + "')");
+        $("#image strong").html(imgText);
+        $("#inputImage").on("change", function (evt) {
+            var imgTempPath = URL.createObjectURL(evt.target.files[0]);
+            $("#image").css("background-image", "url('" + imgTempPath + "')");
+            $("#image strong").html("Change");
+        });
+        });
+    </script>
+
+}
+

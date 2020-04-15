@@ -1,0 +1,187 @@
+﻿@model Pdb014App.Models.PDB.SwitchGearModels.TblSwitchGear
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TblSwitchGear</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearType.SwitchGearTypeId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ManufacturersNameAndAddress)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ManufacturersNameAndAddress)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AppliedStandard)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AppliedStandard)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RatedNominalVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RatedNominalVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RatedVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RatedVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RatedCurrentForMainBus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RatedCurrentForMainBus)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RatedShortTimeCurrent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RatedShortTimeCurrent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ShortTimeCurrentRatedDuration)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ShortTimeCurrentRatedDuration)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearToCircuitBreaker)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearToCircuitBreaker.CircuitBreakerId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearToIdmtRelay)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearToIdmtRelay.DifferentRelayId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearToTripRelay)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearToTripRelay.DifferentRelayId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearToTripCircuitSupervisionRelay)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearToTripCircuitSupervisionRelay.DifferentRelayId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearToCurrentTransformer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearToCurrentTransformer.CurrentTransformerId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearToSwitchPosition)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearToSwitchPosition.SwitchPositionId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcWithStandVoltageDry)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcWithStandVoltageDry)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ImpulseWithStandFullWave)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ImpulseWithStandFullWave)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Enclosure)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Enclosure)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HvCompartment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HvCompartment)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LvCompartment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LvCompartment)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearToSf6SafetyAndLife)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearToSf6SafetyAndLife.Sf6SafetyAndLifeId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearToVoltMeter)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearToVoltMeter.DifferentMeterId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearToAmpereMeter)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearToAmpereMeter.DifferentMeterId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearToBusBar)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearToBusBar.BusBarId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReatedVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReatedVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReatedCurrent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReatedCurrent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReatedShortCircuitBreakerCurrent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReatedShortCircuitBreakerCurrent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearToPhasePowerTransformer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearToPhasePowerTransformer.PhasePowerTransformerId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SwitchGearToDimensionAndWeight)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SwitchGearToDimensionAndWeight.DimensionAndWeightId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.SwitchGearID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

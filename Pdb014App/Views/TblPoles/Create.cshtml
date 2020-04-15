@@ -1,0 +1,411 @@
+﻿@model Pdb014App.Models.PDB.TblPole
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link href="~/css/datetimepicker.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-select.css" rel="stylesheet" />
+}
+
+
+<div class="row">
+    <div class="offset-md-2 col-md-8 offset-md-2">
+        <fieldset>
+            <legend>Add Pole Information</legend>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">Zone</label>
+                    <select id="ZoneCode" class="form-control" asp-items="ViewBag.ZoneCode" value="@ViewBag.ZoneCode">
+                        <option value="" selected="selected" disabled="disabled">----- Select Zone -----</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Circle</label>
+                    <select id="CircleCode" class="form-control">
+                        <option value="" selected="selected" disabled="disabled">----- Select Circle -----</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">S&D</label>
+                    <select id="SnDCode" class="form-control">
+                        <option value="" selected="selected" disabled="disabled">----- Select S&D -----</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Substation</label>
+                    <select id="SubstationId" class="form-control">
+                        <option value="" selected="selected" disabled="disabled">----- Select Substation -----</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Route</label>
+                    @*<select asp-for="RouteCode" class="form-control" asp-items="ViewBag.RouteCode">
+                    *@
+                    <select asp-for="RouteCode" class="form-control">
+
+                        <option value="" selected="selected" disabled="disabled">----- Select Route -----</option>
+                    </select>
+                    <span asp-validation-for="RouteCode" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PoleId" class="control-label"></label>
+                    <input asp-for="PoleId" class="form-control" />
+                    <span asp-validation-for="PoleId" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                    <label asp-for="PoleUid" class="control-label"></label>
+                    <input asp-for="PoleUid" class="form-control" />
+                    <span asp-validation-for="PoleUid" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FeederLineUid" class="control-label"></label>
+                    <input asp-for="FeederLineUid" class="form-control" />
+                    <span asp-validation-for="FeederLineUid" class="text-danger"></span>
+                </div>*@
+                @*<div class="form-group">
+            <label asp-for="SurveyDate" class="control-label"></label>
+            <input asp-for="SurveyDate" class="form-control" />
+            <span asp-validation-for="SurveyDate" class="text-danger"></span>
+        </div>*@
+                <div class="form-group">
+                    <label asp-for="SurveyDate" class="control-label"></label>
+                    <input type="text" id="SurveyDate" name="SurveyDate" class="survey-date form-control" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" />
+                    <span class="glyphicon glyphicon-calendar icon-font" id="dpSurveyDate"></span>
+
+                    <span asp-validation-for="SurveyDate" class="text-danger"></span>
+                </div>
+
+                @*<div class="form-group">
+                    <label asp-for="RouteCode" class="control-label"></label>
+                    <select asp-for="RouteCode" class="form-control" asp-items="ViewBag.RouteCode"></select>
+                </div>*@
+                <div class="form-group">
+                    <label asp-for="FeederLineId" class="control-label"></label>
+                    <select asp-for="FeederLineId" class="form-control" asp-items="ViewBag.FeederLineId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SurveyorName" class="control-label"></label>
+                    <input asp-for="SurveyorName" class="form-control" />
+                    <span asp-validation-for="SurveyorName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PoleNo" class="control-label"></label>
+                    <input asp-for="PoleNo" class="form-control" />
+                    <span asp-validation-for="PoleNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PreviousPoleNo" class="control-label"></label>
+                    <input asp-for="PreviousPoleNo" class="form-control" />
+                    <span asp-validation-for="PreviousPoleNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Latitude" class="control-label"></label>
+                    <input asp-for="Latitude" class="form-control" />
+                    <span asp-validation-for="Latitude" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Longitude" class="control-label"></label>
+                    <input asp-for="Longitude" class="form-control" />
+                    <span asp-validation-for="Longitude" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PoleTypeId" class="control-label"></label>
+                    <select asp-for="PoleTypeId" class="form-control" asp-items="ViewBag.PoleTypeId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PoleConditionId" class="control-label"></label>
+                    <select asp-for="PoleConditionId" class="form-control" asp-items="ViewBag.PoleConditionId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LineTypeId" class="control-label"></label>
+                    <select asp-for="LineTypeId" class="form-control" asp-items="ViewBag.LineTypeId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BackSpan" class="control-label"></label>
+                    <input asp-for="BackSpan" class="form-control" />
+                    <span asp-validation-for="BackSpan" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TypeOfWireId" class="control-label"></label>
+                    <select asp-for="TypeOfWireId" class="form-control" asp-items="ViewBag.TypeOfWireId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NoOfWireHt" class="control-label"></label>
+                    <input asp-for="NoOfWireHt" class="form-control" />
+                    <span asp-validation-for="NoOfWireHt" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NoOfWireLt" class="control-label"></label>
+                    <input asp-for="NoOfWireLt" class="form-control" />
+                    <span asp-validation-for="NoOfWireLt" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="WireLength" class="control-label"></label>
+                    <input asp-for="WireLength" class="form-control" />
+                    <span asp-validation-for="WireLength" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="WireConditionId" class="control-label"></label>
+                    <select asp-for="WireConditionId" class="form-control" asp-items="ViewBag.WireConditionId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MSJNo" class="control-label"></label>
+                    <input asp-for="MSJNo" class="form-control" />
+                    <span asp-validation-for="MSJNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SleeveNo" class="control-label"></label>
+                    <input asp-for="SleeveNo" class="form-control" />
+                    <span asp-validation-for="SleeveNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TwistNo" class="control-label"></label>
+                    <input asp-for="TwistNo" class="form-control" />
+                    <span asp-validation-for="TwistNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhaseAId" class="control-label"></label>
+                    <select asp-for="PhaseAId" class="form-control" asp-items="ViewBag.PhaseAId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhaseBId" class="control-label"></label>
+                    <select asp-for="PhaseBId" class="form-control" asp-items="ViewBag.PhaseBId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhaseCId" class="control-label"></label>
+                    <select asp-for="PhaseCId" class="form-control" asp-items="ViewBag.PhaseCId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Neutral" class="control-label"></label>
+                    <input asp-for="Neutral" class="form-control" />
+                    <span asp-validation-for="Neutral" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StreetLight" class="control-label"></label>
+                    <input asp-for="StreetLight" class="form-control" />
+                    <span asp-validation-for="StreetLight" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+                    <label asp-for="SourceCableId" class="control-label"></label>
+                    <select asp-for="SourceCableId" class="form-control" asp-items="ViewBag.SourceCableId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TargetCableId" class="control-label"></label>
+                    <select asp-for="TargetCableId" class="form-control" asp-items="ViewBag.TargetCableId"></select>
+                </div>*@
+                <div class="form-group">
+                    <label asp-for="TransformerExist" class="control-label"></label>
+                    <input asp-for="TransformerExist" class="form-control" />
+                    <span asp-validation-for="TransformerExist" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CommonPole" class="control-label"></label>
+                    <input asp-for="CommonPole" class="form-control" />
+                    <span asp-validation-for="CommonPole" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Tap" class="control-label"></label>
+                    <input asp-for="Tap" class="form-control" />
+                    <span asp-validation-for="Tap" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success float-right" />
+                    <a class="btn btn-success float-left" asp-action="Index">Back</a>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+
+
+@*<div>  
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+
+
+@section Scripts {
+
+    <script src="~/js/datetimepicker.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap-select.js"></script>
+    <script type="text/javascript">
+
+
+        $("#SurveyDate").datetimepicker({
+            lang: "en",
+            format: "m-d-Y",
+            formatTime: "",
+            formatDate: "Y-m-d",
+            timepicker: false
+        });
+
+        $("#ZoneCode").on("change",
+                function () {
+                    var zoneCode = $("#ZoneCode").val(),
+                        $circle = $("#CircleCode");
+
+                    $circle.empty();
+                    //$(".dist-code").val(distCode);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetCircleList")",
+                        dataType: "json",
+                        data: { zoneCode: zoneCode },
+                        //before: $("#busy-indicator").fadeIn(150),
+                        success: function (circles) {
+                            //alert(circles);
+
+                            $circle.append('<option value="" selected="selected">------- Select Circle -------</option>');
+                            $.each(circles, function (i, circle) {
+
+                                //console.log(circles);
+                                //alert(circles);
+                                $("<option />").val(circle.value).html(circle.text).appendTo($circle);
+                                });
+                        },
+                        error: function (ex) {
+                            window.msg.init("error", "Error... . . !", "Failed to load circle list. " + ex.error);
+                        },
+                        //complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+            });
+        $("#CircleCode").on("change",function () {
+            var circleCode = $("#CircleCode").val(),
+                //upazCode = $(this).val(),
+                $snd = $("#SnDCode");
+                $snd.empty();
+              // $(".upaz-code").val(upazCode);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetSnDList")",
+                dataType: "json",
+                data: { circleCode: circleCode },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (snds) {
+                    $snd.append('<option value="" selected="selected">------ Select SnD ------</option>');
+                    $.each(snds,
+                        function (i, snd) {
+                            $("<option />").val(snd.value).html(snd.text).appendTo($snd);
+                            //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+        $("#SnDCode").on("change",function () {
+            var sndCode = $("#SnDCode").val(),
+
+            $substation = $("#SubstationId");
+            $substation.empty();
+            // $(".upaz-code").val(upazCode);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetSubStationList")",
+                dataType: "json",
+                data: { sndCode: sndCode },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (substations) {
+                    //alert(substations);
+
+                    $substation.append('<option value="" selected="selected">------ Select Sub-Station ------</option>');
+                    $.each(substations,
+                        function (i, substation) {
+                            $("<option />").val(substation.value).html(substation.text).appendTo($substation);
+                            //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+        $("#SubstationId").on("change",function () {
+            var substationId = $("#SubstationId").val(),
+                $route = $("#RouteCode");
+
+            $route.empty();
+            // $(".upaz-code").val(upazCode);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetRouteList")",
+                dataType: "json",
+                data: { substationId: substationId },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (routes) {
+                    //alert(routes);
+
+                    $route.append('<option value="" selected="selected">------ Select Route ------</option>');
+                    $.each(routes,
+                        function (i, route) {
+                            $("<option />").val(route.value).html(route.text).appendTo($route);
+                            //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+        $("#RouteCode").on("change", function () {
+            var routeCode = $("#RouteCode").val();
+
+            $sourceCableId = $("#SourceCableId");
+            $targetCableId = $("#TargetCableId");
+            $feederLineId = $("#FeederLineId");
+
+            $targetCableId.empty();
+            $sourceCableId.empty();
+            $feederLineId.empty();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetFeederLineList")",
+                dataType: "json",
+                data: { routeCode: routeCode },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (routes) {
+                    //alert(routes);
+
+                    $sourceCableId.append('<option value="" selected="selected" >------ Select Source Cable ------</option>');
+                    $targetCableId.append('<option value="" selected="selected">------ Select Target Cable ------</option>');
+                    $feederLineId.append('<option value="" selected="selected">------ Select Feeder Line------</option>');
+                    $.each(routes,
+                        function (i, route) {
+                            $("<option />").val(route.value).html(route.text).appendTo($sourceCableId);
+                            $("<option />").val(route.value).html(route.text).appendTo($targetCableId);
+                            $("<option />").val(route.value).html(route.text).appendTo($feederLineId);
+                            //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+    </script>
+}

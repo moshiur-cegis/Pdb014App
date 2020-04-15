@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.InsulatorModels.LookUpInsulatorDiskType>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of  Insulator Type (Disk)</h2>
+
+<p>
+    <a asp-action="Create">Add New Type</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.InsulatorDiskTypeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsulatorDiskTypeName)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsulatorDiskTypeId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsulatorDiskTypeName)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.InsulatorDiskTypeId">Edit</a>
+            @*<a asp-action="Details" asp-route-id="@item.InsulatorDiskTypeId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.InsulatorDiskTypeId">Delete</a>*@
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

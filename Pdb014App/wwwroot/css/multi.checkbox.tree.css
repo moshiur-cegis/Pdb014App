@@ -1,0 +1,74 @@
+fieldset {
+    margin-top: 1.15rem;
+}
+
+
+p.tree,
+ul.tree,
+ul.tree ul {
+    list-style: none;
+    margin: 0 auto 0.25rem auto;
+    padding: 0;
+}
+
+p.tree {
+    margin: 0.15rem 0;
+    font-weight: 600;
+}
+
+ul.tree ul {
+    margin: 0 0 0 1.0rem;
+}
+
+ul.tree li {
+    margin-left: 0.35rem;
+    border-left: 1px dotted #aaa;
+}
+
+ul.tree li label {
+    margin-bottom: 0.35rem;
+    line-height: 1.35rem;
+    /*display: inline list-item;*/
+}
+
+ul.tree li input[type=checkbox] {
+    margin-left: -0.15rem;
+}
+
+ul.tree li:last-child {
+    border-left: none;
+}
+
+ul.tree li:before {
+    width: 0.75rem;
+    height: 0.60rem;
+    margin-right: 0.1rem;
+    vertical-align: top;
+    border-bottom: 1px dotted #aaa;
+    content: "";
+    display: inline-block;
+}
+
+ul.tree li:last-child:before {
+    border-left: 1px dotted #aaa;
+}
+
+
+ul.tree li span.multi-item::after,
+ul.tree li label.multi-item::after {
+    content: '\002B';
+    color: #024;
+    font-weight: bold;
+    float: right;
+    margin-left: 0.15rem;
+    margin-right: 0.15rem;
+}
+
+ul.tree li span.multi-item.open::after,
+ul.tree li span.multi-item.minus::after,
+ul.tree li span.multi-item.active::after,
+ul.tree li label.multi-item.open::after,
+ul.tree li label.multi-item.minus::after,
+ul.tree li label.multi-item.active::after {
+    content: "\2212";
+}

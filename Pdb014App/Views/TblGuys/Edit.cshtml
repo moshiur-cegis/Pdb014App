@@ -1,0 +1,48 @@
+﻿@model Pdb014App.Models.PDB.InsulatorModels.TblGuy
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+            <legend>Edit Guy</legend>
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="GuyId" />
+                <div class="form-group">
+                    <label asp-for="GuyTypeId" class="control-label"></label>
+                    <select asp-for="GuyTypeId" class="form-control" asp-items="ViewBag.GuyTypeId"></select>
+                    <span asp-validation-for="GuyTypeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConditionId" class="control-label"></label>
+                    <select asp-for="ConditionId" class="form-control" asp-items="ViewBag.ConditionId"></select>
+                    <span asp-validation-for="ConditionId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NoOfSet" class="control-label"></label>
+                    <input asp-for="NoOfSet" class="form-control" />
+                    <span asp-validation-for="NoOfSet" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PoleId" class="control-label"></label>
+                    <select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>
+                    <span asp-validation-for="PoleId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary float-right" />
+                    <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+                </div>
+            </form>
+            </fieldset>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

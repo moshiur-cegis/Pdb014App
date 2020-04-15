@@ -1,0 +1,115 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SwitchGearModels.LookUpPotentialTrans33KV>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>List of Potential Transformer</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PotentialTransformerId)
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.PotentialTransformerToSwitchGear)*@
+            Switch Gear
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NameoftheManufacturer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeAndModelNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalSystemVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HeightsSystemVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedPrimaryVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedSecondaryVoltageandTertiaryVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImpulseWithstAndVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MicroSec12or50)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PowerFrequencyWithstandVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BurdenOrClass)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MeteringWinding)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProtectionWinding)
+        </th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PotentialTransformerId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PotentialTransformerToSwitchGear.SwitchGearID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NameoftheManufacturer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeAndModelNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NominalSystemVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HeightsSystemVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatedPrimaryVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatedSecondaryVoltageandTertiaryVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImpulseWithstAndVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MicroSec12or50)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PowerFrequencyWithstandVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BurdenOrClass)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MeteringWinding)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProtectionWinding)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.PotentialTransformerId">Edit</a>
+            @*<a asp-action="Details" asp-route-id="@item.PotentialTransformerId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PotentialTransformerId">Delete</a>*@
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

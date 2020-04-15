@@ -1,0 +1,145 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.DistributionTransformerModel.TblPoleStructureMountedSurgeArrestor>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Pole Structure Mounted Surge Arrestors</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.PoleStructureMountedSurgeArrestorId)*@
+            Surge Arrestor Id
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Standard)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Installation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeorModel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Construction)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Application)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalRatedVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaximumSystemVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SystemFrequency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeofSystem)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedArresterVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Class)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.RatedArresterCurrent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HighCurrentWithstand)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PressureReliefClass)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BasicInsulationlevelBILat12or50MicroSecImpulses)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LightningImpulseResidualVoltageAt8or20MicrosecCurrentWave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreepageDistance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurgeArrestorToDistributionTransformer)
+        </th>*@
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PoleStructureMountedSurgeArrestorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Standard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Installation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeorModel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Construction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Application)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NominalRatedVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaximumSystemVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SystemFrequency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeofSystem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedArresterVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Class)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.RatedArresterCurrent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HighCurrentWithstand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PressureReliefClass)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BasicInsulationlevelBILat12or50MicroSecImpulses)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LightningImpulseResidualVoltageAt8or20MicrosecCurrentWave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreepageDistance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SurgeArrestorToDistributionTransformer.DistributionTransformerId)
+            </td>*@
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PoleStructureMountedSurgeArrestorId">Edit</a>
+                @*<a asp-action="Details" asp-route-id="@item.PoleStructureMountedSurgeArrestorId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PoleStructureMountedSurgeArrestorId">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

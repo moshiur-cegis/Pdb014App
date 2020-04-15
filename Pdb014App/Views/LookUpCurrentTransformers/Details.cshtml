@@ -1,0 +1,61 @@
+﻿@model Pdb014App.Models.PDB.SwitchGearModels.LookUpCurrentTransformer
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LookUpCurrentTransformer</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RatedVoltage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RatedVoltage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AccuracyClassMetering)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AccuracyClassMetering)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AccuracyClassOCEFProtection)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AccuracyClassOCEFProtection)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AccuracyClassDifferentialProtection)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AccuracyClassDifferentialProtection)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RatedCurrentRatio)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RatedCurrentRatio)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Burden)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Burden)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RatedFrequency)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RatedFrequency)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.CurrentTransformerId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

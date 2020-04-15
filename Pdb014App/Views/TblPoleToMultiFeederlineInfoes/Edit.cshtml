@@ -1,0 +1,48 @@
+﻿@model Pdb014App.Models.PDB.PoleModels.TblPoleToMultiFeederlineInfo
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>TblPoleToMultiFeederlineInfo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="PoleId" class="control-label"></label>
+                <select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>
+                <span asp-validation-for="PoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FeederLineId" class="control-label"></label>
+                <select asp-for="FeederLineId" class="form-control" asp-items="ViewBag.FeederLineId"></select>
+                <span asp-validation-for="FeederLineId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PreviousPoleId" class="control-label"></label>
+                <select asp-for="PreviousPoleId" class="form-control" asp-items="ViewBag.PreviousPoleId"></select>
+                <span asp-validation-for="PreviousPoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NextPoleId" class="control-label"></label>
+                <select asp-for="NextPoleId" class="form-control" asp-items="ViewBag.NextPoleId"></select>
+                <span asp-validation-for="NextPoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

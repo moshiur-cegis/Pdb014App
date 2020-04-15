@@ -1,0 +1,139 @@
+﻿@model Pdb014App.Models.PDB.MeteringPanelModels.TblMeteringPanel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Create</h2>
+
+<h4>TblMeteringPanel</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+            <legend>Add Metering Panel</legend>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="SubstationId" class="control-label"></label>
+                    <select asp-for="SubstationId" class="form-control" asp-items="ViewBag.SubstationId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ManufacturersNameCountryOfOrigin" class="control-label"></label>
+                    <input asp-for="ManufacturersNameCountryOfOrigin" class="form-control" />
+                    <span asp-validation-for="ManufacturersNameCountryOfOrigin" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ManufacturersModelNo" class="control-label"></label>
+                    <input asp-for="ManufacturersModelNo" class="form-control" />
+                    <span asp-validation-for="ManufacturersModelNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SystemNominalVoltage" class="control-label"></label>
+                    <input asp-for="SystemNominalVoltage" class="form-control" />
+                    <span asp-validation-for="SystemNominalVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaximumSystemVoltage" class="control-label"></label>
+                    <input asp-for="MaximumSystemVoltage" class="form-control" />
+                    <span asp-validation-for="MaximumSystemVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RatedFrequency" class="control-label"></label>
+                    <input asp-for="RatedFrequency" class="form-control" />
+                    <span asp-validation-for="RatedFrequency" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DifferentialRelayIdForTransformer" class="control-label"></label>
+                    <select asp-for="DifferentialRelayIdForTransformer" class="form-control" asp-items="ViewBag.DifferentialRelayIdForTransformer"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RestrictedEarthFaultRelayIdForTransformer" class="control-label"></label>
+                    <select asp-for="RestrictedEarthFaultRelayIdForTransformer" class="form-control" asp-items="ViewBag.RestrictedEarthFaultRelayIdForTransformer"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdmtOverCurrentAndEarthFaultRelayIdForTransformer" class="control-label"></label>
+                    <select asp-for="IdmtOverCurrentAndEarthFaultRelayIdForTransformer" class="form-control" asp-items="ViewBag.IdmtOverCurrentAndEarthFaultRelayIdForTransformer"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AuxiliaryFlagRelayIdForTransformer" class="control-label"></label>
+                    <select asp-for="AuxiliaryFlagRelayIdForTransformer" class="form-control" asp-items="ViewBag.AuxiliaryFlagRelayIdForTransformer"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TripCircuitSupervisionRelayIdForTransformer" class="control-label"></label>
+                    <select asp-for="TripCircuitSupervisionRelayIdForTransformer" class="form-control" asp-items="ViewBag.TripCircuitSupervisionRelayIdForTransformer"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TripRelayIdForTransformer" class="control-label"></label>
+                    <select asp-for="TripRelayIdForTransformer" class="form-control" asp-items="ViewBag.TripRelayIdForTransformer"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AnnuciatorIdForTransformer" class="control-label"></label>
+                    <select asp-for="AnnuciatorIdForTransformer" class="form-control" asp-items="ViewBag.AnnuciatorIdForTransformer"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ControlSwitchIdForTransformer" class="control-label"></label>
+                    <select asp-for="ControlSwitchIdForTransformer" class="form-control" asp-items="ViewBag.ControlSwitchIdForTransformer"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdmtOverCurrentAndEarthFaultRelayIdForFeeder" class="control-label"></label>
+                    <select asp-for="IdmtOverCurrentAndEarthFaultRelayIdForFeeder" class="form-control" asp-items="ViewBag.IdmtOverCurrentAndEarthFaultRelayIdForFeeder"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TripCircuitSupervisionRelayIdForFeeder" class="control-label"></label>
+                    <select asp-for="TripCircuitSupervisionRelayIdForFeeder" class="form-control" asp-items="ViewBag.TripCircuitSupervisionRelayIdForFeeder"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TripRelayIdForFeeder" class="control-label"></label>
+                    <select asp-for="TripRelayIdForFeeder" class="form-control" asp-items="ViewBag.TripRelayIdForFeeder"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AnnuciatorIdForFeeder" class="control-label"></label>
+                    <select asp-for="AnnuciatorIdForFeeder" class="form-control" asp-items="ViewBag.AnnuciatorIdForFeeder"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ControlSwitchIdForFeeder" class="control-label"></label>
+                    <select asp-for="ControlSwitchIdForFeeder" class="form-control" asp-items="ViewBag.ControlSwitchIdForFeeder"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="KWHandkVARHMeterId" class="control-label"></label>
+                    <select asp-for="KWHandkVARHMeterId" class="form-control" asp-items="ViewBag.KWHandkVARHMeterId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VoltMeterId" class="control-label"></label>
+                    <select asp-for="VoltMeterId" class="form-control" asp-items="ViewBag.VoltMeterId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AmpereMeterId" class="control-label"></label>
+                    <select asp-for="AmpereMeterId" class="form-control" asp-items="ViewBag.AmpereMeterId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MegaWattMeterId" class="control-label"></label>
+                    <select asp-for="MegaWattMeterId" class="form-control" asp-items="ViewBag.MegaWattMeterId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MegaVarMeterId" class="control-label"></label>
+                    <select asp-for="MegaVarMeterId" class="form-control" asp-items="ViewBag.MegaVarMeterId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DimensionAndWeightId" class="control-label"></label>
+                    <select asp-for="DimensionAndWeightId" class="form-control" asp-items="ViewBag.DimensionAndWeightId"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success float-right" />
+                    <a class="btn btn-success float-left" asp-action="Index">Back</a>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,181 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.MeteringPanelModels.TblMeteringPanel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>List of Metering Panel</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.MeteringPanelToSubstation)*@
+                Substation Id
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersNameCountryOfOrigin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersModelNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SystemNominalVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaximumSystemVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedFrequency)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.DifferentialRelayForTransformer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RestrictedEarthFaultRelayForTransformer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdmtOverCurrentAndEarthFaultRelayForTransformer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuxiliaryFlagRelayForTransformer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TripCircuitSupervisionRelayForTransformer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TripRelayForTransformer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnnuciatorForTransformer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ControlSwitchForTransformer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdmtOverCurrentAndEarthFaultRelayForFeeder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TripCircuitSupervisionRelayForFeeder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TripRelayForFeeder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnnuciatorForFeeder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ControlSwitchForFeeder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KWHandkVARHMeter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VoltMeterWithSelectorSwitch)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AmpereMeter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MegaWattMeter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MegaVarMeter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MeteringPanelToDimensionAndWeight)
+            </th>*@
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeteringPanelToSubstation.SubstationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturersNameCountryOfOrigin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturersModelNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SystemNominalVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaximumSystemVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedFrequency)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.DifferentialRelayForTransformer.DifferentRelayId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RestrictedEarthFaultRelayForTransformer.DifferentRelayId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdmtOverCurrentAndEarthFaultRelayForTransformer.DifferentRelayId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuxiliaryFlagRelayForTransformer.DifferentRelayId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TripCircuitSupervisionRelayForTransformer.DifferentRelayId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TripRelayForTransformer.DifferentRelayId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnnuciatorForTransformer.AnnuciatorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ControlSwitchForTransformer.ControlSwitchId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdmtOverCurrentAndEarthFaultRelayForFeeder.DifferentRelayId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TripCircuitSupervisionRelayForFeeder.DifferentRelayId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TripRelayForFeeder.DifferentRelayId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnnuciatorForFeeder.AnnuciatorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ControlSwitchForFeeder.ControlSwitchId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KWHandkVARHMeter.DifferentMeterId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VoltMeterWithSelectorSwitch.DifferentMeterId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AmpereMeter.DifferentMeterId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MegaWattMeter.DifferentMeterId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MegaVarMeter.DifferentMeterId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeteringPanelToDimensionAndWeight.DimensionAndWeightId)
+            </td>*@
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.MeteringPanelId">Edit</a>
+                @*<a asp-action="Details" asp-route-id="@item.MeteringPanelId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.MeteringPanelId">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

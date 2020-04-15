@@ -1,0 +1,140 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.PoleModels.TblPoleMountedDofCutOutFuseLink>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Pole Mounted Dof Cut-Out Fuse Link</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.PoleMountedDofCutOutFuseLinkId)*@
+            Id
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Standard)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.General)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Installation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeorModel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Construction)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Application)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalRatedVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaximumSystemVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SystemFrequency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeofSystem)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.ContinuousCurrentRating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InterruptingCapacityoftheCutOutMin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FuseHolderType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FuseLinkRatedCurrentContinuous)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BasicInsulationLevelBIL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FuseLinkType)
+        </th>*@
+        <th>
+            @*@Html.DisplayNameFor(model => model.PoleMountedDofCutOutFuseLinkToPole)*@
+            Pole Id
+        </th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PoleMountedDofCutOutFuseLinkId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Standard)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.General)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Installation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeorModel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Construction)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Application)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NominalRatedVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaximumSystemVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SystemFrequency)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeofSystem)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.ContinuousCurrentRating)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InterruptingCapacityoftheCutOutMin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FuseHolderType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FuseLinkRatedCurrentContinuous)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BasicInsulationLevelBIL)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.FuseLinkType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PoleMountedDofCutOutFuseLinkToPole.PoleId)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.PoleMountedDofCutOutFuseLinkId">Edit</a> 
+            @*<a asp-action="Details" asp-route-id="@item.PoleMountedDofCutOutFuseLinkId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.PoleMountedDofCutOutFuseLinkId">Delete</a>*@
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

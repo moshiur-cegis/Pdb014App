@@ -1,0 +1,121 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SwitchGearModels.TblTerminationKit>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Termination Kit</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TerminationKitToBusBar)*@
+                Bus Bar Id
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LineCapacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeofTerminationKit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Application)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Installation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NominalSystemVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaximumSystemVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PowerFrequencyWithstandVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberofCore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeofInsulation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeofScreening)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeofCableBox)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SystemNeutralEarthing)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConductorCrossSection)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImpulseWithstandVoltage)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TerminationKitToBusBar.BusBarId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LineCapacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeofTerminationKit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Application)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Installation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NominalSystemVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaximumSystemVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PowerFrequencyWithstandVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberofCore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeofInsulation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeofScreening)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeofCableBox)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SystemNeutralEarthing)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConductorCrossSection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImpulseWithstandVoltage)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.TerminationKitId">Edit</a> |
+                @*<a asp-action="Details" asp-route-id="@item.TerminationKitId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.TerminationKitId">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

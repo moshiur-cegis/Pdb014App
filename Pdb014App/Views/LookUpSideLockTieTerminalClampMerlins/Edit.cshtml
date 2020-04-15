@@ -1,0 +1,50 @@
+﻿@model Pdb014App.Models.PDB.LookUpSideLockTieTerminalClampMerlin
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        <fieldset>
+        <legend>Update Side Lock Tie Terminal Clamp Merlin</legend>
+        
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SideLockTieTerminalClampMerlinId" />
+            <div class="form-group">
+                <label asp-for="SideLockTieTerminalClampMerlinType" class="control-label"></label>
+                <input asp-for="SideLockTieTerminalClampMerlinType" class="form-control" />
+                <span asp-validation-for="SideLockTieTerminalClampMerlinType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Materials" class="control-label"></label>
+                <input asp-for="Materials" class="form-control" />
+                <span asp-validation-for="Materials" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Standard" class="control-label"></label>
+                <input asp-for="Standard" class="form-control" />
+                <span asp-validation-for="Standard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UltimateTensileStrength" class="control-label"></label>
+                <input asp-for="UltimateTensileStrength" class="form-control" />
+                <span asp-validation-for="UltimateTensileStrength" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PoleId" class="control-label"></label>
+                <select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>
+                <span asp-validation-for="PoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+            </div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+

@@ -1,0 +1,171 @@
+﻿@model Pdb014App.Models.PDB.SwitchGearModels.TblXLPEaluminiumCopperGalvanize11KV
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Create</h2>
+<h4>TblXLPEaluminiumCopperGalvanize11KV</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        <fieldset>
+            <legend>Add 11Kv Aluminium Copper Galvanize</legend>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SwitchGearID" class="control-label"></label>
+                <select asp-for="SwitchGearID" class ="form-control" asp-items="ViewBag.SwitchGearID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="NominalCrossSectionalAreaofPhaseConductor" class="control-label"></label>
+                <input asp-for="NominalCrossSectionalAreaofPhaseConductor" class="form-control" />
+                <span asp-validation-for="NominalCrossSectionalAreaofPhaseConductor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiameterofPhaseConductor" class="control-label"></label>
+                <input asp-for="DiameterofPhaseConductor" class="form-control" />
+                <span asp-validation-for="DiameterofPhaseConductor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SingleCoreStranding" class="control-label"></label>
+                <input asp-for="SingleCoreStranding" class="form-control" />
+                <span asp-validation-for="SingleCoreStranding" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThicknessofInsulation" class="control-label"></label>
+                <input asp-for="ThicknessofInsulation" class="form-control" />
+                <span asp-validation-for="ThicknessofInsulation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiameterOverInsulationApproximately" class="control-label"></label>
+                <input asp-for="DiameterOverInsulationApproximately" class="form-control" />
+                <span asp-validation-for="DiameterOverInsulationApproximately" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NominalCrossSectionalAreaofScreen" class="control-label"></label>
+                <input asp-for="NominalCrossSectionalAreaofScreen" class="form-control" />
+                <span asp-validation-for="NominalCrossSectionalAreaofScreen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThicknessofOverSheath" class="control-label"></label>
+                <input asp-for="ThicknessofOverSheath" class="form-control" />
+                <span asp-validation-for="ThicknessofOverSheath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OverallDiameterApproximately" class="control-label"></label>
+                <input asp-for="OverallDiameterApproximately" class="form-control" />
+                <span asp-validation-for="OverallDiameterApproximately" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GalvanizedSteelRopeNominalCrossSectionalAreaofRope" class="control-label"></label>
+                <input asp-for="GalvanizedSteelRopeNominalCrossSectionalAreaofRope" class="form-control" />
+                <span asp-validation-for="GalvanizedSteelRopeNominalCrossSectionalAreaofRope" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Stranding" class="control-label"></label>
+                <input asp-for="Stranding" class="form-control" />
+                <span asp-validation-for="Stranding" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThicknessofCovering" class="control-label"></label>
+                <input asp-for="ThicknessofCovering" class="form-control" />
+                <span asp-validation-for="ThicknessofCovering" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OverallDiameterofRope" class="control-label"></label>
+                <input asp-for="OverallDiameterofRope" class="form-control" />
+                <span asp-validation-for="OverallDiameterofRope" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThreeCoresStrandedAroundSuspensionUnitDiameterof" class="control-label"></label>
+                <input asp-for="ThreeCoresStrandedAroundSuspensionUnitDiameterof" class="form-control" />
+                <span asp-validation-for="ThreeCoresStrandedAroundSuspensionUnitDiameterof" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StrandedBundleApproximately" class="control-label"></label>
+                <input asp-for="StrandedBundleApproximately" class="form-control" />
+                <span asp-validation-for="StrandedBundleApproximately" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalWeightApproximately" class="control-label"></label>
+                <input asp-for="TotalWeightApproximately" class="form-control" />
+                <span asp-validation-for="TotalWeightApproximately" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NominalVoltageratingUOorU" class="control-label"></label>
+                <input asp-for="NominalVoltageratingUOorU" class="form-control" />
+                <span asp-validation-for="NominalVoltageratingUOorU" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximumAdmissibleContinuousWorkingVoltage" class="control-label"></label>
+                <input asp-for="MaximumAdmissibleContinuousWorkingVoltage" class="form-control" />
+                <span asp-validation-for="MaximumAdmissibleContinuousWorkingVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximumDCResistanceAt20C" class="control-label"></label>
+                <input asp-for="MaximumDCResistanceAt20C" class="form-control" />
+                <span asp-validation-for="MaximumDCResistanceAt20C" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkingInductance" class="control-label"></label>
+                <input asp-for="WorkingInductance" class="form-control" />
+                <span asp-validation-for="WorkingInductance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkingCapacitance" class="control-label"></label>
+                <input asp-for="WorkingCapacitance" class="form-control" />
+                <span asp-validation-for="WorkingCapacitance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EarthLeakageCurrent" class="control-label"></label>
+                <input asp-for="EarthLeakageCurrent" class="form-control" />
+                <span asp-validation-for="EarthLeakageCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShortCircuitCurrentOfConductor" class="control-label"></label>
+                <input asp-for="ShortCircuitCurrentOfConductor" class="form-control" />
+                <span asp-validation-for="ShortCircuitCurrentOfConductor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OfScreen" class="control-label"></label>
+                <input asp-for="OfScreen" class="form-control" />
+                <span asp-validation-for="OfScreen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentRatingatAmbienttempof40C" class="control-label"></label>
+                <input asp-for="CurrentRatingatAmbienttempof40C" class="form-control" />
+                <span asp-validation-for="CurrentRatingatAmbienttempof40C" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ACTestVoltage" class="control-label"></label>
+                <input asp-for="ACTestVoltage" class="form-control" />
+                <span asp-validation-for="ACTestVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Source33or11kVSubStationID" class="control-label"></label>
+                <select asp-for="Source33or11kVSubStationID" class ="form-control" asp-items="ViewBag.Source33or11kVSubStationID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Source132or33kVSubStationID" class="control-label"></label>
+                <select asp-for="Source132or33kVSubStationID" class ="form-control" asp-items="ViewBag.Source132or33kVSubStationID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentCarryingCapacity" class="control-label"></label>
+                <input asp-for="CurrentCarryingCapacity" class="form-control" />
+                <span asp-validation-for="CurrentCarryingCapacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Back</a>
+            </div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

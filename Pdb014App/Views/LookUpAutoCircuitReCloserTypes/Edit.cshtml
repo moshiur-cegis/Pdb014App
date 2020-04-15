@@ -1,0 +1,40 @@
+﻿@model Pdb014App.Models.PDB.SubstationModels.LookUpAutoCircuitReCloserType
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Edit</h2>
+
+<h4>LookUpAutoCircuitReCloserType</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+            <legend>Update Auto Circuit Re-Closer Type</legend>
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="AutoCircuitReCloserTypeId" />
+                <div class="form-group">
+                    <label asp-for="AutoCircuitReCloserTypeIdName" class="control-label"></label>
+                    <input asp-for="AutoCircuitReCloserTypeIdName" class="form-control" />
+                    <span asp-validation-for="AutoCircuitReCloserTypeIdName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success float-right" />
+                    <a class="btn btn-success left-right" asp-action="Index">Cencel</a>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

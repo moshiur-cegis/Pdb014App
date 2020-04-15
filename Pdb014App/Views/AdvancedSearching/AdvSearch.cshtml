@@ -1,0 +1,631 @@
+﻿@model ReflectionIT.Mvc.Paging.PagingList<Pdb014App.Models.PDB.TblPole>
+
+@using System.Collections.Generic
+@using Pdb014App.Models.Search
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
+
+@{
+    ViewData["Title"] = "Advanced Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    
+    Model.Action = "AdvSearch";
+}
+
+
+@section Styles {
+
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+    
+    <style type="text/css">
+
+        table.table {
+            table-layout: fixed;
+        }
+
+            table.table tr th,
+            table.table tr td {
+                border-color: #e9e9e9;
+            }
+
+            table.table th {
+                min-width: 80px;
+            }
+
+                table.table th:last-child {
+                    width: 100px;
+                }
+
+                table.table th i {
+                    font-size: 13px;
+                    margin: 0 5px;
+                    cursor: pointer;
+                }
+
+            table.table td a {
+                cursor: pointer;
+                display: inline-block;
+                margin: 0 5px;
+                min-width: 24px;
+            }
+
+                table.table td a.add {
+                    color: #27C46B;
+                }
+
+                table.table td a.edit {
+                    color: #FFC107;
+                }
+
+                table.table td a.delete {
+                    color: #E34724;
+                }
+
+            table.table td i {
+                font-size: 19px;
+            }
+
+            table.table td a.add i {
+                font-size: 24px;
+                margin-right: -1px;
+                position: relative;
+                top: 3px;
+            }
+
+
+            table.table .form-control {
+                width: 100%;
+                padding: 2px 5px;
+                line-height: 1.0;
+            }
+
+                table.table .form-control.error {
+                    border-color: #f50000;
+                }
+
+            table.table td .add {
+                display: none;
+            }
+    </style>
+
+}
+
+
+<div class="container">
+    <h2>Pole Data Search</h2>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" asp-controller="AdvancedSearching" asp-action="AdvSearch">
+
+                @{
+                    //var surveyInfoes = (Model != null && Model.Any()) ? Model : new List<SearchParameter>(noOfRow);
+
+                    //if (surveyInfoes.Count < noOfRow)
+                    //{
+                    //    for (int rc = surveyInfoes.Count; rc < noOfRow; rc++)
+                    //    {
+                    //        surveyInfoes.Insert(rc, new SearchParameter());
+                    //    }
+                    //}
+
+                    //var searchParameters = ViewBag.SearchParameters as List<SearchParameter>
+
+                    var searchParameters = ViewData["SearchParameters"] as List<SearchParameter>;
+
+                    var test = new List<SearchParameter>()
+                    {
+                        new SearchParameter()
+                        {
+                            FieldName = "a1", Operator = "=", FieldValue = "11", JoinOption = "OR"
+                        },
+                        new SearchParameter()
+                        {
+                            FieldName = "a2", Operator = "<>", FieldValue = "22", JoinOption = "OR"
+                        }
+                    };
+
+                    if (test != null)
+                    {
+                        Model.RouteValue.Values.Add(test);
+                    }
+
+
+                    //: new List<SearchParameter>(3);
+                    //System.Diagnostics.Debug.Assert(searchParameters != null, nameof(searchParameters) + " != null");
+
+                    var spCount = 0;
+                    //if (searchParameters == null || searchParameters.Count < 1)
+                    //{
+                    //    spCount = 3;
+                    //    searchParameters = new List<SearchParameter>(5);
+                    //}
+                    //else
+                    //{
+                    //    spCount = searchParameters.Count;
+                    //}
+
+                    spCount = 1;
+                    var searchParameter = (searchParameters == null || searchParameters.Count < 1)
+                        ? new SearchParameter()
+                        : searchParameters[0];
+
+                }
+
+                @*@searchParameters
+                    <br />
+                    @searchParameters.Count
+                    <br />
+                    @searchParameters.Capacity
+
+                    <br />
+                    @ViewBag.Columns*@
+
+                <table id="tblSearchOptions" class="table table-responsive" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th style="width: 250px">Field Name</th>
+                            <th style="width: 100px">Operator</th>
+                            <th style="width: 350px">Field Value</th>
+                            <th style="width: 70px">Join(AND/OR)</th>
+                            <th style="width: 100px">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (int spc = 0; spc < spCount; ++spc)
+                        {
+                            //var searchParameter = new SearchParameter();
+
+                            //if (searchParameters.Count <= spc)
+                            //{
+                            //    searchParameters.Add(new SearchParameter());
+                            //}
+
+                            <tr>
+                                <td>
+                                    <select id="searchParameter.FieldName" asp-for="@searchParameter.FieldName" class="form-control text-left" asp-items="ViewBag.FieldList">
+                                        <option value="">--- Select ---</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="searchParameter.Operator" asp-for="@searchParameter.Operator" class="form-control text-center" asp-items="ViewBag.OperatorList">
+                                        <option selected="" value=""></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input id="searchParameter.FieldValue" asp-for="@searchParameter.FieldValue" class="form-control text-left" />
+                                </td>
+                                <td>
+                                    <select id="searchParameter.JoinOption" asp-for="@searchParameter.JoinOption" class="form-control text-center">
+                                        <option value="AND">AND</option>
+                                        <option value="OR">OR</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    @*<a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>*@
+                                    <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i><span class="sr-only">Delete</span></a>
+                                    <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i><span class="sr-only">Delete</span></a>
+                                    <button type="button" class="Delete" title="Delete" data-toggle="tooltip"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+
+                <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                <br />
+
+
+                <div class="form-group">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+
+    <br />
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-view" id="updatePanel">
+                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                    <table id="multi-form-view" class="table table-responsive multi-form-view">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.PoleId)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederName)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.SurveyDate)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.PoleToRoute.RouteName)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.PoleNo)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.PreviousPoleNo)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.PoleTypeId)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.PoleConditionId)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.MSJNo)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.SleeveNo)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.TwistNo)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.PhaseAId)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.PhaseBId)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.PhaseCId)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.Neutral)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.StreetLight)
+                                </th>
+                                @*<th>
+                                    @Html.SortableHeaderFor(model => model.SourceCableId)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.TargetCableId)
+                                </th>*@
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.Latitude)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.Longitude)
+                                </th>
+                                @*
+                                    <th>Action</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PoleId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PoleToFeederLine.FeederName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SurveyDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PoleToRoute.RouteName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PoleNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PreviousPoleNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PoleType.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PoleCondition.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MSJNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SleeveNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TwistNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhaseACondition.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhaseBCondition.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhaseBCondition.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Neutral)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StreetLight)
+                                    </td>
+                                    @*<td>
+                                        @Html.DisplayFor(modelItem => item.PoleToSourceFeederLine.FeederName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PoleToTargetFeederLine.FeederName)
+                                    </td>*@
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Latitude)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Longitude)
+                                    </td>
+                                    @*
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.PoleId">Edit</a>
+                                            <a asp-action="Delete" asp-route-id="@item.PoleId">Delete</a>
+                                        </td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div style="text-align: center;">
+                <vc:pager paging-list="@Model" />
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+
+@section Scripts{
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //$('[data-toggle="tooltip"]').tooltip();
+            //var actions = $("table td:last-child").html();
+
+            // Append table with add row form on add new button click
+            $(".add-new").click(function () {
+                //$(this).attr("disabled", "disabled");
+
+                var $lastRow = $("#tblSearchOptions tbody tr:last-child"),
+                    index = $lastRow.index(),
+                    tds = $lastRow.find('td');//.html().replace('searchParameters[' + index + ']', 'searchParameters[' + (index + 1) + ']');
+                //tds = $lastRow.html().replace(/\'searchParameters[' + index + ']'/g, 'searchParameters[' + (index + 1) + ']');
+                //tds = $lastRow.html().replace(/\"searchParameters[" + index + "]"//g, 'searchParameters[' + (index + 1) + ']');
+
+                //var row = '<tr>' +
+                //    '<td><input type="text" class="form-control" name="name" id="name"></td>' +
+                //    '<td><input type="text" class="form-control" name="department" id="department"></td>' +
+                //    '<td><input type="text" class="form-control" name="phone" id="phone"></td>' +
+                //    '<td>' + actions + '</td>' +
+                //    '</tr>';
+
+                //console.log(tds);
+
+                var $newRow = $("<tr>");//.append(tds)
+                $.each(tds, function (i, td) {
+                    console.log(td);
+                    console.log($(td).find('input,select'));
+
+                    console.log($(td).find('input,select').html().replace('searchParameters[' + index + ']', 'searchParameters[' + (index + 1) + ']'));
+
+                    //var regex = new RegExp('searchParameters[' + index + ']', 'g');
+                    //console.log(this.nodeType);
+
+                    //if (this.nodeType == 3) {
+                    //    $newRow.append(this.nodeValue.replace(regex, 'searchParameters[' + (index + 1) + ']'));
+                    //}
+
+                });
+
+
+                $("#tblSearchOptions tbody").append($newRow);
+                $("#tblSearchOptions tbody").append($("<tr>").append(tds));
+                //$("#tblSearchOptions tbody tr").eq(index + 1).find(".add, .edit").toggle();
+
+                //$('[data-toggle="tooltip"]').tooltip();
+            });
+
+            // Add row on add button click
+            $(document).on("click", ".add", function () {
+                var empty = false;
+                var input = $(this).parents("tr").find('input[type="text"]');
+                input.each(function () {
+                    if (!$(this).val()) {
+                        $(this).addClass("error");
+                        empty = true;
+                    } else {
+                        $(this).removeClass("error");
+                    }
+                });
+                $(this).parents("tr").find(".error").first().focus();
+                if (!empty) {
+                    input.each(function () {
+                        $(this).parent("td").html($(this).val());
+                    });
+                    $(this).parents("tr").find(".add, .edit").toggle();
+                    $(".add-new").removeAttr("disabled");
+                }
+            });
+
+            // Edit row on edit button click
+            //$(document).on("click", ".edit", function () {
+            //    $(this).parents("tr").find("td:not(:last-child)").each(function () {
+            //        $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+            //    });
+            //    $(this).parents("tr").find(".add, .edit").toggle();
+            //    $(".add-new").attr("disabled", "disabled");
+            //});
+
+            // Delete row on delete button click
+            $(document).on("click", ".delete", function () {
+                if (confirm('Are you sure to delete ?'))
+                    return false;
+
+                $(this).parents("tr").remove();
+                //$(".add-new").removeAttr("disabled");
+                return true;
+            });
+
+        });
+    </script>
+
+
+    <script type="text/javascript">
+
+        //$("#Search").on("click", function () {
+        function SearchData() {
+
+            //alert("OK");
+            var FieldName1 = $("#ddlSelectFieldName1").val();
+            var Operator1 = $("#ddlSelectOperator1").val();
+            var FieldValue1 = $("#txtSelectFieldValue1").val();
+            var AndOr1 = $("#ddlSelectAndOr1").val();
+
+            var FieldName2 = $("#ddlSelectFieldName2").val();
+            var Operator2 = $("#ddlSelectOperator2").val();
+            var FieldValue2 = $("#txtSelectFieldValue2").val();
+            var AndOr2 = $("#ddlSelectAndOr2").val();
+
+            var FieldName3 = $("#ddlSelectFieldName3").val();
+            var Operator3 = $("#ddlSelectOperator3").val();
+            var FieldValue3 = $("#txtSelectFieldValue3").val();
+            var AndOr3 = "ALL";
+
+            var getUrl = window.location.origin;
+            var urL;
+
+            //how to pass parameter to Index function from a button dot net MVC core
+            //URL = getUrl + '@Url.Action("CreatePerson", "Person", new { id = "ID" })'.replace("ID",id);
+
+            urL = getUrl + "/bpdb/VwPoleData/Index/?FieldName1=" + FieldName1 + "&Operator1=" + Operator1 + "&FieldValue1=" + FieldValue1 + "&AndOr1=" + AndOr1 + "&FieldName2=" + FieldName2 + "&Operator2=" + Operator2 + "&FieldValue2=" + FieldValue2 + "&AndOr2=" + AndOr2 + "&FieldName3=" + FieldName3 + "&Operator3=" + Operator3 + "&FieldValue3=" + FieldValue3 + "&AndOr3=" + AndOr3;
+            window.location.href = urL;
+
+            //alert("URL=" + urL);
+        };
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function AddNewRow() {
+            //Reference the SelectFieldName, SelectOperator and SelectFieldValue Dropdownlist.
+            var ddlSelectFieldName = $("#ddlSelectFieldName"); //document.getElementById('ddlSelectFieldName');                   //$("#ddlSelectFieldName");
+            var ddlSelectOperator = $("#ddlSelectOperator");    //document.getElementById('ddlSelectOperator');                   //$("#ddlSelectOperator");
+            var ddlSelectFieldValue = $("#ddlSelectFieldValue"); //document.getElementById('ddlSelectFieldValue');                   //$("#ddlSelectFieldValue");
+            var ddlSelectAndOr = $("#ddlSelectAndOr");          //document.getElementById('ddlSelectAndOr');                   //$("#ddlSelectAndOr");
+
+            //Get the reference of the Table's TBODY element.
+            var tBody = $("#tblCustomSearch > TBODY")[0];
+
+            //Add Row.
+            var row = tBody.insertRow(-1);
+
+            //Add SelectFieldName cell.
+            var cell = $(row.insertCell(-1));
+            cell.html(ddlSelectFieldName.val());
+            @*cell.html("<select id=\"ddlSelectFieldName\" class=\"form-control\" asp-items=\"ViewBag.FieldName\" value=\"@ViewBag.FieldName\"><option value=\"-1\" selected=\"selected\">--- Select ---</option></select>");*@
+
+            //Add ddlSelectOperator cell.
+            cell = $(row.insertCell(-1));
+            cell.html(ddlSelectOperator.val());
+            //cell.html("<select id=\"ddlSelectOperator\" class=\"form-control\"> <option value = \" = \" selected = \"selected\" > Equals</option > <option value=\" <> \">Not Equals</option> <option value=\" > \">Greater Than</option> <option value=\" < \">Less Than</option> <option value=\" >= \">Greater Than and Equals</option> <option value=\" <= \">Less Than and Equals</option> <option value=\" null \">Is Null</option> <option value=\" not null \">Is Not Null</option> </select >");
+
+            //Add ddlSelectFieldValue cell.
+            cell = $(row.insertCell(-1));
+            cell.html(ddlSelectFieldValue.val());
+            //cell.html("<select id=\"ddlSelectFieldValue\" class=\"form-control\"><option value=\" \" selected=\"selected\">--- Select ---</option></select>");
+
+            //Add ddlSelectAndOr cell.
+            cell = $(row.insertCell(-1));
+            cell.html(ddlSelectAndOr.val());
+            //cell.html("<select id=\"ddlSelectAndOr\" class=\"form-control\"> < option value = \" \" selected = \"selected\" > --- Select-- -</option > <option value=\" And \">And</option> <option value=\" Or \">Or</option> </select >");
+
+            //Add Button cell.
+            cell = $(row.insertCell(-1));
+            var btnRemove = $("<input />");
+            btnRemove.attr("type", "button");
+            btnRemove.attr("onclick", "Remove(this);");
+            btnRemove.val("Remove");
+            cell.append(btnRemove);
+
+            //Clear the TextBoxes.
+            //txtName.val("");
+            //txtCountry.val("");
+        };
+
+        function Remove(button) {
+            //Determine the reference of the Row using the Button.
+            var row = $(button).closest("TR");
+            var name = $("TD", row).eq(0).html();
+            if (confirm("Do you want to delete: " + name)) {
+                //Get the reference of the Table.
+                var table = $("#tblCustomSearch")[0];
+
+                //Delete the Table row using it's Index.
+                table.deleteRow(row[0].rowIndex);
+            }
+        };
+
+        //$("body").on("click", "#btnSave", function () {
+        //    //Loop through the Table rows and build a JSON array.
+        //    var customers = new Array();
+        //    $("#tblCustomers TBODY TR").each(function () {
+        //        var row = $(this);
+        //        var customer = {};
+        //        customer.Name = row.find("TD").eq(0).html();
+        //        customer.Country = row.find("TD").eq(1).html();
+        //        customers.push(customer);
+        //    });
+
+        //    //Send the JSON array to Controller using AJAX.
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/Home/InsertCustomers",
+        //        data: JSON.stringify(customers),
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        success: function (r) {
+        //            alert(r + " record(s) inserted.");
+        //        }
+        //    });
+        //});
+
+
+
+    </script>
+
+}

@@ -1,0 +1,116 @@
+﻿@model Pdb014App.Models.PDB.PoleModels.TblPoleMountedDofCutOutFuseLink
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Edit</h2>
+
+<h4>TblPoleMountedDofCutOutFuseLink</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        <fieldset>
+        <legend>Update Pole Mounted Dof Cut-Out Fuse Link </legend>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PoleMountedDofCutOutFuseLinkId" />
+            <div class="form-group">
+                <label asp-for="Standard" class="control-label"></label>
+                <input asp-for="Standard" class="form-control" />
+                <span asp-validation-for="Standard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="General" class="control-label"></label>
+                <input asp-for="General" class="form-control" />
+                <span asp-validation-for="General" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Installation" class="control-label"></label>
+                <input asp-for="Installation" class="form-control" />
+                <span asp-validation-for="Installation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeorModel" class="control-label"></label>
+                <input asp-for="TypeorModel" class="form-control" />
+                <span asp-validation-for="TypeorModel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Construction" class="control-label"></label>
+                <input asp-for="Construction" class="form-control" />
+                <span asp-validation-for="Construction" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Application" class="control-label"></label>
+                <input asp-for="Application" class="form-control" />
+                <span asp-validation-for="Application" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NominalRatedVoltage" class="control-label"></label>
+                <input asp-for="NominalRatedVoltage" class="form-control" />
+                <span asp-validation-for="NominalRatedVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximumSystemVoltage" class="control-label"></label>
+                <input asp-for="MaximumSystemVoltage" class="form-control" />
+                <span asp-validation-for="MaximumSystemVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SystemFrequency" class="control-label"></label>
+                <input asp-for="SystemFrequency" class="form-control" />
+                <span asp-validation-for="SystemFrequency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeofSystem" class="control-label"></label>
+                <input asp-for="TypeofSystem" class="form-control" />
+                <span asp-validation-for="TypeofSystem" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContinuousCurrentRating" class="control-label"></label>
+                <input asp-for="ContinuousCurrentRating" class="form-control" />
+                <span asp-validation-for="ContinuousCurrentRating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InterruptingCapacityoftheCutOutMin" class="control-label"></label>
+                <input asp-for="InterruptingCapacityoftheCutOutMin" class="form-control" />
+                <span asp-validation-for="InterruptingCapacityoftheCutOutMin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FuseHolderType" class="control-label"></label>
+                <input asp-for="FuseHolderType" class="form-control" />
+                <span asp-validation-for="FuseHolderType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FuseLinkRatedCurrentContinuous" class="control-label"></label>
+                <input asp-for="FuseLinkRatedCurrentContinuous" class="form-control" />
+                <span asp-validation-for="FuseLinkRatedCurrentContinuous" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BasicInsulationLevelBIL" class="control-label"></label>
+                <input asp-for="BasicInsulationLevelBIL" class="form-control" />
+                <span asp-validation-for="BasicInsulationLevelBIL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FuseLinkType" class="control-label"></label>
+                <input asp-for="FuseLinkType" class="form-control" />
+                <span asp-validation-for="FuseLinkType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PoleId" class="control-label"></label>
+                <select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>
+                <span asp-validation-for="PoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+            </div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

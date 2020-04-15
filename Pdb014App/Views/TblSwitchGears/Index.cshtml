@@ -1,0 +1,202 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SwitchGearModels.TblSwitchGear>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Switch Gear</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SwitchGearType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersNameAndAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppliedStandard)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedNominalVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedCurrentForMainBus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedShortTimeCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortTimeCurrentRatedDuration)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.SwitchGearToCircuitBreaker)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SwitchGearToIdmtRelay)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SwitchGearToTripRelay)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SwitchGearToTripCircuitSupervisionRelay)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SwitchGearToCurrentTransformer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SwitchGearToSwitchPosition)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AcWithStandVoltageDry)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImpulseWithStandFullWave)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Enclosure)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HvCompartment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LvCompartment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SwitchGearToSf6SafetyAndLife)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SwitchGearToVoltMeter)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SwitchGearToAmpereMeter)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SwitchGearToBusBar)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReatedVoltage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReatedCurrent)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReatedShortCircuitBreakerCurrent)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SwitchGearToPhasePowerTransformer)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SwitchGearToDimensionAndWeight)
+                </th>*@
+
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SwitchGearType.SwitchGearTypeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManufacturersNameAndAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppliedStandard)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatedNominalVoltage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatedVoltage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatedCurrentForMainBus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatedShortTimeCurrent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortTimeCurrentRatedDuration)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.SwitchGearToCircuitBreaker.CircuitBreakerId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SwitchGearToIdmtRelay.DifferentRelayId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SwitchGearToTripRelay.DifferentRelayId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SwitchGearToTripCircuitSupervisionRelay.DifferentRelayId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SwitchGearToCurrentTransformer.CurrentTransformerId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SwitchGearToSwitchPosition.SwitchPositionId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AcWithStandVoltageDry)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ImpulseWithStandFullWave)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Enclosure)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HvCompartment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LvCompartment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SwitchGearToSf6SafetyAndLife.Sf6SafetyAndLifeId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SwitchGearToVoltMeter.DifferentMeterId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SwitchGearToAmpereMeter.DifferentMeterId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SwitchGearToBusBar.BusBarId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReatedVoltage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReatedCurrent)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReatedShortCircuitBreakerCurrent)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SwitchGearToPhasePowerTransformer.PhasePowerTransformerId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SwitchGearToDimensionAndWeight.DimensionAndWeightId)
+                    </td>*@
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.SwitchGearID">Edit</a>
+                    @*<a asp-action="Details" asp-route-id="@item.SwitchGearID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.SwitchGearID">Delete</a>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

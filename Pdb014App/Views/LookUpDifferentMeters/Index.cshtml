@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.MeteringPanelModels.LookUpDifferentMeter>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MeterName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersNameandCountry)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturesModelNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeOfMeter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassOfAccuracy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeparateAmeterforEachPhase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DifferentTypesOfMeter)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturersNameandCountry)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturesModelNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeOfMeter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassOfAccuracy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SeparateAmeterforEachPhase)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DifferentTypesOfMeter.MeterTypeId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DifferentMeterId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DifferentMeterId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DifferentMeterId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

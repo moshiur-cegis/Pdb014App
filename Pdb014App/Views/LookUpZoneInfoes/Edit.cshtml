@@ -1,0 +1,42 @@
+﻿@model Pdb014App.Models.PDB.LookUpModels.LookUpZoneInfo
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Edit</h2>
+
+<h4>LookUpZoneInfo</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        
+        <fieldset>
+            <legend>Update Zone Information</legend>
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ZoneCode" />
+                <div class="form-group">
+                    <label asp-for="ZoneName" class="control-label"></label>
+                    <input asp-for="ZoneName" class="form-control" />
+                    <span asp-validation-for="ZoneName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SortingNo" class="control-label"></label>
+                    <input asp-for="SortingNo" class="form-control" />
+                    <span asp-validation-for="SortingNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-success float-right" />
+                    <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+                </div>
+            </form>
+            </fieldset>
+</div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

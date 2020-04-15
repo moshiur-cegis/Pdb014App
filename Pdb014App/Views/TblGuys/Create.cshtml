@@ -1,0 +1,44 @@
+﻿@model Pdb014App.Models.PDB.InsulatorModels.TblGuy
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="row">
+        <div class="offset-md-3 col-md-6 offset-md-3">
+
+            <fieldset>
+                <legend>Add Guy</legend>
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="GuyTypeId" class="control-label"></label>
+                        <select asp-for="GuyTypeId" class="form-control" asp-items="ViewBag.GuyTypeId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConditionId" class="control-label"></label>
+                        <select asp-for="ConditionId" class="form-control" asp-items="ViewBag.ConditionId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NoOfSet" class="control-label"></label>
+                        <input asp-for="NoOfSet" class="form-control" />
+                        <span asp-validation-for="NoOfSet" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PoleId" class="control-label"></label>
+                        <select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary float-right" />
+                        <a class="btn btn-success float-left" asp-action="Index">Back</a>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

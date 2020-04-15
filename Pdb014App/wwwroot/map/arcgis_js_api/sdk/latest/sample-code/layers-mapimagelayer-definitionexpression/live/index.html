@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>
+      MapImageLayer - Set definition expressions on sublayers - 4.14
+    </title>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.14/"></script>
+
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      #viewDiv {
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 100px;
+      }
+
+      #footer {
+        position: absolute;
+        bottom: 0;
+        height: 100px;
+        width: 100%;
+        color: #0079c1;
+        padding: 10px;
+        font-weight: bold;
+        font-size: 12pt;
+        text-align: center;
+      }
+
+      #population-slider {
+        margin: auto;
+        height: 35px;
+        width: 95%;
+      }
+    </style>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/SceneView",
+        "esri/layers/MapImageLayer",
+        "esri/widgets/Slider"
+      ], function(Map, SceneView, MapImageLayer, Slider) {
+        // create slider for population
+        let selectedPopulation = 100000;
+        const populationSlider = new Slider({
+          container: "population-slider",
+          min: 0,
+          max: 1000000,
+          values: [selectedPopulation],
+          steps: 10000,
+          snapOnClickEnabled: false
+        });
+
+        /*****************************************************************
+         * Create a MapImageLayer instance pointing to a Map Service
+         * containing data about US Cities, Counties, States and Highways.
+         * Define sublayers with visibility for each layer in Map Service.
+         *****************************************************************/
+        const layer = new MapImageLayer({
+          url:
+            "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer",
+          sublayers: [
+            {
+              id: 3,
+              visible: false
+            },
+            {
+              id: 2,
+              visible: true
+            },
+            {
+              id: 1,
+              visible: true
+            },
+            {
+              id: 0,
+              visible: true,
+              definitionExpression: "pop2000 > 100000"
+            }
+          ]
+        });
+
+        /*****************************************************************
+         * Add the layer to a map
+         *****************************************************************/
+        const map = new Map({
+          basemap: "dark-gray",
+          layers: [layer]
+        });
+
+        const view = new SceneView({
+          container: "viewDiv",
+          map: map,
+          zoom: 4,
+          center: [-99, 39]
+        });
+
+        /*****************************************************************
+         * Listen for events on when the slider values have changed.
+         * When the slider value changes, apply the new value to the
+         * MapImageLayer definitionExpression.
+         *****************************************************************/
+        layer.when(function() {
+          const cities = layer.findSublayerById(0);
+          populationSlider.on(["thumb-drag"], populationValueChanged);
+
+          function populationValueChanged(event) {
+            selectedPopulation = event.value;
+            document.getElementById(
+              "population-display"
+            ).innerHTML = selectedPopulation.toLocaleString();
+            // update the layers after the user stops the slider to avoid continues requests
+
+            if (event.state === "stop") {
+              cities.definitionExpression = "pop2000 > " + selectedPopulation;
+            }
+          }
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+    <div id="footer" class="esri-widget">
+      <div>
+        Cities with Population greater than
+        <span id="population-display">100,000</span>
+      </div>
+      <div id="population-slider"></div>
+    </div>
+  </body>
+</html>

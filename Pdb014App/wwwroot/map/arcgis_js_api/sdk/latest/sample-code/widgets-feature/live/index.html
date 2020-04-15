@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, maximum-scale=1,user-scalable=no"
+    />
+    <title>Feature Widget - 4.14</title>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.14/"></script>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      .esri-feature {
+        letter-spacing: 0em;
+        line-height: 1.55rem;
+        font-feature-settings: "liga" 1, "calt" 0;
+        background: #fff;
+        padding: 1em;
+      }
+    </style>
+
+    <script>
+      require([
+        "esri/core/promiseUtils",
+        "esri/Map",
+        "esri/layers/FeatureLayer",
+        "esri/views/MapView",
+        "esri/widgets/Feature"
+      ], function(promiseUtils, Map, FeatureLayer, MapView, Feature) {
+        const fLayer = new FeatureLayer({
+          portalItem: {
+            id: "673e64cb978d4e79ab47f541a7c52d65"
+          },
+          outFields: ["*"]
+        });
+
+        const map = new Map({
+          basemap: "gray-vector",
+          layers: [fLayer]
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [-80, 40],
+          scale: 5000000
+        });
+
+        // Create a default graphic for when the application starts
+        const graphic = {
+          popupTemplate: {
+            content: "Mouse over features to show details..."
+          }
+        };
+
+        // Provide graphic to a new instance of a Feature widget
+        const feature = new Feature({
+          graphic: graphic,
+          map: view.map,
+          spatialReference: view.spatialReference
+        });
+
+        view.ui.add(feature, "bottom-left");
+
+        view.whenLayerView(fLayer).then(function(layerView) {
+          let highlight;
+          let objectId;
+
+          // listen for the pointer-move event on the View and
+          // make sure that function is not invoked more than one at a time
+          view.on(
+            "pointer-move",
+            promiseUtils.debounce(function(event) {
+              // Perform a hitTest on the View
+              return view.hitTest(event).then(function(event) {
+                // Make sure graphic has a popupTemplate
+                let results = event.results.filter(function(result) {
+                  return result.graphic.layer.popupTemplate;
+                });
+
+                let result = results[0];
+                let newObjectId =
+                  result && result.graphic.attributes[fLayer.objectIdField];
+
+                if (!newObjectId) {
+                  highlight && highlight.remove();
+                  objectId = feature.graphic = null;
+                } else if (objectId !== newObjectId) {
+                  console.log(result.graphic);
+                  highlight && highlight.remove();
+                  objectId = newObjectId;
+                  feature.graphic = result.graphic;
+                  highlight = layerView.highlight(result.graphic);
+                }
+              });
+            })
+          );
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv" class="esri-widget"></div>
+  </body>
+</html>

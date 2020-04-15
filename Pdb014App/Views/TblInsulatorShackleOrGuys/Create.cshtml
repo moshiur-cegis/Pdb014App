@@ -1,0 +1,119 @@
+﻿@model Pdb014App.Models.PDB.InsulatorModels.TblInsulatorShackleOrGuy
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Create</h2>
+
+<h4>TblInsulatorShackleOrGuy</h4>
+<hr />*@
+<div class="row">
+    
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        <fieldset>
+            <legend>Add Isulator(Shackle/Guy)</legend>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="InsulatorShackleOrGuyTypeId" class="control-label"></label>
+                <select asp-for="InsulatorShackleOrGuyTypeId" class ="form-control" asp-items="ViewBag.InsulatorShackleOrGuyTypeId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Installation" class="control-label"></label>
+                <input asp-for="Installation" class="form-control" />
+                <span asp-validation-for="Installation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NominalSystemVoltage" class="control-label"></label>
+                <input asp-for="NominalSystemVoltage" class="form-control" />
+                <span asp-validation-for="NominalSystemVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximumSystemVoltage" class="control-label"></label>
+                <input asp-for="MaximumSystemVoltage" class="form-control" />
+                <span asp-validation-for="MaximumSystemVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeOfSystem" class="control-label"></label>
+                <input asp-for="TypeOfSystem" class="form-control" />
+                <span asp-validation-for="TypeOfSystem" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimumDiameterOfInsulator" class="control-label"></label>
+                <input asp-for="MinimumDiameterOfInsulator" class="form-control" />
+                <span asp-validation-for="MinimumDiameterOfInsulator" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimumHeightOfTheInsulator" class="control-label"></label>
+                <input asp-for="MinimumHeightOfTheInsulator" class="form-control" />
+                <span asp-validation-for="MinimumHeightOfTheInsulator" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimumMechanicalFailingLoadTransverse" class="control-label"></label>
+                <input asp-for="MinimumMechanicalFailingLoadTransverse" class="form-control" />
+                <span asp-validation-for="MinimumMechanicalFailingLoadTransverse" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DryFlashover" class="control-label"></label>
+                <input asp-for="DryFlashover" class="form-control" />
+                <span asp-validation-for="DryFlashover" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WetFlashoverVertical" class="control-label"></label>
+                <input asp-for="WetFlashoverVertical" class="form-control" />
+                <span asp-validation-for="WetFlashoverVertical" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WetFlashoverHorizontal" class="control-label"></label>
+                <input asp-for="WetFlashoverHorizontal" class="form-control" />
+                <span asp-validation-for="WetFlashoverHorizontal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InsulationClass" class="control-label"></label>
+                <input asp-for="InsulationClass" class="form-control" />
+                <span asp-validation-for="InsulationClass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AtmosphericCondition" class="control-label"></label>
+                <input asp-for="AtmosphericCondition" class="form-control" />
+                <span asp-validation-for="AtmosphericCondition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dimension" class="control-label"></label>
+                <input asp-for="Dimension" class="form-control" />
+                <span asp-validation-for="Dimension" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FlashOverVoltage" class="control-label"></label>
+                <input asp-for="FlashOverVoltage" class="form-control" />
+                <span asp-validation-for="FlashOverVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PowerFrequencyPunctureVoltage" class="control-label"></label>
+                <input asp-for="PowerFrequencyPunctureVoltage" class="form-control" />
+                <span asp-validation-for="PowerFrequencyPunctureVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MechanicalStrength" class="control-label"></label>
+                <input asp-for="MechanicalStrength" class="form-control" />
+                <span asp-validation-for="MechanicalStrength" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PoleId" class="control-label"></label>
+                <select asp-for="PoleId" class ="form-control" asp-items="ViewBag.PoleId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Back</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

@@ -1,0 +1,195 @@
+﻿
+tr.grandTotal td,
+.grandTotal td {
+    font-weight: bold !important;
+    text-align: right;
+    font-size: 16px !important;
+}
+
+tr.subTotal td,
+.subTotal td {
+    font-weight: bold !important;
+}
+
+.columnNo {
+    font-size: 9px !important;
+    font-style: italic !important;
+}
+
+.numberAlign {
+    text-align: right !important;
+}
+
+.form-view {
+    border: 0 none;
+    margin: 0;
+    padding: 0 15px;
+    color: #135;
+}
+
+.data-view {
+    border: 1px solid #ccc;
+    margin: 0 -15px;
+    padding: 8px;
+    background: rgba(200, 240, 245, 0.03);
+    background-color: #fcfeff;
+    overflow: auto;
+}
+
+.table {
+    border: 1px solid #ddd;
+    margin: 0 auto;
+    width: 100%
+}
+
+    .table td, .table > tbody > td,
+    .table th, .table > thead > th,
+    .table > tr:nth-child(even) > td,
+    .table > tbody > tr:nth-child(even) > td,
+    .table > tr:nth-child(odd) > td,
+    .table > tbody > tr:nth-child(odd) > td {
+        border: 1px solid #ddd !important;
+        padding: 5px;
+        text-align: left;
+        color: #235;
+        font: 500 14px/1.42857 "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: #fff;
+        /*font-family: Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+    }
+
+    .table th, .table > thead > th,
+    .table > thead > tr > th {
+        padding: 5px;
+        text-align: center !important;
+        vertical-align: middle !important;
+        color: #125;
+        font: 500 14px/1.42857 Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background-color: #f0f7f8;
+    }
+
+    .table > tr.sub-header-tr > th,
+    .table > thead > tr.sub-header-tr > th {
+        padding: 2px !important;
+    }
+
+        .table th i,
+        .table > tr.sub-header-tr > th > i,
+        .table > thead > th > i,
+        .table > thead > tr > th > i {
+            font: italic 500 12px/1.42857 Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+    .table > tbody > tr:nth-child(even) > td {
+        padding: 5px;
+        background: #fafdfe !important;
+    }
+
+    .table > tr > td > input,
+    .table > tr > td > select,
+    .table > tbody > tr > td > input,
+    .table > tbody > tr > td > select {
+        width: 120px;
+        padding: 3px 5px !important;
+        text-align: center;
+    }
+
+        .table > tr > td > input.dist-code,
+        .table > tr > td > input.upaz-code,
+        .table > tr > td > input.union-code,
+        .table > tr > td > input.mauza-name,
+        .table > tbody > tr > td > input.dist-code,
+        .table > tbody > tr > td > input.upaz-code,
+        .table > tbody > tr > td > input.union-code,
+        .table > tbody > tr > td > input.mauza-name {
+            text-align: left;
+        }
+
+        .table > tr > td > input.decimals,
+        .table > tr > td > input.integers,
+        .table > tr > td > input.survey-dates,
+        .table > tbody > tr > td > input.decimals,
+        .table > tbody > tr > td > input.integers,
+        .table > tbody > tr > td > input.survey-dates {
+            width: 85px;
+            text-align: center;
+        }
+
+.dist-code,
+.upaz-code,
+.union-code,
+.mauza-name {
+    text-align: left;
+}
+
+.decimals,
+.integers,
+.survey-date,
+.survey-dates {
+    text-align: center;
+}
+
+.row {
+    border-color: #ccc;
+    border-style: solid;
+    border-width: 1px 1px 0;
+    margin: 0 -15px;
+    padding: 0;
+    /*background: rgba(200, 240, 245, 0.03);*/
+    background-color: #fcfeff;
+}
+
+    .row > [class*="col-"] {
+        border: 0 none;
+        margin: 0;
+        padding: 5px 12px;
+    }
+
+        .row > [class*="col-"] > [class*="title-"],
+        .row > [class*="col-"] > label,
+        .row > [class*="col-"] > .control-label {
+            margin: 6px;
+            padding: 0;
+            color: #137;
+            font: 600 14px/1.42857 Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+    .row > .col-auto {
+        width: auto;
+        max-width: 100%;
+        padding: 5px 12px;
+    }
+
+.btn-action {
+    min-width: 80px;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+    .btn-action span.glyphicon {
+        margin: 4px;
+        font-size: 23px;
+        color: #158;
+    }
+
+        .btn-action span.glyphicon:hover {
+            color: #28d;
+        }
+
+    .btn-action span.glyphicon-remove:hover {
+        color: #f53713 !important;
+    }
+
+
+.data-title {
+    margin: 20px 0 5px 0;
+    color: #035;
+    font: 500 18pt/1.42857 Roboto, Tahoma, Geneva, Verdana, sans-serif;
+    text-align: left;
+}
+
+.data-sub-title {
+    margin: 5px 0;
+    color: #058;
+    font: 500 14pt/1.42857 Roboto, Tahoma, Geneva, Verdana, sans-serif;
+    text-align: left;
+}

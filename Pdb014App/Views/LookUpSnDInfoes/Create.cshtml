@@ -1,0 +1,50 @@
+﻿@model Pdb014App.Models.PDB.LookUpModels.LookUpSnDInfo
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@*<h4>Add S&D Information</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        
+        <fieldset>
+            <legend>Add S&D Information</legend>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="SnDCode" class="control-label"></label>
+                <input asp-for="SnDCode" class="form-control" />
+                <span asp-validation-for="SnDCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SnDName" class="control-label"></label>
+                <input asp-for="SnDName" class="form-control" />
+                <span asp-validation-for="SnDName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SortingNo" class="control-label"></label>
+                <input asp-for="SortingNo" class="form-control" />
+                <span asp-validation-for="SortingNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CircleCode" class="control-label"></label>
+                <select asp-for="CircleCode" class ="form-control" asp-items="ViewBag.CircleCode"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Back</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

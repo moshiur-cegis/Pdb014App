@@ -1,0 +1,98 @@
+﻿@model Pdb014App.Models.PDB.ServicePointModels.TblServicePoint
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>TblServicePoint</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ServicePointId" />
+            <div class="form-group">
+                <label asp-for="PoleId" class="control-label"></label>
+                <select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>
+                <span asp-validation-for="PoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VoltageCategoryId" class="control-label"></label>
+                <select asp-for="VoltageCategoryId" class="form-control" asp-items="ViewBag.VoltageCategoryId"></select>
+                <span asp-validation-for="VoltageCategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransformerNumber" class="control-label"></label>
+                <input asp-for="TransformerNumber" class="form-control" />
+                <span asp-validation-for="TransformerNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServicePointTypeId" class="control-label"></label>
+                <select asp-for="ServicePointTypeId" class="form-control" asp-items="ViewBag.ServicePointTypeId"></select>
+                <span asp-validation-for="ServicePointTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AggregateLoadkw" class="control-label"></label>
+                <input asp-for="AggregateLoadkw" class="form-control" />
+                <span asp-validation-for="AggregateLoadkw" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoOFConsumersR" class="control-label"></label>
+                <input asp-for="NoOFConsumersR" class="form-control" />
+                <span asp-validation-for="NoOFConsumersR" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoOFConsumersY" class="control-label"></label>
+                <input asp-for="NoOFConsumersY" class="form-control" />
+                <span asp-validation-for="NoOFConsumersY" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoOFConsumersB" class="control-label"></label>
+                <input asp-for="NoOFConsumersB" class="form-control" />
+                <span asp-validation-for="NoOFConsumersB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoOfConsumersRyb" class="control-label"></label>
+                <input asp-for="NoOfConsumersRyb" class="form-control" />
+                <span asp-validation-for="NoOfConsumersRyb" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoadName" class="control-label"></label>
+                <input asp-for="RoadName" class="form-control" />
+                <span asp-validation-for="RoadName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VillageOrAreaName" class="control-label"></label>
+                <input asp-for="VillageOrAreaName" class="form-control" />
+                <span asp-validation-for="VillageOrAreaName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ward" class="control-label"></label>
+                <input asp-for="Ward" class="form-control" />
+                <span asp-validation-for="Ward" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CityTown" class="control-label"></label>
+                <input asp-for="CityTown" class="form-control" />
+                <span asp-validation-for="CityTown" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrimaryLandmark" class="control-label"></label>
+                <input asp-for="PrimaryLandmark" class="form-control" />
+                <span asp-validation-for="PrimaryLandmark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,216 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.PhasePowerTransformerModel.TblSurgeArrestor>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Surge Arrestors </h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SurgeArrestorId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManufacturersNameAndAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassOfDiverterToIEC99To4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedVoltageRMSkV30)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatedCurrent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NeutralConnection)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PowerFreqWithstandVoltageOfHousing)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Wet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Impulse)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.LightingImpulseResidualVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SteepCurrentImpulseResidualVoltageAt10kAOr1MicrosFrontTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HighCurrentImpulseWithStandValue4Or10MicroS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SwitchingImpulseResidentialVoltage50Or100MicroS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PressureReliefDeviceFitted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TemporaryOverVoltageCapability)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PointOneSeconds)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OneSecond)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenSeconds)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HunderdSeconds)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeakageCurrentatRatedVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumResetVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalCreepageDistance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurgeMonitor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConnectingLeadfromLATerminaltoSurgeMonitor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverallDimensionandWeight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Height)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Diameter)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalWeightofArrester)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurgeArrestorToPhasePowerTransformer)
+        </th>*@
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SurgeArrestorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturersNameAndAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassOfDiverterToIEC99To4)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedVoltageRMSkV30)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedCurrent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NeutralConnection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PowerFreqWithstandVoltageOfHousing)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dry)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Wet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Impulse)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.LightingImpulseResidualVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SteepCurrentImpulseResidualVoltageAt10kAOr1MicrosFrontTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HighCurrentImpulseWithStandValue4Or10MicroS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SwitchingImpulseResidentialVoltage50Or100MicroS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PressureReliefDeviceFitted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TemporaryOverVoltageCapability)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PointOneSeconds)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OneSecond)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenSeconds)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HunderdSeconds)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeakageCurrentatRatedVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinimumResetVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCreepageDistance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SurgeMonitor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConnectingLeadfromLATerminaltoSurgeMonitor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OverallDimensionandWeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Diameter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalWeightofArrester)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SurgeArrestorToPhasePowerTransformer.PhasePowerTransformerId)
+            </td>*@
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SurgeArrestorId">Edit</a>
+                @*<a asp-action="Details" asp-route-id="@item.SurgeArrestorId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SurgeArrestorId">Delete</a>
+            </td>*@
+        </tr>
+}
+    </tbody>
+</table>

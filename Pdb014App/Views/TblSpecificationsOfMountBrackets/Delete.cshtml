@@ -1,0 +1,64 @@
+﻿@model Pdb014App.Models.PDB.Mount_BracketModels.TblSpecificationsOfMountBracket
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TblSpecificationsOfMountBracket</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LookUpSpecificationsOfMountBracketType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LookUpSpecificationsOfMountBracketType.SpecificationsOfMountBracketTypeId)
+        </dd class>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MountBrackeType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MountBrackeType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Materials)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Materials)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UltimateTensileStrength)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UltimateTensileStrength)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Galvanization)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Galvanization)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Standard)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Standard)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SpecificationsOfMountBracketToPole)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SpecificationsOfMountBracketToPole.PoleId)
+        </dd class>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="SpecificationsOfMountBracketId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

@@ -1,0 +1,407 @@
+﻿
+@model ReflectionIT.Mvc.Paging.PagingList<Pdb014App.Models.PDB.ServicePointModels.TblConsumerData>
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+
+    <style type="text/css">
+
+        table.table {
+            table-layout: fixed;
+        }
+
+            table.table tr th,
+            table.table tr td {
+                border-color: #e9e9e9;
+            }
+
+            table.table th {
+                min-width: 80px;
+            }
+
+                table.table th:last-child {
+                    width: 100px;
+                }
+
+                table.table th i {
+                    font-size: 13px;
+                    margin: 0 5px;
+                    cursor: pointer;
+                }
+
+            table.table td a {
+                cursor: pointer;
+                display: inline-block;
+                margin: 0 5px;
+                min-width: 24px;
+            }
+
+                table.table td a.add {
+                    color: #27C46B;
+                }
+
+                table.table td a.edit {
+                    color: #FFC107;
+                }
+
+                table.table td a.delete {
+                    color: #E34724;
+                }
+
+            table.table td i {
+                font-size: 19px;
+            }
+
+            table.table td a.add i {
+                font-size: 24px;
+                margin-right: -1px;
+                position: relative;
+                top: 3px;
+            }
+
+
+            table.table .form-control {
+                width: 100%;
+                padding: 2px 5px;
+                line-height: 1.0;
+            }
+
+                table.table .form-control.error {
+                    border-color: #f50000;
+                }
+
+            table.table td .add {
+                display: none;
+            }
+    </style>
+
+}
+<div class="container">
+    <h2>List of Consumer</h2>
+
+    <p>
+        <a asp-action="Create">Add New</a>
+    </p>
+
+    <div class="row">
+
+        <div class="col-12">
+            <div class="float-md-right">
+                <form method="get" class="form-inline">
+                    <input name="filter" class="form-control" placeholder="Customer/Meter No." value="@Model.RouteValue["Filter"]" />
+                    <button type="submit" class="btn btn-info">
+                        <span class="fas fa-search" aria-hidden="true"></span> Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-view" id="updatePanel">
+                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                    <table id="multi-form-view" class="table table-responsive multi-form-view">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @*Consumer Id*@
+                                    @Html.SortableHeaderFor(model => model.ConsumerId)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.ConsumerDataToServicePoint)*@
+                                    Service Point
+                                </th>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.ConsumerDataToDistributionTransformer)
+                                        Distribution Transformer
+                                    </th>*@
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.ConsumerNo)*@
+                                    @Html.SortableHeaderFor(model => model.ConsumerNo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CustomerName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CustomerMobileNo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Tariff)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.ConsumerToPhasingCode)*@
+                                    Phasing Code
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.ConsumerType)*@
+                                    Consumer Type
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.ConsumerToOperatingVoltage)*@
+                                    Operating Voltage
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.InstallDate)*@
+                                    Install Date
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.ConsumerToConnectionStatus)*@
+                                    Connection Status
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.ConsumerToConnectionType)*@
+                                    Connection Type
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.ConsumerToMeterType)*@
+                                    Meter Type
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MeterNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MeterModel)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MeterManufacturer)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SanctionedLoad)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ConnectedLoad)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.ConsumerToBusinessType)*@
+                                    Business Type
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OthersBusiness)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AccountNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SpecialCode)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SpecialType)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.ConsumerToLocation)*@
+                                    Location
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BillGroup)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BookNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OmfKwh)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MeterReading)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ServiceCableSize)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.ConsumerToServiceCableType)*@
+                                    Service Cable Type
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CustomerAddress)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PlotNo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BuildingApptNo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PremiseName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SurveyDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Latitude)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Longitude)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.StructureId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.StructureMapNo)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.ConsumerToStructureType)*@
+                                    Structure Type
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.NumberOfFloor)
+                                </th>
+                                @*<th></th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerId)
+                                        @*<a asp-action="Edit" asp-route-id="@item.ConsumerId" title="Edit" class="text-success hover-dark"></a>*@
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerDataToServicePoint.ServicePointId)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DistributionTransformerId)
+                                        </td>*@
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.ConsumerId" title="Edit" class="text-success hover-dark">@Html.DisplayFor(modelItem => item.ConsumerNo)</a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerMobileNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Tariff)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerToPhasingCode.PhasingCodeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerType.ConsumerTypeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerToOperatingVoltage.OperatingVoltageName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InstallDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerToConnectionStatus.ConnectionStatusName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerToConnectionType.ConnectionTypeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerToMeterType.MeterTypeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MeterNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MeterModel)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MeterManufacturer)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SanctionedLoad)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConnectedLoad)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerToBusinessType.BusinessTypeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OthersBusiness)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AccountNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SpecialCode)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SpecialType)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerToLocation.LocationName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BillGroup)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BookNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OmfKwh)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MeterReading)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ServiceCableSize)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerToServiceCableType.ServiceCableTypeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerAddress)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PlotNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BuildingApptNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PremiseName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SurveyDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Latitude)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Longitude)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StructureId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StructureMapNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerToStructureType.StructureTypeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NumberOfFloor)
+                                    </td>
+                                    @*<td>
+                                            <a asp-action="Edit" asp-route-id="@item.ConsumerId">Edit</a> |
+                                            <a asp-action="Details" asp-route-id="@item.ConsumerId">Details</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.ConsumerId">Delete</a>
+                                        </td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="text-align: center;">
+    <vc:pager paging-list="@Model" />
+</div>

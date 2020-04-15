@@ -1,0 +1,158 @@
+﻿@model Pdb014App.Models.PDB.SubstationModels.LookUpAuxiliaryTransformer
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Create</h2>
+
+<h4>LookUpAuxiliaryTransformer</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+
+        <fieldset>
+            <legend>Add Auxiliary Transformer</legend>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="SubstationId" class="control-label"></label>
+                    <select asp-for="SubstationId" class="form-control" asp-items="ViewBag.SubstationId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ManufacturersNameAndAddress" class="control-label"></label>
+                    <input asp-for="ManufacturersNameAndAddress" class="form-control" />
+                    <span asp-validation-for="ManufacturersNameAndAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ManufacturersTypeAndModelNo" class="control-label"></label>
+                    <input asp-for="ManufacturersTypeAndModelNo" class="form-control" />
+                    <span asp-validation-for="ManufacturersTypeAndModelNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="KVARating" class="control-label"></label>
+                    <input asp-for="KVARating" class="form-control" />
+                    <span asp-validation-for="KVARating" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NumberOfPhases" class="control-label"></label>
+                    <input asp-for="NumberOfPhases" class="form-control" />
+                    <span asp-validation-for="NumberOfPhases" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RatedFrequencyHz" class="control-label"></label>
+                    <input asp-for="RatedFrequencyHz" class="form-control" />
+                    <span asp-validation-for="RatedFrequencyHz" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RatedPrimaryvoltageKV" class="control-label"></label>
+                    <input asp-for="RatedPrimaryvoltageKV" class="form-control" />
+                    <span asp-validation-for="RatedPrimaryvoltageKV" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RatedNoloadsecVoltageV" class="control-label"></label>
+                    <input asp-for="RatedNoloadsecVoltageV" class="form-control" />
+                    <span asp-validation-for="RatedNoloadsecVoltageV" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VectorGroup" class="control-label"></label>
+                    <input asp-for="VectorGroup" class="form-control" />
+                    <span asp-validation-for="VectorGroup" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="HighestSystemVoltageof" class="control-label"></label>
+                    <input asp-for="HighestSystemVoltageof" class="form-control" />
+                    <span asp-validation-for="HighestSystemVoltageof" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PrimaryWindingKV" class="control-label"></label>
+                    <input asp-for="PrimaryWindingKV" class="form-control" />
+                    <span asp-validation-for="PrimaryWindingKV" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SecondaryWindingKv" class="control-label"></label>
+                    <input asp-for="SecondaryWindingKv" class="form-control" />
+                    <span asp-validation-for="SecondaryWindingKv" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BasicInsulationLevelKV" class="control-label"></label>
+                    <input asp-for="BasicInsulationLevelKV" class="form-control" />
+                    <span asp-validation-for="BasicInsulationLevelKV" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PowerFrequencyWithstandVoltageKV" class="control-label"></label>
+                    <input asp-for="PowerFrequencyWithstandVoltageKV" class="form-control" />
+                    <span asp-validation-for="PowerFrequencyWithstandVoltageKV" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="HTSide" class="control-label"></label>
+                    <input asp-for="HTSide" class="form-control" />
+                    <span asp-validation-for="HTSide" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LTSide" class="control-label"></label>
+                    <input asp-for="LTSide" class="form-control" />
+                    <span asp-validation-for="LTSide" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TypeOfCooling" class="control-label"></label>
+                    <input asp-for="TypeOfCooling" class="form-control" />
+                    <span asp-validation-for="TypeOfCooling" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaxTempRiseover40CofambientSupportedByCalculation" class="control-label"></label>
+                    <input asp-for="MaxTempRiseover40CofambientSupportedByCalculation" class="form-control" />
+                    <span asp-validation-for="MaxTempRiseover40CofambientSupportedByCalculation" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="WindingdegC" class="control-label"></label>
+                    <input asp-for="WindingdegC" class="form-control" />
+                    <span asp-validation-for="WindingdegC" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TopOildegC" class="control-label"></label>
+                    <input asp-for="TopOildegC" class="form-control" />
+                    <span asp-validation-for="TopOildegC" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TypeofPrimaryTappingOffload" class="control-label"></label>
+                    <input asp-for="TypeofPrimaryTappingOffload" class="form-control" />
+                    <span asp-validation-for="TypeofPrimaryTappingOffload" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PercentageImpedanceAt75C" class="control-label"></label>
+                    <input asp-for="PercentageImpedanceAt75C" class="form-control" />
+                    <span asp-validation-for="PercentageImpedanceAt75C" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NoloadLossWatts" class="control-label"></label>
+                    <input asp-for="NoloadLossWatts" class="form-control" />
+                    <span asp-validation-for="NoloadLossWatts" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LoadLossesAtRatedFullLoadAt75CWatts" class="control-label"></label>
+                    <input asp-for="LoadLossesAtRatedFullLoadAt75CWatts" class="form-control" />
+                    <span asp-validation-for="LoadLossesAtRatedFullLoadAt75CWatts" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TotalWeightOfOilKg" class="control-label"></label>
+                    <input asp-for="TotalWeightOfOilKg" class="form-control" />
+                    <span asp-validation-for="TotalWeightOfOilKg" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success float-right" />
+                    <a class="btn btn-success left-right" asp-action="Index">Back</a>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,47 @@
+﻿@model Pdb014App.Models.PDB.LookUpModels.LookUpRouteInfo
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Edit</h2>
+
+<h4>LookUpRouteInfo</h4>
+<hr />*@
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-md-3">
+        
+        <fieldset>
+        <legend>Update Route Information</legend>
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RouteCode" />
+            <div class="form-group">
+                <label asp-for="RouteName" class="control-label"></label>
+                <input asp-for="RouteName" class="form-control" />
+                <span asp-validation-for="RouteName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SortingNo" class="control-label"></label>
+                <input asp-for="SortingNo" class="form-control" />
+                <span asp-validation-for="SortingNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubstationId" class="control-label"></label>
+                <select asp-for="SubstationId" class="form-control" asp-items="ViewBag.SubstationId"></select>
+                <span asp-validation-for="SubstationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-success float-right" />
+                <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+            </div>
+        </form>
+        </fieldset>
+    </div>
+</div>
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+

@@ -1,0 +1,146 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.InsulatorModels.TblInsulatorShackleOrGuy>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Insulator Shackle/Guy</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.InsulatorShackleOrGuyId)*@
+            Insulator Id
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.LookUpInsulatorShackleOrGuyType)*@
+            Type
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Installation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalSystemVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaximumSystemVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeOfSystem)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumDiameterOfInsulator)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumHeightOfTheInsulator)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumMechanicalFailingLoadTransverse)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.DryFlashover)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WetFlashoverVertical)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WetFlashoverHorizontal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsulationClass)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AtmosphericCondition)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dimension)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlashOverVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PowerFrequencyPunctureVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MechanicalStrength)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InsulatorShackleOrGuyToPole)
+        </th>*@
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsulatorShackleOrGuyId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LookUpInsulatorShackleOrGuyType.InsulatorShackleOrGuyTypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Installation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NominalSystemVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaximumSystemVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeOfSystem)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumDiameterOfInsulator)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumHeightOfTheInsulator)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MinimumMechanicalFailingLoadTransverse)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.DryFlashover)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WetFlashoverVertical)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WetFlashoverHorizontal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsulationClass)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AtmosphericCondition)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Dimension)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FlashOverVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PowerFrequencyPunctureVoltage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MechanicalStrength)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InsulatorShackleOrGuyToPole.PoleId)
+        </td>*@
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.InsulatorShackleOrGuyId">Edit</a> 
+            @*<a asp-action="Details" asp-route-id="@item.InsulatorShackleOrGuyId">Details</a> |*@
+            <a asp-action="Delete" asp-route-id="@item.InsulatorShackleOrGuyId">Delete</a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

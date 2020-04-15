@@ -1,0 +1,198 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.ConductorModels.TblConductor>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List Of Confuctors</h2>
+
+<p>
+    <a asp-action="Create">Create New Conductor</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.ConductorId)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.ConductorType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConductorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Standard)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Installation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Material)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverallDiameter)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOrDiameterOfAluminum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CrossSectionalAreaOfConducto)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.NominalAluminumCrossSectionalArea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOrdiameterOfSteel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalSteelCrossSectionalArea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WeightOfConductor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaximumDcResistanceOfConductorAt20DegC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MinimumBreakingLoadOfConductor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhasingCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OperatingVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NeutralMaterial)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NeutralSize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AssemblyCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalVoltage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhaseOrientation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InstallDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConductorCrossSection)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConductorCapacityAmp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalSanctionedLoadFromTheFeeder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ConductorToPole)
+        </th>*@
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.ConductorId)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.ConductorType.ConductorTypeId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ConductorName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Standard)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Installation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Material)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OverallDiameter)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOrDiameterOfAluminum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CrossSectionalAreaOfConducto)
+        </td>
+        @*<td>
+                @Html.DisplayFor(modelItem => item.NominalAluminumCrossSectionalArea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOrdiameterOfSteel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NominalSteelCrossSectionalArea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WeightOfConductor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaximumDcResistanceOfConductorAt20DegC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinimumBreakingLoadOfConductor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhasingCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OperatingVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NeutralMaterial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NeutralSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssemblyCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NominalVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhaseOrientation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstallDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConductorCrossSection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConductorCapacityAmp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalSanctionedLoadFromTheFeeder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConductorToPole.PoleId)
+            </td>*@
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+            @*<a asp-action="Details" asp-route-id="@item.ConductorId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ConductorId">Delete</a>*@
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, maximum-scale=1,user-scalable=no"
+    />
+    <title>Query Related Features - 4.14</title>
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #gridDiv {
+        padding: 10px;
+        max-width: 300px;
+      }
+      #viewDiv {
+        height: 100%;
+        width: 100%;
+      }
+      #clearButton {
+        margin-top: 5px;
+        display: none;
+      }
+      .dgrid {
+        height: auto !important;
+      }
+      .dgrid .dgrid-scroller {
+        position: relative;
+        max-height: 200px;
+        overflow: auto;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.14/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/Basemap",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/widgets/Legend",
+        "esri/widgets/Expand",
+        "dgrid/Grid"
+      ], function(Map, Basemap, MapView, FeatureLayer, Legend, Expand, Grid) {
+        // Create the layer
+        const layer = new FeatureLayer({
+          portalItem: {
+            id: "7a301e848a7c4bfcaefdac4fe98a7f99"
+          },
+          outFields: ["*"]
+        });
+
+        // Setup the map
+        const basemap = new Basemap({
+          portalItem: {
+            id: "00c8181753cd4673810a1ede1f52a922"
+          }
+        });
+
+        const map = new Map({
+          basemap: basemap,
+          layers: [layer]
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [-98.5795, 39.8282],
+          zoom: 3,
+          popup: {
+            autoOpenEnabled: false
+          }
+        });
+
+        const legend = new Legend({ view: view });
+        // Expand widget to expand and contract the legend widget
+        const legendExpand = new Expand({
+          expandTooltip: "Show Legend",
+          expanded: false,
+          view: view,
+          content: legend
+        });
+
+        // Add widgets to the view
+        view.ui.add(document.getElementById("gridDiv"), "bottom-left");
+        view.ui.add(legendExpand, "top-right");
+
+        // Initialize variables
+        let highlight, grid;
+
+        // call clearMap method when clear is clicked
+        const clearbutton = document.getElementById("clearButton");
+        clearbutton.addEventListener("click", clearMap);
+
+        layer.load().then(function() {
+          return createGrid().then(function(g) {
+            grid = g;
+          });
+        });
+
+        view.on("click", function(event) {
+          clearMap();
+          queryFeatures(event);
+        });
+
+        function queryFeatures(screenPoint) {
+          const point = view.toMap(screenPoint);
+
+          // Query the for the feature ids where the user clicked
+          layer
+            .queryObjectIds({
+              geometry: point,
+              spatialRelationship: "intersects",
+              returnGeometry: false,
+              outFields: ["*"]
+            })
+
+            .then(function(objectIds) {
+              if (!objectIds.length) {
+                return;
+              }
+
+              // Highlight the area returned from the first query
+              view.whenLayerView(layer).then(function(layerView) {
+                if (highlight) {
+                  highlight.remove();
+                }
+                highlight = layerView.highlight(objectIds);
+              });
+
+              // Query the for the related features for the features ids found
+              return layer.queryRelatedFeatures({
+                outFields: ["NAME", "SUM_POPULATION"],
+                relationshipId: layer.relationships[0].id,
+                objectIds: objectIds
+              });
+            })
+
+            .then(function(relatedFeatureSetByObjectId) {
+              if (!relatedFeatureSetByObjectId) {
+                return;
+              }
+              // Create a grid with the data
+              Object.keys(relatedFeatureSetByObjectId).forEach(function(
+                objectId
+              ) {
+                // get the attributes of the FeatureSet
+                const relatedFeatureSet = relatedFeatureSetByObjectId[objectId];
+                const rows = relatedFeatureSet.features.map(function(feature) {
+                  return feature.attributes;
+                });
+
+                if (!rows.length) {
+                  return;
+                }
+
+                // create a new div for the grid of related features
+                // append to queryResults div inside of the gridDiv
+                const gridDiv = document.createElement("div");
+                const results = document.getElementById("queryResults");
+                results.appendChild(gridDiv);
+
+                // destroy current grid if exists
+                if (grid) {
+                  grid.destroy();
+                }
+                // create new grid to hold the results of the query
+                grid = new Grid(
+                  {
+                    columns: Object.keys(rows[0]).map(function(fieldName) {
+                      return {
+                        label: fieldName,
+                        field: fieldName,
+                        sortable: true
+                      };
+                    })
+                  },
+                  gridDiv
+                );
+
+                // add the data to the grid
+                grid.renderArray(rows);
+              });
+              clearbutton.style.display = "inline";
+            })
+            .catch(function(error) {
+              console.error(error);
+            });
+        }
+
+        function clearMap() {
+          if (highlight) {
+            highlight.remove();
+          }
+          if (grid) {
+            grid.destroy();
+          }
+          clearbutton.style.display = "none";
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="gridDiv" class="esri-widget">
+      <h2>US Cities</h2>
+      <p>
+        Click on a hexagon in the map to view the US cities located in that
+        area.
+      </p>
+      <div id="queryResults"></div>
+      <button id="clearButton" class="esri-widget">Clear Query</button>
+    </div>
+    <div id="viewDiv"></div>
+  </body>
+</html>

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SubstationModels.TblRelay>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Relay</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RelayName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NominalVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufactureName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConnectionStatus)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.RelayToFeederLine)*@
+                FeederLine
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.RelayToSubstation)*@
+                Substation
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RelayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NominalVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufactureName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedCurrent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConnectionStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RelayToFeederLine.FeederName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RelayToSubstation.SubstationName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RelayId">Edit</a> 
+                @*<a asp-action="Details" asp-route-id="@item.RelayId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RelayId">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

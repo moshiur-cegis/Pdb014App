@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.MeteringPanelModels.LookupAnnuciator>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>List of Annunciator</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Annunciator Id </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Annunciator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturesName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountryofOrigin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturesModelNo)
+            </th>
+            @*<th></th>*@
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                 <a asp-action="Edit" asp-route-id="@item.AnnuciatorId" class="text-success hover-dark">
+                                            @Html.DisplayFor(modelItem => item.AnnuciatorId)
+                                        </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Annunciator)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturesName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryofOrigin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturesModelNo)
+            </td>
+           
+        </tr>
+}
+    </tbody>
+</table>

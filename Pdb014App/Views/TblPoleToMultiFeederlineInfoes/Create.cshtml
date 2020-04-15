@@ -1,0 +1,83 @@
+﻿@model Pdb014App.Models.PDB.PoleModels.TblPoleToMultiFeederlineInfo
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link href="~/css/datetimepicker.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-select.css" rel="stylesheet" />
+}
+
+
+<div class="row">
+    <div class="offset-md-2 col-md-8 offset-md-2">
+        <fieldset>
+            <legend>Add Pole To Multi-Feederline Information</legend>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="PoleId" class="control-label"></label>
+                    @*<select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>*@
+                    <select asp-for="PoleId" data-live-search="true" title="Select Pole Id" class="form-control selectPoleId" asp-items="ViewBag.PoleId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FeederLineId" class="control-label"></label>
+                    <select asp-for="FeederLineId" data-live-search="true" title="Select FeederLine Id" class="form-control selectFeederLineId" asp-items="ViewBag.FeederLineId"></select>
+                    @*<select asp-for="FeederLineId" class="form-control" asp-items="ViewBag.FeederLineId"></select>*@
+                </div>
+                <div class="form-group">
+                    <label asp-for="PreviousPoleId" class="control-label"></label>
+                    @*<select asp-for="PreviousPoleId" class="form-control" asp-items="ViewBag.PreviousPoleId"></select>*@
+                    <select asp-for="PreviousPoleId" data-live-search="true" title="Select Previous Pole Id" class="form-control selectPrePoleId" asp-items="ViewBag.PreviousPoleId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NextPoleId" class="control-label"></label>
+                    <select asp-for="NextPoleId" data-live-search="true" title="Select Next Pole Id" class="form-control selectNextPoleId" asp-items="ViewBag.NextPoleId"></select>
+                    @*<select asp-for="NextPoleId" class="form-control" asp-items="ViewBag.NextPoleId"></select>*@
+
+
+
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success float-right" />
+                    <a class="btn btn-success float-left" asp-action="Index">Back</a>
+                </div>
+            </form>
+        </fieldset>
+    </div>
+</div>
+@*<div>
+        <a asp-action="Index">Back to List</a>
+    </div>*@
+
+@section Scripts {
+    <script src="~/js/datetimepicker.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap-select.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".selectPoleId").selectpicker({
+
+            });
+        });
+
+        $(document).ready(function () {
+            $(".selectNextPoleId").selectpicker({
+
+            });
+        });
+        $(document).ready(function () {
+            $(".selectPrePoleId").selectpicker({
+
+            });
+        });
+        $(document).ready(function () {
+            $(".selectFeederLineId").selectpicker({
+
+            });
+        });
+    </script>
+}
+
+

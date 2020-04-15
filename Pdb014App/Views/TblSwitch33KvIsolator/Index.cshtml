@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SubstationModels.TblSwitch33KvIsolator>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Switch (33 Kv Isolator)</h2>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeIsolatorSwitch)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SwitchID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NominalVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BreakingType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufactureMonthAndYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InstallationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NormalStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConnectionStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SwitchNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SwitchToFeederLine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Switch33KvIsolatorToSubstation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeIsolatorSwitch)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SwitchID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NominalVoltage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BreakingType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManufactureMonthAndYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InstallationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NormalStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatedCurrent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatedVoltage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConnectionStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SwitchNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SwitchToFeederLine.FeederLineId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Switch33KvIsolatorToSubstation.SubstationId)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Switch33KvIsolatorId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Switch33KvIsolatorId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Switch33KvIsolatorId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
