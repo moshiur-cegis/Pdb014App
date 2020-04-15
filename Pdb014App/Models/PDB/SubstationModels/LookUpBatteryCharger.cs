@@ -9,7 +9,6 @@ namespace Pdb014App.Models.PDB.SubstationModels
 {
     public class LookUpBatteryCharger
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("BatteryChargerId", Order = 0, TypeName = "int")]
