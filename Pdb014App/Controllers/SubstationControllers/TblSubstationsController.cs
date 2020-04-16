@@ -22,6 +22,7 @@ namespace Pdb014App.Controllers.SubstationControllers
         // GET: TblSubstations
         public async Task<IActionResult> Index()
         {
+            //Include(t => t.SubstationType)
             var pdbDbContext = _context.TblSubstation.Include(t => t.SubstationType).Include(t => t.SubstationToLookUpSnD);
             return View(await pdbDbContext.ToListAsync());
         }

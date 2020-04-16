@@ -106,13 +106,13 @@
                     <span asp-validation-for="PreviousPoleNo" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Latitude" class="control-label"></label>
-                    <input asp-for="Latitude" class="form-control" />
+                    <label asp-for="Latitude" class="control-label">Latitude: DEG <input id="lt_deg" type="text" style="width: 50px;"> MIN <input id="lt_min" type="text"  style="width: 50px;"> SEC <input id="lt_sec" type="text" style="width: 90px;">-><input id="lt_cal" type="button" value="Calculate" /> </label>
+                    <input asp-for="Latitude" id="Latitude" class="form-control" />
                     <span asp-validation-for="Latitude" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Longitude" class="control-label"></label>
-                    <input asp-for="Longitude" class="form-control" />
+                    <label asp-for="Longitude" class="control-label">Longitude: DEG <input id="l_deg" type="text" style="width: 50px;"> MIN <input id="l_min" type="text" style="width: 50px;"> SEC <input id="l_sec" type="text" style="width: 90px;">-><input id="l_cal" type="button" value="Calculate" />  </label>
+                    <input asp-for="Longitude" id="Longitude" class="form-control" />
                     <span asp-validation-for="Longitude" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -239,6 +239,8 @@
     <script type="text/javascript">
 
 
+
+
         $("#SurveyDate").datetimepicker({
             lang: "en",
             format: "m-d-Y",
@@ -246,6 +248,32 @@
             formatDate: "Y-m-d",
             timepicker: false
         });
+
+        $("#lt_cal").on("click", function () {
+            
+            var deg = $("#lt_deg").val();
+            var min = $("#lt_min").val();
+            var sec = $("#lt_sec").val();
+            var lat = Number(deg) + Number(min) / 60 + Number(sec) / 3600;
+            $("#Latitude").val(lat);
+            //alert("lat: " + lat);
+
+
+        });
+
+        $("#l_cal").on("click", function () {
+
+            var deg = $("#l_deg").val();
+            var min = $("#l_min").val();
+            var sec = $("#l_sec").val();
+            var long = Number(deg) + Number(min) / 60 + Number(sec) / 3600;
+            $("#Longitude").val(long);
+            //alert("lat: " + lat);
+
+
+        });
+
+        
 
         $("#ZoneCode").on("change",
                 function () {
