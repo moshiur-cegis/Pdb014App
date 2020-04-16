@@ -55,25 +55,35 @@
                 </div>
 
                 <div class="form-group">
+                    <label asp-for="FeederLineId" class="control-label"></label>
+                    <select asp-for="FeederLineId" id="FeederLineId" class="form-control" asp-items="ViewBag.FeederLineId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PreviousPoleNo" class="control-label"></label>
+                    <input asp-for="PreviousPoleNo" id="PreviousPoleNo" class="form-control" />
+                    <span asp-validation-for="PreviousPoleNo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
                     <label asp-for="PoleId" class="control-label"></label>
                     <input asp-for="PoleId" class="form-control" />
                     <span asp-validation-for="PoleId" class="text-danger"></span>
                 </div>
                 @*<div class="form-group">
-                    <label asp-for="PoleUid" class="control-label"></label>
-                    <input asp-for="PoleUid" class="form-control" />
-                    <span asp-validation-for="PoleUid" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="FeederLineUid" class="control-label"></label>
-                    <input asp-for="FeederLineUid" class="form-control" />
-                    <span asp-validation-for="FeederLineUid" class="text-danger"></span>
-                </div>*@
+                        <label asp-for="PoleUid" class="control-label"></label>
+                        <input asp-for="PoleUid" class="form-control" />
+                        <span asp-validation-for="PoleUid" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FeederLineUid" class="control-label"></label>
+                        <input asp-for="FeederLineUid" class="form-control" />
+                        <span asp-validation-for="FeederLineUid" class="text-danger"></span>
+                    </div>*@
                 @*<div class="form-group">
-            <label asp-for="SurveyDate" class="control-label"></label>
-            <input asp-for="SurveyDate" class="form-control" />
-            <span asp-validation-for="SurveyDate" class="text-danger"></span>
-        </div>*@
+                        <label asp-for="SurveyDate" class="control-label"></label>
+                        <input asp-for="SurveyDate" class="form-control" />
+                        <span asp-validation-for="SurveyDate" class="text-danger"></span>
+                    </div>*@
                 <div class="form-group">
                     <label asp-for="SurveyDate" class="control-label"></label>
                     <input type="text" id="SurveyDate" name="SurveyDate" class="survey-date form-control" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" />
@@ -83,30 +93,24 @@
                 </div>
 
                 @*<div class="form-group">
-                    <label asp-for="RouteCode" class="control-label"></label>
-                    <select asp-for="RouteCode" class="form-control" asp-items="ViewBag.RouteCode"></select>
-                </div>*@
-                <div class="form-group">
-                    <label asp-for="FeederLineId" class="control-label"></label>
-                    <select asp-for="FeederLineId" class="form-control" asp-items="ViewBag.FeederLineId"></select>
-                </div>
+                        <label asp-for="RouteCode" class="control-label"></label>
+                        <select asp-for="RouteCode" class="form-control" asp-items="ViewBag.RouteCode"></select>
+                    </div>*@
+
                 <div class="form-group">
                     <label asp-for="SurveyorName" class="control-label"></label>
                     <input asp-for="SurveyorName" class="form-control" />
                     <span asp-validation-for="SurveyorName" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="display:none">
                     <label asp-for="PoleNo" class="control-label"></label>
-                    <input asp-for="PoleNo" class="form-control" />
+                    <input asp-for="PoleNo" id="PoleNo" class="form-control" />
                     <span asp-validation-for="PoleNo" class="text-danger"></span>
                 </div>
+
+
                 <div class="form-group">
-                    <label asp-for="PreviousPoleNo" class="control-label"></label>
-                    <input asp-for="PreviousPoleNo" class="form-control" />
-                    <span asp-validation-for="PreviousPoleNo" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Latitude" class="control-label">Latitude: DEG <input id="lt_deg" type="text" style="width: 50px;"> MIN <input id="lt_min" type="text"  style="width: 50px;"> SEC <input id="lt_sec" type="text" style="width: 90px;">-><input id="lt_cal" type="button" value="Calculate" /> </label>
+                    <label asp-for="Latitude" class="control-label">Latitude: DEG <input id="lt_deg" type="text" style="width: 50px;"> MIN <input id="lt_min" type="text" style="width: 50px;"> SEC <input id="lt_sec" type="text" style="width: 90px;">-><input id="lt_cal" type="button" value="Calculate" /> </label>
                     <input asp-for="Latitude" id="Latitude" class="form-control" />
                     <span asp-validation-for="Latitude" class="text-danger"></span>
                 </div>
@@ -115,6 +119,16 @@
                     <input asp-for="Longitude" id="Longitude" class="form-control" />
                     <span asp-validation-for="Longitude" class="text-danger"></span>
                 </div>
+                @*<div class="form-group">
+                        <label asp-for="Latitude" class="control-label"></label>
+                        <input asp-for="Latitude" class="form-control" />
+                        <span asp-validation-for="Latitude" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Longitude" class="control-label"></label>
+                        <input asp-for="Longitude" class="form-control" />
+                        <span asp-validation-for="Longitude" class="text-danger"></span>
+                    </div>*@
                 <div class="form-group">
                     <label asp-for="PoleTypeId" class="control-label"></label>
                     <select asp-for="PoleTypeId" class="form-control" asp-items="ViewBag.PoleTypeId"></select>
@@ -193,13 +207,13 @@
                     <span asp-validation-for="StreetLight" class="text-danger"></span>
                 </div>
                 @*<div class="form-group">
-                    <label asp-for="SourceCableId" class="control-label"></label>
-                    <select asp-for="SourceCableId" class="form-control" asp-items="ViewBag.SourceCableId"></select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TargetCableId" class="control-label"></label>
-                    <select asp-for="TargetCableId" class="form-control" asp-items="ViewBag.TargetCableId"></select>
-                </div>*@
+                        <label asp-for="SourceCableId" class="control-label"></label>
+                        <select asp-for="SourceCableId" class="form-control" asp-items="ViewBag.SourceCableId"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TargetCableId" class="control-label"></label>
+                        <select asp-for="TargetCableId" class="form-control" asp-items="ViewBag.TargetCableId"></select>
+                    </div>*@
                 <div class="form-group">
                     <label asp-for="TransformerExist" class="control-label"></label>
                     <input asp-for="TransformerExist" class="form-control" />
@@ -226,9 +240,9 @@
 </div>
 
 
-@*<div>  
-    <a asp-action="Index">Back to List</a>
-</div>*@
+@*<div>
+        <a asp-action="Index">Back to List</a>
+    </div>*@
 
 
 
@@ -237,8 +251,6 @@
     <script src="~/js/datetimepicker.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap-select.js"></script>
     <script type="text/javascript">
-
-
 
 
         $("#SurveyDate").datetimepicker({
@@ -250,7 +262,7 @@
         });
 
         $("#lt_cal").on("click", function () {
-            
+
             var deg = $("#lt_deg").val();
             var min = $("#lt_min").val();
             var sec = $("#lt_sec").val();
@@ -269,11 +281,8 @@
             var long = Number(deg) + Number(min) / 60 + Number(sec) / 3600;
             $("#Longitude").val(long);
             //alert("lat: " + lat);
-
-
         });
 
-        
 
         $("#ZoneCode").on("change",
                 function () {
@@ -427,6 +436,49 @@
                             $("<option />").val(route.value).html(route.text).appendTo($feederLineId);
                             //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
                         });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+         $("#FeederLineId").on("change",function () {
+            var feederLineId = $("#FeederLineId").val(),
+
+            $pole = $("#PoleId");
+            $pole.val("");
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetPoleList")",
+                dataType: "json",
+                data: { feederLineId: feederLineId },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (poleId) {
+
+
+                   // alert(substations);
+                    $("#PreviousPoleNo").val(poleId);
+                    var pole = parseInt(poleId) + 1;
+                    $("#PoleId").val(pole);
+
+
+
+
+
+
+
+
+
+                    //$substation.append('<option value="" selected="selected">---- select ----</option>');
+                    //$.each(substations,
+                    //    function (i, substation) {
+                    //        $("<option />").val(substation.value).html(substation.text).appendTo($substation);
+                    //        //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                    //    });
                 },
                 error: function (ex) {
                     window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);

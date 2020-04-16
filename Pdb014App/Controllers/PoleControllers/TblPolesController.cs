@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-using Pdb014App.Models.PDB; 
+using Pdb014App.Models.PDB;
 using Pdb014App.Repository;
 using ReflectionIT.Mvc.Paging;
 
@@ -58,7 +58,7 @@ namespace Pdb014App.Controllers.PoleControllers
                 .Include(t => t.PoleCondition)
                 .Include(t => t.PoleToFeederLine)
                 .Include(t => t.PoleToRoute)
-                
+
                 .Include(t => t.PoleType)
                 .Include(t => t.WireLookUpCondition)
                 .FirstOrDefaultAsync(m => m.PoleId == id);
@@ -101,7 +101,7 @@ namespace Pdb014App.Controllers.PoleControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PoleId,PoleUid,FeederLineUid,SurveyDate,RouteCode,FeederLineId,SurveyorName,PoleNo,PreviousPoleNo,Latitude,Longitude,PoleTypeId,PoleConditionId,LineTypeId,BackSpan,TypeOfWireId,NoOfWireHt,NoOfWireLt,WireLength,WireConditionId,MSJNo,SleeveNo,TwistNo,PhaseAId,PhaseBId,PhaseCId,Neutral,StreetLight,SourceCableId,TargetCableId,TransformerExist,CommonPole,Tap")] TblPole tblPole,string surveyDate)
+        public async Task<IActionResult> Create([Bind("PoleId,PoleUid,FeederLineUid,SurveyDate,RouteCode,FeederLineId,SurveyorName,PoleNo,PreviousPoleNo,Latitude,Longitude,PoleTypeId,PoleConditionId,LineTypeId,BackSpan,TypeOfWireId,NoOfWireHt,NoOfWireLt,WireLength,WireConditionId,MSJNo,SleeveNo,TwistNo,PhaseAId,PhaseBId,PhaseCId,Neutral,StreetLight,SourceCableId,TargetCableId,TransformerExist,CommonPole,Tap")] TblPole tblPole, string surveyDate)
         {
             //double latA = Convert.ToDouble(tblPole.Latitude);
             //double longA = Convert.ToDouble(tblPole.Longitude);
@@ -214,14 +214,14 @@ namespace Pdb014App.Controllers.PoleControllers
             {
                 return NotFound();
             }
-            
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
 
-                    
+
                     _context.Update(tblPole);
                     await _context.SaveChangesAsync();
                 }
@@ -272,7 +272,7 @@ namespace Pdb014App.Controllers.PoleControllers
                 .Include(t => t.PoleCondition)
                 .Include(t => t.PoleToFeederLine)
                 .Include(t => t.PoleToRoute)
-               
+
                 .Include(t => t.PoleType)
                 .Include(t => t.WireLookUpCondition)
                 .FirstOrDefaultAsync(m => m.PoleId == id);
@@ -350,6 +350,25 @@ namespace Pdb014App.Controllers.PoleControllers
 
             return Json(new SelectList(sndList, "FeederLineId", "FeederName"));
         }
+
+        public JsonResult GetPoleList(string feederLineId)
+        {
+
+            var poleNo = _context.TblPole
+                .Where(u => u.FeederLineId.Equals(feederLineId)).OrderBy(u => u.PoleId).Select(u => u.PoleId).LastOrDefault();
+
+            var poleId = Convert.ToInt64(poleNo);
+
+            poleId = Convert.ToInt64(poleNo);
+
+            if (poleNo == "")
+            {
+                poleId = Convert.ToInt64(feederLineId + "0001");
+            }
+
+            return Json(poleId);
+        }
+
         //public async Task<IActionResult> JCP()
         //{
         //    //var pdbDbContext = _context.TblPole.Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleToSourceFeederLine).Include(t => t.PoleToTargetFeederLine).Include(t => t.PoleType).Include(t => t.WireLookUpCondition);
