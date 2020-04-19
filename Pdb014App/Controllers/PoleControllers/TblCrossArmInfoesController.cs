@@ -20,9 +20,13 @@ namespace Pdb014App.Controllers.PoleControllers
         }
 
         // GET: TblCrossArmInfoes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string id)
         {
             var pdbDbContext = _context.TblCrossArmInfo.Include(t => t.CrossArmToPole).Include(t => t.FittingsLookUpCondition).Include(t => t.LookUpTypeOfFittings);
+            if (id != null)
+            {
+                pdbDbContext = _context.TblCrossArmInfo.Where(i => i.PoleId == id).Include(t => t.CrossArmToPole).Include(t => t.FittingsLookUpCondition).Include(t => t.LookUpTypeOfFittings);
+            }
             return View(await pdbDbContext.ToListAsync());
         }
 

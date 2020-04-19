@@ -20,9 +20,16 @@ namespace Pdb014App.Controllers.InsulatorControllers
         }
 
         // GET: TblInsulators
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string id)
         {
             var pdbDbContext = _context.TblInsulator.Include(t => t.InsulatorToLookUpCondition).Include(t => t.InsulatorToPole).Include(t => t.InsulatorType);
+
+            if (id!= null)
+            {
+                 pdbDbContext = _context.TblInsulator.Where(i => i.PoleId == id).Include(t => t.InsulatorToLookUpCondition).Include(t => t.InsulatorToPole).Include(t => t.InsulatorType);
+            }
+           
+            
             return View(await pdbDbContext.ToListAsync());
         }
 
@@ -51,7 +58,11 @@ namespace Pdb014App.Controllers.InsulatorControllers
         public IActionResult Create()
         {
             ViewData["ConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name");
-            ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId");
+
+                //ViewBag.PoleId = RouteData.
+
+                //ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId");
+            
             ViewData["InsulatorTypeId"] = new SelectList(_context.LookUpInsulatorType, "InsulatorTypeId", "InsulatorTypeName");
             return View();
         }

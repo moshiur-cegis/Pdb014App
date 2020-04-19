@@ -20,9 +20,15 @@ namespace Pdb014App.Controllers.InsulatorControllers
         }
 
         // GET: TblGuys
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string id)
         {
+
+           
             var pdbDbContext = _context.TblGuy.Include(t => t.GuyToLookUpCondition).Include(t => t.GuyToPole).Include(t => t.GuyType);
+            if (id != null)
+            {
+                pdbDbContext = _context.TblGuy.Where(i => i.PoleId == id).Include(t => t.GuyToLookUpCondition).Include(t => t.GuyToPole).Include(t => t.GuyType);
+            }
             return View(await pdbDbContext.ToListAsync());
         }
 

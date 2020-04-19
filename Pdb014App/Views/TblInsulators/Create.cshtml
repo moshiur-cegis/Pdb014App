@@ -146,10 +146,16 @@
                     <input asp-for="Quantity" class="form-control" />
                     <span asp-validation-for="Quantity" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="PoleId" class="control-label"></label>
-                    <select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>
-                </div>
+                @*<div class="form-group">
+            <label asp-for="PoleId" class="control-label"></label>
+            <select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>
+        </div>*@
+
+            <div class="form-group">
+                <label asp-for="PoleId" class="control-label"></label>
+                <input name="PoleId" value="@Url.ActionContext.RouteData.Values["id"]" class="form-control" />
+                <span asp-validation-for="PoleId" class="text-danger"></span>
+            </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary float-md-right" />
                     <a class="btn btn-success float-left" asp-action="Index">Back</a>
