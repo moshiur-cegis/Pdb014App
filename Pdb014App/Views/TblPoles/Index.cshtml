@@ -246,8 +246,8 @@
                                     <td>
                                         @*@Html.DisplayFor(modelItem => item.PoleId)*@
 
-                                        <a asp-action="Edit" asp-route-id="@item.PoleId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="@">
-                                            @*@Html.DisplayFor(modelItem => item.PoleId)*@
+                                        <a asp-action="Edit" asp-route-id="@item.PoleId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit Pole Information">
+                                            @Html.DisplayFor(modelItem => item.PoleId)
                                             <span class="glyphicon glyphicon-edit"></span> Edit
                                         </a>
 
