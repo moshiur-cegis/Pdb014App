@@ -13,9 +13,64 @@
             <legend>Service Point</legend>
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label class="control-label">Zone</label>
+                    <select id="ZoneCode" class="form-control" asp-items="ViewBag.ZoneCode" value="@ViewBag.ZoneCode">
+                        <option value="" selected="selected" disabled="disabled">----- Select Zone -----</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Circle</label>
+                    <select id="CircleCode" class="form-control">
+                        <option value="" selected="selected" disabled="disabled">----- Select Circle -----</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">S&D</label>
+                    <select id="SnDCode" class="form-control">
+                        <option value="" selected="selected" disabled="disabled">----- Select S&D -----</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Substation</label>
+                    <select id="SubstationId" class="form-control">
+                        <option value="" selected="selected" disabled="disabled">----- Select Substation -----</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Route</label>
+                    @*<select asp-for="RouteCode" class="form-control" asp-items="ViewBag.RouteCode">
+                    *@
+                    <select id="RouteCode" class="form-control">
+
+                        <option value="" selected="selected" disabled="disabled">----- Select Route -----</option>
+                    </select>
+                    @*<span asp-validation-for="RouteCode" class="text-danger"></span>*@
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"> FeederLine</label>
+                    @*<select value="" id="FeederLineId" class="form-control" asp-items="ViewBag.FeederLineId"></select>*@
+                    <select id="FeederLineId" class="form-control">
+                        <option value="" selected="selected" disabled="disabled">----- Select Feeder Line -----</option>
+                    </select>
+                </div>
+
+
                 <div class="form-group">
                     <label asp-for="PoleId" class="control-label"></label>
-                    <select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>
+                    @*<select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>*@
+
+
+                    <select name="PoleId" id="PoleId" class="form-control" value="@ViewBag.ZoneCode">
+                        <option value="" selected="selected" disabled="disabled">----- Select Pole Id -----</option>
+                    </select>
+
+                    @*<input asp-for="PoleId" class="form-control" />*@
                 </div>
                 <div class="form-group">
                     <label asp-for="VoltageCategoryId" class="control-label"></label>
@@ -85,7 +140,7 @@
                     <a class="btn btn-success float-left" asp-action="Index">Back</a>
                 </div>
             </form>
-            </fieldset>
+        </fieldset>
     </div>
 </div>
 
@@ -93,3 +148,207 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+
+    <script src="~/js/datetimepicker.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap-select.js"></script>
+    <script type="text/javascript">
+
+    $("#ZoneCode").on("change",
+                function () {
+                    var zoneCode = $("#ZoneCode").val(),
+                        $circle = $("#CircleCode");
+
+                    $circle.empty();
+                    //$(".dist-code").val(distCode);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetCircleList")",
+                        dataType: "json",
+                        data: { zoneCode: zoneCode },
+                        //before: $("#busy-indicator").fadeIn(150),
+                        success: function (circles) {
+                            //alert(circles);
+
+                            $circle.append('<option value="" selected="selected">------- Select Circle -------</option>');
+                            $.each(circles, function (i, circle) {
+
+                                //console.log(circles);
+                                //alert(circles);
+                                $("<option />").val(circle.value).html(circle.text).appendTo($circle);
+                                });
+                        },
+                        error: function (ex) {
+                            window.msg.init("error", "Error... . . !", "Failed to load circle list. " + ex.error);
+                        },
+                        //complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+            });
+        $("#CircleCode").on("change",function () {
+            var circleCode = $("#CircleCode").val(),
+                //upazCode = $(this).val(),
+                $snd = $("#SnDCode");
+                $snd.empty();
+              // $(".upaz-code").val(upazCode);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetSnDList")",
+                dataType: "json",
+                data: { circleCode: circleCode },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (snds) {
+                    $snd.append('<option value="" selected="selected">------ Select SnD ------</option>');
+                    $.each(snds,
+                        function (i, snd) {
+                            $("<option />").val(snd.value).html(snd.text).appendTo($snd);
+                            //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+        $("#SnDCode").on("change",function () {
+            var sndCode = $("#SnDCode").val(),
+
+            $substation = $("#SubstationId");
+            $substation.empty();
+            // $(".upaz-code").val(upazCode);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetSubStationList")",
+                dataType: "json",
+                data: { sndCode: sndCode },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (substations) {
+                    //alert(substations);
+
+                    $substation.append('<option value="" selected="selected">------ Select Sub-Station ------</option>');
+                    $.each(substations,
+                        function (i, substation) {
+                            $("<option />").val(substation.value).html(substation.text).appendTo($substation);
+                            //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+        $("#SubstationId").on("change",function () {
+            var substationId = $("#SubstationId").val(),
+                $route = $("#RouteCode");
+
+            $route.empty();
+            // $(".upaz-code").val(upazCode);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetRouteList")",
+                dataType: "json",
+                data: { substationId: substationId },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (routes) {
+                    //alert(routes);
+
+                    $route.append('<option value="" selected="selected">------ Select Route ------</option>');
+                    $.each(routes,
+                        function (i, route) {
+                            $("<option />").val(route.value).html(route.text).appendTo($route);
+                            //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+        $("#RouteCode").on("change", function () {
+            var routeCode = $("#RouteCode").val();
+
+            $sourceCableId = $("#SourceCableId");
+            $targetCableId = $("#TargetCableId");
+            $feederLineId = $("#FeederLineId");
+
+            $targetCableId.empty();
+            $sourceCableId.empty();
+            $feederLineId.empty();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetFeederLineList")",
+                dataType: "json",
+                data: { routeCode: routeCode },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (routes) {
+                    //alert(routes);
+
+                    $sourceCableId.append('<option value="" selected="selected" >------ Select Source Cable ------</option>');
+                    $targetCableId.append('<option value="" selected="selected">------ Select Target Cable ------</option>');
+                    $feederLineId.append('<option value="" selected="selected">------ Select Feeder Line------</option>');
+                    $.each(routes,
+                        function (i, route) {
+                            $("<option />").val(route.value).html(route.text).appendTo($sourceCableId);
+                            $("<option />").val(route.value).html(route.text).appendTo($targetCableId);
+                            $("<option />").val(route.value).html(route.text).appendTo($feederLineId);
+                            //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+         $("#FeederLineId").on("change",function () {
+            var feederLineId = $("#FeederLineId").val(),
+
+            $pole = $("#PoleId");
+             $pole.empty();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetPoleList")",
+                dataType: "json",
+                data: { feederLineId: feederLineId },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (poles) {
+
+
+
+                    $pole.append('<option value="" selected="selected">------ Select Pole ------</option>');
+                    $.each(poles,
+                        function (i, pole) {
+                            $("<option />").val(pole.value).html(pole.text).appendTo($pole);
+                            //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                        });
+
+
+
+
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+    </script>
+}

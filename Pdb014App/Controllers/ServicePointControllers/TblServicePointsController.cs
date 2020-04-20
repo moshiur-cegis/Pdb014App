@@ -53,6 +53,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
             ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId");
             ViewData["ServicePointTypeId"] = new SelectList(_context.LookUpServicePointType, "ServicePointTypeId", "ServicePointTypeName");
             ViewData["VoltageCategoryId"] = new SelectList(_context.LookUpVoltageCategory, "VoltageCategoryId", "VoltageCategoryName");
+            ViewData["ZoneCode"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
             return View();
         }
 
@@ -72,6 +73,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
             ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId", tblServicePoint.PoleId);
             ViewData["ServicePointTypeId"] = new SelectList(_context.LookUpServicePointType, "ServicePointTypeId", "ServicePointTypeName", tblServicePoint.ServicePointTypeId);
             ViewData["VoltageCategoryId"] = new SelectList(_context.LookUpVoltageCategory, "VoltageCategoryId", "VoltageCategoryName", tblServicePoint.VoltageCategoryId);
+            ViewData["ZoneCode"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
             return View(tblServicePoint);
         }
 
@@ -168,5 +170,71 @@ namespace Pdb014App.Controllers.ServicePointControllers
         {
             return _context.TblServicePoint.Any(e => e.ServicePointId == id);
         }
+
+        [HttpPost]
+        public JsonResult GetCircleList(string zoneCode)
+        {
+            var circleList = _context.LookUpCircleInfo
+                .Where(u => u.ZoneCode.Equals(zoneCode))
+                .Select(u => new { u.CircleCode, u.CircleName })
+                .OrderBy(u => u.CircleCode).ToList();
+
+            return Json(new SelectList(circleList, "CircleCode", "CircleName"));
+        }
+
+        public JsonResult GetSnDList(string circleCode)
+        {
+            var sndList = _context.LookUpSnDInfo
+                .Where(u => u.CircleCode.Equals(circleCode))
+                .Select(u => new { u.SnDCode, u.SnDName })
+                .OrderBy(u => u.SnDCode).ToList();
+
+            return Json(new SelectList(sndList, "SnDCode", "SnDName"));
+        }
+
+        public JsonResult GetSubStationList(string sndCode)
+        {
+            var substationList = _context.TblSubstation
+                .Where(u => u.SnDCode.Equals(sndCode))
+                .Select(u => new { u.SubstationId, u.SubstationName })
+                .OrderBy(u => u.SubstationId).ToList();
+
+            return Json(new SelectList(substationList, "SubstationId", "SubstationName"));
+        }
+
+        public JsonResult GetRouteList(string substationId)
+        {
+            var sndList = _context.LookUpRouteInfo
+                .Where(u => u.SubstationId.Equals(substationId))
+                .Select(u => new { u.RouteCode, u.RouteName })
+                .OrderBy(u => u.RouteCode).ToList();
+
+            return Json(new SelectList(sndList, "RouteCode", "RouteName"));
+        }
+
+
+        public JsonResult GetFeederLineList(string routeCode)
+        {
+            var sndList = _context.TblFeederLine
+                .Where(u => u.RouteCode.Equals(routeCode))
+                .Select(u => new { u.FeederLineId, FeederName = u.FeederName })
+                .OrderBy(u => u.FeederLineId).ToList();
+
+            return Json(new SelectList(sndList, "FeederLineId", "FeederName"));
+        }
+
+        public JsonResult GetPoleList(string feederLineId)
+        {
+
+            var sndList = _context.TblPole
+               .Where(u => u.FeederLineId.Equals(feederLineId))
+               .Select(u => new { u.PoleId, PoleIds = u.PoleId })
+               .OrderBy(u => u.PoleId).ToList();
+
+            return Json(new SelectList(sndList, "PoleId", "PoleIds"));
+
+
+        }
+
     }
 }

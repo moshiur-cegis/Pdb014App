@@ -3,6 +3,9 @@
 @using ReflectionIT.Mvc.Paging
 @addTagHelper *, ReflectionIT.Mvc.Paging
 
+
+@*@model IEnumerable<Pdb014App.Models.PDB.ServicePointModels.TblConsumerData>*@
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -96,7 +99,7 @@
         <div class="col-12">
             <div class="float-md-right">
                 <form method="get" class="form-inline">
-                    <input name="filter" class="form-control" placeholder="Customer/Meter No." value="@Model.RouteValue["Filter"]" />
+                    <input name="filter" class="form-control" placeholder="Customer No" value="@Model.RouteValue["Filter"]" />
                     <button type="submit" class="btn btn-info">
                         <span class="fas fa-search" aria-hidden="true"></span> Search
                     </button>
@@ -117,7 +120,7 @@
                                 </th>
                                 <th>
                                     @*@Html.DisplayNameFor(model => model.ConsumerDataToServicePoint)*@
-                                    Service Point
+                                    Service Point Id
                                 </th>
                                 @*<th>
                                         @Html.DisplayNameFor(model => model.ConsumerDataToDistributionTransformer)
@@ -260,8 +263,9 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.ConsumerId)
+                                        @*@Html.DisplayFor(modelItem => item.ConsumerId)*@
                                         @*<a asp-action="Edit" asp-route-id="@item.ConsumerId" title="Edit" class="text-success hover-dark"></a>*@
+                                        <a asp-action="Edit" asp-route-id="@item.ConsumerId" title="Edit" class="text-success hover-dark">@Html.DisplayFor(modelItem => item.ConsumerId)</a>
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.ConsumerDataToServicePoint.ServicePointId)
@@ -269,9 +273,10 @@
                                     @*<td>
                                             @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DistributionTransformerId)
                                         </td>*@
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.ConsumerId" title="Edit" class="text-success hover-dark">@Html.DisplayFor(modelItem => item.ConsumerNo)</a>
-                                    </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConsumerNo)
+                                    @*<a asp-action="Edit" asp-route-id="@item.ConsumerNo" title="Edit" class="text-success hover-dark">@Html.DisplayFor(modelItem => item.ConsumerNo)</a>*@
+                                </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.CustomerName)
                                     </td>

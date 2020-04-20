@@ -22,7 +22,32 @@ namespace Pdb014App.Controllers.ServicePointControllers
         }
 
         // GET: TblConsumerDatas
-        public async Task<IActionResult> Index(string filter, int pageIndex = 1, string sortExpression = "ConsumerId")
+        //public async Task<IActionResult> Index(int? id)
+        //{
+        //    var pdbDbContext = _context.TblConsumerData.Include(t => t.ConsumerDataToDistributionTransformer)
+        //        .Include(t => t.ConsumerDataToServicePoint).Include(t => t.ConsumerToBusinessType)
+        //        .Include(t => t.ConsumerToConnectionStatus).Include(t => t.ConsumerToConnectionType)
+        //        .Include(t => t.ConsumerToLocation).Include(t => t.ConsumerToMeterType)
+        //        .Include(t => t.ConsumerToOperatingVoltage).Include(t => t.ConsumerToPhasingCode)
+        //        .Include(t => t.ConsumerToServiceCableType).Include(t => t.ConsumerToStructureType)
+        //        .Include(t => t.ConsumerType);
+
+        //    if (id!= null)
+        //    {
+        //        pdbDbContext = _context.TblConsumerData.Where(p => p.ServicePointId == id).Include(t => t.ConsumerDataToDistributionTransformer)
+        //        .Include(t => t.ConsumerDataToServicePoint).Include(t => t.ConsumerToBusinessType)
+        //        .Include(t => t.ConsumerToConnectionStatus).Include(t => t.ConsumerToConnectionType)
+        //        .Include(t => t.ConsumerToLocation).Include(t => t.ConsumerToMeterType)
+        //        .Include(t => t.ConsumerToOperatingVoltage).Include(t => t.ConsumerToPhasingCode)
+        //        .Include(t => t.ConsumerToServiceCableType).Include(t => t.ConsumerToStructureType)
+        //        .Include(t => t.ConsumerType);
+        //    }
+        //    return View(await pdbDbContext.ToListAsync());
+        //}
+
+
+
+        public async Task<IActionResult> Index(int? id, string filter, int pageIndex = 1, string sortExpression = "ConsumerId")
         {
             var qry = _context.TblConsumerData.Include(t => t.ConsumerDataToDistributionTransformer)
                 .Include(t => t.ConsumerDataToServicePoint).Include(t => t.ConsumerToBusinessType)
@@ -31,6 +56,13 @@ namespace Pdb014App.Controllers.ServicePointControllers
                 .Include(t => t.ConsumerToOperatingVoltage).Include(t => t.ConsumerToPhasingCode)
                 .Include(t => t.ConsumerToServiceCableType).Include(t => t.ConsumerToStructureType)
                 .Include(t => t.ConsumerType).AsQueryable();
+
+
+            if (id != null)
+            {
+                qry = qry.Where(p => p.ServicePointId == id);
+            }
+
 
             if (!string.IsNullOrEmpty(filter))
             {
@@ -42,9 +74,6 @@ namespace Pdb014App.Controllers.ServicePointControllers
             model.RouteValue = new RouteValueDictionary { { "filter", filter } };
 
             return View(model);
-
-            //var pdbDbContext = _context.TblConsumerData.Include(t => t.ConsumerDataToDistributionTransformer).Include(t => t.ConsumerDataToServicePoint).Include(t => t.ConsumerToBusinessType).Include(t => t.ConsumerToConnectionStatus).Include(t => t.ConsumerToConnectionType).Include(t => t.ConsumerToLocation).Include(t => t.ConsumerToMeterType).Include(t => t.ConsumerToOperatingVoltage).Include(t => t.ConsumerToPhasingCode).Include(t => t.ConsumerToServiceCableType).Include(t => t.ConsumerToStructureType).Include(t => t.ConsumerType).AsQueryable();
-            //return View(await pdbDbContext.ToListAsync());
         }
 
         // GET: TblConsumerDatas/Details/5

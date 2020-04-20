@@ -19,7 +19,8 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="ServicePointId" class="control-label"></label>
-                    <select asp-for="ServicePointId" class="form-control" asp-items="ViewBag.ServicePointId"></select>
+                    <input name="ServicePointId" value="@Url.ActionContext.RouteData.Values["id"]" class="form-control" />
+                    @*<select asp-for="ServicePointId" class="form-control" asp-items="ViewBag.ServicePointId"></select>*@
                 </div>
                 @*<div class="form-group">
                         <label asp-for="DistributionTransformerId" class="control-label"></label>

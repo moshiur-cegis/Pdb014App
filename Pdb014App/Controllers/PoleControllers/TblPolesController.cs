@@ -90,6 +90,7 @@ namespace Pdb014App.Controllers.PoleControllers
            .Select(pi => new SelectListItem() { Text = pi.PoleId, Value = pi.PoleId }).ToList();
             ViewData["PreviousPoleId"] = poleIdList;
 
+
             //ViewData["PreviousPoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId");
 
             ViewData["ZoneCode"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");

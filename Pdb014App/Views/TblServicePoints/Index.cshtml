@@ -98,8 +98,10 @@
                             <th>
                                 Service point Id
                             </th>
+                            <th class="extraInfo">Consumer List</th>
                             <th>
-                                @Html.DisplayNameFor(model => model.ServicePointToPole)
+                                @*@Html.DisplayNameFor(model => model.ServicePointToPole)*@
+                                Pole No
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.VoltageCategory)
@@ -140,7 +142,7 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.PrimaryLandmark)
                             </th>
-                            <th></th>
+                            @*<th></th>*@
                         </tr>
                     </thead>
                     <tbody>
@@ -148,9 +150,20 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ServicePointId)
-                                    <a asp-action="Edit" asp-route-id="@item.ServicePointId" class="text-success hover-dark">@Html.DisplayFor(modelItem => item.ServicePointId)</a>
+                                    @*@Html.DisplayFor(modelItem => item.ServicePointId)*@
+                                    @*<a asp-action="Edit" asp-route-id="@item.ServicePointId" class="text-success hover-dark">@Html.DisplayFor(modelItem => item.ServicePointId)</a>*@
 
+                                    <a asp-action="Edit" asp-route-id="@item.ServicePointId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit Service Point Information">
+                                        @*@Html.DisplayFor(modelItem => item.ServicePointId)*@
+                                        <span class="glyphicon glyphicon-edit"></span> Edit
+                                    </a>
+
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a asp-controller="TblConsumerDatas" asp-action="Create" asp-route-id="@item.ServicePointId" target="_blank" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="Add Consumer">Add</a>
+                                        <a asp-controller="TblConsumerDatas" asp-action="Index" asp-route-id="@item.ServicePointId" target="_blank" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="Show Consumer">View</a>
+                                    </div>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ServicePointToPole.PoleId)
