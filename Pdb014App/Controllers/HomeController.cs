@@ -22,7 +22,7 @@ namespace Pdb014App.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.SubstationCount = 100; //_context.TblSubstation.Count();
+            ViewBag.SubstationCount =_context.TblSubstation.Count();
 
             ViewBag.DistributionTransformerCount = _context.TblDistributionTransformer.Count();
             ViewBag.FeederLineCount = _context.TblFeederLine.Count();

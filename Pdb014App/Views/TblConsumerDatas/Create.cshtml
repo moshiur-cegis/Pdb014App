@@ -23,9 +23,9 @@
                     @*<select asp-for="ServicePointId" class="form-control" asp-items="ViewBag.ServicePointId"></select>*@
                 </div>
                 @*<div class="form-group">
-                        <label asp-for="DistributionTransformerId" class="control-label"></label>
-                        <select asp-for="DistributionTransformerId" class ="form-control" asp-items="ViewBag.DistributionTransformerId"></select>
-                    </div>*@
+            <label asp-for="DistributionTransformerId" class="control-label"></label>
+            <select asp-for="DistributionTransformerId" class ="form-control" asp-items="ViewBag.DistributionTransformerId"></select>
+        </div>*@
                 <div class="form-group">
                     <label asp-for="CustomerName" class="control-label"></label>
                     <input asp-for="CustomerName" class="form-control" />
@@ -59,10 +59,15 @@
                     <select asp-for="OperatingVoltageId" class="form-control" asp-items="ViewBag.OperatingVoltageId"></select>
                 </div>
                 @*<div class="form-group">
-                        <label asp-for="InstallDate" class="control-label"></label>
-                        <input asp-for="InstallDate" class="form-control" />
-                        <span asp-validation-for="InstallDate" class="text-danger"></span>
-                    </div>*@
+            <label asp-for="InstallDate" class="control-label"></label>
+            <input asp-for="InstallDate" class="form-control" />
+            <span asp-validation-for="InstallDate" class="text-danger"></span>
+        </div>*@
+                @*<div class="form-group">
+            <label asp-for="InstallDate" class="control-label"></label>
+            <input asp-for="InstallDate" class="form-control" />
+            <span asp-validation-for="InstallDate" class="text-danger"></span>
+        </div>*@
 
                 <div class="form-group">
                     <label asp-for="InstallDate" class="control-label"></label>
@@ -190,15 +195,15 @@
                     <span asp-validation-for="PremiseName" class="text-danger"></span>
                 </div>
                 @*<div class="form-group">
-                        <label asp-for="SurveyDate" class="control-label"></label>
-                        <input asp-for="SurveyDate" class="form-control" />
+            <label asp-for="SurveyDate" class="control-label"></label>
+            <input asp-for="SurveyDate" class="form-control" />
 
-                        <input type="text" id="SurveyDate" name="SurveyDate" class="survey-date form-control" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" />
-                        <span class="glyphicon glyphicon-calendar icon-font" id="dpSurveyDate"></span>
+            <input type="text" id="SurveyDate" name="SurveyDate" class="survey-date form-control" placeholder="dd-mm-yyyy" data-date-format="dd-mm-yyyy" />
+            <span class="glyphicon glyphicon-calendar icon-font" id="dpSurveyDate"></span>
 
 
-                        <span asp-validation-for="SurveyDate" class="text-danger"></span>
-                    </div>*@
+            <span asp-validation-for="SurveyDate" class="text-danger"></span>
+        </div>*@
 
                 <div class="form-group">
                     <label asp-for="SurveyDate" class="control-label"></label>
