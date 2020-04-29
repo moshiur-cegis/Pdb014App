@@ -35,10 +35,16 @@ namespace Pdb014App.Controllers.ServicePointControllers
             }
 
             var tblServicePoint = await _context.TblServicePoint
-                .Include(t => t.ServicePointToPole)
-                .Include(t => t.ServicePointType)
-                .Include(t => t.VoltageCategory)
+                .Include(sp => sp.ServicePointType)
+                .Include(sp => sp.VoltageCategory)
+                .Include(sp => sp.ServicePointToPole)
+                .Include(sp => sp.ServicePointToPole.PoleToFeederLine)
+                .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
+                .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .FirstOrDefaultAsync(m => m.ServicePointId == id);
+
+
             if (tblServicePoint == null)
             {
                 return NotFound();

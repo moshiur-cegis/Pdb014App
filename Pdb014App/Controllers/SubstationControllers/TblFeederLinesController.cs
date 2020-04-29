@@ -49,9 +49,15 @@ namespace Pdb014App.Controllers.SubstationControllers
             }
 
             var tblFeederLine = await _context.TblFeederLine
-                .Include(t => t.FeederLineToRoute)
-                .Include(t => t.FeederLineType)
+                .Include(fl => fl.FeederLineToRoute)
+                .Include(fl => fl.FeederLineType)
+
+                .Include(fl => fl.FeederLineToRoute.RouteToSubstation.SubstationType)
+                .Include(fl => fl.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(fl => fl.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                
                 .FirstOrDefaultAsync(m => m.FeederLineId == id);
+
             if (tblFeederLine == null)
             {
                 return NotFound();

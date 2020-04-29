@@ -50,6 +50,7 @@ namespace Pdb014App.Controllers.PoleControllers
             }
 
             var tblPole = await _context.TblPole
+                .Include(t => t.PoleType)
                 .Include(t => t.LookUpLineType)
                 .Include(t => t.LookUpTypeOfWire)
                 .Include(t => t.PhaseACondition)
@@ -57,11 +58,15 @@ namespace Pdb014App.Controllers.PoleControllers
                 .Include(t => t.PhaseCCondition)
                 .Include(t => t.PoleCondition)
                 .Include(t => t.PoleToFeederLine)
-                .Include(t => t.PoleToRoute)
+                //.Include(t => t.PoleToRoute)
+                
+                .Include(t => t.PoleToRoute.RouteToSubstation.SubstationType)
+                .Include(t => t.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(t => t.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
 
-                .Include(t => t.PoleType)
                 .Include(t => t.WireLookUpCondition)
                 .FirstOrDefaultAsync(m => m.PoleId == id);
+
             if (tblPole == null)
             {
                 return NotFound();

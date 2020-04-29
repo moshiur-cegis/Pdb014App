@@ -17,7 +17,7 @@
             new ReportField {Name = "circle", Title = "Circle"},
             new ReportField {Name = "snd", Title = "S&D"},
             new ReportField {Name = "substation", Title = "Substation"},
-        };
+                };
 
     var fieldList = ViewBag.FieldList != null
     ? ViewBag.FieldList as List<ReportField>
@@ -247,6 +247,8 @@
 
     @*<script src="~/lib/bootstrap/dist/js/bootstrap-select.js"></script>*@
 
+    <script src="~/lib/jquery-rowspanizer/rowspanizer.min.js"></script>
+
     <script src="~/lib/jquery-tablesorter/js/tablesorter.min.js"></script>
     <script src="~/lib/jquery-tablesorter/js/tablesorter.widgets.min.js"></script>
 
@@ -357,6 +359,7 @@
                     } else {
                         $("#dataView").css('display', 'none');
                         $("#chartAll").css('display', 'none');
+                        msg.init("warning", "Warning... . . !", "Select at least one data field... . . !! ");
                     }
                     $("#busy-indicator").fadeOut(150);
                 },
@@ -459,6 +462,10 @@
         }
 
         function init_data_table(selector, headerList, basicColumns, dataColumns, data) {
+
+
+            $(selector).off("rowspanizer");
+            $(selector).unbind("rowspanizer");
             $(selector).empty();
 
             if (!dataColumns || !data || dataColumns.length < 1 || data.length < 1) {
@@ -610,6 +617,22 @@
             }
             $(selector).append($("<tfoot/>").append(totalRow$));
             //** Table Footer/Total End **//
+
+
+            //** Set/Re-set RowSpan **//
+            //$(selector)
+            //    .rowspanizer({
+            //        vertical_align: 'middle',
+            //        columns: basicColumns.reduce(function(il, el, i) {
+            //                il.push(i + 1);
+            //                return il;
+            //            },
+            //            [])
+            //    });
+            //    //.trigger("updateAll")
+            //    //.trigger("rowspanizer");
+            //** Set/Re-set RowSpan End **//
+
 
             //** Set/Re-set Table Sorter End **//
             $(selector)
@@ -1349,6 +1372,9 @@
                 $("#SubstationId").empty();
                 $("#RouteCode").empty();
 
+                if (!zoneCode)
+                    return false;
+
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("GetCircleList", "LookUpCircleInfoes")',
@@ -1383,6 +1409,9 @@
                 $("#SubstationId").empty();
                 $("#RouteCode").empty();
 
+                if (!circleCode)
+                    return false;
+
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("GetSnDList", "LookUpSnDInfoes")",
@@ -1415,6 +1444,9 @@
                 $substation.empty();
                 $("#RouteCode").empty();
 
+                if (!sndCode)
+                    return false;
+
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("GetSubStationList", "LookUpZoneInfoes")",
@@ -1439,14 +1471,16 @@
                 });
                 return false;
             });
-
-
+        
         $("#SubstationId").on("change",
             function() {
                 var substationId = $("#SubstationId").val(),
                     $route = $("#RouteCode");
 
                 $route.empty();
+
+                if (!substationId)
+                    return false;
 
                 $.ajax({
                     type: "POST",

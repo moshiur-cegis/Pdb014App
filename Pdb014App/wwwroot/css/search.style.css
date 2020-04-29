@@ -1,0 +1,176 @@
+
+table.table {
+    table-layout: fixed;
+}
+
+    table.table tr th,
+    table.table tr td {
+        border-color: #e9e9e9;
+    }
+
+    table.table th {
+        min-width: 80px;
+    }
+
+        table.table th:last-child {
+            width: 100px;
+        }
+
+        table.table th i {
+            font-size: 0.85rem;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+    table.table td a {
+        cursor: pointer;
+        display: inline-block;
+        margin: 0 5px;
+        min-width: 24px;
+    }
+
+        table.table td a.add {
+            color: #27C46B;
+        }
+
+        table.table td a.edit {
+            color: #FFC107;
+        }
+
+        table.table td a.delete {
+            color: #E34724;
+        }
+
+    table.table td i {
+        font-size: 19px;
+    }
+
+    table.table td a.add i {
+        font-size: 24px;
+        margin-right: -1px;
+        position: relative;
+        top: 3px;
+    }
+
+
+    table.table .form-control {
+        width: 100%;
+        padding: 2px 5px;
+        line-height: 1.0;
+    }
+
+        table.table .form-control.error {
+            border-color: #f50000;
+        }
+
+    table.table td .add {
+        display: none;
+    }
+
+
+
+
+/*
+/// autocomplete css ///
+.list-content {
+    float: left;
+    width: 0;
+    height: 0;
+}
+
+.ui-widget-content,
+.ui-widget.ui-widget-content {
+    border: 1px solid #ccc;
+    background: #fff;
+}
+
+.ui-autocomplete {
+    display: block;
+    float: left;
+    z-index: 999;
+    position: relative;
+    border: 1px solid #ccc;
+    min-width: 170px;
+    max-width: 230px;
+    max-height: 270px;
+    margin: 3px;
+    padding: 3px 1px;
+    font: 400 0.85rem/1.5 Roboto, Noto Sans, Verdana, 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+    background-color: #fff;
+    overflow: auto;
+    -webkit-border-radius: 0 4px 4px 4px;
+    -moz-border-radius: 0 4px 4px 4px;
+    border-radius: 0 4px 4px 4px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+}
+
+    .ui-menu-item,
+    .ui-menu-item:hover,
+    .ui-autocomplete li,
+    .ui-autocomplete li:hover {
+        display: block;
+        border: 0 none !important;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        list-style: none !important;
+    }
+
+        .ui-menu-item div,
+        .ui-autocomplete li div,
+        .ui-menu .ui-menu-item-wrapper {
+            display: block;
+            border: 0 none;
+            border-bottom: 1px solid #eee;
+            margin: 0;
+            padding: 5px;
+            color: #235;
+            font: 400 0.85rem/1.5 Roboto, Noto Sans, Verdana, 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+            cursor: pointer;
+            text-wrap: normal;
+            list-style: none !important;
+            background-color: #fff;
+            -webkit-transition: padding-left 0.2s ease-in-out;
+            -moz-transition: padding-left 0.2s ease-in-out;
+            transition: padding-left 0.2s ease-in-out;
+        }
+
+        .ui-menu-item.odd div,
+        .ui-autocomplete li.odd div,
+        .ui-menu-item-wrapper.odd {
+            background: rgba(0, 0, 0, 0.035);
+        }
+
+        .ui-menu-item div:hover,
+        .ui-autocomplete li div:hover,
+        .ui-menu .ui-state-focus,
+        .ui-menu .ui-state-active,
+        .autocomplete-active {
+            border: 0 none;
+            border-bottom: 1px solid #ccc;
+            padding-left: 10px;
+            color: #013;
+            font: 500 0.85rem/1.5 Roboto, Noto Sans, Verdana, 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+            background-color: #ddd;
+            background-image: -moz-linear-gradient(top, #eee 0%, #ddd 100%);
+            background-image: -webkit-linear-gradient(top, #eee 0%, #ddd 100%);
+            background-image: -ie-linear-gradient(top, #eee 0%, #ddd 100%);
+            background-image: linear-gradient(top, #eee 0%, #ddd 100%);
+        }
+
+.highlight-text,
+.ui-autocomplete-highlight {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    color: #0758ca;
+    color: #05c;
+    font-weight: 600;
+}
+
+*/

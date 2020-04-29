@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace Pdb014App.Models.PDB.PoleModels
 {
     public class TblCrossArmInfo

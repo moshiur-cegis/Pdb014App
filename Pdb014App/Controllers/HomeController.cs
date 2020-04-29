@@ -22,7 +22,7 @@ namespace Pdb014App.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.SubstationCount =_context.TblSubstation.Count();
+            ViewBag.SubstationCount = _context.TblSubstation.Count();
 
             ViewBag.DistributionTransformerCount = _context.TblDistributionTransformer.Count();
             ViewBag.FeederLineCount = _context.TblFeederLine.Count();
@@ -99,8 +99,7 @@ namespace Pdb014App.Controllers
                     ZoneName = k.Key,
                     PtCount = k.Count()
                 }).ToList();
-
-
+            
 
             var zoneList = _context.LookUpZoneInfo.Select(i => i.ZoneName).ToList();
 

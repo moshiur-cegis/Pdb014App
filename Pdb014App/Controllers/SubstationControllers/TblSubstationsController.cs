@@ -36,8 +36,10 @@ namespace Pdb014App.Controllers.SubstationControllers
             }
 
             var tblSubstation = await _context.TblSubstation
-                .Include(t => t.SubstationType)
-                .Include(t => t.SubstationToLookUpSnD)
+                .Include(st => st.SubstationType)
+                //.Include(st => st.SubstationToLookUpSnD)
+                .Include(st => st.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(st => st.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .FirstOrDefaultAsync(m => m.SubstationId == id);
             if (tblSubstation == null)
             {

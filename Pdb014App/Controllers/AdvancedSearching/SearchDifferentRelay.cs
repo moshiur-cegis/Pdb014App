@@ -17,40 +17,21 @@ using Pdb014App.Models.PDB.MeteringPanelModels;
 
 namespace Pdb014App.Controllers.AdvancedSearching
 {
-
     public partial class AdvancedSearchingController : Controller
     {
-
-        public async Task<IActionResult> SearchDifferentRelay(int modelId = 1, int pageIndex = 1, string sort = "DifferentRelayId", string sortExp = "DifferentRelayId")
+        public async Task<IActionResult> SearchDifferentRelay([FromQuery] string cai, int pageIndex = 1, string sort = "DifferentRelayId")
         {
-            //if (searchParameters == null)
-            //{
-            //    searchParameters = TempData["SearchParameters"] as List<List<string>>;
-            //}
-            //else
-            //{
-            //    TempData["SearchParameters"] = searchParameters;
-            //}
-
-
+            ViewBag.TotalRecords = _dbContext.LookUpDifferentRelay.AsNoTracking().Count();
             ViewBag.SearchParameters = new List<List<string>>(3);
-
-
-            var fieldsDB = _context
-                .LookUpModelFieldInfo
-                .Where(mf => mf.ModelId == modelId)
-                .Select(fi => new { Value = fi.FieldName, Text = fi.FieldDisplayName })
-                .ToList();
 
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "ManufacturersName", Text = "Manufacturers Name"},
-                new SelectListItem {Value = "CountryOfOrigin", Text = "Country of Origin"},
-                new SelectListItem {Value = "ManufacturersModelNo", Text = "Manufacturers Model No."},
-                new SelectListItem {Value = "RelayTypeName", Text = "Type of Relay"}
+                new SelectListItem {Value = "drel.ManufacturersName", Text = "Manufacturers Name"},
+                new SelectListItem {Value = "drel.CountryOfOrigin", Text = "Country of Origin"},
+                new SelectListItem {Value = "drel.ManufacturersModelNo", Text = "Manufacturers Model No."},
+                new SelectListItem {Value = "drtl.RelayTypeName", Text = "Type of Relay"}
             };
-
 
             var operators = new List<SelectListItem>
             {
@@ -73,47 +54,33 @@ namespace Pdb014App.Controllers.AdvancedSearching
             ViewBag.FieldList = fieldList;
             ViewBag.OperatorList = operatorList;
 
-            var qry = _context.LookUpDifferentRelay.AsNoTracking()
-                .Include(l => l.DifferentTypesOfRelay)
+            var qry = _dbContext.LookUpDifferentRelay.AsNoTracking()
+                .Include(dr => dr.DifferentTypesOfRelay)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, sortExp);
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "DifferentRelayId");
+
+            searchResult.RouteValue = new RouteValueDictionary { { "cai", cai } };
 
             return View("SearchDifferentRelay", searchResult);
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> SearchDifferentRelay(List<List<string>> searchParameters, int modelId = 1, int pageIndex = 1, string sort = "DifferentRelayId", string sortExp = "DifferentRelayId")
+        //[HttpPost]
+        [HttpGet]
+        public async Task<IActionResult> SearchDifferentRelay(List<List<string>> searchParameters, [FromQuery] string cai, int pageIndex = 1, string sort = "DifferentRelayId")
         {
-            //if (searchParameters == null)
-            //{
-            //    searchParameters = TempData["SearchParameters"] as List<List<string>>;
-            //}
-            //else
-            //{
-            //    TempData["SearchParameters"] = searchParameters;
-            //}
-
-
-            //ViewData["SearchParameters"] = searchParameters;
+            ViewBag.TotalRecords = _dbContext.LookUpDifferentRelay.AsNoTracking().Count();
             ViewBag.SearchParameters = searchParameters;
-
-            var fieldsDB = _context
-                .LookUpModelFieldInfo
-                .Where(mf => mf.ModelId == modelId)
-                .Select(fi => new { Value = fi.FieldName, Text = fi.FieldDisplayName })
-                .ToList();
 
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "ManufacturersName", Text = "Manufacturers Name"},
-                new SelectListItem {Value = "CountryOfOrigin", Text = "Country of Origin"},
-                new SelectListItem {Value = "ManufacturersModelNo", Text = "Manufacturers Model No."},
-                new SelectListItem {Value = "RelayTypeName", Text = "Type of Relay"}
+                new SelectListItem {Value = "drel.ManufacturersName", Text = "Manufacturers Name"},
+                new SelectListItem {Value = "drel.CountryOfOrigin", Text = "Country of Origin"},
+                new SelectListItem {Value = "drel.ManufacturersModelNo", Text = "Manufacturers Model No."},
+                new SelectListItem {Value = "drtl.RelayTypeName", Text = "Type of Relay"}
             };
-
 
             var operators = new List<SelectListItem>
             {
@@ -137,29 +104,35 @@ namespace Pdb014App.Controllers.AdvancedSearching
             ViewBag.OperatorList = operatorList;
 
 
-            var qry = _context.LookUpDifferentRelay.AsNoTracking();
-
+            Expression<Func<LookUpDifferentRelay, bool>> searchExp = null;
+            var searchParametersRoute = new RouteValueDictionary { { "cai", cai } };
+            //searchParametersRoute.Add("cai", cai);
 
             if (searchParameters != null && searchParameters.Count > 0)
             {
-                Expression<Func<LookUpDifferentRelay, Boolean>> searchExp = null;
-
-                var searchOptions = searchParameters
-                    .Select(so => new SearchParameter
-                    {
-                        FieldName = so[0],
-                        Operator = so[1],
-                        FieldValue = so[2],
-                        JoinOption = so[3]
-                    }).ToList();
-
+                int pc = 0;
                 string joinOption = "";
-                foreach (var searchOption in searchOptions)
+
+                foreach (var searchParameter in searchParameters)
                 {
-                    if (string.IsNullOrEmpty(searchOption.FieldName) || string.IsNullOrEmpty(searchOption.Operator))
+                    if (string.IsNullOrEmpty(searchParameter[0]) || string.IsNullOrEmpty(searchParameter[1]))
                         continue;
 
-                    Expression<Func<LookUpDifferentRelay, Boolean>> tempExp = null;
+                    for (int oc = 0; oc < searchParameter.Count; oc++)
+                    {
+                        searchParametersRoute.Add("searchParameters[" + pc + "][" + oc + "]", searchParameter[oc]);
+                    }
+                    ++pc;
+
+                    var searchOption = new SearchParameter
+                    {
+                        FieldName = searchParameter[0].Contains('.') ? searchParameter[0].Split('.')[1] : searchParameter[0],
+                        Operator = searchParameter[1],
+                        FieldValue = searchParameter[2],
+                        JoinOption = searchParameter[3]
+                    };
+
+                    Expression<Func<LookUpDifferentRelay, bool>> tempExp = null;
 
                     switch (searchOption.FieldName)
                     {
@@ -331,23 +304,25 @@ namespace Pdb014App.Controllers.AdvancedSearching
                     joinOption = searchOption.JoinOption;
                 }
 
-
-                if (searchExp != null)
-                    qry = qry.Where(searchExp);
             }
 
+
+            var qry = searchExp != null
+                ? _dbContext.LookUpDifferentRelay.AsNoTracking().Where(searchExp)
+                : _dbContext.LookUpDifferentRelay.AsNoTracking();
+
             qry = qry
-                .Include(l => l.DifferentTypesOfRelay)
+                .Include(dr => dr.DifferentTypesOfRelay)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, sortExp);
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "DifferentRelayId");
+
+            searchResult.RouteValue = searchParametersRoute;
 
             return View("SearchDifferentRelay", searchResult);
 
         }
 
     }
-
-
 
 }

@@ -13,87 +13,25 @@
 
     Model.Action = "AdvancedSearch";
 
-    //Model.Item1.Action = "AdvancedSearch";
-    //Model.Item1.RouteValue = new RouteValueDictionary();
+    var totalRecords = ViewBag.TotalRecords;
+    var searchRecords = Model.TotalRecordCount;
+
+
+    var spCount = 3;
+    var searchParameters = ViewBag.SearchParameters as List<List<string>>;
+
+    if (searchParameters == null || searchParameters.Count < 1)
+    {
+        searchParameters = new List<List<string>>(spCount);
+    }
+
 }
 
 
 @section Styles {
 
     <link href="~/css/datastyle.css" rel="stylesheet" />
-
-
-    <style type="text/css">
-
-        table.table {
-            table-layout: fixed;
-        }
-
-            table.table tr th,
-            table.table tr td {
-                border-color: #e9e9e9;
-            }
-
-            table.table th {
-                min-width: 80px;
-            }
-
-                table.table th:last-child {
-                    width: 100px;
-                }
-
-                table.table th i {
-                    font-size: 13px;
-                    margin: 0 5px;
-                    cursor: pointer;
-                }
-
-            table.table td a {
-                cursor: pointer;
-                display: inline-block;
-                margin: 0 5px;
-                min-width: 24px;
-            }
-
-                table.table td a.add {
-                    color: #27C46B;
-                }
-
-                table.table td a.edit {
-                    color: #FFC107;
-                }
-
-                table.table td a.delete {
-                    color: #E34724;
-                }
-
-            table.table td i {
-                font-size: 19px;
-            }
-
-            table.table td a.add i {
-                font-size: 24px;
-                margin-right: -1px;
-                position: relative;
-                top: 3px;
-            }
-
-
-            table.table .form-control {
-                width: 100%;
-                padding: 2px 5px;
-                line-height: 1.0;
-            }
-
-                table.table .form-control.error {
-                    border-color: #f50000;
-                }
-
-            table.table td .add {
-                display: none;
-            }
-    </style>
-
+    <link href="~/css/search.style.css" rel="stylesheet" />
 }
 
 
@@ -104,26 +42,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <form method="post" asp-controller="AdvancedSearching" asp-action="AdvancedSearch">
-
-                @{
-                    var searchParameters = ViewBag.SearchParameters as List<List<string>>;
-
-                    //var searchParameters = ViewData["SearchParameters"] as IList<SearchParameter>;
-                    //var searchParameters = (Model.Item2 != null && Model.Item2.Any()) ? Model.Item2 : new List<SearchParameter>(3);
-
-                    var spCount = 0;
-                    if (searchParameters == null || searchParameters.Count < 1)
-                    {
-                        spCount = 3;
-                        searchParameters = new List<List<string>>(3);
-                    }
-                    else
-                    {
-                        spCount = searchParameters.Count;
-                    }
-                }
-
+            <form method="get" asp-controller="AdvancedSearching" asp-action="AdvancedSearch">
 
                 <table id="tblSearchOptions" class="table table-responsive" cellpadding="0" cellspacing="0">
                     <thead>
@@ -200,11 +119,19 @@
             </div>
         </div>*@
 
-    <br />
-
 
     <div class="row">
         <div class="col-md-12">
+
+            @if (searchRecords == totalRecords)
+            {
+                <strong>Total Records: <span style="font-size: 110%; color: #13d;">@totalRecords</span></strong>
+            }
+            else
+            {
+                <strong>Find <span style="font-size: 110%; color: #15c;">@searchRecords</span> Records out of <span style="font-size: 110%; color: #13d;">@totalRecords</span> Records</strong>
+            }
+
             <div class="form-view" id="updatePanel">
                 <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
                     <table id="multi-form-view" class="table table-responsive multi-form-view">
@@ -260,11 +187,11 @@
                                     @Html.SortableHeaderFor(model => model.StreetLight)
                                 </th>
                                 @*<th>
-                                    @Html.SortableHeaderFor(model => model.SourceCableId)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.TargetCableId)
-                                </th>*@
+                                        @Html.SortableHeaderFor(model => model.SourceCableId)
+                                    </th>
+                                    <th>
+                                        @Html.SortableHeaderFor(model => model.TargetCableId)
+                                    </th>*@
                                 <th>
                                     @Html.SortableHeaderFor(model => model.Latitude)
                                 </th>
@@ -328,11 +255,11 @@
                                         @Html.DisplayFor(modelItem => item.StreetLight)
                                     </td>
                                     @*<td>
-                                        @Html.DisplayFor(modelItem => item.PoleToSourceFeederLine.FeederName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PoleToTargetFeederLine.FeederName)
-                                    </td>*@
+                                            @Html.DisplayFor(modelItem => item.PoleToSourceFeederLine.FeederName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PoleToTargetFeederLine.FeederName)
+                                        </td>*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Latitude)
                                     </td>

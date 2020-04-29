@@ -35,11 +35,11 @@
     .jquery-accordion-menu .menu-header {
         position: relative;
         width: 100%;
-        padding: 14px 22px 14px 23px;
+        padding: 14px 20px;
         float: left;
         line-height: 25px;
         color: #fff;
-        font-size: 20px;
+        font-size: 1.45rem;
         background-color: #0d7d8c;
         text-decoration: none;
         white-space: normal;
@@ -66,7 +66,7 @@
     .jquery-accordion-menu .jquery-accordion-menu-header {
         width: 100%;
         height: 50px;
-        padding-left: 23px;
+        padding-left: 22px;
         float: left;
         line-height: 50px;
         font-weight: 600;
@@ -90,11 +90,11 @@
             .jquery-accordion-menu ul li a {
                 position: relative;
                 width: 100%;
-                padding: 14px 22px 14px 23px;
+                padding: 14px 22px;
                 float: left;
                 text-decoration: none;
                 color: #fff;
-                font-size: 12px;
+                font-size: 0.85rem;
                 background: #056;
                 white-space: normal;
                 overflow: hidden;
@@ -120,11 +120,11 @@
     }
 
     .jquery-accordion-menu ul li a i {
-        width: 35px;
+        width: 36px;
         float: left;
-        line-height: 18px;
+        line-height: 1.15;
         /*font-size: 20px;*/
-        font-size: 16px;
+        font-size: 1.0rem;
         text-align: left
     }
 
@@ -132,8 +132,8 @@
         float: right;
         right: 6px; /*22px;*/
         position: absolute;
-        line-height: 18px;
-        font-size: 20px;
+        line-height: 1.15;
+        font-size: 1.25rem;
         -o-transition: transform .3s linear;
         -moz-transition: transform .3s linear;
         -webkit-transition: transform .3s linear;
@@ -165,7 +165,7 @@
             .jquery-accordion-menu ul ul.submenu li a {
                 width: 100%;
                 float: left;
-                font-size: 12px; /*11px;*/
+                font-size: 0.75rem; /*11px;*/
                 background: #01424a; /*#383838;*/
                 border-top: none;
                 position: relative;
@@ -241,7 +241,7 @@
             position: absolute;
             right: 18px;
             top: 14px;
-            font-size: 11px;
+            font-size: 0.7rem;
             font-weight: 800;
             color: #555;
             text-align: center;

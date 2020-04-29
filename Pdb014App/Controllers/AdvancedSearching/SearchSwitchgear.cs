@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-
 using ReflectionIT.Mvc.Paging;
 
 using Pdb014App.Models.Search;
@@ -20,62 +19,27 @@ namespace Pdb014App.Controllers.AdvancedSearching
     public partial class AdvancedSearchingController : Controller
     {
 
-        public async Task<IActionResult> SearchSwitchgear(int modelId = 1, int pageIndex = 1, string sort = "SwitchGearID", string sortExp = "SwitchGearID")
+        public async Task<IActionResult> SearchSwitchgear([FromQuery] string cai, int pageIndex = 1, string sort = "SwitchGearID")
         {
-            //if (searchParameters == null)
-            //{
-            //    searchParameters = TempData["SearchParameters"] as List<List<string>>;
-            //}
-            //else
-            //{
-            //    TempData["SearchParameters"] = searchParameters;
-            //}
-
-
+            ViewBag.TotalRecords = _dbContext.TblSwitchGear.AsNoTracking().Count();
             ViewBag.SearchParameters = new List<List<string>>(3);
-
-
-            var fieldsDB = _context
-                .LookUpModelFieldInfo
-                .Where(mf => mf.ModelId == modelId)
-                .Select(fi => new { Value = fi.FieldName, Text = fi.FieldDisplayName })
-                .ToList();
 
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "SwitchGearType", Text = "SwitchGear Type"},
-                new SelectListItem {Value = "ManufacturersNameAndAddress", Text = "Manufacturers Name and Address"},
-                new SelectListItem {Value = "AppliedStandard", Text = "Applied Standard"},
-                new SelectListItem {Value = "RatedNominalVoltage", Text = "Rated Nominal Voltage"},
-                new SelectListItem {Value = "RatedVoltage", Text = "Rated Voltage"},
-                new SelectListItem {Value = "RatedCurrentForMainBus", Text = "Rated Current for Main Bus"},
-                new SelectListItem {Value = "RatedShortTimeCurrent", Text = "Rated Short Time Current"},
-                new SelectListItem {Value = "ShortTimeCurrentRatedDuration", Text = "Short Time Current Rated Duration"},
-                
-                new SelectListItem {Value = "CircuitBreaker", Text = "Circuit Breaker Type"},
-                new SelectListItem {Value = "SwitchGearIdmtRelay", Text = "IDMT Relay"},
-                new SelectListItem {Value = "TripRelay", Text = "Trip Relay"},
-                
-                //new SelectListItem {Value = "", Text = "TripCircuitSupervisionRelay"},
-                //new SelectListItem {Value = "", Text = "CurrentTransformer"},
-                //new SelectListItem {Value = "", Text = "SwitchPosition"},
-                //new SelectListItem {Value = "", Text = "AcWithStandVoltageDry"},
-                //new SelectListItem {Value = "", Text = "ImpulseWithStandFullWave"},
-                //new SelectListItem {Value = "", Text = "Enclosure"},
-                //new SelectListItem {Value = "", Text = "HvCompartment"},
-                //new SelectListItem {Value = "", Text = "LvCompartment"},
-                //new SelectListItem {Value = "", Text = "Sf6SafetyAndLife"},
-                //new SelectListItem {Value = "", Text = "VoltMeter"},
-                //new SelectListItem {Value = "", Text = "AmpereMeter"},
-                //new SelectListItem {Value = "", Text = "BusBar"},
-                //new SelectListItem {Value = "", Text = "ReatedVoltage"},
-                //new SelectListItem {Value = "", Text = "ReatedCurrent"},
-                //new SelectListItem {Value = "", Text = "ReatedShortCircuitBreakerCurrent"},
-                //new SelectListItem {Value = "", Text = "PhasePowerTransformer"},
-                //new SelectListItem {Value = "", Text = "DimensionAndWeight"},
-            };
+                new SelectListItem {Value = "sgtl.SwitchGearTypeName", Text = "Switchgear Type"},
+                new SelectListItem {Value = "sgt.ManufacturersNameAndAddress", Text = "Manufacturers Name and Address"},
+                new SelectListItem {Value = "sgt.AppliedStandard", Text = "Applied Standard"},
+                new SelectListItem {Value = "sgt.RatedNominalVoltage", Text = "Rated Nominal Voltage"},
+                new SelectListItem {Value = "sgt.RatedVoltage", Text = "Rated Voltage"},
+                new SelectListItem {Value = "sgt.RatedCurrentForMainBus", Text = "Rated Current for Main Bus"},
+                new SelectListItem {Value = "sgt.RatedShortTimeCurrent", Text = "Rated Short Time Current"},
+                new SelectListItem {Value = "sgt.ShortTimeCurrentRatedDuration", Text = "Short Time Current Rated Duration"},
 
+                new SelectListItem {Value = "cbrl.CircuitBreaker.Type", Text = "Circuit Breaker Type"},
+                new SelectListItem {Value = "drel.IdmtRelay.ManufacturersModelNo", Text = "IDMT Relay Model No."},
+                new SelectListItem {Value = "drel.TripRelay.ManufacturersModelNo", Text = "Trip Relay Model No."},
+            };
 
             var operators = new List<SelectListItem>
             {
@@ -98,85 +62,57 @@ namespace Pdb014App.Controllers.AdvancedSearching
             ViewBag.FieldList = fieldList;
             ViewBag.OperatorList = operatorList;
 
-            var qry = _context.TblSwitchGear.AsNoTracking()
-                .Include(t => t.SwitchGearToIdmtRelay)
-                .Include(t => t.SwitchGearToAmpereMeter)
-                .Include(t => t.SwitchGearToBusBar)
-                .Include(t => t.SwitchGearToCircuitBreaker)
-                .Include(t => t.SwitchGearToCurrentTransformer)
-                .Include(t => t.SwitchGearToDimensionAndWeight)
-                .Include(t => t.SwitchGearToPhasePowerTransformer)
-                .Include(t => t.SwitchGearToSf6SafetyAndLife)
-                .Include(t => t.SwitchGearToSwitchPosition)
-                .Include(t => t.SwitchGearToTripCircuitSupervisionRelay)
-                .Include(t => t.SwitchGearToTripRelay)
-                .Include(t => t.SwitchGearToVoltMeter)
-                .Include(t => t.SwitchGearType)
+            var qry = _dbContext.TblSwitchGear.AsNoTracking()
+                .Include(sg => sg.SwitchGearToIdmtRelay)
+                .Include(sg => sg.SwitchGearToAmpereMeter)
+                .Include(sg => sg.SwitchGearToBusBar)
+                .Include(sg => sg.SwitchGearToCircuitBreaker)
+                .Include(sg => sg.SwitchGearToCurrentTransformer)
+                .Include(sg => sg.SwitchGearToDimensionAndWeight)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer)
+                .Include(sg => sg.SwitchGearToSf6SafetyAndLife)
+                .Include(sg => sg.SwitchGearToSwitchPosition)
+                .Include(sg => sg.SwitchGearToTripCircuitSupervisionRelay)
+                .Include(sg => sg.SwitchGearToTripRelay)
+                .Include(sg => sg.SwitchGearToVoltMeter)
+                .Include(sg => sg.SwitchGearType)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationType)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, sortExp);
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "SwitchGearID");
+
+            searchResult.RouteValue = new RouteValueDictionary { { "cai", cai } };
 
             return View("SearchSwitchgear", searchResult);
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> SearchSwitchgear(List<List<string>> searchParameters, int modelId = 1, int pageIndex = 1, string sort = "SwitchGearID", string sortExp = "SwitchGearID")
+        //[HttpPost]
+        [HttpGet]
+        public async Task<IActionResult> SearchSwitchgear(List<string> regionList, List<List<string>> searchParameters, string cai, int pageIndex = 1, string sort = "SwitchGearID")
         {
-            //if (searchParameters == null)
-            //{
-            //    searchParameters = TempData["SearchParameters"] as List<List<string>>;
-            //}
-            //else
-            //{
-            //    TempData["SearchParameters"] = searchParameters;
-            //}
-
-
-            //ViewData["SearchParameters"] = searchParameters;
+            ViewBag.TotalRecords = _dbContext.TblSwitchGear.AsNoTracking().Count();
             ViewBag.SearchParameters = searchParameters;
-
-            var fieldsDB = _context
-                .LookUpModelFieldInfo
-                .Where(mf => mf.ModelId == modelId)
-                .Select(fi => new { Value = fi.FieldName, Text = fi.FieldDisplayName })
-                .ToList();
 
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "SwitchGearType", Text = "SwitchGear Type"},
-                new SelectListItem {Value = "ManufacturersNameAndAddress", Text = "Manufacturers Name and Address"},
-                new SelectListItem {Value = "AppliedStandard", Text = "Applied Standard"},
-                new SelectListItem {Value = "RatedNominalVoltage", Text = "Rated Nominal Voltage"},
-                new SelectListItem {Value = "RatedVoltage", Text = "Rated Voltage"},
-                new SelectListItem {Value = "RatedCurrentForMainBus", Text = "Rated Current for Main Bus"},
-                new SelectListItem {Value = "RatedShortTimeCurrent", Text = "Rated Short Time Current"},
-                new SelectListItem {Value = "ShortTimeCurrentRatedDuration", Text = "Short Time Current Rated Duration"},
+                new SelectListItem {Value = "sgtl.SwitchGearTypeName", Text = "Switchgear Type"},
+                new SelectListItem {Value = "sgt.ManufacturersNameAndAddress", Text = "Manufacturers Name and Address"},
+                new SelectListItem {Value = "sgt.AppliedStandard", Text = "Applied Standard"},
+                new SelectListItem {Value = "sgt.RatedNominalVoltage", Text = "Rated Nominal Voltage"},
+                new SelectListItem {Value = "sgt.RatedVoltage", Text = "Rated Voltage"},
+                new SelectListItem {Value = "sgt.RatedCurrentForMainBus", Text = "Rated Current for Main Bus"},
+                new SelectListItem {Value = "sgt.RatedShortTimeCurrent", Text = "Rated Short Time Current"},
+                new SelectListItem {Value = "sgt.ShortTimeCurrentRatedDuration", Text = "Short Time Current Rated Duration"},
 
-                new SelectListItem {Value = "CircuitBreaker", Text = "Circuit Breaker Type"},
-                new SelectListItem {Value = "SwitchGearIdmtRelay", Text = "IDMT Relay"},
-                new SelectListItem {Value = "TripRelay", Text = "Trip Relay"},
-                
-                //new SelectListItem {Value = "", Text = "TripCircuitSupervisionRelay"},
-                //new SelectListItem {Value = "", Text = "CurrentTransformer"},
-                //new SelectListItem {Value = "", Text = "SwitchPosition"},
-                //new SelectListItem {Value = "", Text = "AcWithStandVoltageDry"},
-                //new SelectListItem {Value = "", Text = "ImpulseWithStandFullWave"},
-                //new SelectListItem {Value = "", Text = "Enclosure"},
-                //new SelectListItem {Value = "", Text = "HvCompartment"},
-                //new SelectListItem {Value = "", Text = "LvCompartment"},
-                //new SelectListItem {Value = "", Text = "Sf6SafetyAndLife"},
-                //new SelectListItem {Value = "", Text = "VoltMeter"},
-                //new SelectListItem {Value = "", Text = "AmpereMeter"},
-                //new SelectListItem {Value = "", Text = "BusBar"},
-                //new SelectListItem {Value = "", Text = "ReatedVoltage"},
-                //new SelectListItem {Value = "", Text = "ReatedCurrent"},
-                //new SelectListItem {Value = "", Text = "ReatedShortCircuitBreakerCurrent"},
-                //new SelectListItem {Value = "", Text = "PhasePowerTransformer"},
-                //new SelectListItem {Value = "", Text = "DimensionAndWeight"},
+                new SelectListItem {Value = "cbrl.CircuitBreaker.Type", Text = "Circuit Breaker Type"},
+                new SelectListItem {Value = "drel.IdmtRelay.ManufacturersModelNo", Text = "IDMT Relay Model No."},
+                new SelectListItem {Value = "drel.TripRelay.ManufacturersModelNo", Text = "Trip Relay Model No."},
             };
-
 
             var operators = new List<SelectListItem>
             {
@@ -200,33 +136,119 @@ namespace Pdb014App.Controllers.AdvancedSearching
             ViewBag.OperatorList = operatorList;
 
 
-            var qry = _context.TblSwitchGear.AsNoTracking();
+            Expression<Func<TblSwitchGear, bool>> searchExp = null;
+
+            string zoneCode, circleCode, snDCode, substationCode, routeCode;
+
+            zoneCode = circleCode = snDCode = substationCode = routeCode = "";
+
+            if (regionList != null && regionList.Count > 0 && !string.IsNullOrEmpty(regionList[0]))
+            {
+                zoneCode = regionList[0];
+
+                searchExp = model =>
+                    model.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
+
+                ViewBag.CircleList = new SelectList(_dbContext.LookUpCircleInfo
+                    .Where(c => c.ZoneCode.Equals(zoneCode))
+                    .Select(c => new { c.CircleCode, c.CircleName })
+                    .OrderBy(c => c.CircleCode).ToList(), "CircleCode", "CircleName", circleCode);
+
+                if (regionList.Count > 1 && !string.IsNullOrEmpty(regionList[1]))
+                {
+                    circleCode = regionList[1];
+
+                    Expression<Func<TblSwitchGear, bool>> tempExp = model =>
+                        model.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleCode == circleCode;
+                    searchExp = ExpressionExtension<TblSwitchGear>.AndAlso(searchExp, tempExp);
+
+                    ViewBag.SnDList = new SelectList(_dbContext.LookUpSnDInfo
+                        .Where(sd => sd.CircleCode.Equals(circleCode))
+                        .Select(sd => new { sd.SnDCode, sd.SnDName })
+                        .OrderBy(sd => sd.SnDCode).ToList(), "SnDCode", "SnDName", snDCode);
+
+                    if (regionList.Count > 2 && !string.IsNullOrEmpty(regionList[2]))
+                    {
+                        snDCode = regionList[2];
+
+                        tempExp = model => model.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SnDCode == snDCode;
+                        searchExp = ExpressionExtension<TblSwitchGear>.AndAlso(searchExp, tempExp);
+
+                        ViewBag.SubstationList = new SelectList(_dbContext.TblSubstation
+                            .Where(ss => ss.SnDCode.Equals(snDCode))
+                            .Select(ss => new { ss.SubstationId, ss.SubstationName })
+                            .OrderBy(ss => ss.SubstationId).ToList(), "SubstationId", "SubstationName", substationCode);
+
+
+                        if (regionList.Count > 3 && !string.IsNullOrEmpty(regionList[3]))
+                        {
+                            substationCode = regionList[3];
+
+                            tempExp = model => model.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationId == substationCode;
+                            searchExp = ExpressionExtension<TblSwitchGear>.AndAlso(searchExp, tempExp);
+
+                            if (regionList.Count > 4)
+                            {
+                                routeCode = regionList[4];
+
+                                tempExp = model => model.SwitchGearToPhasePowerTransformer.PhasePowerTransformerTo33KvFeederLine.FeederLineToRoute.RouteCode == routeCode;
+                                searchExp = ExpressionExtension<TblSwitchGear>.AndAlso(searchExp, tempExp);
+
+                                ViewBag.RouteList = new SelectList(_dbContext.LookUpRouteInfo
+                                    .Where(ri => ri.RouteToSubstation.SubstationId.Equals(substationCode))
+                                    .Select(ri => new { ri.RouteCode, ri.RouteName })
+                                    .OrderBy(ri => ri.RouteCode).ToList(), "RouteCode", "RouteName", routeCode);
+                            }
+                        }
+                    }
+                }
+            }
+
+            ViewBag.RegionList = regionList;
+            ViewBag.ZoneList = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName", zoneCode);
+
+            var searchParametersRoute = new RouteValueDictionary()
+            {
+                { "cai", cai },
+                {"regionList[0]", zoneCode},
+                {"regionList[1]", circleCode},
+                {"regionList[2]", snDCode},
+                {"regionList[3]", substationCode},
+                {"regionList[4]", routeCode}
+            };
 
 
             if (searchParameters != null && searchParameters.Count > 0)
             {
-                Expression<Func<TblSwitchGear, Boolean>> searchExp = null;
-
-                var searchOptions = searchParameters
-                    .Select(so => new SearchParameter
-                    {
-                        FieldName = so[0],
-                        Operator = so[1],
-                        FieldValue = so[2],
-                        JoinOption = so[3]
-                    }).ToList();
-
+                int pc = 0;
                 string joinOption = "";
-                foreach (var searchOption in searchOptions)
+
+                foreach (var searchParameter in searchParameters)
                 {
-                    if (string.IsNullOrEmpty(searchOption.FieldName) || string.IsNullOrEmpty(searchOption.Operator))
+                    if (string.IsNullOrEmpty(searchParameter[0]) || string.IsNullOrEmpty(searchParameter[1]))
                         continue;
 
-                    Expression<Func<TblSwitchGear, Boolean>> tempExp = null;
+                    for (int oc = 0; oc < searchParameter.Count; oc++)
+                    {
+                        searchParametersRoute.Add("searchParameters[" + pc + "][" + oc + "]", searchParameter[oc]);
+                    }
+                    ++pc;
+
+                    var searchOption = new SearchParameter
+                    {
+                        FieldName = searchParameter[0].Contains('.')
+                            ? searchParameter[0].Split('.')[1]
+                            : searchParameter[0],
+                        Operator = searchParameter[1],
+                        FieldValue = searchParameter[2],
+                        JoinOption = searchParameter[3]
+                    };
+
+                    Expression<Func<TblSwitchGear, bool>> tempExp = null;
 
                     switch (searchOption.FieldName)
                     {
-                        case "SwitchGearType":
+                        case "SwitchGearTypeName":
                             switch (searchOption.Operator)
                             {
                                 case "=":
@@ -258,7 +280,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-                            
+
                         case "ManufacturersNameAndAddress":
                             switch (searchOption.Operator)
                             {
@@ -291,7 +313,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-                            
+
                         case "AppliedStandard":
                             switch (searchOption.Operator)
                             {
@@ -456,7 +478,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-                            
+
                         case "ShortTimeCurrentRatedDuration":
                             switch (searchOption.Operator)
                             {
@@ -522,7 +544,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-
+                            
                         case "IdmtRelay":
                             switch (searchOption.Operator)
                             {
@@ -555,7 +577,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-
+                            
                         case "TripRelay":
                             switch (searchOption.Operator)
                             {
@@ -605,34 +627,42 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
                     joinOption = searchOption.JoinOption;
                 }
-
-
-                if (searchExp != null)
-                    qry = qry.Where(searchExp);
+                
             }
 
+
+            var qry = searchExp != null
+                ? _dbContext.TblSwitchGear.AsNoTracking().Where(searchExp)
+                : _dbContext.TblSwitchGear.AsNoTracking();
+
             qry = qry
-                .Include(t => t.SwitchGearToIdmtRelay)
-                .Include(t => t.SwitchGearToAmpereMeter)
-                .Include(t => t.SwitchGearToBusBar)
-                .Include(t => t.SwitchGearToCircuitBreaker)
-                .Include(t => t.SwitchGearToCurrentTransformer)
-                .Include(t => t.SwitchGearToDimensionAndWeight)
-                .Include(t => t.SwitchGearToPhasePowerTransformer)
-                .Include(t => t.SwitchGearToSf6SafetyAndLife)
-                .Include(t => t.SwitchGearToSwitchPosition)
-                .Include(t => t.SwitchGearToTripCircuitSupervisionRelay)
-                .Include(t => t.SwitchGearToTripRelay)
-                .Include(t => t.SwitchGearToVoltMeter)
-                .Include(t => t.SwitchGearType)
+                .Include(sg => sg.SwitchGearToIdmtRelay)
+                .Include(sg => sg.SwitchGearToAmpereMeter)
+                .Include(sg => sg.SwitchGearToBusBar)
+                .Include(sg => sg.SwitchGearToCircuitBreaker)
+                .Include(sg => sg.SwitchGearToCurrentTransformer)
+                .Include(sg => sg.SwitchGearToDimensionAndWeight)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer)
+                .Include(sg => sg.SwitchGearToSf6SafetyAndLife)
+                .Include(sg => sg.SwitchGearToSwitchPosition)
+                .Include(sg => sg.SwitchGearToTripCircuitSupervisionRelay)
+                .Include(sg => sg.SwitchGearToTripRelay)
+                .Include(sg => sg.SwitchGearToVoltMeter)
+                .Include(sg => sg.SwitchGearType)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationType)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, sortExp);
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "SwitchGearID");
+
+            searchResult.RouteValue = searchParametersRoute;
 
             return View("SearchSwitchgear", searchResult);
 
         }
 
     }
-       
+
 }

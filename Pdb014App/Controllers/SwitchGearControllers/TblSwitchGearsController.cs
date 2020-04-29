@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Pdb014App.Models.PDB.SwitchGearModels;
 using Pdb014App.Repository;
 
+
 namespace Pdb014App.Controllers.SwitchGearControllers
 {
     public class TblSwitchGearsController : Controller
@@ -23,19 +24,19 @@ namespace Pdb014App.Controllers.SwitchGearControllers
         public async Task<IActionResult> Index()
         {
             var pdbDbContext = _context.TblSwitchGear
-                .Include(t => t.SwitchGearToIdmtRelay)
-                .Include(t => t.SwitchGearToAmpereMeter)
-                .Include(t => t.SwitchGearToBusBar)
-                .Include(t => t.SwitchGearToCircuitBreaker)
-                .Include(t => t.SwitchGearToCurrentTransformer)
-                .Include(t => t.SwitchGearToDimensionAndWeight)
-                .Include(t => t.SwitchGearToPhasePowerTransformer)
-                .Include(t => t.SwitchGearToSf6SafetyAndLife)
-                .Include(t => t.SwitchGearToSwitchPosition)
-                .Include(t => t.SwitchGearToTripCircuitSupervisionRelay)
-                .Include(t => t.SwitchGearToTripRelay)
-                .Include(t => t.SwitchGearToVoltMeter)
-                .Include(t => t.SwitchGearType);
+                .Include(sg => sg.SwitchGearToIdmtRelay)
+                .Include(sg => sg.SwitchGearToAmpereMeter)
+                .Include(sg => sg.SwitchGearToBusBar)
+                .Include(sg => sg.SwitchGearToCircuitBreaker)
+                .Include(sg => sg.SwitchGearToCurrentTransformer)
+                .Include(sg => sg.SwitchGearToDimensionAndWeight)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer)
+                .Include(sg => sg.SwitchGearToSf6SafetyAndLife)
+                .Include(sg => sg.SwitchGearToSwitchPosition)
+                .Include(sg => sg.SwitchGearToTripCircuitSupervisionRelay)
+                .Include(sg => sg.SwitchGearToTripRelay)
+                .Include(sg => sg.SwitchGearToVoltMeter)
+                .Include(sg => sg.SwitchGearType);
 
             return View(await pdbDbContext.ToListAsync());
         }
@@ -49,19 +50,23 @@ namespace Pdb014App.Controllers.SwitchGearControllers
             }
 
             var tblSwitchGear = await _context.TblSwitchGear
-                .Include(t => t.SwitchGearToIdmtRelay)
-                .Include(t => t.SwitchGearToAmpereMeter)
-                .Include(t => t.SwitchGearToBusBar)
-                .Include(t => t.SwitchGearToCircuitBreaker)
-                .Include(t => t.SwitchGearToCurrentTransformer)
-                .Include(t => t.SwitchGearToDimensionAndWeight)
-                .Include(t => t.SwitchGearToPhasePowerTransformer)
-                .Include(t => t.SwitchGearToSf6SafetyAndLife)
-                .Include(t => t.SwitchGearToSwitchPosition)
-                .Include(t => t.SwitchGearToTripCircuitSupervisionRelay)
-                .Include(t => t.SwitchGearToTripRelay)
-                .Include(t => t.SwitchGearToVoltMeter)
-                .Include(t => t.SwitchGearType)
+                .Include(sg => sg.SwitchGearToIdmtRelay)
+                .Include(sg => sg.SwitchGearToAmpereMeter)
+                .Include(sg => sg.SwitchGearToBusBar)
+                .Include(sg => sg.SwitchGearToCircuitBreaker)
+                .Include(sg => sg.SwitchGearToCurrentTransformer)
+                .Include(sg => sg.SwitchGearToDimensionAndWeight)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer)
+                .Include(sg => sg.SwitchGearToSf6SafetyAndLife)
+                .Include(sg => sg.SwitchGearToSwitchPosition)
+                .Include(sg => sg.SwitchGearToTripCircuitSupervisionRelay)
+                .Include(sg => sg.SwitchGearToTripRelay)
+                .Include(sg => sg.SwitchGearToVoltMeter)
+                .Include(sg => sg.SwitchGearType)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationType)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .FirstOrDefaultAsync(m => m.SwitchGearID == id);
 
             if (tblSwitchGear == null)
@@ -209,19 +214,19 @@ namespace Pdb014App.Controllers.SwitchGearControllers
             }
 
             var tblSwitchGear = await _context.TblSwitchGear
-                .Include(t => t.SwitchGearToIdmtRelay)
-                .Include(t => t.SwitchGearToAmpereMeter)
-                .Include(t => t.SwitchGearToBusBar)
-                .Include(t => t.SwitchGearToCircuitBreaker)
-                .Include(t => t.SwitchGearToCurrentTransformer)
-                .Include(t => t.SwitchGearToDimensionAndWeight)
-                .Include(t => t.SwitchGearToPhasePowerTransformer)
-                .Include(t => t.SwitchGearToSf6SafetyAndLife)
-                .Include(t => t.SwitchGearToSwitchPosition)
-                .Include(t => t.SwitchGearToTripCircuitSupervisionRelay)
-                .Include(t => t.SwitchGearToTripRelay)
-                .Include(t => t.SwitchGearToVoltMeter)
-                .Include(t => t.SwitchGearType)
+                .Include(sg => sg.SwitchGearToIdmtRelay)
+                .Include(sg => sg.SwitchGearToAmpereMeter)
+                .Include(sg => sg.SwitchGearToBusBar)
+                .Include(sg => sg.SwitchGearToCircuitBreaker)
+                .Include(sg => sg.SwitchGearToCurrentTransformer)
+                .Include(sg => sg.SwitchGearToDimensionAndWeight)
+                .Include(sg => sg.SwitchGearToPhasePowerTransformer)
+                .Include(sg => sg.SwitchGearToSf6SafetyAndLife)
+                .Include(sg => sg.SwitchGearToSwitchPosition)
+                .Include(sg => sg.SwitchGearToTripCircuitSupervisionRelay)
+                .Include(sg => sg.SwitchGearToTripRelay)
+                .Include(sg => sg.SwitchGearToVoltMeter)
+                .Include(sg => sg.SwitchGearType)
                 .FirstOrDefaultAsync(m => m.SwitchGearID == id);
             if (tblSwitchGear == null)
             {

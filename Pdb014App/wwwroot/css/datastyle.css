@@ -38,7 +38,7 @@ tr.subTotal td,
 }
 
 .table {
-    border: 1px solid #ddd;
+    border: 1px solid #e0e3e5;
     margin: 0 auto;
     width: 100%
 }
@@ -49,11 +49,11 @@ tr.subTotal td,
     .table > tbody > tr:nth-child(even) > td,
     .table > tr:nth-child(odd) > td,
     .table > tbody > tr:nth-child(odd) > td {
-        border: 1px solid #ddd !important;
+        border: 1px solid #e0e3e5 !important;
         padding: 5px;
         text-align: left;
         color: #235;
-        font: 500 14px/1.42857 "Helvetica Neue", Helvetica, Arial, sans-serif;
+        /*font: 500 0.85rem/1.42857 "Helvetica Neue", Helvetica, Arial, sans-serif;*/
         background: #fff;
         /*font-family: Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;*/
     }
@@ -64,7 +64,7 @@ tr.subTotal td,
         text-align: center !important;
         vertical-align: middle !important;
         color: #125;
-        font: 500 14px/1.42857 Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        /*font: 500 0.85rem/1.42857 Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;*/
         text-transform: none;
         letter-spacing: 0.5px;
         background-color: #f0f7f8;
@@ -79,12 +79,13 @@ tr.subTotal td,
         .table > tr.sub-header-tr > th > i,
         .table > thead > th > i,
         .table > thead > tr > th > i {
-            font: italic 500 12px/1.42857 Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font: italic 500 0.75rem/1.42857 Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
     .table > tbody > tr:nth-child(even) > td {
         padding: 5px;
         background: #fafdfe !important;
+        background: #f3f5f5 !important;
     }
 
     .table > tr > td > input,
@@ -153,7 +154,7 @@ tr.subTotal td,
             margin: 6px;
             padding: 0;
             color: #137;
-            font: 600 14px/1.42857 Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font: 600 0.85rem/1.42857 Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
     .row_ > .col-auto {
@@ -186,13 +187,13 @@ tr.subTotal td,
 .data-title {
     margin: 20px 0 5px 0;
     color: #035;
-    font: 500 18pt/1.42857 Roboto, Tahoma, Geneva, Verdana, sans-serif;
+    font: 500 1.5rem/1.42857 Roboto, Tahoma, Geneva, Verdana, sans-serif;
     text-align: left;
 }
 
 .data-sub-title {
     margin: 5px 0;
     color: #058;
-    font: 500 14pt/1.42857 Roboto, Tahoma, Geneva, Verdana, sans-serif;
+    font: 500 1.25rem/1.42857 Roboto, Tahoma, Geneva, Verdana, sans-serif;
     text-align: left;
 }

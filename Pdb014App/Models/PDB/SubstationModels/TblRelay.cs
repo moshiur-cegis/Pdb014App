@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace Pdb014App.Models.PDB.SubstationModels
 {
     public class TblRelay
@@ -61,7 +62,7 @@ namespace Pdb014App.Models.PDB.SubstationModels
 //        [Column("FeederLineId", Order = 3, TypeName = "int")]
 //        [DataType(DataType.Text)]
 //        [Display(Name = "Feeder Line Id")]
-///*FK*/  public int FeederLineId { get; set; }
+//        /FK/  public int FeederLineId { get; set; }
 
         //        [Column("SubstationId", Order = 3, TypeName = "int")]
         //        [DataType(DataType.Text)]

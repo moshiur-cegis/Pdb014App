@@ -17,6 +17,7 @@ namespace Pdb014App.Models.PDB.ServicePointModels
         public int LocationId { get; set; }
 
         [Required]
+        [Display(Name = "Location Name")]
         [Column(Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]
         public string LocationName { get; set; }
