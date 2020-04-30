@@ -8,6 +8,8 @@
   <ItemGroup>
     <Compile Remove="Repository\Migrations\PdbDb\20200412073039_UpdateCircleSnDToAddCityDistrict.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200412073039_UpdateCircleSnDToAddCityDistrict.Designer.cs" />
+    <Compile Remove="Repository\Migrations\UserDb\20200429080549_UpdateUserInfo.cs" />
+    <Compile Remove="Repository\Migrations\UserDb\20200429080549_UpdateUserInfo.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

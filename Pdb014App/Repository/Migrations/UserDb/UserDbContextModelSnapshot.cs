@@ -15,7 +15,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -40,7 +40,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("LookUpRole");
+                    b.ToTable("UserRoleList");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -60,7 +60,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("LookUpRoleClaim");
+                    b.ToTable("UserRoleClaim");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -80,14 +80,16 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("LookUpUserClaims");
+                    b.ToTable("UserClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("ProviderKey");
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -98,7 +100,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("LookUpUserLogins");
+                    b.ToTable("UserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -111,16 +113,18 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("LookUpUserRoles");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value");
 
@@ -129,7 +133,25 @@ namespace Pdb014App.Repository.Migrations.UserDb
                     b.ToTable("UserToken");
                 });
 
-            modelBuilder.Entity("Pdb014App.Models.UserInfo", b =>
+            modelBuilder.Entity("Pdb014App.Models.UserManage.LookUpUserActivationStatus", b =>
+                {
+                    b.Property<int>("UserActivationStatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("UserActivationStatusId")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("UserActivationStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.HasKey("UserActivationStatusId");
+
+                    b.ToTable("UserActivationStatus");
+                });
+
+            modelBuilder.Entity("Pdb014App.Models.UserManage.TblUserRegistrationDetail", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
@@ -140,18 +162,14 @@ namespace Pdb014App.Repository.Migrations.UserDb
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
-
-                    b.Property<string>("Designation")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(150);
+                    b.Property<DateTime?>("DateOfCreation");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<DateTime?>("LastModifiedDate");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -173,14 +191,24 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
                     b.Property<bool>("TwoFactorEnabled");
 
+                    b.Property<int?>("UserActivationStatusId");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<int>("UserRegistrationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("UserRegistrationId")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("UserType")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("UserRegistrationId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -190,7 +218,9 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("TblUsers");
+                    b.HasIndex("UserActivationStatusId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -203,7 +233,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Pdb014App.Models.UserInfo")
+                    b.HasOne("Pdb014App.Models.UserManage.TblUserRegistrationDetail")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -211,7 +241,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Pdb014App.Models.UserInfo")
+                    b.HasOne("Pdb014App.Models.UserManage.TblUserRegistrationDetail")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -224,7 +254,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Pdb014App.Models.UserInfo")
+                    b.HasOne("Pdb014App.Models.UserManage.TblUserRegistrationDetail")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -232,10 +262,17 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Pdb014App.Models.UserInfo")
+                    b.HasOne("Pdb014App.Models.UserManage.TblUserRegistrationDetail")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Pdb014App.Models.UserManage.TblUserRegistrationDetail", b =>
+                {
+                    b.HasOne("Pdb014App.Models.UserManage.LookUpUserActivationStatus", "UserActivationStatus")
+                        .WithMany()
+                        .HasForeignKey("UserActivationStatusId");
                 });
 #pragma warning restore 612, 618
         }

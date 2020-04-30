@@ -8,17 +8,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Pdb014App.Models;
+using Pdb014App.Models.UserManage;
 
 namespace Pdb014App.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
-        private readonly UserManager<UserInfo> _userManager;
+        private readonly UserManager<TblUserRegistrationDetail> _userManager;
         private readonly IEmailSender _emailSender;
 
-        public ForgotPasswordModel(UserManager<UserInfo> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<TblUserRegistrationDetail> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _emailSender = emailSender;

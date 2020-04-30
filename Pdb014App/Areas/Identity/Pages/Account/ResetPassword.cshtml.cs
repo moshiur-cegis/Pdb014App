@@ -7,16 +7,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Pdb014App.Models;
+using Pdb014App.Models.UserManage;
 
 namespace Pdb014App.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
-        private readonly UserManager<UserInfo> _userManager;
+        private readonly UserManager<TblUserRegistrationDetail> _userManager;
 
-        public ResetPasswordModel(UserManager<UserInfo> userManager)
+        public ResetPasswordModel(UserManager<TblUserRegistrationDetail> userManager)
         {
             _userManager = userManager;
         }

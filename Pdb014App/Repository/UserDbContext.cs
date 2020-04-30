@@ -10,13 +10,19 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
 using Pdb014App.Models;
-
+using Pdb014App.Models.UserManage;
 
 namespace Pdb014App.Repository
 {
-    public class UserDbContext : IdentityDbContext<UserInfo, IdentityRole, string>
+    public class UserDbContext : IdentityDbContext<TblUserRegistrationDetail, IdentityRole, string>
     {
-        public virtual DbSet<UserInfo> UserInfo { get; set; }
+        //public virtual DbSet<UserInfo> UserInfo { get; set; }
+
+        public virtual DbSet<TblUserRegistrationDetail> TblUserRegistrationDetail { get; set; }
+        public virtual DbSet<LookUpUserActivationStatus> UserActivationStatus { get; set; }
+
+
+
 
         //public virtual DbSet<IdentityRole> Roles { get; set; }
         public UserDbContext(DbContextOptions<UserDbContext> options)
@@ -26,15 +32,29 @@ namespace Pdb014App.Repository
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<UserInfo>().ToTable("TblUsers").Property(p => p.Id).HasColumnName("UserId");
+            //modelBuilder.Entity<UserInfo>().ToTable("Users").Property(p => p.Id).HasColumnName("UserId");
 
-            modelBuilder.Entity<IdentityRole>(entity => { entity.ToTable(name: "LookUpRole"); });
-            modelBuilder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("LookUpUserRoles"); });
-            modelBuilder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("LookUpUserClaims"); });
-            modelBuilder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("LookUpUserLogins"); });
+            //modelBuilder.Entity<IdentityRole>(entity => { entity.ToTable(name: "UserRoleList"); });
+            //modelBuilder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("UserRoles"); });
+            //modelBuilder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("UserClaims"); });
+            //modelBuilder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("UserLogins"); });
+            //modelBuilder.Entity<IdentityUserToken<string>>(entity => { entity.ToTable("UserToken"); });
+            //modelBuilder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("UserRoleClaim"); });
+
+            modelBuilder.Entity<TblUserRegistrationDetail>().ToTable("Users").Property(p => p.Id).HasColumnName("UserId");
+
+            modelBuilder.Entity<IdentityRole>(entity => { entity.ToTable(name: "UserRoleList"); });
+            modelBuilder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("UserRoles"); });
+            modelBuilder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("UserClaims"); });
+            modelBuilder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("UserLogins"); });
             modelBuilder.Entity<IdentityUserToken<string>>(entity => { entity.ToTable("UserToken"); });
-            modelBuilder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("LookUpRoleClaim"); });
+
+            modelBuilder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("UserRoleClaim"); });
+
+
         }
+        
+        
 
         //public class UserDbContextFactory : IDesignTimeDbContextFactory<UserDbContext>
         //{

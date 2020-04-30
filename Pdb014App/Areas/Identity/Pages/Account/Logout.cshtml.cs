@@ -7,17 +7,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Pdb014App.Models;
+using Pdb014App.Models.UserManage;
 
 namespace Pdb014App.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LogoutModel : PageModel
     {
-        private readonly SignInManager<UserInfo> _signInManager;
+        private readonly SignInManager<TblUserRegistrationDetail> _signInManager;
         private readonly ILogger<LogoutModel> _logger;
 
-        public LogoutModel(SignInManager<UserInfo> signInManager, ILogger<LogoutModel> logger)
+        public LogoutModel(SignInManager<TblUserRegistrationDetail> signInManager, ILogger<LogoutModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;
