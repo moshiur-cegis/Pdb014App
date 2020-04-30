@@ -14,9 +14,11 @@ using Pdb014App.Models.Report;
 
 namespace Pdb014App.Controllers.AdvancedReport
 {
-    //ServicePointInfo
     public partial class AdvancedReportController
     {
+
+        #region ServicePointInfoAdvancedReport
+
         public IActionResult ConsumerInfo([FromQuery] string cai, string regionLevel)
         {
             var regionInfo = new List<ReportField>
@@ -31,39 +33,73 @@ namespace Pdb014App.Controllers.AdvancedReport
             var fieldList = new List<ReportField>(16)
             {
                 new ReportField {Name = "totalCount", Title = "No. of Consumer", Selected = true},
-                
+
                 //1 Govt
                 //2 Private
                 ////Consumer Type
                 new ReportField {Name = "groupCT", Title = "Consumer Type", Selected = true},
-                new ReportField {Name = "totalGovtCount", Title = "Govt.", Selected = true, Visible = false, GroupName = "groupCT"},
-                new ReportField {Name = "totalPrivateCount", Title = "Private", Selected = true, Visible = false, GroupName = "groupCT"},
-                
+                new ReportField
+                    {Name = "totalGovtCount", Title = "Govt.", Selected = true, Visible = false, GroupName = "groupCT"},
+                new ReportField
+                {
+                    Name = "totalPrivateCount", Title = "Private", Selected = true, Visible = false,
+                    GroupName = "groupCT"
+                },
+
                 //1 11KV
                 //2 400V
                 //3 230V
                 ////Operating Voltage
                 new ReportField {Name = "groupOV", Title = "Operating Voltage", Selected = true},
-                new ReportField {Name = "total11kOpeVolCount", Title = "11kV", Selected = true, Visible = false, GroupName = "groupOV"},
-                new ReportField {Name = "total400OpeVolCount", Title = "400V", Selected = true, Visible = false, GroupName = "groupOV"},
-                new ReportField {Name = "total230OpeVolCount", Title = "230V", Selected = true, Visible = false, GroupName = "groupOV"},
-                
+                new ReportField
+                {
+                    Name = "total11kOpeVolCount", Title = "11kV", Selected = true, Visible = false,
+                    GroupName = "groupOV"
+                },
+                new ReportField
+                {
+                    Name = "total400OpeVolCount", Title = "400V", Selected = true, Visible = false,
+                    GroupName = "groupOV"
+                },
+                new ReportField
+                {
+                    Name = "total230OpeVolCount", Title = "230V", Selected = true, Visible = false,
+                    GroupName = "groupOV"
+                },
+
                 //1 Regular
                 //2 Temporary
                 ////Connection Status
                 new ReportField {Name = "groupCS", Title = "Connection Status", Selected = true},
-                new ReportField {Name = "totalRegularCount", Title = "Regular", Selected = true, Visible = false, GroupName = "groupCS"},
-                new ReportField {Name = "totalTemporaryCount", Title = "Temporary", Selected = true, Visible = false, GroupName = "groupCS"},
+                new ReportField
+                {
+                    Name = "totalRegularCount", Title = "Regular", Selected = true, Visible = false,
+                    GroupName = "groupCS"
+                },
+                new ReportField
+                {
+                    Name = "totalTemporaryCount", Title = "Temporary", Selected = true, Visible = false,
+                    GroupName = "groupCS"
+                },
 
                 //1 Mother Meter
                 //2 Child Meter
                 //3 N/A
                 ////Connection Type
                 new ReportField {Name = "groupCoT", Title = "Connection Type", Selected = true},
-                new ReportField {Name = "totalMotherCount", Title = "Mother Meter", Selected = true, Visible = false, GroupName = "groupCoT"},
-                new ReportField {Name = "totalChildCount", Title = "Child Meter", Selected = true, Visible = false, GroupName = "groupCoT"},
-                new ReportField {Name = "totalNACount", Title = "N/A", Selected = true, Visible = false, GroupName = "groupCoT"},
-                
+                new ReportField
+                {
+                    Name = "totalMotherCount", Title = "Mother Meter", Selected = true, Visible = false,
+                    GroupName = "groupCoT"
+                },
+                new ReportField
+                {
+                    Name = "totalChildCount", Title = "Child Meter", Selected = true, Visible = false,
+                    GroupName = "groupCoT"
+                },
+                new ReportField
+                    {Name = "totalNACount", Title = "N/A", Selected = true, Visible = false, GroupName = "groupCoT"},
+
                 //1 Prepaid (Card based)
                 //2 Prepaid (keypad)
                 //3 Prepaid (Smart)
@@ -71,23 +107,47 @@ namespace Pdb014App.Controllers.AdvancedReport
                 //5 Postpaid (Analogue)
                 ////Meter Type
                 new ReportField {Name = "groupMT", Title = "Meter Type", Selected = true},
-                new ReportField {Name = "totalPreCardCount", Title = "Prepaid (Card based)", Selected = true, Visible = false, GroupName = "groupMT"},
-                new ReportField {Name = "totalPreKeypadCount", Title = "Prepaid (Keypad)", Selected = true, Visible = false, GroupName = "groupMT"},
-                new ReportField {Name = "totalPreSmartCount", Title = "Prepaid (Smart)", Selected = true, Visible = false, GroupName = "groupMT"},
-                new ReportField {Name = "totalPosDigitalCount", Title = "Postpaid (Digital)", Selected = true, Visible = false, GroupName = "groupMT"},
-                new ReportField {Name = "totalPosAnalogueCount", Title = "Postpaid (Analogue)", Selected = true, Visible = false, GroupName = "groupMT"},
-                
+                new ReportField
+                {
+                    Name = "totalPreCardCount", Title = "Prepaid (Card based)", Selected = true, Visible = false,
+                    GroupName = "groupMT"
+                },
+                new ReportField
+                {
+                    Name = "totalPreKeypadCount", Title = "Prepaid (Keypad)", Selected = true, Visible = false,
+                    GroupName = "groupMT"
+                },
+                new ReportField
+                {
+                    Name = "totalPreSmartCount", Title = "Prepaid (Smart)", Selected = true, Visible = false,
+                    GroupName = "groupMT"
+                },
+                new ReportField
+                {
+                    Name = "totalPosDigitalCount", Title = "Postpaid (Digital)", Selected = true, Visible = false,
+                    GroupName = "groupMT"
+                },
+                new ReportField
+                {
+                    Name = "totalPosAnalogueCount", Title = "Postpaid (Analogue)", Selected = true, Visible = false,
+                    GroupName = "groupMT"
+                },
+
                 //1 R
                 //2 Y
                 //3 B
                 //4 RYB
                 ////Phasing Code
                 new ReportField {Name = "groupPC", Title = "Phasing Code", Selected = true},
-                new ReportField {Name = "totalRCount", Title = "R", Selected = true, Visible = false, GroupName = "groupPC"},
-                new ReportField {Name = "totalYCount", Title = "Y", Selected = true, Visible = false, GroupName = "groupPC"},
-                new ReportField {Name = "totalBCount", Title = "B", Selected = true, Visible = false, GroupName = "groupPC"},
-                new ReportField {Name = "totalRYBCount", Title = "RYB", Selected = true, Visible = false, GroupName = "groupPC"},
-                
+                new ReportField
+                    {Name = "totalRCount", Title = "R", Selected = true, Visible = false, GroupName = "groupPC"},
+                new ReportField
+                    {Name = "totalYCount", Title = "Y", Selected = true, Visible = false, GroupName = "groupPC"},
+                new ReportField
+                    {Name = "totalBCount", Title = "B", Selected = true, Visible = false, GroupName = "groupPC"},
+                new ReportField
+                    {Name = "totalRYBCount", Title = "RYB", Selected = true, Visible = false, GroupName = "groupPC"},
+
                 //2 Education
                 //3 Govt. Hospital
                 //4 Freedom Fighter
@@ -101,24 +161,71 @@ namespace Pdb014App.Controllers.AdvancedReport
                 //99 Others
                 ////Business Type
                 new ReportField {Name = "groupBT", Title = "Business Type", Selected = true},
-                new ReportField {Name = "totalEducationCount", Title = "Education", Selected = true, Visible = false, GroupName = "groupBT"},
-                new ReportField {Name = "totalHospitalCount", Title = "Govt. Hospital", Selected = true, Visible = false, GroupName = "groupBT"},
-                new ReportField {Name = "totalFreedomFighterCount", Title = "Freedom Fighter", Selected = true, Visible = false, GroupName = "groupBT"},
-                new ReportField {Name = "totalWaterPumpCount", Title = "Water Pump", Selected = true, Visible = false, GroupName = "groupBT"},
-                new ReportField {Name = "totalOfficeCount", Title = "Office", Selected = true, Visible = false, GroupName = "groupBT"},
-                new ReportField {Name = "totalStreetLightCount", Title = "Street Light", Selected = true, Visible = false, GroupName = "groupBT"},
-                new ReportField {Name = "totalReligiousCount", Title = "Religious", Selected = true, Visible = false, GroupName = "groupBT"},
-                new ReportField {Name = "totalResidentialCount", Title = "Residential", Selected = true, Visible = false, GroupName = "groupBT"},
-                new ReportField {Name = "totalMixedResidentialCount", Title = "Mixed Residential", Selected = true, Visible = false, GroupName = "groupBT"},
-                new ReportField {Name = "totalBusinessCount", Title = "Business", Selected = true, Visible = false, GroupName = "groupBT"},
-                new ReportField {Name = "totalOthersCount", Title = "Others", Selected = true, Visible = false, GroupName = "groupBT"},
-                
+                new ReportField
+                {
+                    Name = "totalEducationCount", Title = "Education", Selected = true, Visible = false,
+                    GroupName = "groupBT"
+                },
+                new ReportField
+                {
+                    Name = "totalHospitalCount", Title = "Govt. Hospital", Selected = true, Visible = false,
+                    GroupName = "groupBT"
+                },
+                new ReportField
+                {
+                    Name = "totalFreedomFighterCount", Title = "Freedom Fighter", Selected = true, Visible = false,
+                    GroupName = "groupBT"
+                },
+                new ReportField
+                {
+                    Name = "totalWaterPumpCount", Title = "Water Pump", Selected = true, Visible = false,
+                    GroupName = "groupBT"
+                },
+                new ReportField
+                {
+                    Name = "totalOfficeCount", Title = "Office", Selected = true, Visible = false, GroupName = "groupBT"
+                },
+                new ReportField
+                {
+                    Name = "totalStreetLightCount", Title = "Street Light", Selected = true, Visible = false,
+                    GroupName = "groupBT"
+                },
+                new ReportField
+                {
+                    Name = "totalReligiousCount", Title = "Religious", Selected = true, Visible = false,
+                    GroupName = "groupBT"
+                },
+                new ReportField
+                {
+                    Name = "totalResidentialCount", Title = "Residential", Selected = true, Visible = false,
+                    GroupName = "groupBT"
+                },
+                new ReportField
+                {
+                    Name = "totalMixedResidentialCount", Title = "Mixed Residential", Selected = true, Visible = false,
+                    GroupName = "groupBT"
+                },
+                new ReportField
+                {
+                    Name = "totalBusinessCount", Title = "Business", Selected = true, Visible = false,
+                    GroupName = "groupBT"
+                },
+                new ReportField
+                {
+                    Name = "totalOthersCount", Title = "Others", Selected = true, Visible = false, GroupName = "groupBT"
+                },
+
                 //1 PVC
                 //2 Concentric (by visiting)
                 ////Service Cable Type
                 new ReportField {Name = "groupSCT", Title = "Service Cable Type", Selected = true},
-                new ReportField {Name = "totalPVCCount", Title = "PVC", Selected = true, Visible = false, GroupName = "groupSCT"},
-                new ReportField {Name = "totalCBVCount", Title = "Concentric (by visiting)", Selected = true, Visible = false, GroupName = "groupSCT"},
+                new ReportField
+                    {Name = "totalPVCCount", Title = "PVC", Selected = true, Visible = false, GroupName = "groupSCT"},
+                new ReportField
+                {
+                    Name = "totalCBVCount", Title = "Concentric (by visiting)", Selected = true, Visible = false,
+                    GroupName = "groupSCT"
+                },
 
                 //1 Pacca
                 //2 Semi-Pacca
@@ -126,10 +233,24 @@ namespace Pdb014App.Controllers.AdvancedReport
                 //4 Earthen
                 ////Structure Type
                 new ReportField {Name = "groupST", Title = "Connection Status", Selected = true},
-                new ReportField {Name = "totalPaccaCount", Title = "Pacca", Selected = true, Visible = false, GroupName = "groupST"},
-                new ReportField {Name = "totalSemiPaccaCount", Title = "Semi-Pacca", Selected = true, Visible = false, GroupName = "groupST"},
-                new ReportField {Name = "totalWoodenCount", Title = "Wooden", Selected = true, Visible = false, GroupName = "groupST"},
-                new ReportField {Name = "totalEarthenCount", Title = "Earthen", Selected = true, Visible = false, GroupName = "groupST"},
+                new ReportField
+                {
+                    Name = "totalPaccaCount", Title = "Pacca", Selected = true, Visible = false, GroupName = "groupST"
+                },
+                new ReportField
+                {
+                    Name = "totalSemiPaccaCount", Title = "Semi-Pacca", Selected = true, Visible = false,
+                    GroupName = "groupST"
+                },
+                new ReportField
+                {
+                    Name = "totalWoodenCount", Title = "Wooden", Selected = true, Visible = false, GroupName = "groupST"
+                },
+                new ReportField
+                {
+                    Name = "totalEarthenCount", Title = "Earthen", Selected = true, Visible = false,
+                    GroupName = "groupST"
+                },
 
             };
 
@@ -153,7 +274,7 @@ namespace Pdb014App.Controllers.AdvancedReport
             return View("AdvancedReport");
             //return View("ConsumerInfo");
         }
-
+        
         [HttpPost]
         public IActionResult ConsumerInfo([FromQuery] string cai, string regionLevel, List<ReportField> fieldList, List<string> regionList)
         {
@@ -171,39 +292,78 @@ namespace Pdb014App.Controllers.AdvancedReport
                 fieldList = new List<ReportField>(16)
                 {
                     new ReportField {Name = "totalCount", Title = "Total PT", Selected = true},
-                    
+
                     //1 Govt
                     //2 Private
                     ////Consumer Type
                     new ReportField {Name = "groupCT", Title = "Consumer Type", Selected = true},
-                    new ReportField {Name = "totalGovtCount", Title = "Govt.", Selected = true, Visible = false, GroupName = "groupCT"},
-                    new ReportField {Name = "totalPrivateCount", Title = "Private", Selected = true, Visible = false, GroupName = "groupCT"},
-                    
+                    new ReportField
+                    {
+                        Name = "totalGovtCount", Title = "Govt.", Selected = true, Visible = false,
+                        GroupName = "groupCT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalPrivateCount", Title = "Private", Selected = true, Visible = false,
+                        GroupName = "groupCT"
+                    },
+
                     //1 11KV
                     //2 400V
                     //3 230V
                     ////Operating Voltage
                     new ReportField {Name = "groupOV", Title = "Operating Voltage", Selected = true},
-                    new ReportField {Name = "total11kOpeVolCount", Title = "11kV", Selected = true, Visible = false, GroupName = "groupOV"},
-                    new ReportField {Name = "total400OpeVolCount", Title = "400V", Selected = true, Visible = false, GroupName = "groupOV"},
-                    new ReportField {Name = "total230OpeVolCount", Title = "230V", Selected = true, Visible = false, GroupName = "groupOV"},
-                    
+                    new ReportField
+                    {
+                        Name = "total11kOpeVolCount", Title = "11kV", Selected = true, Visible = false,
+                        GroupName = "groupOV"
+                    },
+                    new ReportField
+                    {
+                        Name = "total400OpeVolCount", Title = "400V", Selected = true, Visible = false,
+                        GroupName = "groupOV"
+                    },
+                    new ReportField
+                    {
+                        Name = "total230OpeVolCount", Title = "230V", Selected = true, Visible = false,
+                        GroupName = "groupOV"
+                    },
+
                     //1 Regular
                     //2 Temporary
                     ////Connection Status
                     new ReportField {Name = "groupCS", Title = "Connection Status", Selected = true},
-                    new ReportField {Name = "totalRegularCount", Title = "Regular", Selected = true, Visible = false, GroupName = "groupCS"},
-                    new ReportField {Name = "totalTemporaryCount", Title = "Temporary", Selected = true, Visible = false, GroupName = "groupCS"},
+                    new ReportField
+                    {
+                        Name = "totalRegularCount", Title = "Regular", Selected = true, Visible = false,
+                        GroupName = "groupCS"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalTemporaryCount", Title = "Temporary", Selected = true, Visible = false,
+                        GroupName = "groupCS"
+                    },
 
                     //1 Mother Meter
                     //2 Child Meter
                     //3 N/A
                     ////Connection Type
                     new ReportField {Name = "groupCoT", Title = "Connection Type", Selected = true},
-                    new ReportField {Name = "totalMotherCount", Title = "Mother Meter", Selected = true, Visible = false, GroupName = "groupCoT"},
-                    new ReportField {Name = "totalChildCount", Title = "Child Meter", Selected = true, Visible = false, GroupName = "groupCoT"},
-                    new ReportField {Name = "totalNACount", Title = "N/A", Selected = true, Visible = false, GroupName = "groupCoT"},
-                    
+                    new ReportField
+                    {
+                        Name = "totalMotherCount", Title = "Mother Meter", Selected = true, Visible = false,
+                        GroupName = "groupCoT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalChildCount", Title = "Child Meter", Selected = true, Visible = false,
+                        GroupName = "groupCoT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalNACount", Title = "N/A", Selected = true, Visible = false, GroupName = "groupCoT"
+                    },
+
                     //1 Prepaid (Card based)
                     //2 Prepaid (keypad)
                     //3 Prepaid (Smart)
@@ -211,23 +371,49 @@ namespace Pdb014App.Controllers.AdvancedReport
                     //5 Postpaid (Analogue)
                     ////Meter Type
                     new ReportField {Name = "groupMT", Title = "Meter Type", Selected = true},
-                    new ReportField {Name = "totalPreCardCount", Title = "Prepaid (Card based)", Selected = true, Visible = false, GroupName = "groupMT"},
-                    new ReportField {Name = "totalPreKeypadCount", Title = "Prepaid (Keypad)", Selected = true, Visible = false, GroupName = "groupMT"},
-                    new ReportField {Name = "totalPreSmartCount", Title = "Prepaid (Smart)", Selected = true, Visible = false, GroupName = "groupMT"},
-                    new ReportField {Name = "totalPosDigitalCount", Title = "Postpaid (Digital)", Selected = true, Visible = false, GroupName = "groupMT"},
-                    new ReportField {Name = "totalPosAnalogueCount", Title = "Postpaid (Analogue)", Selected = true, Visible = false, GroupName = "groupMT"},
-                    
+                    new ReportField
+                    {
+                        Name = "totalPreCardCount", Title = "Prepaid (Card based)", Selected = true, Visible = false,
+                        GroupName = "groupMT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalPreKeypadCount", Title = "Prepaid (Keypad)", Selected = true, Visible = false,
+                        GroupName = "groupMT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalPreSmartCount", Title = "Prepaid (Smart)", Selected = true, Visible = false,
+                        GroupName = "groupMT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalPosDigitalCount", Title = "Postpaid (Digital)", Selected = true, Visible = false,
+                        GroupName = "groupMT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalPosAnalogueCount", Title = "Postpaid (Analogue)", Selected = true, Visible = false,
+                        GroupName = "groupMT"
+                    },
+
                     //1 R
                     //2 Y
                     //3 B
                     //4 RYB
                     ////Phasing Code
                     new ReportField {Name = "groupPC", Title = "Phasing Code", Selected = true},
-                    new ReportField {Name = "totalRCount", Title = "R", Selected = true, Visible = false, GroupName = "groupPC"},
-                    new ReportField {Name = "totalYCount", Title = "Y", Selected = true, Visible = false, GroupName = "groupPC"},
-                    new ReportField {Name = "totalBCount", Title = "B", Selected = true, Visible = false, GroupName = "groupPC"},
-                    new ReportField {Name = "totalRYBCount", Title = "RYB", Selected = true, Visible = false, GroupName = "groupPC"},
-                    
+                    new ReportField
+                        {Name = "totalRCount", Title = "R", Selected = true, Visible = false, GroupName = "groupPC"},
+                    new ReportField
+                        {Name = "totalYCount", Title = "Y", Selected = true, Visible = false, GroupName = "groupPC"},
+                    new ReportField
+                        {Name = "totalBCount", Title = "B", Selected = true, Visible = false, GroupName = "groupPC"},
+                    new ReportField
+                    {
+                        Name = "totalRYBCount", Title = "RYB", Selected = true, Visible = false, GroupName = "groupPC"
+                    },
+
                     //2 Education
                     //3 Govt. Hospital
                     //4 Freedom Fighter
@@ -241,24 +427,75 @@ namespace Pdb014App.Controllers.AdvancedReport
                     //99 Others
                     ////Business Type
                     new ReportField {Name = "groupBT", Title = "Business Type", Selected = true},
-                    new ReportField {Name = "totalEducationCount", Title = "Education", Selected = true, Visible = false, GroupName = "groupBT"},
-                    new ReportField {Name = "totalHospitalCount", Title = "Govt. Hospital", Selected = true, Visible = false, GroupName = "groupBT"},
-                    new ReportField {Name = "totalFreedomFighterCount", Title = "Freedom Fighter", Selected = true, Visible = false, GroupName = "groupBT"},
-                    new ReportField {Name = "totalWaterPumpCount", Title = "Water Pump", Selected = true, Visible = false, GroupName = "groupBT"},
-                    new ReportField {Name = "totalOfficeCount", Title = "Office", Selected = true, Visible = false, GroupName = "groupBT"},
-                    new ReportField {Name = "totalStreetLightCount", Title = "Street Light", Selected = true, Visible = false, GroupName = "groupBT"},
-                    new ReportField {Name = "totalReligiousCount", Title = "Religious", Selected = true, Visible = false, GroupName = "groupBT"},
-                    new ReportField {Name = "totalResidentialCount", Title = "Residential", Selected = true, Visible = false, GroupName = "groupBT"},
-                    new ReportField {Name = "totalMixedResidentialCount", Title = "Mixed Residential", Selected = true, Visible = false, GroupName = "groupBT"},
-                    new ReportField {Name = "totalBusinessCount", Title = "Business", Selected = true, Visible = false, GroupName = "groupBT"},
-                    new ReportField {Name = "totalOthersCount", Title = "Others", Selected = true, Visible = false, GroupName = "groupBT"},
-                    
+                    new ReportField
+                    {
+                        Name = "totalEducationCount", Title = "Education", Selected = true, Visible = false,
+                        GroupName = "groupBT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalHospitalCount", Title = "Govt. Hospital", Selected = true, Visible = false,
+                        GroupName = "groupBT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalFreedomFighterCount", Title = "Freedom Fighter", Selected = true, Visible = false,
+                        GroupName = "groupBT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalWaterPumpCount", Title = "Water Pump", Selected = true, Visible = false,
+                        GroupName = "groupBT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalOfficeCount", Title = "Office", Selected = true, Visible = false,
+                        GroupName = "groupBT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalStreetLightCount", Title = "Street Light", Selected = true, Visible = false,
+                        GroupName = "groupBT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalReligiousCount", Title = "Religious", Selected = true, Visible = false,
+                        GroupName = "groupBT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalResidentialCount", Title = "Residential", Selected = true, Visible = false,
+                        GroupName = "groupBT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalMixedResidentialCount", Title = "Mixed Residential", Selected = true,
+                        Visible = false, GroupName = "groupBT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalBusinessCount", Title = "Business", Selected = true, Visible = false,
+                        GroupName = "groupBT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalOthersCount", Title = "Others", Selected = true, Visible = false,
+                        GroupName = "groupBT"
+                    },
+
                     //1 PVC
                     //2 Concentric (by visiting)
                     ////Service Cable Type
                     new ReportField {Name = "groupSCT", Title = "Service Cable Type", Selected = true},
-                    new ReportField {Name = "totalPVCCount", Title = "PVC", Selected = true, Visible = false, GroupName = "groupSCT"},
-                    new ReportField {Name = "totalCBVCount", Title = "Concentric (by visiting)", Selected = true, Visible = false, GroupName = "groupSCT"},
+                    new ReportField
+                    {
+                        Name = "totalPVCCount", Title = "PVC", Selected = true, Visible = false, GroupName = "groupSCT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalCBVCount", Title = "Concentric (by visiting)", Selected = true, Visible = false,
+                        GroupName = "groupSCT"
+                    },
 
                     //1 Pacca
                     //2 Semi-Pacca
@@ -266,10 +503,26 @@ namespace Pdb014App.Controllers.AdvancedReport
                     //4 Earthen
                     ////Structure Type
                     new ReportField {Name = "groupST", Title = "Connection Status", Selected = true},
-                    new ReportField {Name = "totalPaccaCount", Title = "Pacca", Selected = true, Visible = false, GroupName = "groupST"},
-                    new ReportField {Name = "totalSemiPaccaCount", Title = "Semi-Pacca", Selected = true, Visible = false, GroupName = "groupST"},
-                    new ReportField {Name = "totalWoodenCount", Title = "Wooden", Selected = true, Visible = false, GroupName = "groupST"},
-                    new ReportField {Name = "totalEarthenCount", Title = "Earthen", Selected = true, Visible = false, GroupName = "groupST"},
+                    new ReportField
+                    {
+                        Name = "totalPaccaCount", Title = "Pacca", Selected = true, Visible = false,
+                        GroupName = "groupST"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalSemiPaccaCount", Title = "Semi-Pacca", Selected = true, Visible = false,
+                        GroupName = "groupST"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalWoodenCount", Title = "Wooden", Selected = true, Visible = false,
+                        GroupName = "groupST"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalEarthenCount", Title = "Earthen", Selected = true, Visible = false,
+                        GroupName = "groupST"
+                    },
 
                 };
             }
@@ -364,7 +617,6 @@ namespace Pdb014App.Controllers.AdvancedReport
             //return View("ConsumerInfo");
         }
 
-
         [HttpPost]
         public JsonResult GetConsumerInfoData(string regionLevel = "zone", List<string> regionList = null)
         {
@@ -379,28 +631,34 @@ namespace Pdb014App.Controllers.AdvancedReport
                 zoneCode = regionList[0];
 
                 searchExp = model =>
-                    model.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
+                    model.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                        .SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
 
                 if (regionList.Count > 1 && !string.IsNullOrEmpty(regionList[1]))
                 {
                     circleCode = regionList[1];
 
                     Expression<Func<TblConsumerData, bool>> tempExp = model =>
-                        model.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode == circleCode;
+                        model.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                            .SubstationToLookUpSnD.CircleCode == circleCode;
                     searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
 
                     if (regionList.Count > 2 && !string.IsNullOrEmpty(regionList[2]))
                     {
                         snDCode = regionList[2];
 
-                        tempExp = model => model.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode == snDCode;
+                        tempExp = model =>
+                            model.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode ==
+                            snDCode;
                         searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
 
                         if (regionList.Count > 3 && !string.IsNullOrEmpty(regionList[3]))
                         {
                             substationCode = regionList[3];
 
-                            tempExp = model => model.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
+                            tempExp = model =>
+                                model.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                                    .SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
 
                             if (regionList.Count > 4)
@@ -500,15 +758,21 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                 case "circle":
                     data = qry
-                        .Include(st => st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i => i.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Include(st =>
+                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                                .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .GroupBy(i =>
+                            i.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                                .SubstationToLookUpSnD.CircleCode)
                         .Select(k => new
                         {
                             //wl = k.Sum(d => d.Poles.Sum(pi => pi.WireLength)),
-                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
+                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                                .RouteToSubstation.SubstationToLookUpSnD
                                 .CircleInfo.ZoneInfo.ZoneName,
                             circleCode = k.Key,
-                            circleName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            circleName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .CircleName,
 
                             totalCount = k.Count(),
@@ -568,18 +832,28 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                 case "snd":
                     data = qry
-                        .Include(st => st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD)
-                        .Include(st => st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo)
-                        .Include(st => st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i => i.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode)
+                        .Include(st =>
+                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                                .SubstationToLookUpSnD)
+                        .Include(st =>
+                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                                .SubstationToLookUpSnD.CircleInfo)
+                        .Include(st =>
+                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                                .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .GroupBy(i =>
+                            i.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode)
                         .Select(k => new
                         {
-                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .ZoneInfo.ZoneName,
-                            circleName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            circleName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .CircleName,
                             sndCode = k.Key,
-                            sndName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName,
+                            sndName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                                .RouteToSubstation.SubstationToLookUpSnD.SnDName,
 
                             totalCount = k.Count(),
 
@@ -637,17 +911,23 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                 case "substation":
                     data = qry
-                        .Include(st => st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .Include(st =>
+                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                                .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                         .GroupBy(i => i.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.SubstationId)
                         .Select(k => new
                         {
-                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .ZoneInfo.ZoneName,
-                            circleName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            circleName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .CircleName,
-                            sndName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName,
+                            sndName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                                .RouteToSubstation.SubstationToLookUpSnD.SnDName,
                             substationCode = k.Key,
-                            substationName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationName,
+                            substationName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                                .RouteToSubstation.SubstationName,
 
                             totalCount = k.Count(),
 
@@ -705,12 +985,17 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                 default:
                     data = qry
-                        .Include(st => st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i => i.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Include(st =>
+                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                                .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .GroupBy(i =>
+                            i.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                                .SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
                             zoneCode = k.Key,
-                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .ZoneInfo.ZoneName,
 
                             totalCount = k.Count(),
@@ -771,13 +1056,12 @@ namespace Pdb014App.Controllers.AdvancedReport
             return Json(data);
         }
 
-    }
+        #endregion
+        
 
 
+        #region ServicePointAdvancedReport
 
-    //Service Point
-    public partial class AdvancedReportController
-    {
         public IActionResult ServicePointInfo([FromQuery] string cai, string regionLevel)
         {
             var regionInfo = new List<ReportField>
@@ -792,38 +1076,68 @@ namespace Pdb014App.Controllers.AdvancedReport
             var fieldList = new List<ReportField>(16)
             {
                 new ReportField {Name = "totalCount", Title = "No. of Service Point", Selected = true},
-                
+
                 //1 Single Phase 	Edit | Details | Delete
                 //2 3-Phase     Edit | Details | Delete
                 //3 Both
                 ////Service Point Type
                 new ReportField {Name = "groupSPT", Title = "Service Point Type", Selected = true},
-                new ReportField {Name = "totalSingleCount", Title = "Single Phase", Selected = true, Visible = false, GroupName = "groupSPT"},
-                new ReportField {Name = "total3PhaseCount", Title = "3-Phase", Selected = true, Visible = false, GroupName = "groupSPT"},
-                new ReportField {Name = "totalBothCount", Title = "Both Phase", Selected = true, Visible = false, GroupName = "groupSPT"},
-                
+                new ReportField
+                {
+                    Name = "totalSingleCount", Title = "Single Phase", Selected = true, Visible = false,
+                    GroupName = "groupSPT"
+                },
+                new ReportField
+                {
+                    Name = "total3PhaseCount", Title = "3-Phase", Selected = true, Visible = false,
+                    GroupName = "groupSPT"
+                },
+                new ReportField
+                {
+                    Name = "totalBothCount", Title = "Both Phase", Selected = true, Visible = false,
+                    GroupName = "groupSPT"
+                },
+
 
                 //1 11KV
                 //2 400V
                 //3 230V
                 ////Voltage Category
                 new ReportField {Name = "groupVC", Title = "Voltage Category", Selected = true},
-                new ReportField {Name = "total11kVolCatCount", Title = "11kV", Selected = true, Visible = false, GroupName = "groupVC"},
-                new ReportField {Name = "total400VolCatCount", Title = "0.4kV/400V", Selected = true, Visible = false, GroupName = "groupVC"},
-                new ReportField {Name = "total230VolCatCount", Title = "230V", Selected = true, Visible = false, GroupName = "groupVC"},
-                
-                
+                new ReportField
+                {
+                    Name = "total11kVolCatCount", Title = "11kV", Selected = true, Visible = false,
+                    GroupName = "groupVC"
+                },
+                new ReportField
+                {
+                    Name = "total400VolCatCount", Title = "0.4kV/400V", Selected = true, Visible = false,
+                    GroupName = "groupVC"
+                },
+                new ReportField
+                {
+                    Name = "total230VolCatCount", Title = "230V", Selected = true, Visible = false,
+                    GroupName = "groupVC"
+                },
+
+
                 //1 R
                 //2 Y
                 //3 B
                 //4 RYB
                 ////No. of Consumers
                 new ReportField {Name = "groupNoC", Title = "No. of Consumers", Selected = true},
-                new ReportField {Name = "totalRConsumers", Title = "R", Selected = true, Visible = false, GroupName = "groupNoC"},
-                new ReportField {Name = "totalYConsumers", Title = "Y", Selected = true, Visible = false, GroupName = "groupNoC"},
-                new ReportField {Name = "totalBConsumers", Title = "B", Selected = true, Visible = false, GroupName = "groupNoC"},
-                new ReportField {Name = "totalRYBConsumers", Title = "RYB", Selected = true, Visible = false, GroupName = "groupNoC"},
-                
+                new ReportField
+                    {Name = "totalRConsumers", Title = "R", Selected = true, Visible = false, GroupName = "groupNoC"},
+                new ReportField
+                    {Name = "totalYConsumers", Title = "Y", Selected = true, Visible = false, GroupName = "groupNoC"},
+                new ReportField
+                    {Name = "totalBConsumers", Title = "B", Selected = true, Visible = false, GroupName = "groupNoC"},
+                new ReportField
+                {
+                    Name = "totalRYBConsumers", Title = "RYB", Selected = true, Visible = false, GroupName = "groupNoC"
+                },
+
 
                 //Aggregate Load kw
                 //new ReportField {Name = "totalAggregateLoad", Title = "Aggregate Load (KW)", Selected = true},
@@ -871,38 +1185,75 @@ namespace Pdb014App.Controllers.AdvancedReport
                 fieldList = new List<ReportField>(16)
                 {
                     new ReportField {Name = "totalCount", Title = "No. of Service Point", Selected = true},
-                    
+
                     //1 Single Phase 	Edit | Details | Delete
                     //2 3-Phase     Edit | Details | Delete
                     //3 Both
                     ////Service Point Type
                     new ReportField {Name = "groupSPT", Title = "Service Point Type", Selected = true},
-                    new ReportField {Name = "totalSingleCount", Title = "Single Phase", Selected = true, Visible = false, GroupName = "groupSPT"},
-                    new ReportField {Name = "total3PhaseCount", Title = "3-Phase", Selected = true, Visible = false, GroupName = "groupSPT"},
-                    new ReportField {Name = "totalBothCount", Title = "Both Phase", Selected = true, Visible = false, GroupName = "groupSPT"},
-                    
+                    new ReportField
+                    {
+                        Name = "totalSingleCount", Title = "Single Phase", Selected = true, Visible = false,
+                        GroupName = "groupSPT"
+                    },
+                    new ReportField
+                    {
+                        Name = "total3PhaseCount", Title = "3-Phase", Selected = true, Visible = false,
+                        GroupName = "groupSPT"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalBothCount", Title = "Both Phase", Selected = true, Visible = false,
+                        GroupName = "groupSPT"
+                    },
+
 
                     //1 11KV
                     //2 400V
                     //3 230V
                     ////Voltage Category
                     new ReportField {Name = "groupVC", Title = "Voltage Category", Selected = true},
-                    new ReportField {Name = "total11kVolCatCount", Title = "11kV", Selected = true, Visible = false, GroupName = "groupVC"},
-                    new ReportField {Name = "total400VolCatCount", Title = "0.4kV/400V", Selected = true, Visible = false, GroupName = "groupVC"},
-                    new ReportField {Name = "total230VolCatCount", Title = "230V", Selected = true, Visible = false, GroupName = "groupVC"},
-                    
-                    
+                    new ReportField
+                    {
+                        Name = "total11kVolCatCount", Title = "11kV", Selected = true, Visible = false,
+                        GroupName = "groupVC"
+                    },
+                    new ReportField
+                    {
+                        Name = "total400VolCatCount", Title = "0.4kV/400V", Selected = true, Visible = false,
+                        GroupName = "groupVC"
+                    },
+                    new ReportField
+                    {
+                        Name = "total230VolCatCount", Title = "230V", Selected = true, Visible = false,
+                        GroupName = "groupVC"
+                    },
+
+
                     //1 R
                     //2 Y
                     //3 B
                     //4 RYB
                     ////No. of Consumers
                     new ReportField {Name = "groupNoC", Title = "No. of Consumers", Selected = true},
-                    new ReportField {Name = "totalRConsumers", Title = "R", Selected = true, Visible = false, GroupName = "groupNoC"},
-                    new ReportField {Name = "totalYConsumers", Title = "Y", Selected = true, Visible = false, GroupName = "groupNoC"},
-                    new ReportField {Name = "totalBConsumers", Title = "B", Selected = true, Visible = false, GroupName = "groupNoC"},
-                    new ReportField {Name = "totalRYBConsumers", Title = "RYB", Selected = true, Visible = false, GroupName = "groupNoC"},
-                    
+                    new ReportField
+                    {
+                        Name = "totalRConsumers", Title = "R", Selected = true, Visible = false, GroupName = "groupNoC"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalYConsumers", Title = "Y", Selected = true, Visible = false, GroupName = "groupNoC"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalBConsumers", Title = "B", Selected = true, Visible = false, GroupName = "groupNoC"
+                    },
+                    new ReportField
+                    {
+                        Name = "totalRYBConsumers", Title = "RYB", Selected = true, Visible = false,
+                        GroupName = "groupNoC"
+                    },
+
 
                     //Aggregate Load kw
                     //new ReportField {Name = "totalAggregateLoad", Title = "Aggregate Load (KW)", Selected = true},
@@ -1003,7 +1354,6 @@ namespace Pdb014App.Controllers.AdvancedReport
             //return View("ServicePointInfo");
         }
 
-
         [HttpPost]
         public JsonResult GetServicePointInfoData(string regionLevel = "zone", List<string> regionList = null)
         {
@@ -1018,14 +1368,16 @@ namespace Pdb014App.Controllers.AdvancedReport
                 zoneCode = regionList[0];
 
                 searchExp = model =>
-                    model.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
+                    model.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode ==
+                    zoneCode;
 
                 if (regionList.Count > 1 && !string.IsNullOrEmpty(regionList[1]))
                 {
                     circleCode = regionList[1];
 
                     Expression<Func<TblServicePoint, bool>> tempExp = model =>
-                        model.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode == circleCode;
+                        model.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode ==
+                        circleCode;
                     searchExp = ExpressionExtension<TblServicePoint>.AndAlso(searchExp, tempExp);
 
                     if (regionList.Count > 2 && !string.IsNullOrEmpty(regionList[2]))
@@ -1039,7 +1391,8 @@ namespace Pdb014App.Controllers.AdvancedReport
                         {
                             substationCode = regionList[3];
 
-                            tempExp = model => model.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
+                            tempExp = model =>
+                                model.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblServicePoint>.AndAlso(searchExp, tempExp);
 
                             if (regionList.Count > 4)
@@ -1092,15 +1445,23 @@ namespace Pdb014App.Controllers.AdvancedReport
                             total400VolCatCount = k.Count(d => d.VoltageCategoryId == 2),
                             total230VolCatCount = k.Count(d => d.VoltageCategoryId == 3),
 
-                            totalRConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
-                            totalYConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
-                            totalBConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
-                            totalRYBConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
+                            totalRConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
+                            totalYConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
+                            totalBConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
+                            totalRYBConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
 
-                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
-                            maxAggregateLoad = k.Max(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
-                            minAggregateLoad = k.Min(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
-                            
+                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw)
+                                ? 0
+                                : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
+                            maxAggregateLoad = k.Max(d =>
+                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            minAggregateLoad = k.Min(d =>
+                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+
 
                             //total11kOpeVolCount = k.Count(d => d.ServicePointToOperatingVoltage.OperatingVoltageName.Contains("11")),
                             //total400OpeVolCount = k.Count(d => d.ServicePointToOperatingVoltage.OperatingVoltageName.Contains("400")),
@@ -1117,15 +1478,19 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                 case "circle":
                     data = qry
-                        .Include(st => st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i => i.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Include(st =>
+                            st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneInfo)
+                        .GroupBy(i =>
+                            i.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
                         .Select(k => new
                         {
                             //wl = k.Sum(d => d.Poles.Sum(pi => pi.WireLength)),
                             zoneName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
                                 .CircleInfo.ZoneInfo.ZoneName,
                             circleCode = k.Key,
-                            circleName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            circleName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation
+                                .SubstationToLookUpSnD.CircleInfo
                                 .CircleName,
 
                             totalCount = k.Count(),
@@ -1138,14 +1503,22 @@ namespace Pdb014App.Controllers.AdvancedReport
                             total400VolCatCount = k.Count(d => d.VoltageCategoryId == 2),
                             total230VolCatCount = k.Count(d => d.VoltageCategoryId == 3),
 
-                            totalRConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
-                            totalYConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
-                            totalBConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
-                            totalRYBConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
+                            totalRConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
+                            totalYConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
+                            totalBConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
+                            totalRYBConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
 
-                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
-                            maxAggregateLoad = k.Max(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
-                            minAggregateLoad = k.Min(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw)
+                                ? 0
+                                : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
+                            maxAggregateLoad = k.Max(d =>
+                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            minAggregateLoad = k.Min(d =>
+                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
 
                         })
                         .ToList();
@@ -1154,17 +1527,23 @@ namespace Pdb014App.Controllers.AdvancedReport
                 case "snd":
                     data = qry
                         .Include(st => st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD)
-                        .Include(st => st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo)
-                        .Include(st => st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .Include(st =>
+                            st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo)
+                        .Include(st =>
+                            st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneInfo)
                         .GroupBy(i => i.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode)
                         .Select(k => new
                         {
-                            zoneName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            zoneName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                .CircleInfo
                                 .ZoneInfo.ZoneName,
-                            circleName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            circleName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation
+                                .SubstationToLookUpSnD.CircleInfo
                                 .CircleName,
                             sndCode = k.Key,
-                            sndName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName,
+                            sndName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                .SnDName,
 
                             totalCount = k.Count(),
 
@@ -1176,29 +1555,42 @@ namespace Pdb014App.Controllers.AdvancedReport
                             total400VolCatCount = k.Count(d => d.VoltageCategoryId == 2),
                             total230VolCatCount = k.Count(d => d.VoltageCategoryId == 3),
 
-                            totalRConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
-                            totalYConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
-                            totalBConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
-                            totalRYBConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
+                            totalRConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
+                            totalYConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
+                            totalBConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
+                            totalRYBConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
 
-                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
-                            maxAggregateLoad = k.Max(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
-                            minAggregateLoad = k.Min(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw)
+                                ? 0
+                                : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
+                            maxAggregateLoad = k.Max(d =>
+                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            minAggregateLoad = k.Min(d =>
+                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
 
                         }).ToList();
                     break;
 
                 case "substation":
                     data = qry
-                        .Include(st => st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .Include(st =>
+                            st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneInfo)
                         .GroupBy(i => i.ServicePointToPole.PoleToRoute.SubstationId)
                         .Select(k => new
                         {
-                            zoneName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            zoneName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                .CircleInfo
                                 .ZoneInfo.ZoneName,
-                            circleName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            circleName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation
+                                .SubstationToLookUpSnD.CircleInfo
                                 .CircleName,
-                            sndName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName,
+                            sndName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                .SnDName,
                             substationCode = k.Key,
                             substationName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationName,
 
@@ -1212,26 +1604,39 @@ namespace Pdb014App.Controllers.AdvancedReport
                             total400VolCatCount = k.Count(d => d.VoltageCategoryId == 2),
                             total230VolCatCount = k.Count(d => d.VoltageCategoryId == 3),
 
-                            totalRConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
-                            totalYConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
-                            totalBConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
-                            totalRYBConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
+                            totalRConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
+                            totalYConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
+                            totalBConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
+                            totalRYBConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
 
-                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
-                            maxAggregateLoad = k.Max(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
-                            minAggregateLoad = k.Min(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw)
+                                ? 0
+                                : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
+                            maxAggregateLoad = k.Max(d =>
+                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            minAggregateLoad = k.Min(d =>
+                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
 
                         }).ToList();
                     break;
 
                 default:
                     data = qry
-                        .Include(st => st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i => i.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Include(st =>
+                            st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneInfo)
+                        .GroupBy(i =>
+                            i.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneCode)
                         .Select(k => new
                         {
                             zoneCode = k.Key,
-                            zoneName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            zoneName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                .CircleInfo
                                 .ZoneInfo.ZoneName,
 
                             totalCount = k.Count(),
@@ -1244,14 +1649,22 @@ namespace Pdb014App.Controllers.AdvancedReport
                             total400VolCatCount = k.Count(d => d.VoltageCategoryId == 2),
                             total230VolCatCount = k.Count(d => d.VoltageCategoryId == 3),
 
-                            totalRConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
-                            totalYConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
-                            totalBConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
-                            totalRYBConsumers = k.Sum(d => string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
+                            totalRConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
+                            totalYConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
+                            totalBConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
+                            totalRYBConsumers = k.Sum(d =>
+                                string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
 
-                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
-                            maxAggregateLoad = k.Max(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
-                            minAggregateLoad = k.Min(d => string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw)
+                                ? 0
+                                : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
+                            maxAggregateLoad = k.Max(d =>
+                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            minAggregateLoad = k.Min(d =>
+                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
 
                         }).ToList();
                     break;
@@ -1260,6 +1673,8 @@ namespace Pdb014App.Controllers.AdvancedReport
             return Json(data);
         }
 
+        #endregion
+
     }
-    
+
 }

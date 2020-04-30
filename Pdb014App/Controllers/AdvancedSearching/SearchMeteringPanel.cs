@@ -17,42 +17,24 @@ using Pdb014App.Models.PDB.MeteringPanelModels;
 
 namespace Pdb014App.Controllers.AdvancedSearching
 {
-
     public partial class AdvancedSearchingController : Controller
     {
 
-        public async Task<IActionResult> SearchMeteringPanel(int modelId = 1, int pageIndex = 1, string sort = "SubstationId", string sortExp = "SubstationId")
+        public async Task<IActionResult> SearchMeteringPanel([FromQuery] string cai, int pageIndex = 1, string sort = "SubstationId")
         {
-            //if (searchParameters == null)
-            //{
-            //    searchParameters = TempData["SearchParameters"] as List<List<string>>;
-            //}
-            //else
-            //{
-            //    TempData["SearchParameters"] = searchParameters;
-            //}
-
-
+            ViewBag.TotalRecords = _dbContext.TblMeteringPanel.AsNoTracking().Count();
             ViewBag.SearchParameters = new List<List<string>>(3);
-
-
-            var fieldsDB = _context
-                .LookUpModelFieldInfo
-                .Where(mf => mf.ModelId == modelId)
-                .Select(fi => new { Value = fi.FieldName, Text = fi.FieldDisplayName })
-                .ToList();
 
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "SubstationName", Text = "Substation Name"},
-                new SelectListItem {Value = "ManufacturersNameCountryOfOrigin", Text = "Manufacturers Name Country of Origin"},
-                new SelectListItem {Value = "ManufacturersModelNo", Text = "Manufacturers Model No."},
-                new SelectListItem {Value = "SystemNominalVoltage", Text = "System Nominal Voltage"},
-                new SelectListItem {Value = "MaximumSystemVoltage", Text = "Maximum System Voltage"},
-                new SelectListItem {Value = "RatedFrequency", Text = "Rated Frequency"}
+                new SelectListItem {Value = "sst.SubstationName", Text = "Substation Name"},
+                new SelectListItem {Value = "mpt.ManufacturersNameCountryOfOrigin", Text = "Manufacturers Name Country of Origin"},
+                new SelectListItem {Value = "mpt.ManufacturersModelNo", Text = "Manufacturers Model No."},
+                new SelectListItem {Value = "mpt.SystemNominalVoltage", Text = "System Nominal Voltage"},
+                new SelectListItem {Value = "mpt.MaximumSystemVoltage", Text = "Maximum System Voltage"},
+                new SelectListItem {Value = "mpt.RatedFrequency", Text = "Rated Frequency"}
             };
-
 
             var operators = new List<SelectListItem>
             {
@@ -72,71 +54,62 @@ namespace Pdb014App.Controllers.AdvancedSearching
             var operatorList = new SelectList(operators, "Value", "Text");
 
 
+            ViewBag.ZoneList = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+
             ViewBag.FieldList = fieldList;
             ViewBag.OperatorList = operatorList;
 
-            var qry = _context.TblMeteringPanel.AsNoTracking()
-                .Include(t => t.AmpereMeter)
-                .Include(t => t.AnnuciatorForFeeder)
-                .Include(t => t.AnnuciatorForTransformer)
-                .Include(t => t.AuxiliaryFlagRelayForTransformer)
-                .Include(t => t.ControlSwitchForFeeder)
-                .Include(t => t.ControlSwitchForTransformer)
-                .Include(t => t.DifferentialRelayForTransformer)
-                .Include(t => t.IdmtOverCurrentAndEarthFaultRelayForFeeder)
-                .Include(t => t.IdmtOverCurrentAndEarthFaultRelayForTransformer)
-                .Include(t => t.KWHandkVARHMeter)
-                .Include(t => t.MegaVarMeter)
-                .Include(t => t.MegaWattMeter)
-                .Include(t => t.MeteringPanelToDimensionAndWeight)
-                .Include(t => t.MeteringPanelToSubstation)
-                .Include(t => t.RestrictedEarthFaultRelayForTransformer)
-                .Include(t => t.TripCircuitSupervisionRelayForFeeder)
-                .Include(t => t.TripCircuitSupervisionRelayForTransformer)
-                .Include(t => t.TripRelayForFeeder)
-                .Include(t => t.TripRelayForTransformer)
-                .Include(t => t.VoltMeterWithSelectorSwitch)
+            var qry = _dbContext.TblMeteringPanel.AsNoTracking()
+                .Include(mp => mp.AmpereMeter)
+                .Include(mp => mp.AnnuciatorForFeeder)
+                .Include(mp => mp.AnnuciatorForTransformer)
+                .Include(mp => mp.AuxiliaryFlagRelayForTransformer)
+                .Include(mp => mp.ControlSwitchForFeeder)
+                .Include(mp => mp.ControlSwitchForTransformer)
+                .Include(mp => mp.DifferentialRelayForTransformer)
+                .Include(mp => mp.IdmtOverCurrentAndEarthFaultRelayForFeeder)
+                .Include(mp => mp.IdmtOverCurrentAndEarthFaultRelayForTransformer)
+                .Include(mp => mp.KWHandkVARHMeter)
+                .Include(mp => mp.MegaVarMeter)
+                .Include(mp => mp.MegaWattMeter)
+                .Include(mp => mp.MeteringPanelToDimensionAndWeight)
+                .Include(mp => mp.RestrictedEarthFaultRelayForTransformer)
+                .Include(mp => mp.TripCircuitSupervisionRelayForFeeder)
+                .Include(mp => mp.TripCircuitSupervisionRelayForTransformer)
+                .Include(mp => mp.TripRelayForFeeder)
+                .Include(mp => mp.TripRelayForTransformer)
+                .Include(mp => mp.VoltMeterWithSelectorSwitch)
+                .Include(mp => mp.MeteringPanelToSubstation)
+                .Include(mp => mp.MeteringPanelToSubstation.SubstationType)
+                .Include(mp => mp.MeteringPanelToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(mp => mp.MeteringPanelToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, sortExp);
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "SubstationId");
+
+            searchResult.RouteValue = new RouteValueDictionary { { "cai", cai } };
 
             return View("SearchMeteringPanel", searchResult);
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> SearchMeteringPanel(List<List<string>> searchParameters, int modelId = 1, int pageIndex = 1, string sort = "SubstationId", string sortExp = "SubstationId")
+        //[HttpPost]
+        [HttpGet]
+        public async Task<IActionResult> SearchMeteringPanel(List<string> regionList, List<List<string>> searchParameters, string cai, int pageIndex = 1, string sort = "SubstationId")
         {
-            //if (searchParameters == null)
-            //{
-            //    searchParameters = TempData["SearchParameters"] as List<List<string>>;
-            //}
-            //else
-            //{
-            //    TempData["SearchParameters"] = searchParameters;
-            //}
-
-
-            //ViewData["SearchParameters"] = searchParameters;
+            ViewBag.TotalRecords = _dbContext.TblMeteringPanel.AsNoTracking().Count();
             ViewBag.SearchParameters = searchParameters;
-
-            var fieldsDB = _context
-                .LookUpModelFieldInfo
-                .Where(mf => mf.ModelId == modelId)
-                .Select(fi => new { Value = fi.FieldName, Text = fi.FieldDisplayName })
-                .ToList();
 
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "SubstationName", Text = "Substation Name"},
-                new SelectListItem {Value = "ManufacturersNameCountryOfOrigin", Text = "Manufacturers Name Country of Origin"},
-                new SelectListItem {Value = "ManufacturersModelNo", Text = "Manufacturers Model No."},
-                new SelectListItem {Value = "SystemNominalVoltage", Text = "System Nominal Voltage"},
-                new SelectListItem {Value = "MaximumSystemVoltage", Text = "Maximum System Voltage"},
-                new SelectListItem {Value = "RatedFrequency", Text = "Rated Frequency"}
+                new SelectListItem {Value = "sst.SubstationName", Text = "Substation Name"},
+                new SelectListItem {Value = "mpt.ManufacturersNameCountryOfOrigin", Text = "Manufacturers Name Country of Origin"},
+                new SelectListItem {Value = "mpt.ManufacturersModelNo", Text = "Manufacturers Model No."},
+                new SelectListItem {Value = "mpt.SystemNominalVoltage", Text = "System Nominal Voltage"},
+                new SelectListItem {Value = "mpt.MaximumSystemVoltage", Text = "Maximum System Voltage"},
+                new SelectListItem {Value = "mpt.RatedFrequency", Text = "Rated Frequency"}
             };
-
 
             var operators = new List<SelectListItem>
             {
@@ -158,31 +131,105 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             ViewBag.FieldList = fieldList;
             ViewBag.OperatorList = operatorList;
+            
+
+            Expression<Func<TblMeteringPanel, bool>> searchExp = null;
+
+            string zoneCode, circleCode, snDCode, substationCode;
+
+            zoneCode = circleCode = snDCode = substationCode = "";
+
+            if (regionList != null && regionList.Count > 0 && !string.IsNullOrEmpty(regionList[0]))
+            {
+                zoneCode = regionList[0];
+
+                searchExp = model =>
+                    model.MeteringPanelToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
+
+                ViewBag.CircleList = new SelectList(_dbContext.LookUpCircleInfo
+                    .Where(c => c.ZoneCode.Equals(zoneCode))
+                    .Select(c => new { c.CircleCode, c.CircleName })
+                    .OrderBy(c => c.CircleCode).ToList(), "CircleCode", "CircleName", circleCode);
+
+                if (regionList.Count > 1 && !string.IsNullOrEmpty(regionList[1]))
+                {
+                    circleCode = regionList[1];
+
+                    Expression<Func<TblMeteringPanel, bool>> tempExp = model =>
+                        model.MeteringPanelToSubstation.SubstationToLookUpSnD.CircleCode == circleCode;
+                    searchExp = ExpressionExtension<TblMeteringPanel>.AndAlso(searchExp, tempExp);
+
+                    ViewBag.SnDList = new SelectList(_dbContext.LookUpSnDInfo
+                        .Where(sd => sd.CircleCode.Equals(circleCode))
+                        .Select(sd => new { sd.SnDCode, sd.SnDName })
+                        .OrderBy(sd => sd.SnDCode).ToList(), "SnDCode", "SnDName", snDCode);
+
+                    if (regionList.Count > 2 && !string.IsNullOrEmpty(regionList[2]))
+                    {
+                        snDCode = regionList[2];
+
+                        tempExp = model => model.MeteringPanelToSubstation.SnDCode == snDCode;
+                        searchExp = ExpressionExtension<TblMeteringPanel>.AndAlso(searchExp, tempExp);
+
+                        ViewBag.SubstationList = new SelectList(_dbContext.TblSubstation
+                            .Where(ss => ss.SnDCode.Equals(snDCode))
+                            .Select(ss => new { ss.SubstationId, ss.SubstationName })
+                            .OrderBy(ss => ss.SubstationId).ToList(), "SubstationId", "SubstationName", substationCode);
 
 
-            var qry = _context.TblMeteringPanel.AsNoTracking();
+                        if (regionList.Count > 3 && !string.IsNullOrEmpty(regionList[3]))
+                        {
+                            substationCode = regionList[3];
+
+                            tempExp = model => model.SubstationId == substationCode;
+                            searchExp = ExpressionExtension<TblMeteringPanel>.AndAlso(searchExp, tempExp);
+
+                        }
+                    }
+                }
+            }
+
+            ViewBag.RegionList = regionList;
+            ViewBag.ZoneList = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName", zoneCode);
+
+
+            var searchParametersRoute = new RouteValueDictionary()
+            {
+                { "cai", cai },
+                {"regionList[0]", zoneCode},
+                {"regionList[1]", circleCode},
+                {"regionList[2]", snDCode},
+                {"regionList[3]", substationCode}
+            };
 
 
             if (searchParameters != null && searchParameters.Count > 0)
             {
-                Expression<Func<TblMeteringPanel, Boolean>> searchExp = null;
-
-                var searchOptions = searchParameters
-                    .Select(so => new SearchParameter
-                    {
-                        FieldName = so[0],
-                        Operator = so[1],
-                        FieldValue = so[2],
-                        JoinOption = so[3]
-                    }).ToList();
-
+                int pc = 0;
                 string joinOption = "";
-                foreach (var searchOption in searchOptions)
+
+                foreach (var searchParameter in searchParameters)
                 {
-                    if (string.IsNullOrEmpty(searchOption.FieldName) || string.IsNullOrEmpty(searchOption.Operator))
+                    if (string.IsNullOrEmpty(searchParameter[0]) || string.IsNullOrEmpty(searchParameter[1]))
                         continue;
 
-                    Expression<Func<TblMeteringPanel, Boolean>> tempExp = null;
+                    for (int oc = 0; oc < searchParameter.Count; oc++)
+                    {
+                        searchParametersRoute.Add("searchParameters[" + pc + "][" + oc + "]", searchParameter[oc]);
+                    }
+                    ++pc;
+
+                    var searchOption = new SearchParameter
+                    {
+                        FieldName = searchParameter[0].Contains('.')
+                            ? searchParameter[0].Split('.')[1]
+                            : searchParameter[0],
+                        Operator = searchParameter[1],
+                        FieldValue = searchParameter[2],
+                        JoinOption = searchParameter[3]
+                    };
+
+                    Expression<Func<TblMeteringPanel, bool>> tempExp = null;
 
                     switch (searchOption.FieldName)
                     {
@@ -260,7 +307,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             }
                             break;
 
-
                         case "ManufacturersModelNo":
                             switch (searchOption.Operator)
                             {
@@ -297,7 +343,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-
 
                         case "SystemNominalVoltage":
                             switch (searchOption.Operator)
@@ -336,7 +381,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             }
                             break;
 
-
                         case "MaximumSystemVoltage":
                             switch (searchOption.Operator)
                             {
@@ -373,7 +417,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-
 
                         case "RatedFrequency":
                             switch (searchOption.Operator)
@@ -429,42 +472,47 @@ namespace Pdb014App.Controllers.AdvancedSearching
                     joinOption = searchOption.JoinOption;
                 }
 
-
-                if (searchExp != null)
-                    qry = qry.Where(searchExp);
             }
 
+
+            var qry = searchExp != null
+                ? _dbContext.TblMeteringPanel.AsNoTracking().Where(searchExp)
+                : _dbContext.TblMeteringPanel.AsNoTracking();
+
             qry = qry
-                .Include(t => t.AmpereMeter)
-                .Include(t => t.AnnuciatorForFeeder)
-                .Include(t => t.AnnuciatorForTransformer)
-                .Include(t => t.AuxiliaryFlagRelayForTransformer)
-                .Include(t => t.ControlSwitchForFeeder)
-                .Include(t => t.ControlSwitchForTransformer)
-                .Include(t => t.DifferentialRelayForTransformer)
-                .Include(t => t.IdmtOverCurrentAndEarthFaultRelayForFeeder)
-                .Include(t => t.IdmtOverCurrentAndEarthFaultRelayForTransformer)
-                .Include(t => t.KWHandkVARHMeter)
-                .Include(t => t.MegaVarMeter)
-                .Include(t => t.MegaWattMeter)
-                .Include(t => t.MeteringPanelToDimensionAndWeight)
-                .Include(t => t.MeteringPanelToSubstation)
-                .Include(t => t.RestrictedEarthFaultRelayForTransformer)
-                .Include(t => t.TripCircuitSupervisionRelayForFeeder)
-                .Include(t => t.TripCircuitSupervisionRelayForTransformer)
-                .Include(t => t.TripRelayForFeeder)
-                .Include(t => t.TripRelayForTransformer)
-                .Include(t => t.VoltMeterWithSelectorSwitch)
+                .Include(mp => mp.AmpereMeter)
+                .Include(mp => mp.AnnuciatorForFeeder)
+                .Include(mp => mp.AnnuciatorForTransformer)
+                .Include(mp => mp.AuxiliaryFlagRelayForTransformer)
+                .Include(mp => mp.ControlSwitchForFeeder)
+                .Include(mp => mp.ControlSwitchForTransformer)
+                .Include(mp => mp.DifferentialRelayForTransformer)
+                .Include(mp => mp.IdmtOverCurrentAndEarthFaultRelayForFeeder)
+                .Include(mp => mp.IdmtOverCurrentAndEarthFaultRelayForTransformer)
+                .Include(mp => mp.KWHandkVARHMeter)
+                .Include(mp => mp.MegaVarMeter)
+                .Include(mp => mp.MegaWattMeter)
+                .Include(mp => mp.MeteringPanelToDimensionAndWeight)
+                .Include(mp => mp.RestrictedEarthFaultRelayForTransformer)
+                .Include(mp => mp.TripCircuitSupervisionRelayForFeeder)
+                .Include(mp => mp.TripCircuitSupervisionRelayForTransformer)
+                .Include(mp => mp.TripRelayForFeeder)
+                .Include(mp => mp.TripRelayForTransformer)
+                .Include(mp => mp.VoltMeterWithSelectorSwitch)
+                .Include(mp => mp.MeteringPanelToSubstation)
+                .Include(mp => mp.MeteringPanelToSubstation.SubstationType)
+                .Include(mp => mp.MeteringPanelToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(mp => mp.MeteringPanelToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, sortExp);
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "SubstationId");
+
+            searchResult.RouteValue = searchParametersRoute;
 
             return View("SearchMeteringPanel", searchResult);
 
         }
 
     }
-
-
 
 }

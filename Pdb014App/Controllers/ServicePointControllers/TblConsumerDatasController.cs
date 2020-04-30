@@ -85,19 +85,26 @@ namespace Pdb014App.Controllers.ServicePointControllers
             }
 
             var tblConsumerData = await _context.TblConsumerData
-                .Include(t => t.ConsumerDataToDistributionTransformer)
-                .Include(t => t.ConsumerDataToServicePoint)
-                .Include(t => t.ConsumerToBusinessType)
-                .Include(t => t.ConsumerToConnectionStatus)
-                .Include(t => t.ConsumerToConnectionType)
-                .Include(t => t.ConsumerToLocation)
-                .Include(t => t.ConsumerToMeterType)
-                .Include(t => t.ConsumerToOperatingVoltage)
-                .Include(t => t.ConsumerToPhasingCode)
-                .Include(t => t.ConsumerToServiceCableType)
-                .Include(t => t.ConsumerToStructureType)
-                .Include(t => t.ConsumerType)
+                .Include(cd => cd.ConsumerType)
+                .Include(cd => cd.ConsumerToConnectionType)
+                .Include(cd => cd.ConsumerToConnectionStatus)
+                .Include(cd => cd.ConsumerToBusinessType)
+                .Include(cd => cd.ConsumerToLocation)
+                .Include(cd => cd.ConsumerToMeterType)
+                .Include(cd => cd.ConsumerToOperatingVoltage)
+                .Include(cd => cd.ConsumerToPhasingCode)
+                .Include(cd => cd.ConsumerToServiceCableType)
+                .Include(cd => cd.ConsumerToStructureType)
+                
+                .Include(cd => cd.ConsumerDataToServicePoint)
+                .Include(cd => cd.ConsumerDataToDistributionTransformer)
+                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToPole)
+                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
+                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .FirstOrDefaultAsync(m => m.ConsumerId == id);
+
+
             if (tblConsumerData == null)
             {
                 return NotFound();

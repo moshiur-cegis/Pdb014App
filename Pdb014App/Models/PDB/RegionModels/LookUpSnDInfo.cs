@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Pdb014App.Models.PDB.RegionModels;
 
+
 namespace Pdb014App.Models.PDB.LookUpModels
 {
     public class LookUpSnDInfo

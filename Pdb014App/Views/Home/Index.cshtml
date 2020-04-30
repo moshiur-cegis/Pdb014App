@@ -11,16 +11,7 @@
 
 @section Styles {
     <style type="text/css">
-        .carousel-item {
-            height: 50vh;
-            min-height: 350px;
-            background: no-repeat center center scroll;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-        }
-
+        
         .title_txt {
             display: inline-block;
             width: 100%;
@@ -84,67 +75,30 @@
 <div class="row">
     @*<div class="col-md-1"></div>*@
     <div class="col-md-3">
-        <div class="bg-white-8 rounded overflow-hidden" style="border:1px solid #000000; min-height: 95px;">
-            <div class="pd-10 d-flex align-items-center">
-                @*<i class="ion ion-earth tx-60 lh-0 tx-white op-7"></i>*@
-                <div class="col-md-12" style="text-align: center; padding: 0;">
-                    <p class="title_txt">No. of Substation</p>
-                    <p class="num_txt">@ViewBag.SubstationCount.ToString("#,##0")</p>
-                    @*<span class="tx-11 tx-roboto tx-white-6">24% higher yesterday</span>*@
-                </div>
-            </div>
+        <div class="card pd-10 bd-0 shadow-base text-center rounded overflow-hidden" style="border:1px solid rgba(0, 0, 0, 0.25);">
+            <p class="title_txt">No. of Substation</p>
+            <p class="num_txt">@ViewBag.SubstationCount.ToString("#,##0")</p>
         </div>
     </div>
-    <!-- col-3 -->
-    @*<div class="col-md-2">
-            <div class="bg-white-8 rounded overflow-hidden" style="border:1px solid #000000; min-height: 95px;">
-                <div class="pd-10 d-flex align-items-center">
-                    <div class="col-md-12" style="text-align: center; padding: 0;">
-                        <p class="title_txt">No. of Power Transformer</p>
-                        <p class="num_txt">@(ViewBag.PhasePowerTransformerCount != 0 ? ViewBag.PhasePowerTransformerCount.ToString("N0", bdCulture) : "null")</p>
-                    </div>
-                </div>
-            </div>
-        </div>*@
-    <!-- col-3 -->
     <div class="col-md-3">
-        <div class="bg-white rounded overflow-hidden" style="border:1px solid #000000; min-height: 95px;">
-            @*bg-primary*@
-            <div class="pd-10 d-flex align-items-center">
-                <div class="col-md-12" style="text-align: center; padding: 0;">
-                    <p class="title_txt">No. of Feeder</p>
-                    <p class="num_txt">@ViewBag.FeederLineCount.ToString("N0", bdCulture)</p>
-                </div>
-            </div>
+        <div class="card pd-10 bd-0 shadow-base text-center rounded overflow-hidden" style="border:1px solid rgba(0, 0, 0, 0.25);">
+            <p class="title_txt">No. of Feeder</p>
+            <p class="num_txt">@ViewBag.FeederLineCount.ToString("N0", bdCulture)</p>
         </div>
     </div>
-    <!-- col-3 -->
     <div class="col-md-3">
-        <div class="bg-white rounded overflow-hidden" style="border:1px solid #000000; min-height: 95px;">
-            @*bg-warning*@
-            <div class="pd-10 d-flex align-items-center">
-                <div class="col-md-12" style="text-align: center; padding: 0;">
-                    <p class="title_txt">Distribution Transformer</p>
-                    <p class="num_txt">@ViewBag.DistributionTransformerCount.ToString("N0", bdCulture)</p>                    
-                </div>
-            </div>
+        <div class="card pd-10 bd-0 shadow-base text-center rounded overflow-hidden" style="border:1px solid rgba(0, 0, 0, 0.25);">
+            <p class="title_txt">Distribution Transformer</p>
+            <p class="num_txt">@ViewBag.DistributionTransformerCount.ToString("N0", bdCulture)</p>
         </div>
     </div>
-    <!-- col-3 -->
     <div class="col-md-3">
-        <div class="bg-white rounded overflow-hidden" style="border:1px solid #000000; min-height: 95px;">
-            @*bg-warning*@
-            <div class="pd-10 d-flex align-items-center">
-                <div class="col-md-12" style="text-align: center; padding: 0;">
-                    <p class="title_txt">No. of Poles</p>
-                    <p class="num_txt">@ViewBag.PoleCount.ToString("N0", bdCulture)</p>
-                </div>
-            </div>
+        <div class="card pd-10 bd-0 shadow-base text-center rounded overflow-hidden" style="border:1px solid rgba(0, 0, 0, 0.25);">
+            <p class="title_txt">No. of Poles</p>
+            <p class="num_txt">@ViewBag.PoleCount.ToString("N0", bdCulture)</p>
         </div>
     </div>
     @*<div class="col-md-1"></div>*@
-    <!-- col-3 -->
-
 </div>
 <!-- row -->
 

@@ -38,9 +38,12 @@ namespace Pdb014App.Controllers.SubstationControllers
             }
 
             var tblRelay = await _context.TblRelay
-                .Include(t => t.RelayToFeederLine)
-                .Include(t => t.RelayToSubstation)
+                .Include(re => re.RelayToFeederLine)
+                .Include(re => re.RelayToSubstation)
+                .Include(re => re.RelayToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(re => re.RelayToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .FirstOrDefaultAsync(m => m.RelayId == id);
+
             if (tblRelay == null)
             {
                 return NotFound();

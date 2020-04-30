@@ -1,1188 +1,1277 @@
 ﻿@model PagingList<Pdb014App.Models.PDB.DistributionTransformerModel.TblDistributionTransformer>
 
-
-@using System.Collections.Generic
 @using ReflectionIT.Mvc.Paging
 @addTagHelper *, ReflectionIT.Mvc.Paging
 
 
 @{
-    ViewData["Title"] = "Search Distribution Transformer Info.";
+    ViewData["Title"] = "Search Distribution Transformer";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     Model.Action = "SearchDistributionTransformer";
 
-    //Model.Item1.Action = "SearchDistributionTransformer";
-    //Model.Item1.RouteValue = new RouteValueDictionary();
+
+    var totalRecords = ViewBag.TotalRecords;
+    var searchRecords = Model.TotalRecordCount;
+
+
+    var rlCount = 5;
+    var regionList = ViewBag.RegionList as List<string>;
+    if (regionList == null || regionList.Count < 1)
+    {
+        regionList = new List<string>(rlCount) { "", "", "", "", "" };
+    }
+    else if (regionList.Count < rlCount)
+    {
+        for (int rc = regionList.Count; rc < rlCount; ++rc)
+        {
+            regionList.Add("");
+        }
+    }
+
+    var spCount = 3;
+    var searchParameters = ViewBag.SearchParameters as List<List<string>>;
+    if (searchParameters == null || searchParameters.Count < 1)
+    {
+        searchParameters = new List<List<string>>(spCount);
+    }
 }
 
 
 @section Styles {
 
     <link href="~/css/datastyle.css" rel="stylesheet" />
-
-    <style type="text/css">
-
-        table.table {
-            table-layout: fixed;
-        }
-
-            table.table tr th,
-            table.table tr td {
-                border-color: #e9e9e9;
-            }
-
-            table.table th {
-                min-width: 80px;
-            }
-
-                table.table th:last-child {
-                    width: 100px;
-                }
-
-                table.table th i {
-                    font-size: 13px;
-                    margin: 0 5px;
-                    cursor: pointer;
-                }
-
-            table.table td a {
-                cursor: pointer;
-                display: inline-block;
-                margin: 0 5px;
-                min-width: 24px;
-            }
-
-                table.table td a.add {
-                    color: #27C46B;
-                }
-
-                table.table td a.edit {
-                    color: #FFC107;
-                }
-
-                table.table td a.delete {
-                    color: #E34724;
-                }
-
-            table.table td i {
-                font-size: 19px;
-            }
-
-            table.table td a.add i {
-                font-size: 24px;
-                margin-right: -1px;
-                position: relative;
-                top: 3px;
-            }
-
-
-            table.table .form-control {
-                width: 100%;
-                padding: 2px 5px;
-                line-height: 1.0;
-            }
-
-                table.table .form-control.error {
-                    border-color: #f50000;
-                }
-
-            table.table td .add {
-                display: none;
-            }
-    </style>
-
+    <link href="~/css/search.style.css" rel="stylesheet" />
+    <link href="~/css/autocomplete.style.css" rel="stylesheet" />
 }
 
 
-<div class="container">
-    <h2>Distribution Transformer Data Search</h2>
+<h2>@ViewData["Title"]</h2>
 
-    <hr />
+<hr />
 
-    <div class="row">
-        <div class="col-md-12">
-            <form method="post" asp-controller="AdvancedSearching" asp-action="SearchDistributionTransformer">
+<div class="row">
+    <div class="col-md-12">
+        <form method="get" asp-controller="AdvancedSearching" asp-action="@Model.Action">
 
-                @{
-                    var searchParameters = ViewBag.SearchParameters as List<List<string>>;
+            <div class="row">
+                <div class="col-md-6">
 
-                    //var searchParameters = ViewData["SearchParameters"] as IList<SearchParameter>;
-                    //var searchParameters = (Model.Item2 != null && Model.Item2.Any()) ? Model.Item2 : new List<SearchParameter>(3);
+                    <input type="hidden" name="cai" value="@Model.RouteValue["cai"]" />
 
-                    var spCount = 0;
-                    if (searchParameters == null || searchParameters.Count < 1)
-                    {
-                        spCount = 3;
-                        searchParameters = new List<List<string>>(3);
-                    }
-                    else
-                    {
-                        spCount = searchParameters.Count;
-                    }
-                }
+                    <fieldset>
+                        <legend>▣ Regional Boundaries</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Zone</label>
+                                    <select id="ZoneCode" asp-for="@regionList[0]" class="form-control" asp-items="ViewBag.ZoneList">
+                                        <option value="" selected="selected">----- all zone -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Circle</label>
+                                    <select id="CircleCode" asp-for="@regionList[1]" class="form-control" asp-items="ViewBag.CircleList">
+                                        <option value="" selected="selected">----- all circle -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">S&D</label>
+                                    <select id="SnDCode" asp-for="@regionList[2]" class="form-control" asp-items="ViewBag.SnDList">
+                                        <option value="" selected="selected">----- all S&D -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Substation</label>
+                                    <select id="SubstationId" asp-for="@regionList[3]" class="form-control" asp-items="ViewBag.SubstationList">
+                                        <option value="" selected="selected">----- all substation -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Route</label>
+                                    <select id="RouteCode" asp-for="@regionList[4]" class="form-control" asp-items="ViewBag.RouteList">
+                                        <option value="" selected="selected">----- all route -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <fieldset>
+                        <legend>▣ Search Options</legend>
+                        <table id="tblSearchOptions" class="table table-responsive" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 48%">Field Name</th>
+                                    <th style="width: 70px">Operator</th>
+                                    <th style="width: 50%">Field Value</th>
+                                    <th style="width: 70px">Join (AND/OR)</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @for (int spc = 0; spc < spCount; ++spc)
+                                {
+                                    if (searchParameters.Count <= spc)
+                                    {
+                                        searchParameters.Add(new List<string>(4) { "", "", "", "" });
+                                    }
+
+                                    <tr>
+                                        <td>
+                                            <select id="fieldName" asp-for="@searchParameters[spc][0]" class="form-control text-left field-name" asp-items="ViewBag.FieldList">
+                                                <option value="">--- Select ---</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="operator" asp-for="@searchParameters[spc][1]" class="form-control text-center" asp-items="ViewBag.OperatorList">
+                                                <option selected="" value=""></option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input id="fieldValue" asp-for="@searchParameters[spc][2]" class="form-control text-left field-value" />
+                                        </td>
+                                        <td>
+                                            <select id="joinOption" asp-for="@searchParameters[spc][3]" class="form-control text-center">
+                                                <option value="AND">AND</option>
+                                                <option value="OR">OR</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+
+                    </fieldset>
+
+                    <div class="form-group" style="margin-top: 10px;">
+                        <input type="submit" value="Search" class="btn btn-primary float-right" />
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
 
 
-                <table id="tblSearchOptions" class="table table-responsive" cellpadding="0" cellspacing="0">
+<div class="row">
+    <div class="col-md-12">
+
+        <hr />
+        @if (searchRecords == totalRecords)
+        {
+            <strong>Total Records: <span style="font-size: 110%; color: #13d;">@totalRecords</span></strong>
+        }
+        else
+        {
+            <strong>Find <span style="font-size: 110%; color: #15c;">@searchRecords</span> Records out of <span style="font-size: 110%; color: #13d;">@totalRecords</span> Records</strong>
+        }
+        <hr />
+
+
+        <div class="form-view" id="updatePanel">
+            <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+
+                <table id="multi-form-view" class="table table-responsive multi-form-view">
+
                     <thead>
                         <tr>
-                            <th style="width: 250px">Field Name</th>
-                            <th style="width: 100px">Operator</th>
-                            <th style="width: 350px">Field Value</th>
-                            <th style="width: 70px">Join(AND/OR)</th>
-                            @*<th style="width: 100px">Action</th>*@
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DistributionTransformerId)
+                            </th>
+
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType.SubstationTypeName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DtToFeederLine.FeederLineToRoute.RouteName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DtToFeederLine.FeederName)
+                            </th>
+
+
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NameOf33bs11kVSubdsstation)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.Nameof11kVFeeder)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.SNDIdentificationNo)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NearestHoldingbsHouseNobsShop)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ExistingPoleNumberingifAny)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.InstalledConditionPadbsPoleMounted)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.InstalledPlaceIndoorbsOutdoor)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ContractNo)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.OwneroftheTransformerBPDBbsConsumer)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.TransformerKVARating)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.YearofManufacturing)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NameofManufacturer)
+                            </th>
+
+
+                            <th>
+                                @Html.SortableHeaderFor(model => model.TransformerSerialNo)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RatedHTVoltage)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RatedLTVoltage)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RatedHTCurrent)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RatedLTCurrent)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ControlVoltage)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.MotorVoltageforspringcharge)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RatedVoltage)
+                            </th>
+
+
+                            <th>
+                                @Html.SortableHeaderFor(model => model.BodyColourCondition)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NameoBodyColour)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.OilLeakageYesOrNo)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PlaceofOilLeakageMark)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PlatformMaterialAnglbsChannel)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PlatformStandardbsNonStandardGoodBad)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.TypeofTransformerSupportPoleLeft)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofTransformerSupportPoleLeft)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.TypeofTransformerSupportPoleRight)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofTransformerSupportPoleRight)
+                            </th>
+
+
+                            <th>
+                                @Html.SortableHeaderFor(model => model.HTBushingRPhaseOil)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.HTBushingRPhaseGood)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.HTBushingRPhaseColor)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.HTBushingYPhaseOil)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.HTBushingYPhaseGood)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.HTBushingYPhaseColor)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.HTBushingBPhaseOil)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.HTBushingBPhaseGood)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.HTBushingBPhaseColor)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.HTBushingNPhaseOil)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.HTBushingNPhaseGood)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.HTBushingNPhaseColor)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LTBushingRPhaseOil)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LTBushingRPhaseGood)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LTBushingRPhaseColor)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LTBushingYPhaseOil)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LTBushingYPhaseGood)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LTBushingYPhaseColor)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LTBushingBPhaseOil)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LTBushingBPhaseGood)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LTBushingBPhaseColor)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LTBushingNPhaseOil)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LTBushingNPhaseGood)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LTBushingNPhaseColor)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.WireSizeofHTDrop)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofHTDropGoodbsBad)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.WirebsCableSizeofLTDropCKT1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofLTDropGoodbsBadCKT1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.WirebsCableSizeofLTDropCKT2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofLTDropGoodbsBadCKT2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.EarthingLead1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.EarthingLead1Size)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.EarthingLead1Material)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.EarthingLead1ConditionStandard)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.EarthingLead2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.EarthingLead2Size)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.EarthingLead2Material)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.EarthingLead2ConditionStandard)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DayPeak)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DateAndtime1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.Voltage1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RYVoltageVolt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.YBVoltageVolt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RBVoltageVolt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RNVoltageVolt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.YNVoltageVolt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.BNVoltageVolt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LeakageVoltageBodyEarthVolt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RPhaseCurrentAmps1Ckt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RPhaseCurrentAmps1Ckt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RPhaseCurrentAmps1Ckt3)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.YPhaseCurrentAmps1Ckt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.YPhaseCurrentAmps1Ckt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.YPhaseCurrentAmps1Ckt3)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.BPhaseCurrentAmps1Ckt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.BPhaseCurrentAmps1Ckt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.BPhaseCurrentAmps1Ckt3)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NeutralCurrentAmps1Ckt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NeutralCurrentAmps1Ckt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NeutralCurrentAmps1Ckt3)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.CalculatedDayPeakkVA)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.EveningPeak)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DateAndTime2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.Voltage2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RYVoltageVolt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.YBVoltageVolt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RBVoltageVolt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RNVoltageVolt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.YNVoltageVolt)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.BNVoltageVolt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LeakageVoltageBodyEarthVolt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RPhaseCurrentAmps2Ckt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RPhaseCurrentAmps2Ckt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RPhaseCurrentAmps2Ckt3)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.YPhaseCurrentAmps2Ckt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.YPhaseCurrentAmps2Ckt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.YPhaseCurrentAmps2Ckt3)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.BPhaseCurrentAmps2Ckt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.BPhaseCurrentAmps2Ckt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.BPhaseCurrentAmps2Ckt3)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NeutralCurrentAmpsCkt1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NeutralCurrentAmps2Ckt2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NeutralCurrentAmps2Ckt3)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.CalculatedEveningPeakkVA)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DropOutFuseExistbsNotExistRphase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DropOutFuseExistbsNotExistYphase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DropOutFuseExistbsNotExistBphase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofDropOutFuseRphase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofDropOutFuseYphase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofDropOutFuseBphase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LightningArrestorRphase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LightningArrestorYphase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.LightningArrestorBphase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofLightingArrestorRphase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofLightingArrestorYphase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofLightingArrestorBphase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.DistributionBoxExistbsnotExist)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofDistributionBox)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NoOfMCCB)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ManufacturerTypeOriginofMCCBforCircuit1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ManufacturerTypeOriginofMCCBforCircuit2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.AmpereRatingasPerNamePlateofMCCBforCKT1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.AmpereRatingasPerNameplateOfMCCBForCKT2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofMCCBforCircuit1)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ConditionofMCCBforCircuit2)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.Recommendation)
+                            </th>
+
                         </tr>
                     </thead>
-
                     <tbody>
-
-                        @for (int spc = 0; spc < spCount; ++spc)
+                        @foreach (var item in Model)
                         {
-                            if (searchParameters.Count <= spc)
-                            {
-                                searchParameters.Add(new List<string>(4) { "", "", "", "" });
-                                //searchParameters.Add(new SearchParameter());
-                            }
-
                             <tr>
-
                                 <td>
-                                    <select id="fieldName" asp-for="@searchParameters[spc][0]" class="form-control text-left" asp-items="ViewBag.FieldList">
-                                        <option value="">--- Select ---</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select id="operator" asp-for="@searchParameters[spc][1]" class="form-control text-center" asp-items="ViewBag.OperatorList">
-                                        <option selected="" value=""></option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input id="fieldValue" asp-for="@searchParameters[spc][2]" class="form-control text-left" />
-                                </td>
-                                <td>
-                                    <select id="joinOption" asp-for="@searchParameters[spc][3]" class="form-control text-center">
-                                        <option value="AND">AND</option>
-                                        <option value="OR">OR</option>
-                                    </select>
+                                    <a target="_blank" asp-controller="TblDistributionTransformers" asp-action="Details" asp-route-id="@item.DistributionTransformerId" asp-route-cai="@Model.RouteValue["cai"]" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Details">
+                                        @Html.DisplayFor(modelItem => item.DistributionTransformerId)
+                                    </a>
                                 </td>
 
-                                @*<td>
-                                        <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i><span class="sr-only">Delete</span></a>
-                                        <a class="delete" title="delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i><span class="sr-only">Delete</span></a>
-                                        <button type="button" class="delete" title="Delete" data-toggle="tooltip"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button>
-                                    </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType.SubstationTypeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DtToFeederLine.FeederLineToRoute.RouteName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DtToFeederLine.FeederName)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NameOf33bs11kVSubdsstation)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nameof11kVFeeder)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SNDIdentificationNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NearestHoldingbsHouseNobsShop)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ExistingPoleNumberingifAny)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InstalledConditionPadbsPoleMounted)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InstalledPlaceIndoorbsOutdoor)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ContractNo)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OwneroftheTransformerBPDBbsConsumer)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TransformerKVARating)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.YearofManufacturing)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NameofManufacturer)
+                                </td>
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TransformerSerialNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RatedHTVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RatedLTVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RatedHTCurrent)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RatedLTCurrent)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ControlVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MotorVoltageforspringcharge)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RatedVoltage)
+                                </td>
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BodyColourCondition)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NameoBodyColour)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OilLeakageYesOrNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PlaceofOilLeakageMark)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PlatformMaterialAnglbsChannel)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PlatformStandardbsNonStandardGoodBad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TypeofTransformerSupportPoleLeft)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofTransformerSupportPoleLeft)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TypeofTransformerSupportPoleRight)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofTransformerSupportPoleRight)
+                                </td>
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HTBushingRPhaseOil)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HTBushingRPhaseGood)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HTBushingRPhaseColor)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HTBushingYPhaseOil)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HTBushingYPhaseGood)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HTBushingYPhaseColor)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HTBushingBPhaseOil)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HTBushingBPhaseGood)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HTBushingBPhaseColor)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HTBushingNPhaseOil)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HTBushingNPhaseGood)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HTBushingNPhaseColor)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LTBushingRPhaseOil)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LTBushingRPhaseGood)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LTBushingRPhaseColor)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LTBushingYPhaseOil)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LTBushingYPhaseGood)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LTBushingYPhaseColor)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LTBushingBPhaseOil)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LTBushingBPhaseGood)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LTBushingBPhaseColor)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LTBushingNPhaseOil)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LTBushingNPhaseGood)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LTBushingNPhaseColor)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WireSizeofHTDrop)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofHTDropGoodbsBad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WirebsCableSizeofLTDropCKT1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofLTDropGoodbsBadCKT1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WirebsCableSizeofLTDropCKT2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofLTDropGoodbsBadCKT2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EarthingLead1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EarthingLead1Size)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EarthingLead1Material)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EarthingLead1ConditionStandard)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EarthingLead2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EarthingLead2Size)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EarthingLead2Material)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EarthingLead2ConditionStandard)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DayPeak)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateAndtime1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Voltage1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RYVoltageVolt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.YBVoltageVolt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RBVoltageVolt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RNVoltageVolt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.YNVoltageVolt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BNVoltageVolt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LeakageVoltageBodyEarthVolt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RPhaseCurrentAmps1Ckt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RPhaseCurrentAmps1Ckt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RPhaseCurrentAmps1Ckt3)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.YPhaseCurrentAmps1Ckt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.YPhaseCurrentAmps1Ckt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.YPhaseCurrentAmps1Ckt3)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BPhaseCurrentAmps1Ckt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BPhaseCurrentAmps1Ckt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BPhaseCurrentAmps1Ckt3)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NeutralCurrentAmps1Ckt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NeutralCurrentAmps1Ckt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NeutralCurrentAmps1Ckt3)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CalculatedDayPeakkVA)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EveningPeak)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateAndTime2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Voltage2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RYVoltageVolt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.YBVoltageVolt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RBVoltageVolt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RNVoltageVolt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.YNVoltageVolt)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BNVoltageVolt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LeakageVoltageBodyEarthVolt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RPhaseCurrentAmps2Ckt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RPhaseCurrentAmps2Ckt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RPhaseCurrentAmps2Ckt3)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.YPhaseCurrentAmps2Ckt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.YPhaseCurrentAmps2Ckt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.YPhaseCurrentAmps2Ckt3)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BPhaseCurrentAmps2Ckt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BPhaseCurrentAmps2Ckt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BPhaseCurrentAmps2Ckt3)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NeutralCurrentAmpsCkt1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NeutralCurrentAmps2Ckt2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NeutralCurrentAmps2Ckt3)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CalculatedEveningPeakkVA)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DropOutFuseExistbsNotExistRphase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DropOutFuseExistbsNotExistYphase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DropOutFuseExistbsNotExistBphase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofDropOutFuseRphase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofDropOutFuseYphase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofDropOutFuseBphase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LightningArrestorRphase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LightningArrestorYphase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LightningArrestorBphase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofLightingArrestorRphase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofLightingArrestorYphase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofLightingArrestorBphase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DistributionBoxExistbsnotExist)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofDistributionBox)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoOfMCCB)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ManufacturerTypeOriginofMCCBforCircuit1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ManufacturerTypeOriginofMCCBforCircuit2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AmpereRatingasPerNamePlateofMCCBforCKT1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AmpereRatingasPerNameplateOfMCCBForCKT2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofMCCBforCircuit1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ConditionofMCCBforCircuit2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Recommendation)
+                                </td>
                             </tr>
                         }
                     </tbody>
                 </table>
 
-                <div class="form-group" style="margin-top: 8px;">
 
-                    @*<button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>*@
-
-                    <input type="submit" value="Search" class="btn btn-primary float-right" />
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-    <br />
-
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-view" id="updatePanel">
-                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
-
-                    <table id="multi-form-view" class="table table-responsive multi-form-view">
-
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.DistributionTransformerId)
-                                </th>
-
-                                @*
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.PoleStructureMountedSurgeArrestor)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.DtToPole)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.DtToFeederLine)
-                                    </th>*@
-                                <th>
-                                    @Html.DisplayNameFor(model => model.NameOf33bs11kVSubdsstation)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Nameof11kVFeeder)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.SNDIdentificationNo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.NearestHoldingbsHouseNobsShop)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ExistingPoleNumberingifAny)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.InstalledConditionPadbsPoleMounted)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.InstalledPlaceIndoorbsOutdoor)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ContractNo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.OwneroftheTransformerBPDBbsConsumer)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TransformerKVARating)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.YearofManufacturing)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.NameofManufacturer)
-                                </th>
-
-                                @*
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.TransformerSerialNo)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.RatedHTVoltage)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.RatedLTVoltage)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.RatedHTCurrent)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.RatedLTCurrent)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.ControlVoltage)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.MotorVoltageforspringcharge)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.RatedVoltage)
-                                    </th>
-                                *@
-
-                                <th>
-                                    @Html.DisplayNameFor(model => model.BodyColourCondition)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.NameoBodyColour)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.OilLeakageYesOrNo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.PlaceofOilLeakageMark)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.PlatformMaterialAnglbsChannel)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.PlatformStandardbsNonStandardGoodBad)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TypeofTransformerSupportPoleLeft)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ConditionofTransformerSupportPoleLeft)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TypeofTransformerSupportPoleRight)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ConditionofTransformerSupportPoleRight)
-                                </th>
-
-                                @*
-                                    <th>
-                                                @Html.DisplayNameFor(model => model.HTBushingRPhaseOil)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.HTBushingRPhaseGood)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.HTBushingRPhaseColor)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.HTBushingYPhaseOil)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.HTBushingYPhaseGood)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.HTBushingYPhaseColor)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.HTBushingBPhaseOil)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.HTBushingBPhaseGood)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.HTBushingBPhaseColor)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.HTBushingNPhaseOil)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.HTBushingNPhaseGood)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.HTBushingNPhaseColor)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LTBushingRPhaseOil)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LTBushingRPhaseGood)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LTBushingRPhaseColor)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LTBushingYPhaseOil)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LTBushingYPhaseGood)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LTBushingYPhaseColor)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LTBushingBPhaseOil)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LTBushingBPhaseGood)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LTBushingBPhaseColor)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LTBushingNPhaseOil)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LTBushingNPhaseGood)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LTBushingNPhaseColor)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.WireSizeofHTDrop)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ConditionofHTDropGoodbsBad)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.WirebsCableSizeofLTDropCKT1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ConditionofLTDropGoodbsBadCKT1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.WirebsCableSizeofLTDropCKT2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ConditionofLTDropGoodbsBadCKT2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.EarthingLead1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.EarthingLead1Size)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.EarthingLead1Material)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.EarthingLead1ConditionStandard)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.EarthingLead2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.EarthingLead2Size)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.EarthingLead2Material)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.EarthingLead2ConditionStandard)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.DayPeak)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.DateAndtime1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.Voltage1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.RYVoltageVolt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.YBVoltageVolt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.RBVoltageVolt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.RNVoltageVolt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.YNVoltageVolt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.BNVoltageVolt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LeakageVoltageBodyEarthVolt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.RPhaseCurrentAmps1Ckt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.RPhaseCurrentAmps1Ckt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.RPhaseCurrentAmps1Ckt3)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.YPhaseCurrentAmps1Ckt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.YPhaseCurrentAmps1Ckt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.YPhaseCurrentAmps1Ckt3)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.BPhaseCurrentAmps1Ckt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.BPhaseCurrentAmps1Ckt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.BPhaseCurrentAmps1Ckt3)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.NeutralCurrentAmps1Ckt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.NeutralCurrentAmps1Ckt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.NeutralCurrentAmps1Ckt3)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.CalculatedDayPeakkVA)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.EveningPeak)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.DateAndTime2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.Voltage2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.RYVoltageVolt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.YBVoltageVolt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.RBVoltageVolt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.RNVoltageVolt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.YNVoltageVolt)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.BNVoltageVolt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LeakageVoltageBodyEarthVolt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.RPhaseCurrentAmps2Ckt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.RPhaseCurrentAmps2Ckt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.RPhaseCurrentAmps2Ckt3)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.YPhaseCurrentAmps2Ckt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.YPhaseCurrentAmps2Ckt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.YPhaseCurrentAmps2Ckt3)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.BPhaseCurrentAmps2Ckt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.BPhaseCurrentAmps2Ckt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.BPhaseCurrentAmps2Ckt3)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.NeutralCurrentAmpsCkt1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.NeutralCurrentAmps2Ckt2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.NeutralCurrentAmps2Ckt3)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.CalculatedEveningPeakkVA)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.DropOutFuseExistbsNotExistRphase)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.DropOutFuseExistbsNotExistYphase)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.DropOutFuseExistbsNotExistBphase)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ConditionofDropOutFuseRphase)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ConditionofDropOutFuseYphase)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ConditionofDropOutFuseBphase)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LightningArrestorRphase)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LightningArrestorYphase)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.LightningArrestorBphase)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ConditionofLightingArrestorRphase)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ConditionofLightingArrestorYphase)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ConditionofLightingArrestorBphase)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.DistributionBoxExistbsnotExist)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ConditionofDistributionBox)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.NoOfMCCB)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ManufacturerTypeOriginofMCCBforCircuit1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ManufacturerTypeOriginofMCCBforCircuit2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.AmpereRatingasPerNamePlateofMCCBforCKT1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.AmpereRatingasPerNameplateOfMCCBForCKT2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ConditionofMCCBforCircuit1)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.ConditionofMCCBforCircuit2)
-                                            </th>
-                                            <th>
-                                                @Html.DisplayNameFor(model => model.Recommendation)
-                                            </th>
-                                *@
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DistributionTransformerId)
-                                    </td>
-                                    @*
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.PoleStructureMountedSurgeArrestor.PoleStructureMountedSurgeArrestorId)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DtToPole.PoleId)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DtToFeederLine.FeederLineId)
-                                        </td>*@
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NameOf33bs11kVSubdsstation)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Nameof11kVFeeder)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SNDIdentificationNo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NearestHoldingbsHouseNobsShop)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ExistingPoleNumberingifAny)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.InstalledConditionPadbsPoleMounted)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.InstalledPlaceIndoorbsOutdoor)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ContractNo)
-                                    </td>
-
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.OwneroftheTransformerBPDBbsConsumer)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TransformerKVARating)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.YearofManufacturing)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NameofManufacturer)
-                                    </td>
-
-
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.TransformerSerialNo)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RatedHTVoltage)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RatedLTVoltage)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RatedHTCurrent)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RatedLTCurrent)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ControlVoltage)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.MotorVoltageforspringcharge)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RatedVoltage)
-                                        </td>
-                                    *@
-
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.BodyColourCondition)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NameoBodyColour)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.OilLeakageYesOrNo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PlaceofOilLeakageMark)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PlatformMaterialAnglbsChannel)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PlatformStandardbsNonStandardGoodBad)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TypeofTransformerSupportPoleLeft)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ConditionofTransformerSupportPoleLeft)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TypeofTransformerSupportPoleRight)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ConditionofTransformerSupportPoleRight)
-                                    </td>
-
-
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.HTBushingRPhaseOil)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.HTBushingRPhaseGood)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.HTBushingRPhaseColor)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.HTBushingYPhaseOil)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.HTBushingYPhaseGood)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.HTBushingYPhaseColor)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.HTBushingBPhaseOil)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.HTBushingBPhaseGood)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.HTBushingBPhaseColor)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.HTBushingNPhaseOil)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.HTBushingNPhaseGood)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.HTBushingNPhaseColor)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LTBushingRPhaseOil)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LTBushingRPhaseGood)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LTBushingRPhaseColor)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LTBushingYPhaseOil)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LTBushingYPhaseGood)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LTBushingYPhaseColor)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LTBushingBPhaseOil)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LTBushingBPhaseGood)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LTBushingBPhaseColor)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LTBushingNPhaseOil)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LTBushingNPhaseGood)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LTBushingNPhaseColor)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.WireSizeofHTDrop)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ConditionofHTDropGoodbsBad)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.WirebsCableSizeofLTDropCKT1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ConditionofLTDropGoodbsBadCKT1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.WirebsCableSizeofLTDropCKT2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ConditionofLTDropGoodbsBadCKT2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EarthingLead1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EarthingLead1Size)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EarthingLead1Material)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EarthingLead1ConditionStandard)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EarthingLead2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EarthingLead2Size)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EarthingLead2Material)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EarthingLead2ConditionStandard)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DayPeak)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DateAndtime1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Voltage1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RYVoltageVolt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.YBVoltageVolt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RBVoltageVolt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RNVoltageVolt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.YNVoltageVolt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BNVoltageVolt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LeakageVoltageBodyEarthVolt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RPhaseCurrentAmps1Ckt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RPhaseCurrentAmps1Ckt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RPhaseCurrentAmps1Ckt3)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.YPhaseCurrentAmps1Ckt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.YPhaseCurrentAmps1Ckt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.YPhaseCurrentAmps1Ckt3)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BPhaseCurrentAmps1Ckt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BPhaseCurrentAmps1Ckt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BPhaseCurrentAmps1Ckt3)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NeutralCurrentAmps1Ckt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NeutralCurrentAmps1Ckt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NeutralCurrentAmps1Ckt3)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CalculatedDayPeakkVA)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EveningPeak)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DateAndTime2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Voltage2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RYVoltageVolt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.YBVoltageVolt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RBVoltageVolt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RNVoltageVolt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.YNVoltageVolt)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BNVoltageVolt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LeakageVoltageBodyEarthVolt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RPhaseCurrentAmps2Ckt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RPhaseCurrentAmps2Ckt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.RPhaseCurrentAmps2Ckt3)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.YPhaseCurrentAmps2Ckt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.YPhaseCurrentAmps2Ckt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.YPhaseCurrentAmps2Ckt3)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BPhaseCurrentAmps2Ckt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BPhaseCurrentAmps2Ckt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BPhaseCurrentAmps2Ckt3)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NeutralCurrentAmpsCkt1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NeutralCurrentAmps2Ckt2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NeutralCurrentAmps2Ckt3)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CalculatedEveningPeakkVA)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DropOutFuseExistbsNotExistRphase)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DropOutFuseExistbsNotExistYphase)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DropOutFuseExistbsNotExistBphase)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ConditionofDropOutFuseRphase)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ConditionofDropOutFuseYphase)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ConditionofDropOutFuseBphase)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LightningArrestorRphase)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LightningArrestorYphase)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LightningArrestorBphase)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ConditionofLightingArrestorRphase)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ConditionofLightingArrestorYphase)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ConditionofLightingArrestorBphase)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DistributionBoxExistbsnotExist)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ConditionofDistributionBox)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NoOfMCCB)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ManufacturerTypeOriginofMCCBforCircuit1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ManufacturerTypeOriginofMCCBforCircuit2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.AmpereRatingasPerNamePlateofMCCBforCKT1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.AmpereRatingasPerNameplateOfMCCBForCKT2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ConditionofMCCBforCircuit1)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ConditionofMCCBforCircuit2)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Recommendation)
-                                        </td>*@
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-
-                </div>
             </div>
-
-
-            <div style="text-align: center;">
-                <vc:pager paging-list="@Model" />
-            </div>
-
-
         </div>
+
+
+        <div style="text-align: center;">
+            <vc:pager paging-list="@Model" />
+        </div>
+
     </div>
-
-
 </div>
-
 
 
 @section Scripts{
 
+    <script src="~/js/autocomplete.extend.js"></script>
 
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            //$('[data-toggle="tooltip"]').tooltip();
-            //var actions = $("table td:last-child").html();
+        $(function () {
 
-            // Append table with add row form on add new button click
-            $(".add-new").click(function () {
-                //$(this).attr("disabled", "disabled");
-
-                var $lastRow = $("#tblSearchOptions tbody tr:last-child"),
-                    index = $lastRow.index(),
-                    tds = $lastRow.find('td');//.html().replace('searchParameters[' + index + ']', 'searchParameters[' + (index + 1) + ']');
-                //tds = $lastRow.html().replace(/\'searchParameters[' + index + ']'/g, 'searchParameters[' + (index + 1) + ']');
-                //tds = $lastRow.html().replace(/\"searchParameters[" + index + "]"//g, 'searchParameters[' + (index + 1) + ']');
-
-                //var row = '<tr>' +
-                //    '<td><input type="text" class="form-control" name="name" id="name"></td>' +
-                //    '<td><input type="text" class="form-control" name="department" id="department"></td>' +
-                //    '<td><input type="text" class="form-control" name="phone" id="phone"></td>' +
-                //    '<td>' + actions + '</td>' +
-                //    '</tr>';
-
-                //console.log(tds);
-
-                var $newRow = $("<tr>");//.append(tds)
-                $.each(tds, function (i, td) {
-                    console.log(td);
-                    console.log($(td).find('input,select'));
-
-                    console.log($(td).find('input,select').html().replace('searchParameters[' + index + ']', 'searchParameters[' + (index + 1) + ']'));
-
-                    //var regex = new RegExp('searchParameters[' + index + ']', 'g');
-                    //console.log(this.nodeType);
-
-                    //if (this.nodeType == 3) {
-                    //    $newRow.append(this.nodeValue.replace(regex, 'searchParameters[' + (index + 1) + ']'));
-                    //}
-
-                });
-
-
-                $("#tblSearchOptions tbody").append($newRow);
-                $("#tblSearchOptions tbody").append($("<tr>").append(tds));
-                //$("#tblSearchOptions tbody tr").eq(index + 1).find(".add, .edit").toggle();
-
-                //$('[data-toggle="tooltip"]').tooltip();
-            });
-
-            // Add row on add button click
-            $(document).on("click", ".add", function () {
-                var empty = false;
-                var input = $(this).parents("tr").find('input[type="text"]');
-                input.each(function () {
-                    if (!$(this).val()) {
-                        $(this).addClass("error");
-                        empty = true;
-                    } else {
-                        $(this).removeClass("error");
-                    }
-                });
-                $(this).parents("tr").find(".error").first().focus();
-                if (!empty) {
-                    input.each(function () {
-                        $(this).parent("td").html($(this).val());
-                    });
-                    $(this).parents("tr").find(".add, .edit").toggle();
-                    $(".add-new").removeAttr("disabled");
-                }
-            });
-
-            // Edit row on edit button click
-            //$(document).on("click", ".edit", function () {
-            //    $(this).parents("tr").find("td:not(:last-child)").each(function () {
-            //        $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
-            //    });
-            //    $(this).parents("tr").find(".add, .edit").toggle();
-            //    $(".add-new").attr("disabled", "disabled");
-            //});
-
-            // Delete row on delete button click
-            $(document).on("click", ".delete", function () {
-                if (confirm('Are you sure to delete ?'))
+            $(".field-name").on("change",
+                function() {
+                    setAutocomplete($(this));
                     return false;
+                }).trigger("change");
 
-                $(this).parents("tr").remove();
-                //$(".add-new").removeAttr("disabled");
-                return true;
-            });
+
+            $("#ZoneCode").on("change",
+                function() {
+                    var zoneCode = $("#ZoneCode").val(),
+                        $circle = $("#CircleCode");
+
+                    $circle.empty();
+                    $("#SnDCode").empty();
+                    $("#SubstationId").empty();
+                    $("#RouteCode").empty();
+
+                    if (!zoneCode)
+                        return false;
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetCircleList", "LookUpCircleInfoes")',
+                        dataType: "json",
+                        data: { zoneCode: zoneCode },
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function(circles) {
+                            $circle.append(
+                                '<option value="" selected="selected">----- all circle -----</option>');
+                            $.each(circles,
+                                function(i, circle) {
+                                    $("<option />").val(circle.value).html(circle.text)
+                                        .appendTo($circle);
+                                });
+                        },
+                        error: function(ex, status, error) {
+                            msg.init("error",
+                                "Error... . . !",
+                                "Failed to load Circle list. " + ex.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+                });
+
+            $("#CircleCode").on("change",
+                function() {
+                    var circleCode = $("#CircleCode").val(),
+                        $snd = $("#SnDCode");
+
+                    $snd.empty();
+                    $("#SubstationId").empty();
+                    $("#RouteCode").empty();
+
+                    if (!circleCode)
+                        return false;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetSnDList", "LookUpSnDInfoes")",
+                        dataType: "json",
+                        data: { circleCode: circleCode },
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function(snds) {
+                            $snd.append(
+                                '<option value="" selected="selected">----- all SnD -----</option>');
+                            $.each(snds,
+                                function(i, snd) {
+                                    $("<option />").val(snd.value).html(snd.text).appendTo($snd);
+                                });
+                        },
+                        error: function(ex, status, error) {
+                            msg.init("error",
+                                "Error... . . !",
+                                "Failed to load SnD list. " + ex.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+                });
+
+            $("#SnDCode").on("change",
+                function() {
+                    var sndCode = $("#SnDCode").val(),
+                        $substation = $("#SubstationId");
+
+                    $substation.empty();
+                    $("#RouteCode").empty();
+
+                    if (!sndCode)
+                        return false;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetSubStationList", "LookUpZoneInfoes")",
+                        dataType: "json",
+                        data: { sndCode: sndCode },
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function(substations) {
+                            $substation.append(
+                                '<option value="" selected="selected">----- all sub-station -----</option>');
+                            $.each(substations,
+                                function(i, substation) {
+                                    $("<option />").val(substation.value).html(substation.text).appendTo($substation);
+                                });
+                        },
+                        error: function(ex, status, error) {
+                            msg.init("error",
+                                "Error... . . !",
+                                "Failed to load Sub-Station list. " + ex.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+                });
+
+            $("#SubstationId").on("change",
+                function() {
+                    var substationId = $("#SubstationId").val(),
+                        $route = $("#RouteCode");
+
+                    $route.empty();
+
+                    if (!substationId)
+                        return false;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetRouteList", "LookUpRouteInfoes")",
+                        dataType: "json",
+                        data: { substationId: substationId },
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function(routes) {
+                            $route.append(
+                                '<option value="" selected="selected">----- all route -----</option>');
+                            $.each(routes,
+                                function(i, route) {
+                                    $("<option />").val(route.value).html(route.text).appendTo($route);
+                                });
+                        },
+                        error: function(ex, status, error) {
+                            msg.init("error", "Error... . . !", "Failed to load Route list. " + ex.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+                });
+
 
         });
-
 
     </script>
 
 }
-
 

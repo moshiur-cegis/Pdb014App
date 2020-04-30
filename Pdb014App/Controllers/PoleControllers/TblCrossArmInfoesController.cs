@@ -39,9 +39,12 @@ namespace Pdb014App.Controllers.PoleControllers
             }
 
             var tblCrossArmInfo = await _context.TblCrossArmInfo
-                .Include(t => t.CrossArmToPole)
-                .Include(t => t.FittingsLookUpCondition)
-                .Include(t => t.LookUpTypeOfFittings)
+                .Include(ca => ca.CrossArmToPole)
+                .Include(ca => ca.FittingsLookUpCondition)
+                .Include(ca => ca.LookUpTypeOfFittings)
+                .Include(ca => ca.CrossArmToPole.PoleToRoute)
+                .Include(ca => ca.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(ca => ca.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .FirstOrDefaultAsync(m => m.CrossArmId == id);
 
             if (tblCrossArmInfo == null)

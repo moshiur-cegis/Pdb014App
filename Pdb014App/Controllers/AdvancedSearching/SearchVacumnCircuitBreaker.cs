@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using ReflectionIT.Mvc.Paging;
 
 using Pdb014App.Models.Search;
-
 using Pdb014App.Models.PDB.SubstationModels;
 
 
@@ -21,40 +20,23 @@ namespace Pdb014App.Controllers.AdvancedSearching
     public partial class AdvancedSearchingController : Controller
     {
 
-        public async Task<IActionResult> SearchVacumnCircuitBreaker(int modelId = 1, int pageIndex = 1, string sort = "OutDoorTypeVacumnCircuitBreakerId", string sortExp = "OutDoorTypeVacumnCircuitBreakerId")
+        public async Task<IActionResult> SearchVacuumCircuitBreaker([FromQuery] string cai, int pageIndex = 1, string sort = "OutDoorTypeVacuumCircuitBreakerId")
         {
-            //if (searchParameters == null)
-            //{
-            //    searchParameters = TempData["SearchParameters"] as List<List<string>>;
-            //}
-            //else
-            //{
-            //    TempData["SearchParameters"] = searchParameters;
-            //}
-
-
+            ViewBag.TotalRecords = _dbContext.TblOutDoorTypeVacumnCircuitBreaker.AsNoTracking().Count();
             ViewBag.SearchParameters = new List<List<string>>(3);
 
 
-            var fieldsDB = _context
-                .LookUpModelFieldInfo
-                .Where(mf => mf.ModelId == modelId)
-                .Select(fi => new { Value = fi.FieldName, Text = fi.FieldDisplayName })
-                .ToList();
-
-
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "Substation", Text = "Substation"},
-                new SelectListItem {Value = "ManufacturersNameCountry", Text = "Manufacturers Name & Country"},
-                new SelectListItem {Value = "MaximumRatedVoltage", Text = "Maximum Rated Voltage"},
-                new SelectListItem {Value = "Frequency", Text = "Frequency"},
-                new SelectListItem {Value = "NoOfPhase", Text = "No of Phase"},
-                new SelectListItem {Value = "NoOfBreakPerPhrase", Text = "No of Break Per Phrase"},
-                new SelectListItem {Value = "SymmetricalRms", Text = "Symmetrical Rms"},
-                new SelectListItem {Value = "AsymmetricalRms", Text = "Asymmetrical Rms"}
+                new SelectListItem {Value = "sst.SubstationName", Text = "Substation Name"},
+                new SelectListItem {Value = "vct.ManufacturersNameCountry", Text = "Manufacturers Name & Country"},
+                new SelectListItem {Value = "vct.MaximumRatedVoltage", Text = "Maximum Rated Voltage"},
+                new SelectListItem {Value = "vct.Frequency", Text = "Frequency"},
+                new SelectListItem {Value = "vct.NoOfPhase", Text = "No of Phase"},
+                new SelectListItem {Value = "vct.NoOfBreakPerPhrase", Text = "No of Break Per Phrase"},
+                new SelectListItem {Value = "vct.SymmetricalRms", Text = "Symmetrical Rms"},
+                new SelectListItem {Value = "vct.AsymmetricalRms", Text = "Asymmetrical Rms"}
             };
-
 
             var operators = new List<SelectListItem>
             {
@@ -69,57 +51,49 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 new SelectListItem {Value = "Like", Text = "Like"}
             };
 
-
             var fieldList = new SelectList(fields, "Value", "Text");
             var operatorList = new SelectList(operators, "Value", "Text");
 
 
+            ViewBag.ZoneList = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+
             ViewBag.FieldList = fieldList;
             ViewBag.OperatorList = operatorList;
 
-            var qry = _context.TblOutDoorTypeVacumnCircuitBreaker.AsNoTracking().AsQueryable();
+            var qry = _dbContext.TblOutDoorTypeVacumnCircuitBreaker.AsNoTracking()
+                .Include(cb => cb.OutDoorTypeVacumnCircuitBreakerIdToSubstation)
+                .Include(cb => cb.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationType)
+                .Include(cb => cb.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(cb => cb.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, sortExp);
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "OutDoorTypeVacumnCircuitBreakerId");
 
-            return View("SearchVacumnCircuitBreaker", searchResult);
+            searchResult.RouteValue = new RouteValueDictionary { { "cai", cai } };
+
+            return View("SearchVacuumCircuitBreaker", searchResult);
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> SearchVacumnCircuitBreaker(List<List<string>> searchParameters, int modelId = 1, int pageIndex = 1, string sort = "OutDoorTypeVacumnCircuitBreakerId", string sortExp = "OutDoorTypeVacumnCircuitBreakerId")
+        //[HttpPost]
+        [HttpGet]
+        public async Task<IActionResult> SearchVacuumCircuitBreaker(List<string> regionList, List<List<string>> searchParameters, string cai, int pageIndex = 1, string sort = "OutDoorTypeVacumnCircuitBreakerId")
         {
-            //if (searchParameters == null)
-            //{
-            //    searchParameters = TempData["SearchParameters"] as List<List<string>>;
-            //}
-            //else
-            //{
-            //    TempData["SearchParameters"] = searchParameters;
-            //}
-
-
-            //ViewData["SearchParameters"] = searchParameters;
+            ViewBag.TotalRecords = _dbContext.TblOutDoorTypeVacumnCircuitBreaker.AsNoTracking().Count();
             ViewBag.SearchParameters = searchParameters;
-
-            var fieldsDB = _context
-                .LookUpModelFieldInfo
-                .Where(mf => mf.ModelId == modelId)
-                .Select(fi => new { Value = fi.FieldName, Text = fi.FieldDisplayName })
-                .ToList();
 
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "Substation", Text = "Substation"},
-                new SelectListItem {Value = "ManufacturersNameCountry", Text = "Manufacturers Name & Country"},
-                new SelectListItem {Value = "MaximumRatedVoltage", Text = "Maximum Rated Voltage"},
-                new SelectListItem {Value = "Frequency", Text = "Frequency"},
-                new SelectListItem {Value = "NoOfPhase", Text = "No of Phase"},
-                new SelectListItem {Value = "NoOfBreakPerPhrase", Text = "No of Break Per Phrase"},
-                new SelectListItem {Value = "SymmetricalRms", Text = "Symmetrical Rms"},
-                new SelectListItem {Value = "AsymmetricalRms", Text = "Asymmetrical Rms"}
+                new SelectListItem {Value = "sst.SubstationName", Text = "Substation Name"},
+                new SelectListItem {Value = "vct.ManufacturersNameCountry", Text = "Manufacturers Name & Country"},
+                new SelectListItem {Value = "vct.MaximumRatedVoltage", Text = "Maximum Rated Voltage"},
+                new SelectListItem {Value = "vct.Frequency", Text = "Frequency"},
+                new SelectListItem {Value = "vct.NoOfPhase", Text = "No of Phase"},
+                new SelectListItem {Value = "vct.NoOfBreakPerPhrase", Text = "No of Break Per Phrase"},
+                new SelectListItem {Value = "vct.SymmetricalRms", Text = "Symmetrical Rms"},
+                new SelectListItem {Value = "vct.AsymmetricalRms", Text = "Asymmetrical Rms"}
             };
-
 
             var operators = new List<SelectListItem>
             {
@@ -143,33 +117,106 @@ namespace Pdb014App.Controllers.AdvancedSearching
             ViewBag.OperatorList = operatorList;
 
 
-            var qry = _context.TblOutDoorTypeVacumnCircuitBreaker.AsNoTracking();
+            Expression<Func<TblOutDoorTypeVacumnCircuitBreaker, bool>> searchExp = null;
+
+            string zoneCode, circleCode, snDCode, substationCode;
+
+            zoneCode = circleCode = snDCode = substationCode = "";
+
+            if (regionList != null && regionList.Count > 0 && !string.IsNullOrEmpty(regionList[0]))
+            {
+                zoneCode = regionList[0];
+
+                searchExp = model =>
+                    model.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
+
+                ViewBag.CircleList = new SelectList(_dbContext.LookUpCircleInfo
+                    .Where(c => c.ZoneCode.Equals(zoneCode))
+                    .Select(c => new { c.CircleCode, c.CircleName })
+                    .OrderBy(c => c.CircleCode).ToList(), "CircleCode", "CircleName", circleCode);
+
+                if (regionList.Count > 1 && !string.IsNullOrEmpty(regionList[1]))
+                {
+                    circleCode = regionList[1];
+
+                    Expression<Func<TblOutDoorTypeVacumnCircuitBreaker, bool>> tempExp = model =>
+                        model.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.CircleCode == circleCode;
+                    searchExp = ExpressionExtension<TblOutDoorTypeVacumnCircuitBreaker>.AndAlso(searchExp, tempExp);
+
+                    ViewBag.SnDList = new SelectList(_dbContext.LookUpSnDInfo
+                        .Where(sd => sd.CircleCode.Equals(circleCode))
+                        .Select(sd => new { sd.SnDCode, sd.SnDName })
+                        .OrderBy(sd => sd.SnDCode).ToList(), "SnDCode", "SnDName", snDCode);
+
+                    if (regionList.Count > 2 && !string.IsNullOrEmpty(regionList[2]))
+                    {
+                        snDCode = regionList[2];
+
+                        tempExp = model => model.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SnDCode == snDCode;
+                        searchExp = ExpressionExtension<TblOutDoorTypeVacumnCircuitBreaker>.AndAlso(searchExp, tempExp);
+
+                        ViewBag.SubstationList = new SelectList(_dbContext.TblSubstation
+                            .Where(ss => ss.SnDCode.Equals(snDCode))
+                            .Select(ss => new { ss.SubstationId, ss.SubstationName })
+                            .OrderBy(ss => ss.SubstationId).ToList(), "SubstationId", "SubstationName", substationCode);
+
+
+                        if (regionList.Count > 3 && !string.IsNullOrEmpty(regionList[3]))
+                        {
+                            substationCode = regionList[3];
+
+                            tempExp = model => model.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationId == substationCode;
+                            searchExp = ExpressionExtension<TblOutDoorTypeVacumnCircuitBreaker>.AndAlso(searchExp, tempExp);
+
+                        }
+                    }
+                }
+            }
+
+            ViewBag.RegionList = regionList;
+            ViewBag.ZoneList = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName", zoneCode);
+
+            var searchParametersRoute = new RouteValueDictionary()
+            {
+                { "cai", cai },
+                {"regionList[0]", zoneCode},
+                {"regionList[1]", circleCode},
+                {"regionList[2]", snDCode},
+                {"regionList[3]", substationCode}
+            };
 
 
             if (searchParameters != null && searchParameters.Count > 0)
             {
-                Expression<Func<TblOutDoorTypeVacumnCircuitBreaker, Boolean>> searchExp = null;
-
-                var searchOptions = searchParameters
-                    .Select(so => new SearchParameter
-                    {
-                        FieldName = so[0],
-                        Operator = so[1],
-                        FieldValue = so[2],
-                        JoinOption = so[3]
-                    }).ToList();
-
+                int pc = 0;
                 string joinOption = "";
-                foreach (var searchOption in searchOptions)
+
+                foreach (var searchParameter in searchParameters)
                 {
-                    if (string.IsNullOrEmpty(searchOption.FieldName) || string.IsNullOrEmpty(searchOption.Operator))
+                    if (string.IsNullOrEmpty(searchParameter[0]) || string.IsNullOrEmpty(searchParameter[1]))
                         continue;
 
-                    Expression<Func<TblOutDoorTypeVacumnCircuitBreaker, Boolean>> tempExp = null;
+                    for (int oc = 0; oc < searchParameter.Count; oc++)
+                    {
+                        searchParametersRoute.Add("searchParameters[" + pc + "][" + oc + "]", searchParameter[oc]);
+                    }
+                    ++pc;
+
+                    var searchOption = new SearchParameter
+                    {
+                        FieldName = searchParameter[0].Contains('.')
+                            ? searchParameter[0].Split('.')[1]
+                            : searchParameter[0],
+                        Operator = searchParameter[1],
+                        FieldValue = searchParameter[2],
+                        JoinOption = searchParameter[3]
+                    };
+
+                    Expression<Func<TblOutDoorTypeVacumnCircuitBreaker, bool>> tempExp = null;
 
                     switch (searchOption.FieldName)
                     {
-                        case "Substation":
+                        case "SubstationName":
                             switch (searchOption.Operator)
                             {
                                 case "=":
@@ -488,21 +535,28 @@ namespace Pdb014App.Controllers.AdvancedSearching
                     joinOption = searchOption.JoinOption;
                 }
 
-
-                if (searchExp != null)
-                    qry = qry.Where(searchExp);
             }
 
-            qry = qry.AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, sortExp);
+            var qry = searchExp != null
+                ? _dbContext.TblOutDoorTypeVacumnCircuitBreaker.AsNoTracking().Where(searchExp)
+                : _dbContext.TblOutDoorTypeVacumnCircuitBreaker.AsNoTracking();
 
-            return View("SearchVacumnCircuitBreaker", searchResult);
+            qry = qry
+                .Include(cb => cb.OutDoorTypeVacumnCircuitBreakerIdToSubstation)
+                .Include(cb => cb.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationType)
+                .Include(cb => cb.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(cb => cb.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                .AsQueryable();
+
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "OutDoorTypeVacumnCircuitBreakerId");
+
+            searchResult.RouteValue = searchParametersRoute;
+
+            return View("SearchVacuumCircuitBreaker", searchResult);
 
         }
 
     }
-
-
 
 }

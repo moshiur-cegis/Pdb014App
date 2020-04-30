@@ -5,93 +5,142 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
 
 <div>
-    <h4>TblFeederLine</h4>
+    <h2>Feeder Line Details</h2>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FeederLineUId)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FeederLineUId)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FeederLineType)
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FeederLineType.FeederLineTypeId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FeederLineToRoute.RouteToSubstation.SubstationName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FeederLineToRoute.RouteToSubstation.SubstationName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FeederLineToRoute.RouteToSubstation.SubstationType.SubstationTypeName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FeederLineToRoute.RouteToSubstation.SubstationType.SubstationTypeName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FeederLineToRoute.RouteName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FeederLineToRoute.RouteName)
+        </dd>
+
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FeederLineType.FeederLineTypeName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FeederLineType.FeederLineTypeName)
+        </dd>
+        @*<dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FeederLineToRoute)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FeederLineToRoute.RouteCode)
-        </dd>
-        <dt class = "col-sm-2">
+        </dd>*@
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FeederName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FeederName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.NominalVoltage)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NominalVoltage)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FeederLocation)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FeederLocation)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FeederMeterNumber)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FeederMeterNumber)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.MeterCurrentRating)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MeterCurrentRating)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.MeterVoltageRating)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MeterVoltageRating)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.MaximumDemand)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MaximumDemand)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PeakDemand)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PeakDemand)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.MaximumLoad)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MaximumLoad)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.SanctionedLoad)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.SanctionedLoad)
         </dd>
     </dl>
 </div>
-<div>
+
+@*<div>
     <a asp-action="Edit" asp-route-id="@Model.FeederLineId">Edit</a> |
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@

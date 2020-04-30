@@ -17,6 +17,7 @@ namespace Pdb014App.Models.PDB.ServicePointModels
         public int VoltageCategoryId { get; set; }
 
         [Required]
+        [Display(Name = "Voltage Category")]
         [Column(Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]
         public string VoltageCategoryName { get; set; }

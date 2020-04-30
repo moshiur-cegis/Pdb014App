@@ -17,44 +17,27 @@ using Pdb014App.Models.PDB.PoleModels;
 
 namespace Pdb014App.Controllers.AdvancedSearching
 {
-
     public partial class AdvancedSearchingController : Controller
     {
 
-        public async Task<IActionResult> SearchCrossArm(int modelId = 1, int pageIndex = 1, string sort = "CrossArmId", string sortExp = "CrossArmId")
+        public async Task<IActionResult> SearchCrossArm([FromQuery] string cai, int pageIndex = 1, string sort = "CrossArmId")
         {
-            //if (searchParameters == null)
-            //{
-            //    searchParameters = TempData["SearchParameters"] as List<List<string>>;
-            //}
-            //else
-            //{
-            //    TempData["SearchParameters"] = searchParameters;
-            //}
-
-
+            ViewBag.TotalRecords = _dbContext.TblCrossArmInfo.AsNoTracking().Count();
             ViewBag.SearchParameters = new List<List<string>>(3);
-
-
-            var fieldsDB = _context
-                .LookUpModelFieldInfo
-                .Where(mf => mf.ModelId == modelId)
-                .Select(fi => new { Value = fi.FieldName, Text = fi.FieldDisplayName })
-                .ToList();
 
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "Materials", Text = "Materials"},
-                new SelectListItem {Value = "Type", Text = "Type"},
-                new SelectListItem {Value = "Standard", Text = "Standard"},
-                new SelectListItem {Value = "UltimateTensileStrength", Text = "Ultimate Tensile Strength"},
-                new SelectListItem {Value = "TypeOfFittings", Text = "Type of Fittings"},
-                new SelectListItem {Value = "NoOfSetFittings", Text = "No of Set Fittings"},
-                new SelectListItem {Value = "FittingsCondition", Text = "Fittings Condition"},
-                new SelectListItem {Value = "PoleName", Text = "Pole"}
+                new SelectListItem {Value = "plt.PoleNo", Text = "Pole No."},
+                new SelectListItem {Value = "flt.FeederName", Text = "Feeder Line Name"},
+                new SelectListItem {Value = "cat.Materials", Text = "Materials"},
+                new SelectListItem {Value = "cat.Type", Text = "Type"},
+                new SelectListItem {Value = "cat.Standard", Text = "Standard"},
+                new SelectListItem {Value = "cat.UltimateTensileStrength", Text = "Ultimate Tensile Strength"},
+                new SelectListItem {Value = "cftl.TypeOfFittings.Name", Text = "Type of Fittings"},
+                new SelectListItem {Value = "cat.NoOfSetFittings", Text = "No of Set Fittings"},
+                new SelectListItem {Value = "cfcl.FittingCondition.Name", Text = "Fittings Condition"}
             };
-
 
             var operators = new List<SelectListItem>
             {
@@ -74,56 +57,48 @@ namespace Pdb014App.Controllers.AdvancedSearching
             var operatorList = new SelectList(operators, "Value", "Text");
 
 
+            ViewBag.ZoneList = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+
             ViewBag.FieldList = fieldList;
             ViewBag.OperatorList = operatorList;
 
-            var qry = _context.TblCrossArmInfo.AsNoTracking()
-                .Include(t => t.CrossArmToPole)
-                .Include(t => t.FittingsLookUpCondition)
-                .Include(t => t.LookUpTypeOfFittings)
+            var qry = _dbContext.TblCrossArmInfo.AsNoTracking()
+                .Include(ca => ca.CrossArmToPole)
+                .Include(ca => ca.FittingsLookUpCondition)
+                .Include(ca => ca.LookUpTypeOfFittings)
+                .Include(ca => ca.CrossArmToPole.PoleToRoute)
+                .Include(ca => ca.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(ca => ca.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, sortExp);
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "CrossArmId");
+
+            searchResult.RouteValue = new RouteValueDictionary { { "cai", cai } };
 
             return View("SearchCrossArm", searchResult);
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> SearchCrossArm(List<List<string>> searchParameters, int modelId = 1, int pageIndex = 1, string sort = "CrossArmId", string sortExp = "CrossArmId")
+        //[HttpPost]
+        [HttpGet]
+        public async Task<IActionResult> SearchCrossArm(List<string> regionList, List<List<string>> searchParameters, string cai, int pageIndex = 1, string sort = "CrossArmId")
         {
-            //if (searchParameters == null)
-            //{
-            //    searchParameters = TempData["SearchParameters"] as List<List<string>>;
-            //}
-            //else
-            //{
-            //    TempData["SearchParameters"] = searchParameters;
-            //}
-
-
-            //ViewData["SearchParameters"] = searchParameters;
+            ViewBag.TotalRecords = _dbContext.TblCrossArmInfo.AsNoTracking().Count();
             ViewBag.SearchParameters = searchParameters;
-
-            var fieldsDB = _context
-                .LookUpModelFieldInfo
-                .Where(mf => mf.ModelId == modelId)
-                .Select(fi => new { Value = fi.FieldName, Text = fi.FieldDisplayName })
-                .ToList();
 
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "Materials", Text = "Materials"},
-                new SelectListItem {Value = "Type", Text = "Type"},
-                new SelectListItem {Value = "Standard", Text = "Standard"},
-                new SelectListItem {Value = "UltimateTensileStrength", Text = "Ultimate Tensile Strength"},
-                new SelectListItem {Value = "TypeOfFittings", Text = "Type of Fittings"},
-                new SelectListItem {Value = "NoOfSetFittings", Text = "No of Set Fittings"},
-                new SelectListItem {Value = "FittingsCondition", Text = "Fittings Condition"},
-                new SelectListItem {Value = "PoleName", Text = "Pole"}
+                new SelectListItem {Value = "plt.PoleNo", Text = "Pole No."},
+                new SelectListItem {Value = "flt.FeederName", Text = "Feeder Line Name"},
+                new SelectListItem {Value = "cat.Materials", Text = "Materials"},
+                new SelectListItem {Value = "cat.Type", Text = "Type"},
+                new SelectListItem {Value = "cat.Standard", Text = "Standard"},
+                new SelectListItem {Value = "cat.UltimateTensileStrength", Text = "Ultimate Tensile Strength"},
+                new SelectListItem {Value = "cftl.TypeOfFittings.Name", Text = "Type of Fittings"},
+                new SelectListItem {Value = "cat.NoOfSetFittings", Text = "No of Set Fittings"},
+                new SelectListItem {Value = "cfcl.FittingCondition.Name", Text = "Fittings Condition"}
             };
-
 
             var operators = new List<SelectListItem>
             {
@@ -145,34 +120,198 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             ViewBag.FieldList = fieldList;
             ViewBag.OperatorList = operatorList;
+            
+
+            Expression<Func<TblCrossArmInfo, bool>> searchExp = null;
+
+            string zoneCode, circleCode, snDCode, substationCode, routeCode;
+
+            zoneCode = circleCode = snDCode = substationCode = routeCode = "";
+
+            if (regionList != null && regionList.Count > 0 && !string.IsNullOrEmpty(regionList[0]))
+            {
+                zoneCode = regionList[0];
+
+                searchExp = model =>
+                    model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
+
+                ViewBag.CircleList = new SelectList(_dbContext.LookUpCircleInfo
+                    .Where(c => c.ZoneCode.Equals(zoneCode))
+                    .Select(c => new { c.CircleCode, c.CircleName })
+                    .OrderBy(c => c.CircleCode).ToList(), "CircleCode", "CircleName", circleCode);
+
+                if (regionList.Count > 1 && !string.IsNullOrEmpty(regionList[1]))
+                {
+                    circleCode = regionList[1];
+
+                    Expression<Func<TblCrossArmInfo, bool>> tempExp = model =>
+                        model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode == circleCode;
+                    searchExp = ExpressionExtension<TblCrossArmInfo>.AndAlso(searchExp, tempExp);
+
+                    ViewBag.SnDList = new SelectList(_dbContext.LookUpSnDInfo
+                        .Where(sd => sd.CircleCode.Equals(circleCode))
+                        .Select(sd => new { sd.SnDCode, sd.SnDName })
+                        .OrderBy(sd => sd.SnDCode).ToList(), "SnDCode", "SnDName", snDCode);
+
+                    if (regionList.Count > 2 && !string.IsNullOrEmpty(regionList[2]))
+                    {
+                        snDCode = regionList[2];
+
+                        tempExp = model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SnDCode == snDCode;
+                        searchExp = ExpressionExtension<TblCrossArmInfo>.AndAlso(searchExp, tempExp);
+
+                        ViewBag.SubstationList = new SelectList(_dbContext.TblSubstation
+                            .Where(ss => ss.SnDCode.Equals(snDCode))
+                            .Select(ss => new { ss.SubstationId, ss.SubstationName })
+                            .OrderBy(ss => ss.SubstationId).ToList(), "SubstationId", "SubstationName", substationCode);
 
 
-            var qry = _context.TblCrossArmInfo.AsNoTracking();
+                        if (regionList.Count > 3 && !string.IsNullOrEmpty(regionList[3]))
+                        {
+                            substationCode = regionList[3];
 
+                            tempExp = model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
+                            searchExp = ExpressionExtension<TblCrossArmInfo>.AndAlso(searchExp, tempExp);
+
+                            if (regionList.Count > 4)
+                            {
+                                routeCode = regionList[4];
+
+                                tempExp = model => model.CrossArmToPole.PoleToRoute.RouteCode == routeCode;
+                                searchExp = ExpressionExtension<TblCrossArmInfo>.AndAlso(searchExp, tempExp);
+
+                                ViewBag.RouteList = new SelectList(_dbContext.LookUpRouteInfo
+                                    .Where(ri => ri.RouteToSubstation.SubstationId.Equals(substationCode))
+                                    .Select(ri => new { ri.RouteCode, ri.RouteName })
+                                    .OrderBy(ri => ri.RouteCode).ToList(), "RouteCode", "RouteName", routeCode);
+                            }
+                        }
+                    }
+                }
+            }
+
+            ViewBag.RegionList = regionList;
+            ViewBag.ZoneList = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName", zoneCode);
+
+            var searchParametersRoute = new RouteValueDictionary()
+            {
+                { "cai", cai },
+                {"regionList[0]", zoneCode},
+                {"regionList[1]", circleCode},
+                {"regionList[2]", snDCode},
+                {"regionList[3]", substationCode},
+                {"regionList[4]", routeCode}
+            };
 
             if (searchParameters != null && searchParameters.Count > 0)
             {
-                Expression<Func<TblCrossArmInfo, Boolean>> searchExp = null;
-
-                var searchOptions = searchParameters
-                    .Select(so => new SearchParameter
-                    {
-                        FieldName = so[0],
-                        Operator = so[1],
-                        FieldValue = so[2],
-                        JoinOption = so[3]
-                    }).ToList();
-
+                int pc = 0;
                 string joinOption = "";
-                foreach (var searchOption in searchOptions)
+
+                foreach (var searchParameter in searchParameters)
                 {
-                    if (string.IsNullOrEmpty(searchOption.FieldName) || string.IsNullOrEmpty(searchOption.Operator))
+                    if (string.IsNullOrEmpty(searchParameter[0]) || string.IsNullOrEmpty(searchParameter[1]))
                         continue;
 
-                    Expression<Func<TblCrossArmInfo, Boolean>> tempExp = null;
+                    for (int oc = 0; oc < searchParameter.Count; oc++)
+                    {
+                        searchParametersRoute.Add("searchParameters[" + pc + "][" + oc + "]", searchParameter[oc]);
+                    }
+                    ++pc;
+
+                    var searchOption = new SearchParameter
+                    {
+                        FieldName = searchParameter[0].Contains('.') ? searchParameter[0].Split('.')[1] : searchParameter[0],
+                        Operator = searchParameter[1],
+                        FieldValue = searchParameter[2],
+                        JoinOption = searchParameter[3]
+                    };
+
+                    Expression<Func<TblCrossArmInfo, bool>> tempExp = null;
 
                     switch (searchOption.FieldName)
                     {
+                        case "PoleNo":
+                            switch (searchOption.Operator)
+                            {
+                                case "=":
+                                    tempExp = model => model.CrossArmToPole.PoleNo == searchOption.FieldValue;
+                                    break;
+                                case "!=":
+                                    tempExp = model => model.CrossArmToPole.PoleNo != searchOption.FieldValue;
+                                    break;
+                                case ">":
+                                    tempExp = model =>
+                                        int.Parse(model.CrossArmToPole.PoleNo) > int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<":
+                                    tempExp = model =>
+                                        int.Parse(model.CrossArmToPole.PoleNo) < int.Parse(searchOption.FieldValue);
+                                    break;
+                                case ">=":
+                                    tempExp = model =>
+                                        int.Parse(model.CrossArmToPole.PoleNo) >= int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<=":
+                                    tempExp = model =>
+                                        int.Parse(model.CrossArmToPole.PoleNo) <= int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "null":
+                                    tempExp = model => model.CrossArmToPole.PoleNo == null;
+                                    break;
+                                case "not null":
+                                    tempExp = model => model.CrossArmToPole.PoleNo != null;
+                                    break;
+                                case "Like":
+                                    tempExp = model => model.CrossArmToPole.PoleNo.Contains(searchOption.FieldValue);
+                                    break;
+                            }
+                            break;
+
+
+                        case "FeederName":
+                            switch (searchOption.Operator)
+                            {
+                                case "=":
+                                    tempExp = model => model.CrossArmToPole.PoleToFeederLine.FeederName == searchOption.FieldValue;
+                                    break;
+                                case "!=":
+                                    tempExp = model => model.CrossArmToPole.PoleToFeederLine.FeederName != searchOption.FieldValue;
+                                    break;
+                                case ">":
+                                    tempExp = model =>
+                                        int.Parse(model.CrossArmToPole.PoleToFeederLine.FeederName) >
+                                        int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<":
+                                    tempExp = model =>
+                                        int.Parse(model.CrossArmToPole.PoleToFeederLine.FeederName) <
+                                        int.Parse(searchOption.FieldValue);
+                                    break;
+                                case ">=":
+                                    tempExp = model =>
+                                        int.Parse(model.CrossArmToPole.PoleToFeederLine.FeederName) >=
+                                        int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<=":
+                                    tempExp = model =>
+                                        int.Parse(model.CrossArmToPole.PoleToFeederLine.FeederName) <=
+                                        int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "null":
+                                    tempExp = model => model.CrossArmToPole.PoleToFeederLine.FeederName == null;
+                                    break;
+                                case "not null":
+                                    tempExp = model => model.CrossArmToPole.PoleToFeederLine.FeederName != null;
+                                    break;
+                                case "Like":
+                                    tempExp = model =>
+                                        model.CrossArmToPole.PoleToFeederLine.FeederName.Contains(searchOption.FieldValue);
+                                    break;
+                            }
+
+                            break;
+
                         case "Materials":
                             switch (searchOption.Operator)
                             {
@@ -397,7 +536,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             break;
 
 
-                        case "FittingsCondition":
+                        case "FittingCondition":
                             switch (searchOption.Operator)
                             {
                                 case "=":
@@ -434,44 +573,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             }
                             break;
 
-
-                        case "PoleName":
-                            switch (searchOption.Operator)
-                            {
-                                case "=":
-                                    tempExp = model => model.CrossArmToPole.PoleId == searchOption.FieldValue;
-                                    break;
-                                case "!=":
-                                    tempExp = model => model.CrossArmToPole.PoleId != searchOption.FieldValue;
-                                    break;
-                                case ">":
-                                    tempExp = model =>
-                                        int.Parse(model.CrossArmToPole.PoleId) > int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "<":
-                                    tempExp = model =>
-                                        int.Parse(model.CrossArmToPole.PoleId) < int.Parse(searchOption.FieldValue);
-                                    break;
-                                case ">=":
-                                    tempExp = model =>
-                                        int.Parse(model.CrossArmToPole.PoleId) >= int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "<=":
-                                    tempExp = model =>
-                                        int.Parse(model.CrossArmToPole.PoleId) <= int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "null":
-                                    tempExp = model => model.CrossArmToPole.PoleId == null;
-                                    break;
-                                case "not null":
-                                    tempExp = model => model.CrossArmToPole.PoleId != null;
-                                    break;
-                                case "Like":
-                                    tempExp = model => model.CrossArmToPole.PoleId.Contains(searchOption.FieldValue);
-                                    break;
-                            }
-                            break;
-
                     }
 
 
@@ -489,26 +590,30 @@ namespace Pdb014App.Controllers.AdvancedSearching
                     joinOption = searchOption.JoinOption;
                 }
 
-
-                if (searchExp != null)
-                    qry = qry.Where(searchExp);
             }
 
 
+            var qry = searchExp != null
+                ? _dbContext.TblCrossArmInfo.AsNoTracking().Where(searchExp)
+                : _dbContext.TblCrossArmInfo.AsNoTracking();
+
             qry = qry
-                .Include(t => t.CrossArmToPole)
-                .Include(t => t.FittingsLookUpCondition)
-                .Include(t => t.LookUpTypeOfFittings)
+                .Include(ca => ca.CrossArmToPole)
+                .Include(ca => ca.FittingsLookUpCondition)
+                .Include(ca => ca.LookUpTypeOfFittings)
+                .Include(ca => ca.CrossArmToPole.PoleToRoute)
+                .Include(ca => ca.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(ca => ca.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, sortExp);
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "CrossArmId");
+
+            searchResult.RouteValue = searchParametersRoute;
 
             return View("SearchCrossArm", searchResult);
 
         }
 
     }
-
-
 
 }

@@ -17,6 +17,7 @@ namespace Pdb014App.Models.PDB.ServicePointModels
         public int ServicePointTypeId { get; set; }
 
         [Required]
+        [Display(Name = "Service Point Type")]
         [Column(Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]
         public string ServicePointTypeName { get; set; }

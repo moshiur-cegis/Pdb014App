@@ -1,473 +1,522 @@
 ﻿@model PagingList<Pdb014App.Models.PDB.TblPole>
 
-
-@using System.Collections.Generic
 @using ReflectionIT.Mvc.Paging
 @addTagHelper *, ReflectionIT.Mvc.Paging
 
 
 @{
-    ViewData["Title"] = "Search Pole Info.";
+    ViewData["Title"] = "Search Pole Information";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     Model.Action = "SearchPole";
 
-    //Model.Item1.Action = "SearchPole";
-    //Model.Item1.RouteValue = new RouteValueDictionary();
+    var totalRecords = ViewBag.TotalRecords;
+    var searchRecords = Model.TotalRecordCount;
+
+
+    var rlCount = 5;
+    var regionList = ViewBag.RegionList as List<string>;
+    if (regionList == null || regionList.Count < 1)
+    {
+        regionList = new List<string>(rlCount) { "", "", "", "", "" };
+    }
+    else if (regionList.Count < rlCount)
+    {
+        for (int rc = regionList.Count; rc < rlCount; ++rc)
+        {
+            regionList.Add("");
+        }
+    }
+
+    var spCount = 3;
+    var searchParameters = ViewBag.SearchParameters as List<List<string>>;
+    if (searchParameters == null || searchParameters.Count < 1)
+    {
+        searchParameters = new List<List<string>>(spCount);
+    }
 }
 
 
 @section Styles {
-
     <link href="~/css/datastyle.css" rel="stylesheet" />
-    
-    <style type="text/css">
-
-        table.table {
-            table-layout: fixed;
-        }
-
-        table.table tr th, 
-        table.table tr td {
-            border-color: #e9e9e9;
-        }
-
-        table.table th {
-            min-width: 80px;
-        }
-
-        table.table th:last-child {
-            width: 100px;
-        }
-
-        table.table th i {
-            font-size: 13px;
-            margin: 0 5px;
-            cursor: pointer;
-        }
-
-        table.table td a {
-            cursor: pointer;
-            display: inline-block;
-            margin: 0 5px;
-            min-width: 24px;
-        }
-
-        table.table td a.add {
-            color: #27C46B;
-        }
-
-        table.table td a.edit {
-            color: #FFC107;
-        }
-
-        table.table td a.delete {
-            color: #E34724;
-        }
-
-        table.table td i {
-            font-size: 19px;
-        }
-
-        table.table td a.add i {
-            font-size: 24px;
-            margin-right: -1px;
-            position: relative;
-            top: 3px;
-        }
-
-
-        table.table .form-control {
-            width: 100%;
-            padding: 2px 5px;
-            line-height: 1.0;
-        }
-
-        table.table .form-control.error {
-            border-color: #f50000;
-        }
-
-        table.table td .add {
-            display: none;
-        }
-
-    </style>
-
+    <link href="~/css/search.style.css" rel="stylesheet" />
+    <link href="~/css/autocomplete.style.css" rel="stylesheet" />
 }
 
 
-<div class="container">
-    <h2>Pole Data Search</h2>
+<h2>@ViewData["Title"]</h2>
 
-    <hr />
+<hr />
 
-    <div class="row">
-        <div class="col-md-12">
-            <form method="post" asp-controller="AdvancedSearching" asp-action="SearchPole">
+<div class="row">
+    <div class="col-md-12">
+        <form method="get" asp-controller="AdvancedSearching" asp-action="@Model.Action">
 
-                @{
-                    var searchParameters = ViewBag.SearchParameters as List<List<string>>;
+            <div class="row">
+                <div class="col-md-6">
 
-                    //var searchParameters = ViewData["SearchParameters"] as IList<SearchParameter>;
-                    //var searchParameters = (Model.Item2 != null && Model.Item2.Any()) ? Model.Item2 : new List<SearchParameter>(3);
+                    <input type="hidden" name="cai" value="@Model.RouteValue["cai"]" />
 
-                    var spCount = 0;
-                    if (searchParameters == null || searchParameters.Count < 1)
-                    {
-                        spCount = 3;
-                        searchParameters = new List<List<string>>(3);
-                    }
-                    else
-                    {
-                        spCount = searchParameters.Count;
-                    }
-                }
+                    <fieldset>
+                        <legend>▣ Regional Boundaries</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Zone</label>
+                                    <select id="ZoneCode" asp-for="@regionList[0]" class="form-control" asp-items="ViewBag.ZoneList">
+                                        <option value="" selected="selected">----- all zone -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Circle</label>
+                                    <select id="CircleCode" asp-for="@regionList[1]" class="form-control" asp-items="ViewBag.CircleList">
+                                        <option value="" selected="selected">----- all circle -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">S&D</label>
+                                    <select id="SnDCode" asp-for="@regionList[2]" class="form-control" asp-items="ViewBag.SnDList">
+                                        <option value="" selected="selected">----- all S&D -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Substation</label>
+                                    <select id="SubstationId" asp-for="@regionList[3]" class="form-control" asp-items="ViewBag.SubstationList">
+                                        <option value="" selected="selected">----- all substation -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Route</label>
+                                    <select id="RouteCode" asp-for="@regionList[4]" class="form-control" asp-items="ViewBag.RouteList">
+                                        <option value="" selected="selected">----- all route -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <fieldset>
+                        <legend>▣ Search Options</legend>
+                        <table id="tblSearchOptions" class="table table-responsive" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 48%">Field Name</th>
+                                    <th style="width: 70px">Operator</th>
+                                    <th style="width: 50%">Field Value</th>
+                                    <th style="width: 70px">Join (AND/OR)</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @for (int spc = 0; spc < spCount; ++spc)
+                                {
+                                    if (searchParameters.Count <= spc)
+                                    {
+                                        searchParameters.Add(new List<string>(4) { "", "", "", "" });
+                                    }
+
+                                    <tr>
+                                        <td>
+                                            <select id="fieldName" asp-for="@searchParameters[spc][0]" class="form-control text-left field-name" asp-items="ViewBag.FieldList">
+                                                <option value="">--- Select ---</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="operator" asp-for="@searchParameters[spc][1]" class="form-control text-center" asp-items="ViewBag.OperatorList">
+                                                <option selected="" value=""></option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input id="fieldValue" asp-for="@searchParameters[spc][2]" autocomplete="off" class="form-control text-left field-value" />
+                                        </td>
+                                        <td>
+                                            <select id="joinOption" asp-for="@searchParameters[spc][3]" class="form-control text-center">
+                                                <option value="AND">AND</option>
+                                                <option value="OR">OR</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+
+                    </fieldset>
+
+                    <div class="form-group" style="margin-top: 10px;">
+                        <input type="submit" value="Search" class="btn btn-primary float-right" />
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
 
 
-                <table id="tblSearchOptions" class="table table-responsive" cellpadding="0" cellspacing="0">
+<div class="row">
+    <div class="col-md-12">
+
+        <hr />
+        @if (searchRecords == totalRecords)
+        {
+            <strong>Total Records: <span style="font-size: 110%; color: #13d;">@totalRecords</span></strong>
+        }
+        else
+        {
+            <strong>Find <span style="font-size: 110%; color: #15c;">@searchRecords</span> Records out of <span style="font-size: 110%; color: #13d;">@totalRecords</span> Records</strong>
+        }
+        <hr />
+
+        <div class="form-view" id="updatePanel">
+            <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                <table id="multi-form-view" class="table table-responsive multi-form-view">
+
                     <thead>
                         <tr>
-                            <th style="width: 250px">Field Name</th>
-                            <th style="width: 100px">Operator</th>
-                            <th style="width: 350px">Field Value</th>
-                            <th style="width: 70px">Join(AND/OR)</th>
-                            @*<th style="width: 100px">Action</th>*@
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleId)
+                            </th>
+
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederName)
+                            </th>
+
+
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleNo)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PreviousPoleNo)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleTypeId)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleConditionId)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.MSJNo)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.SleeveNo)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.TwistNo)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PhaseAId)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PhaseBId)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PhaseCId)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.Neutral)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.StreetLight)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.Latitude)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.Longitude)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.SurveyDate)
+                            </th>
                         </tr>
                     </thead>
 
                     <tbody>
-
-
-                    @*@foreach (SearchParameter item in Model.Item2)*@
-
-                    @for (int spc = 0; spc < spCount; ++spc)
-                    {
-                        if (searchParameters.Count <= spc)
+                        @foreach (var item in Model)
                         {
-                            searchParameters.Add(new List<string>(4) {"", "", "", ""});
-                            //searchParameters.Add(new SearchParameter());
-                        }
-
-                        <tr>
-
-                            <td>
-                                <select id="fieldName" asp-for="@searchParameters[spc][0]" class="form-control text-left" asp-items="ViewBag.FieldList">
-                                    <option value="">--- Select ---</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select id="operator" asp-for="@searchParameters[spc][1]" class="form-control text-center" asp-items="ViewBag.OperatorList">
-                                    <option selected="" value=""></option>
-                                </select>
-                            </td>
-                            <td>
-                                <input id="fieldValue" asp-for="@searchParameters[spc][2]" class="form-control text-left"/>
-                            </td>
-                            <td>
-                                <select id="joinOption" asp-for="@searchParameters[spc][3]" class="form-control text-center">
-                                    <option value="AND">AND</option>
-                                    <option value="OR">OR</option>
-                                </select>
-                            </td>
-
-
-                            @*<td>
-                                        <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i><span class="sr-only">Delete</span></a>
-                                        <a class="delete" title="delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i><span class="sr-only">Delete</span></a>
-                                        <button type="button" class="delete" title="Delete" data-toggle="tooltip"><span aria-hidden="true">&times;</span><span class="sr-only">Delete</span></button>
-                                    </td>*@
-                        </tr>
-                    }
-                    </tbody>
-
-                </table>
-
-                <div class="form-group" style="margin-top: 8px;">
-
-                    @*<button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i>Add New</button>*@
-
-                    <input type="submit" value="Search" class="btn btn-primary float-right" />
-
-                    @*<input type="button" id="Search" value="Search" onclick="SearchData()" class="btn btn-primary" />*@
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-    <br />
-
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-view" id="updatePanel">
-                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
-                    <table id="multi-form-view" class="table table-responsive multi-form-view">
-
-                        <thead>
                             <tr>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.PoleId)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederName)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.SurveyDate)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.PoleToRoute.RouteName)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.PoleNo)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.PreviousPoleNo)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.PoleTypeId)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.PoleConditionId)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.MSJNo)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.SleeveNo)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.TwistNo)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.PhaseAId)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.PhaseBId)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.PhaseCId)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.Neutral)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.StreetLight)
-                                </th>
-                                @*<th>
-            @Html.SortableHeaderFor(model => model.SourceCableId)
-        </th>
-        <th>
-            @Html.SortableHeaderFor(model => model.TargetCableId)
-        </th>*@
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.Latitude)
-                                </th>
-                                <th>
-                                    @Html.SortableHeaderFor(model => model.Longitude)
-                                </th>
-                                @*@if (Context.Request.Query["cai"]=="de_pi_ed_01")
-                                {
-                                    <td>
-                                        Action
-                                    </td>
-                                }*@
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
+                                <td>
+                                    <a target="_blank" asp-controller="TblPoles" asp-action="Details" asp-route-id="@item.PoleId" asp-route-cai="@Model.RouteValue["cai"]" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Details">
                                         @Html.DisplayFor(modelItem => item.PoleId)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PoleToFeederLine.FeederName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SurveyDate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PoleToRoute.RouteName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PoleNo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PreviousPoleNo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PoleType.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PoleCondition.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.MSJNo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SleeveNo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TwistNo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PhaseACondition.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PhaseBCondition.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PhaseBCondition.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Neutral)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.StreetLight)
-                                    </td>
-                                    @*<td>
-                                        @Html.DisplayFor(modelItem => item.PoleToSourceFeederLine.FeederName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PoleToTargetFeederLine.FeederName)
-                                    </td>*@
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Latitude)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Longitude)
-                                    </td>
+                                    </a>
+                                </td>
 
-                                    @*@if(Context.Request.Query["cai"]=="de_pi_ed_01")
-                                    {
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.PoleId">Edit</a>
-                                    </td>
-                                    }*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleToRoute.RouteToSubstation.SubstationName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleToRoute.RouteName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleToFeederLine.FeederName)
+                                </td>
 
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PreviousPoleNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleType.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleCondition.Name)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MSJNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SleeveNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TwistNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PhaseACondition.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PhaseBCondition.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PhaseBCondition.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Neutral)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StreetLight)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Latitude)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Longitude)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SurveyDate)
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
-
-
-            <div style="text-align: center;">
-                <vc:pager paging-list="@Model" />
-            </div>
-
-
         </div>
+
+        <div style="text-align: center;">
+            <vc:pager paging-list="@Model" />
+        </div>
+
     </div>
-
-
 </div>
-
-
 
 
 @section Scripts{
 
+    <script src="~/js/autocomplete.extend.js"></script>
 
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            //$('[data-toggle="tooltip"]').tooltip();
-            //var actions = $("table td:last-child").html();
+        $(function () {
 
-            // Append table with add row form on add new button click
-            $(".add-new").click(function () {
-                var $lastRow = $("#tblSearchOptions tbody tr:last-child"),
-                    index = $lastRow.index(),
-                    tds = $lastRow.find('td');
-
-                var $newRow = $("<tr>");//.append(tds)
-
-                
-                console.log($newRow.html());
-
-                var $fieldName = $lastRow.find("#fieldName"),
-                    $operator = $lastRow.find("#operator"),
-                    $fieldValue = $lastRow.find("#fieldValue"),
-                    $joinOption = $lastRow.find("#joinOption"),
-                    $lastTd = $lastRow.find("td:last-child");
-
-                
-                //console.log($fieldName);
-                //console.log($operator);
-                //console.log($fieldValue);
-                //console.log($joinOption);
-                
-                console.log($fieldName[0].outerHTML());
-                console.log($operator[0].outerHTML());
-                console.log($fieldValue[0].outerHTML());
-                console.log($joinOption[0].outerHTML());
-
-                //$fieldName.attr('name', 'searchParameters[' + (index + 1) + '][0]');
-                //$operator.attr('name', 'searchParameters[' + (index + 1) + '][1]');
-                //$fieldValue.attr('name', 'searchParameters[' + (index + 1) + '][2]');
-                //$joinOption.attr('name', 'searchParameters[' + (index + 1) + '][3]');
-
-                $newRow.append($("td").append($fieldName));
-                $newRow.append($("td").append($operator));
-                $newRow.append($("td").append($fieldValue));
-                $newRow.append($("td").append($joinOption));
-                //$newRow.append($lastTd);
-
-                console.log($newRow.html());
-
-                $("#tblSearchOptions tbody").append($newRow);
-
-
-                //$("#tblSearchOptions tbody").append($("<tr>").append(tds));
-                //$("#tblSearchOptions tbody tr").eq(index + 1).find(".add, .edit").toggle();
-
-                //$('[data-toggle="tooltip"]').tooltip();
-            });
-
-            // Add row on add button click
-            $(document).on("click", ".add", function () {
-                var empty = false;
-                var input = $(this).parents("tr").find('input[type="text"]');
-                input.each(function () {
-                    if (!$(this).val()) {
-                        $(this).addClass("error");
-                        empty = true;
-                    } else {
-                        $(this).removeClass("error");
-                    }
-                });
-                $(this).parents("tr").find(".error").first().focus();
-                if (!empty) {
-                    input.each(function () {
-                        $(this).parent("td").html($(this).val());
-                    });
-                    $(this).parents("tr").find(".add, .edit").toggle();
-                    $(".add-new").removeAttr("disabled");
-                }
-            });
-
-            // Edit row on edit button click
-            //$(document).on("click", ".edit", function () {
-            //    $(this).parents("tr").find("td:not(:last-child)").each(function () {
-            //        $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
-            //    });
-            //    $(this).parents("tr").find(".add, .edit").toggle();
-            //    $(".add-new").attr("disabled", "disabled");
-            //});
-
-            // Delete row on delete button click
-            $(document).on("click", ".delete", function () {
-                if (confirm('Are you sure to delete ?'))
+            $(".field-name").on("change",
+                function() {
+                    setAutocomplete($(this));
                     return false;
+                }).trigger("change");
 
-                $(this).parents("tr").remove();
-                //$(".add-new").removeAttr("disabled");
-                return true;
-            });
+
+            $("#ZoneCode").on("change",
+                function() {
+                    var zoneCode = $("#ZoneCode").val(),
+                        $circle = $("#CircleCode");
+
+                    $circle.empty();
+                    $("#SnDCode").empty();
+                    $("#SubstationId").empty();
+                    $("#RouteCode").empty();
+
+                    if (!zoneCode)
+                        return false;
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetCircleList", "LookUpCircleInfoes")',
+                        dataType: "json",
+                        data: { zoneCode: zoneCode },
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function(circles) {
+                            $circle.append(
+                                '<option value="" selected="selected">----- all circle -----</option>');
+                            $.each(circles,
+                                function(i, circle) {
+                                    $("<option />").val(circle.value).html(circle.text)
+                                        .appendTo($circle);
+                                });
+                        },
+                        error: function(ex, status, error) {
+                            msg.init("error",
+                                "Error... . . !",
+                                "Failed to load Circle list. " + ex.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+                });
+
+            $("#CircleCode").on("change",
+                function() {
+                    var circleCode = $("#CircleCode").val(),
+                        $snd = $("#SnDCode");
+
+                    $snd.empty();
+                    $("#SubstationId").empty();
+                    $("#RouteCode").empty();
+
+                    if (!circleCode)
+                        return false;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetSnDList", "LookUpSnDInfoes")",
+                        dataType: "json",
+                        data: { circleCode: circleCode },
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function(snds) {
+                            $snd.append(
+                                '<option value="" selected="selected">----- all SnD -----</option>');
+                            $.each(snds,
+                                function(i, snd) {
+                                    $("<option />").val(snd.value).html(snd.text).appendTo($snd);
+                                });
+                        },
+                        error: function(ex, status, error) {
+                            msg.init("error",
+                                "Error... . . !",
+                                "Failed to load SnD list. " + ex.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+                });
+
+            $("#SnDCode").on("change",
+                function() {
+                    var sndCode = $("#SnDCode").val(),
+                        $substation = $("#SubstationId");
+
+                    $substation.empty();
+                    $("#RouteCode").empty();
+
+                    if (!sndCode)
+                        return false;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetSubStationList", "LookUpZoneInfoes")",
+                        dataType: "json",
+                        data: { sndCode: sndCode },
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function(substations) {
+                            $substation.append(
+                                '<option value="" selected="selected">----- all sub-station -----</option>');
+                            $.each(substations,
+                                function(i, substation) {
+                                    $("<option />").val(substation.value).html(substation.text).appendTo($substation);
+                                });
+                        },
+                        error: function(ex, status, error) {
+                            msg.init("error",
+                                "Error... . . !",
+                                "Failed to load Sub-Station list. " + ex.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+                });
+
+            $("#SubstationId").on("change",
+                function() {
+                    var substationId = $("#SubstationId").val(),
+                        $route = $("#RouteCode");
+
+                    $route.empty();
+
+                    if (!substationId)
+                        return false;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetRouteList", "LookUpRouteInfoes")",
+                        dataType: "json",
+                        data: { substationId: substationId },
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function(routes) {
+                            $route.append(
+                                '<option value="" selected="selected">----- all route -----</option>');
+                            $.each(routes,
+                                function(i, route) {
+                                    $("<option />").val(route.value).html(route.text).appendTo($route);
+                                });
+                        },
+                        error: function(ex, status, error) {
+                            msg.init("error", "Error... . . !", "Failed to load Route list. " + ex.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+                });
 
         });
 

@@ -17,45 +17,27 @@ using Pdb014App.Models.PDB.SubstationModels;
 
 namespace Pdb014App.Controllers.AdvancedSearching
 {
-
     public partial class AdvancedSearchingController : Controller
     {
-
-        public async Task<IActionResult> SearchRelay(int modelId = 1, int pageIndex = 1, string sort = "RelayId", string sortExp = "RelayId")
+        public async Task<IActionResult> SearchRelay([FromQuery] string cai, int pageIndex = 1, string sort = "RelayId")
         {
-            //if (searchParameters == null)
-            //{
-            //    searchParameters = TempData["SearchParameters"] as List<List<string>>;
-            //}
-            //else
-            //{
-            //    TempData["SearchParameters"] = searchParameters;
-            //}
-
-
+            ViewBag.TotalRecords = _dbContext.TblRelay.AsNoTracking().Count();
             ViewBag.SearchParameters = new List<List<string>>(3);
-
-
-            var fieldsDB = _context
-                .LookUpModelFieldInfo
-                .Where(mf => mf.ModelId == modelId)
-                .Select(fi => new { Value = fi.FieldName, Text = fi.FieldDisplayName })
-                .ToList();
 
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "RelayName", Text = "Relay Name"},
-                new SelectListItem {Value = "NominalVoltage", Text = "Nominal Voltage"},
-                new SelectListItem {Value = "ManufactureName", Text = "Manufacture Name"},
-                new SelectListItem {Value = "ModelNumber", Text = "Model Number"},
-                new SelectListItem {Value = "RatedCurrent", Text = "Rated Current"},
-                new SelectListItem {Value = "RatedVoltage", Text = "Rated Voltage"},
-                new SelectListItem {Value = "ConnectionStatus", Text = "Connection Status"},
-                new SelectListItem {Value = "FeederLine", Text = "Feeder Line"},
-                new SelectListItem {Value = "Substation", Text = "Substation"}
+                //new SelectListItem {Value = "plt.PoleNo", Text = "Pole No."},
+                new SelectListItem {Value = "flt.FeederName", Text = "Feeder Line Name"},
+                new SelectListItem {Value = "sst.SubstationName", Text = "Substation Name"},
+                new SelectListItem {Value = "ret.RelayName", Text = "Relay Name"},
+                new SelectListItem {Value = "ret.NominalVoltage", Text = "Nominal Voltage"},
+                new SelectListItem {Value = "ret.ManufactureName", Text = "Manufacture Name"},
+                new SelectListItem {Value = "ret.ModelNumber", Text = "Model Number"},
+                new SelectListItem {Value = "ret.RatedCurrent", Text = "Rated Current"},
+                new SelectListItem {Value = "ret.RatedVoltage", Text = "Rated Voltage"},
+                new SelectListItem {Value = "ret.ConnectionStatus", Text = "Connection Status"},
             };
-
 
             var operators = new List<SelectListItem>
             {
@@ -69,62 +51,51 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 new SelectListItem {Value = "not null", Text = "Is Not Null"},
                 new SelectListItem {Value = "Like", Text = "Like"}
             };
-
-
+            
             var fieldList = new SelectList(fields, "Value", "Text");
             var operatorList = new SelectList(operators, "Value", "Text");
 
 
+            ViewBag.ZoneList = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+
             ViewBag.FieldList = fieldList;
             ViewBag.OperatorList = operatorList;
 
-            var qry = _context.TblRelay.AsNoTracking()
-                .Include(t => t.RelayToFeederLine)
-                .Include(t => t.RelayToSubstation)
+            var qry = _dbContext.TblRelay.AsNoTracking()
+                .Include(re => re.RelayToFeederLine)
+                .Include(re => re.RelayToSubstation)
+                .Include(re => re.RelayToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(re => re.RelayToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, sortExp);
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "RelayId");
+
+            searchResult.RouteValue = new RouteValueDictionary { { "cai", cai } };
 
             return View("SearchRelay", searchResult);
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> SearchRelay(List<List<string>> searchParameters, int modelId = 1, int pageIndex = 1, string sort = "RelayId", string sortExp = "RelayId")
+        //[HttpPost]
+        [HttpGet]
+        public async Task<IActionResult> SearchRelay(List<string> regionList, List<List<string>> searchParameters, string cai, int pageIndex = 1, string sort = "RelayId")
         {
-            //if (searchParameters == null)
-            //{
-            //    searchParameters = TempData["SearchParameters"] as List<List<string>>;
-            //}
-            //else
-            //{
-            //    TempData["SearchParameters"] = searchParameters;
-            //}
-
-
-            //ViewData["SearchParameters"] = searchParameters;
+            ViewBag.TotalRecords = _dbContext.TblRelay.AsNoTracking().Count();
             ViewBag.SearchParameters = searchParameters;
-
-            var fieldsDB = _context
-                .LookUpModelFieldInfo
-                .Where(mf => mf.ModelId == modelId)
-                .Select(fi => new { Value = fi.FieldName, Text = fi.FieldDisplayName })
-                .ToList();
 
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "RelayName", Text = "Relay Name"},
-                new SelectListItem {Value = "NominalVoltage", Text = "Nominal Voltage"},
-                new SelectListItem {Value = "ManufactureName", Text = "Manufacture Name"},
-                new SelectListItem {Value = "ModelNumber", Text = "Model Number"},
-                new SelectListItem {Value = "RatedCurrent", Text = "Rated Current"},
-                new SelectListItem {Value = "RatedVoltage", Text = "Rated Voltage"},
-                new SelectListItem {Value = "ConnectionStatus", Text = "Connection Status"},
-                new SelectListItem {Value = "FeederLine", Text = "Feeder Line"},
-                new SelectListItem {Value = "Substation", Text = "Substation"}
+                new SelectListItem {Value = "flt.FeederName", Text = "Feeder Line Name"},
+                new SelectListItem {Value = "sst.SubstationName", Text = "Substation Name"},
+                new SelectListItem {Value = "ret.RelayName", Text = "Relay Name"},
+                new SelectListItem {Value = "ret.NominalVoltage", Text = "Nominal Voltage"},
+                new SelectListItem {Value = "ret.ManufactureName", Text = "Manufacture Name"},
+                new SelectListItem {Value = "ret.ModelNumber", Text = "Model Number"},
+                new SelectListItem {Value = "ret.RatedCurrent", Text = "Rated Current"},
+                new SelectListItem {Value = "ret.RatedVoltage", Text = "Rated Voltage"},
+                new SelectListItem {Value = "ret.ConnectionStatus", Text = "Connection Status"},
             };
-
 
             var operators = new List<SelectListItem>
             {
@@ -146,34 +117,187 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             ViewBag.FieldList = fieldList;
             ViewBag.OperatorList = operatorList;
+            
+
+            Expression<Func<TblRelay, bool>> searchExp = null;
+
+            string zoneCode, circleCode, snDCode, substationCode;
+
+            zoneCode = circleCode = snDCode = substationCode = "";
+
+            if (regionList != null && regionList.Count > 0 && !string.IsNullOrEmpty(regionList[0]))
+            {
+                zoneCode = regionList[0];
+
+                searchExp = model =>
+                    model.RelayToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
+
+                ViewBag.CircleList = new SelectList(_dbContext.LookUpCircleInfo
+                    .Where(c => c.ZoneCode.Equals(zoneCode))
+                    .Select(c => new { c.CircleCode, c.CircleName })
+                    .OrderBy(c => c.CircleCode).ToList(), "CircleCode", "CircleName", circleCode);
+
+                if (regionList.Count > 1 && !string.IsNullOrEmpty(regionList[1]))
+                {
+                    circleCode = regionList[1];
+
+                    Expression<Func<TblRelay, bool>> tempExp = model =>
+                        model.RelayToSubstation.SubstationToLookUpSnD.CircleCode == circleCode;
+                    searchExp = ExpressionExtension<TblRelay>.AndAlso(searchExp, tempExp);
+
+                    ViewBag.SnDList = new SelectList(_dbContext.LookUpSnDInfo
+                        .Where(sd => sd.CircleCode.Equals(circleCode))
+                        .Select(sd => new { sd.SnDCode, sd.SnDName })
+                        .OrderBy(sd => sd.SnDCode).ToList(), "SnDCode", "SnDName", snDCode);
+
+                    if (regionList.Count > 2 && !string.IsNullOrEmpty(regionList[2]))
+                    {
+                        snDCode = regionList[2];
+
+                        tempExp = model => model.RelayToSubstation.SnDCode == snDCode;
+                        searchExp = ExpressionExtension<TblRelay>.AndAlso(searchExp, tempExp);
+
+                        ViewBag.SubstationList = new SelectList(_dbContext.TblSubstation
+                            .Where(ss => ss.SnDCode.Equals(snDCode))
+                            .Select(ss => new { ss.SubstationId, ss.SubstationName })
+                            .OrderBy(ss => ss.SubstationId).ToList(), "SubstationId", "SubstationName", substationCode);
 
 
-            var qry = _context.TblRelay.AsNoTracking();
+                        if (regionList.Count > 3 && !string.IsNullOrEmpty(regionList[3]))
+                        {
+                            substationCode = regionList[3];
+
+                            tempExp = model => model.SubstationId == substationCode;
+                            searchExp = ExpressionExtension<TblRelay>.AndAlso(searchExp, tempExp);
+
+                        }
+                    }
+                }
+            }
+
+            ViewBag.RegionList = regionList;
+            ViewBag.ZoneList = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName", zoneCode);
+
+
+            var searchParametersRoute = new RouteValueDictionary()
+            {
+                { "cai", cai },
+                {"regionList[0]", zoneCode},
+                {"regionList[1]", circleCode},
+                {"regionList[2]", snDCode},
+                {"regionList[3]", substationCode},
+                //{"regionList[4]", routeCode}
+            };
 
 
             if (searchParameters != null && searchParameters.Count > 0)
             {
-                Expression<Func<TblRelay, Boolean>> searchExp = null;
-
-                var searchOptions = searchParameters
-                    .Select(so => new SearchParameter
-                    {
-                        FieldName = so[0],
-                        Operator = so[1],
-                        FieldValue = so[2],
-                        JoinOption = so[3]
-                    }).ToList();
-
+                int pc = 0;
                 string joinOption = "";
-                foreach (var searchOption in searchOptions)
+                //Expression<Func<TblSubstation, bool>> searchExp = null;
+
+                foreach (var searchParameter in searchParameters)
                 {
-                    if (string.IsNullOrEmpty(searchOption.FieldName) || string.IsNullOrEmpty(searchOption.Operator))
+                    if (string.IsNullOrEmpty(searchParameter[0]) || string.IsNullOrEmpty(searchParameter[1]))
                         continue;
 
-                    Expression<Func<TblRelay, Boolean>> tempExp = null;
+                    for (int oc = 0; oc < searchParameter.Count; oc++)
+                    {
+                        searchParametersRoute.Add("searchParameters[" + pc + "][" + oc + "]", searchParameter[oc]);
+                    }
+                    ++pc;
+
+                    var searchOption = new SearchParameter
+                    {
+                        FieldName = searchParameter[0].Contains('.')
+                            ? searchParameter[0].Split('.')[1]
+                            : searchParameter[0],
+                        Operator = searchParameter[1],
+                        FieldValue = searchParameter[2],
+                        JoinOption = searchParameter[3]
+                    };
+
+                    Expression<Func<TblRelay, bool>> tempExp = null;
 
                     switch (searchOption.FieldName)
                     {
+
+                        case "FeederName":
+                            switch (searchOption.Operator)
+                            {
+                                case "=":
+                                    tempExp = model => model.RelayToFeederLine.FeederName == searchOption.FieldValue;
+                                    break;
+                                case "!=":
+                                    tempExp = model => model.RelayToFeederLine.FeederName != searchOption.FieldValue;
+                                    break;
+                                case ">":
+                                    tempExp = model =>
+                                        int.Parse(model.RelayToFeederLine.FeederName) > int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<":
+                                    tempExp = model =>
+                                        int.Parse(model.RelayToFeederLine.FeederName) < int.Parse(searchOption.FieldValue);
+                                    break;
+                                case ">=":
+                                    tempExp = model =>
+                                        int.Parse(model.RelayToFeederLine.FeederName) >= int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<=":
+                                    tempExp = model =>
+                                        int.Parse(model.RelayToFeederLine.FeederName) <= int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "null":
+                                    tempExp = model => model.RelayToFeederLine.FeederName == null;
+                                    break;
+                                case "not null":
+                                    tempExp = model => model.RelayToFeederLine.FeederName != null;
+                                    break;
+                                case "Like":
+                                    tempExp = model => model.RelayToFeederLine.FeederName.Contains(searchOption.FieldValue);
+                                    break;
+                            }
+                            break;
+
+
+                        case "SubstationName":
+                            switch (searchOption.Operator)
+                            {
+                                case "=":
+                                    tempExp = model => model.RelayToSubstation.SubstationName == searchOption.FieldValue;
+                                    break;
+                                case "!=":
+                                    tempExp = model => model.RelayToSubstation.SubstationName != searchOption.FieldValue;
+                                    break;
+                                case ">":
+                                    tempExp = model =>
+                                        int.Parse(model.RelayToSubstation.SubstationName) > int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<":
+                                    tempExp = model =>
+                                        int.Parse(model.RelayToSubstation.SubstationName) < int.Parse(searchOption.FieldValue);
+                                    break;
+                                case ">=":
+                                    tempExp = model =>
+                                        int.Parse(model.RelayToSubstation.SubstationName) >= int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<=":
+                                    tempExp = model =>
+                                        int.Parse(model.RelayToSubstation.SubstationName) <= int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "null":
+                                    tempExp = model => model.RelayToSubstation.SubstationName == null;
+                                    break;
+                                case "not null":
+                                    tempExp = model => model.RelayToSubstation.SubstationName != null;
+                                    break;
+                                case "Like":
+                                    tempExp = model => model.RelayToSubstation.SubstationName.Contains(searchOption.FieldValue);
+                                    break;
+                            }
+                            break;
+                            
+
                         case "RelayName":
                             switch (searchOption.Operator)
                             {
@@ -439,81 +563,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             }
                             break;
 
-
-                        case "FeederLine":
-                            switch (searchOption.Operator)
-                            {
-                                case "=":
-                                    tempExp = model => model.RelayToFeederLine.FeederName == searchOption.FieldValue;
-                                    break;
-                                case "!=":
-                                    tempExp = model => model.RelayToFeederLine.FeederName != searchOption.FieldValue;
-                                    break;
-                                case ">":
-                                    tempExp = model =>
-                                        int.Parse(model.RelayToFeederLine.FeederName) > int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "<":
-                                    tempExp = model =>
-                                        int.Parse(model.RelayToFeederLine.FeederName) < int.Parse(searchOption.FieldValue);
-                                    break;
-                                case ">=":
-                                    tempExp = model =>
-                                        int.Parse(model.RelayToFeederLine.FeederName) >= int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "<=":
-                                    tempExp = model =>
-                                        int.Parse(model.RelayToFeederLine.FeederName) <= int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "null":
-                                    tempExp = model => model.RelayToFeederLine.FeederName == null;
-                                    break;
-                                case "not null":
-                                    tempExp = model => model.RelayToFeederLine.FeederName != null;
-                                    break;
-                                case "Like":
-                                    tempExp = model => model.RelayToFeederLine.FeederName.Contains(searchOption.FieldValue);
-                                    break;
-                            }
-                            break;
-
-
-                        case "Substation":
-                            switch (searchOption.Operator)
-                            {
-                                case "=":
-                                    tempExp = model => model.RelayToSubstation.SubstationName == searchOption.FieldValue;
-                                    break;
-                                case "!=":
-                                    tempExp = model => model.RelayToSubstation.SubstationName != searchOption.FieldValue;
-                                    break;
-                                case ">":
-                                    tempExp = model =>
-                                        int.Parse(model.RelayToSubstation.SubstationName) > int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "<":
-                                    tempExp = model =>
-                                        int.Parse(model.RelayToSubstation.SubstationName) < int.Parse(searchOption.FieldValue);
-                                    break;
-                                case ">=":
-                                    tempExp = model =>
-                                        int.Parse(model.RelayToSubstation.SubstationName) >= int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "<=":
-                                    tempExp = model =>
-                                        int.Parse(model.RelayToSubstation.SubstationName) <= int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "null":
-                                    tempExp = model => model.RelayToSubstation.SubstationName == null;
-                                    break;
-                                case "not null":
-                                    tempExp = model => model.RelayToSubstation.SubstationName != null;
-                                    break;
-                                case "Like":
-                                    tempExp = model => model.RelayToSubstation.SubstationName.Contains(searchOption.FieldValue);
-                                    break;
-                            }
-                            break;
                     }
 
 
@@ -531,24 +580,27 @@ namespace Pdb014App.Controllers.AdvancedSearching
                     joinOption = searchOption.JoinOption;
                 }
 
-
-                if (searchExp != null)
-                    qry = qry.Where(searchExp);
             }
 
+            var qry = searchExp != null
+                ? _dbContext.TblRelay.AsNoTracking().Where(searchExp)
+                : _dbContext.TblRelay.AsNoTracking();
+
             qry = qry
-                .Include(t => t.RelayToFeederLine)
-                .Include(t => t.RelayToSubstation)
+                .Include(re => re.RelayToFeederLine)
+                .Include(re => re.RelayToSubstation)
+                .Include(re => re.RelayToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(re => re.RelayToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, sortExp);
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "RelayId");
+
+            searchResult.RouteValue = searchParametersRoute;
 
             return View("SearchRelay", searchResult);
 
         }
 
     }
-
-
-
+    
 }

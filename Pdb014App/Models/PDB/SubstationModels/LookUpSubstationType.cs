@@ -21,7 +21,7 @@ namespace Pdb014App.Models.PDB.SubstationModels
 
         [Column(Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]
-        [Display(Name = "Substation Type Name")]
+        [Display(Name = "Substation Type")]
         public string SubstationTypeName { get; set; }
     }
 }

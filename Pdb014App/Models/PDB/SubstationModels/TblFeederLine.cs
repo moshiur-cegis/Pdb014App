@@ -33,7 +33,8 @@ namespace Pdb014App.Models.PDB
         [Display(Name = "Feeder Line Type")]
         public string FeederLineTypeId { get; set; }
 
-        [ForeignKey("FeederLineTypeId")] public virtual LookUpFeederLineType FeederLineType { get; set; }
+        [ForeignKey("FeederLineTypeId")] 
+        public virtual LookUpFeederLineType FeederLineType { get; set; }
 
 
         [Column(Order = 2, TypeName = "varchar(50)")]
@@ -41,7 +42,8 @@ namespace Pdb014App.Models.PDB
         [Display(Name = "Route Code")]
         public string RouteCode { get; set; }
 
-        [ForeignKey("RouteCode")] public virtual LookUpRouteInfo FeederLineToRoute { get; set; }
+        [ForeignKey("RouteCode")] 
+        public virtual LookUpRouteInfo FeederLineToRoute { get; set; }
 
 
         [Column("FeederName", Order = 3, TypeName = "nvarchar(250)")]
@@ -147,7 +149,7 @@ namespace Pdb014App.Models.PDB
 
                     var prePole = poleList.FirstOrDefault(p => p.PoleNo == curPole.PreviousPoleNo);
 
-                    if (prePole == null || prePole.Latitude == null || prePole.Longitude == null)
+                    if (prePole?.Latitude == null || prePole.Longitude == null)
                         continue;
 
                     var pPoleCrd = new GeoCoordinate((double) prePole.Latitude, (double) prePole.Longitude);

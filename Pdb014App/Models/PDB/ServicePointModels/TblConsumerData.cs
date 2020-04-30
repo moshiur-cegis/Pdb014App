@@ -28,10 +28,12 @@ namespace Pdb014App.Models.PDB.ServicePointModels
 
         [Column(Order = 2, TypeName = "varchar(50)")]
         [StringLength(50)]
-        [Display(Name = "Distribution Transformer")]
+        [Display(Name = "Distribution Transformer Id")]
         public string DistributionTransformerId { get; set; }
         [ForeignKey("DistributionTransformerId")]
         public virtual TblDistributionTransformer ConsumerDataToDistributionTransformer { get; set; }
+
+
 
         [Column(Order = 3, TypeName = "nvarchar(250)")]
         [StringLength(250)]
@@ -263,34 +265,7 @@ namespace Pdb014App.Models.PDB.ServicePointModels
         [Column(Order = 40, TypeName = "int")]
         [Display(Name = "Number Of Floor")]
         public int? NumberOfFloor { get; set; }
-
-
-
+        
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

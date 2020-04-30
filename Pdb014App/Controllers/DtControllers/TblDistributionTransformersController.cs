@@ -36,10 +36,15 @@ namespace Pdb014App.Controllers.DtControllers
             }
 
             var tblDistributionTransformer = await _context.TblDistributionTransformer
-                .Include(t => t.DtToFeederLine)
                 .Include(t => t.DtToPole)
+                .Include(t => t.DtToFeederLine)
+                .Include(t => t.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
+                .Include(t => t.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(t => t.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+
                 .Include(t => t.PoleStructureMountedSurgeArrestor)
                 .FirstOrDefaultAsync(m => m.DistributionTransformerId == id);
+
             if (tblDistributionTransformer == null)
             {
                 return NotFound();

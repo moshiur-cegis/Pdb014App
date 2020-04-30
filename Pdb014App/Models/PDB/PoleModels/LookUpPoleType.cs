@@ -9,7 +9,6 @@ namespace Pdb014App.Models.PDB
 {
     public class LookUpPoleType
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]

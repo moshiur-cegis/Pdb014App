@@ -26,7 +26,7 @@ namespace Pdb014App.Models.PDB.SwitchGearModels
         public int SwitchGearTypeId { get; set; }
         [ForeignKey("SwitchGearTypeId")]
         public virtual LookUpSwitchGearType SwitchGearType { get; set; }
-        
+
 
         //[Column("SwitchGearUnitId", Order = 1, TypeName = "int")]
         //[DataType(DataType.Text)]
@@ -161,9 +161,8 @@ namespace Pdb014App.Models.PDB.SwitchGearModels
         public int? Sf6SafetyAndLifeId { get; set; }
         [ForeignKey("Sf6SafetyAndLifeId")]
         public virtual LookupSf6SafetyAndLife SwitchGearToSf6SafetyAndLife { get; set; }
+        
 
-
-       
         //Meter
         [Column("VoltMeterId", Order = 21, TypeName = "int")]
         [DataType(DataType.Text)]
@@ -187,9 +186,7 @@ namespace Pdb014App.Models.PDB.SwitchGearModels
         [ForeignKey("BusBarId")]
         public virtual LookupBusBar SwitchGearToBusBar { get; set; }
 
-
         //Power Fuse
-
         [Column("ReatedVoltage", Order = 1, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
         [Display(Name = "Reated Voltage for Fuse")]
@@ -213,7 +210,7 @@ namespace Pdb014App.Models.PDB.SwitchGearModels
         public string PhasePowerTransformerId { get; set; }
         [ForeignKey("PhasePowerTransformerId")]
         public virtual TblPhasePowerTransformer SwitchGearToPhasePowerTransformer { get; set; }
-        
+
 
         [Column("DimensionAndWeightId", Order = 25, TypeName = "int")]
         [DataType(DataType.Text)]
@@ -222,7 +219,6 @@ namespace Pdb014App.Models.PDB.SwitchGearModels
 
         [ForeignKey("DimensionAndWeightId")]
         public virtual LookUpDimensionAndWeight SwitchGearToDimensionAndWeight { get; set; }
-
 
     }
 }

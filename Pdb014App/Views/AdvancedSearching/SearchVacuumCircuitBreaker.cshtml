@@ -1,0 +1,567 @@
+﻿@model PagingList<Pdb014App.Models.PDB.SubstationModels.TblOutDoorTypeVacumnCircuitBreaker>
+
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
+
+
+@{
+    ViewData["Title"] = "Search Vacuum Circuit Breaker";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Model.Action = "SearchVacuumCircuitBreaker";
+
+
+    var totalRecords = ViewBag.TotalRecords;
+    var searchRecords = Model.TotalRecordCount;
+
+
+    var rlCount = 4;
+    var regionList = ViewBag.RegionList as List<string>;
+    if (regionList == null || regionList.Count < 1)
+    {
+        regionList = new List<string>(rlCount) { "", "", "", "", "" };
+    }
+    else if (regionList.Count < rlCount)
+    {
+        for (int rc = regionList.Count; rc < rlCount; ++rc)
+        {
+            regionList.Add("");
+        }
+    }
+
+    var spCount = 3;
+    var searchParameters = ViewBag.SearchParameters as List<List<string>>;
+    if (searchParameters == null || searchParameters.Count < 1)
+    {
+        searchParameters = new List<List<string>>(spCount);
+    }
+}
+
+
+@section Styles {
+
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+    <link href="~/css/search.style.css" rel="stylesheet" />
+    <link href="~/css/autocomplete.style.css" rel="stylesheet" />
+}
+
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="get" asp-controller="AdvancedSearching" asp-action="@Model.Action">
+
+            <div class="row">
+                <div class="col-md-6">
+
+                    <input type="hidden" name="cai" value="@Model.RouteValue["cai"]" />
+
+                    <fieldset style="padding-bottom: 0;">
+                        <legend>▣ Regional Boundaries</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Zone</label>
+                                    <select id="ZoneCode" asp-for="@regionList[0]" class="form-control" asp-items="ViewBag.ZoneList">
+                                        <option value="" selected="selected">----- all zone -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Circle</label>
+                                    <select id="CircleCode" asp-for="@regionList[1]" class="form-control" asp-items="ViewBag.CircleList">
+                                        <option value="" selected="selected">----- all circle -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">S&D</label>
+                                    <select id="SnDCode" asp-for="@regionList[2]" class="form-control" asp-items="ViewBag.SnDList">
+                                        <option value="" selected="selected">----- all S&D -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Substation</label>
+                                    <select id="SubstationId" asp-for="@regionList[3]" class="form-control" asp-items="ViewBag.SubstationList">
+                                        <option value="" selected="selected">----- all substation -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-group" style="margin-top: 10px;">
+                        <input type="submit" value="Search" class="btn btn-primary float-right" />
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <fieldset style="padding-bottom: 10px;">
+                        <legend>▣ Search Options</legend>
+
+                        <table id="tblSearchOptions" class="table table-responsive" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 48%">Field Name</th>
+                                    <th style="width: 70px">Operator</th>
+                                    <th style="width: 50%">Field Value</th>
+                                    <th style="width: 70px">Join (AND/OR)</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @for (int spc = 0; spc < spCount; ++spc)
+                                {
+                                    if (searchParameters.Count <= spc)
+                                    {
+                                        searchParameters.Add(new List<string>(4) { "", "", "", "" });
+                                    }
+
+                                    <tr>
+                                        <td>
+                                            <select id="fieldName" asp-for="@searchParameters[spc][0]" class="form-control text-left field-name" asp-items="ViewBag.FieldList">
+                                                <option value="">--- Select ---</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="operator" asp-for="@searchParameters[spc][1]" class="form-control text-center" asp-items="ViewBag.OperatorList">
+                                                <option selected="" value=""></option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input id="fieldValue" asp-for="@searchParameters[spc][2]" class="form-control text-left field-value" />
+                                        </td>
+                                        <td>
+                                            <select id="joinOption" asp-for="@searchParameters[spc][3]" class="form-control text-center">
+                                                <option value="AND">AND</option>
+                                                <option value="OR">OR</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+
+                    </fieldset>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+
+        <hr />
+        @if (searchRecords == totalRecords)
+        {
+            <strong>Total Records: <span style="font-size: 110%; color: #13d;">@totalRecords</span></strong>
+        }
+        else
+        {
+            <strong>Find <span style="font-size: 110%; color: #15c;">@searchRecords</span> Records out of <span style="font-size: 110%; color: #13d;">@totalRecords</span> Records</strong>
+        }
+        <hr />
+
+        <div class="form-view" id="updatePanel">
+            <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+
+                <table id="multi-form-view" class="table table-responsive multi-form-view">
+                    <thead>
+                        <tr>
+
+                            <th>
+                                @Html.SortableHeaderFor(model => model.OutDoorTypeVacumnCircuitBreakerId)
+                            </th>
+
+                            <th>
+                                @Html.SortableHeaderFor(model => model.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.SnDName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationType.SubstationTypeName)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationName)
+                            </th>
+
+
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ManufacturersNameCountry)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ManufacturersModelNo)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.MaximumRatedVoltage)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.Frequency)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RatedNormalCurrent)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NoOfPhase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NoOfBreakPerPhrase)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.InterruptingMedium)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ImpulseWithstandOn1250MsWave)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PowerFrequencyTestVoltageDryAt50Hz1Min)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ShortTimeWithstandCurrent3SecondRms)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.SymmetricalRms)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.AsymmetricalRms)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ShortCircuitMakingCurrentPeak)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.TripCoilCurrent)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.TripCoilVoltage)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.BreakingTime)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ClosingTime)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RatedVoltageofSpringWindingMotorforClosing)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.SpringWindingMotorCurrent)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ClosingReleaseCoilCurrent)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.ClosingReleaseCoilVoltage)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.NoOfTrippingCoil)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.CircuitBreakerTerminalConnectors)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PressureInVacuumTubeforVCB)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.AtRatedCurrentSwitching)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.AtShortCircuitCurrentSwitching)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.RatedOperatingSequence)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <a target="_blank" asp-controller="TblOutDoorTypeVacumnCircuitBreakers" asp-action="Details" asp-route-id="@item.OutDoorTypeVacumnCircuitBreakerId" asp-route-cai="@Model.RouteValue["cai"]" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Details">
+                                        @Html.DisplayFor(modelItem => item.OutDoorTypeVacumnCircuitBreakerId)
+                                    </a>
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.SnDName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationType.SubstationTypeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationName)
+                                </td>
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ManufacturersNameCountry)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ManufacturersModelNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MaximumRatedVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Frequency)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RatedNormalCurrent)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoOfPhase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoOfBreakPerPhrase)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InterruptingMedium)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ImpulseWithstandOn1250MsWave)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PowerFrequencyTestVoltageDryAt50Hz1Min)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ShortTimeWithstandCurrent3SecondRms)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SymmetricalRms)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AsymmetricalRms)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ShortCircuitMakingCurrentPeak)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TripCoilCurrent)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TripCoilVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BreakingTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClosingTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RatedVoltageofSpringWindingMotorforClosing)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SpringWindingMotorCurrent)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClosingReleaseCoilCurrent)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClosingReleaseCoilVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoOfTrippingCoil)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CircuitBreakerTerminalConnectors)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PressureInVacuumTubeforVCB)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AtRatedCurrentSwitching)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AtShortCircuitCurrentSwitching)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RatedOperatingSequence)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+
+        <div style="text-align: center;">
+            <vc:pager paging-list="@Model" />
+        </div>
+
+
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script src="~/js/autocomplete.extend.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            $(".field-name").on("change",
+                function() {
+                    setAutocomplete($(this));
+                    return false;
+                }).trigger("change");
+
+
+            $("#ZoneCode").on("change",
+                function() {
+                    var zoneCode = $("#ZoneCode").val(),
+                        $circle = $("#CircleCode");
+
+                    $circle.empty();
+                    $("#SnDCode").empty();
+                    $("#SubstationId").empty();
+                    $("#RouteCode").empty();
+
+                    if (!zoneCode)
+                        return false;
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetCircleList", "LookUpCircleInfoes")',
+                        dataType: "json",
+                        data: { zoneCode: zoneCode },
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function(circles) {
+                            $circle.append(
+                                '<option value="" selected="selected">----- all circle -----</option>');
+                            $.each(circles,
+                                function(i, circle) {
+                                    $("<option />").val(circle.value).html(circle.text)
+                                        .appendTo($circle);
+                                });
+                        },
+                        error: function(ex, status, error) {
+                            msg.init("error",
+                                "Error... . . !",
+                                "Failed to load Circle list. " + ex.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+                });
+
+            $("#CircleCode").on("change",
+                function() {
+                    var circleCode = $("#CircleCode").val(),
+                        $snd = $("#SnDCode");
+
+                    $snd.empty();
+                    $("#SubstationId").empty();
+                    $("#RouteCode").empty();
+
+                    if (!circleCode)
+                        return false;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetSnDList", "LookUpSnDInfoes")",
+                        dataType: "json",
+                        data: { circleCode: circleCode },
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function(snds) {
+                            $snd.append(
+                                '<option value="" selected="selected">----- all SnD -----</option>');
+                            $.each(snds,
+                                function(i, snd) {
+                                    $("<option />").val(snd.value).html(snd.text).appendTo($snd);
+                                });
+                        },
+                        error: function(ex, status, error) {
+                            msg.init("error",
+                                "Error... . . !",
+                                "Failed to load SnD list. " + ex.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+                });
+
+            $("#SnDCode").on("change",
+                function() {
+                    var sndCode = $("#SnDCode").val(),
+                        $substation = $("#SubstationId");
+
+                    $substation.empty();
+                    $("#RouteCode").empty();
+
+                    if (!sndCode)
+                        return false;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetSubStationList", "LookUpZoneInfoes")",
+                        dataType: "json",
+                        data: { sndCode: sndCode },
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function(substations) {
+                            $substation.append(
+                                '<option value="" selected="selected">----- all sub-station -----</option>');
+                            $.each(substations,
+                                function(i, substation) {
+                                    $("<option />").val(substation.value).html(substation.text).appendTo($substation);
+                                });
+                        },
+                        error: function(ex, status, error) {
+                            msg.init("error",
+                                "Error... . . !",
+                                "Failed to load Sub-Station list. " + ex.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+                });
+
+        });
+
+    </script>
+
+}
+

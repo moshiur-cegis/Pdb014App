@@ -5,63 +5,115 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
 
 <div>
-    <h4>TblCrossArmInfo</h4>
+    <h2>Cross Arm Details</h2>
     <hr />
+
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationType.SubstationTypeName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationType.SubstationTypeName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CrossArmToPole.PoleToRoute.RouteName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CrossArmToPole.PoleToRoute.RouteName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CrossArmToPole.PoleToFeederLine.FeederName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CrossArmToPole.PoleToFeederLine.FeederName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CrossArmToPole.PoleNo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CrossArmToPole.PoleNo)
+        </dd>
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Materials)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Materials)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Type)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Type)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Standard)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Standard)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.UltimateTensileStrength)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UltimateTensileStrength)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LookUpTypeOfFittings)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LookUpTypeOfFittings.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LookUpTypeOfFittings.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.NoOfSetFittings)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.NoOfSetFittings)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FittingsLookUpCondition)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FittingsLookUpCondition.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FittingsLookUpCondition.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CrossArmToPole)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CrossArmToPole.PoleId)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.CrossArmId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+@*<div>
+        <a asp-action="Edit" asp-route-id="@Model.CrossArmId">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>*@

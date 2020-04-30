@@ -21,7 +21,7 @@ namespace Pdb014App.Models.PDB.SubstationModels
         [Required]
         [Column(Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]
-        [Display(Name = "FeederLineTypeName")]
+        [Display(Name = "Feeder Line Type")]
         public string FeederLineTypeName { get; set; }
     }
 }
