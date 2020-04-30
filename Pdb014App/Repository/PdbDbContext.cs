@@ -176,7 +176,6 @@ namespace Pdb014App.Repository
         public virtual DbSet<LookUpFeederLineType> LookUpFeederLineType { get; set; }
 
 
-
         #endregion
 
         #region SwitchGearModels
