@@ -21,7 +21,7 @@ using Pdb014App.Areas.Identity.Services;
 using Pdb014App.Models;
 using Pdb014App.Repository;
 using ReflectionIT.Mvc.Paging;
-
+using Pdb014App.Models.UserManage;
 
 namespace Pdb014App
 {
@@ -56,10 +56,10 @@ namespace Pdb014App
             services.AddDbContext<UserDbContext>(options =>
                 options.UseSqlServer(dbConnStr, sp => sp.UseRowNumberForPaging()));
 
-            services.AddIdentity<UserInfo, IdentityRole>(options =>
+            services.AddIdentity<TblUserRegistrationDetail, IdentityRole>(options =>
                 {
                     // User settings
-                    options.User.RequireUniqueEmail = false;
+                    options.User.RequireUniqueEmail = true;                   
                     options.Stores.MaxLengthForKeys = 128;
                     options.Password.RequireDigit = false;
                     options.Password.RequiredLength = 4;
@@ -67,6 +67,12 @@ namespace Pdb014App
                     options.Password.RequireLowercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
+
+                    options.SignIn.RequireConfirmedEmail = true;
+
+                    //options.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
+
+
                 })
                 .AddEntityFrameworkStores<UserDbContext>()
                 .AddDefaultTokenProviders();

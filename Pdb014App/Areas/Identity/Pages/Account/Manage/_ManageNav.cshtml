@@ -1,4 +1,5 @@
-﻿@inject SignInManager<UserInfo> SignInManager
+﻿@using Pdb014App.Models.UserManage;
+@inject SignInManager<TblUserRegistrationDetail> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

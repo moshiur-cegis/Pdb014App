@@ -18,11 +18,6 @@
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Input.UserName"></label>
-                <input asp-for="Input.UserName" class="form-control" />
-                <span asp-validation-for="Input.UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Input.Password"></label>
                 <input asp-for="Input.Password" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
@@ -31,17 +26,6 @@
                 <label asp-for="Input.ConfirmPassword"></label>
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.UserType"></label>
-                @*<input asp-for="Input.UserType" class="form-control" />
-            <span asp-validation-for="Input.UserType" class="text-danger"></span>*@
-                <select asp-for="Input.UserType" class="form-control">
-                    @*//asp-items="ViewBag.RoleId"*@
-                    <option value="" selected="selected" disabled="disabled">None</option>
-                    @*<option value="admin">Admin</option>*@
-                    <option value="user">Application User</option>
-                </select>
             </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>

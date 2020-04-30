@@ -8,19 +8,19 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Pdb014App.Models;
+using Pdb014App.Models.UserManage;
 
 namespace Pdb014App.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<UserInfo> _userManager;
-        private readonly SignInManager<UserInfo> _signInManager;
+        private readonly UserManager<TblUserRegistrationDetail> _userManager;
+        private readonly SignInManager<TblUserRegistrationDetail> _signInManager;
         private readonly IEmailSender _emailSender;
 
         public IndexModel(
-            UserManager<UserInfo> userManager,
-            SignInManager<UserInfo> signInManager,
+            UserManager<TblUserRegistrationDetail> userManager,
+            SignInManager<TblUserRegistrationDetail> signInManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
