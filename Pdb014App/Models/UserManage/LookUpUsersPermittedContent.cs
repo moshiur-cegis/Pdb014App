@@ -17,13 +17,13 @@ namespace Pdb014App.Models.UserManage
         public int UsersPermittedContentId { get; set; }
 
 
-        [Required]
+        //[Required]
         [Column("ContentTypeId", Order = 1, TypeName = "int")]
         [DataType(DataType.Text)]
         [Display(Name = "Content Type Id")]
-        public int ContentTypeId { get; set; }
+        public int? ContentTypeId { get; set; }
         [ForeignKey("ContentTypeId")] 
-        public virtual LookUpUserContentType UserContentType { get; set; }
+        public virtual LookUpUserContentType UsersPermittedContentToUserContentType { get; set; }
 
 
         //[Required]

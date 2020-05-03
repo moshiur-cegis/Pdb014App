@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Pdb014App.Repository;
 
 
+
 namespace Pdb014App.Controllers
 {
     [Route("api/[controller]")]
@@ -58,6 +59,8 @@ namespace Pdb014App.Controllers
                 .Select(gt => gt.Key)
                 .ToListAsync();
 
+            //return null;
+
             return Ok(optionList);
         }
 
@@ -95,6 +98,8 @@ namespace Pdb014App.Controllers
                 .OrderBy(t => t.SlNo)
                 .Select(t => t.Term)
                 .ToListAsync();
+
+            //return null;
 
             return Ok(optionList);
         }

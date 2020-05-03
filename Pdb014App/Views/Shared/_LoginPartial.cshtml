@@ -2,7 +2,7 @@
 @using Pdb014App.Models.UserManage;
 
 @*@inject SignInManager<IdentityUser> SignInManager
-    @inject UserManager<IdentityUser> UserManager*@
+@inject UserManager<IdentityUser> UserManager*@
 
 
 @inject SignInManager<TblUserRegistrationDetail> SignInManager
@@ -19,12 +19,7 @@
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
             </form>
         </li>
-        if (User.IsInRole("admin"))
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Create New User</a>
-            </li>
-        }
+       
     }
     else
     {

@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace Pdb014App.Models.UserManage
 {
-    public class LookUpUserGroup: IdentityRole
+    public class LookUpUserGroup
     {
 
+        //[ForeignKey]
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("UserGroupId", Order = 0, TypeName = "int")]

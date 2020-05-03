@@ -14,13 +14,14 @@ using ReflectionIT.Mvc.Paging;
 using Pdb014App.Models.Search;
 using Pdb014App.Models.PDB.PhasePowerTransformerModel;
 using Remotion.Linq.Utilities;
-
+using Pdb014App.Repository;
 
 namespace Pdb014App.Controllers.AdvancedSearching
 {
 
     public partial class AdvancedSearchingController : Controller
     {
+        private readonly PdbDbContext _context;
 
         public async Task<IActionResult> SearchPowerTransformer(int modelId = 1, int pageIndex = 1, string sort = "PhasePowerTransformerId", string sortExp = "PhasePowerTransformerId")
         {

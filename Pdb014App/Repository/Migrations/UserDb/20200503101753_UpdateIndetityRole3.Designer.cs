@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pdb014App.Repository;
 
 namespace Pdb014App.Repository.Migrations.UserDb
 {
     [DbContext(typeof(UserDbContext))]
-    partial class UserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200503101753_UpdateIndetityRole3")]
+    partial class UpdateIndetityRole3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -318,7 +320,11 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Id")
+                        .HasColumnName("TblUserGrpWisePermissionDetail_Id");
+
+                    b.Property<string>("UserGroupId")
                         .IsRequired()
+                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 64)))
                         .HasColumnName("Id")
                         .HasColumnType("nvarchar(450)")
                         .HasMaxLength(450);
@@ -345,7 +351,11 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Id")
+                        .HasColumnName("TblUserGrpWiseUsersDistribution_Id");
+
+                    b.Property<string>("UserGroupId")
                         .IsRequired()
+                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 64)))
                         .HasColumnName("Id")
                         .HasColumnType("nvarchar(450)")
                         .HasMaxLength(450);
@@ -594,8 +604,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "UserGrpWisePermissionDetailToIdentityRole")
                         .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Id");
 
                     b.HasOne("Pdb014App.Models.UserManage.LookUpUsersPermittedContent", "UserGrpWisePermissionDetailToUsersPermittedContent")
                         .WithMany()
@@ -607,8 +616,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "UserGrpWiseUsersDistributionToIdentityRole")
                         .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Id");
 
                     b.HasOne("Pdb014App.Models.UserManage.TblUserProfileDetail", "UserGrpWiseUsersDistributionToUserProfileDetail")
                         .WithMany()

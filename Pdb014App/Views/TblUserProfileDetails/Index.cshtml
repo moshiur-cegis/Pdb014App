@@ -1,0 +1,119 @@
+﻿@model IEnumerable<Pdb014App.Models.UserManage.TblUserProfileDetail>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserProfileDetailToUserRegistrationDetail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserFullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserDateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserNID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsBpdbEmployee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserProfileDetailToUserBpdbEmployee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserProfession)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserDesignation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserAlternateEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserAlternateMobile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserSecurityQuestion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SecurityQuestionAnswer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsProfileSubmitted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SignatureFileName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserProfileDetailToUserRegistrationDetail.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserFullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserDateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserNID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsBpdbEmployee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserProfileDetailToUserBpdbEmployee.BpdbEmployeeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserProfession)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserDesignation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserAlternateEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserAlternateMobile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserSecurityQuestion.UserSecurityQuestion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecurityQuestionAnswer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsProfileSubmitted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SignatureFileName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

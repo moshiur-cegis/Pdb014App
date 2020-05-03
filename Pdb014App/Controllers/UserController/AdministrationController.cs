@@ -36,7 +36,7 @@ namespace Pdb014App.Controllers.UserController
             //var role = userManager.Users;
             //.Where(i => i.UserActivationStatusId != null)
 
-            var users = _context.TblUserRegistrationDetail.Include(i=>i.UserActivationStatus);
+            var users = _context.TblUserRegistrationDetail.Include(i=>i.UserRegistrationDetailToUserActivationStatus);
 
             return View(users);
         }

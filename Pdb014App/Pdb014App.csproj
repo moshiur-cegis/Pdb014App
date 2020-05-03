@@ -10,6 +10,12 @@
     <Compile Remove="Repository\Migrations\PdbDb\20200412073039_UpdateCircleSnDToAddCityDistrict.Designer.cs" />
     <Compile Remove="Repository\Migrations\UserDb\20200429080549_UpdateUserInfo.cs" />
     <Compile Remove="Repository\Migrations\UserDb\20200429080549_UpdateUserInfo.Designer.cs" />
+    <Compile Remove="Repository\Migrations\UserDb\20200503072049_InitialCreate.cs" />
+    <Compile Remove="Repository\Migrations\UserDb\20200503072049_InitialCreate.Designer.cs" />
+    <Compile Remove="Repository\Migrations\UserDb\20200503072919_InitialCreate.cs" />
+    <Compile Remove="Repository\Migrations\UserDb\20200503072919_InitialCreate.Designer.cs" />
+    <Compile Remove="Repository\Migrations\UserDb\20200503095856_UpdateIndetityRole2.cs" />
+    <Compile Remove="Repository\Migrations\UserDb\20200503095856_UpdateIndetityRole2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

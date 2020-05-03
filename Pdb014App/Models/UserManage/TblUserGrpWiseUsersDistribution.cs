@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,23 +17,23 @@ namespace Pdb014App.Models.UserManage
         [Display(Name = "User Distribution Id")]
         public int UserDistributionId { get; set; }
 
-
         [Required]
         [Column("UserId", Order = 1, TypeName = "int")]
         [DataType(DataType.Text)]
         [Display(Name = "User Id")]
         public int UserId { get; set; }
         [ForeignKey("UserId")]
-        public virtual TblUserProfileDetail UserProfileDetail { get; set; }
+        public virtual TblUserProfileDetail UserGrpWiseUsersDistributionToUserProfileDetail { get; set; }
 
 
         [Required]
-        [Column("UserGroupId", Order = 2, TypeName = "int")]
-        [DataType(DataType.Text)]
+        [Column("Id", Order = 2, TypeName = "nvarchar(450)")]
+        //[Column("Id", Order = 1, TypeName = "int")]
+        [StringLength(450)]
         [Display(Name = "User Group Id")]
-        public int UserGroupId { get; set; }
-        [ForeignKey("UserGroupId")]
-        public virtual LookUpUserGroup UserGroup { get; set; }
+        public string Id { get; set; }
+        [ForeignKey("Id")]
+        public virtual IdentityRole UserGrpWiseUsersDistributionToIdentityRole { get; set; }
 
 
     }

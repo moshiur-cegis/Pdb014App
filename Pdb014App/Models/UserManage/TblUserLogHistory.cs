@@ -18,10 +18,11 @@ namespace Pdb014App.Models.UserManage
         [Required]
         [Column("UserId", Order = 1, TypeName = "int")]
         [DataType(DataType.Text)]
-        [Display(Name = "UserId")]
+        [Display(Name = "User Id")]
         public int UserId { get; set; }
         [ForeignKey("UserId")]
-        public virtual TblUserProfileDetail UserProfileDetail { get; set; }
+        public virtual TblUserProfileDetail UserLogHistoryToUserProfileDetail { get; set; }
+
 
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 16)]
         [Display(Name = "Server Or IP Address")]

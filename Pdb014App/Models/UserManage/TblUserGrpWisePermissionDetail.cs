@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -25,20 +26,20 @@ namespace Pdb014App.Models.UserManage
         [Display(Name = "Users Permitted ContentId")]
         public int UsersPermittedContentId { get; set; }
         [ForeignKey("UsersPermittedContentId")]
-        public virtual LookUpUsersPermittedContent UsersPermittedContent { get; set; }
+        public virtual LookUpUsersPermittedContent UserGrpWisePermissionDetailToUsersPermittedContent { get; set; }
 
 
         [Required]
-        [Column("UserGroupId", Order = 2, TypeName = "int")]
-        [DataType(DataType.Text)]
+        [Column("Id", Order = 2, TypeName = "nvarchar(450)")]
+        //[Column("Id", Order = 1, TypeName = "int")]
+        [StringLength(450)]
         [Display(Name = "User Group Id")]
-        public int UserGroupId { get; set; }
-        [ForeignKey("UserGroupId")]
-        public virtual LookUpUserGroup UserGroup { get; set; }
+        public string Id { get; set; }     
+        [ForeignKey("Id")]
+        public virtual IdentityRole UserGrpWisePermissionDetailToIdentityRole { get; set; }
 
 
-
-        
+      
 
 
     }

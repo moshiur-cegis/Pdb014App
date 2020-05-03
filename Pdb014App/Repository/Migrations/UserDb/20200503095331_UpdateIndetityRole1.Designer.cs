@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pdb014App.Repository;
 
 namespace Pdb014App.Repository.Migrations.UserDb
 {
     [DbContext(typeof(UserDbContext))]
-    partial class UserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200503095331_UpdateIndetityRole1")]
+    partial class UpdateIndetityRole1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -317,11 +319,11 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Id")
-                        .IsRequired()
-                        .HasColumnName("Id")
-                        .HasColumnType("nvarchar(450)")
-                        .HasMaxLength(450);
+                    b.Property<string>("Id");
+
+                    b.Property<int>("UserGroupId")
+                        .HasColumnName("UserGroupId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UsersPermittedContentId")
                         .HasColumnName("UsersPermittedContentId")
@@ -344,11 +346,12 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Id")
+                    b.Property<string>("Id");
+
+                    b.Property<int?>("UserGroupId")
                         .IsRequired()
-                        .HasColumnName("Id")
-                        .HasColumnType("nvarchar(450)")
-                        .HasMaxLength(450);
+                        .HasColumnName("UserGroupId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnName("UserId")
@@ -577,7 +580,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
             modelBuilder.Entity("Pdb014App.Models.UserManage.LookUpUserBpdbEmployee", b =>
                 {
-                    b.HasOne("Pdb014App.Models.UserManage.LookUpUserBpdbDivision", "UserBpdbEmployeeUserBpdbDivision")
+                    b.HasOne("Pdb014App.Models.UserManage.LookUpUserBpdbDivision", "pUserBpdbDivision")
                         .WithMany()
                         .HasForeignKey("BpdbDivisionId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -594,8 +597,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "UserGrpWisePermissionDetailToIdentityRole")
                         .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Id");
 
                     b.HasOne("Pdb014App.Models.UserManage.LookUpUsersPermittedContent", "UserGrpWisePermissionDetailToUsersPermittedContent")
                         .WithMany()
@@ -607,8 +609,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "UserGrpWiseUsersDistributionToIdentityRole")
                         .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Id");
 
                     b.HasOne("Pdb014App.Models.UserManage.TblUserProfileDetail", "UserGrpWiseUsersDistributionToUserProfileDetail")
                         .WithMany()
