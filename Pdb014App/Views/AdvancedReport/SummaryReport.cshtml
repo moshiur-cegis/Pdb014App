@@ -34,7 +34,8 @@
 
 @section Styles {
 
-    @*<link href="~/lib/jquery-tablesorter/css/theme.blue.min.css" rel="stylesheet" />*@
+    @*<link href="~/css/fixedtablestyle.css" rel="stylesheet" />*@
+
     <link href="~/css/multi.checkbox.tree.css" rel="stylesheet" />
     <link href="~/css/report.style.css" rel="stylesheet" />
 
@@ -50,7 +51,7 @@
 
         <div class="col-md-4">
 
-            <fieldset style="margin-top: 0;">
+            <fieldset>
                 <legend>▣ Report Fields</legend>
 
                 @if (fieldList != null && fieldList.Count > 0)
@@ -182,20 +183,20 @@
 
             <div id="dataView" class="form-view">
                 <button class="btn btn-primary" style="float:right; margin-top:-.8rem; margin-bottom:.2rem;" onclick="return exportToExcel('report_view', 'report-data');return false;">Export To Excel</button>
-                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                <div id="multi_form_wrapper" class="data-view multi-form-wrapper">
                     <table id="report_view" class="table table-responsive multi-form-view table-info"></table>
                 </div>
             </div>
 
             @*<div id="chartAll">
-                    <div id="chartBar" style="min-width: 320px; height: 40vh; margin: 1.5rem auto"></div>
-
-                    <div class="form-group" style="margin-top: 1rem; margin-bottom: .25rem;">
-                        <label class="control-label">Pie Chart by:</label>
-                        <select id="PieChartOptions" class="form-control" style="display: inline; max-width: 230px;"></select>
-                    </div>
-                    <div id="chartPie" style="min-width: 320px; height: 400px; margin: 0 auto"></div>
-                </div>*@
+            <div id="chartBar" style="min-width: 320px; height: 40vh; margin: 1.5rem auto"></div>
+         id="multi_tbl_view" class="multi_tbl_view"
+            <div class="form-group" style="margin-top: 1rem; margin-bottom: .25rem;">
+                <label class="control-label">Pie Chart by:</label>
+                <select id="PieChartOptions" class="form-control" style="display: inline; max-width: 230px;"></select>
+            </div>
+            <div id="chartPie" style="min-width: 320px; height: 400px; margin: 0 auto"></div>
+        </div>*@
 
         </fieldset>
     </div>
@@ -214,6 +215,8 @@
         <script src="~/lib/highcharts/highcharts.js"></script>
         <script src="~/lib/highcharts/modules/exporting.js"></script>
         <script src="~/lib/highcharts/modules/export-data.js"></script>*@
+
+    @*<script src="~/js/fixedtable.js"></script>*@
 
     <script src="~/js/multi.checkbox.tree.js"></script>
 
@@ -267,7 +270,6 @@
             filename = filename ? filename + '.xls' : 'report_data.xls';
 
             // Create download link element
-
             document.body.appendChild(downloadLink);
 
             if (navigator.msSaveOrOpenBlob) {
@@ -704,6 +706,13 @@
             $(selector).append(tbody$);
 
             //** Table Body End **//
+
+
+            ////** Table Fixed Header **//
+
+            //$(selector).fixedHeaderTable({ altClass: '', footer: false, cloneHeadToFoot: false, autoShow: true, fixedColumns: 0, autoResize: true });
+
+            ////** Table Fixed Header End **//
 
         }
 

@@ -7,6 +7,7 @@
     background-color: transparent;
     border-collapse: collapse;
     border-spacing: 0;
+    font: normal 0.85rem/1.5 Roboto, Verdana, Helvetica, Arial, sans-serif;
 }
 
     .table-info th,
@@ -16,7 +17,8 @@
         padding: 6px;
         vertical-align: middle;
         text-align: center;
-        font-weight: 600;
+        font: 600 0.85rem/1.5 Roboto, Arial, Helvetica, sans-serif;
+        /*font-weight: 600;*/
         color: #fff;
         background-color: #07a;
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
@@ -29,7 +31,8 @@
         padding: 6px;
         color: #024;
         text-align: center;
-        font-weight: 400;
+        font: 400 0.85rem/1.5 Roboto, Arial, Helvetica, sans-serif;
+        /*font-weight: 400;*/
         background-color: #fff;
     }
 

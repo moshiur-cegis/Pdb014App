@@ -20,7 +20,7 @@
  * Edit by: Md. Abdul Hadi 
  * CEGIS
  * http://www.cegisbd.com/
- * Last Update: 23.01.2019
+ * Last Update: 23.12.2018
  */
 
 (function ($) {
@@ -539,9 +539,7 @@
                     $(this).find('td, th').each(function (thIndex) {
                         $cell = ($(this).find('div.fht-cell').length) ? $(this).find('div.fht-cell')
                                 : $('<div class="fht-cell"></div>').appendTo($(this));
-                        if(thWidths[trIndex][thIndex] != 'undefined'){
-                            $cell.css('width', thWidths[trIndex][thIndex]);
-                        }
+                        $cell.css('width', thWidths[trIndex][thIndex]);
                     });
                 });
             },

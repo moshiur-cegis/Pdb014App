@@ -1,15 +1,18 @@
 
 table.table {
     table-layout: fixed;
+    font: normal 0.85rem/1.5 Roboto, Verdana, Helvetica, Arial, sans-serif;
 }
 
     table.table tr th,
     table.table tr td {
         border-color: #e9e9e9;
+        font: normal 0.85rem/1.5 Roboto, Arial, Helvetica, sans-serif;
     }
 
     table.table th {
         min-width: 80px;
+        font-weight: 600;
     }
 
         table.table th:last-child {
@@ -22,35 +25,40 @@ table.table {
             cursor: pointer;
         }
 
-    table.table td a {
-        cursor: pointer;
-        display: inline-block;
-        margin: 0 5px;
-        min-width: 24px;
+    table.table td {
+        min-width: 80px;
+        font-weight: 400;
     }
 
-        table.table td a.add {
-            color: #27C46B;
+        table.table td a {
+            cursor: pointer;
+            display: inline-block;
+            margin: 0 5px;
+            min-width: 24px;
         }
 
-        table.table td a.edit {
-            color: #FFC107;
+            table.table td a.add {
+                color: #27C46B;
+            }
+
+            table.table td a.edit {
+                color: #FFC107;
+            }
+
+            table.table td a.delete {
+                color: #E34724;
+            }
+
+        table.table td i {
+            font-size: 19px;
         }
 
-        table.table td a.delete {
-            color: #E34724;
+        table.table td a.add i {
+            font-size: 24px;
+            margin-right: -1px;
+            position: relative;
+            top: 3px;
         }
-
-    table.table td i {
-        font-size: 19px;
-    }
-
-    table.table td a.add i {
-        font-size: 24px;
-        margin-right: -1px;
-        position: relative;
-        top: 3px;
-    }
 
 
     table.table .form-control {
