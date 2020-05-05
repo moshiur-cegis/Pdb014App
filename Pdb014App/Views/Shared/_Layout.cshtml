@@ -31,9 +31,7 @@
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
 
     </environment>
-
-
-
+    
 
     <!-- vendor css -->
     <link href="~/lib/font-awesome/css/fontawesome.min.css" rel="stylesheet" />
@@ -71,6 +69,7 @@
         <div class="banner-size"></div>
         <div id="jquery-accordion-menu" class="jquery-accordion-menu">
             <ul>
+
                 <li>
                     <a href="#"><i class="fa fa-search"></i>Data Searching & Querying</a>
 
@@ -104,94 +103,24 @@
                         </li>
 
                         <li>
-                            <a href="#">Conductor Information</a>
-                            <ul class="submenu">
-                                @*
-                                    <li>
-                                        <a href="#">Advanced Search</a>
-                                        <ul class="submenu">
-                                            <li></li>
-                                        </ul>
-                                    </li>*@
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#">Insulator Information</a>
-                            <ul class="submenu">
-                                @*
-                                    <li>
-                                        <a href="#">Advanced Search</a>
-                                        <ul class="submenu">
-                                            <li></li>
-                                        </ul>
-                                    </li>*@
-                            </ul>
-                        </li>
-
-                        <li>
                             <a href="#">Protection Control & Metering Panel</a>
                             <ul class="submenu">
                                 <li><a id="advs_060" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchMeteringPanel" asp-route-cai="advs_060" asp-route-modelId="1">Metering Panels</a></li>
                                 <li><a id="advs_061" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchDifferentRelay" asp-route-cai="advs_061" asp-route-modelId="1">Different Relays</a></li>
-
-                                @*
-                                    <li>
-                                        <a href="#">Advanced Search</a>
-                                        <ul class="submenu">
-                                            <li><a id="advs_060" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchMeteringPanel" asp-route-cai="advs_060" asp-route-modelId="1">Metering Panels</a></li>
-                                            <li><a id="advs_061" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchDifferentRelay" asp-route-cai="advs_061" asp-route-modelId="1">Different Relays</a></li>
-                                        </ul>
-                                    </li>*@
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="#">Switchgear Information</a>
-                            <ul class="submenu">
-                                <li><a id="advs_070" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchSwitchgear" asp-route-cai="advs_070" asp-route-modelId="1">Switchgear</a></li>
-                                <li><a id="advs_071" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchCircuitBreaker" asp-route-cai="advs_071" asp-route-modelId="1">Circuit Breakers</a></li>
-
-                                @*
-                                    <li>
-                                        <a href="#">Advanced Search</a>
-                                        <ul class="submenu">
-                                            <li><a id="advs_070" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchCircuitBreaker" asp-route-cai="advs_070" asp-route-modelId="1">Circuit Breakers</a></li>
-                                        </ul>
-                                    </li>*@
                             </ul>
                         </li>
 
                         <li>
                             <a href="#">Service Point Information</a>
                             <ul class="submenu">
-                                <li><a id="advs_150" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchConsumerData" asp-route-cai="advs_150" asp-route-modelId="1">Consumer Data</a></li>
-
-                                @*
-                                    <li>
-                                        <a href="#">Advanced Search</a>
-                                        <ul class="submenu">
-                                            <li><a id="advs_150" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchConsumerData" asp-route-cai="advs_150" asp-route-modelId="1">Consumer Data</a></li>
-                                        </ul>
-                                    </li>*@
+                                <li><a id="advs_150" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchServicePoint" asp-route-cai="advs_150" asp-route-modelId="1">Service Point</a></li>
+                                <li><a id="advs_151" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchConsumerData" asp-route-cai="advs_151" asp-route-modelId="1">Consumer Data</a></li>
                             </ul>
                         </li>
-
-                        @*
-                            <li>
-                                <a href="#">Regional Boundaries</a>
-                                <ul class="submenu">
-                                    <li>
-                                        <a href="#">Advanced Search</a>
-                                        <ul class="submenu">
-                                            <li></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>*@
                     </ul>
 
                 </li>
+
 
                 <li>
                     <a href="#"><i class="fa fa-edit"></i>Data Entry </a>
@@ -607,19 +536,13 @@
                 <li>
                     <a href="#"><i class="fa fa-database"></i>Reports</a>
                     <ul class="submenu">
-                        <li>
+                        <li><a id="smr_rpt_ss" asp-area="" asp-controller="SummaryReport" asp-action="Substation" asp-route-cai="smr_rpt_ss" asp-route-modelId="1">Summary Report</a></li>
+                        @*<li>
                             <a href="#">Summary Report</a>
                             <ul class="submenu">
                                 <li><a id="smr_rpt_ss" asp-area="" asp-controller="SummaryReport" asp-action="Substation" asp-route-cai="smr_rpt_ss" asp-route-modelId="1">Substation</a></li>
-
-                                @*<li><a id="smr_rpt_pl" asp-area="" asp-controller="SummaryReport" asp-action="Pole" asp-route-cai="smr_rpt_pl" asp-route-modelId="1">Pole</a></li>
-                                    <li><a id="smr_rpt_fl" asp-area="" asp-controller="SummaryReport" asp-action="FeederLine" asp-route-cai="smr_rpt_fl" asp-route-modelId="1">Feeder Line</a></li>
-                                    <li><a id="smr_rpt_dt" asp-area="" asp-controller="SummaryReport" asp-action="DistributionTransformer" asp-route-cai="smr_rpt_dt" asp-route-modelId="1">Distribution Transformers</a></li>
-                                    <li><a id="smr_rpt_pt" asp-area="" asp-controller="SummaryReport" asp-action="PowerTransformer" asp-route-cai="smr_rpt_pt" asp-route-modelId="1">Power Transformers</a></li>
-                                    <li><a id="smr_rpt_sp" asp-area="" asp-controller="SummaryReport" asp-action="ServicePointInfo" asp-route-cai="smr_rpt_sp" asp-route-modelId="1">Service Point Info.</a></li>
-                                    <li><a id="smr_rpt_ci" asp-area="" asp-controller="SummaryReport" asp-action="ConsumerInfo" asp-route-cai="smr_rpt_ci" asp-route-modelId="1">Consumer Info.</a></li>*@
                             </ul>
-                        </li>
+                        </li>*@
                         <li>
                             <a href="#">Advanced Report</a>
                             <ul class="submenu">
@@ -637,14 +560,13 @@
 
                 <li><a asp-area="" asp-controller="MapViewer" asp-action="MapView"><i class="fa fa-map"></i>Map Viewer</a></li>
 
-
                 @*<li><a id="com_mng_01" asp-area="" asp-controller="#" asp-action="" asp-route-cai="com_mng_01"><i class="fa fa-comment"></i>Complain Management</a></li>
                     <li><a id="evac_01" asp-area="" asp-controller="#" asp-action="" asp-route-cai="evac_01"><i class="fa fa-sticky-note"></i>Event Viewing & Access Control</a></li>
                     <li><a id="d_intr_01" asp-area="" asp-controller="#" asp-action="" asp-route-cai="d_intr_01"><i class="fa fa-american-sign-language-interpreting"></i>Data interfacing</a></li>*@
 
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    
+
                     <li>
                         <a href="#"><i class="fa fa-database"></i>User Manage</a>
                         <ul class="submenu">

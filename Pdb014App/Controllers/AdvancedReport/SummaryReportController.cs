@@ -79,6 +79,8 @@ namespace Pdb014App.Controllers.SummaryReport
             ViewBag.ReportAction = "GetSummaryData";
             ViewBag.ReportController = "SummaryReport";
 
+            ViewBag.BasicColumns = "zoneName=>Zone Name;isCity=>City/Except City;circleName=>Circle Name;distName=>District Name;sndName=>S&D Name;";
+
             var regionList = new List<string>(4);
 
             regionLevel = regionLevel ?? "zone";
@@ -149,6 +151,8 @@ namespace Pdb014App.Controllers.SummaryReport
             ViewBag.ReportName = "Summary";
             ViewBag.ReportAction = "GetSummaryData";
             ViewBag.ReportController = "SummaryReport";
+
+            ViewBag.BasicColumns = "zoneName=>Zone Name;isCity=>City/Except City;circleName=>Circle Name;distName=>District Name;sndName=>S&D Name;";
 
             regionLevel = regionLevel ?? "zone";
 
