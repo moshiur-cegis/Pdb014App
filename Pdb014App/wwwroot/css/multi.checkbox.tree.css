@@ -19,7 +19,7 @@ ul.tree ul {
 
 ul.tree li {
     margin-left: 0.35rem;
-    margin-left: 0.4rem;
+    margin-left: 0.45rem;
     border-left: 1px dotted #aaa;
 }
 
@@ -53,22 +53,19 @@ ul.tree li {
     }
 
 
-    ul.tree li span.multi-item,
-    ul.tree li span.multi-item i {
+    ul.tree li span.multi-item {
         float: left;
-        margin: 0.1rem 0 0 -2.5rem;
-        padding: 0;
         border: 1px solid #777;
         width: 0.85rem;
         height: 0.85rem;
+        margin: 0.1rem 0 0 -2.5rem;
+        padding: 0;
+        background: #fff;
     }
 
-        ul.tree li span.multi-item::before,
-        ul.tree li span.multi-item i::before,
-        ul.tree li label.multi-item i::before {
+        ul.tree li span.multi-item::before {
             content: "\002B";
             content: "\f067";
-            /*border: 1px solid #777;*/
             float: left;
             margin: -3px 0 0 1px;
             padding: 0;
@@ -81,13 +78,7 @@ ul.tree li {
 
         ul.tree li span.multi-item.open::before,
         ul.tree li span.multi-item.minus::before,
-        ul.tree li span.multi-item.active::before,
-        ul.tree li span.multi-item.open i::before,
-        ul.tree li span.multi-item.minus i::before,
-        ul.tree li span.multi-item.active i::before,
-        ul.tree li label.multi-item.open i::before,
-        ul.tree li label.multi-item.minus i::before,
-        ul.tree li label.multi-item.active i::before {
+        ul.tree li span.multi-item.active::before {
             content: "\2212";
             content: "\f068";
         }
