@@ -4,116 +4,210 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@section Styles {
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserProfileDetailToUserRegistrationDetail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserFullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserDateOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserNID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsBpdbEmployee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserProfileDetailToUserBpdbEmployee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserProfession)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserDesignation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserAlternateEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserAlternateMobile)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserSecurityQuestion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SecurityQuestionAnswer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsProfileSubmitted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SignatureFileName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserProfileDetailToUserRegistrationDetail.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserFullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserDateOfBirth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserNID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsBpdbEmployee)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserProfileDetailToUserBpdbEmployee.BpdbEmployeeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserProfession)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserDesignation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserAlternateEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserAlternateMobile)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserSecurityQuestion.UserSecurityQuestion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SecurityQuestionAnswer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsProfileSubmitted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SignatureFileName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
-            </td>
-        </tr>
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+    <style type="text/css">
+
+        table.table {
+            table-layout: fixed;
+        }
+
+            table.table tr th,
+            table.table tr td {
+                border-color: #e9e9e9;
+            }
+
+            table.table th {
+                min-width: 80px;
+            }
+
+                table.table th:last-child {
+                    width: 100px;
+                }
+
+                table.table th i {
+                    font-size: 13px;
+                    margin: 0 5px;
+                    cursor: pointer;
+                }
+
+            table.table td a {
+                cursor: pointer;
+                display: inline-block;
+                margin: 0 5px;
+                min-width: 24px;
+            }
+
+                table.table td a.add {
+                    color: #27C46B;
+                }
+
+                table.table td a.edit {
+                    color: #FFC107;
+                }
+
+                table.table td a.delete {
+                    color: #E34724;
+                }
+
+            table.table td i {
+                font-size: 19px;
+            }
+
+            table.table td a.add i {
+                font-size: 24px;
+                margin-right: -1px;
+                position: relative;
+                top: 3px;
+            }
+
+
+            table.table .form-control {
+                width: 100%;
+                padding: 2px 5px;
+                line-height: 1.0;
+            }
+
+                table.table .form-control.error {
+                    border-color: #f50000;
+                }
+
+            table.table td .add {
+                display: none;
+            }
+    </style>
 }
-    </tbody>
-</table>
+<div class="container">
+    <h1>Users Profile List</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-view" id="updatePanel">
+                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                    <table id="multi-form-view" class="table table-responsive multi-form-view">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>
+                                    Primary Email Address
+                                    @*@Html.DisplayNameFor(model => model.UserProfileDetailToUserRegistrationDetail)*@
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserFullName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserDateOfBirth)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.UserNID)*@
+
+                                    User NID
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IsBpdbEmployee)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.UserProfileDetailToUserBpdbEmployee)*@
+                                    Bpdb Employee Id
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserProfession)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserDesignation)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserAddress)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserAlternateEmail)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserAlternateMobile)
+                                </th>
+                                <th>
+                                    @*@Html.DisplayNameFor(model => model.UserSecurityQuestion)*@
+                                    User Security Question
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SecurityQuestionAnswer)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IsProfileSubmitted)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SignatureFileName)
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                <td>
+                                    <div class="btn-group">
+                                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.UserId">Edit</a>
+                                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.UserId">Details</a>
+                                        <a asp-action="Delete" class="btn btn-primary" asp-route-id="@item.UserId">Delete</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserProfileDetailToUserRegistrationDetail.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserFullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserDateOfBirth)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserNID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsBpdbEmployee)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserProfileDetailToUserBpdbEmployee.BpdbEmployeeId)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserProfession)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserDesignation)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserAddress)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserAlternateEmail)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserAlternateMobile)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserSecurityQuestion.UserSecurityQuestion)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SecurityQuestionAnswer)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsProfileSubmitted)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SignatureFileName)
+                                </td>
+
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

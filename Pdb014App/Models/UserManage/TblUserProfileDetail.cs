@@ -38,10 +38,10 @@ namespace Pdb014App.Models.UserManage
         public DateTime? UserDateOfBirth { get; set; }
 
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 13)]
-        [Display(Name = "Use rNID")]
+        [Display(Name = "Use NID")]
         public string UserNID { get; set; }
 
-        [Display(Name = "Is BpdbEmployee")]
+        [Display(Name = "Is Bpdb Employee")]
         public bool IsBpdbEmployee { get; set; }
 
         [Column("BpdbEmployeeId", Order = 1, TypeName = "int")]
@@ -93,7 +93,7 @@ namespace Pdb014App.Models.UserManage
         public string SecurityQuestionAnswer { get; set; }
 
 
-        [Display(Name = "Is ProfileSubmitted")]
+        [Display(Name = "Is Profile Submitted")]
         public bool IsProfileSubmitted { get; set; }
 
 

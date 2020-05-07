@@ -1,8 +1,14 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Pdb014App.Models.UserManage;
+﻿@using Pdb014App.Models.UserManage;
+@using Microsoft.AspNetCore.Identity
+
 
 @inject SignInManager<TblUserRegistrationDetail> SignInManager
 @inject UserManager<TblUserRegistrationDetail> UserManager
+
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 
 <!DOCTYPE html>
 <html>
@@ -644,18 +650,21 @@
 
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    
+
                     <li>
                         <a href="#"><i class="fa fa-database"></i>User Manage</a>
                         <ul class="submenu">
                             @if (User.IsInRole("Admin"))
                             {
                                 <li><a id="ListUsers" asp-area="" asp-controller="Administration" asp-action="ListUsers" asp-route-cai="ListUsers">List Users</a></li>
-                                <li><a id="UserProfilel" asp-area="" asp-controller="TblUserProfileDetails" asp-action="Index" asp-route-cai="UserProfilel" asp-route-modelId="1">User Profile</a></li>
+                                <li><a id="ListRoles" asp-area="" asp-controller="Administration" asp-action="ListRoles" asp-route-cai="ListRoles">List Roles</a></li>
+                                <li><a id="UserProfileList" asp-area="" asp-controller="TblUserProfileDetails" asp-action="Index" asp-route-cai="UserProfileList">User Profile List</a></li>
+
                             }
                             else
-                            {
-                                <li><a id="rpt_fl" asp-area="" asp-controller="TblUserProfileDetails" asp-action="Index" asp-route-cai="rpt_fl" asp-route-modelId="1">User Profile</a></li>
+                            {                              
+                            <li><a id="UserProfile" asp-controller="TblUserProfileDetails" asp-action="ProfileDetials" asp-route-cai="UserProfile" asp-route-id="@user.Id" class="btn btn-primary">User Profile</a></li>
+
                             }
 
                         </ul>

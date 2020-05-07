@@ -1,80 +1,207 @@
 ﻿@using Pdb014App.Models.UserManage;
 @model IEnumerable<TblUserRegistrationDetail>
 
+
+
 @{
     ViewBag.Title = "All Users";
 }
+@section Styles {
 
-<h1>All Users</h1>
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+    <style type="text/css">
 
-@if (Model.Any())
-{
-    <a asp-action="Register" asp-controller=".Account"
-           class="btn btn-primary mb-3" style="width:auto">
-            Add new user
-        </a>
+        table.table {
+            table-layout: fixed;
+        }
 
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    User Id
-                </th>
-                <th>
-                    Email
-                </th>
-                <th>
-                    Username
-                </th>
-                <th>
-                    Activation Status
-                </th>
-                <th>
-                    Action
-                </th>
-</thead>
-        <tbody>
-
-            @foreach (var user in Model)
-            {
-
-            <tr>
-                <td>
-                    @user.Id
-                </td>
-                <td>
-                    @user.Email
-                </td>
-                <td>
-                    @user.UserName
-                </td>
-                <td>
-                    @user.UserRegistrationDetailToUserActivationStatus.UserActivationStatus
-                </td>
-                <td>
-                    Edit
-                </td>
-            </tr>
+            table.table tr th,
+            table.table tr td {
+                border-color: #e9e9e9;
             }
-        </tbody>
-    </table>
 
+            table.table th {
+                min-width: 80px;
+            }
+
+                table.table th:last-child {
+                    width: 100px;
+                }
+
+                table.table th i {
+                    font-size: 13px;
+                    margin: 0 5px;
+                    cursor: pointer;
+                }
+
+            table.table td a {
+                cursor: pointer;
+                display: inline-block;
+                margin: 0 5px;
+                min-width: 24px;
+            }
+
+                table.table td a.add {
+                    color: #27C46B;
+                }
+
+                table.table td a.edit {
+                    color: #FFC107;
+                }
+
+                table.table td a.delete {
+                    color: #E34724;
+                }
+
+            table.table td i {
+                font-size: 19px;
+            }
+
+            table.table td a.add i {
+                font-size: 24px;
+                margin-right: -1px;
+                position: relative;
+                top: 3px;
+            }
+
+
+            table.table .form-control {
+                width: 100%;
+                padding: 2px 5px;
+                line-height: 1.0;
+            }
+
+                table.table .form-control.error {
+                    border-color: #f50000;
+                }
+
+            table.table td .add {
+                display: none;
+            }
+    </style>
 }
-else
-{
-    <div class="card">
-        <div class="card-header">
-            No users created yet
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                Use the button below to create a user
-            </h5>
-            <a class="btn btn-primary" style="width:auto"
-               asp-controller="Account" asp-action="Register">
-                Add new user
-            </a>
+<div class="container">
+    <h1>Users List</h1>
+    <hr>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-view" id="updatePanel">
+                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                    @if (Model.Any())
+                    {
+                        <table id="multi-form-view" class="table table-responsive multi-form-view">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        User Id
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Is Email Varified
+                                    </th>
+
+                                    <th>
+                                        Username
+                                    </th>
+                                    <th>Phone Number</th>
+                                    <th>
+                                        Activation Status
+                                    </th>
+
+                                    <th>
+                                        View Profile
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var user in Model)
+                                {
+
+                                    <tr>
+                                        <td>
+                                            @user.Id
+                                        </td>
+                                        <td>
+                                            @user.Email
+                                        </td>
+                                        <td>
+                                            @user.EmailConfirmed
+                                        </td>
+                                        <td>
+                                            @user.UserName
+                                        </td>
+                                        <td>
+                                            @user.PhoneNumber
+                                        </td>
+                                        <td>
+                                            @user.UserRegistrationDetailToUserActivationStatus.UserActivationStatus
+                                        </td>
+                                        <td>
+                                            <a asp-controller="TblUserProfileDetails" asp-action="ProfileDetials" asp-route-id="@user.Id" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="View Profile">View Profile</a>
+
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a asp-controller="Administration" asp-action="EditUser" asp-route-id="@user.Id"  class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit User">Edit</a>
+
+                                                <form method="post" asp-action="DeleteUser" asp-route-id="@user.Id">
+                                                    <button type="submit" class="btn btn-primary" onclick="javascript:return DeleteConfirmedMessage()">Delete</button>
+                                                </form>
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    }
+                    else
+                    {
+                        <div class="card">
+                            <div class="card-header">
+                                No users created yet
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Use the button below to create a user
+                                </h5>
+                                <a class="btn btn-primary" style="width:auto"
+                                   asp-controller="Account" asp-action="Register">
+                                    Add new user
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
         </div>
     </div>
-}
+</div>
+    @section scripts
+{
+        <script>
+            function DeleteConfirmedMessage() {
+                var result = confirm("Do your want to Delete This User");
+
+                if (result) {
+                    return true;
+                } else
+                    return false;
+
+            }
+        </script>
+    }
+
+
+

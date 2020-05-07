@@ -19,10 +19,13 @@ namespace Pdb014App.Areas.Identity.Pages.Account
         private readonly SignInManager<TblUserRegistrationDetail> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<TblUserRegistrationDetail> signInManager, ILogger<LoginModel> logger)
+        private readonly UserManager<TblUserRegistrationDetail> _userManager;
+
+        public LoginModel(SignInManager<TblUserRegistrationDetail> signInManager, ILogger<LoginModel> logger, UserManager<TblUserRegistrationDetail> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -38,7 +41,7 @@ namespace Pdb014App.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
+            //[EmailAddress]
             public string Email { get; set; }
 
             [Required]
@@ -75,11 +78,35 @@ namespace Pdb014App.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+               
+                
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    
+
+                    var activisionStatus = _userManager.Users.Where(i => i.Email == Input.Email || i.UserName == Input.Email).Select(i => i.UserActivationStatusId).SingleOrDefault();
+                    var userId= _userManager.Users.Where(i => i.Email == Input.Email || i.UserName == Input.Email).Select(i => i.Id).SingleOrDefault();
+
+
+                    if (activisionStatus==1)
+                    {
+
+
+                        return Redirect(returnUrl+ "TblUserProfileDetails/Create/"+ userId);
+                        //return RedirectToAction("TblUserProfileDetails", "Create",new { id= userId });
+                    }
+                    else
+                    {
+                        _logger.LogInformation("User logged in.");
+                        return LocalRedirect(returnUrl);
+
+                        //return RedirectToAction("index", "home");
+                    }
+
+
                 }
+
+
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });

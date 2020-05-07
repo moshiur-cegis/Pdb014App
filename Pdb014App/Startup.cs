@@ -38,7 +38,7 @@ namespace Pdb014App
         public void ConfigureServices(IServiceCollection services)
         {
             string dbConnStr = Configuration.GetConnectionString("ConnectionStr");
-            
+
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -47,7 +47,7 @@ namespace Pdb014App
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            
+
             services.AddEntityFrameworkSqlServer()
                 .AddDbContext<PdbDbContext>(options =>
                     options.UseSqlServer(dbConnStr, sp => sp.UseRowNumberForPaging()));
@@ -59,7 +59,7 @@ namespace Pdb014App
             services.AddIdentity<TblUserRegistrationDetail, IdentityRole>(options =>
                 {
                     // User settings
-                    options.User.RequireUniqueEmail = true;                   
+                    options.User.RequireUniqueEmail = true;
                     options.Stores.MaxLengthForKeys = 128;
                     options.Password.RequireDigit = false;
                     options.Password.RequiredLength = 4;
@@ -136,7 +136,7 @@ namespace Pdb014App
                 options.IOTimeout = TimeSpan.FromMinutes(20);
             });
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -183,6 +183,13 @@ namespace Pdb014App
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                //        routes.MapRoute(
+                //    name: "Default",
+                //    url: "{controller}/{action}/{id}",
+                //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                //    namespaces: new[] { "MVCDemo.Controllers" }
+                //);
             });
 
         }

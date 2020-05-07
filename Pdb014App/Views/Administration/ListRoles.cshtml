@@ -1,0 +1,173 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model IEnumerable<IdentityRole>
+
+@{
+    ViewBag.Title = "All Roles";
+}
+
+@section Styles {
+
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+    <style type="text/css">
+
+        table.table {
+            table-layout: fixed;
+        }
+
+            table.table tr th,
+            table.table tr td {
+                border-color: #e9e9e9;
+            }
+
+            table.table th {
+                min-width: 80px;
+            }
+
+                table.table th:last-child {
+                    width: 100px;
+                }
+
+                table.table th i {
+                    font-size: 13px;
+                    margin: 0 5px;
+                    cursor: pointer;
+                }
+
+            table.table td a {
+                cursor: pointer;
+                display: inline-block;
+                margin: 0 5px;
+                min-width: 24px;
+            }
+
+                table.table td a.add {
+                    color: #27C46B;
+                }
+
+                table.table td a.edit {
+                    color: #FFC107;
+                }
+
+                table.table td a.delete {
+                    color: #E34724;
+                }
+
+            table.table td i {
+                font-size: 19px;
+            }
+
+            table.table td a.add i {
+                font-size: 24px;
+                margin-right: -1px;
+                position: relative;
+                top: 3px;
+            }
+
+
+            table.table .form-control {
+                width: 100%;
+                padding: 2px 5px;
+                line-height: 1.0;
+            }
+
+                table.table .form-control.error {
+                    border-color: #f50000;
+                }
+
+            table.table td .add {
+                display: none;
+            }
+    </style>
+}
+<div class="container">
+    <h1>All Roles</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-view" id="updatePanel">
+                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+
+                    @if (Model.Any())
+                    {
+                        <a class="btn btn-primary mb-3" style="width:auto" asp-action="CreateRole"
+                           asp-controller="Administration">Add new role</a>
+
+
+                        <table id="multi-form-view" class="table table-responsive multi-form-view">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Role Id
+                                    </th>
+                                    <th>
+                                        Role
+                                    </th>
+                                    <th>
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                @foreach (var role in Model)
+                                {
+
+                                <tr>
+                                    <td>
+                                        @role.Id
+                                    </td>
+                                    <td>
+                                        @role.Name
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a asp-controller="Administration" asp-action="EditRole" asp-route-id="@role.Id" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit Role">Edit</a>
+                                            @*<a href="#" class="btn btn-primary">Edit</a>*@
+                                            <a href="#" class="btn btn-danger">Delete</a>
+                                            </div>
+                                    </td>
+                                   </tr>
+
+                                    @*<div class="card mb-3">
+                                        <div class="card-header">
+                                            Role Id : @role.Id
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">@role.Name</h5>
+                                        </div>
+                                        <div class="card-footer">
+
+                                            <a asp-controller="Administration" asp-action="EditRole" asp-route-id="@role.Id" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Edit Role">Edit</a>
+                                            <a href="#" class="btn btn-primary">Edit</a>
+                                            <a href="#" class="btn btn-danger">Delete</a>
+                                        </div>
+                                    </div>*@
+                                    }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="card">
+                            <div class="card-header">
+                                No roles created yet
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Use the button below to create a role
+                                </h5>
+                                <a class="btn btn-primary" style="width:auto"
+                                   asp-controller="administration" asp-action="CreateRole">
+                                    Create Role
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
