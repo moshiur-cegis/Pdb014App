@@ -306,6 +306,44 @@ namespace Pdb014App.Controllers.AdvancedReport
             //return View("Pole");
         }
 
+        public IActionResult PoleChart([FromQuery] string cai, string chartType, string regionLevel)
+        {
+            var fieldList = new List<ReportField>(13)
+            {
+                new ReportField {Name = "totalCount", Title = "Total Pole", Selected = true},
+
+                //new ReportField {Name = "groupPoleType", Title = "Pole Type", Selected = true},
+                new ReportField {Name = "totalSpcCount", Title = "SPC Pole", Selected = true},
+                new ReportField {Name = "totalSpCount", Title = "SP Pole", Selected = true},
+                new ReportField {Name = "totalTowerCount", Title = "Tower", Selected = true},
+                new ReportField {Name = "totalOthersCount", Title = "Others Pole", Selected = true},
+
+                //new ReportField {Name = "groupPoleCondition", Title = "Pole Condition", Selected = true},
+                new ReportField {Name = "totalAgedCount", Title = "Aged Pole", Selected = true},
+                new ReportField {Name = "totalBadCount", Title = "Bad Pole", Selected = true},
+                new ReportField {Name = "totalBrokenCount", Title = "Broken Pole", Selected = true},
+                new ReportField {Name = "totalGoodCount", Title = "Good Pole", Selected = true},
+
+                new ReportField {Name = "totalNeutralPole", Title = "Has Neutral Cable", Selected = true},
+                new ReportField {Name = "totalStreetLight", Title = "Has Street Light", Selected = true},
+
+                new ReportField {Name = "totalWireLength", Title = "Wire Length (Km)", Selected = true},
+            };
+
+
+            ViewBag.ReportName = "Pole";
+            ViewBag.ReportAction = "GetPoleData";
+            ViewBag.ReportController = "AdvancedReport";
+
+            ViewBag.ChartType = chartType ?? "bar";
+            ViewBag.RegionLevel = regionLevel ?? "zone";
+            ViewBag.FieldList = fieldList;
+
+            return View("AdvancedReportChart");
+        }
+
+
+
         [HttpPost]
         public IActionResult Pole([FromQuery] string cai, string regionLevel, List<ReportField> fieldList, List<string> regionList)
         {
@@ -489,10 +527,9 @@ namespace Pdb014App.Controllers.AdvancedReport
                             if (regionList.Count > 4)
                             {
                                 routeCode = regionList[4];
-                                //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
 
-                                //tempExp = model => model. == substationCode;
-                                //searchExp = ExpressionExtension<TblPole>.AndAlso(searchExp, tempExp);
+                                tempExp = model => model.RouteCode == routeCode;
+                                searchExp = ExpressionExtension<TblPole>.AndAlso(searchExp, tempExp);
                             }
                         }
                     }
@@ -1541,14 +1578,6 @@ namespace Pdb014App.Controllers.AdvancedReport
                 new ReportField {Name = "snd", Title = "S&D"},
                 new ReportField {Name = "substation", Title = "Substation"},
             };
-
-
-            //Installed Condition(Pad/ PoleMounted)
-            //Installed Place(Indoor/ Outdoor)
-            //Owner ofthe Transformer(BPDB/ Consumer)
-
-            //Oil Leakage(Yes / No)
-            //Platform Material(Angle/ Channel)
 
             var fieldList = new List<ReportField>(16)
             {

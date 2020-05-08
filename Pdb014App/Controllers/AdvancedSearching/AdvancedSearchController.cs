@@ -3561,7 +3561,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
             var qry = searchExp != null
                 ? _dbContext.TblDistributionTransformer.AsNoTracking().Where(searchExp)
                 : _dbContext.TblDistributionTransformer.AsNoTracking();
-            
+
             qry = qry
                 .Include(dt => dt.DtToPole)
                 //.Include(dt => dt.DtToFeederLine)
@@ -3640,7 +3640,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
             return View("SearchPowerTransformer", searchResult);
 
         }
-        
+
 
         //[HttpPost]
         [HttpGet]
@@ -4118,7 +4118,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
                     joinOption = searchOption.JoinOption;
                 }
-                
+
             }
 
 

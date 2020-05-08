@@ -1,10 +1,8 @@
 ﻿@using Pdb014App.Models.UserManage;
 @using Microsoft.AspNetCore.Identity
 
-
 @inject SignInManager<TblUserRegistrationDetail> SignInManager
 @inject UserManager<TblUserRegistrationDetail> UserManager
-
 
 @{
     var user = await UserManager.GetUserAsync(User);
@@ -37,7 +35,7 @@
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
 
     </environment>
-    
+
 
     <!-- vendor css -->
     <link href="~/lib/font-awesome/css/fontawesome.min.css" rel="stylesheet" />
@@ -544,11 +542,11 @@
                     <ul class="submenu">
                         <li><a id="smr_rpt_ss" asp-area="" asp-controller="SummaryReport" asp-action="Substation" asp-route-cai="smr_rpt_ss" asp-route-modelId="1">Summary Report</a></li>
                         @*<li>
-                            <a href="#">Summary Report</a>
-                            <ul class="submenu">
-                                <li><a id="smr_rpt_ss" asp-area="" asp-controller="SummaryReport" asp-action="Substation" asp-route-cai="smr_rpt_ss" asp-route-modelId="1">Substation</a></li>
-                            </ul>
-                        </li>*@
+                                <a href="#">Summary Report</a>
+                                <ul class="submenu">
+                                    <li><a id="smr_rpt_ss" asp-area="" asp-controller="SummaryReport" asp-action="Substation" asp-route-cai="smr_rpt_ss" asp-route-modelId="1">Substation</a></li>
+                                </ul>
+                            </li>*@
                         <li>
                             <a href="#">Advanced Report</a>
                             <ul class="submenu">
@@ -584,8 +582,8 @@
 
                             }
                             else
-                            {                              
-                            <li><a id="UserProfile" asp-controller="TblUserProfileDetails" asp-action="ProfileDetials" asp-route-cai="UserProfile" asp-route-id="@user.Id" class="btn btn-primary">User Profile</a></li>
+                            {
+                                <li><a id="UserProfile" asp-controller="TblUserProfileDetails" asp-action="ProfileDetials" asp-route-cai="UserProfile" asp-route-id="@user.Id" class="btn btn-primary">User Profile</a></li>
 
                             }
 
