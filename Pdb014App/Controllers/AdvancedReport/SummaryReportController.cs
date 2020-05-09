@@ -11,8 +11,6 @@ using Extensions;
 using Pdb014App.Repository;
 using Pdb014App.Models.PDB;
 using Pdb014App.Models.PDB.SubstationModels;
-using Pdb014App.Models.PDB.DistributionTransformerModel;
-using Pdb014App.Models.PDB.PhasePowerTransformerModel;
 using Pdb014App.Models.Report;
 
 
@@ -501,10 +499,6 @@ namespace Pdb014App.Controllers.SummaryReport
 
 
         #endregion
-
-
-
-
 
 
 

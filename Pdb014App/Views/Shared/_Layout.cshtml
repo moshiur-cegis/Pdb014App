@@ -1,10 +1,8 @@
 ﻿@using Pdb014App.Models.UserManage;
 @using Microsoft.AspNetCore.Identity
 
-
 @inject SignInManager<TblUserRegistrationDetail> SignInManager
 @inject UserManager<TblUserRegistrationDetail> UserManager
-
 
 @{
     var user = await UserManager.GetUserAsync(User);

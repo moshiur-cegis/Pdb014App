@@ -1,0 +1,622 @@
+﻿@using Pdb014App.Models.Report
+
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+
+
+    string rptName = ViewBag.ReportName, rptAction = ViewBag.ReportAction, rptController = ViewBag.ReportController,
+        chartType = ViewBag.ChartType, regionLevel = ViewBag.RegionLevel;
+
+    var fieldList = ViewBag.FieldList != null ? ViewBag.FieldList as List<ReportField> : null;
+
+    ViewData["Title"] = rptName + "Report";
+
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+
+<div class="row">
+    <div class="col-md-12 pl-3 pr-3">
+
+        @if (string.IsNullOrEmpty(chartType) || chartType.Equals("bar"))
+        {
+            <div id="chartBar" style="min-width: 320px; height: 400px; margin: 1.5rem auto"></div>
+        }
+        else
+        {
+            <div class="form-group" style="margin-top: 1rem; margin-bottom: .25rem;">
+                <label class="control-label">Pie Chart by:</label>
+                <select id="PieChartOptions" class="form-control" style="display: inline; max-width: 230px;"></select>
+            </div>
+            <div id="chartPie" style="min-width: 320px; height: 400px; margin: 0 auto"></div>
+        }
+
+    </div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+@*<script src="~/lib/jquery-tablesorter/js/tablesorter.min.js"></script>
+    <script src="~/lib/jquery-tablesorter/js/tablesorter.widgets.min.js"></script>*@
+
+<script src="~/lib/highcharts/highcharts.js"></script>
+@*<script src="~/lib/highcharts/modules/exporting.js"></script>
+    <script src="~/lib/highcharts/modules/export-data.js"></script>*@
+
+
+<script type="text/javascript">
+
+    var url = "@Url.Action(rptAction, rptController)",
+        rptName = "@rptName",
+        chartType = "@chartType",
+        regionLevel = "@regionLevel",
+        regionList = [],
+        headerList = {},
+        dataColumns = [],
+        chartDataPie = [];
+
+
+        $(function() {
+            load_data(url);
+        });
+
+
+
+        function load_data(url) {
+
+            set_basic_info();
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: "json",
+                data: { "regionLevel": regionLevel, "regionList": regionList },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function(data) {
+                    $("#chartBar").empty();
+                    $("#chartPie").empty();
+                    $("#PieChartOptions").empty();
+
+                    if (dataColumns && dataColumns.length > 0) {
+                        init_chart_data(headerList, dataColumns, data);
+                    }
+                    //else {
+                    //    //$("#dataView").css('display', 'none');
+                    //    //$("#chartAll").css('display', 'none');
+                    //    //msg.init("warning", "Warning... . . !", "Select at least one data field... . . !! ");
+                    //}
+                    //$("#busy-indicator").fadeOut(150);
+                },
+                error: function(ex, status, error) {
+                    $("#busy-indicator").fadeOut(150);
+                    msg.init("error", "Error... . . !", "Failed to load data. <br/>" + ex.responseText);
+                },
+                //complete: $("#busy-indicator").fadeOut(150),
+            });
+
+            return true;
+        }
+
+        function set_basic_info() {
+
+            headerList = {};
+            dataColumns = [];
+
+            switch (regionLevel) {
+            case "zone":
+                headerList["zoneName"] = "Zone Name";
+                break;
+
+            case "circle":
+                headerList["zoneName"] = "Zone Name";
+                headerList["circleName"] = "Circle Name";
+                break;
+
+            case "snd":
+                headerList["zoneName"] = "Zone Name";
+                headerList["circleName"] = "Circle Name";
+                headerList["sndName"] = "S&D Name";
+                break;
+
+            case "substation":
+                headerList["zoneName"] = "Zone Name";
+                headerList["circleName"] = "Circle Name";
+                headerList["sndName"] = "S&D Name";
+                headerList["substationName"] = "Sub-station Name";
+                break;
+
+            default:
+                headerList["zoneName"] = "Zone Name";
+                break;
+            }
+
+
+
+            @if (fieldList != null && fieldList.Count > 0)
+            {
+                foreach (var field in fieldList)
+                {
+                    <text>
+                        dataColumns.push("@field.Name");
+                        headerList["@field.Name"] = "@field.Title";
+                    </text>
+                }
+            }
+
+
+            ////$("#field_list input[type='checkbox']:checked").each(function() {
+            //$("#field_list input[type='checkbox']").each(function () {
+            //    var fldName = $(this).attr("data-field-name"),
+            //        fldTitle = $(this).attr("data-field-title");
+
+            //    dataColumns.push(fldName);
+            //    headerList[fldName] = fldTitle;
+            //});
+
+            console.log(dataColumns);
+            console.log(headerList);
+        }
+
+
+        function init_chart_data(headers, chartColumns, rawData) {
+
+            $("#chartBar").empty();
+            $("#chartPie").empty();
+            $("#PieChartOptions").empty();
+
+            if (!chartColumns || !rawData || chartColumns.length < 1 || rawData.length < 1) {
+                $("#chartAll").css('display', 'none');
+                return;
+            }
+            $("#chartAll").css('display', '');
+
+
+            var chartTitle = rptName + ' Report',
+                chartSubTitle = 'Source: bpdb_app.com',
+                chartCategories = [],
+                chartDataBar = [],
+                barYAxises = [],
+                barData = [],
+                pieData = [],
+                yAxisIndex = [],
+                barYAxisLeft = false,
+                ci = 0;
+
+            for (ci = 0; ci < chartColumns.length; ci++) {
+                barData[chartColumns[ci]] = [];
+                pieData[chartColumns[ci]] = [];
+            }
+
+            for (var di = 0; di < rawData.length; di++) {
+                chartCategories.push(rawData[di][regionLevel + "Name"]);
+
+                for (ci = 0; ci < chartColumns.length; ci++) {
+                    var cellValue = rawData[di][chartColumns[ci]];
+                    if (!cellValue || cellValue == null) {
+                        cellValue = 0;
+                    } else if (chartColumns[ci].toLocaleLowerCase().indexOf("capacity") !== -1) {
+                        cellValue = cellValue.split('/')[0];
+                    }
+
+                    cellValue = 1 * cellValue;
+
+                    barData[chartColumns[ci]].push(cellValue);
+
+                    pieData[chartColumns[ci]].push({
+                        name: rawData[di][regionLevel + "Name"],
+                        y: cellValue
+                    });
+                }
+            }
+
+            chartDataPie = [];
+            $("#PieChartOptions").empty();
+
+            for (ci = 0; ci < chartColumns.length; ci++) {
+
+                var dataName = headers[[chartColumns[ci]]],
+                    colData = {
+                        name: dataName,
+                        data: barData[chartColumns[ci]],
+                        type: 'column'
+                    },
+                    pisData = {
+                        title: dataName,
+                        series: [
+                            {
+                                name: dataName,
+                                colorByPoint: true,
+                                data: pieData[chartColumns[ci]]
+                            }
+                        ],
+                    };
+
+                $("<option />").val(ci).html(dataName)
+                    .appendTo($("#PieChartOptions"));
+
+
+                if (chartColumns[ci].toLocaleLowerCase().indexOf("length") !== -1) {
+                    if (yAxisIndex[1] == undefined) {
+                        yAxisIndex[1] = yAxisIndex[0] == undefined
+                            ? (yAxisIndex[2] == undefined ? 0 : 1)
+                            : (yAxisIndex[2] == undefined ? 1 : 2);
+
+                        barYAxises.push({ // Secondary yAxis
+                            gridLineWidth: 1,
+                            title: {
+                                text: 'Length',
+                                style: {
+                                    color: Highcharts.getOptions().colors[ci]
+                                }
+                            },
+                            labels: {
+                                format: '{value:,.0f} (Km)',
+                                style: {
+                                    color: Highcharts.getOptions().colors[ci]
+                                }
+                            },
+                            opposite: barYAxisLeft
+                        });
+
+                        barYAxisLeft = true;
+                    }
+
+                    colData.yAxis = yAxisIndex[1];
+                    colData.tooltip = {
+                        headerFormat:
+                            '<span style="width:100%; text-align:center; font-size:13px; font-weight:600; color:#15a;">{point.key}</span><table>',
+                        pointFormat:
+                            '<tr><td><span style="display:block; width:10px; height:10px; border-radius:10px; background-color:{series.color}"></span></td>' +
+                                '<td style="color:{series.color}">{series.name}: </td>' +
+                                '<td style="padding-left:8px; text-align:right"><b>{point.y:,.0f}</b></td><td>(Km)</td></tr>',
+                        footerFormat: '</table>',
+                        valueSuffix: ' (Km)'
+                    }
+
+                    pisData.pointFormat =
+                        '<span style="color:{point.color}">{series.name}</span>: {point.y:,.0f}Km (<b>{point.percentage:.2f}%</b>)';
+                    pisData.plotFormat = '{point.name}: {point.y:,.0f}Km (<b>{point.percentage:.1f}%</b>)';
+
+                } else if (chartColumns[ci].toLocaleLowerCase().indexOf("capacity") !== -1) {
+                    if (yAxisIndex[1] == undefined) {
+                        yAxisIndex[1] = yAxisIndex[0] == undefined
+                            ? (yAxisIndex[2] == undefined ? 0 : 1)
+                            : (yAxisIndex[2] == undefined ? 1 : 2);
+
+                        barYAxises.push({ // Secondary yAxis
+                            gridLineWidth: 1,
+                            title: {
+                                text: 'Capacity',
+                                style: {
+                                    color: Highcharts.getOptions().colors[ci]
+                                }
+                            },
+                            labels: {
+                                format: '{value:,.1f} (MVA)',
+                                style: {
+                                    color: Highcharts.getOptions().colors[ci]
+                                }
+                            },
+                            opposite: barYAxisLeft
+                        });
+
+                        barYAxisLeft = true;
+                    }
+
+                    colData.yAxis = yAxisIndex[1];
+                    colData.tooltip = {
+                        headerFormat:
+                            '<span style="width:100%; text-align:center; font-size:13px; font-weight:600; color:#15a;">{point.key}</span><table>',
+                        pointFormat:
+                            '<tr><td><span style="display:block; width:10px; height:10px; border-radius:10px; background-color:{series.color}"></span></td>' +
+                                '<td style="color:{series.color}">{series.name}: </td>' +
+                                '<td style="padding-left:8px; text-align:right"><b>{point.y:,.1f}</b></td><td>(MVA)</td></tr>',
+                        footerFormat: '</table>',
+                        valueSuffix: ' (MVA)'
+                    }
+
+                    pisData.pointFormat =
+                        '<span style="color:{point.color}">{series.name}</span>: {point.y:,.1f}MVA (<b>{point.percentage:.2f}%</b>)';
+                    pisData.plotFormat = '{point.name}: {point.y:,.1f}MVA (<b>{point.percentage:.1f}%</b>)';
+
+                } else if (chartColumns[ci].toLocaleLowerCase().indexOf("demand") !== -1 ||
+                    chartColumns[ci].toLocaleLowerCase().indexOf("load") !== -1) {
+
+                    if (yAxisIndex[2] == undefined) {
+                        yAxisIndex[2] = yAxisIndex[0] == undefined
+                            ? (yAxisIndex[1] == undefined ? 0 : 1)
+                            : (yAxisIndex[1] == undefined ? 1 : 2);
+
+                        barYAxises.push({ // Tertiary yAxis
+                            gridLineWidth: 1,
+                            title: {
+                                text: 'Demand / Load',
+                                style: {
+                                    color: Highcharts.getOptions().colors[ci]
+                                }
+                            },
+                            labels: {
+                                format: '{value:,.1f} (MW)',
+                                style: {
+                                    color: Highcharts.getOptions().colors[ci]
+                                }
+                            },
+                            opposite: barYAxisLeft
+                        });
+
+                        barYAxisLeft = true;
+                    }
+
+                    colData.yAxis = yAxisIndex[2];
+                    colData.tooltip = {
+                        headerFormat:
+                            '<span style="width:100%; text-align:center; font-size:13px; font-weight:600; color:#15a;">{point.key}</span><table>',
+                        pointFormat:
+                            '<tr><td><span style="display:block; width:10px; height:10px; border-radius:10px; background-color:{series.color}"></span></td>' +
+                                '<td style="color:{series.color}">{series.name}: </td>' +
+                                '<td style="padding-left:8px; text-align:right"><b>{point.y:,.1f}</b></td><td>(MW)</td></tr>',
+                        footerFormat: '</table>',
+                        valueSuffix: ' (MW)'
+                    }
+
+                    pisData.pointFormat =
+                        '<span style="color:{point.color}">{series.name}</span>: {point.y:,.1f}MW (<b>{point.percentage:.2f}%</b>)';
+                    pisData.plotFormat = '{point.name}: {point.y:,.1f}MW (<b>{point.percentage:.1f}%</b>)';
+                } else {
+                    if (yAxisIndex[0] == undefined) {
+                        yAxisIndex[0] = yAxisIndex[1] == undefined
+                            ? (yAxisIndex[2] == undefined ? 0 : 1)
+                            : (yAxisIndex[2] == undefined ? 1 : 2);
+
+                        barYAxises.push({ // Primary yAxis
+                            gridLineWidth: 1,
+                            title: {
+                                text: 'Unit Count',
+                                style: {
+                                    color: Highcharts.getOptions().colors[ci]
+                                }
+                            },
+                            labels: {
+                                format: '{value:,.0f}',
+                                style: {
+                                    color: Highcharts.getOptions().colors[ci]
+                                }
+                            },
+                            opposite: barYAxisLeft
+                        });
+
+                        barYAxisLeft = true;
+                    }
+
+                    colData.yAxis = yAxisIndex[0];
+                    colData.tooltip = {
+                        headerFormat:
+                            '<span style="width:100%; text-align:center; font-size:13px; font-weight:600; color:#15a;">{point.key}</span><table>',
+                        pointFormat:
+                            '<tr><td><span style="display:block; width:10px; height:10px; border-radius:10px; background-color:{series.color}"></span></td>' +
+                                '<td style="color:{series.color}">{series.name}: </td>' +
+                                '<td style="padding-left:8px; text-align:right"><b>{point.y:,.0f}</b></td><td></td></tr>',
+                        footerFormat: '</table>',
+                        valueSuffix: ''
+                    }
+
+                    pisData.pointFormat =
+                        '<span style="color:{point.color}">{series.name}</span>: {point.y:,.0f} (<b>{point.percentage:.2f}%</b>)';
+                    pisData.plotFormat = '{point.name}: {point.y:,.0f} (<b>{point.percentage:.1f}%)</b>';
+                }
+
+                chartDataBar.push(colData);
+                chartDataPie.push(pisData);
+            }
+
+            //[ "#F7464A", "#45BFBD", "#FDB45C", "#FEDCBA","#ABCDEF", "#DDDDDD", "#ABCABC"  ]
+            Highcharts.setOptions({
+                colors: [
+                    '#50B534', '#F04A3D', '#8085E8', '#DDDF00', '#0C9BCE', '#70ED5D', "#ED454A", '#7CB5EC', "#FDB35C",
+                    "#45BFBD", '#ED562B', '#24CBE5', '#63E573', '#F29855', '#F0ED5E', '#6AF9C5', "#FEDCBA", "#ABCDEF",
+                    "#DDDDEE", "#ABCABC"
+                ]
+            });
+
+            generate_bar_chart(chartTitle, chartSubTitle, chartCategories, barYAxises, chartDataBar);
+            generate_pie_chart(chartTitle, chartSubTitle, chartDataPie[0]);
+
+            return;
+        }
+
+        function generate_bar_chart(chartTitle, chartSubTitle, chartCategories, barYAxises, chartDataSeries) {
+
+            Highcharts.chart('chartBar',
+                {
+                    chart: {
+                        zoomType: 'xy'
+                    },
+                    title: {
+                        text: chartTitle,
+                        align: 'center'
+                    },
+                    subtitle: {
+                        text: chartSubTitle,
+                        align: 'center'
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        shared: true,
+                        useHTML: true,
+                        headerFormat:
+                            '<span style="width:100%; text-align:center; font-size:13px; font-weight:600; color:#15a;">{point.key}</span><br/>',
+                    },
+                    xAxis: [
+                        {
+                            categories: chartCategories,
+                            crosshair: true,
+                        }
+                    ],
+                    yAxis: barYAxises,
+                    series: chartDataSeries,
+                    responsive: {
+                        rules: [
+                            {
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        floating: false,
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom',
+                                        x: 0,
+                                        y: 0
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    exporting: {
+                        enabled: false,
+                        buttons: {
+                            //contextButton: {
+                            //    menuItems: [
+                            //        'viewFullscreen', 'printChart', {
+                            //            separator: true
+                            //        }, 'downloadPNG', 'downloadJPEG', {
+                            //            separator: true
+                            //        }, 'downloadPDF', 'downloadSVG', {
+                            //            separator: true
+                            //        }, 'downloadCSV', 'downloadXLS', {
+                            //            textKey: 'viewData',
+                            //            onclick: function() {
+                            //                this.viewData();
+
+                            //                //** Set/Re-set Table Sorter End **//
+                            //                $("table[id^='highcharts-data']")
+                            //                    .tablesorter({
+                            //                        usNumberFormat: true,
+                            //                        theme: 'blue',
+                            //                        widgets: ['zebra', 'columns'],
+                            //                        sortList: [[0, 0]],
+                            //                    })
+                            //                    .trigger("updateAll")
+                            //                    .trigger("sortReset");
+                            //                //** Set/Re-set Table Sorter End **//
+                            //            }
+                            //        }
+                            //    ]
+                            //}
+                        }
+                    }
+
+                });
+
+            return;
+        }
+
+        function generate_pie_chart(chartTitle, chartSubTitle, chartData) {
+
+            Highcharts.chart('chartPie',
+                {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: chartTitle,
+                        align: 'center'
+                    },
+                    subtitle: {
+                        text: chartData.title + "<br/>" + chartSubTitle,
+                        align: 'center'
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        shared: true,
+                        headerFormat:
+                            '<span style="color:#15a; font-size:13px; font-weight:600;">{point.key}</span><br>',
+                        pointFormat: chartData.pointFormat
+                    },
+                    plotOptions: {
+                        pie: {
+                            showInLegend: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: chartData.plotFormat,
+                                //distance: -50,
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            }
+                        }
+                    },
+                    series: chartData.series,
+                    responsive: {
+                        rules: [
+                            {
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        floating: false,
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom',
+                                        x: 0,
+                                        y: 0
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    exporting: {
+                        enabled: false,
+                        buttons: {
+                        },
+                    }
+                });
+
+            return;
+        }
+
+
+        $("#PieChartOptions").on("change",
+            function() {
+
+                var chartTitle = rptName + ' Report',
+                    chartSubTitle = 'Source: bpdb_app.com',
+                    pieIndex = $(this).val();
+
+                if (chartDataPie && chartDataPie[pieIndex]) {
+                    generate_pie_chart(chartTitle, chartSubTitle, chartDataPie[pieIndex]);
+                } else {
+                    generate_pie_chart('',
+                        '',
+                        {
+                            title: '',
+                            series: [
+                                {
+                                    name: '',
+                                    colorByPoint: true,
+                                    data: null
+                                }
+                            ],
+                            pointFormat: '',
+                            plotFormat: '',
+                        });
+                }
+
+                return false;
+            });
+
+
+</script>
+
