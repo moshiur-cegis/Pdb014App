@@ -4,105 +4,144 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+@section Styles{ 
+<style>
 
-<h4>TblUserProfileDetail</h4>
-<hr />
+    .error {
+        /*background: #FEF1EC;*/
+        background: #FFC199; /*Change background color*/
+        border-left: 9px solid #FF6600; /*Change left border color*/
+        color: #2c3e50; /*Change text color*/
+    }
+</style>
+}
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden"  asp-for="UserId" />   @*type="hidden"*@
+    <div class="offset-md-2 col-md-8 offset-md-2">
 
-            <div class="form-group" style="display:none" >
-                <label asp-for="Id" class="control-label"></label>
-                <select asp-for="Id" class="form-control" asp-items="ViewBag.Id"></select>
+        <fieldset>
+            <legend>Update Profile</legend>
+            <form asp-action="Edit" id="myform">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="UserId" />   @*type="hidden"*@
 
-                @*<input asp-for="Id" class="form-control" />*@
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
+                <div class="form-group" style="display:none">
+                    <label asp-for="Id" class="control-label"></label>
+                    <select asp-for="Id" class="form-control" asp-items="ViewBag.Id"></select>
 
-            <div class="form-group">
-                <label asp-for="UserFullName" class="control-label"></label>
-                <input asp-for="UserFullName" class="form-control" />
-                <span asp-validation-for="UserFullName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserDateOfBirth" class="control-label"></label>
-                <input asp-for="UserDateOfBirth" class="form-control" />
-                <span asp-validation-for="UserDateOfBirth" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserNID" class="control-label"></label>
-                <input asp-for="UserNID" class="form-control" />
-                <span asp-validation-for="UserNID" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsBpdbEmployee" /> @Html.DisplayNameFor(model => model.IsBpdbEmployee)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="BpdbEmployeeId" class="control-label"></label>
-                <select asp-for="BpdbEmployeeId" class="form-control" asp-items="ViewBag.BpdbEmployeeId"></select>
-                <span asp-validation-for="BpdbEmployeeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserProfession" class="control-label"></label>
-                <input asp-for="UserProfession" class="form-control" />
-                <span asp-validation-for="UserProfession" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserDesignation" class="control-label"></label>
-                <input asp-for="UserDesignation" class="form-control" />
-                <span asp-validation-for="UserDesignation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserAddress" class="control-label"></label>
-                <input asp-for="UserAddress" class="form-control" />
-                <span asp-validation-for="UserAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserAlternateEmail" class="control-label"></label>
-                <input asp-for="UserAlternateEmail" class="form-control" />
-                <span asp-validation-for="UserAlternateEmail" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserAlternateMobile" class="control-label"></label>
-                <input asp-for="UserAlternateMobile" class="form-control" />
-                <span asp-validation-for="UserAlternateMobile" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserSecurityQuestionId" class="control-label"></label>
-                <select asp-for="UserSecurityQuestionId" class="form-control" asp-items="ViewBag.UserSecurityQuestionId"></select>
-                <span asp-validation-for="UserSecurityQuestionId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SecurityQuestionAnswer" class="control-label"></label>
-                <input asp-for="SecurityQuestionAnswer" class="form-control" />
-                <span asp-validation-for="SecurityQuestionAnswer" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsProfileSubmitted" /> @Html.DisplayNameFor(model => model.IsProfileSubmitted)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="SignatureFileName" class="control-label"></label>
-                <input asp-for="SignatureFileName" class="form-control" />
-                <span asp-validation-for="SignatureFileName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                    @*<input asp-for="Id" class="form-control" />*@
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="UserFullName" class="control-label"></label>
+                    <input asp-for="UserFullName" class="form-control" />
+                    <span asp-validation-for="UserFullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserDateOfBirth" class="control-label"></label>
+                    <input asp-for="UserDateOfBirth" class="form-control" />
+                    <span asp-validation-for="UserDateOfBirth" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserNID" class="control-label"></label>
+                    <input asp-for="UserNID" class="form-control" />
+                    <span asp-validation-for="UserNID" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsBpdbEmployee" /> @Html.DisplayNameFor(model => model.IsBpdbEmployee)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BpdbEmployeeId" class="control-label"></label>
+                    <select asp-for="BpdbEmployeeId" class="form-control" asp-items="ViewBag.BpdbEmployeeId"></select>
+                    <span asp-validation-for="BpdbEmployeeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserProfession" class="control-label"></label>
+                    <input asp-for="UserProfession" class="form-control" />
+                    <span asp-validation-for="UserProfession" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserDesignation" class="control-label"></label>
+                    <input asp-for="UserDesignation" class="form-control" />
+                    <span asp-validation-for="UserDesignation" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserAddress" class="control-label"></label>
+                    <input asp-for="UserAddress" class="form-control" />
+                    <span asp-validation-for="UserAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserAlternateEmail" class="control-label"></label>
+                    <input asp-for="UserAlternateEmail" class="form-control" />
+                    <span asp-validation-for="UserAlternateEmail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserAlternateMobile" class="control-label"></label>
+                    <input asp-for="UserAlternateMobile" class="form-control" />
+                    <span asp-validation-for="UserAlternateMobile" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserSecurityQuestionId" class="control-label"></label>
+                    <select asp-for="UserSecurityQuestionId" class="form-control" asp-items="ViewBag.UserSecurityQuestionId"></select>
+                    <span asp-validation-for="UserSecurityQuestionId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SecurityQuestionAnswer" class="control-label"></label>
+                    <input asp-for="SecurityQuestionAnswer" class="form-control" />
+                    <span asp-validation-for="SecurityQuestionAnswer" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check" style="display:none">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsProfileSubmitted" /> @Html.DisplayNameFor(model => model.IsProfileSubmitted)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SignatureFileName" class="control-label"></label>
+                    <input asp-for="SignatureFileName" class="form-control" />
+                    <span asp-validation-for="SignatureFileName" class="text-danger"></span>
+                </div>
+                <div class="form-group float-right">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </fieldset>
     </div>
 </div>
 
-<div>
+@*<div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/jquery/3.4.1/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    <script>
+        $("#myform").validate({
+            rules: {
+                UserFullName:"required",
+                UserProfession: "required",
+                UserDesignation: "required",
+                //Email: {
+                //    required: true,
+                //    email: true
+                //}
+            },
+            messages: {
+                UserFullName: "Please specify your Full Name",
+                UserProfession: "Please specify your Profession",
+                UserDesignation: "Please specify your Designation"
+                //email: {
+                //    required: "We need your email address to contact you",
+                //    email: "Your email address must be in the format of name@domain.com"
+                //}
+            }
+        });
+    </script>
 }
+

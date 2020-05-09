@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +12,7 @@ using Pdb014App.Repository;
 
 namespace Pdb014App.Controllers.UserController
 {
+    [Authorize]
     public class TblUserProfileDetailsController : Controller
     {
         private readonly UserDbContext _context;
@@ -59,6 +61,7 @@ namespace Pdb014App.Controllers.UserController
             if (id == null)
             {
                 return NotFound();
+                
             }
 
             var tblUserProfileDetail = await _context.UserProfileDetail
@@ -68,29 +71,30 @@ namespace Pdb014App.Controllers.UserController
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tblUserProfileDetail == null)
             {
-                return NotFound();
+                return RedirectToAction("Create",new { id=id });
+
+                //return Redirect(returnUrl + "TblUserProfileDetails/Create/" + userId);
+                //return NotFound();
             }
 
             return View(tblUserProfileDetail);
         }
 
+       
 
 
 
-
-        
 
         // GET: TblUserProfileDetails/Create
         public IActionResult Create()
         {
-
-
-
             ViewData["BpdbEmployeeId"] = new SelectList(_context.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId");
             ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail, "Id", "Id");
             ViewData["UserSecurityQuestionId"] = new SelectList(_context.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion");
             return View();
         }
+
+
 
         // POST: TblUserProfileDetails/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -128,13 +132,17 @@ namespace Pdb014App.Controllers.UserController
             {
                 _context.Add(tblUserProfileDetail);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction("ProfileDetials", new { id = tblUserProfileDetail.Id });
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["BpdbEmployeeId"] = new SelectList(_context.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId", tblUserProfileDetail.BpdbEmployeeId);
             ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail, "Id", "Id", tblUserProfileDetail.Id);
             ViewData["UserSecurityQuestionId"] = new SelectList(_context.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion", tblUserProfileDetail.UserSecurityQuestionId);
             return View(tblUserProfileDetail);
         }
+
+
 
         // GET: TblUserProfileDetails/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -186,12 +194,16 @@ namespace Pdb014App.Controllers.UserController
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ProfileDetials", new { id = tblUserProfileDetail.Id });
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["BpdbEmployeeId"] = new SelectList(_context.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId", tblUserProfileDetail.BpdbEmployeeId);
             ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail, "Id", "Id", tblUserProfileDetail.Id);
             ViewData["UserSecurityQuestionId"] = new SelectList(_context.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion", tblUserProfileDetail.UserSecurityQuestionId);
-            return View(tblUserProfileDetail);
+            //return RedirectToAction("ProfileDetials")
+
+             
+             return View(tblUserProfileDetail);
         }
 
         // GET: TblUserProfileDetails/Delete/5

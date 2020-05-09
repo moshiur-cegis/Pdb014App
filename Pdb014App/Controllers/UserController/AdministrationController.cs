@@ -16,7 +16,7 @@ using Pdb014App.Repository;
 namespace Pdb014App.Controllers.UserController
 {
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "System Administrator,Super User")]
     public class AdministrationController : Controller
     {
         private readonly UserManager<TblUserRegistrationDetail> userManager;
