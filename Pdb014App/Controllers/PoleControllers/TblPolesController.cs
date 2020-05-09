@@ -14,7 +14,7 @@ using ReflectionIT.Mvc.Paging;
 
 namespace Pdb014App.Controllers.PoleControllers
 {
-    [Authorize]
+    //[Authorize]
     public class TblPolesController : Controller
     {
         private readonly PdbDbContext _context;

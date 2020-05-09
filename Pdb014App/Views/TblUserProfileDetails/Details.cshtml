@@ -89,9 +89,19 @@
             <legend>User Profile</legend>
             <table class="table table-responsive">
                 @*<tr>
-                        <th> Registration Id</th>
-                        <td> @Html.DisplayFor(model => model.UserProfileDetailToUserRegistrationDetail.Id)</td>
-                    </tr>*@
+            <th> Registration Id</th>
+            <td> @Html.DisplayFor(model => model.UserProfileDetailToUserRegistrationDetail.Id)</td>
+        </tr>*@
+
+                <tr>
+                    <th>  User Primary Email</th>
+                    <td>  @Html.DisplayFor(model => model.UserProfileDetailToUserRegistrationDetail.Email)</td>
+                </tr>
+                <tr>
+                    <th>  @Html.DisplayNameFor(model => model.UserProfileDetailToUserRegistrationDetail.UserName)</th>
+                    <td>  @Html.DisplayFor(model => model.UserProfileDetailToUserRegistrationDetail.UserName)</td>
+                </tr>
+
 
                 <tr>
                     <th>  @Html.DisplayNameFor(model => model.UserFullName)</th>
