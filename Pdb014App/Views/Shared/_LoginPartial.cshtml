@@ -1,31 +1,79 @@
 @using Microsoft.AspNetCore.Identity
 @using Pdb014App.Models.UserManage;
 
+
+
 @*@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager*@
+    @inject UserManager<IdentityUser> UserManager*@
 
 
 @inject SignInManager<TblUserRegistrationDetail> SignInManager
 @inject UserManager<TblUserRegistrationDetail> UserManager
 
-<ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
-        </li>
-       
-    }
-    else
-    {
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
-    }
-</ul>
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Hello @User.Identity.Name!
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="">Logout</button>
+                </form>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a id="UserProfile" asp-controller="TblUserProfileDetails" asp-action="ProfileDetials" asp-route-cai="UserProfile" asp-route-id="@user.Id" class="dropdown-item">View Profile</a>
+
+        </div>
+    </div>
+}
+else
+{
+   
+         <a class="nav-link text-light fa fa-user m-2" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        
+    
+}
+
+@*<ul class="navbar-nav">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+                </li>
+                <li class="nav-item">
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                    </form>
+                </li>
+
+
+
+
+            <li>
+                <a id="UserProfile" asp-controller="TblUserProfileDetails" asp-action="ProfileDetials" asp-route-cai="UserProfile" asp-route-id="@user.Id" class="btn btn-primary">Hello @User.Identity.Name!</a>
+                <ul class="submenu">
+                    <li>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </li>
+
+
+        }
+        else
+        {
+
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            </li>
+        }
+    </ul>*@
+

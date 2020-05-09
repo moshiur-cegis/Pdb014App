@@ -56,6 +56,21 @@ namespace Pdb014App.Models.PDB.ServicePointModels
 
 
 
+        [Column("SpLatitude", Order = 35, TypeName = "decimal(10, 8)")]
+        [DataType(DataType.Text)]
+        [Range(0, 9999999999, ErrorMessage = "Invalid {0}; Max 10 digits")]
+        [Display(Name = "Latitude")]
+        public decimal? SpLatitude { get; set; }
+
+
+        [Column("SpLongitude", Order = 36, TypeName = "decimal(10, 8)")]
+        [DataType(DataType.Text)]
+        [Range(0, 9999999999, ErrorMessage = "Invalid {0}; Max 10 digits")]
+        [Display(Name = "Longitude")]
+        public decimal? SpLongitude { get; set; }
+
+
+
         //[Column("FeederLineId", Order = 4, TypeName = "varchar(50)")]
         //[DataType(DataType.Text)]
         //[Display(Name = "FeederLineId")]

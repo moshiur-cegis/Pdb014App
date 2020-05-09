@@ -23,8 +23,6 @@ namespace Pdb014App.Models.PDB.SubstationModels
         //[ForeignKey("SubstationId")]
         //public virtual TblSubstation Switch33KvIsolatorToSubstation { get; set; }
 
-
-
         [Column("TypeIsolatorSwitch", Order = 0, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
         [Display(Name = "Type (isolator, switch etc)")]

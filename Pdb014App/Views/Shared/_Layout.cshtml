@@ -568,27 +568,28 @@
                     <li><a id="evac_01" asp-area="" asp-controller="#" asp-action="" asp-route-cai="evac_01"><i class="fa fa-sticky-note"></i>Event Viewing & Access Control</a></li>
                     <li><a id="d_intr_01" asp-area="" asp-controller="#" asp-action="" asp-route-cai="d_intr_01"><i class="fa fa-american-sign-language-interpreting"></i>Data interfacing</a></li>*@
 
-                @if (SignInManager.IsSignedIn(User))
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
                 {
-
+                  
                     <li>
-                        <a href="#"><i class="fa fa-database"></i>User Manage</a>
+                        <a href="#"><i class="fa fa-user"></i>User Manage</a>
                         <ul class="submenu">
-                            @if (User.IsInRole("Admin"))
-                            {
+                            @*@if (User.IsInRole("System Administrator"))
+                            {*@
                                 <li><a id="ListUsers" asp-area="" asp-controller="Administration" asp-action="ListUsers" asp-route-cai="ListUsers">List Users</a></li>
                                 <li><a id="ListRoles" asp-area="" asp-controller="Administration" asp-action="ListRoles" asp-route-cai="ListRoles">List Roles</a></li>
                                 <li><a id="UserProfileList" asp-area="" asp-controller="TblUserProfileDetails" asp-action="Index" asp-route-cai="UserProfileList">User Profile List</a></li>
 
-                            }
+                            @*}
                             else
                             {
                                 <li><a id="UserProfile" asp-controller="TblUserProfileDetails" asp-action="ProfileDetials" asp-route-cai="UserProfile" asp-route-id="@user.Id" class="btn btn-primary">User Profile</a></li>
 
-                            }
+                            }*@
 
                         </ul>
                     </li>
+                   
                 }
             </ul>
 
@@ -619,7 +620,7 @@
         </div>
         <!-- br-header-left -->
 
-        <div class="br-header-left" style="width: 100%;">
+        <div class="br-header-left" style="width: 90%;">
             <div style="width: 100%; text-align: center;">
                 <span class="pdb-title">BPDB Web GIS Application</span>
             </div>
@@ -640,14 +641,7 @@
 
 
         <div class="br-header-right">
-            <div style="width:60px;">
-                @*<a href="#" target="_blank" style="color: #1365b8;"><span>[</span><label style="margin-bottom:0;">Login</label><span>]</span></a>*@
-                <partial name="_LoginPartial" />
-            </div>
-            <!-- navicon-right -->
-            <div class="navicon-right">
-                <img src="~/Images/dashboard/identify.png" width="25" alt="help" title="help" />
-            </div>
+                <partial name="_LoginPartial" />             
         </div>
 
 

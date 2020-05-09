@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
@@ -13,6 +14,7 @@ using ReflectionIT.Mvc.Paging;
 
 namespace Pdb014App.Controllers.PoleControllers
 {
+    //[Authorize]
     public class TblPolesController : Controller
     {
         private readonly PdbDbContext _context;

@@ -92,6 +92,14 @@
                         <th> Registration Id</th>
                         <td> @Html.DisplayFor(model => model.UserProfileDetailToUserRegistrationDetail.Id)</td>
                     </tr>*@
+                <tr>
+                    <th>  User Primary Email</th>
+                    <td>  @Html.DisplayFor(model => model.UserProfileDetailToUserRegistrationDetail.Email)</td>
+                </tr>
+                <tr>
+                    <th>  @Html.DisplayNameFor(model => model.UserProfileDetailToUserRegistrationDetail.UserName)</th>
+                    <td>  @Html.DisplayFor(model => model.UserProfileDetailToUserRegistrationDetail.UserName)</td>
+                </tr>
 
                 <tr>
                     <th>  @Html.DisplayNameFor(model => model.UserFullName)</th>
@@ -158,7 +166,7 @@
             <div>
                 <div class="btn-group m-2">
                     <a asp-action="Edit" class="btn btn-primary m-1" asp-route-id="@Model.UserId">Edit</a>
-                    <a asp-action="Index" class="btn btn-primary m-1">Back to List</a>
+                    @*<a asp-action="Index" class="btn btn-primary m-1">Back to List</a>*@
                 </div>
             </div>
         </fieldset>
