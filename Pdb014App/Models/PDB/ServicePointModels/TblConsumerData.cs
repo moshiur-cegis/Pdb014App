@@ -19,12 +19,13 @@ namespace Pdb014App.Models.PDB.ServicePointModels
         public int ConsumerId { get; set;}
 
 
-        [Column("ServicePointId", Order = 1, TypeName = "int")]
-        [DataType(DataType.Text)]
+        [Required]
+        [Column(Order = 1, TypeName = "varchar(50)")]
+        [StringLength(50)]
         [Display(Name = "Service Point")]
-        public int? ServicePointId { get; set; }   //FK
-        [ForeignKey("ServicePointId")]
-        public virtual TblServicePoint ConsumerDataToServicePoint { get; set; }
+        public string ServicesPointId { get; set; }   //FK
+        [ForeignKey("ServicesPointId")]
+        public virtual TblServicePoint ConsumerDataToServicesPoint { get; set; }
 
         [Column(Order = 2, TypeName = "varchar(50)")]
         [StringLength(50)]

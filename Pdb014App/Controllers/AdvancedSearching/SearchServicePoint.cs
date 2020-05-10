@@ -247,24 +247,26 @@ namespace Pdb014App.Controllers.AdvancedSearching
                         case "ServicePointId":
                             switch (searchOption.Operator)
                             {
-                                case "=":
-                                    tempExp = model => model.ServicePointId == int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "!=":
-                                    tempExp = model => model.ServicePointId != int.Parse(searchOption.FieldValue);
-                                    break;
-                                case ">":
-                                    tempExp = model => model.ServicePointId > int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "<":
-                                    tempExp = model => model.ServicePointId < int.Parse(searchOption.FieldValue);
-                                    break;
-                                case ">=":
-                                    tempExp = model => model.ServicePointId >= int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "<=":
-                                    tempExp = model => model.ServicePointId <= int.Parse(searchOption.FieldValue);
-                                    break;
+
+                                // Hide By RMO
+                                //case "=":
+                                //    tempExp = model => model.ServicePointId == int.Parse(searchOption.FieldValue);
+                                //    break;
+                                //case "!=":
+                                //    tempExp = model => model.ServicePointId != int.Parse(searchOption.FieldValue);
+                                //    break;
+                                //case ">":
+                                //    tempExp = model => model.ServicePointId > int.Parse(searchOption.FieldValue);
+                                //    break;
+                                //case "<":
+                                //    tempExp = model => model.ServicePointId < int.Parse(searchOption.FieldValue);
+                                //    break;
+                                //case ">=":
+                                //    tempExp = model => model.ServicePointId >= int.Parse(searchOption.FieldValue);
+                                //    break;
+                                //case "<=":
+                                //    tempExp = model => model.ServicePointId <= int.Parse(searchOption.FieldValue);
+                                //    break;
                                 case "null":
                                     tempExp = model => false; //model.ServicePointId == null;
                                     break;
@@ -272,7 +274,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     tempExp = model => true; //model.ServicePointId != null;
                                     break;
                                 case "Like":
-                                    tempExp = model => model.ServicePointId.ToString().Contains(searchOption.FieldValue);
+                                    tempExp = model => model.ServicesPointId.ToString().Contains(searchOption.FieldValue);
                                     break;
                             }
                             break;

@@ -195,7 +195,7 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.SortableHeaderFor(model => model.ServicePointId)
+                                @Html.SortableHeaderFor(model => model.ServicesPointId)
                             </th>
 
                             <th>
@@ -275,8 +275,8 @@
                         {
                             <tr>
                                 <td>
-                                    <a target="_blank" asp-controller="TblServicePoints" asp-action="Details" asp-route-id="@item.ServicePointId" asp-route-cai="@Model.RouteValue["cai"]" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Details">
-                                        @Html.DisplayFor(modelItem => item.ServicePointId)
+                                    <a target="_blank" asp-controller="TblServicePoints" asp-action="Details" asp-route-id="@item.ServicesPointId" asp-route-cai="@Model.RouteValue["cai"]" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Details">
+                                        @Html.DisplayFor(modelItem => item.ServicesPointId)
                                     </a>
                                 </td>
 

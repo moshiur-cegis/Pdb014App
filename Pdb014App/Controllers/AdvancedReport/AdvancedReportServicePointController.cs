@@ -631,7 +631,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                 zoneCode = regionList[0];
 
                 searchExp = model =>
-                    model.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                    model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                         .SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
 
                 if (regionList.Count > 1 && !string.IsNullOrEmpty(regionList[1]))
@@ -639,7 +639,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                     circleCode = regionList[1];
 
                     Expression<Func<TblConsumerData, bool>> tempExp = model =>
-                        model.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                        model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                             .SubstationToLookUpSnD.CircleCode == circleCode;
                     searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
 
@@ -648,7 +648,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         snDCode = regionList[2];
 
                         tempExp = model =>
-                            model.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode ==
+                            model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode ==
                             snDCode;
                         searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
 
@@ -657,7 +657,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                             substationCode = regionList[3];
 
                             tempExp = model =>
-                                model.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                                model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                                     .SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
 
@@ -689,15 +689,15 @@ namespace Pdb014App.Controllers.AdvancedReport
                 case "zone":
                     data = qry
                         .Include(st =>
-                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                                 .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                         .GroupBy(i =>
-                            i.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                            i.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                                 .SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
                             zoneCode = k.Key,
-                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                            zoneName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
                                 .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .ZoneInfo.ZoneName,
 
@@ -759,19 +759,19 @@ namespace Pdb014App.Controllers.AdvancedReport
                 case "circle":
                     data = qry
                         .Include(st =>
-                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                                 .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                         .GroupBy(i =>
-                            i.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                            i.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                                 .SubstationToLookUpSnD.CircleCode)
                         .Select(k => new
                         {
                             //wl = k.Sum(d => d.Poles.Sum(pi => pi.WireLength)),
-                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                            zoneName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
                                 .RouteToSubstation.SubstationToLookUpSnD
                                 .CircleInfo.ZoneInfo.ZoneName,
                             circleCode = k.Key,
-                            circleName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                            circleName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
                                 .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .CircleName,
 
@@ -833,26 +833,26 @@ namespace Pdb014App.Controllers.AdvancedReport
                 case "snd":
                     data = qry
                         .Include(st =>
-                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                                 .SubstationToLookUpSnD)
                         .Include(st =>
-                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                                 .SubstationToLookUpSnD.CircleInfo)
                         .Include(st =>
-                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                                 .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                         .GroupBy(i =>
-                            i.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode)
+                            i.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode)
                         .Select(k => new
                         {
-                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                            zoneName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
                                 .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .ZoneInfo.ZoneName,
-                            circleName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                            circleName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
                                 .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .CircleName,
                             sndCode = k.Key,
-                            sndName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                            sndName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
                                 .RouteToSubstation.SubstationToLookUpSnD.SnDName,
 
                             totalCount = k.Count(),
@@ -912,21 +912,21 @@ namespace Pdb014App.Controllers.AdvancedReport
                 case "substation":
                     data = qry
                         .Include(st =>
-                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                                 .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i => i.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.SubstationId)
+                        .GroupBy(i => i.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.SubstationId)
                         .Select(k => new
                         {
-                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                            zoneName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
                                 .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .ZoneInfo.ZoneName,
-                            circleName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                            circleName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
                                 .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .CircleName,
-                            sndName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                            sndName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
                                 .RouteToSubstation.SubstationToLookUpSnD.SnDName,
                             substationCode = k.Key,
-                            substationName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                            substationName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
                                 .RouteToSubstation.SubstationName,
 
                             totalCount = k.Count(),
@@ -986,15 +986,15 @@ namespace Pdb014App.Controllers.AdvancedReport
                 default:
                     data = qry
                         .Include(st =>
-                            st.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                                 .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                         .GroupBy(i =>
-                            i.ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute.RouteToSubstation
+                            i.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
                                 .SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
                             zoneCode = k.Key,
-                            zoneName = k.First().ConsumerDataToServicePoint.ServicePointToPole.PoleToRoute
+                            zoneName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
                                 .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .ZoneInfo.ZoneName,
 

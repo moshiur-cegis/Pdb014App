@@ -11,14 +11,24 @@ namespace Pdb014App.Models.PDB.ServicePointModels
 {
     public class TblServicePoint
     {
+        //[Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[Column("ServicePointId", Order = 0, TypeName = "int")]
+        //[DataType(DataType.Text)]
+        //[Display(Name = "ServicePointId")]
+        //public int ServicePointId { get; set; }
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("ServicePointId", Order = 0, TypeName = "int")]
-        [DataType(DataType.Text)]
-        [Display(Name = "ServicePointId")]
-        public int ServicePointId { get; set; }
+        [Required]
+        [Column(Order = 0, TypeName = "varchar(50)")]
+        [StringLength(50, ErrorMessage = "The {0} must be {1} characters.")]
+        [Display(Name = "Service Point Id")]
+        public string ServicesPointId { get; set; }
 
 
+
+        [Required]
         [Column(Order = 1, TypeName = "varchar(50)")]
         [StringLength(50)]
         [Display(Name = "Pole Id")]

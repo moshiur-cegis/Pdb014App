@@ -136,7 +136,6 @@ namespace Pdb014App.Repository
         #region ServicePointModels
         public virtual DbSet<TblConsumerData> TblConsumerData { get; set; }
         public virtual DbSet<TblServicePoint> TblServicePoint { get; set; }
-
         public virtual DbSet<LookUpBusinessType> LookUpBusinessType { get; set; }
         public virtual DbSet<LookUpConnectionStatus> LookUpConnectionStatus { get; set; }
         public virtual DbSet<LookUpConnectionType> LookUpConnectionType { get; set; }
@@ -149,8 +148,6 @@ namespace Pdb014App.Repository
         public virtual DbSet<LookUpServicePointType> LookUpServicePointType { get; set; }
         public virtual DbSet<LookUpStructureType> LookUpStructureType { get; set; }
         public virtual DbSet<LookUpVoltageCategory> LookUpVoltageCategory { get; set; }
-
-
 
         #endregion
 

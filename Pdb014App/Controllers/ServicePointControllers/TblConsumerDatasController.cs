@@ -46,11 +46,12 @@ namespace Pdb014App.Controllers.ServicePointControllers
         //}
 
 
-
-        public async Task<IActionResult> Index(int? id, string filter, int pageIndex = 1, string sortExpression = "ConsumerId")
+            // By RMO
+        public async Task<IActionResult> Index(string id, string filter, int pageIndex = 1, string sortExpression = "ConsumerId")
+        //public async Task<IActionResult> Index(int? id, string filter, int pageIndex = 1, string sortExpression = "ConsumerId")
         {
             var qry = _context.TblConsumerData.Include(t => t.ConsumerDataToDistributionTransformer)
-                .Include(t => t.ConsumerDataToServicePoint).Include(t => t.ConsumerToBusinessType)
+                .Include(t => t.ConsumerDataToServicesPoint).Include(t => t.ConsumerToBusinessType)
                 .Include(t => t.ConsumerToConnectionStatus).Include(t => t.ConsumerToConnectionType)
                 .Include(t => t.ConsumerToLocation).Include(t => t.ConsumerToMeterType)
                 .Include(t => t.ConsumerToOperatingVoltage).Include(t => t.ConsumerToPhasingCode)
@@ -60,7 +61,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
 
             if (id != null)
             {
-                qry = qry.Where(p => p.ServicePointId == id);
+                qry = qry.Where(p => p.ServicesPointId == id);
             }
 
 
@@ -96,7 +97,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
                 .Include(cd => cd.ConsumerToServiceCableType)
                 .Include(cd => cd.ConsumerToStructureType)
                 
-                .Include(cd => cd.ConsumerDataToServicePoint)
+                .Include(cd => cd.ConsumerDataToServicesPoint)
                 .Include(cd => cd.ConsumerDataToDistributionTransformer)
                 .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToPole)
                 .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
@@ -136,7 +137,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ConsumerId,ServicePointId,DistributionTransformerId,CustomerName,CustomerMobileNo,ConsumerNo,Tariff,PhasingCodeId,ConsumerTypeId,OperatingVoltageId,InstallDate,ConnectionStatusId,ConnectionTypeId,MeterTypeId,MeterNumber,MeterModel,MeterManufacturer,SanctionedLoad,ConnectedLoad,BusinessTypeId,OthersBusiness,AccountNumber,SpecialCode,SpecialType,LocationId,BillGroup,BookNumber,OmfKwh,MeterReading,ServiceCableSize,ServiceCableTypeId,CustomerAddress,PlotNo,BuildingApptNo,PremiseName,SurveyDate,Latitude,Longitude,StructureId,StructureMapNo,StructureTypeId,NumberOfFloor")] TblConsumerData tblConsumerData)
+        public async Task<IActionResult> Create([Bind("ConsumerId,ServicesPointId,DistributionTransformerId,CustomerName,CustomerMobileNo,ConsumerNo,Tariff,PhasingCodeId,ConsumerTypeId,OperatingVoltageId,InstallDate,ConnectionStatusId,ConnectionTypeId,MeterTypeId,MeterNumber,MeterModel,MeterManufacturer,SanctionedLoad,ConnectedLoad,BusinessTypeId,OthersBusiness,AccountNumber,SpecialCode,SpecialType,LocationId,BillGroup,BookNumber,OmfKwh,MeterReading,ServiceCableSize,ServiceCableTypeId,CustomerAddress,PlotNo,BuildingApptNo,PremiseName,SurveyDate,Latitude,Longitude,StructureId,StructureMapNo,StructureTypeId,NumberOfFloor")] TblConsumerData tblConsumerData)
         {
             if (ModelState.IsValid)
             {
@@ -145,7 +146,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DistributionTransformerId"] = new SelectList(_context.TblDistributionTransformer, "DistributionTransformerId", "DistributionTransformerId", tblConsumerData.DistributionTransformerId);
-            ViewData["ServicePointId"] = new SelectList(_context.TblServicePoint, "ServicePointId", "ServicePointId", tblConsumerData.ServicePointId);
+            ViewData["ServicePointId"] = new SelectList(_context.TblServicePoint, "ServicesPointId", "ServicesPointId", tblConsumerData.ServicesPointId);
             ViewData["BusinessTypeId"] = new SelectList(_context.LookUpBusinessType, "BusinessTypeId", "BusinessTypeName", tblConsumerData.BusinessTypeId);
             ViewData["ConnectionStatusId"] = new SelectList(_context.LookUpConnectionStatus, "ConnectionStatusId", "ConnectionStatusName", tblConsumerData.ConnectionStatusId);
             ViewData["ConnectionTypeId"] = new SelectList(_context.LookUpConnectionType, "ConnectionTypeId", "ConnectionTypeName", tblConsumerData.ConnectionTypeId);
@@ -174,7 +175,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
             }
 
             ViewData["DistributionTransformerId"] = new SelectList(_context.TblDistributionTransformer, "DistributionTransformerId", "DistributionTransformerId", tblConsumerData.DistributionTransformerId);
-            ViewData["ServicePointId"] = new SelectList(_context.TblServicePoint, "ServicePointId", "ServicePointId", tblConsumerData.ServicePointId);
+            ViewData["ServicePointId"] = new SelectList(_context.TblServicePoint, "ServicesPointId", "ServicesPointId", tblConsumerData.ServicesPointId);
             ViewData["BusinessTypeId"] = new SelectList(_context.LookUpBusinessType, "BusinessTypeId", "BusinessTypeName", tblConsumerData.BusinessTypeId);
             ViewData["ConnectionStatusId"] = new SelectList(_context.LookUpConnectionStatus, "ConnectionStatusId", "ConnectionStatusName", tblConsumerData.ConnectionStatusId);
             ViewData["ConnectionTypeId"] = new SelectList(_context.LookUpConnectionType, "ConnectionTypeId", "ConnectionTypeName", tblConsumerData.ConnectionTypeId);
@@ -194,7 +195,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ConsumerId,ServicePointId,DistributionTransformerId,CustomerName,CustomerMobileNo,ConsumerNo,Tariff,PhasingCodeId,ConsumerTypeId,OperatingVoltageId,InstallDate,ConnectionStatusId,ConnectionTypeId,MeterTypeId,MeterNumber,MeterModel,MeterManufacturer,SanctionedLoad,ConnectedLoad,BusinessTypeId,OthersBusiness,AccountNumber,SpecialCode,SpecialType,LocationId,BillGroup,BookNumber,OmfKwh,MeterReading,ServiceCableSize,ServiceCableTypeId,CustomerAddress,PlotNo,BuildingApptNo,PremiseName,SurveyDate,Latitude,Longitude,StructureId,StructureMapNo,StructureTypeId,NumberOfFloor")] TblConsumerData tblConsumerData)
+        public async Task<IActionResult> Edit(int id, [Bind("ConsumerId,ServicesPointId,DistributionTransformerId,CustomerName,CustomerMobileNo,ConsumerNo,Tariff,PhasingCodeId,ConsumerTypeId,OperatingVoltageId,InstallDate,ConnectionStatusId,ConnectionTypeId,MeterTypeId,MeterNumber,MeterModel,MeterManufacturer,SanctionedLoad,ConnectedLoad,BusinessTypeId,OthersBusiness,AccountNumber,SpecialCode,SpecialType,LocationId,BillGroup,BookNumber,OmfKwh,MeterReading,ServiceCableSize,ServiceCableTypeId,CustomerAddress,PlotNo,BuildingApptNo,PremiseName,SurveyDate,Latitude,Longitude,StructureId,StructureMapNo,StructureTypeId,NumberOfFloor")] TblConsumerData tblConsumerData)
         {
             if (id != tblConsumerData.ConsumerId)
             {
@@ -223,7 +224,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
             }
 
             ViewData["DistributionTransformerId"] = new SelectList(_context.TblDistributionTransformer, "DistributionTransformerId", "DistributionTransformerId", tblConsumerData.DistributionTransformerId);
-            ViewData["ServicePointId"] = new SelectList(_context.TblServicePoint, "ServicePointId", "ServicePointId", tblConsumerData.ServicePointId);
+            ViewData["ServicePointId"] = new SelectList(_context.TblServicePoint, "ServicesPointId", "ServicesPointId", tblConsumerData.ServicesPointId);
             ViewData["BusinessTypeId"] = new SelectList(_context.LookUpBusinessType, "BusinessTypeId", "BusinessTypeName", tblConsumerData.BusinessTypeId);
             ViewData["ConnectionStatusId"] = new SelectList(_context.LookUpConnectionStatus, "ConnectionStatusId", "ConnectionStatusName", tblConsumerData.ConnectionStatusId);
             ViewData["ConnectionTypeId"] = new SelectList(_context.LookUpConnectionType, "ConnectionTypeId", "ConnectionTypeName", tblConsumerData.ConnectionTypeId);
@@ -247,7 +248,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
 
             var tblConsumerData = await _context.TblConsumerData
                 .Include(t => t.ConsumerDataToDistributionTransformer)
-                .Include(t => t.ConsumerDataToServicePoint)
+                .Include(t => t.ConsumerDataToServicesPoint)
                 .Include(t => t.ConsumerToBusinessType)
                 .Include(t => t.ConsumerToConnectionStatus)
                 .Include(t => t.ConsumerToConnectionType)

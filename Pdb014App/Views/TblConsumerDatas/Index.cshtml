@@ -123,9 +123,9 @@
                                     Service Point Id
                                 </th>
                                 @*<th>
-                                        @Html.DisplayNameFor(model => model.ConsumerDataToDistributionTransformer)
-                                        Distribution Transformer
-                                    </th>*@
+            @Html.DisplayNameFor(model => model.ConsumerDataToDistributionTransformer)
+            Distribution Transformer
+        </th>*@
                                 <th>
                                     @*@Html.DisplayNameFor(model => model.ConsumerNo)*@
                                     @Html.SortableHeaderFor(model => model.ConsumerNo)
@@ -136,6 +136,9 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.CustomerMobileNo)
                                 </th>
+
+                               
+
                                 <th>
                                     @Html.DisplayNameFor(model => model.Tariff)
                                 </th>
@@ -268,7 +271,7 @@
                                         <a asp-action="Edit" asp-route-id="@item.ConsumerId" title="Edit" class="text-success hover-dark">@Html.DisplayFor(modelItem => item.ConsumerId)</a>
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.ConsumerDataToServicePoint.ServicePointId)
+                                        @Html.DisplayFor(modelItem => item.ConsumerDataToServicesPoint.ServicesPointId)
                                     </td>
                                     @*<td>
                                             @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DistributionTransformerId)
