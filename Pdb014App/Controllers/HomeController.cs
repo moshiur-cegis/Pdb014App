@@ -22,6 +22,121 @@ namespace Pdb014App.Controllers
 
         public IActionResult Index()
         {
+            var stInfo = _context.TblSubstation
+                .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    StCount = k.Count(),
+                    //StCount11 = k.Count(ss => ss.NominalVoltage.Contains("11")),
+                    //StCount33 = k.Count(ss => ss.NominalVoltage.Contains("33")),
+                    StCount11 = k.Count(s => s.SubstationType.SubstationTypeName.Contains("/11")),
+                    StCount33 = k.Count(s => s.SubstationType.SubstationTypeName.Contains("/33"))
+                }).ToList();
+
+
+            var flInfo = _context.TblFeederLine
+                .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    FlCount = k.Count(),
+                    FlCount11 = k.Count(dt => dt.NominalVoltage == 11),
+                    FlCount33 = k.Count(dt => dt.NominalVoltage == 33)
+                }).ToList();
+
+
+            var dtInfo = _context.TblDistributionTransformer
+                .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    DtCount = k.Count(),
+                    DtCount11 = k.Count(dt => dt.DtToFeederLine.NominalVoltage == 11),
+                    DtCount33 = k.Count(dt => dt.DtToFeederLine.NominalVoltage == 33)
+                }).ToList();
+
+
+            var plInfo = _context.TblPole
+                .GroupBy(z => z.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    PlCount = k.Count()
+                }).ToList();
+
+
+            var ptInfo = _context.TblPhasePowerTransformer
+                .GroupBy(z => z.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    PtCount = k.Count()
+                }).ToList();
+
+
+            var zoneList = _context.LookUpZoneInfo.Select(z => new { z.ZoneCode, z.ZoneName }).ToList();
+
+
+            List<ZoneWiseData> aData = new List<ZoneWiseData>();
+            var dtRow = new ZoneWiseData();
+
+            foreach (var zone in zoneList)
+            {
+                dtRow = new ZoneWiseData
+                {
+                    Name = zone.ZoneName,
+                    St = stInfo.FirstOrDefault(ss => ss.ZoneCode == zone.ZoneCode && ss.StCount > 0)?.StCount,
+                    St11 = stInfo.FirstOrDefault(ss => ss.ZoneCode == zone.ZoneCode && ss.StCount11 > 0)?.StCount11,
+                    St33 = stInfo.FirstOrDefault(ss => ss.ZoneCode == zone.ZoneCode && ss.StCount33 > 0)?.StCount33,
+                    Fl = flInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.FlCount > 0)?.FlCount,
+                    Fl11 = flInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.FlCount11 > 0)?.FlCount11,
+                    Fl33 = flInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.FlCount33 > 0)?.FlCount33,
+                    Pt = ptInfo.FirstOrDefault(pt => pt.ZoneCode == zone.ZoneCode && pt.PtCount > 0)?.PtCount,
+                    Dt = dtInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.DtCount > 0)?.DtCount,
+                    Dt11 = dtInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.DtCount11 > 0)?.DtCount11,
+                    Dt33 = dtInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.DtCount33 > 0)?.DtCount33,
+                    Pl = plInfo.FirstOrDefault(pl => pl.ZoneCode == zone.ZoneCode && pl.PlCount > 0)?.PlCount
+                };
+
+                aData.Add(dtRow);
+            }
+
+
+            dtRow = new ZoneWiseData
+            {
+                Name = "Total",
+                St = stInfo.Sum(ss => ss.StCount),
+                St11 = stInfo.Sum(ss => ss.StCount11),
+                St33 = stInfo.Sum(ss => ss.StCount33),
+                Fl = flInfo.Sum(dt => dt.FlCount),
+                Fl11 = flInfo.Sum(dt => dt.FlCount11),
+                Fl33 = flInfo.Sum(dt => dt.FlCount33),
+                Pt = ptInfo.Sum(pt => pt.PtCount),
+                Dt = dtInfo.Sum(dt => dt.DtCount),
+                Dt11 = dtInfo.Sum(dt => dt.DtCount11),
+                Dt33 = dtInfo.Sum(dt => dt.DtCount33),
+                Pl = plInfo.Sum(pl => pl.PlCount)
+            };
+
+            aData.Add(dtRow);
+
+
+            ViewBag.SsCount = stInfo.Sum(ss => ss.StCount);
+            ViewBag.DtCount = dtInfo.Sum(dt => dt.DtCount);
+            ViewBag.FlCount = flInfo.Sum(fl => fl.FlCount);
+            ViewBag.PtCount = ptInfo.Sum(pt => pt.PtCount);
+            ViewBag.PlCount = plInfo.Sum(pl => pl.PlCount);
+
+
+            return View(aData);
+
+        }
+
+
+
+        public IActionResult Index_ok()
+        {
             ViewBag.SubstationCount = _context.TblSubstation.Count();
 
             ViewBag.DistributionTransformerCount = _context.TblDistributionTransformer.Count();
@@ -128,24 +243,9 @@ namespace Pdb014App.Controllers
             ViewBag.SummaryData = aData;
 
             return View(aData);
-
-            //List<object> data = new List<object>(zoneList.Count);
-            ////List<ZoneWiseData> data = new List<ZoneWiseData>();
-
-            //foreach (var zone in zoneList)
-            //{
-            //    var dtRow = new
-            //    {
-            //        Name = zone,
-            //        St = stCount.FirstOrDefault(d => d.ZoneName == zone)?.StCount,// .Select(d => d.StCount),
-            //        Pl = plCount.FirstOrDefault(d => d.ZoneName == zone)?.PlCount,
-            //        Dt = dtCount.FirstOrDefault(d => d.ZoneName == zone)?.DtCount,
-            //        Pt = ptCount.FirstOrDefault(d => d.ZoneName == zone)?.PtCount
-            //    };
-
-            //    data.Add(dtRow);
-            //}
         }
+
+
 
         public IActionResult Privacy()
         {
