@@ -22,6 +22,175 @@ namespace Pdb014App.Controllers
 
         public IActionResult Index()
         {
+
+            var stInfo = _context.TblSubstation
+                .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    StCount = k.Count()
+                }).ToList();
+
+            var st11Info = _context.TblSubstation
+                .Where(ss => ss.SubstationType.SubstationTypeName.Contains("/11"))
+                .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    StCount = k.Count()
+                }).ToList();
+
+            var st33Info = _context.TblSubstation
+                .Where(ss => ss.SubstationType.SubstationTypeName.Contains("/33"))
+                .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    StCount = k.Count()
+                }).ToList();
+            
+
+            var flInfo = _context.TblFeederLine
+                .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    FlCount = k.Count()
+                }).ToList();
+
+            var fl11Info = _context.TblFeederLine
+                .Where(fl => fl.NominalVoltage == 11)
+                .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    FlCount = k.Count()
+                }).ToList();
+
+            var fl33Info = _context.TblFeederLine
+                .Where(fl => fl.NominalVoltage == 33)
+                .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    FlCount = k.Count()
+                }).ToList();
+            
+
+            var dtInfo = _context.TblDistributionTransformer
+                .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    DtCount = k.Count()
+                }).ToList();
+
+            var dt11Info = _context.TblDistributionTransformer
+                .Where(dt => dt.DtToFeederLine.NominalVoltage == 11)
+                .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    DtCount = k.Count()
+                }).ToList();
+
+            var dt33Info = _context.TblDistributionTransformer
+                .Where(dt => dt.DtToFeederLine.NominalVoltage == 33)
+                .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    DtCount = k.Count()
+                }).ToList();
+
+
+            var plInfo = _context.TblPole
+                .GroupBy(z => z.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    PlCount = k.Count()
+                }).ToList();
+
+
+            var ptInfo = _context.TblPhasePowerTransformer
+                .GroupBy(z => z.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                .Select(k => new
+                {
+                    ZoneCode = k.Key,
+                    PtCount = k.Count()
+                }).ToList();
+
+
+            var zoneList = _context.LookUpZoneInfo.Select(z => new { z.ZoneCode, z.ZoneName }).ToList();
+
+
+            ZoneWiseData dtRow;
+            List<ZoneWiseData> aData = new List<ZoneWiseData>();
+
+            foreach (var zone in zoneList)
+            {
+                dtRow = new ZoneWiseData
+                {
+                    Name = zone.ZoneName,
+                    St = stInfo.FirstOrDefault(ss => ss.ZoneCode == zone.ZoneCode && ss.StCount > 0)?.StCount,
+                    St11 = st11Info.FirstOrDefault(ss => ss.ZoneCode == zone.ZoneCode && ss.StCount > 0)?.StCount,
+                    St33 = st33Info.FirstOrDefault(ss => ss.ZoneCode == zone.ZoneCode && ss.StCount > 0)?.StCount,
+                    Fl = flInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.FlCount > 0)?.FlCount,
+                    Fl11 = fl11Info.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.FlCount > 0)?.FlCount,
+                    Fl33 = fl33Info.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.FlCount > 0)?.FlCount,
+                    Pt = ptInfo.FirstOrDefault(pt => pt.ZoneCode == zone.ZoneCode && pt.PtCount > 0)?.PtCount,
+                    Dt = dtInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.DtCount > 0)?.DtCount,
+                    Dt11 = dt11Info.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.DtCount > 0)?.DtCount,
+                    Dt33 = dt33Info.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.DtCount > 0)?.DtCount,
+                    Pl = plInfo.FirstOrDefault(pl => pl.ZoneCode == zone.ZoneCode && pl.PlCount > 0)?.PlCount
+                };
+
+                aData.Add(dtRow);
+            }
+
+
+            dtRow = new ZoneWiseData
+            {
+                Name = "Total",
+                St = stInfo.Sum(ss => ss.StCount),
+                St11 = st11Info.Sum(ss => ss.StCount),
+                St33 = st33Info.Sum(ss => ss.StCount),
+                Fl = flInfo.Sum(dt => dt.FlCount),
+                Fl11 = fl11Info.Sum(dt => dt.FlCount),
+                Fl33 = fl33Info.Sum(dt => dt.FlCount),
+                Pt = ptInfo.Sum(pt => pt.PtCount),
+                Dt = dtInfo.Sum(dt => dt.DtCount),
+                Dt11 = dt11Info.Sum(dt => dt.DtCount),
+                Dt33 = dt33Info.Sum(dt => dt.DtCount),
+                Pl = plInfo.Sum(pl => pl.PlCount)
+            };
+
+            aData.Add(dtRow);
+
+
+            ViewBag.SsCount = stInfo.Sum(ss => ss.StCount);
+            ViewBag.DtCount = dtInfo.Sum(dt => dt.DtCount);
+            ViewBag.FlCount = flInfo.Sum(fl => fl.FlCount);
+            ViewBag.PtCount = ptInfo.Sum(pt => pt.PtCount);
+            ViewBag.PlCount = plInfo.Sum(pl => pl.PlCount);
+
+
+            return View(aData);
+
+        }
+
+
+
+        public IActionResult Index_bk()
+        {
+            ViewBag.SsCount = _context.TblSubstation.Count();
+            ViewBag.DtCount = _context.TblDistributionTransformer.Count();
+            ViewBag.FlCount = _context.TblFeederLine.Count();
+            ViewBag.PtCount = _context.TblPhasePowerTransformer.Count();
+            ViewBag.PlCount = _context.TblPole.Count();
+            
+
             var stInfo = _context.TblSubstation
                 .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                 .Select(k => new
@@ -78,8 +247,8 @@ namespace Pdb014App.Controllers
             var zoneList = _context.LookUpZoneInfo.Select(z => new { z.ZoneCode, z.ZoneName }).ToList();
 
 
+            ZoneWiseData dtRow;
             List<ZoneWiseData> aData = new List<ZoneWiseData>();
-            var dtRow = new ZoneWiseData();
 
             foreach (var zone in zoneList)
             {
@@ -103,37 +272,35 @@ namespace Pdb014App.Controllers
             }
 
 
-            dtRow = new ZoneWiseData
-            {
-                Name = "Total",
-                St = stInfo.Sum(ss => ss.StCount),
-                St11 = stInfo.Sum(ss => ss.StCount11),
-                St33 = stInfo.Sum(ss => ss.StCount33),
-                Fl = flInfo.Sum(dt => dt.FlCount),
-                Fl11 = flInfo.Sum(dt => dt.FlCount11),
-                Fl33 = flInfo.Sum(dt => dt.FlCount33),
-                Pt = ptInfo.Sum(pt => pt.PtCount),
-                Dt = dtInfo.Sum(dt => dt.DtCount),
-                Dt11 = dtInfo.Sum(dt => dt.DtCount11),
-                Dt33 = dtInfo.Sum(dt => dt.DtCount33),
-                Pl = plInfo.Sum(pl => pl.PlCount)
-            };
+            //dtRow = new ZoneWiseData
+            //{
+            //    Name = "Total",
+            //    St = stInfo.Sum(ss => ss.StCount),
+            //    St11 = stInfo.Sum(ss => ss.StCount11),
+            //    St33 = stInfo.Sum(ss => ss.StCount33),
+            //    Fl = flInfo.Sum(dt => dt.FlCount),
+            //    Fl11 = flInfo.Sum(dt => dt.FlCount11),
+            //    Fl33 = flInfo.Sum(dt => dt.FlCount33),
+            //    Pt = ptInfo.Sum(pt => pt.PtCount),
+            //    Dt = dtInfo.Sum(dt => dt.DtCount),
+            //    Dt11 = dtInfo.Sum(dt => dt.DtCount11),
+            //    Dt33 = dtInfo.Sum(dt => dt.DtCount33),
+            //    Pl = plInfo.Sum(pl => pl.PlCount)
+            //};
 
-            aData.Add(dtRow);
+            //aData.Add(dtRow);
 
 
-            ViewBag.SsCount = stInfo.Sum(ss => ss.StCount);
-            ViewBag.DtCount = dtInfo.Sum(dt => dt.DtCount);
-            ViewBag.FlCount = flInfo.Sum(fl => fl.FlCount);
-            ViewBag.PtCount = ptInfo.Sum(pt => pt.PtCount);
-            ViewBag.PlCount = plInfo.Sum(pl => pl.PlCount);
+            //ViewBag.SsCount = stInfo.Sum(ss => ss.StCount);
+            //ViewBag.DtCount = dtInfo.Sum(dt => dt.DtCount);
+            //ViewBag.FlCount = flInfo.Sum(fl => fl.FlCount);
+            //ViewBag.PtCount = ptInfo.Sum(pt => pt.PtCount);
+            //ViewBag.PlCount = plInfo.Sum(pl => pl.PlCount);
 
 
             return View(aData);
 
         }
-
-
 
         public IActionResult Index_ok()
         {
@@ -258,9 +425,5 @@ namespace Pdb014App.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult PowerBI()
-        {
-            return View();
-        }
     }
 }

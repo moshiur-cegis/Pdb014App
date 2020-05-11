@@ -106,42 +106,112 @@
 
                 <table class="table-info" style="height: 320px; width: 100%">
                     <thead>
-                        <tr>
-                            <th rowspan="2">Zone</th>
-                            <th colspan="3">S/S</th>
-                            <th rowspan="2">P/T</th>
-                            <th colspan="3">D/T</th>
-                            <th rowspan="2">Pole</th>
-                        </tr>
-                        <tr>
-                            <th>33KV/11kV</th>
-                            <th>33kV</th>
-                            <th>Total</th>
+                    <tr>
+                        <th rowspan="2">Zone</th>
+                        <th colspan="3">S/S</th>
+                        <th colspan="3">Feeder</th>
+                        <th rowspan="2">P/T</th>
+                        <th colspan="3">D/T</th>
+                        <th rowspan="2">Pole</th>
+                    </tr>
+                    <tr>
+                        <th>33kV/11kV</th>
+                        <th>33kV</th>
+                        <th>Total</th>
 
-                            <th>11kV</th>
-                            <th>33kV</th>
-                            <th>Total</th>
-                        </tr>
+                        <th>11kV</th>
+                        <th>33kV</th>
+                        <th>Total</th>
+
+                        <th>11kV</th>
+                        <th>33kV</th>
+                        <th>Total</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @{int ic = 0;}
-                        @foreach (var item in Model)
+                    @{
+                        int ic = 0;
+
+                        foreach (var item in Model)
                         {
                             ++ic;
-                            <tr @((ic % 2 == 0) ? " class=alt" : "")>
-                                <td style="text-align:left;">@item.Name</td>
-                                <td style="text-align:right;">@(item.St11?.ToString("N0", bdCulture))</td>
-                                <td style="text-align:right;">@(item.St33?.ToString("N0", bdCulture))</td>
-                                <td style="text-align:right;">@(((item.St11 ?? 0) + (item.St33 ?? 0)).ToString("N0", bdCulture))</td>
-                                <td style="text-align:right;">@(item.Pt?.ToString("N0", bdCulture))</td>
-                                <td style="text-align:right;">@(item.Dt11?.ToString("N0", bdCulture))</td>
-                                <td style="text-align:right;">@(item.Dt33?.ToString("N0", bdCulture))</td>
-                                <td style="text-align:right;">@(((item.Dt11 ?? 0) + (item.Dt33 ?? 0)).ToString("N0", bdCulture))</td>
-                                <td style="text-align:right;">@(item.Pl?.ToString("N0", bdCulture))</td>
-                            </tr>
+                            if (!item.Name.ToLower().Equals("total"))
+                            {
+                                <tr @((ic % 2 == 0) ? " class=alt" : "")>
+                                    <td style="text-align: left;">@item.Name</td>
+                                    <td style="text-align: right;">@(item.St11?.ToString("N0", bdCulture))</td>
+                                    <td style="text-align: right;">@(item.St33?.ToString("N0", bdCulture))</td>
+                                    <td style="text-align: right;">@(item.St?.ToString("N0", bdCulture))</td>
+                                    <td style="text-align: right;">@(item.Fl11?.ToString("N0", bdCulture))</td>
+                                    <td style="text-align: right;">@(item.Fl33?.ToString("N0", bdCulture))</td>
+                                    <td style="text-align: right;">@(item.Fl?.ToString("N0", bdCulture))</td>
+                                    <td style="text-align: right;">@(item.Pt?.ToString("N0", bdCulture))</td>
+                                    <td style="text-align: right;">@(item.Dt11?.ToString("N0", bdCulture))</td>
+                                    <td style="text-align: right;">@(item.Dt33?.ToString("N0", bdCulture))</td>
+                                    <td style="text-align: right;">@(item.Dt?.ToString("N0", bdCulture))</td>
+                                    <td style="text-align: right;">@(item.Pl?.ToString("N0", bdCulture))</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <th style="text-align: right;">@item.Name</th>
+                                    <th style="text-align: right;">@(item.St11?.ToString("N0", bdCulture))</th>
+                                    <th style="text-align: right;">@(item.St33?.ToString("N0", bdCulture))</th>
+                                    <th style="text-align: right;">@(item.St?.ToString("N0", bdCulture))</th>
+                                    <th style="text-align: right;">@(item.Fl11?.ToString("N0", bdCulture))</th>
+                                    <th style="text-align: right;">@(item.Fl33?.ToString("N0", bdCulture))</th>
+                                    <th style="text-align: right;">@(item.Fl?.ToString("N0", bdCulture))</th>
+                                    <th style="text-align: right;">@(item.Pt?.ToString("N0", bdCulture))</th>
+                                    <th style="text-align: right;">@(item.Dt11?.ToString("N0", bdCulture))</th>
+                                    <th style="text-align: right;">@(item.Dt33?.ToString("N0", bdCulture))</th>
+                                    <th style="text-align: right;">@(item.Dt?.ToString("N0", bdCulture))</th>
+                                    <th style="text-align: right;">@(item.Pl?.ToString("N0", bdCulture))</th>
+                                </tr>
+                            }
                         }
+                    }
                     </tbody>
                 </table>
+
+                @*<table class="table-info" style="height: 320px; width: 100%">
+            <thead>
+                <tr>
+                    <th rowspan="2">Zone</th>
+                    <th colspan="3">S/S</th>
+                    <th rowspan="2">P/T</th>
+                    <th colspan="3">D/T</th>
+                    <th rowspan="2">Pole</th>
+                </tr>
+                <tr>
+                    <th>33KV/11kV</th>
+                    <th>33kV</th>
+                    <th>Total</th>
+
+                    <th>11kV</th>
+                    <th>33kV</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int ic = 0;}
+                @foreach (var item in Model)
+                {
+                    ++ic;
+                    <tr @((ic % 2 == 0) ? " class=alt" : "")>
+                        <td style="text-align:left;">@item.Name</td>
+                        <td style="text-align:right;">@(item.St11?.ToString("N0", bdCulture))</td>
+                        <td style="text-align:right;">@(item.St33?.ToString("N0", bdCulture))</td>
+                        <td style="text-align:right;">@(((item.St11 ?? 0) + (item.St33 ?? 0)).ToString("N0", bdCulture))</td>
+                        <td style="text-align:right;">@(item.Pt?.ToString("N0", bdCulture))</td>
+                        <td style="text-align:right;">@(item.Dt11?.ToString("N0", bdCulture))</td>
+                        <td style="text-align:right;">@(item.Dt33?.ToString("N0", bdCulture))</td>
+                        <td style="text-align:right;">@(((item.Dt11 ?? 0) + (item.Dt33 ?? 0)).ToString("N0", bdCulture))</td>
+                        <td style="text-align:right;">@(item.Pl?.ToString("N0", bdCulture))</td>
+                    </tr>
+                }
+            </tbody>
+        </table>*@
 
             </div>
         </div>
