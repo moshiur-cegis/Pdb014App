@@ -559,6 +559,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                                 .ZoneInfo.ZoneName,
 
                             totalCount = k.Count(),
+
                             totalSpcCount = k.Count(d => d.PoleTypeId == "1"),
                             totalSpCount = k.Count(d => d.PoleTypeId == "2"),
                             totalTowerCount = k.Count(d => d.PoleTypeId == "3"),
@@ -573,6 +574,13 @@ namespace Pdb014App.Controllers.AdvancedReport
                             totalStreetLight = k.Count(d => d.StreetLight == "Y"),
 
                             totalWireLength = Math.Round((double)k.Sum(d => d.WireLength) / 1000, 0),
+
+
+                            //totalSpcCount = k.Count(d => d.PoleType.Name.ToLower().Equals("spc")),
+                            //totalSpCount = k.Count(d => d.PoleType.Name.ToLower().Equals("sp")),
+                            //totalTowerCount = k.Count(d => d.PoleType.Name.ToLower().Equals("tower")),
+                            //totalOthersCount = k.Count(d => d.PoleType.Name.ToLower().Equals("others")),
+
                             //totalWireLength = k.Where(d => d.WireLength != null).Sum(d => d.WireLength),
                         }).ToList();
                     break;
@@ -716,6 +724,7 @@ namespace Pdb014App.Controllers.AdvancedReport
         }
 
         #endregion
+
 
 
         #region FeederLineAdvancedReport
@@ -959,10 +968,9 @@ namespace Pdb014App.Controllers.AdvancedReport
                             if (regionList.Count > 4)
                             {
                                 routeCode = regionList[4];
-                                //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
 
-                                //tempExp = model => model. == substationCode;
-                                //searchExp = ExpressionExtension<TblFeederLine>.AndAlso(searchExp, tempExp);
+                                tempExp = model => model.RouteCode == routeCode;
+                                searchExp = ExpressionExtension<TblFeederLine>.AndAlso(searchExp, tempExp);
                             }
                         }
                     }
@@ -1224,6 +1232,7 @@ namespace Pdb014App.Controllers.AdvancedReport
         #endregion
 
 
+
         #region SubstationAdvancedReport
 
         public IActionResult Substation([FromQuery] string cai, string regionLevel)
@@ -1426,14 +1435,13 @@ namespace Pdb014App.Controllers.AdvancedReport
                             tempExp = model => model.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblSubstation>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
-                            {
-                                routeCode = regionList[4];
-                                //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
+                            //if (regionList.Count > 4)
+                            //{
+                            //    routeCode = regionList[4];
 
-                                //tempExp = model => model. == substationCode;
-                                //searchExp = ExpressionExtension<TblSubstation>.AndAlso(searchExp, tempExp);
-                            }
+                            //    tempExp = model => model.RouteCode == routeCode;
+                            //    searchExp = ExpressionExtension<TblSubstation>.AndAlso(searchExp, tempExp);
+                            //}
                         }
                     }
                 }
@@ -1806,10 +1814,9 @@ namespace Pdb014App.Controllers.AdvancedReport
                             if (regionList.Count > 4)
                             {
                                 routeCode = regionList[4];
-                                //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
 
-                                //tempExp = model => model. == substationCode;
-                                //searchExp = ExpressionExtension<TblDistributionTransformer>.AndAlso(searchExp, tempExp);
+                                tempExp = model => model.DtToFeederLine.RouteCode == routeCode;
+                                searchExp = ExpressionExtension<TblDistributionTransformer>.AndAlso(searchExp, tempExp);
                             }
                         }
                     }
@@ -1830,12 +1837,12 @@ namespace Pdb014App.Controllers.AdvancedReport
             {
                 case "zone":
                     data = qry
-                        .Include(st => st.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i => i.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Include(st => st.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .GroupBy(i => i.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
                             zoneCode = k.Key,
-                            zoneName = k.First().DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                            zoneName = k.First().DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .ZoneInfo.ZoneName,
 
                             totalCount = k.Count(),
@@ -2232,10 +2239,9 @@ namespace Pdb014App.Controllers.AdvancedReport
                             if (regionList.Count > 4)
                             {
                                 routeCode = regionList[4];
-                                //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
 
-                                //tempExp = model => model. == substationCode;
-                                //searchExp = ExpressionExtension<TblPhasePowerTransformer>.AndAlso(searchExp, tempExp);
+                                tempExp = model => model.PhasePowerTransformerTo33KvFeederLine.RouteCode == routeCode;
+                                searchExp = ExpressionExtension<TblPhasePowerTransformer>.AndAlso(searchExp, tempExp);
                             }
                         }
                     }
