@@ -22,17 +22,17 @@ namespace Pdb014App.Controllers.SubstationControllers
         }
 
         // GET: TblOutDoorTypeVacumnCircuitBreakers
-        public async Task<IActionResult> Index(int? filter, int pageIndex = 1, string sortExpression = "OutDoorTypeVacumnCircuitBreakerId")
+        public async Task<IActionResult> Index(string filter, int pageIndex = 1, string sortExpression = "VacumnCircuitBreakerId")
         {
             var qry = _context.TblOutDoorTypeVacumnCircuitBreaker.Include(t => t.OutDoorTypeVacumnCircuitBreakerIdToSubstation).AsQueryable();
 
 
             if (filter != null)
             {
-                qry = qry.Where(p => p.OutDoorTypeVacumnCircuitBreakerId == filter);
+                qry = qry.Where(p => p.VacumnCircuitBreakerId == filter);
             }
 
-            var model = await PagingList.CreateAsync(qry, 10, pageIndex, sortExpression, "OutDoorTypeVacumnCircuitBreakerId");
+            var model = await PagingList.CreateAsync(qry, 10, pageIndex, sortExpression, "VacumnCircuitBreakerId");
 
             model.RouteValue = new RouteValueDictionary { { "filter", filter } };
 
@@ -40,7 +40,7 @@ namespace Pdb014App.Controllers.SubstationControllers
         }
 
         // GET: TblOutDoorTypeVacumnCircuitBreakers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -49,7 +49,7 @@ namespace Pdb014App.Controllers.SubstationControllers
 
             var tblOutDoorTypeVacumnCircuitBreaker = await _context.TblOutDoorTypeVacumnCircuitBreaker
                 .Include(t => t.OutDoorTypeVacumnCircuitBreakerIdToSubstation)
-                .FirstOrDefaultAsync(m => m.OutDoorTypeVacumnCircuitBreakerId == id);
+                .FirstOrDefaultAsync(m => m.VacumnCircuitBreakerId == id);
             if (tblOutDoorTypeVacumnCircuitBreaker == null)
             {
                 return NotFound();
@@ -70,7 +70,7 @@ namespace Pdb014App.Controllers.SubstationControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OutDoorTypeVacumnCircuitBreakerId,SubstationId,ManufacturersNameCountry,ManufacturersModelNo,MaximumRatedVoltage,Frequency,RatedNormalCurrent,NoOfPhase,NoOfBreakPerPhrase,InterruptingMedium,ImpulseWithstandOn1250MsWave,PowerFrequencyTestVoltageDryAt50Hz1Min,ShortTimeWithstandCurrent3SecondRms,SymmetricalRms,AsymmetricalRms,ShortCircuitMakingCurrentPeak,TripCoilCurrent,TripCoilVoltage,OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent,BreakingTime,ClosingTime,RatedVoltageofSpringWindingMotorforClosing,SpringWindingMotorCurrent,ClosingReleaseCoilCurrent,ClosingReleaseCoilVoltage,NoOfTrippingCoil,CircuitBreakerTerminalConnectors,PressureInVacuumTubeforVCB,AtRatedCurrentSwitching,AtShortCircuitCurrentSwitching,RatedOperatingSequence")] TblOutDoorTypeVacumnCircuitBreaker tblOutDoorTypeVacumnCircuitBreaker)
+        public async Task<IActionResult> Create([Bind("VacumnCircuitBreakerId,SubstationId,ManufacturersNameCountry,ManufacturersModelNo,MaximumRatedVoltage,Frequency,RatedNormalCurrent,NoOfPhase,NoOfBreakPerPhrase,InterruptingMedium,ImpulseWithstandOn1250MsWave,PowerFrequencyTestVoltageDryAt50Hz1Min,ShortTimeWithstandCurrent3SecondRms,SymmetricalRms,AsymmetricalRms,ShortCircuitMakingCurrentPeak,TripCoilCurrent,TripCoilVoltage,OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent,BreakingTime,ClosingTime,RatedVoltageofSpringWindingMotorforClosing,SpringWindingMotorCurrent,ClosingReleaseCoilCurrent,ClosingReleaseCoilVoltage,NoOfTrippingCoil,CircuitBreakerTerminalConnectors,PressureInVacuumTubeforVCB,AtRatedCurrentSwitching,AtShortCircuitCurrentSwitching,RatedOperatingSequence")] TblOutDoorTypeVacumnCircuitBreaker tblOutDoorTypeVacumnCircuitBreaker)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace Pdb014App.Controllers.SubstationControllers
         }
 
         // GET: TblOutDoorTypeVacumnCircuitBreakers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -104,9 +104,9 @@ namespace Pdb014App.Controllers.SubstationControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OutDoorTypeVacumnCircuitBreakerId,SubstationId,ManufacturersNameCountry,ManufacturersModelNo,MaximumRatedVoltage,Frequency,RatedNormalCurrent,NoOfPhase,NoOfBreakPerPhrase,InterruptingMedium,ImpulseWithstandOn1250MsWave,PowerFrequencyTestVoltageDryAt50Hz1Min,ShortTimeWithstandCurrent3SecondRms,SymmetricalRms,AsymmetricalRms,ShortCircuitMakingCurrentPeak,TripCoilCurrent,TripCoilVoltage,OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent,BreakingTime,ClosingTime,RatedVoltageofSpringWindingMotorforClosing,SpringWindingMotorCurrent,ClosingReleaseCoilCurrent,ClosingReleaseCoilVoltage,NoOfTrippingCoil,CircuitBreakerTerminalConnectors,PressureInVacuumTubeforVCB,AtRatedCurrentSwitching,AtShortCircuitCurrentSwitching,RatedOperatingSequence")] TblOutDoorTypeVacumnCircuitBreaker tblOutDoorTypeVacumnCircuitBreaker)
+        public async Task<IActionResult> Edit(string id, [Bind("VacumnCircuitBreakerId,SubstationId,ManufacturersNameCountry,ManufacturersModelNo,MaximumRatedVoltage,Frequency,RatedNormalCurrent,NoOfPhase,NoOfBreakPerPhrase,InterruptingMedium,ImpulseWithstandOn1250MsWave,PowerFrequencyTestVoltageDryAt50Hz1Min,ShortTimeWithstandCurrent3SecondRms,SymmetricalRms,AsymmetricalRms,ShortCircuitMakingCurrentPeak,TripCoilCurrent,TripCoilVoltage,OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent,BreakingTime,ClosingTime,RatedVoltageofSpringWindingMotorforClosing,SpringWindingMotorCurrent,ClosingReleaseCoilCurrent,ClosingReleaseCoilVoltage,NoOfTrippingCoil,CircuitBreakerTerminalConnectors,PressureInVacuumTubeforVCB,AtRatedCurrentSwitching,AtShortCircuitCurrentSwitching,RatedOperatingSequence")] TblOutDoorTypeVacumnCircuitBreaker tblOutDoorTypeVacumnCircuitBreaker)
         {
-            if (id != tblOutDoorTypeVacumnCircuitBreaker.OutDoorTypeVacumnCircuitBreakerId)
+            if (id != tblOutDoorTypeVacumnCircuitBreaker.VacumnCircuitBreakerId)
             {
                 return NotFound();
             }
@@ -120,7 +120,7 @@ namespace Pdb014App.Controllers.SubstationControllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TblOutDoorTypeVacumnCircuitBreakerExists(tblOutDoorTypeVacumnCircuitBreaker.OutDoorTypeVacumnCircuitBreakerId))
+                    if (!TblOutDoorTypeVacumnCircuitBreakerExists(tblOutDoorTypeVacumnCircuitBreaker.VacumnCircuitBreakerId))
                     {
                         return NotFound();
                     }
@@ -136,7 +136,7 @@ namespace Pdb014App.Controllers.SubstationControllers
         }
 
         // GET: TblOutDoorTypeVacumnCircuitBreakers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -145,7 +145,7 @@ namespace Pdb014App.Controllers.SubstationControllers
 
             var tblOutDoorTypeVacumnCircuitBreaker = await _context.TblOutDoorTypeVacumnCircuitBreaker
                 .Include(t => t.OutDoorTypeVacumnCircuitBreakerIdToSubstation)
-                .FirstOrDefaultAsync(m => m.OutDoorTypeVacumnCircuitBreakerId == id);
+                .FirstOrDefaultAsync(m => m.VacumnCircuitBreakerId == id);
             if (tblOutDoorTypeVacumnCircuitBreaker == null)
             {
                 return NotFound();
@@ -157,7 +157,7 @@ namespace Pdb014App.Controllers.SubstationControllers
         // POST: TblOutDoorTypeVacumnCircuitBreakers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var tblOutDoorTypeVacumnCircuitBreaker = await _context.TblOutDoorTypeVacumnCircuitBreaker.FindAsync(id);
             _context.TblOutDoorTypeVacumnCircuitBreaker.Remove(tblOutDoorTypeVacumnCircuitBreaker);
@@ -165,9 +165,9 @@ namespace Pdb014App.Controllers.SubstationControllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TblOutDoorTypeVacumnCircuitBreakerExists(int id)
+        private bool TblOutDoorTypeVacumnCircuitBreakerExists(string id)
         {
-            return _context.TblOutDoorTypeVacumnCircuitBreaker.Any(e => e.OutDoorTypeVacumnCircuitBreakerId == id);
+            return _context.TblOutDoorTypeVacumnCircuitBreaker.Any(e => e.VacumnCircuitBreakerId == id);
         }
     }
 }

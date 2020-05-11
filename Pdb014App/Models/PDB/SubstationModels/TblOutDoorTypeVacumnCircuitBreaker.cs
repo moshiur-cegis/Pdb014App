@@ -10,12 +10,21 @@ namespace Pdb014App.Models.PDB.SubstationModels
     public class TblOutDoorTypeVacumnCircuitBreaker
     {
 
+        //[Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[Column("OutDoorTypeVacumnCircuitBreakerId", Order = 0, TypeName = "int")]
+        //[DataType(DataType.Text)]
+        //[Display(Name = "OutDoorTypeVacumnCircuitBreakerId")]
+        //public int OutDoorTypeVacumnCircuitBreakerId { get; set; }
+
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("OutDoorTypeVacumnCircuitBreakerId", Order = 0, TypeName = "int")]
-        [DataType(DataType.Text)]
-        [Display(Name = "OutDoorTypeVacumnCircuitBreakerId")]
-        public int OutDoorTypeVacumnCircuitBreakerId { get; set; }
+        [Required]
+        [Column(Order = 0, TypeName = "varchar(50)")]
+        [StringLength(50, ErrorMessage = "The {0} must be {1} characters.")]
+        [Display(Name = "Vacumn Circuit Breaker Id")]
+        public string VacumnCircuitBreakerId { get; set; }
 
         //[Column("SubstationId", Order = 1, TypeName = "int")]
         //[DataType(DataType.Text)]

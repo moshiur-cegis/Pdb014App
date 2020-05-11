@@ -14,162 +14,166 @@
 
         <fieldset>
             <legend>Add Vacumn Circuit Breaker</legend>
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SubstationId" class="control-label"></label>
-                <select asp-for="SubstationId" class ="form-control" asp-items="ViewBag.SubstationId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="ManufacturersNameCountry" class="control-label"></label>
-                <input asp-for="ManufacturersNameCountry" class="form-control" />
-                <span asp-validation-for="ManufacturersNameCountry" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ManufacturersModelNo" class="control-label"></label>
-                <input asp-for="ManufacturersModelNo" class="form-control" />
-                <span asp-validation-for="ManufacturersModelNo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaximumRatedVoltage" class="control-label"></label>
-                <input asp-for="MaximumRatedVoltage" class="form-control" />
-                <span asp-validation-for="MaximumRatedVoltage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Frequency" class="control-label"></label>
-                <input asp-for="Frequency" class="form-control" />
-                <span asp-validation-for="Frequency" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RatedNormalCurrent" class="control-label"></label>
-                <input asp-for="RatedNormalCurrent" class="form-control" />
-                <span asp-validation-for="RatedNormalCurrent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NoOfPhase" class="control-label"></label>
-                <input asp-for="NoOfPhase" class="form-control" />
-                <span asp-validation-for="NoOfPhase" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NoOfBreakPerPhrase" class="control-label"></label>
-                <input asp-for="NoOfBreakPerPhrase" class="form-control" />
-                <span asp-validation-for="NoOfBreakPerPhrase" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="InterruptingMedium" class="control-label"></label>
-                <input asp-for="InterruptingMedium" class="form-control" />
-                <span asp-validation-for="InterruptingMedium" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImpulseWithstandOn1250MsWave" class="control-label"></label>
-                <input asp-for="ImpulseWithstandOn1250MsWave" class="form-control" />
-                <span asp-validation-for="ImpulseWithstandOn1250MsWave" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PowerFrequencyTestVoltageDryAt50Hz1Min" class="control-label"></label>
-                <input asp-for="PowerFrequencyTestVoltageDryAt50Hz1Min" class="form-control" />
-                <span asp-validation-for="PowerFrequencyTestVoltageDryAt50Hz1Min" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ShortTimeWithstandCurrent3SecondRms" class="control-label"></label>
-                <input asp-for="ShortTimeWithstandCurrent3SecondRms" class="form-control" />
-                <span asp-validation-for="ShortTimeWithstandCurrent3SecondRms" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SymmetricalRms" class="control-label"></label>
-                <input asp-for="SymmetricalRms" class="form-control" />
-                <span asp-validation-for="SymmetricalRms" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AsymmetricalRms" class="control-label"></label>
-                <input asp-for="AsymmetricalRms" class="form-control" />
-                <span asp-validation-for="AsymmetricalRms" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ShortCircuitMakingCurrentPeak" class="control-label"></label>
-                <input asp-for="ShortCircuitMakingCurrentPeak" class="form-control" />
-                <span asp-validation-for="ShortCircuitMakingCurrentPeak" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TripCoilCurrent" class="control-label"></label>
-                <input asp-for="TripCoilCurrent" class="form-control" />
-                <span asp-validation-for="TripCoilCurrent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TripCoilVoltage" class="control-label"></label>
-                <input asp-for="TripCoilVoltage" class="form-control" />
-                <span asp-validation-for="TripCoilVoltage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent" class="control-label"></label>
-                <input asp-for="OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent" class="form-control" />
-                <span asp-validation-for="OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BreakingTime" class="control-label"></label>
-                <input asp-for="BreakingTime" class="form-control" />
-                <span asp-validation-for="BreakingTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClosingTime" class="control-label"></label>
-                <input asp-for="ClosingTime" class="form-control" />
-                <span asp-validation-for="ClosingTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RatedVoltageofSpringWindingMotorforClosing" class="control-label"></label>
-                <input asp-for="RatedVoltageofSpringWindingMotorforClosing" class="form-control" />
-                <span asp-validation-for="RatedVoltageofSpringWindingMotorforClosing" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SpringWindingMotorCurrent" class="control-label"></label>
-                <input asp-for="SpringWindingMotorCurrent" class="form-control" />
-                <span asp-validation-for="SpringWindingMotorCurrent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClosingReleaseCoilCurrent" class="control-label"></label>
-                <input asp-for="ClosingReleaseCoilCurrent" class="form-control" />
-                <span asp-validation-for="ClosingReleaseCoilCurrent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClosingReleaseCoilVoltage" class="control-label"></label>
-                <input asp-for="ClosingReleaseCoilVoltage" class="form-control" />
-                <span asp-validation-for="ClosingReleaseCoilVoltage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NoOfTrippingCoil" class="control-label"></label>
-                <input asp-for="NoOfTrippingCoil" class="form-control" />
-                <span asp-validation-for="NoOfTrippingCoil" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CircuitBreakerTerminalConnectors" class="control-label"></label>
-                <input asp-for="CircuitBreakerTerminalConnectors" class="form-control" />
-                <span asp-validation-for="CircuitBreakerTerminalConnectors" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PressureInVacuumTubeforVCB" class="control-label"></label>
-                <input asp-for="PressureInVacuumTubeforVCB" class="form-control" />
-                <span asp-validation-for="PressureInVacuumTubeforVCB" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AtRatedCurrentSwitching" class="control-label"></label>
-                <input asp-for="AtRatedCurrentSwitching" class="form-control" />
-                <span asp-validation-for="AtRatedCurrentSwitching" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AtShortCircuitCurrentSwitching" class="control-label"></label>
-                <input asp-for="AtShortCircuitCurrentSwitching" class="form-control" />
-                <span asp-validation-for="AtShortCircuitCurrentSwitching" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RatedOperatingSequence" class="control-label"></label>
-                <input asp-for="RatedOperatingSequence" class="form-control" />
-                <span asp-validation-for="RatedOperatingSequence" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-success float-right" />
-                <a class="btn btn-success float-left" asp-action="Index">Back</a>
-            </div>
-        </form>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="SubstationId" class="control-label"></label>
+                    <select asp-for="SubstationId" class="form-control" asp-items="ViewBag.SubstationId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VacumnCircuitBreakerId" class="control-label"></label>
+                    <input asp-for="VacumnCircuitBreakerId" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="ManufacturersNameCountry" class="control-label"></label>
+                    <input asp-for="ManufacturersNameCountry" class="form-control" />
+                    <span asp-validation-for="ManufacturersNameCountry" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ManufacturersModelNo" class="control-label"></label>
+                    <input asp-for="ManufacturersModelNo" class="form-control" />
+                    <span asp-validation-for="ManufacturersModelNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MaximumRatedVoltage" class="control-label"></label>
+                    <input asp-for="MaximumRatedVoltage" class="form-control" />
+                    <span asp-validation-for="MaximumRatedVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Frequency" class="control-label"></label>
+                    <input asp-for="Frequency" class="form-control" />
+                    <span asp-validation-for="Frequency" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RatedNormalCurrent" class="control-label"></label>
+                    <input asp-for="RatedNormalCurrent" class="form-control" />
+                    <span asp-validation-for="RatedNormalCurrent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NoOfPhase" class="control-label"></label>
+                    <input asp-for="NoOfPhase" class="form-control" />
+                    <span asp-validation-for="NoOfPhase" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NoOfBreakPerPhrase" class="control-label"></label>
+                    <input asp-for="NoOfBreakPerPhrase" class="form-control" />
+                    <span asp-validation-for="NoOfBreakPerPhrase" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InterruptingMedium" class="control-label"></label>
+                    <input asp-for="InterruptingMedium" class="form-control" />
+                    <span asp-validation-for="InterruptingMedium" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImpulseWithstandOn1250MsWave" class="control-label"></label>
+                    <input asp-for="ImpulseWithstandOn1250MsWave" class="form-control" />
+                    <span asp-validation-for="ImpulseWithstandOn1250MsWave" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PowerFrequencyTestVoltageDryAt50Hz1Min" class="control-label"></label>
+                    <input asp-for="PowerFrequencyTestVoltageDryAt50Hz1Min" class="form-control" />
+                    <span asp-validation-for="PowerFrequencyTestVoltageDryAt50Hz1Min" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShortTimeWithstandCurrent3SecondRms" class="control-label"></label>
+                    <input asp-for="ShortTimeWithstandCurrent3SecondRms" class="form-control" />
+                    <span asp-validation-for="ShortTimeWithstandCurrent3SecondRms" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SymmetricalRms" class="control-label"></label>
+                    <input asp-for="SymmetricalRms" class="form-control" />
+                    <span asp-validation-for="SymmetricalRms" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AsymmetricalRms" class="control-label"></label>
+                    <input asp-for="AsymmetricalRms" class="form-control" />
+                    <span asp-validation-for="AsymmetricalRms" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShortCircuitMakingCurrentPeak" class="control-label"></label>
+                    <input asp-for="ShortCircuitMakingCurrentPeak" class="form-control" />
+                    <span asp-validation-for="ShortCircuitMakingCurrentPeak" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TripCoilCurrent" class="control-label"></label>
+                    <input asp-for="TripCoilCurrent" class="form-control" />
+                    <span asp-validation-for="TripCoilCurrent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TripCoilVoltage" class="control-label"></label>
+                    <input asp-for="TripCoilVoltage" class="form-control" />
+                    <span asp-validation-for="TripCoilVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent" class="control-label"></label>
+                    <input asp-for="OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent" class="form-control" />
+                    <span asp-validation-for="OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BreakingTime" class="control-label"></label>
+                    <input asp-for="BreakingTime" class="form-control" />
+                    <span asp-validation-for="BreakingTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ClosingTime" class="control-label"></label>
+                    <input asp-for="ClosingTime" class="form-control" />
+                    <span asp-validation-for="ClosingTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RatedVoltageofSpringWindingMotorforClosing" class="control-label"></label>
+                    <input asp-for="RatedVoltageofSpringWindingMotorforClosing" class="form-control" />
+                    <span asp-validation-for="RatedVoltageofSpringWindingMotorforClosing" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SpringWindingMotorCurrent" class="control-label"></label>
+                    <input asp-for="SpringWindingMotorCurrent" class="form-control" />
+                    <span asp-validation-for="SpringWindingMotorCurrent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ClosingReleaseCoilCurrent" class="control-label"></label>
+                    <input asp-for="ClosingReleaseCoilCurrent" class="form-control" />
+                    <span asp-validation-for="ClosingReleaseCoilCurrent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ClosingReleaseCoilVoltage" class="control-label"></label>
+                    <input asp-for="ClosingReleaseCoilVoltage" class="form-control" />
+                    <span asp-validation-for="ClosingReleaseCoilVoltage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NoOfTrippingCoil" class="control-label"></label>
+                    <input asp-for="NoOfTrippingCoil" class="form-control" />
+                    <span asp-validation-for="NoOfTrippingCoil" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CircuitBreakerTerminalConnectors" class="control-label"></label>
+                    <input asp-for="CircuitBreakerTerminalConnectors" class="form-control" />
+                    <span asp-validation-for="CircuitBreakerTerminalConnectors" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PressureInVacuumTubeforVCB" class="control-label"></label>
+                    <input asp-for="PressureInVacuumTubeforVCB" class="form-control" />
+                    <span asp-validation-for="PressureInVacuumTubeforVCB" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AtRatedCurrentSwitching" class="control-label"></label>
+                    <input asp-for="AtRatedCurrentSwitching" class="form-control" />
+                    <span asp-validation-for="AtRatedCurrentSwitching" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AtShortCircuitCurrentSwitching" class="control-label"></label>
+                    <input asp-for="AtShortCircuitCurrentSwitching" class="form-control" />
+                    <span asp-validation-for="AtShortCircuitCurrentSwitching" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RatedOperatingSequence" class="control-label"></label>
+                    <input asp-for="RatedOperatingSequence" class="form-control" />
+                    <span asp-validation-for="RatedOperatingSequence" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success float-right" />
+                    <a class="btn btn-success float-left" asp-action="Index">Back</a>
+                </div>
+            </form>
         </fieldset>
     </div>
 </div>

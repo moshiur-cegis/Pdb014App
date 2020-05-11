@@ -439,7 +439,7 @@ namespace Pdb014App.Controllers.UserController
         }
 
         [HttpPost]
-        public async Task<IActionResult>ManageUserRoles(List<UserRolesViewModel> model, string userId)
+        public async Task<IActionResult> ManageUserRoles(List<UserRolesViewModel> model, string userId)
         {
             var user = await userManager.FindByIdAsync(userId);
 
@@ -472,4 +472,6 @@ namespace Pdb014App.Controllers.UserController
 
 
     }
+
+   
 }
