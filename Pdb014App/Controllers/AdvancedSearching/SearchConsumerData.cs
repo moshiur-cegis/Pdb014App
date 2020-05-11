@@ -98,7 +98,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(cd => cd.ConsumerToServiceCableType)
                 .Include(cd => cd.ConsumerToStructureType)
 
-                .Include(cd => cd.ConsumerDataToServicePoint)
+                .Include(cd => cd.ConsumerDataToServicesPoint)
                 .Include(cd => cd.ConsumerDataToDistributionTransformer)
                 .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToPole)
                 .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
@@ -447,35 +447,35 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             switch (searchOption.Operator)
                             {
                                 case "=":
-                                    tempExp = model => model.ConsumerDataToServicePoint.RoadName == searchOption.FieldValue;
+                                    tempExp = model => model.ConsumerDataToServicesPoint.RoadName == searchOption.FieldValue;
                                     break;
                                 case "!=":
-                                    tempExp = model => model.ConsumerDataToServicePoint.RoadName != searchOption.FieldValue;
+                                    tempExp = model => model.ConsumerDataToServicesPoint.RoadName != searchOption.FieldValue;
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.ConsumerDataToServicePoint.RoadName) > int.Parse(searchOption.FieldValue);
+                                        int.Parse(model.ConsumerDataToServicesPoint.RoadName) > int.Parse(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.ConsumerDataToServicePoint.RoadName) < int.Parse(searchOption.FieldValue);
+                                        int.Parse(model.ConsumerDataToServicesPoint.RoadName) < int.Parse(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.ConsumerDataToServicePoint.RoadName) >= int.Parse(searchOption.FieldValue);
+                                        int.Parse(model.ConsumerDataToServicesPoint.RoadName) >= int.Parse(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.ConsumerDataToServicePoint.RoadName) <= int.Parse(searchOption.FieldValue);
+                                        int.Parse(model.ConsumerDataToServicesPoint.RoadName) <= int.Parse(searchOption.FieldValue);
                                     break;
                                 case "null":
-                                    tempExp = model => model.ConsumerDataToServicePoint.RoadName == null;
+                                    tempExp = model => model.ConsumerDataToServicesPoint.RoadName == null;
                                     break;
                                 case "not null":
-                                    tempExp = model => model.ConsumerDataToServicePoint.RoadName != null;
+                                    tempExp = model => model.ConsumerDataToServicesPoint.RoadName != null;
                                     break;
                                 case "Like":
-                                    tempExp = model => model.ConsumerDataToServicePoint.RoadName.Contains(searchOption.FieldValue);
+                                    tempExp = model => model.ConsumerDataToServicesPoint.RoadName.Contains(searchOption.FieldValue);
                                     break;
                             }
                             break;
@@ -1522,7 +1522,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(cd => cd.ConsumerToServiceCableType)
                 .Include(cd => cd.ConsumerToStructureType)
 
-                .Include(cd => cd.ConsumerDataToServicePoint)
+                .Include(cd => cd.ConsumerDataToServicesPoint)
                 .Include(cd => cd.ConsumerDataToDistributionTransformer)
                 .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToPole)
                 .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)

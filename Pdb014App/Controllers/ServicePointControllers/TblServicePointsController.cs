@@ -27,7 +27,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
         }
 
         // GET: TblServicePoints/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -42,7 +42,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
                 .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
                 .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
                 .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                .FirstOrDefaultAsync(m => m.ServicePointId == id);
+                .FirstOrDefaultAsync(m => m.ServicesPointId == id);
 
 
             if (tblServicePoint == null)
@@ -68,7 +68,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ServicePointId,PoleId,VoltageCategoryId,TransformerNumber,ServicePointTypeId,AggregateLoadkw,NoOFConsumersR,NoOFConsumersY,NoOFConsumersB,NoOfConsumersRyb,RoadName,VillageOrAreaName,Ward,CityTown,PrimaryLandmark")] TblServicePoint tblServicePoint)
+        public async Task<IActionResult> Create([Bind("ServicesPointId,PoleId,VoltageCategoryId,TransformerNumber,ServicePointTypeId,AggregateLoadkw,NoOFConsumersR,NoOFConsumersY,NoOFConsumersB,NoOfConsumersRyb,RoadName,VillageOrAreaName,Ward,CityTown,PrimaryLandmark")] TblServicePoint tblServicePoint)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
         }
 
         // GET: TblServicePoints/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -107,9 +107,9 @@ namespace Pdb014App.Controllers.ServicePointControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ServicePointId,PoleId,VoltageCategoryId,TransformerNumber,ServicePointTypeId,AggregateLoadkw,NoOFConsumersR,NoOFConsumersY,NoOFConsumersB,NoOfConsumersRyb,RoadName,VillageOrAreaName,Ward,CityTown,PrimaryLandmark")] TblServicePoint tblServicePoint)
+        public async Task<IActionResult> Edit(string id, [Bind("ServicesPointId,PoleId,VoltageCategoryId,TransformerNumber,ServicePointTypeId,AggregateLoadkw,NoOFConsumersR,NoOFConsumersY,NoOFConsumersB,NoOfConsumersRyb,RoadName,VillageOrAreaName,Ward,CityTown,PrimaryLandmark")] TblServicePoint tblServicePoint)
         {
-            if (id != tblServicePoint.ServicePointId)
+            if (id != tblServicePoint.ServicesPointId)
             {
                 return NotFound();
             }
@@ -123,7 +123,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TblServicePointExists(tblServicePoint.ServicePointId))
+                    if (!TblServicePointExists(tblServicePoint.ServicesPointId))
                     {
                         return NotFound();
                     }
@@ -141,7 +141,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
         }
 
         // GET: TblServicePoints/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -152,7 +152,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
                 .Include(t => t.ServicePointToPole)
                 .Include(t => t.ServicePointType)
                 .Include(t => t.VoltageCategory)
-                .FirstOrDefaultAsync(m => m.ServicePointId == id);
+                .FirstOrDefaultAsync(m => m.ServicesPointId == id);
             if (tblServicePoint == null)
             {
                 return NotFound();
@@ -172,9 +172,9 @@ namespace Pdb014App.Controllers.ServicePointControllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TblServicePointExists(int id)
+        private bool TblServicePointExists(string id)
         {
-            return _context.TblServicePoint.Any(e => e.ServicePointId == id);
+            return _context.TblServicePoint.Any(e => e.ServicesPointId == id);
         }
 
         [HttpPost]
