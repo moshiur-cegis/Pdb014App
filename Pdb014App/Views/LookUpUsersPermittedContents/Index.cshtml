@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Pdb014App.Models.UserManage.LookUpUsersPermittedContent>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UsersPermittedContentToUserContentType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContentTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContentDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModelName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ControllerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActionName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UsersPermittedContentToUserContentType.ContentTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContentTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContentDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ControllerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActionName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.UsersPermittedContentId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UsersPermittedContentId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.UsersPermittedContentId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

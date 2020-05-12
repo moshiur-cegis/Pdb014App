@@ -28,6 +28,7 @@
             </a>
             <div class="dropdown-divider"></div>
             <a id="UserProfile" asp-controller="TblUserProfileDetails" asp-action="ProfileDetials" asp-route-cai="UserProfile" asp-route-id="@user.Id" class="dropdown-item">View Profile</a>
+            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Change Password</a>
 
         </div>
     </div>

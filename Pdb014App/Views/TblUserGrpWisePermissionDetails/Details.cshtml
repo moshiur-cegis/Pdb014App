@@ -1,0 +1,30 @@
+﻿@model Pdb014App.Models.UserManage.TblUserGrpWisePermissionDetail
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>TblUserGrpWisePermissionDetail</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserGrpWisePermissionDetailToUsersPermittedContent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserGrpWisePermissionDetailToUsersPermittedContent.UsersPermittedContentId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserGrpWisePermissionDetailToIdentityRole)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserGrpWisePermissionDetailToIdentityRole.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PermissionTypeId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

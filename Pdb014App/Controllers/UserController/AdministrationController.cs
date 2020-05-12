@@ -35,13 +35,16 @@ namespace Pdb014App.Controllers.UserController
         [HttpGet]
         public IActionResult ListUsers()
         {
-            //var users = userManager.Users;
 
+            //var users = userManager.Users;
             //var role = userManager.Users;
             //.Where(i => i.UserActivationStatusId != null)
 
-            var users = context.TblUserRegistrationDetail.Include(i => i.UserRegistrationDetailToUserActivationStatus).AsNoTracking(); ;
+            var users = context.TblUserRegistrationDetail.Include(i => i.UserRegistrationDetailToUserActivationStatus).AsNoTracking();
+
+            //var pdbDbContext = _context.TblSubstation.Join(_context.LookUpSubstationType,i=>i.SubstationTypeId,p=>p.SubstationTypeId, (i, p) => i);
             //var users = context.TblUserRegistrationDetail.AsNoTracking();
+
             return View(users);
         }
         [HttpGet]
@@ -108,6 +111,7 @@ namespace Pdb014App.Controllers.UserController
                 return View(model);
             }
         }
+
 
         [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
@@ -242,7 +246,8 @@ namespace Pdb014App.Controllers.UserController
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("index", "home");
+                    return RedirectToAction("ListRoles");
+                    //return RedirectToAction("Administration", "ListRoles");
                 }
 
                 foreach (IdentityError error in result.Errors)
@@ -469,7 +474,6 @@ namespace Pdb014App.Controllers.UserController
 
             return RedirectToAction("EditUser", new { Id = userId });
         }
-
 
     }
 

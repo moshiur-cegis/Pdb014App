@@ -1,0 +1,61 @@
+﻿@model Pdb014App.Models.UserManage.LookUpUserBpdbEmployee
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>LookUpUserBpdbEmployee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BpdbEmployeeId" />
+            <div class="form-group">
+                <label asp-for="BpdbEmployeeLevel" class="control-label"></label>
+                <input asp-for="BpdbEmployeeLevel" class="form-control" />
+                <span asp-validation-for="BpdbEmployeeLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BpdbDivisionId" class="control-label"></label>
+                <select asp-for="BpdbDivisionId" class="form-control" asp-items="ViewBag.BpdbDivisionId"></select>
+                <span asp-validation-for="BpdbDivisionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BpdbEmpDesignation" class="control-label"></label>
+                <input asp-for="BpdbEmpDesignation" class="form-control" />
+                <span asp-validation-for="BpdbEmpDesignation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ZoneCode" class="control-label"></label>
+                <input asp-for="ZoneCode" class="form-control" />
+                <span asp-validation-for="ZoneCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CircleCode" class="control-label"></label>
+                <input asp-for="CircleCode" class="form-control" />
+                <span asp-validation-for="CircleCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SnDCode" class="control-label"></label>
+                <input asp-for="SnDCode" class="form-control" />
+                <span asp-validation-for="SnDCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubstationId" class="control-label"></label>
+                <input asp-for="SubstationId" class="form-control" />
+                <span asp-validation-for="SubstationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
