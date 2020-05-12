@@ -130,7 +130,11 @@ namespace Pdb014App.Repository
         public virtual DbSet<LookUpCircleInfo> LookUpCircleInfo { get; set; }
         public virtual DbSet<LookUpSnDInfo> LookUpSnDInfo { get; set; }
         public virtual DbSet<LookUpRouteInfo> LookUpRouteInfo { get; set; }
+
+        public virtual DbSet<LookUpAdminBndDivision> LookUpAdminBndDivision { get; set; }
         public virtual DbSet<LookUpAdminBndDistrict> LookUpAdminBndDistrict { get; set; }
+        public virtual DbSet<LookUpAdminBndUpazila> LookUpAdminBndUpazila { get; set; }
+        public virtual DbSet<LookUpAdminBndUnion> LookUpAdminBndUnion { get; set; }
         #endregion
 
         #region ServicePointModels
@@ -207,37 +211,21 @@ namespace Pdb014App.Repository
         public virtual DbSet<LookUpMapViewPopUpFieldDetails> LookUpMapViewPopUpFieldDetails { get; set; }
         #endregion
 
+
+        #region Complaint
+
+        public virtual DbSet<TblComplaint> ComplaintInfo { get; set; }
+
+        public virtual DbSet<LookUpComplaintType> ComplaintTypes { get; set; }
+        public virtual DbSet<LookUpComplaintStatus> ComplaintStatus { get; set; }
+
+        #endregion
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            //modelBuilder.Entity<TblFeederLine>()
-            //    .HasKey(fl => fl.FeederLineId);
-
-            //modelBuilder.Entity<TblFeederLine>()
-            //    .HasOne(fl => fl.FeederLineType);
-
-            //    //.WithOne(fl => fl.)
-            //    //.HasForeignKey(fl => fl.FeederLineTypeId);
-
-            //    modelBuilder.Entity<TblFeederLine>()
-            //        .HasOne(fl => fl.FeederLineToRoute);
-
-            //modelBuilder.Entity<TblFeederLine>()
-            //    .HasMany(fl => fl.Poles)
-            //    .WithOne(pi=>pi.PoleToFeederLine);
-
-            //modelBuilder.Entity<TblPole>()
-            //    .HasOne(pi => pi.PoleToFeederLine)
-            //    .WithMany(fl => fl.Poles)
-            //    .HasForeignKey(p => p.FeederLineId);
-
-            //modelBuilder.Entity<BookCategory>()
-            //    .HasKey(bc => new { bc.BookId, bc.CategoryId });
-            //modelBuilder.Entity<BookCategory>()
-            //    .HasOne(bc => bc.Category)
-            //    .WithMany(c => c.BookCategories)
-            //    .HasForeignKey(bc => bc.CategoryId);
 
         }
 
