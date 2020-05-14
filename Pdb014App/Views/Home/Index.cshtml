@@ -428,8 +428,7 @@
 
             return true;
         }
-
-
+        
         function set_bar_chart(containerId, reportName, regionLevel, headers, chartColumns, rawData) {
 
             var chartTitle = reportName + ' Report',
@@ -625,13 +624,11 @@
                         footerFormat: '</table>',
                         valueSuffix: ''
                     }
-
                 }
 
                 chartDataSeries.push(colData);
             }
 
-            //[ "#F7464A", "#45BFBD", "#FDB45C", "#FEDCBA","#ABCDEF", "#DDDDDD", "#ABCABC"  ]
             Highcharts.setOptions({
                 colors: [
                     '#50B534', '#F04A3D', '#8085E8', '#DDDF00', '#0C9BCE', '#70ED5D', "#ED454A", '#7CB5EC', "#FDB35C",
@@ -639,8 +636,7 @@
                     "#DDDDEE", "#ABCABC"
                 ]
             });
-
-
+            
             Highcharts.chart(containerId,
                 {
                     chart: {
@@ -700,12 +696,10 @@
 
             return;
         }
-
-
+        
         function set_pie_chart(containerId, reportName, regionLevel, headers, chartColumns, rawData) {
 
             //var $pieOpts = $("#" + containerId + "_pie_opts");
-
             var chartTitle = reportName + ' Report',
                 chartSubTitle = '',
                 chartCategories = [],
@@ -738,7 +732,6 @@
 
 
             chartDataPie = [];
-
             for (ci = 0; ci < chartColumns.length; ci++) {
 
                 var dataName = headers[[chartColumns[ci]]],
@@ -777,7 +770,6 @@
                 chartDataPie.push(pisData);
             }
 
-            //[ "#F7464A", "#45BFBD", "#FDB45C", "#FEDCBA","#ABCDEF", "#DDDDDD", "#ABCABC"  ]
             Highcharts.setOptions({
                 colors: [
                     '#50B534', '#F04A3D', '#8085E8', '#DDDF00', '#0C9BCE', '#70ED5D', "#ED454A", '#7CB5EC', "#FDB35C",
@@ -785,8 +777,7 @@
                     "#DDDDEE", "#ABCABC"
                 ]
             });
-
-
+            
             Highcharts.chart(containerId,
                 {
                     chart: {
@@ -825,6 +816,17 @@
                             }
                         }
                     },
+                    //legend: {
+                    //    enabled: true,
+                    //    layout: 'vertical',
+                    //    align: 'right',
+                    //    width: 400,
+                    //    verticalAlign: 'middle',
+                    //    useHTML: true,
+                    //    labelFormatter: function() {
+                    //        return '<div style="text-align:left; float:left;">' + this.name + ' <span>(' + this.y + '%)</span></div>';
+                    //    }
+                    //},
                     series: chartDataPie[0].series,
                     responsive: {
                         rules: [
@@ -851,13 +853,10 @@
                         },
                     }
                 });
-
-
+            
             return;
         }
 
-
     </script>
-
-
+    
 }

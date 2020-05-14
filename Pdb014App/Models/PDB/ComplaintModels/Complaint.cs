@@ -7,6 +7,7 @@ using Pdb014App.Models.PDB.LookUpModels;
 using Pdb014App.Models.PDB.RegionModels;
 using Pdb014App.Models.UserManage;
 
+
 namespace Pdb014App.Models.PDB
 {
     public class TblComplaint
@@ -83,7 +84,7 @@ namespace Pdb014App.Models.PDB
 
         [Column("ResponsibleOfficerId", Order = 9, TypeName = "int")]
         [Display(Name = "Responsible Officer")]
-        public int ResponsibleOfficerId { get; set; }
+        public int? ResponsibleOfficerId { get; set; }
         [ForeignKey("ResponsibleOfficerId")]
         public virtual TblUserProfileDetail ResponsibleOfficer { get; set; }
 
@@ -97,7 +98,7 @@ namespace Pdb014App.Models.PDB
 
         [Column("ResolvingOfficerId", Order = 11, TypeName = "int")]
         [Display(Name = "Resolving Officer")]
-        public int ResolvingOfficerId { get; set; }
+        public int? ResolvingOfficerId { get; set; }
         [ForeignKey("ResolvingOfficerId")]
         public virtual TblUserProfileDetail ResolvingOfficer { get; set; }
 
