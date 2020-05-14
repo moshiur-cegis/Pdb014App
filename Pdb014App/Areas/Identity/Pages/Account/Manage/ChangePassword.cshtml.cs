@@ -90,8 +90,10 @@ namespace Pdb014App.Areas.Identity.Pages.Account.Manage
                 }
                 return Page();
             }
+            await _userManager.UpdateSecurityStampAsync(user).ConfigureAwait(false);
+            await _signInManager.RefreshSignInAsync(user).ConfigureAwait(false);
 
-            await _signInManager.RefreshSignInAsync(user);
+            //await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
 

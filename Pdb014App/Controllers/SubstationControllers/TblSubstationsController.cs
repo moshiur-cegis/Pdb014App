@@ -24,6 +24,9 @@ namespace Pdb014App.Controllers.SubstationControllers
         {
             //Include(t => t.SubstationType)
             var pdbDbContext = _context.TblSubstation.Include(t => t.SubstationType).Include(t => t.SubstationToLookUpSnD);
+
+            
+
             return View(await pdbDbContext.ToListAsync());
         }
 
@@ -86,12 +89,12 @@ namespace Pdb014App.Controllers.SubstationControllers
             //try
             //{
 
-                if (ModelState.IsValid)
-                {
-                    _context.Add(tblSubstation);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
+            if (ModelState.IsValid)
+            {
+                _context.Add(tblSubstation);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
             //}
             //catch (Exception e)
             //{

@@ -91,13 +91,12 @@ namespace Pdb014App.Areas.Identity.Pages.Account
                     if (activisionStatus==1)
                     {
 
-
                         return Redirect(returnUrl+ "TblUserProfileDetails/Create/"+ userId);
                         //return RedirectToAction("TblUserProfileDetails", "Create",new { id= userId });
                     }
                     else
                     {
-                        _logger.LogInformation("User logged in.");
+                        //_logger.LogInformation("User logged in.");
                         return LocalRedirect(returnUrl);
 
                         //return RedirectToAction("index", "home");

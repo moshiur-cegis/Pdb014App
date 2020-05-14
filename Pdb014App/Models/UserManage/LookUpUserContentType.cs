@@ -21,5 +21,7 @@ namespace Pdb014App.Models.UserManage
         [StringLength(250)]
         [Display(Name = "Content Type Name")]
         public string ContentTypeName { get; set; }
+
+
     }
 }

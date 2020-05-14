@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Pdb014App.Models.UserManage.LookUpUserBpdbEmployee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BpdbEmployeeLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserBpdbEmployeeUserBpdbDivision)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BpdbEmpDesignation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ZoneCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CircleCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SnDCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubstationId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BpdbEmployeeLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserBpdbEmployeeUserBpdbDivision.BpdbDivisionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BpdbEmpDesignation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZoneCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CircleCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SnDCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubstationId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.BpdbEmployeeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.BpdbEmployeeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.BpdbEmployeeId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
