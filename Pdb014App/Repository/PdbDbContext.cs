@@ -131,6 +131,8 @@ namespace Pdb014App.Repository
         public virtual DbSet<LookUpSnDInfo> LookUpSnDInfo { get; set; }
         public virtual DbSet<LookUpRouteInfo> LookUpRouteInfo { get; set; }
 
+        public virtual DbSet<LookUpAdminRegionRel> LookUpAdminRegionRel { get; set; }
+
         public virtual DbSet<LookUpAdminBndDivision> LookUpAdminBndDivision { get; set; }
         public virtual DbSet<LookUpAdminBndDistrict> LookUpAdminBndDistrict { get; set; }
         public virtual DbSet<LookUpAdminBndUpazila> LookUpAdminBndUpazila { get; set; }
@@ -226,6 +228,23 @@ namespace Pdb014App.Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<LookUpAdminRegionRel>()
+                .HasKey(ar => new {ar.UnionGeoCode, ar.SnDCode});
+
+
+            //modelBuilder.Entity<TblComplaint>()
+            //    .HasOne(c => c.ResponsibleOfficer)
+            //    .WithMany(o => o.Complaints)
+            //    .HasForeignKey(c => c.ResponsibleOfficerId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<TblComplaint>()
+            //    .HasOne(c => c.ResolvingOfficer)
+            //    .WithMany(o => o.Complaints)
+            //    .HasForeignKey(c => c.ResolvingOfficerId)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
 
         }
 

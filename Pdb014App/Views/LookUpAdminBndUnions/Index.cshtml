@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.RegionModels.LookUpAdminBndUnion>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UnionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.District)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Upazila)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.District.DistrictGeoCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Upazila.UpazilaGeoCode)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.UnionGeoCode">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UnionGeoCode">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.UnionGeoCode">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

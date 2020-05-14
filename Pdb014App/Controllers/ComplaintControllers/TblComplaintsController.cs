@@ -25,9 +25,25 @@ namespace Pdb014App.Controllers.ComplaintControllers
         // GET: TblComplaints
         public async Task<IActionResult> Index()
         {
-            var pdbDbContext = _context.ComplaintInfo.Include(t => t.ComplaintStatus).Include(t => t.ComplaintToSnD).Include(t => t.ComplaintToUnion).Include(t => t.ComplaintType).Include(t => t.ResolvingOfficer).Include(t => t.ResponsibleOfficer);
-            return View(await pdbDbContext.ToListAsync());
+            var complaints = _context.ComplaintInfo.Include(t => t.ComplaintStatus).Include(t => t.ComplaintToSnD).Include(t => t.ComplaintToUnion).Include(t => t.ComplaintType).Include(t => t.ResolvingOfficer).Include(t => t.ResponsibleOfficer);
+            return View(await complaints.ToListAsync());
         }
+
+        
+
+        // GET: TblComplaints
+        public async Task<IActionResult> AddComplaint()
+        {
+            ViewData["ComplaintStatusId"] = new SelectList(_context.ComplaintStatus, "ComplaintStatusId", "ComplaintStatus");
+            ViewData["SnDCode"] = new SelectList(_context.LookUpSnDInfo, "SnDCode", "SnDCode");
+            ViewData["UnionGeoCode"] = new SelectList(_context.LookUpAdminBndUnion, "UnionGeoCode", "UnionGeoCode");
+            ViewData["ComplaintTypeId"] = new SelectList(_context.ComplaintTypes, "ComplaintTypeId", "ComplaintType");
+            ViewData["ResolvingOfficerId"] = new SelectList(_context.Set<TblUserProfileDetail>(), "UserId", "Id");
+            ViewData["ResponsibleOfficerId"] = new SelectList(_context.Set<TblUserProfileDetail>(), "UserId", "Id");
+            return View();
+        }
+
+
 
         // GET: TblComplaints/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -45,6 +61,7 @@ namespace Pdb014App.Controllers.ComplaintControllers
                 .Include(t => t.ResolvingOfficer)
                 .Include(t => t.ResponsibleOfficer)
                 .FirstOrDefaultAsync(m => m.ComplaintId == id);
+
             if (tblComplaint == null)
             {
                 return NotFound();
