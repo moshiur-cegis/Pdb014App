@@ -175,6 +175,8 @@ namespace Pdb014App.Repository
 
         public virtual DbSet<LookUpSubstationType> LookUpSubstationType { get; set; }
         public virtual DbSet<LookUpFeederLineType> LookUpFeederLineType { get; set; }
+        public virtual DbSet<LookUpFeederConductorType> LookUpFeederConductorType { get; set; }
+        public virtual DbSet<LookUpSubstationComponentType> LookUpSubstationComponentType { get; set; }
 
 
         #endregion
@@ -210,7 +212,6 @@ namespace Pdb014App.Repository
         public virtual DbSet<LookUpMapViewLayerType> LookUpMapViewLayerType { get; set; }
         public virtual DbSet<LookUpMapViewPopUpFieldDetails> LookUpMapViewPopUpFieldDetails { get; set; }
         #endregion
-
 
         #region Complaint
 

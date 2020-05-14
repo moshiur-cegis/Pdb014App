@@ -37,7 +37,16 @@ namespace Pdb014App.Models.PDB
         public virtual LookUpFeederLineType FeederLineType { get; set; }
 
 
-        [Column(Order = 2, TypeName = "varchar(50)")]
+        [Column("FeederConductorTypeId", Order = 2, TypeName = "int")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Feeder Conductor Type")]
+        public int? FeederConductorTypeId { get; set; }
+
+        [ForeignKey("FeederConductorTypeId")]
+        public virtual LookUpFeederConductorType FeederConductorType { get; set; }
+
+
+        [Column(Order = 3, TypeName = "varchar(50)")]
         [StringLength(50)]
         [Display(Name = "Route Code")]
         public string RouteCode { get; set; }
@@ -46,12 +55,12 @@ namespace Pdb014App.Models.PDB
         public virtual LookUpRouteInfo FeederLineToRoute { get; set; }
 
 
-        [Column("FeederName", Order = 3, TypeName = "nvarchar(250)")]
+        [Column("FeederName", Order = 4, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
         [Display(Name = "Feeder Name")]
         public string FeederName { get; set; }
 
-        [Column("NominalVoltage", Order = 4, TypeName = "decimal(5, 0)")]
+        [Column("NominalVoltage", Order = 5, TypeName = "decimal(5, 0)")]
         [DataType(DataType.Text)]
         [Display(Name = "Nominal Voltage")]
         [Range(0, 99999, ErrorMessage = "Invalid {0}; Max 5 digits")]
