@@ -6,22 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Repository\Migrations\PdbDb\20200412073039_UpdateCircleSnDToAddCityDistrict.cs" />
-    <Compile Remove="Repository\Migrations\PdbDb\20200412073039_UpdateCircleSnDToAddCityDistrict.Designer.cs" />
-    <Compile Remove="Repository\Migrations\PdbDb\20200510060335_Update_Service_point_primary_key.cs" />
-    <Compile Remove="Repository\Migrations\PdbDb\20200510060335_Update_Service_point_primary_key.Designer.cs" />
-    <Compile Remove="Repository\Migrations\PdbDb\20200510061932_Update_Service_point_primary_key.cs" />
-    <Compile Remove="Repository\Migrations\PdbDb\20200510061932_Update_Service_point_primary_key.Designer.cs" />
-    <Compile Remove="Repository\Migrations\PdbDb\20200510063552_Update_Service_point_primary_key.cs" />
-    <Compile Remove="Repository\Migrations\PdbDb\20200510063552_Update_Service_point_primary_key.Designer.cs" />
-    <Compile Remove="Repository\Migrations\UserDb\20200429080549_UpdateUserInfo.cs" />
-    <Compile Remove="Repository\Migrations\UserDb\20200429080549_UpdateUserInfo.Designer.cs" />
-    <Compile Remove="Repository\Migrations\UserDb\20200503072049_InitialCreate.cs" />
-    <Compile Remove="Repository\Migrations\UserDb\20200503072049_InitialCreate.Designer.cs" />
-    <Compile Remove="Repository\Migrations\UserDb\20200503072919_InitialCreate.cs" />
-    <Compile Remove="Repository\Migrations\UserDb\20200503072919_InitialCreate.Designer.cs" />
-    <Compile Remove="Repository\Migrations\UserDb\20200503095856_UpdateIndetityRole2.cs" />
-    <Compile Remove="Repository\Migrations\UserDb\20200503095856_UpdateIndetityRole2.Designer.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200514015328_AdminBndAndComplaintUpdate.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200514015328_AdminBndAndComplaintUpdate.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
