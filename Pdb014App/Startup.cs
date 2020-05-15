@@ -16,12 +16,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-
-using Pdb014App.Areas.Identity.Services;
-using Pdb014App.Models;
-using Pdb014App.Repository;
 using ReflectionIT.Mvc.Paging;
+
+using Pdb014App.Repository;
 using Pdb014App.Models.UserManage;
+using Pdb014App.Areas.Identity.Services;
+
 
 namespace Pdb014App
 {

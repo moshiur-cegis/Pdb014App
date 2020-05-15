@@ -1,0 +1,236 @@
+﻿@model Pdb014App.Models.PDB.TblComplain
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Add a Complain</h3>
+<hr />
+<div class="row">
+    <div class="col-md-2"></div>
+
+    <div class="col-md-8">
+
+        <fieldset style="margin-top: 1.15rem;">
+            <legend>▣ Select Basic Information</legend>
+            @*<legend>▣ Administrative Boundaries</legend>*@
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Division</label>
+                        <select id="DivCode" name="DivCode" class="form-control" asp-items="ViewBag.DivList" value="@ViewBag.DivCode">
+                            <option value="" selected="selected">----- select division -----</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">District</label>
+                        <select id="DistCode" name="DistCode" class="form-control" asp-items="ViewBag.DistList" value="@ViewBag.DistCode">
+                            <option value="" selected="selected">----- select district -----</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Upazila</label>
+                        <select id="UpazCode" name="UpazCode" class="form-control" asp-items="ViewBag.UpazList" value="@ViewBag.UpazCode">
+                            <option value="" selected="selected">----- select upazila -----</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Union</label>
+                        <select id="UnionCode" name="UnionCode" class="form-control" asp-items="ViewBag.UnionList" value="@ViewBag.UnionCode">
+                            <option value="" selected="selected">----- select union -----</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">S&D</label>
+                        <select id="SnDCode" name="SnDCode" class="form-control" disabled="disabled" asp-items="ViewBag.SnDList" value="@ViewBag.SnDCode"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="Latitude">Latitude</label>
+                        <input id="Latitude" name="Latitude" type="text" class="form-control" value="" data-val="true" data-val-number="The field Latitude must be a number." data-val-range="Invalid Latitude; Max 10 digits" data-val-range-max="99.99999999" data-val-range-min="0">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Latitude" data-valmsg-replace="true"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="Longitude">Longitude</label>
+                        <input type="text" id="Longitude" name="Longitude" class="form-control" value="" data-val="true" data-val-number="The field Longitude must be a number." data-val-range="Invalid Longitude; Max 10 digits" data-val-range-max="99.99999999" data-val-range-min="0">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Longitude" data-valmsg-replace="true"></span>
+                    </div>
+
+                    <div class="form-group text-right pt-md-4">
+                        <a class="btn btn-primary pt-md-1" asp-action="NewComplain">Next</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </fieldset>
+
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script>
+
+
+        $("#DivCode").on("change",
+            function() {
+                var divCode = $("#DivCode").val(),
+                    $district = $("#DistCode");
+
+                $district.empty();
+                $("#UpazCode").empty();
+                $("#UnionCode").empty();
+                $("#SnDCode").empty().prop("disabled", true);
+
+                if (!divCode)
+                    return false;
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDistrictList", "LookUpAdminBndDistricts")',
+                    dataType: "json",
+                    data: { divCode: divCode },
+                    before: $("#busy-indicator").fadeIn(150),
+                    success: function (districts) {
+                        //console.log(divCode);
+                        //console.log(districts);
+                        $district.append(
+                            '<option value="" selected="selected">----- select district -----</option>');
+                        $.each(districts,
+                            function(i, district) {
+                                $("<option />").val(district.value).html(district.text)
+                                    .appendTo($district);
+                            });
+                    },
+                    error: function(ex, status, error) {
+                        msg.init("error",
+                            "Error... . . !",
+                            "Failed to load district list. " + ex.responseText);
+                    },
+                    complete: $("#busy-indicator").fadeOut(150)
+                });
+                return false;
+            });
+
+
+        $("#DistCode").on("change",
+            function() {
+                var distCode = $("#DistCode").val(),
+                    $upazila = $("#UpazCode");
+
+                $upazila.empty();
+                $("#UnionCode").empty();
+                $("#SnDCode").empty().prop("disabled", true);
+
+                if (!distCode)
+                    return false;
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetUpazilaList", "LookUpAdminBndUpazilas")",
+                    dataType: "json",
+                    data: { distCode: distCode },
+                    before: $("#busy-indicator").fadeIn(150),
+                    success: function(upazilas) {
+                        $upazila.append(
+                            '<option value="" selected="selected">----- select upazila -----</option>');
+                        $.each(upazilas,
+                            function(i, upazila) {
+                                $("<option />").val(upazila.value).html(upazila.text).appendTo($upazila);
+                            });
+                    },
+                    error: function(ex, status, error) {
+                        msg.init("error",
+                            "Error... . . !",
+                            "Failed to load upazila list. " + ex.responseText);
+                    },
+                    complete: $("#busy-indicator").fadeOut(150)
+                });
+                return false;
+            });
+
+        $("#UpazCode").on("change",
+            function() {
+                var upazCode = $("#UpazCode").val(),
+                    $union = $("#UnionCode");
+
+                $union.empty();
+                $("#SnDCode").empty().prop("disabled", true);
+
+                if (!upazCode)
+                    return false;
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetUnionList", "LookUpAdminBndUnions")",
+                    dataType: "json",
+                    data: { upazCode: upazCode },
+                    before: $("#busy-indicator").fadeIn(150),
+                    success: function(unions) {
+                        $union.append(
+                            '<option value="" selected="selected">----- select union -----</option>');
+                        $.each(unions,
+                            function(i, union) {
+                                $("<option />").val(union.value).html(union.text)
+                                    .appendTo($union);
+                            });
+                    },
+                    error: function(ex, status, error) {
+                        msg.init("error",
+                            "Error... . . !",
+                            "Failed to load union list. " + ex.responseText);
+                    },
+                    complete: $("#busy-indicator").fadeOut(150)
+                });
+                return false;
+            });
+
+        $("#UnionCode").on("change",
+            function() {
+                var unionCode = $("#UnionCode").val(),
+                    $snd = $("#RouteCode");
+
+                $snd.empty().prop("disabled", true);
+
+                if (!unionCode)
+                    return false;
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetSnDList", "LookUpAdminRegionRels")",
+                    dataType: "json",
+                    data: { unionCode: unionCode },
+                    before: $("#busy-indicator").fadeIn(150),
+                    success: function(snds) {
+                        //$snd.append('<option value="" selected="selected">----- select S&D -----</option>');
+                        $snd.prop("disabled", false);
+                        $.each(snds,
+                            function(i, snd) {
+                                $("<option />").val(snd.value).html(snd.text).appendTo($snd);
+                            });
+                    },
+                    error: function(ex, status, error) {
+                        msg.init("error", "Error... . . !", "Failed to load S&D list. " + ex.responseText);
+                    },
+                    complete: $("#busy-indicator").fadeOut(150)
+                });
+                return false;
+            });
+
+
+    </script>
+}

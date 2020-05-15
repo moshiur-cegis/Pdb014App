@@ -215,12 +215,12 @@ namespace Pdb014App.Repository
         public virtual DbSet<LookUpMapViewPopUpFieldDetails> LookUpMapViewPopUpFieldDetails { get; set; }
         #endregion
 
-        #region Complaint
+        #region Complain
 
-        public virtual DbSet<TblComplaint> ComplaintInfo { get; set; }
+        public virtual DbSet<TblComplain> ComplainInfo { get; set; }
 
-        public virtual DbSet<LookUpComplaintType> ComplaintTypes { get; set; }
-        public virtual DbSet<LookUpComplaintStatus> ComplaintStatus { get; set; }
+        public virtual DbSet<LookUpComplainType> ComplainTypes { get; set; }
+        public virtual DbSet<LookUpComplainStatus> ComplainStatus { get; set; }
 
         #endregion
 
@@ -231,18 +231,18 @@ namespace Pdb014App.Repository
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<LookUpAdminRegionRel>()
-                .HasKey(ar => new {ar.UnionGeoCode, ar.SnDCode});
+                .HasKey(ar => new { ar.UnionGeoCode, ar.SnDCode });
 
 
-            //modelBuilder.Entity<TblComplaint>()
+            //modelBuilder.Entity<TblComplain>()
             //    .HasOne(c => c.ResponsibleOfficer)
-            //    .WithMany(o => o.Complaints)
+            //    .WithMany(o => o.Complains)
             //    .HasForeignKey(c => c.ResponsibleOfficerId)
             //    .OnDelete(DeleteBehavior.Cascade);
 
-            //modelBuilder.Entity<TblComplaint>()
+            //modelBuilder.Entity<TblComplain>()
             //    .HasOne(c => c.ResolvingOfficer)
-            //    .WithMany(o => o.Complaints)
+            //    .WithMany(o => o.Complains)
             //    .HasForeignKey(c => c.ResolvingOfficerId)
             //    .OnDelete(DeleteBehavior.Cascade);
 

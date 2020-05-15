@@ -1,0 +1,127 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.TblComplain>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplainNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplainType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplainStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplainerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplainerAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplainerDetails)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplainDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplainPriority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResponsibleOfficer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResolveDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResolvingOfficer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplainToUnion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplainToSnD)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Latitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Longitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remark)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainType.ComplainType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainStatus.ComplainStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainerAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainerDetails)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainPriority)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResponsibleOfficer.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResolveDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResolvingOfficer.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainToUnion.UnionGeoCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComplainToSnD.SnDCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Latitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Longitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remark)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ComplainId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ComplainId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ComplainId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

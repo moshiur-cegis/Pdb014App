@@ -19,6 +19,19 @@ namespace Pdb014App.Controllers.RegionControllers
             _context = context;
         }
 
+
+        [HttpPost]
+        public JsonResult GetUnionList(string upazCode)
+        {
+            var distList = _context.LookUpAdminBndUnion
+                .Where(d => d.UpazilaGeoCode.Equals(upazCode))
+                .Select(d => new { d.UnionGeoCode, d.UnionName })
+                .OrderBy(d => d.UnionName)
+                .ToList();
+
+            return Json(new SelectList(distList, "UnionGeoCode", "UnionName"));
+        }
+
         // GET: LookUpAdminBndUnions
         public async Task<IActionResult> Index()
         {

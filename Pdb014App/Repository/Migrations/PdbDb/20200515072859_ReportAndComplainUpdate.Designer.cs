@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pdb014App.Repository;
 
 namespace Pdb014App.Repository.Migrations.PdbDb
 {
     [DbContext(typeof(PdbDbContext))]
-    partial class PdbDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200515072859_ReportAndComplainUpdate")]
+    partial class ReportAndComplainUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

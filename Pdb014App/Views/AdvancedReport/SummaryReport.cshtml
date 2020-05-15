@@ -266,21 +266,18 @@
                 dataType: "json",
                 data: { "regionList": regionList },
                 before: $("#busy-indicator").fadeIn(150),
-                success: function(data) {
+                success: function (data) {
+
+                    console.log(data);
                     $("#report_view").empty();
-                    $("#chartBar").empty();
-                    $("#chartPie").empty();
-                    $("#PieChartOptions").empty();
 
                     if (dataColumns && dataColumns.length > 0) {
                         $("#dataView").css('display', '');
-                        $("#chartAll").css('display', '');
 
                         init_data_table("#report_view", headerList, basicColumns, dataColumns, data);
                         //init_chart_data(headerList, dataColumns, data);
                     } else {
                         $("#dataView").css('display', 'none');
-                        //$("#chartAll").css('display', 'none');
                         msg.init("warning", "Warning... . . !", "Select at least one data field... . . !! ");
                     }
                     $("#busy-indicator").fadeOut(150);
@@ -812,3 +809,4 @@
     </script>
 
 }
+
