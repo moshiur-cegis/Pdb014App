@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pdb014App.Models.PDB
 {
+    [Table("LookUpComplainTypes")]
     public class LookUpComplainType
     {
         [Key]

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
 namespace Pdb014App.Models.PDB
 {
+    [Table("LookUpComplainStatus")]
     public class LookUpComplainStatus
     {
         [Key]

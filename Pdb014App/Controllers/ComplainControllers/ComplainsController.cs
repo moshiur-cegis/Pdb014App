@@ -102,7 +102,7 @@ namespace Pdb014App.Controllers.ComplainControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ComplainId,ComplainNo,ComplainTypeId,ComplainStatusId,ComplainerName,ComplainerAddress,ComplainerDetails,ComplainDate,ComplainPriority,ResponsibleOfficerId,ResolveDate,ResolvingOfficerId,UnionGeoCode,SnDCode,Latitude,Longitude,Remark")] TblComplain tblComplain)
+        public async Task<IActionResult> Create([Bind("ComplainId,ComplainNo,ComplainTypeId,ComplainStatusId,ComplainerName,ComplainerAddress,ComplainerDetails,ComplainDate,ComplainPriority,ResponsibleOfficerId,ResolveDate,ResolvingOfficerId,UnionGeoCode,SnDCode,Latitude,Longitude,Remark")] Complain tblComplain)
         {
             if (ModelState.IsValid)
             {
@@ -146,7 +146,7 @@ namespace Pdb014App.Controllers.ComplainControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ComplainId,ComplainNo,ComplainTypeId,ComplainStatusId,ComplainerName,ComplainerAddress,ComplainerDetails,ComplainDate,ComplainPriority,ResponsibleOfficerId,ResolveDate,ResolvingOfficerId,UnionGeoCode,SnDCode,Latitude,Longitude,Remark")] TblComplain tblComplain)
+        public async Task<IActionResult> Edit(int id, [Bind("ComplainId,ComplainNo,ComplainTypeId,ComplainStatusId,ComplainerName,ComplainerAddress,ComplainerDetails,ComplainDate,ComplainPriority,ResponsibleOfficerId,ResolveDate,ResolvingOfficerId,UnionGeoCode,SnDCode,Latitude,Longitude,Remark")] Complain tblComplain)
         {
             if (id != tblComplain.ComplainId)
             {

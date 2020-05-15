@@ -217,7 +217,7 @@ namespace Pdb014App.Repository
 
         #region Complain
 
-        public virtual DbSet<TblComplain> ComplainInfo { get; set; }
+        public virtual DbSet<Complain> ComplainInfo { get; set; }
 
         public virtual DbSet<LookUpComplainType> ComplainTypes { get; set; }
         public virtual DbSet<LookUpComplainStatus> ComplainStatus { get; set; }

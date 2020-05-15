@@ -10,7 +10,8 @@ using Pdb014App.Models.UserManage;
 
 namespace Pdb014App.Models.PDB
 {
-    public class TblComplain
+    [Table("TblComplains")]
+    public class Complain
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
