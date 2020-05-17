@@ -44,16 +44,17 @@ namespace Pdb014App.Controllers.ComplainControllers
         // GET: TblComplains
         public IActionResult NewComplain(string unionCode, string sndCode, int? lat, int? lon)
         {
-            ViewData["DivList"] = new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName");
+            //ViewData["DivList"] = new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName");
             //ViewData["DistList"] = new SelectList(_context.LookUpAdminBndDistrict, "DistrictGeoCode", "DistrictName");
 
 
-            ViewData["ComplainStatusId"] = new SelectList(_context.ComplainStatus, "ComplainStatusId", "ComplainStatus");
-            ViewData["SnDCode"] = new SelectList(_context.LookUpSnDInfo, "SnDCode", "SnDCode");
-            ViewData["UnionGeoCode"] = new SelectList(_context.LookUpAdminBndUnion, "UnionGeoCode", "UnionGeoCode");
-            ViewData["ComplainTypeId"] = new SelectList(_context.ComplainTypes, "ComplainTypeId", "ComplainType");
-            ViewData["ResolvingOfficerId"] = new SelectList(_context.Set<TblUserProfileDetail>(), "UserId", "Id");
-            ViewData["ResponsibleOfficerId"] = new SelectList(_context.Set<TblUserProfileDetail>(), "UserId", "Id");
+            ViewData["ComplainTypeList"] = new SelectList(_context.ComplainTypes, "ComplainTypeId", "ComplainType");
+            ViewData["ComplainStatusList"] = new SelectList(_context.ComplainStatus, "ComplainStatusId", "ComplainStatus");
+
+            ViewData["SnDList"] = new SelectList(_context.LookUpSnDInfo, "SnDCode", "SnDCode");
+            ViewData["UnionList"] = new SelectList(_context.LookUpAdminBndUnion, "UnionGeoCode", "UnionGeoCode");
+            ViewData["ResolvingOfficerList"] = new SelectList(_context.Set<TblUserProfileDetail>(), "UserId", "Id");
+            ViewData["ResponsibleOfficerList"] = new SelectList(_context.Set<TblUserProfileDetail>(), "UserId", "Id");
 
 
             return View();

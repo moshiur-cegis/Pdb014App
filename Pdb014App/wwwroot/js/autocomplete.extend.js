@@ -69,8 +69,10 @@ function addAutocomplete($fieldValue, fieldInfo, apiUrl) {
             if (!options)
                 return;
 
+            var pcId = $fieldValue.closest("td").find(".ac-list-content:first")[0].id;
             var ml = options.length < 500 ? 0 : options.length < 2500 ? 1 : options.length < 5000 ? 2 : 3;
             $fieldValue.autocomplete({
+                appendTo: "#" + pcId,
                 source: options.length < 2500
                     ? options
                     : function (request, response) {

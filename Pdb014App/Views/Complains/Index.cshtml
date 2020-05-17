@@ -64,6 +64,7 @@
             <th></th>
         </tr>
     </thead>
+
     <tbody>
         @foreach (var item in Model)
         {
@@ -99,7 +100,7 @@
                     @Html.DisplayFor(modelItem => item.ResolveDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ResolvingOfficer.Id)
+                    @Html.DisplayFor(modelItem => item.ResolvingOfficer.UserFullName + ", " + item.ResolvingOfficer.UserDesignation)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ComplainToUnion.UnionGeoCode)

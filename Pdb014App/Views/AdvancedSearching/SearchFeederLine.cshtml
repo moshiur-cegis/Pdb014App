@@ -117,7 +117,7 @@
 
                     <fieldset>
                         <legend>▣ Search Options</legend>
-                        <table id="tblSearchOptions" class="table table-responsive" cellpadding="0" cellspacing="0">
+                        <table id="tblSearchOptions" class="table" cellpadding="0" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th style="width: 48%">Field Name</th>
@@ -149,6 +149,7 @@
                                         </td>
                                         <td>
                                             <input id="fieldValue" asp-for="@searchParameters[spc][2]" class="form-control text-left field-value" />
+                                            <div id="ac-list-@spc" class="ac-list-content"></div>
                                         </td>
                                         <td>
                                             <select id="joinOption" asp-for="@searchParameters[spc][3]" class="form-control text-center">
@@ -228,9 +229,6 @@
                             <th>
                                 @Html.SortableHeaderFor(model => model.FeederLineType.FeederLineTypeName)
                             </th>
-                            @*<th>
-                                    @Html.SortableHeaderFor(model => model.FeederLineToRoute.RouteName)
-                                </th>*@
                             <th>
                                 @Html.SortableHeaderFor(model => model.FeederName)
                             </th>
@@ -300,9 +298,6 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.FeederLineType.FeederLineTypeName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteName)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.FeederName)
