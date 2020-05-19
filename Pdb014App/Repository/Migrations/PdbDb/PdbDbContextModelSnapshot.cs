@@ -266,6 +266,104 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.ToTable("LookUpMapViewPopUpFieldDetails");
                 });
 
+            modelBuilder.Entity("Pdb014App.Models.PDB.Complain", b =>
+                {
+                    b.Property<int>("ComplainId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("ComplainId")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("ComplainDate")
+                        .HasColumnName("ComplainDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ComplainNo")
+                        .HasColumnName("ComplainNo")
+                        .HasColumnType("varchar(10)")
+                        .HasMaxLength(10);
+
+                    b.Property<int?>("ComplainPriority")
+                        .HasColumnName("ComplainPriority")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ComplainStatusId")
+                        .HasColumnName("ComplainStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ComplainTypeId")
+                        .HasColumnName("ComplainTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ComplainerAddress")
+                        .HasColumnName("Complainer Address")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("ComplainerDetails")
+                        .IsRequired()
+                        .HasColumnName("ComplainerDetails")
+                        .HasColumnType("nvarchar(2500)")
+                        .HasMaxLength(2500);
+
+                    b.Property<string>("ComplainerName")
+                        .IsRequired()
+                        .HasColumnName("ComplainerName")
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<decimal?>("Latitude")
+                        .HasColumnName("Latitude")
+                        .HasColumnType("decimal(10, 8)");
+
+                    b.Property<decimal?>("Longitude")
+                        .HasColumnName("Longitude")
+                        .HasColumnType("decimal(10, 8)");
+
+                    b.Property<string>("Remark")
+                        .HasColumnName("Remark")
+                        .HasColumnType("nvarchar(2500)")
+                        .HasMaxLength(2500);
+
+                    b.Property<DateTime?>("ResolveDate")
+                        .HasColumnName("ResolveDate")
+                        .HasColumnType("date");
+
+                    b.Property<int?>("ResolvingOfficerId")
+                        .HasColumnName("ResolvingOfficerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ResponsibleOfficerId")
+                        .HasColumnName("ResponsibleOfficerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SnDCode")
+                        .HasColumnName("SnDCode")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("UnionGeoCode")
+                        .HasColumnName("UnionGeoCode")
+                        .HasColumnType("varchar(8)")
+                        .HasMaxLength(8);
+
+                    b.HasKey("ComplainId");
+
+                    b.HasIndex("ComplainStatusId");
+
+                    b.HasIndex("ComplainTypeId");
+
+                    b.HasIndex("ResolvingOfficerId");
+
+                    b.HasIndex("ResponsibleOfficerId");
+
+                    b.HasIndex("SnDCode");
+
+                    b.HasIndex("UnionGeoCode");
+
+                    b.ToTable("TblComplains");
+                });
+
             modelBuilder.Entity("Pdb014App.Models.PDB.ConductorModels.LookUpConductorType", b =>
                 {
                     b.Property<string>("ConductorTypeId")
@@ -2059,38 +2157,38 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.ToTable("TblInsulatorShackleOrGuy");
                 });
 
-            modelBuilder.Entity("Pdb014App.Models.PDB.LookUpComplaintStatus", b =>
+            modelBuilder.Entity("Pdb014App.Models.PDB.LookUpComplainStatus", b =>
                 {
-                    b.Property<int>("ComplaintStatusId")
+                    b.Property<int>("ComplainStatusId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ComplaintStatus")
+                    b.Property<string>("ComplainStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.HasKey("ComplaintStatusId");
+                    b.HasKey("ComplainStatusId");
 
-                    b.ToTable("ComplaintStatus");
+                    b.ToTable("LookUpComplainStatus");
                 });
 
-            modelBuilder.Entity("Pdb014App.Models.PDB.LookUpComplaintType", b =>
+            modelBuilder.Entity("Pdb014App.Models.PDB.LookUpComplainType", b =>
                 {
-                    b.Property<int>("ComplaintTypeId")
+                    b.Property<int>("ComplainTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ComplaintType")
+                    b.Property<string>("ComplainType")
                         .IsRequired()
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.HasKey("ComplaintTypeId");
+                    b.HasKey("ComplainTypeId");
 
-                    b.ToTable("ComplaintTypes");
+                    b.ToTable("LookUpComplainTypes");
                 });
 
             modelBuilder.Entity("Pdb014App.Models.PDB.LookUpCondition", b =>
@@ -3631,6 +3729,25 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.HasIndex("DistrictGeoCode");
 
                     b.ToTable("LookUpAdminBndUpazila");
+                });
+
+            modelBuilder.Entity("Pdb014App.Models.PDB.RegionModels.LookUpAdminRegionRel", b =>
+                {
+                    b.Property<string>("UnionGeoCode")
+                        .HasColumnName("UnionGeoCode")
+                        .HasColumnType("varchar(8)")
+                        .HasMaxLength(8);
+
+                    b.Property<string>("SnDCode")
+                        .HasColumnName("SnDCode")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("UnionGeoCode", "SnDCode");
+
+                    b.HasAlternateKey("SnDCode", "UnionGeoCode");
+
+                    b.ToTable("LookUpAdminRegionRel");
                 });
 
             modelBuilder.Entity("Pdb014App.Models.PDB.ServicePointModels.LookUpBusinessType", b =>
@@ -5804,102 +5921,6 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.ToTable("TblXLPEaluminiumCopperGalvanize11KV");
                 });
 
-            modelBuilder.Entity("Pdb014App.Models.PDB.TblComplaint", b =>
-                {
-                    b.Property<int>("ComplaintId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("ComplaintId")
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ComplainerAddress")
-                        .HasColumnName("Complainer Address")
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("ComplainerDetails")
-                        .HasColumnName("ComplainerDetails")
-                        .HasColumnType("nvarchar(2500)")
-                        .HasMaxLength(2500);
-
-                    b.Property<string>("ComplainerName")
-                        .HasColumnName("ComplainerName")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
-
-                    b.Property<DateTime?>("ComplaintDate")
-                        .HasColumnName("ComplaintDate")
-                        .HasColumnType("date");
-
-                    b.Property<string>("ComplaintNo")
-                        .HasColumnName("ComplaintNo")
-                        .HasColumnType("varchar(10)")
-                        .HasMaxLength(10);
-
-                    b.Property<int>("ComplaintPriority")
-                        .HasColumnName("ComplaintPriority")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ComplaintStatusId")
-                        .HasColumnName("ComplaintStatusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ComplaintTypeId")
-                        .HasColumnName("ComplaintTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("Latitude")
-                        .HasColumnName("Latitude")
-                        .HasColumnType("decimal(10, 8)");
-
-                    b.Property<decimal?>("Longitude")
-                        .HasColumnName("Longitude")
-                        .HasColumnType("decimal(10, 8)");
-
-                    b.Property<string>("Remark")
-                        .HasColumnName("Remark")
-                        .HasColumnType("nvarchar(2500)")
-                        .HasMaxLength(2500);
-
-                    b.Property<DateTime?>("ResolveDate")
-                        .HasColumnName("ResolveDate")
-                        .HasColumnType("date");
-
-                    b.Property<int>("ResolvingOfficerId")
-                        .HasColumnName("ResolvingOfficerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ResponsibleOfficerId")
-                        .HasColumnName("ResponsibleOfficerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SnDCode")
-                        .HasColumnName("SnDCode")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("UnionGeoCode")
-                        .HasColumnName("UnionGeoCode")
-                        .HasColumnType("varchar(8)")
-                        .HasMaxLength(8);
-
-                    b.HasKey("ComplaintId");
-
-                    b.HasIndex("ComplaintStatusId");
-
-                    b.HasIndex("ComplaintTypeId");
-
-                    b.HasIndex("ResolvingOfficerId");
-
-                    b.HasIndex("ResponsibleOfficerId");
-
-                    b.HasIndex("SnDCode");
-
-                    b.HasIndex("UnionGeoCode");
-
-                    b.ToTable("ComplaintInfo");
-                });
-
             modelBuilder.Entity("Pdb014App.Models.PDB.TblFeederLine", b =>
                 {
                     b.Property<string>("FeederLineId")
@@ -6464,6 +6485,35 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Pdb014App.Models.PDB.Complain", b =>
+                {
+                    b.HasOne("Pdb014App.Models.PDB.LookUpComplainStatus", "ComplainStatus")
+                        .WithMany()
+                        .HasForeignKey("ComplainStatusId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pdb014App.Models.PDB.LookUpComplainType", "ComplainType")
+                        .WithMany()
+                        .HasForeignKey("ComplainTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pdb014App.Models.UserManage.TblUserProfileDetail", "ResolvingOfficer")
+                        .WithMany()
+                        .HasForeignKey("ResolvingOfficerId");
+
+                    b.HasOne("Pdb014App.Models.UserManage.TblUserProfileDetail", "ResponsibleOfficer")
+                        .WithMany()
+                        .HasForeignKey("ResponsibleOfficerId");
+
+                    b.HasOne("Pdb014App.Models.PDB.LookUpModels.LookUpSnDInfo", "ComplainToSnD")
+                        .WithMany()
+                        .HasForeignKey("SnDCode");
+
+                    b.HasOne("Pdb014App.Models.PDB.RegionModels.LookUpAdminBndUnion", "ComplainToUnion")
+                        .WithMany()
+                        .HasForeignKey("UnionGeoCode");
+                });
+
             modelBuilder.Entity("Pdb014App.Models.PDB.ConductorModels.TblConductor", b =>
                 {
                     b.HasOne("Pdb014App.Models.PDB.ConductorModels.LookUpConductorType", "ConductorType")
@@ -6844,6 +6894,19 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasForeignKey("DistrictGeoCode");
                 });
 
+            modelBuilder.Entity("Pdb014App.Models.PDB.RegionModels.LookUpAdminRegionRel", b =>
+                {
+                    b.HasOne("Pdb014App.Models.PDB.LookUpModels.LookUpSnDInfo", "SnD")
+                        .WithMany()
+                        .HasForeignKey("SnDCode")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Pdb014App.Models.PDB.RegionModels.LookUpAdminBndUnion", "Union")
+                        .WithMany()
+                        .HasForeignKey("UnionGeoCode")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Pdb014App.Models.PDB.ServicePointModels.TblConsumerData", b =>
                 {
                     b.HasOne("Pdb014App.Models.PDB.ServicePointModels.LookUpBusinessType", "ConsumerToBusinessType")
@@ -7090,37 +7153,6 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.HasOne("Pdb014App.Models.PDB.SwitchGearModels.TblSwitchGear", "TblSwitchGear")
                         .WithMany()
                         .HasForeignKey("SwitchGearID");
-                });
-
-            modelBuilder.Entity("Pdb014App.Models.PDB.TblComplaint", b =>
-                {
-                    b.HasOne("Pdb014App.Models.PDB.LookUpComplaintStatus", "ComplaintStatus")
-                        .WithMany()
-                        .HasForeignKey("ComplaintStatusId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Pdb014App.Models.PDB.LookUpComplaintType", "ComplaintType")
-                        .WithMany()
-                        .HasForeignKey("ComplaintTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Pdb014App.Models.UserManage.TblUserProfileDetail", "ResolvingOfficer")
-                        .WithMany()
-                        .HasForeignKey("ResolvingOfficerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Pdb014App.Models.UserManage.TblUserProfileDetail", "ResponsibleOfficer")
-                        .WithMany()
-                        .HasForeignKey("ResponsibleOfficerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Pdb014App.Models.PDB.LookUpModels.LookUpSnDInfo", "ComplaintToSnD")
-                        .WithMany()
-                        .HasForeignKey("SnDCode");
-
-                    b.HasOne("Pdb014App.Models.PDB.RegionModels.LookUpAdminBndUnion", "ComplaintToUnion")
-                        .WithMany()
-                        .HasForeignKey("UnionGeoCode");
                 });
 
             modelBuilder.Entity("Pdb014App.Models.PDB.TblFeederLine", b =>

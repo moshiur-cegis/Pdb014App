@@ -71,6 +71,7 @@
     </style>
 }
 
+
 <div class="row">
     <div class="col-md-3">
         <div class="card pd-10 bd-0 shadow-base text-center rounded overflow-hidden" style="border:1px solid rgba(0, 0, 0, 0.25);">
@@ -97,7 +98,7 @@
         </div>
     </div>
 </div>
-<!-- row -->
+
 
 <div class="row">
     <div class="col-md-7">
@@ -115,7 +116,8 @@
                             <th rowspan="2">Pole</th>
                         </tr>
                         <tr>
-                            <th>33kV/11kV</th>
+                            @*<th>33kV/11kV</th>*@
+                            <th>11kV</th>
                             <th>33kV</th>
                             <th>Total</th>
 
@@ -192,6 +194,7 @@
 
 </div>
 
+
 <div class="row">
     <div class="col-md-6">
         <div class="pd-x-0 pd-t-20">
@@ -216,6 +219,7 @@
         </div>
     </div>
 </div>
+
 
 
 @section Scripts
@@ -246,7 +250,7 @@
 
             set_basic_info(regionLevel, "fl");
             load_chart_data("chart_2_2", reportName, chartType, regionLevel, headerList, dataColumns, url);
-            
+
             set_basic_info(regionLevel, "pl");
             load_chart_data("chart_2_1", reportName, chartType, regionLevel, headerList, dataColumns, url);
 
@@ -430,7 +434,7 @@
 
             return true;
         }
-        
+
         function set_bar_chart(containerId, reportName, regionLevel, headers, chartColumns, rawData) {
 
             var chartTitle = reportName + ' Report',
@@ -638,7 +642,7 @@
                     "#DDDDEE", "#ABCABC"
                 ]
             });
-            
+
             Highcharts.chart(containerId,
                 {
                     chart: {
@@ -698,10 +702,9 @@
 
             return;
         }
-        
+
         function set_pie_chart(containerId, reportName, regionLevel, headers, chartColumns, rawData) {
 
-            //var $pieOpts = $("#" + containerId + "_pie_opts");
             var chartTitle = reportName + ' Report',
                 chartSubTitle = '',
                 chartCategories = [],
@@ -779,7 +782,7 @@
                     "#DDDDEE", "#ABCABC"
                 ]
             });
-            
+
             Highcharts.chart(containerId,
                 {
                     chart: {
@@ -855,10 +858,11 @@
                         },
                     }
                 });
-            
+
             return;
         }
 
     </script>
-    
+
+
 }

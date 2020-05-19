@@ -19,6 +19,18 @@ namespace Pdb014App.Controllers.RegionControllers
             _context = context;
         }
 
+        [HttpPost]
+        public JsonResult GetDistrictList(string divCode)
+        {
+            var distList = _context.LookUpAdminBndDistrict
+                .Where(d => d.DivisionGeoCode.Equals(divCode))
+                .Select(d => new { d.DistrictGeoCode, d.DistrictName })
+                .OrderBy(d => d.DistrictName)
+                .ToList();
+
+            return Json(new SelectList(distList, "DistrictGeoCode", "DistrictName"));
+        }
+
         // GET: LookUpAdminBndDistricts
         public async Task<IActionResult> Index()
         {

@@ -1,0 +1,110 @@
+﻿@model Pdb014App.Models.PDB.Complain
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>TblComplain</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ComplainId" />
+            <div class="form-group">
+                <label asp-for="ComplainNo" class="control-label"></label>
+                <input asp-for="ComplainNo" class="form-control" />
+                <span asp-validation-for="ComplainNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComplainTypeId" class="control-label"></label>
+                <select asp-for="ComplainTypeId" class="form-control" asp-items="ViewBag.ComplainTypeId"></select>
+                <span asp-validation-for="ComplainTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComplainStatusId" class="control-label"></label>
+                <select asp-for="ComplainStatusId" class="form-control" asp-items="ViewBag.ComplainStatusId"></select>
+                <span asp-validation-for="ComplainStatusId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComplainerName" class="control-label"></label>
+                <input asp-for="ComplainerName" class="form-control" />
+                <span asp-validation-for="ComplainerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComplainerAddress" class="control-label"></label>
+                <input asp-for="ComplainerAddress" class="form-control" />
+                <span asp-validation-for="ComplainerAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComplainerDetails" class="control-label"></label>
+                <input asp-for="ComplainerDetails" class="form-control" />
+                <span asp-validation-for="ComplainerDetails" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComplainDate" class="control-label"></label>
+                <input asp-for="ComplainDate" class="form-control" />
+                <span asp-validation-for="ComplainDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ComplainPriority" class="control-label"></label>
+                <input asp-for="ComplainPriority" class="form-control" />
+                <span asp-validation-for="ComplainPriority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ResponsibleOfficerId" class="control-label"></label>
+                <select asp-for="ResponsibleOfficerId" class="form-control" asp-items="ViewBag.ResponsibleOfficerId"></select>
+                <span asp-validation-for="ResponsibleOfficerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ResolveDate" class="control-label"></label>
+                <input asp-for="ResolveDate" class="form-control" />
+                <span asp-validation-for="ResolveDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ResolvingOfficerId" class="control-label"></label>
+                <select asp-for="ResolvingOfficerId" class="form-control" asp-items="ViewBag.ResolvingOfficerId"></select>
+                <span asp-validation-for="ResolvingOfficerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UnionGeoCode" class="control-label"></label>
+                <select asp-for="UnionGeoCode" class="form-control" asp-items="ViewBag.UnionGeoCode"></select>
+                <span asp-validation-for="UnionGeoCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SnDCode" class="control-label"></label>
+                <select asp-for="SnDCode" class="form-control" asp-items="ViewBag.SnDCode"></select>
+                <span asp-validation-for="SnDCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Latitude" class="control-label"></label>
+                <input asp-for="Latitude" class="form-control" />
+                <span asp-validation-for="Latitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Longitude" class="control-label"></label>
+                <input asp-for="Longitude" class="form-control" />
+                <span asp-validation-for="Longitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Remark" class="control-label"></label>
+                <input asp-for="Remark" class="form-control" />
+                <span asp-validation-for="Remark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

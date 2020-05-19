@@ -20,7 +20,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
     public partial class AdvancedSearchingController : Controller
     {
 
-        public async Task<IActionResult> SearchVacuumCircuitBreaker([FromQuery] string cai, int pageIndex = 1, string sort = "OutDoorTypeVacuumCircuitBreakerId")
+        public async Task<IActionResult> SearchVacuumCircuitBreaker([FromQuery] string cai, int pageIndex = 1, string sort = "VacumnCircuitBreakerId")
         {
             ViewBag.TotalRecords = _dbContext.TblOutDoorTypeVacumnCircuitBreaker.AsNoTracking().Count();
             ViewBag.SearchParameters = new List<List<string>>(3);
@@ -67,7 +67,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(cb => cb.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "OutDoorTypeVacumnCircuitBreakerId");
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "VacumnCircuitBreakerId");
 
             searchResult.RouteValue = new RouteValueDictionary { { "cai", cai } };
 
@@ -77,7 +77,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
         //[HttpPost]
         [HttpGet]
-        public async Task<IActionResult> SearchVacuumCircuitBreaker(List<string> regionList, List<List<string>> searchParameters, string cai, int pageIndex = 1, string sort = "OutDoorTypeVacumnCircuitBreakerId")
+        public async Task<IActionResult> SearchVacuumCircuitBreaker(List<string> regionList, List<List<string>> searchParameters, string cai, int pageIndex = 1, string sort = "VacumnCircuitBreakerId")
         {
             ViewBag.TotalRecords = _dbContext.TblOutDoorTypeVacumnCircuitBreaker.AsNoTracking().Count();
             ViewBag.SearchParameters = searchParameters;
@@ -549,7 +549,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(cb => cb.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "OutDoorTypeVacumnCircuitBreakerId");
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "VacumnCircuitBreakerId");
 
             searchResult.RouteValue = searchParametersRoute;
 

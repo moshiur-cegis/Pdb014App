@@ -1,0 +1,363 @@
+﻿@model Pdb014App.Models.PDB.Complain
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Styles {
+
+    <link href="~/css/mapstyle.css" rel="stylesheet" />
+
+    <link href="~/lib/leaflet/leaflet.css" rel="stylesheet" />
+
+    <link href="~/lib/leaflet/tools/leaflet-markercluster/dist/markercluster.css" rel="stylesheet" />
+
+
+    <style>
+
+        .leaflet-fade-anim .leaflet-tile,
+        .leaflet-zoom-anim .leaflet-zoom-animated {
+            will-change: auto !important;
+        }
+
+        /*
+        canvas {
+            z-index: auto !important;
+            z-index: 201 !important;
+        }
+        */
+
+        .leaflet-popup-content {
+            width: auto !important;
+        }
+
+        .leaflet-popup-close-button {
+            top: 2px !important;
+            right: 3px !important;
+        }
+
+        .checkbox > label {
+            margin-bottom: 4px;
+        }
+
+        .admin-bds {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+            .admin-bds > .row {
+                border-color: #ccc;
+                border-style: solid;
+                border-width: 0 0 1px 0;
+                margin: 0 3px 0 12px;
+                padding: 0;
+            }
+
+                .admin-bds > .row > [class*="col-"] {
+                    border: 0 none;
+                    margin: 0;
+                    padding: 3px;
+                }
+
+                .admin-bds > .row > [class*="col-sm-3"] {
+                    text-align: center;
+                }
+
+
+        .data-table {
+            width: auto;
+            height: auto;
+            max-width: none !important;
+            min-width: 96%;
+            margin: 5px;
+            padding: 0;
+            font: normal 12px/1.5 Roboto, Helvetica, Arial, sans-serif;
+        }
+
+            .data-table > tr > th {
+                min-width: 70px;
+                font-weight: bold;
+                text-align: center;
+            }
+
+
+        .pump_img_link,
+        .pump_img_link:hover,
+        .pump_img_link:focus,
+        .pump_img_link:visited {
+            display: block;
+            border: 0;
+            margin: 0 auto;
+            padding: 0;
+            color: #0587ac;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+        }
+
+        .pump_photo,
+        .pump_img {
+            border: 0 none;
+            width: auto;
+            max-height: 340px;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+}
+
+
+<h2>Add a Complain</h2>
+@*<hr />*@
+
+<div class="row">
+
+    <div class="col-md-9">
+        <div id="map" class="map_content" style="min-height: 70vh;"></div>
+    </div>
+
+    <div class="col-md-3">
+
+        <fieldset>
+            <legend>▣ Select Basic Information</legend>
+
+            <div class="form-group" style="float: left; width: 75%;">
+                <label class="control-label">Division:</label>
+                <select id="DivCode" name="DivCode" class="form-control" asp-items="ViewBag.DivList" value="@ViewBag.DivCode">
+                    <option value="" selected="selected">----- division -----</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="float: left; width: 75%;">
+                <label class="control-label">District:</label>
+                <select id="DistCode" name="DistCode" class="form-control" asp-items="ViewBag.DistList" value="@ViewBag.DistCode">
+                    <option value="" selected="selected">----- district -----</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="float: left; width: 75%;">
+                <label class="control-label">Upazila:</label>
+                <select id="UpazCode" name="UpazCode" class="form-control" asp-items="ViewBag.UpazList" value="@ViewBag.UpazCode">
+                    <option value="" selected="selected">---- upazila ----</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="float: left; width: 48%;">
+                <label class="control-label">Union:</label>
+                <select id="UnionCode" name="UnionCode" class="form-control" asp-items="ViewBag.UnionList" value="@ViewBag.UnionCode">
+                    <option value="" selected="selected">----- union -----</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="float: right; width: 48%;">
+                <label class="control-label">S&D:</label>
+                <select id="SnDCode" name="SnDCode" class="form-control" disabled="disabled" asp-items="ViewBag.SnDList" value="@ViewBag.SnDCode"></select>
+            </div>
+
+            <div class="form-group" style="float: left; width: 48%;">
+                <label class="control-label" for="Latitude">Latitude:</label>
+                <input id="Latitude" name="Latitude" type="text" class="form-control" value="" data-val="true" data-val-number="The field Latitude must be a number." data-val-range="Invalid Latitude; Max 10 digits" data-val-range-max="99.99999999" data-val-range-min="0">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Latitude" data-valmsg-replace="true"></span>
+            </div>
+
+            <div class="form-group" style="float: right; width: 48%;">
+                <label class="control-label" for="Longitude">Longitude:</label>
+                <input type="text" id="Longitude" name="Longitude" class="form-control" value="" data-val="true" data-val-number="The field Longitude must be a number." data-val-range="Invalid Longitude; Max 10 digits" data-val-range-max="99.99999999" data-val-range-min="0">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Longitude" data-valmsg-replace="true"></span>
+            </div>
+
+            <div class="form-group text-right" style="width: 100%; clear: both;">
+                <a class="btn btn-primary" asp-action="NewComplain">Next</a>
+            </div>
+
+        </fieldset>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script type="text/javascript" src="~/lib/leaflet/leaflet.js"></script>
+    <script type="text/javascript" src="~/lib/leaflet/tools/leaflet-ajax/leaflet.ajax.js"></script>
+
+    <script type="text/javascript" src="~/js/maps/load_map_data.js"></script>
+    
+
+    <script>
+
+        $("#DivCode").on("change",
+            function() {
+                var divCode = $("#DivCode").val(),
+                    $district = $("#DistCode");
+
+                $district.empty();
+                $("#UpazCode").empty();
+                $("#UnionCode").empty();
+                $("#SnDCode").empty().prop("disabled", true);
+
+                remove_admin_boundary("div");
+                remove_admin_boundary("dist");
+                remove_admin_boundary("upaz");
+                remove_admin_boundary("union");
+
+                if (!divCode)
+                    return false;
+
+                add_admin_boundary("div", true, divCode);
+                //set_map_filter("div", divCode);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDistrictList", "LookUpAdminBndDistricts")',
+                    dataType: "json",
+                    data: { divCode: divCode },
+                    before: $("#busy-indicator").fadeIn(150),
+                    success: function (districts) {
+                        //console.log(divCode);
+                        //console.log(districts);
+                        $district.append(
+                            '<option value="" selected="selected">----- district -----</option>');
+                        $.each(districts,
+                            function(i, district) {
+                                $("<option />").val(district.value).html(district.text)
+                                    .appendTo($district);
+                            });
+                    },
+                    error: function(ex, status, error) {
+                        msg.init("error",
+                            "Error... . . !",
+                            "Failed to load district list. " + ex.responseText);
+                    },
+                    complete: $("#busy-indicator").fadeOut(150)
+                });
+                return false;
+            });
+
+
+        $("#DistCode").on("change",
+            function() {
+                var distCode = $("#DistCode").val(),
+                    $upazila = $("#UpazCode");
+
+                $upazila.empty();
+                $("#UnionCode").empty();
+                $("#SnDCode").empty().prop("disabled", true);
+
+                remove_admin_boundary("dist");
+                remove_admin_boundary("upaz");
+                remove_admin_boundary("union");
+
+                if (!distCode)
+                    return false;
+
+                add_admin_boundary("dist", true, distCode);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetUpazilaList", "LookUpAdminBndUpazilas")",
+                    dataType: "json",
+                    data: { distCode: distCode },
+                    before: $("#busy-indicator").fadeIn(150),
+                    success: function(upazilas) {
+                        $upazila.append(
+                            '<option value="" selected="selected">----- upazila -----</option>');
+                        $.each(upazilas,
+                            function(i, upazila) {
+                                $("<option />").val(upazila.value).html(upazila.text).appendTo($upazila);
+                            });
+                    },
+                    error: function(ex, status, error) {
+                        msg.init("error",
+                            "Error... . . !",
+                            "Failed to load upazila list. " + ex.responseText);
+                    },
+                    complete: $("#busy-indicator").fadeOut(150)
+                });
+                return false;
+            });
+
+        $("#UpazCode").on("change",
+            function() {
+                var upazCode = $("#UpazCode").val(),
+                    $union = $("#UnionCode");
+
+                $union.empty();
+                $("#SnDCode").empty().prop("disabled", true);
+
+                remove_admin_boundary("upaz");
+                remove_admin_boundary("union");
+
+                if (!upazCode)
+                    return false;
+
+                add_admin_boundary("upaz", true, upazCode);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetUnionList", "LookUpAdminBndUnions")",
+                    dataType: "json",
+                    data: { upazCode: upazCode },
+                    before: $("#busy-indicator").fadeIn(150),
+                    success: function(unions) {
+                        $union.append(
+                            '<option value="" selected="selected">----- union -----</option>');
+                        $.each(unions,
+                            function(i, union) {
+                                $("<option />").val(union.value).html(union.text)
+                                    .appendTo($union);
+                            });
+                    },
+                    error: function(ex, status, error) {
+                        msg.init("error",
+                            "Error... . . !",
+                            "Failed to load union list. " + ex.responseText);
+                    },
+                    complete: $("#busy-indicator").fadeOut(150)
+                });
+                return false;
+            });
+
+        $("#UnionCode").on("change",
+            function() {
+                var unionCode = $("#UnionCode").val(),
+                    $snd = $("#RouteCode");
+
+                $snd.empty().prop("disabled", true);
+
+                if (!unionCode)
+                    return false;
+
+                add_admin_boundary("union", true, unionCode);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetSnDList", "LookUpAdminRegionRels")",
+                    dataType: "json",
+                    data: { unionCode: unionCode },
+                    before: $("#busy-indicator").fadeIn(150),
+                    success: function(snds) {
+                        //$snd.append('<option value="" selected="selected">----- S&D -----</option>');
+                        $snd.prop("disabled", false);
+                        $.each(snds,
+                            function(i, snd) {
+                                $("<option />").val(snd.value).html(snd.text).appendTo($snd);
+                            });
+                    },
+                    error: function(ex, status, error) {
+                        msg.init("error", "Error... . . !", "Failed to load S&D list. " + ex.responseText);
+                    },
+                    complete: $("#busy-indicator").fadeOut(150)
+                });
+                return false;
+            });
+
+
+    </script>
+}

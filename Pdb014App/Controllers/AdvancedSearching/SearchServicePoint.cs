@@ -20,7 +20,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
     public partial class AdvancedSearchingController : Controller
     {
 
-        public async Task<IActionResult> SearchServicePoint([FromQuery] string cai, int pageIndex = 1, string sort = "ServicePointId")
+        public async Task<IActionResult> SearchServicePoint([FromQuery] string cai, int pageIndex = 1, string sort = "ServicesPointId")
         {
             ViewBag.TotalRecords = _dbContext.TblServicePoint.AsNoTracking().Count();
             ViewBag.SearchParameters = new List<List<string>>(3);
@@ -28,7 +28,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "spt.ServicePointId", Text = "Service Point Id"},
+                new SelectListItem {Value = "spt.ServicesPointId", Text = "Service Point Id"},
 
                 new SelectListItem {Value = "plt.PoleNo", Text = "Pole No."},
                 new SelectListItem {Value = "flt.FeederName", Text = "Feeder Line Name"},
@@ -77,7 +77,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "ServicePointId");
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "ServicesPointId");
 
             searchResult.RouteValue = new RouteValueDictionary { { "cai", cai } };
 
@@ -88,7 +88,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
         //[HttpPost]
         [HttpGet]
-        public async Task<IActionResult> SearchServicePoint(List<string> regionList, List<List<string>> searchParameters, string cai, int pageIndex = 1, string sort = "ServicePointId")
+        public async Task<IActionResult> SearchServicePoint(List<string> regionList, List<List<string>> searchParameters, string cai, int pageIndex = 1, string sort = "ServicesPointId")
         {
             ViewBag.TotalRecords = _dbContext.TblServicePoint.AsNoTracking().Count();
             ViewBag.SearchParameters = searchParameters;
@@ -96,7 +96,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "spt.ServicePointId", Text = "Service Point Id"},
+                new SelectListItem {Value = "spt.ServicesPointId", Text = "Service Point Id"},
 
                 new SelectListItem {Value = "plt.PoleNo", Text = "Pole No."},
                 new SelectListItem {Value = "flt.FeederName", Text = "Feeder Line Name"},
@@ -244,34 +244,32 @@ namespace Pdb014App.Controllers.AdvancedSearching
                     switch (searchOption.FieldName)
                     {
 
-                        case "ServicePointId":
+                        case "ServicesPointId":
                             switch (searchOption.Operator)
                             {
-
-                                // Hide By RMO
-                                //case "=":
-                                //    tempExp = model => model.ServicePointId == int.Parse(searchOption.FieldValue);
-                                //    break;
-                                //case "!=":
-                                //    tempExp = model => model.ServicePointId != int.Parse(searchOption.FieldValue);
-                                //    break;
-                                //case ">":
-                                //    tempExp = model => model.ServicePointId > int.Parse(searchOption.FieldValue);
-                                //    break;
-                                //case "<":
-                                //    tempExp = model => model.ServicePointId < int.Parse(searchOption.FieldValue);
-                                //    break;
-                                //case ">=":
-                                //    tempExp = model => model.ServicePointId >= int.Parse(searchOption.FieldValue);
-                                //    break;
-                                //case "<=":
-                                //    tempExp = model => model.ServicePointId <= int.Parse(searchOption.FieldValue);
-                                //    break;
+                                case "=":
+                                    tempExp = model => model.ServicesPointId == searchOption.FieldValue;
+                                    break;
+                                case "!=":
+                                    tempExp = model => model.ServicesPointId != searchOption.FieldValue;
+                                    break;
+                                case ">":
+                                    tempExp = model => int.Parse(model.ServicesPointId) > int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<":
+                                    tempExp = model => int.Parse(model.ServicesPointId) < int.Parse(searchOption.FieldValue);
+                                    break;
+                                case ">=":
+                                    tempExp = model => int.Parse(model.ServicesPointId) >= int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<=":
+                                    tempExp = model => int.Parse(model.ServicesPointId) <= int.Parse(searchOption.FieldValue);
+                                    break;
                                 case "null":
-                                    tempExp = model => false; //model.ServicePointId == null;
+                                    tempExp = model => model.ServicesPointId == null;
                                     break;
                                 case "not null":
-                                    tempExp = model => true; //model.ServicePointId != null;
+                                    tempExp = model => model.ServicesPointId != null;
                                     break;
                                 case "Like":
                                     tempExp = model => model.ServicesPointId.ToString().Contains(searchOption.FieldValue);
@@ -471,7 +469,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-                            
+
                         //RoadName VillageOrAreaName Ward CityTown PrimaryLandmark
                         case "RoadName":
                             switch (searchOption.Operator)
@@ -546,7 +544,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-                            
+
                         case "Ward":
                             switch (searchOption.Operator)
                             {
@@ -691,7 +689,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "ServicePointId");
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "ServicesPointId");
 
             searchResult.RouteValue = searchParametersRoute;
 
