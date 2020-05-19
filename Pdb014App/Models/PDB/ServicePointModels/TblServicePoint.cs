@@ -24,7 +24,7 @@ namespace Pdb014App.Models.PDB.ServicePointModels
         [Column(Order = 0, TypeName = "varchar(50)")]
         [StringLength(50, ErrorMessage = "The {0} must be {1} characters.")]
         [Display(Name = "Service Point Id")]
-        public string ServicesPointId { get; set; }
+        public string ServicesPointId { get; set;}
 
 
 

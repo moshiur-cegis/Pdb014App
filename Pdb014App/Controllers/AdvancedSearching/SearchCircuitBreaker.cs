@@ -61,6 +61,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
             ViewBag.OperatorList = operatorList;
 
             var qry = _dbContext.LookUpCircuitBreaker.AsNoTracking().AsQueryable();
+
             var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "CircuitBreakerId");
 
             searchResult.RouteValue = new RouteValueDictionary { { "cai", cai } };

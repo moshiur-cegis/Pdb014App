@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Pdb014App.Models.UserManage;
+//using Microsoft.AspNetCore.Http;
 
 namespace Pdb014App.Areas.Identity.Pages.Account
 {
@@ -78,22 +79,29 @@ namespace Pdb014App.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
-               
-                
+
+
                 if (result.Succeeded)
                 {
-                    
+
 
                     var activisionStatus = _userManager.Users.Where(i => i.Email == Input.Email || i.UserName == Input.Email).Select(i => i.UserActivationStatusId).SingleOrDefault();
-                    var userId= _userManager.Users.Where(i => i.Email == Input.Email || i.UserName == Input.Email).Select(i => i.Id).SingleOrDefault();
+                    var userId = _userManager.Users.Where(i => i.Email == Input.Email || i.UserName == Input.Email).Select(i => i.Id).SingleOrDefault();
 
 
-                    if (activisionStatus==1)
+                    //HttpContext.Session.SetString("Rimu", "Moshiur Rahman Rimu");
+                   
+
+                    if (activisionStatus == 1)
                     {
 
-                        return Redirect(returnUrl+ "TblUserProfileDetails/Create/"+ userId);
+                        return Redirect(returnUrl + "TblUserProfileDetails/Create/" + userId);
                         //return RedirectToAction("TblUserProfileDetails", "Create",new { id= userId });
                     }
+                    //else if ((User.IsInRole("System Administrator")))
+                    //{
+                    //    return Redirect(returnUrl + "MapViewer/MapView/" + userId);
+                    //}
                     else
                     {
                         //_logger.LogInformation("User logged in.");

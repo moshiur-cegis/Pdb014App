@@ -345,10 +345,16 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Neutral)
                                     </td>
+
+                                    @*@if (User.IsInRole("System Administrator"))
+                                    {
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.StreetLight)
+                                        </td>
+                                    }*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.StreetLight)
                                     </td>
-
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TransformerExist)
                                     </td>

@@ -19,7 +19,7 @@ namespace Pdb014App.Models.UserManage
         [Required]
         [Column(Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]
-        [Display(Name = "BpdbDivisionName")]
+        [Display(Name = "Bpdb Division Name")]
         public string BpdbDivisionName { get; set; }
 
 

@@ -113,6 +113,10 @@
 
                                 </th>
                                 <th>
+                                    @Html.DisplayNameFor(model => model.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+
+                                </th>
+                                <th>
 
                                     S&D Code
                                 </th>
@@ -132,70 +136,74 @@
                                     @Html.DisplayNameFor(model => model.Location)
                                 </th>
                                 @*<th>
-                                        @Html.DisplayNameFor(model => model.AreaOfSubstation)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Latitude)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Longitude)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.YearOfComissioning)
-                                    </th>*@
+            @Html.DisplayNameFor(model => model.AreaOfSubstation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Latitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Longitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YearOfComissioning)
+        </th>*@
                                 @*<th>Action</th>*@
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>
-                                        @*@Html.DisplayFor(modelItem => item.SubstationId)*@
-                                        <a asp-action="Edit" asp-route-id="@item.SubstationId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.SubstationId)</a>
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SubstationType.SubstationTypeId)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SubstationName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.SnDCode)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.NominalVoltage)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.InstalledCapacity)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.MaximumDemand)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PeakLoad)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Location)
-                                    </td>
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.AreaOfSubstation)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Latitude)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Longitude)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.YearOfComissioning)
-                                        </td>*@
-                                    @*<td>
-                                        <a asp-action="Edit" asp-route-id="@item.SubstationId">Edit</a>
-                                        <a asp-action="Details" asp-route-id="@item.SubstationId">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.SubstationId">Delete</a>
-                                    </td>*@
-                                </tr>
+                            <tr>
+                                <td>
+                                    @*@Html.DisplayFor(modelItem => item.SubstationId)*@
+                                    <a asp-action="Edit" asp-route-id="@item.SubstationId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.SubstationId)</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubstationType.SubstationTypeId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubstationName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.SnDCode)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NominalVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InstalledCapacity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MaximumDemand)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeakLoad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Location)
+                                </td>
+                                @*<td>
+            @Html.DisplayFor(modelItem => item.AreaOfSubstation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Latitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Longitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.YearOfComissioning)
+        </td>*@
+                                @*<td>
+            <a asp-action="Edit" asp-route-id="@item.SubstationId">Edit</a>
+            <a asp-action="Details" asp-route-id="@item.SubstationId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.SubstationId">Delete</a>
+        </td>*@
+                            </tr>
                             }
                         </tbody>
                     </table>
