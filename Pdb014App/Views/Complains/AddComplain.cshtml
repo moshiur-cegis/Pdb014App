@@ -12,10 +12,14 @@
 
     <link href="~/lib/leaflet/leaflet.css" rel="stylesheet" />
 
-    <link href="~/lib/leaflet/tools/leaflet-markercluster/dist/markercluster.css" rel="stylesheet" />
+    @*<link href="~/lib/leaflet/tools/leaflet-markercluster/dist/markercluster.css" rel="stylesheet" />*@
 
 
     <style>
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+
 
         .leaflet-fade-anim .leaflet-tile,
         .leaflet-zoom-anim .leaflet-zoom-animated {
@@ -37,82 +41,12 @@
             top: 2px !important;
             right: 3px !important;
         }
-
-        .checkbox > label {
-            margin-bottom: 4px;
-        }
-
-        .admin-bds {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-            .admin-bds > .row {
-                border-color: #ccc;
-                border-style: solid;
-                border-width: 0 0 1px 0;
-                margin: 0 3px 0 12px;
-                padding: 0;
-            }
-
-                .admin-bds > .row > [class*="col-"] {
-                    border: 0 none;
-                    margin: 0;
-                    padding: 3px;
-                }
-
-                .admin-bds > .row > [class*="col-sm-3"] {
-                    text-align: center;
-                }
-
-
-        .data-table {
-            width: auto;
-            height: auto;
-            max-width: none !important;
-            min-width: 96%;
-            margin: 5px;
-            padding: 0;
-            font: normal 12px/1.5 Roboto, Helvetica, Arial, sans-serif;
-        }
-
-            .data-table > tr > th {
-                min-width: 70px;
-                font-weight: bold;
-                text-align: center;
-            }
-
-
-        .pump_img_link,
-        .pump_img_link:hover,
-        .pump_img_link:focus,
-        .pump_img_link:visited {
-            display: block;
-            border: 0;
-            margin: 0 auto;
-            padding: 0;
-            color: #0587ac;
-            text-align: center;
-            text-decoration: none;
-            outline: none;
-        }
-
-        .pump_photo,
-        .pump_img {
-            border: 0 none;
-            width: auto;
-            max-height: 340px;
-            margin: 0;
-            padding: 0;
-        }
+        
     </style>
 
 }
 
-
 <h2>Add a Complain</h2>
-@*<hr />*@
 
 <div class="row">
 
@@ -122,59 +56,65 @@
 
     <div class="col-md-3">
 
-        <fieldset>
-            <legend>▣ Select Basic Information</legend>
+        <form asp-controller="Complains" asp-action="RegisterComplain">
+            <fieldset style="padding: 0.5rem 1rem;">
+                <legend>▣ Select Basic Information</legend>
 
-            <div class="form-group" style="float: left; width: 75%;">
-                <label class="control-label">Division:</label>
-                <select id="DivCode" name="DivCode" class="form-control" asp-items="ViewBag.DivList" value="@ViewBag.DivCode">
-                    <option value="" selected="selected">----- division -----</option>
-                </select>
-            </div>
+                <div class="form-group" style="float: left; width: 75%;">
+                    <label class="control-label">Division:</label>
+                    <select id="DivCode" name="DivCode" class="form-control" asp-items="ViewBag.DivList" value="@ViewBag.DivCode">
+                        <option value="" selected="selected">----- division -----</option>
+                    </select>
+                </div>
 
-            <div class="form-group" style="float: left; width: 75%;">
-                <label class="control-label">District:</label>
-                <select id="DistCode" name="DistCode" class="form-control" asp-items="ViewBag.DistList" value="@ViewBag.DistCode">
-                    <option value="" selected="selected">----- district -----</option>
-                </select>
-            </div>
+                <div class="form-group" style="float: left; width: 75%;">
+                    <label class="control-label">District:</label>
+                    <select id="DistCode" name="DistCode" class="form-control" asp-items="ViewBag.DistList" value="@ViewBag.DistCode">
+                        <option value="" selected="selected">----- district -----</option>
+                    </select>
+                </div>
 
-            <div class="form-group" style="float: left; width: 75%;">
-                <label class="control-label">Upazila:</label>
-                <select id="UpazCode" name="UpazCode" class="form-control" asp-items="ViewBag.UpazList" value="@ViewBag.UpazCode">
-                    <option value="" selected="selected">---- upazila ----</option>
-                </select>
-            </div>
+                <div class="form-group" style="float: left; width: 75%;">
+                    <label class="control-label">Upazila:</label>
+                    <select id="UpazCode" name="UpazCode" class="form-control" asp-items="ViewBag.UpazList" value="@ViewBag.UpazCode">
+                        <option value="" selected="selected">----- upazila -----</option>
+                    </select>
+                </div>
 
-            <div class="form-group" style="float: left; width: 48%;">
-                <label class="control-label">Union:</label>
-                <select id="UnionCode" name="UnionCode" class="form-control" asp-items="ViewBag.UnionList" value="@ViewBag.UnionCode">
-                    <option value="" selected="selected">----- union -----</option>
-                </select>
-            </div>
+                <div class="form-group" style="float: left; width: 75%;">
+                    <label class="control-label">Union:</label>
+                    <select id="UnionCode" name="unionCode" class="form-control" asp-items="ViewBag.UnionList" value="@ViewBag.UnionCode">
+                        <option value="" selected="selected">----- union -----</option>
+                    </select>
+                </div>
 
-            <div class="form-group" style="float: right; width: 48%;">
-                <label class="control-label">S&D:</label>
-                <select id="SnDCode" name="SnDCode" class="form-control" disabled="disabled" asp-items="ViewBag.SnDList" value="@ViewBag.SnDCode"></select>
-            </div>
+                <div class="form-group" style="float: left; width: 75%;">
+                    <label class="control-label">S&D:</label>
+                    <select id="SnDCode" name="sndCode" class="form-control" disabled="disabled" asp-items="ViewBag.SnDList" value="@ViewBag.SnDCode"></select>
+                </div>
 
-            <div class="form-group" style="float: left; width: 48%;">
-                <label class="control-label" for="Latitude">Latitude:</label>
-                <input id="Latitude" name="Latitude" type="text" class="form-control" value="" data-val="true" data-val-number="The field Latitude must be a number." data-val-range="Invalid Latitude; Max 10 digits" data-val-range-max="99.99999999" data-val-range-min="0">
-                <span class="text-danger field-validation-valid" data-valmsg-for="Latitude" data-valmsg-replace="true"></span>
-            </div>
+                <div class="form-group" style="float: left; width: 48%;">
+                    <label class="control-label" for="Latitude">Latitude:</label>
+                    <input id="Latitude" name="latitude" type="text" class="form-control" value="" data-val="true" data-val-number="The field Latitude must be a number." data-val-range="Invalid Latitude; Max 11 digits" data-val-range-max="99.99999999" data-val-range-min="0">
+                    <span class="text-danger field-validation-valid" data-valmsg-for="Latitude" data-valmsg-replace="true"></span>
+                </div>
 
-            <div class="form-group" style="float: right; width: 48%;">
-                <label class="control-label" for="Longitude">Longitude:</label>
-                <input type="text" id="Longitude" name="Longitude" class="form-control" value="" data-val="true" data-val-number="The field Longitude must be a number." data-val-range="Invalid Longitude; Max 10 digits" data-val-range-max="99.99999999" data-val-range-min="0">
-                <span class="text-danger field-validation-valid" data-valmsg-for="Longitude" data-valmsg-replace="true"></span>
-            </div>
+                <div class="form-group" style="float: right; width: 48%;">
+                    <label class="control-label" for="Longitude">Longitude:</label>
+                    <input id="Longitude" name="longitude" type="text" class="form-control" value="" data-val="true" data-val-number="The field Longitude must be a number." data-val-range="Invalid Longitude; Max 11 digits" data-val-range-max="99.99999999" data-val-range-min="0">
+                    <span class="text-danger field-validation-valid" data-valmsg-for="Longitude" data-valmsg-replace="true"></span>
+                </div>
 
-            <div class="form-group text-right" style="width: 100%; clear: both;">
-                <a class="btn btn-primary" asp-action="NewComplain">Next</a>
-            </div>
+                <div class="form-group text-right" style="width: 100%; clear: both; margin-bottom: 0.5rem;">
+                    <input type="submit" value="Next" class="btn btn-primary" />
+                </div>
 
-        </fieldset>
+                @*<div class="form-group text-right" style="width: 100%; clear: both;">
+                    <a class="btn btn-primary" asp-action="NewComplain">Next</a>
+                </div>*@
+
+            </fieldset>
+        </form>
 
     </div>
 </div>
@@ -191,6 +131,15 @@
     
 
     <script>
+
+        function set_location_data(unionCode, sndCode, lat, lon) {
+
+            $("#UnionCode").val(unionCode);
+            $("#SnDCode").val(sndCode);
+
+            $("#Latitude").val(lat);
+            $("#Longitude").val(lon);
+        }
 
         $("#DivCode").on("change",
             function() {

@@ -200,36 +200,36 @@
                             </th>
 
                             <th>
-                                @Html.SortableHeaderFor(model => model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                                @Html.SortableHeaderFor(model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+                                @Html.SortableHeaderFor(model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+                                @Html.SortableHeaderFor(model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
+                                @Html.SortableHeaderFor(model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationName)
+                                @Html.SortableHeaderFor(model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationName)
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType.SubstationTypeName)
+                                @Html.SortableHeaderFor(model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationType.SubstationTypeName)
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteName)
+                                @Html.SortableHeaderFor(model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteName)
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederName)
+                                @Html.SortableHeaderFor(model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine.FeederName)
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.ConsumerDataToDistributionTransformer.DtToPole.PoleNo)
+                                @Html.SortableHeaderFor(model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleNo)
                             </th>
 
-                            <th>
-                                @Html.SortableHeaderFor(model => model.DistributionTransformerId)
-                            </th>
+                            @*<th>
+                                    @Html.SortableHeaderFor(model => model.DistributionTransformerId)
+                                </th>*@
                             <th>
                                 @Html.SortableHeaderFor(model => model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop)
                             </th>
@@ -325,36 +325,36 @@
                                 </td>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                                    @Html.DisplayFor(modelItem => item.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+                                    @Html.DisplayFor(modelItem => item.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+                                    @Html.DisplayFor(modelItem => item.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
+                                    @Html.DisplayFor(modelItem => item.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationName)
+                                    @Html.DisplayFor(modelItem => item.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType.SubstationTypeName)
+                                    @Html.DisplayFor(modelItem => item.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationType.SubstationTypeName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteName)
+                                    @Html.DisplayFor(modelItem => item.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederName)
+                                    @Html.DisplayFor(modelItem => item.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine.FeederName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DtToPole.PoleNo)
+                                    @Html.DisplayFor(modelItem => item.ConsumerDataToServicesPoint.ServicePointToPole.PoleNo)
                                 </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DistributionTransformerId)
-                                </td>
+                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.DistributionTransformerId)
+                                    </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop)
                                 </td>

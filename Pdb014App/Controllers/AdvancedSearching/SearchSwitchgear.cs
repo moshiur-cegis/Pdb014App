@@ -187,7 +187,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             tempExp = model => model.SwitchGearToPhasePowerTransformer.PhasePowerTransformerToTblSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblSwitchGear>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 routeCode = regionList[4];
 

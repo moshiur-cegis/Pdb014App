@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace Pdb014App.Models.Basic
 {
     public class GeoCoordinate
@@ -18,7 +19,7 @@ namespace Pdb014App.Models.Basic
 
     public static class GeoCoordinateDistanceExtensions
     {
-        private const double _fact = Math.PI / 180;
+        private const double Fact = Math.PI / 180;
 
         public static double GetDistanceTo(this GeoCoordinate baseCrd, GeoCoordinate targetCrd)
         {
@@ -28,10 +29,10 @@ namespace Pdb014App.Models.Basic
                 return 0.0;
             }
 
-            var baseRad = baseCrd.Latitude * _fact;
-            var targetRad = targetCrd.Latitude * _fact;
+            var baseRad = baseCrd.Latitude * Fact;
+            var targetRad = targetCrd.Latitude * Fact;
             var theta = baseCrd.Longitude - targetCrd.Longitude;
-            var thetaRad = theta * _fact;
+            var thetaRad = theta * Fact;
 
             double dist = Math.Sin(baseRad) * Math.Sin(targetRad) +
                           Math.Cos(baseRad) * Math.Cos(targetRad) * Math.Cos(thetaRad);
@@ -47,10 +48,10 @@ namespace Pdb014App.Models.Basic
                 return 0.0;
             }
 
-            var sLat = startCrd.Latitude * _fact;
-            var eLat = endCrd.Latitude * _fact;
+            var sLat = startCrd.Latitude * Fact;
+            var eLat = endCrd.Latitude * Fact;
             double dLat = eLat - sLat;
-            double dLon = (endCrd.Longitude - startCrd.Longitude) * _fact;
+            double dLon = (endCrd.Longitude - startCrd.Longitude) * Fact;
 
             double dist = Math.Pow(Math.Sin(dLat / 2), 2) +
                        Math.Cos(sLat) * Math.Cos(eLat) * Math.Pow(Math.Sin(dLon / 2), 2);
@@ -61,4 +62,3 @@ namespace Pdb014App.Models.Basic
     }
 
 }
-

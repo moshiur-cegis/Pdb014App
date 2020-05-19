@@ -72,9 +72,9 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(sp => sp.VoltageCategory)
                 .Include(sp => sp.ServicePointToPole)
                 .Include(sp => sp.ServicePointToPole.PoleToFeederLine)
-                .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
-                .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
-                .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                .Include(sp => sp.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationType)
+                .Include(sp => sp.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(sp => sp.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
             var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "ServicesPointId");
@@ -185,7 +185,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             tempExp = model => model.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblServicePoint>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 routeCode = regionList[4];
 
@@ -684,9 +684,9 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(sp => sp.VoltageCategory)
                 .Include(sp => sp.ServicePointToPole)
                 .Include(sp => sp.ServicePointToPole.PoleToFeederLine)
-                .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
-                .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
-                .Include(sp => sp.ServicePointToPole.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                .Include(sp => sp.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationType)
+                .Include(sp => sp.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(sp => sp.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
             var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "ServicesPointId");

@@ -97,13 +97,14 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(cd => cd.ConsumerToPhasingCode)
                 .Include(cd => cd.ConsumerToServiceCableType)
                 .Include(cd => cd.ConsumerToStructureType)
-
+                
                 .Include(cd => cd.ConsumerDataToServicesPoint)
                 .Include(cd => cd.ConsumerDataToDistributionTransformer)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToPole)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine)
+                .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation)
+                .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationType)
+                .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
             var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "ConsumerId");
@@ -193,7 +194,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 zoneCode = regionList[0];
 
                 searchExp = model =>
-                    model.ConsumerDataToDistributionTransformer.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
+                    model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
 
                 ViewBag.CircleList = new SelectList(_dbContext.LookUpCircleInfo
                     .Where(c => c.ZoneCode.Equals(zoneCode))
@@ -205,7 +206,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                     circleCode = regionList[1];
 
                     Expression<Func<TblConsumerData, bool>> tempExp = model =>
-                        model.ConsumerDataToDistributionTransformer.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode == circleCode;
+                        model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode == circleCode;
                     searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
 
                     ViewBag.SnDList = new SelectList(_dbContext.LookUpSnDInfo
@@ -217,7 +218,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                     {
                         snDCode = regionList[2];
 
-                        tempExp = model => model.ConsumerDataToDistributionTransformer.DtToPole.PoleToRoute.RouteToSubstation.SnDCode == snDCode;
+                        tempExp = model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode == snDCode;
                         searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
 
                         ViewBag.SubstationList = new SelectList(_dbContext.TblSubstation
@@ -230,14 +231,14 @@ namespace Pdb014App.Controllers.AdvancedSearching
                         {
                             substationCode = regionList[3];
 
-                            tempExp = model => model.ConsumerDataToDistributionTransformer.DtToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
+                            tempExp = model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 routeCode = regionList[4];
 
-                                tempExp = model => model.ConsumerDataToDistributionTransformer.DtToPole.PoleToRoute.RouteCode == routeCode;
+                                tempExp = model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteCode == routeCode;
                                 searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
 
                                 ViewBag.RouteList = new SelectList(_dbContext.LookUpRouteInfo
@@ -329,35 +330,35 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             switch (searchOption.Operator)
                             {
                                 case "=":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.DtToPole.PoleNo == searchOption.FieldValue;
+                                    tempExp = model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleNo == searchOption.FieldValue;
                                     break;
                                 case "!=":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.DtToPole.PoleNo != searchOption.FieldValue;
+                                    tempExp = model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleNo != searchOption.FieldValue;
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.ConsumerDataToDistributionTransformer.DtToPole.PoleNo) > int.Parse(searchOption.FieldValue);
+                                        int.Parse(model.ConsumerDataToServicesPoint.ServicePointToPole.PoleNo) > int.Parse(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.ConsumerDataToDistributionTransformer.DtToPole.PoleNo) < int.Parse(searchOption.FieldValue);
+                                        int.Parse(model.ConsumerDataToServicesPoint.ServicePointToPole.PoleNo) < int.Parse(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.ConsumerDataToDistributionTransformer.DtToPole.PoleNo) >= int.Parse(searchOption.FieldValue);
+                                        int.Parse(model.ConsumerDataToServicesPoint.ServicePointToPole.PoleNo) >= int.Parse(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.ConsumerDataToDistributionTransformer.DtToPole.PoleNo) <= int.Parse(searchOption.FieldValue);
+                                        int.Parse(model.ConsumerDataToServicesPoint.ServicePointToPole.PoleNo) <= int.Parse(searchOption.FieldValue);
                                     break;
                                 case "null":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.DtToPole.PoleNo == null;
+                                    tempExp = model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleNo == null;
                                     break;
                                 case "not null":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.DtToPole.PoleNo != null;
+                                    tempExp = model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleNo != null;
                                     break;
                                 case "Like":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.DtToPole.PoleNo.Contains(searchOption.FieldValue);
+                                    tempExp = model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleNo.Contains(searchOption.FieldValue);
                                     break;
                             }
                             break;
@@ -366,40 +367,40 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             switch (searchOption.Operator)
                             {
                                 case "=":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederName == searchOption.FieldValue;
+                                    tempExp = model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine.FeederName == searchOption.FieldValue;
                                     break;
                                 case "!=":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederName != searchOption.FieldValue;
+                                    tempExp = model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine.FeederName != searchOption.FieldValue;
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederName) >
+                                        int.Parse(model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine.FeederName) >
                                         int.Parse(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederName) <
+                                        int.Parse(model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine.FeederName) <
                                         int.Parse(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederName) >=
+                                        int.Parse(model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine.FeederName) >=
                                         int.Parse(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederName) <=
+                                        int.Parse(model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine.FeederName) <=
                                         int.Parse(searchOption.FieldValue);
                                     break;
                                 case "null":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederName == null;
+                                    tempExp = model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine.FeederName == null;
                                     break;
                                 case "not null":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederName != null;
+                                    tempExp = model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine.FeederName != null;
                                     break;
                                 case "Like":
                                     tempExp = model =>
-                                        model.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederName.Contains(searchOption.FieldValue);
+                                        model.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine.FeederName.Contains(searchOption.FieldValue);
                                     break;
                             }
 
@@ -1509,7 +1510,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
             var qry = searchExp != null
                 ? _dbContext.TblConsumerData.AsNoTracking().Where(searchExp)
                 : _dbContext.TblConsumerData.AsNoTracking();
-
+            
             qry = qry
                 .Include(cd => cd.ConsumerType)
                 .Include(cd => cd.ConsumerToConnectionType)
@@ -1524,10 +1525,11 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
                 .Include(cd => cd.ConsumerDataToServicesPoint)
                 .Include(cd => cd.ConsumerDataToDistributionTransformer)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToPole)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine)
+                .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation)
+                .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationType)
+                .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
             var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "ConsumerId");

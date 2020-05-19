@@ -181,7 +181,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             tempExp = model => model.Switch33KvIsolatorToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblSwitch33KvIsolator>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 routeCode = regionList[4];
 

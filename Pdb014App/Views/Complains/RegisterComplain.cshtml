@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>Register a Complain</h4>
+<h2>Register a Complain</h2>
 
 <hr />
 <div class="row">
@@ -33,28 +33,28 @@
                 <span asp-validation-for="ComplainerDetails" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="ComplainDate" class="control-label"></label>
-                <input asp-for="ComplainDate" class="form-control" />
-                <span asp-validation-for="ComplainDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ComplainPriority" class="control-label"></label>
-                <input asp-for="ComplainPriority" class="form-control" />
-                <span asp-validation-for="ComplainPriority" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ResponsibleOfficerId" class="control-label"></label>
-                <select asp-for="ResponsibleOfficerId" class="form-control" asp-items="ViewBag.ResponsibleOfficerList"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="ResolveDate" class="control-label"></label>
-                <input asp-for="ResolveDate" class="form-control" />
-                <span asp-validation-for="ResolveDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ResolvingOfficerId" class="control-label"></label>
-                <select asp-for="ResolvingOfficerId" class="form-control" asp-items="ViewBag.ResolvingOfficerList"></select>
-            </div>*@
+                    <label asp-for="ComplainDate" class="control-label"></label>
+                    <input asp-for="ComplainDate" class="form-control" />
+                    <span asp-validation-for="ComplainDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ComplainPriority" class="control-label"></label>
+                    <input asp-for="ComplainPriority" class="form-control" />
+                    <span asp-validation-for="ComplainPriority" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ResponsibleOfficerId" class="control-label"></label>
+                    <select asp-for="ResponsibleOfficerId" class="form-control" asp-items="ViewBag.ResponsibleOfficerList"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ResolveDate" class="control-label"></label>
+                    <input asp-for="ResolveDate" class="form-control" />
+                    <span asp-validation-for="ResolveDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ResolvingOfficerId" class="control-label"></label>
+                    <select asp-for="ResolvingOfficerId" class="form-control" asp-items="ViewBag.ResolvingOfficerList"></select>
+                </div>*@
             <div class="form-group">
                 <label asp-for="UnionGeoCode" class="control-label"></label>
                 <select asp-for="UnionGeoCode" class="form-control" asp-items="ViewBag.UnionList"></select>
@@ -74,19 +74,20 @@
                 <span asp-validation-for="Longitude" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="Remark" class="control-label"></label>
-                <textarea asp-for="Remark" class="form-control">Remark</textarea>
-                <span asp-validation-for="Remark" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="Remark" class="control-label"></label>
+                    <textarea asp-for="Remark" class="form-control">Remark</textarea>
+                    <span asp-validation-for="Remark" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-controller="Complains" asp-action="AddComplain" class="btn btn-primary float-left">Back</a>
+                <input type="submit" value="Submit" class="btn btn-primary float-right"/>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    
 </div>
 
 @section Scripts {

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-
 namespace Pdb014App.Models.Basic
 {
     public class AutoCompleteInfo

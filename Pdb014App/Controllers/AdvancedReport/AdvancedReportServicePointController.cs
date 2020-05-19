@@ -661,7 +661,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                                     .SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 routeCode = regionList[4];
                                 //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
@@ -1395,7 +1395,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                                 model.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblServicePoint>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 routeCode = regionList[4];
                                 //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;

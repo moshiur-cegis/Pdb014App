@@ -173,7 +173,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             tempExp = model => model.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblCrossArmInfo>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 routeCode = regionList[4];
 

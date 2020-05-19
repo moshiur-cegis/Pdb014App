@@ -63,7 +63,7 @@
 
         <div class="col-md-4">
 
-            <fieldset style="margin-top: 0;">
+            <fieldset style="margin-bottom: 1.0rem;">
                 <legend>▣ Report Fields</legend>
 
                 @if (fieldList != null && fieldList.Count > 0)
@@ -73,7 +73,7 @@
                         <input type="checkbox" id="all_fields" class="all-checked" />
                     </p>
 
-                    <ul id="field_list" class="tree" style=" min-height: 295px; max-height: 340px; overflow: auto;">
+                    <ul id="field_list" class="tree" style=" min-height: 290px; max-height: 340px; overflow: auto;">
                         @for (int fc = 0; fc < fieldList.Count; ++fc)
                         {
                             if (fieldList[fc].Visible)
@@ -126,7 +126,7 @@
 
         <div class="col-md-6">
 
-            <fieldset style="margin-top: 0;">
+            <fieldset>
                 <legend>▣ Report by Region</legend>
 
                 <div id="region_level" class="ml-3">
@@ -152,7 +152,7 @@
                 </div>
             </fieldset>
 
-            <fieldset style="margin-top: 1.15rem;">
+            <fieldset style="margin-top: 1.0rem;">
                 <legend>▣ Regional Boundaries</legend>
                 <div class="row">
                     <div class="col-md-6">
@@ -229,13 +229,13 @@
             </div>
 
             <div id="chartAll">
-                <div id="chartBar" style="min-width: 320px; height: 400px; margin: 1.5rem auto"></div>
+                <div id="chartBar" style="min-width: 320px; max-height: 500px; margin: 1.5rem auto"></div>
 
-                <div class="form-group" style="margin-top: 1rem; margin-bottom: .25rem;">
+                <div id="chartPieOptionPanel" class="form-group" style="margin-top: 1rem; margin-bottom: .25rem;">
                     <label class="control-label">Pie Chart by:</label>
-                    <select id="PieChartOptions" class="form-control" style="display: inline; max-width: 230px;"></select>
+                    <select id="chartPieOpts" class="form-control" style="display: inline; max-width: 230px;"></select>
                 </div>
-                <div id="chartPie" style="min-width: 320px; height: 400px; margin: 0 auto"></div>
+                <div id="chartPie" style="min-width: 320px; max-height: 500px; margin: 0 auto"></div>
             </div>
 
         </fieldset>
@@ -335,6 +335,9 @@
 
             set_basic_info();
 
+            $("#dataView").css('display', 'none');
+            $("#chartAll").css('display', 'none');
+
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -345,7 +348,7 @@
                     $("#report_view").empty();
                     $("#chartBar").empty();
                     $("#chartPie").empty();
-                    $("#PieChartOptions").empty();
+                    $("#chartPieOpts").empty();
 
                     if (dataColumns && dataColumns.length > 0) {
                         $("#dataView").css('display', '');
@@ -354,8 +357,6 @@
                         init_data_table("#report_view", headerList, basicColumns, dataColumns, data);
                         init_chart_data(headerList, dataColumns, data);
                     } else {
-                        $("#dataView").css('display', 'none');
-                        $("#chartAll").css('display', 'none');
                         msg.init("warning", "Warning... . . !", "Select at least one data field... . . !! ");
                     }
                     $("#busy-indicator").fadeOut(150);
@@ -633,236 +634,12 @@
                 .trigger("sortReset");
             //** Set/Re-set Table Sorter End **//
         }
-
-        function init_chart_dataXX(headers, chartColumns, rawData) {
-
-            $("#chartBar").empty();
-            $("#chartPie").empty();
-            $("#PieChartOptions").empty();
-
-            if (!chartColumns || !rawData || chartColumns.length < 1 || rawData.length < 1) {
-                $("#chartAll").css('display', 'none');
-                return;
-            }
-            $("#chartAll").css('display', '');
-
-
-            var chartTitle = rptName + ' Report',
-                chartSubTitle = 'Source: bpdb_app.com',
-                chartCategories = [],
-                chartDataBar = [],
-                barYAxises = [],
-                barData = [],
-                pieData = [],
-                yAxisIndex = [],
-                barYAxisLeft = false,
-                ci = 0;
-
-            for (ci = 0; ci < chartColumns.length; ci++) {
-                barData[chartColumns[ci]] = [];
-                pieData[chartColumns[ci]] = [];
-            }
-
-            for (var di = 0; di < rawData.length; di++) {
-                chartCategories.push(rawData[di][regionLevel + "Name"]);
-
-                for (ci = 0; ci < chartColumns.length; ci++) {
-                    var cellValue = rawData[di][chartColumns[ci]];
-                    if (!cellValue || cellValue == null) {
-                        cellValue = 0;
-                    } else if (chartColumns[ci].toLocaleLowerCase().indexOf("capacity") !== -1) {
-                        cellValue = cellValue.split('/')[0];
-                    }
-
-                    cellValue = 1 * cellValue;
-
-                    barData[chartColumns[ci]].push(cellValue);
-
-                    pieData[chartColumns[ci]].push({
-                        name: rawData[di][regionLevel + "Name"],
-                        y: cellValue
-                    });
-                }
-            }
-
-            chartDataPie = [];
-            $("#PieChartOptions").empty();
-
-            for (ci = 0; ci < chartColumns.length; ci++) {
-
-                var dataName = headers[[chartColumns[ci]]],
-                    colData = {
-                        name: dataName,
-                        data: barData[chartColumns[ci]],
-                        type: 'column'
-                    },
-                    pisData = {
-                        title: dataName,
-                        series: [
-                            {
-                                name: dataName,
-                                colorByPoint: true,
-                                data: pieData[chartColumns[ci]]
-                            }
-                        ],
-                    };
-
-                $("<option />").val(ci).html(dataName)
-                    .appendTo($("#PieChartOptions"));
-
-
-                if (chartColumns[ci].toLocaleLowerCase().indexOf("length") !== -1) {
-                    if (yAxisIndex[1] == undefined) {
-                        yAxisIndex[1] = yAxisIndex[0] == undefined
-                            ? (yAxisIndex[2] == undefined ? 0 : 1)
-                            : (yAxisIndex[2] == undefined ? 1 : 2);
-
-                        barYAxises.push({ // Secondary yAxis
-                            gridLineWidth: 1,
-                            title: {
-                                text: 'Length',
-                                style: {
-                                    color: Highcharts.getOptions().colors[ci]
-                                }
-                            },
-                            labels: {
-                                format: '{value:,.0f} (Km)',
-                                style: {
-                                    color: Highcharts.getOptions().colors[ci]
-                                }
-                            },
-                            opposite: barYAxisLeft
-                        });
-
-                        barYAxisLeft = true;
-                    }
-
-                    colData.yAxis = yAxisIndex[1];
-                    colData.tooltip = {
-                        headerFormat:
-                            '<span style="width:100%; text-align:center; font-size:13px; font-weight:600; color:#15a;">{point.key}</span><table>',
-                        pointFormat:
-                            '<tr><td><span style="display:block; width:10px; height:10px; border-radius:10px; background-color:{series.color}"></span></td>' +
-                                '<td style="color:{series.color}">{series.name}: </td>' +
-                                '<td style="padding-left:8px; text-align:right"><b>{point.y:,.0f}</b></td><td>(Km)</td></tr>',
-                        footerFormat: '</table>',
-                        valueSuffix: ' (Km)'
-                    }
-
-                    pisData.pointFormat =
-                        '<span style="color:{point.color}">{series.name}</span>: {point.y:,.0f}Km (<b>{point.percentage:.2f}%</b>)';
-                    pisData.plotFormat = '{point.name}: {point.y:,.0f}Km (<b>{point.percentage:.1f}%</b>)';
-
-                } else if (chartColumns[ci].toLocaleLowerCase().indexOf("demand") !== -1 ||
-                    chartColumns[ci].toLocaleLowerCase().indexOf("load") !== -1) {
-
-                    if (yAxisIndex[2] == undefined) {
-                        yAxisIndex[2] = yAxisIndex[0] == undefined
-                            ? (yAxisIndex[1] == undefined ? 0 : 1)
-                            : (yAxisIndex[1] == undefined ? 1 : 2);
-
-                        barYAxises.push({ // Tertiary yAxis
-                            gridLineWidth: 1,
-                            title: {
-                                text: 'Demand / Load',
-                                style: {
-                                    color: Highcharts.getOptions().colors[ci]
-                                }
-                            },
-                            labels: {
-                                format: '{value:,.1f} (MW)',
-                                style: {
-                                    color: Highcharts.getOptions().colors[ci]
-                                }
-                            },
-                            opposite: barYAxisLeft
-                        });
-
-                        barYAxisLeft = true;
-                    }
-
-                    colData.yAxis = yAxisIndex[2];
-                    colData.tooltip = {
-                        headerFormat:
-                            '<span style="width:100%; text-align:center; font-size:13px; font-weight:600; color:#15a;">{point.key}</span><table>',
-                        pointFormat:
-                            '<tr><td><span style="display:block; width:10px; height:10px; border-radius:10px; background-color:{series.color}"></span></td>' +
-                                '<td style="color:{series.color}">{series.name}: </td>' +
-                                '<td style="padding-left:8px; text-align:right"><b>{point.y:,.1f}</b></td><td>(MW)</td></tr>',
-                        footerFormat: '</table>',
-                        valueSuffix: ' (MW)'
-                    }
-
-                    pisData.pointFormat =
-                        '<span style="color:{point.color}">{series.name}</span>: {point.y:,.1f}MW (<b>{point.percentage:.2f}%</b>)';
-                    pisData.plotFormat = '{point.name}: {point.y:,.1f}MW (<b>{point.percentage:.1f}%</b>)';
-                } else {
-                    if (yAxisIndex[0] == undefined) {
-                        yAxisIndex[0] = yAxisIndex[1] == undefined
-                            ? (yAxisIndex[2] == undefined ? 0 : 1)
-                            : (yAxisIndex[2] == undefined ? 1 : 2);
-
-                        barYAxises.push({ // Primary yAxis
-                            gridLineWidth: 1,
-                            title: {
-                                text: 'Unit Count',
-                                style: {
-                                    color: Highcharts.getOptions().colors[ci]
-                                }
-                            },
-                            labels: {
-                                format: '{value:,.0f}',
-                                style: {
-                                    color: Highcharts.getOptions().colors[ci]
-                                }
-                            },
-                            opposite: barYAxisLeft
-                        });
-
-                        barYAxisLeft = true;
-                    }
-
-                    colData.yAxis = yAxisIndex[0];
-                    colData.tooltip = {
-                        headerFormat:
-                            '<span style="width:100%; text-align:center; font-size:13px; font-weight:600; color:#15a;">{point.key}</span><table>',
-                        pointFormat:
-                            '<tr><td><span style="display:block; width:10px; height:10px; border-radius:10px; background-color:{series.color}"></span></td>' +
-                                '<td style="color:{series.color}">{series.name}: </td>' +
-                                '<td style="padding-left:8px; text-align:right"><b>{point.y:,.0f}</b></td><td></td></tr>',
-                        footerFormat: '</table>',
-                        valueSuffix: ''
-                    }
-
-                    pisData.pointFormat =
-                        '<span style="color:{point.color}">{series.name}</span>: {point.y:,.0f} (<b>{point.percentage:.2f}%</b>)';
-                    pisData.plotFormat = '{point.name}: {point.y:,.0f} (<b>{point.percentage:.1f}%)</b>';
-                }
-
-                chartDataBar.push(colData);
-                chartDataPie.push(pisData);
-            }
-
-            //[ "#F7464A", "#45BFBD", "#FDB45C", "#FEDCBA","#ABCDEF", "#DDDDDD", "#ABCABC"  ]
-            Highcharts.setOptions({
-                colors: [
-                    '#50B534', '#F04A3D', '#8085E8', '#DDDF00', '#0C9BCE', '#70ED5D', "#ED454A", '#7CB5EC', "#FDB35C",
-                    "#45BFBD", '#ED562B', '#24CBE5', '#63E573', '#F29855', '#F0ED5E', '#6AF9C5', "#FEDCBA", "#ABCDEF",
-                    "#DDDDEE", "#ABCABC"
-                ]
-            });
-
-            generate_bar_chart(chartTitle, chartSubTitle, chartCategories, barYAxises, chartDataBar);
-            generate_pie_chart(chartTitle, chartSubTitle, chartDataPie[0]);
-
-            return;
-        }
-
+        
         function init_chart_data(headers, chartColumns, rawData) {
 
             $("#chartBar").empty();
             $("#chartPie").empty();
-            $("#PieChartOptions").empty();
+            $("#chartPieOpts").empty();
 
             if (!chartColumns || !rawData || chartColumns.length < 1 || rawData.length < 1) {
                 $("#chartAll").css('display', 'none');
@@ -910,7 +687,7 @@
             }
 
             chartDataPie = [];
-            $("#PieChartOptions").empty();
+            $("#chartPieOpts").empty();
 
             for (ci = 0; ci < chartColumns.length; ci++) {
 
@@ -932,7 +709,7 @@
                     };
 
                 $("<option />").val(ci).html(dataName)
-                    .appendTo($("#PieChartOptions"));
+                    .appendTo($("#chartPieOpts"));
 
 
                 if (chartColumns[ci].toLocaleLowerCase().indexOf("length") !== -1) {
@@ -1313,7 +1090,7 @@
         }
 
 
-        $("#PieChartOptions").on("change",
+        $("#chartPieOpts").on("change",
             function() {
 
                 var chartTitle = rptName + ' Report',

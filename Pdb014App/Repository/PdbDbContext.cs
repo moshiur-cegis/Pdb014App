@@ -20,9 +20,9 @@ using Pdb014App.Models.PDB.PoleModels;
 using Pdb014App.Models.PDB.ServicePointModels;
 using Pdb014App.Models.PDB.SwitchGearModels;
 using Pdb014App.Models.PDB.CopperCableModels;
+using Pdb014App.Models.PDB.RegionModels;
 using Pdb014App.Models.Search;
 using Pdb014App.Models.MapViewer.Settings;
-using Pdb014App.Models.PDB.RegionModels;
 
 
 namespace Pdb014App.Repository

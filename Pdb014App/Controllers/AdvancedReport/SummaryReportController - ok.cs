@@ -473,7 +473,7 @@ namespace Pdb014App.Controllers.SummaryReport
                             tempExp = model => model.FeederLineToRoute.RouteToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblFeederLine>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
 
@@ -815,7 +815,7 @@ namespace Pdb014App.Controllers.SummaryReport
                             tempExp = model => model.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblSubstation>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 routeCode = regionList[4];
                                 //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
@@ -991,7 +991,7 @@ namespace Pdb014App.Controllers.SummaryReport
                             tempExp = model => model.FeederLineToRoute.RouteToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblFeederLine>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
 
@@ -1375,7 +1375,7 @@ namespace Pdb014App.Controllers.SummaryReport
                             tempExp = model => model.FeederLineToRoute.RouteToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblFeederLine>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 routeCode = regionList[4];
                                 //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
@@ -1896,7 +1896,7 @@ namespace Pdb014App.Controllers.SummaryReport
                                 tempExp = model => model.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
                                 searchExp = ExpressionExtension<TblPole>.AndAlso(searchExp, tempExp);
 
-                                if (regionList.Count > 4)
+                                if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                                 {
                                     routeCode = regionList[4];
                                     //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
@@ -2338,7 +2338,7 @@ namespace Pdb014App.Controllers.SummaryReport
                             tempExp = model => model.DtToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblDistributionTransformer>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 routeCode = regionList[4];
                                 //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
@@ -2766,7 +2766,7 @@ namespace Pdb014App.Controllers.SummaryReport
                             tempExp = model => model.PhasePowerTransformerToTblSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblPhasePowerTransformer>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4)
+                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 routeCode = regionList[4];
                                 //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;

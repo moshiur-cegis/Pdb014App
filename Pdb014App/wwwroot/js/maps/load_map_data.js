@@ -412,20 +412,6 @@ function add_admin_boundary(adminCode, showLabel, selectedAdminCode) {
 
         if (map.hasLayer(mapLayers["admin_" + adminCode].label))
             map.removeLayer(mapLayers["admin_" + adminCode].label);
-
-        //map.addLayer(mapLayers["admin_" + adminCode].layer);
-
-        ////if ($("#admin_" + adminCode).length && !$("#admin_" + adminCode).prop("checked"))
-        ////    $("#admin_" + adminCode).prop("checked", true);
-
-        //////admin-label
-        ////$("#admin_label_" + adminCode).prop("disabled", false);
-
-        ////if ($("#admin_label_" + adminCode).length && $("#admin_label_" + adminCode).prop("checked"))
-        //if (showLabel)
-        //    map.addLayer(mapLayers["admin_" + adminCode].label);
-
-        //return;
     }
 
 
@@ -439,7 +425,63 @@ function add_admin_boundary(adminCode, showLabel, selectedAdminCode) {
             getMapLabels(feature, layer, adminCode, labelClass, adminLabels, labelContent, offsetLeft, lineStyle, hoverStyle, focusStyle);
             //getMapLabels(feature, layer, adminCode, adminLabels, lineStyle);
 
+            //if (adminCode == "union") {
+            //    layer.on({
+            //        "click": function (e) {
+            //            var unionCode = feature.properties[adminCode + "_code"];
+            //            if (e.latlng)
+            //                set_location_data(unionCode, "", e.latlng.lat.toFixed(8), e.latlng.lng.toFixed(8));
+
+            //        }
+            //    });
+            //}
+
+
+            switch (adminCode) {
+                case "div":
+                    focusStyle.weight = 3.25;
+                    focusStyle.color = "#3587EA";
+                    focusStyle.fillColor = "#35A3E8";
+                    break;
+
+                case "dist":
+                    focusStyle.weight = 3.0;
+                    focusStyle.color = "#6513F3";
+                    focusStyle.fillColor = "#8528FC";
+                    break;
+
+                case "upaz":
+                    focusStyle.weight = 2.75;
+                    focusStyle.color = "#17A3B8";
+                    focusStyle.fillColor = "#27C5D7";//#20c997;#17a2b8;
+
+                    break;
+
+                case "union":
+                    focusStyle.weight = 2.5;
+                    focusStyle.color = "#DC3545";
+                    focusStyle.fillColor = "#FA4575";
+                    
+                    layer.on({
+                        "click": function (e) {
+                            var unionCode = feature.properties[adminCode + "_code"];
+                            if (e.latlng) {
+                                set_location_data(unionCode, "", e.latlng.lat.toFixed(8), e.latlng.lng.toFixed(8));
+                            }
+                        }
+                    });
+                    break;
+
+                default:
+                    focusStyle.weight = 3.5;
+                    focusStyle.color = "#3587EA";
+                    focusStyle.fillColor = "#35A3E8";
+                    break;
+            }
+
+
             if (selectedAdminCode && feature.properties[adminCode + "_code"] == selectedAdminCode) {
+
                 layer.className = "focused";
                 layer.setStyle(focusStyle);
 
