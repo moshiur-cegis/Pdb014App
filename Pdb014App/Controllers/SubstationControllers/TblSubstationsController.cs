@@ -1,34 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Pdb014App.Models.PDB.SubstationModels;
+using Pdb014App.Models.UserManage;
 using Pdb014App.Repository;
+using Stimulsoft.Controls;
 
 namespace Pdb014App.Controllers.SubstationControllers
 {
+
+
+
     public class TblSubstationsController : Controller
     {
+       
+        private readonly UserManager<TblUserRegistrationDetail> UserManager;
+        private readonly UserDbContext contextUser;
+
+
         private readonly PdbDbContext _context;
 
-        public TblSubstationsController(PdbDbContext context)
+        public TblSubstationsController(PdbDbContext context, UserDbContext contextUser, UserManager<TblUserRegistrationDetail> UserManager)
         {
-            _context = context;
+            _context = context;            
+            this.contextUser = contextUser;
+            this.UserManager = UserManager;
         }
 
         // GET: TblSubstations
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            //Include(t => t.SubstationType)
-            var pdbDbContext = _context.TblSubstation.Include(t => t.SubstationType).Include(t => t.SubstationToLookUpSnD);
+            Expression<Func<TblSubstation, bool>> searchExp = null;
 
             
+            if (User.IsInRole("Super User"))
+            {
+                searchExp = null;
+            }
+            else if(User.IsInRole("System Administrator"))
+            {
 
-            return View(await pdbDbContext.ToListAsync());
+                var user = await UserManager.GetUserAsync(User);
+                string zoneCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.UserProfileDetailToUserBpdbEmployee.ZoneCode).SingleOrDefault();
+                searchExp = i => i.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneCode == zoneCode;
+            }
+
+
+            var qry = searchExp != null? _context.TblSubstation.AsNoTracking().Where(searchExp).Include(t => t.SubstationType).Include(t => t.SubstationToLookUpSnD.CircleInfo.ZoneInfo).AsQueryable(): 
+                                         _context.TblSubstation.AsNoTracking().Include(t => t.SubstationType).Include(t => t.SubstationToLookUpSnD.CircleInfo.ZoneInfo).AsQueryable();
+
+            return View(qry);
         }
+
 
         // GET: TblSubstations/Details/5
         public async Task<IActionResult> Details(string id)

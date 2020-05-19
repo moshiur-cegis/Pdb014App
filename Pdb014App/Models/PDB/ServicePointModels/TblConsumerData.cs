@@ -27,6 +27,7 @@ namespace Pdb014App.Models.PDB.ServicePointModels
         [ForeignKey("ServicesPointId")]
         public virtual TblServicePoint ConsumerDataToServicesPoint { get; set; }
 
+
         [Column(Order = 2, TypeName = "varchar(50)")]
         [StringLength(50)]
         [Display(Name = "Distribution Transformer Id")]

@@ -77,6 +77,8 @@ namespace Pdb014App.Controllers.PoleControllers
             return View(tblPole);
         }
 
+
+        [Authorize(Roles = "System Administrator,Super User")]
         // GET: TblPoles1/Create
         public IActionResult Create()
         {

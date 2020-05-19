@@ -71,6 +71,8 @@ namespace Pdb014App.Models.PDB
         //[Display(Name = "Feeder source (132 KV substation name)")]
         //public string FeederSource132KVSubstationName { get; set; }
 
+        
+
         [Column("FeederLocation", Order = 6, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
         [Display(Name = "Feeder Location")]
@@ -117,6 +119,9 @@ namespace Pdb014App.Models.PDB
         [Range(0, 9999999.99999, ErrorMessage = "Invalid {0}; Max 12 digits")]
         public decimal? SanctionedLoad { get; set; }
 
+ 
+        
+
         //[Column("Source33or11kVTransformer", Order = 14, TypeName = "nvarchar(250)")]
         //[DataType(DataType.Text)]
         //[Display(Name = "Source 33/11 kV Transformer ")]
@@ -126,6 +131,8 @@ namespace Pdb014App.Models.PDB
         //[DataType(DataType.Text)]
         //[Display(Name = "11 kV Feeder Name")]
         //public string FeederName11KV { get; set; }
+
+
         
         public ICollection<TblPole> Poles { get; set; }
         

@@ -1,10 +1,9 @@
 @using Microsoft.AspNetCore.Identity
 @using Pdb014App.Models.UserManage;
 
+@*@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor*@
 
-
-@*@inject SignInManager<IdentityUser> SignInManager
-    @inject UserManager<IdentityUser> UserManager*@
 
 
 @inject SignInManager<TblUserRegistrationDetail> SignInManager
@@ -19,26 +18,35 @@
     <div class="btn-group">
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Hello @User.Identity.Name!
+
+
         </button>
         <div class="dropdown-menu">
+            <a id="UserProfile" asp-controller="TblUserProfileDetails" asp-action="ProfileDetials" asp-route-cai="UserProfile" asp-route-id="@user.Id" class="dropdown-item">View Profile</a>
+            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Change Password</a>
+
+            <div class="dropdown-divider"></div>
+
             <a class="dropdown-item" href="#">
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                     <button type="submit" class="">Logout</button>
                 </form>
             </a>
-            <div class="dropdown-divider"></div>
-            <a id="UserProfile" asp-controller="TblUserProfileDetails" asp-action="ProfileDetials" asp-route-cai="UserProfile" asp-route-id="@user.Id" class="dropdown-item">View Profile</a>
-            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Change Password</a>
+            @*<a class="dropdown-item" href="#">             
+                @HttpContextAccessor.HttpContext.Session.GetString("Rimu")
+            </a>*@
 
         </div>
     </div>
 }
 else
 {
+
+    <a class="nav-link text-light fa fa-user m-2" asp-area="Identity" asp-page="/Account/Login">Login</a>
    
-         <a class="nav-link text-light fa fa-user m-2" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        
-    
+ 
+
+
 }
 
 @*<ul class="navbar-nav">
