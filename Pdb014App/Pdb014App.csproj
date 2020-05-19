@@ -15,7 +15,6 @@
     <PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
     <PackageReference Include="ReflectionIT.Mvc.Paging" Version="3.5.0" />
     <PackageReference Include="Stimulsoft.Reports.Web.NetCore" Version="2019.2.3" />
-    <PackageReference Include="System.Spatial" Version="5.8.4" />
   </ItemGroup>
 
 </Project>
