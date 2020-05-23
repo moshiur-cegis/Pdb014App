@@ -3628,10 +3628,16 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
 
             var qry = _dbContext.TblPhasePowerTransformer.AsNoTracking()
-                .Include(t => t.PhasePowerTransformerTo33KvFeederLine)
-                .Include(t => t.PhasePowerTransformerToSourceSubstation)
-                .Include(t => t.PhasePowerTransformerToTblSubstation)
-                .AsQueryable();
+                    .Include(pt => pt.PhasePowerTransformerTo33KvFeederLine)
+                    .Include(pt => pt.PhasePowerTransformerTo33KvFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
+                    .Include(pt => pt.PhasePowerTransformerTo33KvFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                    .Include(pt => pt.PhasePowerTransformerTo33KvFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                    .Include(pt => pt.PhasePowerTransformerToSourceSubstation)
+                    .Include(pt => pt.PhasePowerTransformerToTblSubstation)
+                    .Include(pt => pt.PhasePowerTransformerToTblSubstation.SubstationType)
+                    //.Include(pt => pt.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                    //.Include(pt => pt.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                    .AsQueryable();
 
             var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "PhasePowerTransformerId");
 
@@ -4128,11 +4134,14 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             qry = qry
                 .Include(pt => pt.PhasePowerTransformerTo33KvFeederLine)
+                .Include(pt => pt.PhasePowerTransformerTo33KvFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
+                .Include(pt => pt.PhasePowerTransformerTo33KvFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(pt => pt.PhasePowerTransformerTo33KvFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .Include(pt => pt.PhasePowerTransformerToSourceSubstation)
                 .Include(pt => pt.PhasePowerTransformerToTblSubstation)
                 .Include(pt => pt.PhasePowerTransformerToTblSubstation.SubstationType)
-                .Include(pt => pt.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
-                .Include(pt => pt.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                //.Include(pt => pt.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                //.Include(pt => pt.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
 

@@ -1837,7 +1837,8 @@ namespace Pdb014App.Controllers.AdvancedReport
             {
                 case "zone":
                     data = qry
-                        .Include(st => st.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .Include(dt => dt.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
+                        .Include(dt => dt.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                         .GroupBy(i => i.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
@@ -2265,6 +2266,7 @@ namespace Pdb014App.Controllers.AdvancedReport
             {
                 case "zone":
                     data = qry
+                        .Include(st => st.PhasePowerTransformerToSourceSubstation)
                         .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                         .GroupBy(i => i.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
@@ -2275,8 +2277,8 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                             totalCount = k.Count(),
 
-                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage == "132"),
-                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage == "33"),
+                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("132")),
+                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("33")),
 
                             total132RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("132")),
                             total33RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("33")),
@@ -2306,6 +2308,7 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                 case "circle":
                     data = qry
+                        .Include(st => st.PhasePowerTransformerToSourceSubstation)
                         .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                         .GroupBy(i => i.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleCode)
                         .Select(k => new
@@ -2319,8 +2322,8 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                             totalCount = k.Count(),
 
-                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage == "132"),
-                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage == "33"),
+                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("132")),
+                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("33")),
 
                             total132RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("132")),
                             total33RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("33")),
@@ -2340,6 +2343,7 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                 case "snd":
                     data = qry
+                        .Include(st => st.PhasePowerTransformerToSourceSubstation)
                         .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD)
                         .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo)
                         .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
@@ -2356,8 +2360,8 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                             totalCount = k.Count(),
 
-                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage == "132"),
-                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage == "33"),
+                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("132")),
+                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("33")),
 
                             total132RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("132")),
                             total33RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("33")),
@@ -2376,6 +2380,7 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                 case "substation":
                     data = qry
+                        .Include(st => st.PhasePowerTransformerToSourceSubstation)
                         .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                         .GroupBy(i => i.SubstationId)
                         .Select(k => new
@@ -2391,8 +2396,8 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                             totalCount = k.Count(),
 
-                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage == "132"),
-                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage == "33"),
+                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("132")),
+                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("33")),
 
                             total132RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("132")),
                             total33RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("33")),
@@ -2411,6 +2416,7 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                 default:
                     data = qry
+                        .Include(st => st.PhasePowerTransformerToSourceSubstation)
                         .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                         .GroupBy(i => i.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
@@ -2422,8 +2428,8 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                             totalCount = k.Count(),
 
-                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage == "132"),
-                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage == "33"),
+                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("132")),
+                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("33")),
 
                             total132RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("132")),
                             total33RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("33")),

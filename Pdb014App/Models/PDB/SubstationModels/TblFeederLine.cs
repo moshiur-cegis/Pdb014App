@@ -149,8 +149,9 @@ namespace Pdb014App.Models.PDB
                     return _feederLength;
 
                 var poleList = Poles
-                    .OrderBy(pi => pi.FeederWiseSerialNo)
+                    .Where(pi => pi.FeederLineId == FeederLineId)
                     .Select(pi => new {pi.PoleNo, pi.PreviousPoleNo, pi.Latitude, pi.Longitude})
+                    .OrderBy(pi => pi.PoleNo) //.OrderBy(pi => pi.FeederWiseSerialNo)
                     .ToList();
 
                 if (poleList.Count < 2)

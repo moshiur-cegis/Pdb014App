@@ -1,7 +1,7 @@
 ﻿@using Pdb014App.Models.Report
 
 @{
-    //ViewBag.ReportAction = "GetFeederLineData";
+    //ViewBag.ReportAction = "GetSubstationDataOk";
     string rptName = ViewBag.ReportName, rptAction = ViewBag.ReportAction, rptController = ViewBag.ReportController;
 
     ViewData["Title"] = rptName + "Report";
@@ -175,10 +175,10 @@
                     <table id="report_view" class="table table-responsive multi-form-view table-info"></table>
                 </div>
             </div>
+
         </fieldset>
     </div>
 </div>
-
 
 
 @section Scripts {
@@ -262,6 +262,7 @@
             set_basic_info();
 
             $("#report_view").empty();
+
             if (!dataColumns || dataColumns.length < 1) {
                 $("#dataView").css('display', 'none');
                 msg.init("warning", "Warning... . . !", "Select at least one data field... . . !! ");
@@ -314,6 +315,7 @@
             headerList["distName"] = "District Name";
             headerList["sndName"] = "S&D Name";
 
+
             //headerList["isCity"] = "In City ?";
 
             $("#field_list input[type='checkbox']").each(function() {
@@ -341,7 +343,7 @@
             });
         }
 
-        function init_data_table(selector, headerList, basicColumns, dataColumns, data) {
+        function init_data_table_new(selector, headerList, basicColumns, dataColumns, data) {
             $(selector).empty();
 
             if (!dataColumns || !data || dataColumns.length < 1 || data.length < 1) {
@@ -360,7 +362,7 @@
             if (headerGroups.length < 1) {
                 headRow$.append($("<th/>").css("width", '25px').html("Sl. No."));
                 $.each(headerList,
-                    function(headerNam, headerTxt) {
+                    function (headerNam, headerTxt) {
                         var hw = hi++ < basicColumns.length ? hwr * 1.5 : hwr;
                         headRow$.append($("<th/>").css("width", hw + '%').html(headerTxt));
                     });
@@ -370,7 +372,7 @@
                     headerSubList = {},
                     headRowSub$ = $("<tr/>");
 
-                $.each(headerGroups, function(groupNam, groupFields) { gfc += Object.keys(groupFields).length - 1; });
+                $.each(headerGroups, function (groupNam, groupFields) { gfc += Object.keys(groupFields).length - 1; });
 
                 hwr = Math.floor((100 / ((basicColumns.length * 1.5) + dataColumns.length + gfc + 0.333)) * 1000) /
                     1000;
@@ -380,7 +382,7 @@
                     .html("Sl. No."));
 
                 $.each(headerList,
-                    function(headerNam, headerTxt) {
+                    function (headerNam, headerTxt) {
                         if (headerSubList[headerNam]) {
                             headerList[headerNam] = headerGroupList[headerNam]
                                 ? headerGroupList[headerNam] + ' (' + headerList[headerNam] + ')'
@@ -393,7 +395,7 @@
 
                         if (headerNam.indexOf('group') === 0 && headerGroups[headerNam]) {
                             $.each(headerGroups[headerNam],
-                                function(headerSubNam, headerSubTxt) {
+                                function (headerSubNam, headerSubTxt) {
                                     gwfc++;
                                     headRowSub$.append($("<th/>").css("width", hw + '%').html(headerSubTxt));
                                     headerSubList[headerSubNam] = headerSubTxt;
@@ -416,6 +418,7 @@
 
 
             //** Data Grouping **//
+            var inTableGroup = "";
             var dataColumnGroups = {};
             for (var fi = 0; fi < dataColumns.length; fi++) {
                 if ([fi] && dataColumns[fi].indexOf('.') > 0) {
@@ -428,12 +431,13 @@
 
                         var grpName = "";
                         $.each(headerGroups,
-                            function(groupNam, groupFields) {
+                            function (groupNam, groupFields) {
                                 if (Object.keys(groupFields).includes(dColumn)) {
                                     grpName = groupNam;
                                     return;
                                 }
                             });
+                        if (grpName.indexOf("groupInTable") >= 0) inTableGroup = gName;
                     }
                     dataColumnGroups[gName][fName] = fName;
                 } else {
@@ -442,7 +446,7 @@
             }
 
             var groupedData = {};
-            data.forEach(function(d) {
+            data.forEach(function (d) {
                 var zone = basicColumns[0],
                     circle = basicColumns[2],
                     snd = basicColumns[4],
@@ -455,10 +459,11 @@
             });
             //** Data Grouping End **//
 
+
             //** Table Body **//
             var slNo = 1, rsZone = 0, $zoneTrs = "", $allTrs = "";
             $.each(groupedData,
-                function(zoneName, zoneInfo) {
+                function (zoneName, zoneInfo) {
 
                     var rsCircle = 0, $circleTrs = "";
                     $.each(zoneInfo,
@@ -468,106 +473,90 @@
                             $.each(circleInfo,
                                 function(sndName, sndInfo) {
 
-                                    var rsSSt = 1, $sstTrs = "";
+                                    var rsSSt = 0, $sstTrs = "";
                                     $.each(sndInfo,
                                         function(sstCode, sstInfo) {
                                             if (!sstInfo)
                                                 return;
 
+                                            var ic = 0, isRight, dataValue = "", $infoTrs = "", $infoTds = "";
+
+                                            rsSSt = sstInfo[inTableGroup] && sstInfo[inTableGroup].length > 0 ? sstInfo[inTableGroup].length : 1;
+
                                             isCity = sstInfo.isCity || "";
                                             dist = sstInfo.distName || "";
 
-                                            var rsGrp = {}, isLast = {}, isRight, dataValue = "", $infoTrs = "";
-
                                             $.each(dataColumnGroups,
                                                 function(groupName, dtColumns) {
-                                                    rsSSt = sstInfo[groupName] && sstInfo[groupName].length > rsSSt ? sstInfo[groupName].length : rsSSt;
-                                                });
+                                                    if (!sstInfo[groupName]) return;
 
-                                            $.each(dataColumnGroups,
-                                                function(groupName, dtColumns) {
-                                                    isLast[groupName] = false;
-                                                    rsGrp[groupName] = parseInt(rsSSt / (sstInfo[groupName] && sstInfo[groupName].length ? sstInfo[groupName].length : 1));
-                                                });
+                                                    switch (typeof dtColumns) {
+                                                    case "object":
+                                                        if (groupName == inTableGroup) {
+                                                            if (sstInfo[groupName].length > 0) {
+                                                                for (ic = 0; ic < sstInfo[groupName].length; ic++) {
+                                                                    $.each(dtColumns,
+                                                                        function(dc, dataColumn) {
+                                                                            //dataValue = sstInfo[groupName][ic][dataColumn];
+                                                                            dataValue = typeof (sstInfo[groupName][ic]) != "undefined" ? sstInfo[groupName][ic][dataColumn] : sstInfo[groupName][dataColumn];
 
-                                            for (var rc = 0; rc < rsSSt; rc++) {
-                                                var $infoTds = "";
+                                                                            isRight = (dataValue === parseInt(dataValue, 10));
 
-                                                $.each(dataColumnGroups,
-                                                    function(groupName, dtColumns) {
+                                                                            $infoTds += "<td style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>";
+                                                                        });
 
-                                                        //if (!sstInfo[groupName] || rc % rsGrp[groupName] != 0) return;
-                                                        if (rc % rsGrp[groupName] != 0) return;
+                                                                    if ($infoTrs) {
+                                                                        $infoTrs += "<tr>";
+                                                                    }
 
-                                                        var di = rc / rsGrp[groupName],
-                                                            dc = sstInfo[groupName] && sstInfo[groupName].length ? sstInfo[groupName].length : 1;
-
-                                                        if (dc > di && !isLast[groupName]) {
-                                                            switch (typeof dtColumns) {
-																case "object":
-																	$.each(dtColumns,
-																		function(ci, dataColumn) {
-																			dataValue = typeof (sstInfo[groupName]) == "undefined"
-																				? ""
-																				: typeof (sstInfo[groupName][di]) != "undefined"
-																				? sstInfo[groupName][di][dataColumn]
-																				: typeof (sstInfo[groupName][dataColumn]) != "undefined"
-																				? sstInfo[groupName][dataColumn]
-																				: "";
-																			
-																			if (dataValue) {
-																				isRight = (dataValue === parseInt(dataValue, 10));
-																				$infoTds += rsGrp[groupName] > 1
-																					? "<td rowspan='" + rsGrp[groupName] + "' style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>"
-																					: "<td style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>";
-																			} else {
-																				$infoTds += rsGrp[groupName] > 1 ? "<td rowspan='" + rsGrp[groupName] + "'></td>" : "<td></td>";
-																			}
-																		});
-																	break;
-
-																case "string":
-																	if (sstInfo[dtColumns]) {
-																		dataValue = sstInfo[dtColumns];
-																		isRight = (dataValue === parseInt(dataValue, 10));
-																		$infoTds += rsGrp[groupName] > 1
-																			? "<td rowspan='" + rsGrp[groupName] + "' style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>"
-																			: "<td style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>";
-																	} else {
-																		$infoTds += rsGrp[groupName] > 1 ? "<td rowspan='" + rsGrp[groupName] + "'></td>" : "<td></td>";
-																	}
-																	break;
-
-																default:
-																	$infoTds += rsGrp[groupName] > 1 ? "<td rowspan='" + rsGrp[groupName] + "'></td>" : "<td></td>";
-																	break;
-                                                            }
-
-                                                            if (dc == di + 1 && rsSSt > rsGrp[groupName])
-                                                                isLast[groupName] = true;
-
-                                                        } else if (isLast[groupName]) {
-                                                            isLast[groupName] = false;
-                                                            if (rsSSt > (rsGrp[groupName] * di)) {
-                                                                var rsExt = rsSSt - (rsGrp[groupName] * di);
-                                                                switch (typeof dtColumns) {
-																	case "object":
-																		$.each(dtColumns,
-																			function(ci, dataColumn) {
-																				$infoTds += rsExt > 1 ? "<td rowspan='" + rsExt + "'></td>" : "<td></td>";
-																			});
-																		break;
-
-																	default:
-																		$infoTds += rsExt > 1 ? "<td rowspan='" + rsExt + "'></td>" : "<td></td>";
-																		break;
+                                                                    $infoTrs += $infoTds;
+                                                                    $infoTrs += '</tr>';
+                                                                    $infoTds = "";
                                                                 }
+                                                            } else {
+                                                                $.each(dtColumns,
+                                                                    function(dc, dataColumn) {
+                                                                        $infoTds += "<td></td>";
+                                                                    });
                                                             }
-                                                            rsGrp[groupName] = rsSSt + 999;
+                                                        } else {
+                                                            $.each(dtColumns,
+                                                                function(dc, dataColumn) {
+                                                                    dataValue = "";
+                                                                    if (sstInfo[groupName][dataColumn]) {
+                                                                        dataValue = sstInfo[groupName][dataColumn];
+                                                                        isRight = (dataValue === parseInt(dataValue, 10));
+                                                                    } else if (sstInfo[groupName].length > 0) {
+                                                                        for (ic = 0; ic < sstInfo[groupName].length; ic++) {
+                                                                            dataValue += sstInfo[groupName][ic][dataColumn] + "<br />";
+                                                                        }
+                                                                        isRight = (sstInfo[groupName][0][dataColumn] === parseInt(sstInfo[groupName][0][dataColumn], 10));
+                                                                    }
+
+                                                                    $infoTds += rsSSt > 1
+                                                                        ? "<td rowspan='" + rsSSt + "' style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>"
+                                                                        : "<td style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>";
+                                                                });
                                                         }
-                                                    });
+                                                        break;
 
+                                                    case "string":
+                                                        dataValue = sstInfo[dtColumns] || "";
+                                                        isRight = (dataValue === parseInt(dataValue, 10));
 
+                                                        $infoTds += rsSSt > 1
+                                                            ? "<td rowspan='" + rsSSt + "' style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>"
+                                                            : "<td style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>";
+                                                        break;
+
+                                                    default:
+                                                        $infoTds += rsSSt > 1 ? "<td rowspan='" + rsSSt + "'></td>" : "<td></td>";
+                                                        break;
+                                                    }
+
+                                                });
+
+                                            if (!sstInfo[inTableGroup] || sstInfo[inTableGroup].length < 1) {
                                                 if ($infoTrs) {
                                                     $infoTrs += "<tr>";
                                                 }
@@ -575,12 +564,8 @@
                                                 $infoTrs += $infoTds;
                                                 $infoTrs += '</tr>';
                                                 $infoTds = "";
-
-                                                $infoTrs += $infoTds;
-                                                $infoTrs += '</tr>';
-                                                $infoTds = "";
                                             }
-                                            
+
                                             rsSnD += rsSSt;
 
                                             if ($sstTrs) {
@@ -590,6 +575,7 @@
                                             $sstTrs += $infoTrs;
                                             $sstTrs += '</tr>';
 
+                                            $infoTrs = "";
                                             rsSSt = 0;
                                         });
 
@@ -653,7 +639,7 @@
         }
 
 
-        function init_data_table_full_ok(selector, headerList, basicColumns, dataColumns, data) {
+        function init_data_table(selector, headerList, basicColumns, dataColumns, data) {
             $(selector).empty();
 
             if (!dataColumns || !data || dataColumns.length < 1 || data.length < 1) {
@@ -663,7 +649,6 @@
             $("#dataView").css('display', '');
 
             var headRow$ = $("<tr/>"),
-                //totalRow$ = $("<tr/>"),
                 tbody$ = $("<tbody/>"),
                 hi = 0,
                 hwr = Math.floor((100 / ((basicColumns.length * 1.5) + dataColumns.length)) * 1000) / 1000;
@@ -727,7 +712,7 @@
             //** Table Header End **//
 
 
-            //** Data Grouping **//
+            //** Table Body **//
             var inTableGroup = "";
             var dataColumnGroups = {};
             for (var fi = 0; fi < dataColumns.length; fi++) {
@@ -767,11 +752,8 @@
                 groupedData[d[zone]][d[circle]][d[snd]] = groupedData[d[zone]][d[circle]][d[snd]] || {};
                 groupedData[d[zone]][d[circle]][d[snd]][d[sst]] = d;
             });
-            //** Data Grouping End **//
 
-
-            //** Table Body **//
-            var slNo = 1, rsZone = 0, $zoneTrs = "", $allTrs = "";
+            var slno = 1, rsZone = 0, $zoneTrs = "", $allTrs = "";
             $.each(groupedData,
                 function(zoneName, zoneInfo) {
 
@@ -801,61 +783,83 @@
                                                     if (!sstInfo[groupName]) return;
 
                                                     switch (typeof dtColumns) {
-														case "object":
-															if (groupName == inTableGroup) {
-																if (sstInfo[groupName].length > 0) {
-																	for (ic = 0; ic < sstInfo[groupName].length; ic++) {
-																		$.each(dtColumns,
-																			function(dc, dataColumn) {
-																				dataValue = sstInfo[groupName][ic][dataColumn];
-																				isRight = (dataValue === parseInt(dataValue, 10));
+                                                    case "object":
+                                                        if (groupName == inTableGroup) {
+                                                            if (sstInfo[groupName].length > 0) {
+                                                                for (ic = 0; ic < sstInfo[groupName].length; ic++) {
+                                                                    $.each(dtColumns,
+                                                                        function(dc, dataColumn) {
+                                                                            dataValue =
+                                                                                sstInfo[groupName][ic][dataColumn];
+                                                                            isRight = (dataValue ===
+                                                                                parseInt(dataValue, 10));
 
-																				$infoTds += "<td style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>";
-																			});
+                                                                            $infoTds += "<td style='text-align:" +
+                                                                                (isRight ? "right" : "left") +
+                                                                                ";'>" +
+                                                                                dataValue +
+                                                                                "</td>";
+                                                                        });
 
-																		if ($infoTrs) {
-																			$infoTrs += "<tr>";
-																		}
+                                                                    if ($infoTrs) {
+                                                                        $infoTrs += "<tr>";
+                                                                    }
 
-																		$infoTrs += $infoTds;
-																		$infoTrs += '</tr>';
-																		$infoTds = "";
-																	}
-																} else {
-																	$.each(dtColumns,
-																		function(dc, dataColumn) {
-																			$infoTds += "<td></td>";
-																		});
-																}
-															} else {
-																$.each(dtColumns,
-																	function(dc, dataColumn) {
-																		dataValue = "";
-																		if (sstInfo[groupName][dataColumn]) {
-																			dataValue = sstInfo[groupName][dataColumn];
-																		} else {
-																			for (ic = 0; ic < sstInfo[groupName].length; ic++) {
-																				dataValue += sstInfo[groupName][ic][dataColumn] + "<br />";
-																			}
-																		}
+                                                                    $infoTrs += $infoTds;
+                                                                    $infoTrs += '</tr>';
+                                                                    $infoTds = "";
+                                                                }
+                                                            } else {
+                                                                $.each(dtColumns,
+                                                                    function(dc, dataColumn) {
+                                                                        $infoTds += "<td></td>";
+                                                                    });
+                                                            }
+                                                        } else {
+                                                            $.each(dtColumns,
+                                                                function(dc, dataColumn) {
+                                                                    dataValue = "";
+                                                                    if (sstInfo[groupName][dataColumn]) {
+                                                                        dataValue = sstInfo[groupName][dataColumn];
+                                                                    } else {
+                                                                        for (ic = 0;
+                                                                            ic < sstInfo[groupName].length;
+                                                                            ic++) {
+                                                                            dataValue +=
+                                                                                sstInfo[groupName][ic][dataColumn] +
+                                                                                "<br />";
+                                                                        }
+                                                                    }
 
-																		isRight = (dataValue === parseInt(dataValue, 10));
+                                                                    isRight = (dataValue === parseInt(dataValue, 10));
 
-																		$infoTds += "<td rowspan='" + rsSSt + "' style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>";
-																	});
-															}
-															break;
+                                                                    $infoTds += "<td rowspan='" +
+                                                                        rsSSt +
+                                                                        "' style='text-align:" +
+                                                                        (isRight ? "right" : "left") +
+                                                                        ";'>" +
+                                                                        dataValue +
+                                                                        "</td>";
+                                                                });
+                                                        }
+                                                        break;
 
-														case "string":
-															dataValue = sstInfo[dtColumns] || "";
-															isRight = (dataValue === parseInt(dataValue, 10));
+                                                    case "string":
+                                                        dataValue = sstInfo[dtColumns] || "";
+                                                        isRight = (dataValue === parseInt(dataValue, 10));
 
-															$infoTds += "<td rowspan='" + rsSSt + "' style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>";
-															break;
+                                                        $infoTds += "<td rowspan='" +
+                                                            rsSSt +
+                                                            "' style='text-align:" +
+                                                            (isRight ? "right" : "left") +
+                                                            ";'>" +
+                                                            dataValue +
+                                                            "</td>";
+                                                        break;
 
-														default:
-															$infoTds += "<td rowspan='" + rsSSt + "'></td>";
-															break;
+                                                    default:
+                                                        $infoTds += "<td rowspan='" + rsSSt + "'></td>";
+                                                        break;
                                                     }
 
                                                 });
@@ -890,7 +894,11 @@
                                         $sndTrs += "<tr>";
                                     }
 
-                                    $sndTrs += "<td rowspan='" + rsSnD + "' style='text-align:left;'>" + sndName + "</td>";
+                                    $sndTrs += "<td rowspan='" +
+                                        rsSnD +
+                                        "' style='text-align:left;'>" +
+                                        sndName +
+                                        "</td>";
                                     $sndTrs += $sstTrs;
                                     $sndTrs += '</tr>';
 
@@ -930,7 +938,7 @@
                         $zoneTrs += "<tr>";
                     }
 
-                    $zoneTrs += "<td rowspan='" + rsZone + "' style='text-align:right;'>" + slNo + ".</td>";
+                    $zoneTrs += "<td rowspan='" + rsZone + "' style='text-align:right;'>" + slno + ".</td>";
                     $zoneTrs += "<td rowspan='" + rsZone + "' style='text-align:left;'>" + zoneName + "</td>";
                     $zoneTrs += $circleTrs;
                     $zoneTrs += '</tr>';
@@ -943,7 +951,7 @@
                     $allTrs += $zoneTrs;
                     $zoneTrs = "";
                     rsZone = 0;
-                    ++slNo;
+                    ++slno;
                 });
 
             tbody$.append($allTrs);
@@ -951,6 +959,13 @@
             $(selector).append(tbody$);
 
             //** Table Body End **//
+
+
+            ////** Table Fixed Header **//
+
+            //$(selector).fixedHeaderTable({ altClass: '', footer: false, cloneHeadToFoot: false, autoShow: true, fixedColumns: 0, autoResize: true });
+
+            ////** Table Fixed Header End **//
 
         }
 
