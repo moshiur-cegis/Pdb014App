@@ -117,6 +117,10 @@
 
                                 </th>
                                 <th>
+                                    @Html.DisplayNameFor(model => model.SubstationToLookUpSnD.CircleInfo.CircleName)
+
+                                </th>
+                                <th>
 
                                     S&D Code
                                 </th>
@@ -169,7 +173,11 @@
 
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.SnDCode)
+                                    @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.CircleInfo.CircleName)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.SnDName)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.NominalVoltage)

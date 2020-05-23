@@ -16,7 +16,16 @@ namespace Pdb014App.Models.PDB.ServicePointModels
         [Column("ConsumerId", Order = 0, TypeName = "int")]
         [DataType(DataType.Text)]
         [Display(Name = "Consumer Id")]
-        public int ConsumerId { get; set;}
+        public int ConsumerId { get; set; }
+
+        //[Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[Required]
+        //[Column(Order = 0, TypeName = "varchar(50)")]
+        //[StringLength(50, ErrorMessage = "The {0} must be {1} characters.")]
+        //[Display(Name = "Consumer Id")]
+        //public string ConsumersId { get; set; }
+
 
 
         [Required]

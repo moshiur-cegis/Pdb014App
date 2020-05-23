@@ -156,7 +156,7 @@
 
                                     <a asp-action="Edit" asp-route-id="@item.ServicesPointId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit Service Point Information">
                                         @*@Html.DisplayFor(modelItem => item.ServicePointId)*@
-                                        <span class="glyphicon glyphicon-edit"></span> Edit
+                                        <span class="glyphicon glyphicon-edit">@item.ServicesPointId</span> Edit
                                     </a>
 
                                 </td>

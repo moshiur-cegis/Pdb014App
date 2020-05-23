@@ -13,10 +13,12 @@ namespace Pdb014App.Controllers.UserController
     public class LookUpUserBpdbEmployeesController : Controller
     {
         private readonly UserDbContext _context;
+        private readonly PdbDbContext _contextPDB;
 
-        public LookUpUserBpdbEmployeesController(UserDbContext context)
+        public LookUpUserBpdbEmployeesController(UserDbContext context, PdbDbContext _contextPDB)
         {
             _context = context;
+            this._contextPDB = _contextPDB;
         }
 
         // GET: LookUpUserBpdbEmployees
@@ -49,6 +51,7 @@ namespace Pdb014App.Controllers.UserController
         public IActionResult Create()
         {
             ViewData["BpdbDivisionId"] = new SelectList(_context.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
+            ViewData["ZoneCode"] = new SelectList(_contextPDB.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
             return View();
         }
 
@@ -66,6 +69,7 @@ namespace Pdb014App.Controllers.UserController
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BpdbDivisionId"] = new SelectList(_context.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName", lookUpUserBpdbEmployee.BpdbDivisionId);
+            ViewData["ZoneCode"] = new SelectList(_contextPDB.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
             return View(lookUpUserBpdbEmployee);
         }
 
@@ -155,6 +159,36 @@ namespace Pdb014App.Controllers.UserController
         private bool LookUpUserBpdbEmployeeExists(int id)
         {
             return _context.UserBpdbEmployee.Any(e => e.BpdbEmployeeId == id);
+        }
+
+        public JsonResult GetCircleList(string zoneCode)
+        {
+            var circleList = _contextPDB.LookUpCircleInfo
+                .Where(u => u.ZoneCode.Equals(zoneCode))
+                .Select(u => new { u.CircleCode, u.CircleName })
+                .OrderBy(u => u.CircleCode).ToList();
+
+            return Json(new SelectList(circleList, "CircleCode", "CircleName"));
+        }
+
+        public JsonResult GetSnDList(string circleCode)
+        {
+            var sndList = _contextPDB.LookUpSnDInfo
+                .Where(u => u.CircleCode.Equals(circleCode))
+                .Select(u => new { u.SnDCode, u.SnDName })
+                .OrderBy(u => u.SnDCode).ToList();
+
+            return Json(new SelectList(sndList, "SnDCode", "SnDName"));
+        }
+
+        public JsonResult GetSubStationList(string sndCode)
+        {
+            var substationList = _contextPDB.TblSubstation
+                .Where(u => u.SnDCode.Equals(sndCode))
+                .Select(u => new { u.SubstationId, u.SubstationName })
+                .OrderBy(u => u.SubstationId).ToList();
+
+            return Json(new SelectList(substationList, "SubstationId", "SubstationName"));
         }
     }
 }

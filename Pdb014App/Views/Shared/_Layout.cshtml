@@ -13,9 +13,10 @@
 }
 
 
+
+
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -575,7 +576,7 @@
                     <li><a id="evac_01" asp-area="" asp-controller="#" asp-action="" asp-route-cai="evac_01"><i class="fa fa-sticky-note"></i>Event Viewing & Access Control</a></li>
                     <li><a id="d_intr_01" asp-area="" asp-controller="#" asp-action="" asp-route-cai="d_intr_01"><i class="fa fa-american-sign-language-interpreting"></i>Data interfacing</a></li>*@
 
-                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Super User"))
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
                 {
 
                     @*<li>
@@ -621,7 +622,7 @@
                                     <ul class="submenu">
                                         <li><a id="UserActivationStatus" asp-area="" asp-controller="LookUpUserActivationStatus" asp-action="Index" asp-route-cai="UserActivationStatus">User Activation Status</a></li>
                                         <li><a id="UserBpdbDivisions" asp-area="" asp-controller="LookUpUserBpdbDivisions" asp-action="Index" asp-route-cai="UserBpdbDivisions">Bpdb Divisions</a></li>
-                                        <li><a id="UserBpdbEmployees" asp-area="" asp-controller="LookUpUserBpdbEmployees" asp-action="Index" asp-route-cai="UserBpdbEmployees">Bpdb Employees</a></li>
+                                        <li><a id="UserBpdbEmployees" asp-area="" asp-controller="LookUpUserBpdbEmployees" asp-action="Index" asp-route-cai="UserBpdbEmployees">Bpdb Employees Level</a></li>
                                         <li><a id="UserContentTypes" asp-area="" asp-controller="LookUpUserContentTypes" asp-action="Index" asp-route-cai="UserContentTypes">Content Types</a></li>
                                         <li><a id="UsersPermittedContents" asp-area="" asp-controller="LookUpUsersPermittedContents" asp-action="Index" asp-route-cai="UsersPermittedContents">Users Permitted Contents</a></li>
                                         <li><a id="UserPermissionTypes" asp-area="" asp-controller="LookUpUserPermissionTypes" asp-action="Index" asp-route-cai="UserPermissionTypes">User Permission Types</a></li>

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Pdb014App.Models.PDB.SubstationModels;
 using Pdb014App.Models.UserManage;
+using Pdb014App.Models.UserManage.SetRole;
 using Pdb014App.Repository;
 
 
@@ -35,27 +36,55 @@ namespace Pdb014App.Controllers.SubstationControllers
         }
 
         // GET: TblSubstations
-        [Authorize]
+
+        [Authorize(Roles = "System Administrator,Super User,Zone,Circle,SnD,Substation")]
         public async Task<IActionResult> Index()
         {
-            Expression<Func<TblSubstation, bool>> searchExp = null;
 
-            
-            if (User.IsInRole("Super User"))
+            Expression<Func<TblSubstation, bool>> searchExp = null;
+            Expression<Func<TblSubstation, bool>> tempExp = null;
+            var user = await UserManager.GetUserAsync(User);
+
+
+            //string query = GetUserRoleData.query("TblSubstation");
+
+            if (User.IsInRole("System Administrator"))
             {
                 searchExp = null;
             }
-            else if(User.IsInRole("System Administrator"))
+            else if((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
             {
-
-                var user = await UserManager.GetUserAsync(User);
-                string zoneCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.UserProfileDetailToUserBpdbEmployee.ZoneCode).SingleOrDefault();
-                searchExp = i => i.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneCode == zoneCode;
+                //var user = await UserManager.GetUserAsync(User);
+                string zoneCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
+                searchExp = i => i.SubstationId.Substring(0, 1).Contains(zoneCode);
+            }else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
+            {
+                //var user = await UserManager.GetUserAsync(User);
+                string circleCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
+                searchExp = i => i.SubstationId.Substring(0, 3).Contains(circleCode);
+            }
+            else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
+            {
+                //var user = await UserManager.GetUserAsync(User);
+                string sndCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
+                searchExp = i => i.SubstationId.Substring(0, 5).Contains(sndCode);
             }
 
-
+            else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
+            {
+                //var user = await UserManager.GetUserAsync(User);
+                string SubstationId = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
+                searchExp = i => i.SubstationId.Substring(0, 7).Contains(SubstationId);
+            }
+            else
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+          
             var qry = searchExp != null? _context.TblSubstation.AsNoTracking().Where(searchExp).Include(t => t.SubstationType).Include(t => t.SubstationToLookUpSnD.CircleInfo.ZoneInfo).AsQueryable(): 
                                          _context.TblSubstation.AsNoTracking().Include(t => t.SubstationType).Include(t => t.SubstationToLookUpSnD.CircleInfo.ZoneInfo).AsQueryable();
+
+
 
             return View(qry);
         }

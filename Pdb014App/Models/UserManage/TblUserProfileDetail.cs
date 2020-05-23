@@ -41,15 +41,8 @@ namespace Pdb014App.Models.UserManage
         [Display(Name = "Use NID")]
         public string UserNID { get; set; }
 
-        [Display(Name = "Is Bpdb Employee")]
-        public bool IsBpdbEmployee { get; set; }
 
-        [Column("BpdbEmployeeId", Order = 1, TypeName = "int")]
-        [DataType(DataType.Text)]
-        [Display(Name = "Bpdb Employee Id")]
-        public int? BpdbEmployeeId { get; set; }
-        [ForeignKey("BpdbEmployeeId")]
-        public virtual LookUpUserBpdbEmployee UserProfileDetailToUserBpdbEmployee { get; set; }
+
 
         //[Required]
         [Column(Order = 2, TypeName = "nvarchar(250)")]
@@ -102,5 +95,73 @@ namespace Pdb014App.Models.UserManage
         [Display(Name = "Signature FileName")]
         public string SignatureFileName { get; set; }
 
+
+
+        [Display(Name = "Is Bpdb Employee")]
+        public bool IsBpdbEmployee { get; set; }
+
+        [Column("BpdbEmployeeId", Order = 1, TypeName = "int")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Bpdb Employee Id")]
+        public int? BpdbEmployeeId { get; set; }
+        [ForeignKey("BpdbEmployeeId")]
+        public virtual LookUpUserBpdbEmployee UserProfileDetailToUserBpdbEmployee { get; set; }
+
+        [StringLength(100)]
+        [Display(Name = "Bpdb Employee Level")]
+        public string BpdbEmployeeLevel { get; set; }
+
+
+        //[Required]
+        [Column("BpdbDivisionId", Order = 2, TypeName = "int")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Bpdb Division Id")]
+        public int? BpdbDivisionId { get; set; }
+        [ForeignKey("BpdbDivisionId")]
+        public virtual LookUpUserBpdbDivision UserBpdbEmployeeUserBpdbDivision { get; set; }
+
+
+        [StringLength(100)]
+        [Display(Name = "Bpdb Emp Designation")]
+        public string BpdbEmpDesignation { get; set; }
+
+
+        [Column("ZoneCode", Order = 4, TypeName = "varchar(50)")]
+        [StringLength(50)]
+        [Display(Name = "Zone")]
+        public string ZoneCode { get; set; }
+        //[ForeignKey("ZoneCode")]
+        //public virtual LookUpZoneInfo UserBpdbEmployeeToZoneInfo { get; set; }
+
+
+        [Column(Order = 5, TypeName = "varchar(50)")]
+        [StringLength(50)]
+        [Display(Name = "Circle")]
+        public string CircleCode { get; set; }
+        //[ForeignKey("CircleCode")]
+        //public virtual LookUpCircleInfo UserBpdbEmployeeToCircleInfo { get; set; }
+
+
+        [Column(Order = 6, TypeName = "varchar(50)")]
+        [StringLength(50)]
+        [Display(Name = "SnD")]
+        public string SnDCode { get; set; }
+        //[ForeignKey("SnDCode")]
+        //public virtual LookUpSnDInfo UserBpdbEmployeeToLookUpSnD { get; set; }
+
+
+        [Column(Order = 7, TypeName = "varchar(50)")]
+        [StringLength(50)]
+        [Display(Name = "Substation")]
+        public string SubstationId { get; set; }
+
     }
 }
+
+//BpdbEmployeeId
+//BpdbDivisionId
+//BpdbEmpDesignation
+//ZoneCode
+//CircleCode
+//SnDCode
+//SubstationId

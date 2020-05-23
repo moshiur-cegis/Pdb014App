@@ -36,6 +36,14 @@ namespace Pdb014App.Models.PDB.ServicePointModels
         [ForeignKey("PoleId")]
         public virtual TblPole ServicePointToPole { get; set; }
 
+
+        //[Column(Order = 2, TypeName = "varchar(50)")]
+        //[StringLength(50)]
+        //[Display(Name = "Distribution Transformer Id")]
+        //public string DistributionTransformerId { get; set; }
+        //[ForeignKey("DistributionTransformerId")]
+        //public virtual TblDistributionTransformer ConsumerDataToDistributionTransformer { get; set; }
+
         //[Required]
         //[Column(Order = 2, TypeName = "nvarchar(250)")]
         //[StringLength(250)]

@@ -17,17 +17,19 @@ namespace Pdb014App.Controllers.UserController
     {
         private readonly UserDbContext _context;
         private readonly UserManager<TblUserRegistrationDetail> _userManager;
+        private readonly PdbDbContext _contextPDB;
 
-        public TblUserProfileDetailsController(UserDbContext context, UserManager<TblUserRegistrationDetail> userManager)
+        public TblUserProfileDetailsController(UserDbContext context, UserManager<TblUserRegistrationDetail> userManager, PdbDbContext _contextPDB)
         {
             this._context = context;
             this._userManager = userManager;
+            this._contextPDB = _contextPDB;
         }
 
         // GET: TblUserProfileDetails
         public async Task<IActionResult> Index()
         {
-            var userDbContext = _context.UserProfileDetail.Include(t => t.UserProfileDetailToUserBpdbEmployee).Include(t => t.UserProfileDetailToUserRegistrationDetail).Include(t => t.UserSecurityQuestion);
+            var userDbContext = _context.UserProfileDetail.Include(t => t.UserProfileDetailToUserBpdbEmployee).Include(t => t.UserProfileDetailToUserRegistrationDetail).Include(t => t.UserSecurityQuestion).Include(l => l.UserBpdbEmployeeUserBpdbDivision);
             return View(await userDbContext.ToListAsync());
         }
 
@@ -46,6 +48,7 @@ namespace Pdb014App.Controllers.UserController
                 .Include(t => t.UserProfileDetailToUserBpdbEmployee)
                 .Include(t => t.UserProfileDetailToUserRegistrationDetail)
                 .Include(t => t.UserSecurityQuestion)
+                .Include(l => l.UserBpdbEmployeeUserBpdbDivision)
                 .FirstOrDefaultAsync(m => m.UserId == id);
             if (tblUserProfileDetail == null)
             {
@@ -68,6 +71,7 @@ namespace Pdb014App.Controllers.UserController
                 .Include(t => t.UserProfileDetailToUserBpdbEmployee)
                 .Include(t => t.UserProfileDetailToUserRegistrationDetail)
                 .Include(t => t.UserSecurityQuestion)
+                .Include(l => l.UserBpdbEmployeeUserBpdbDivision)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tblUserProfileDetail == null)
             {
@@ -91,17 +95,33 @@ namespace Pdb014App.Controllers.UserController
             ViewData["BpdbEmployeeId"] = new SelectList(_context.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId");
             ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail, "Id", "Id");
             ViewData["UserSecurityQuestionId"] = new SelectList(_context.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion");
+            ViewData["BpdbDivisionId"] = new SelectList(_context.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
+            ViewData["ZoneCode"] = new SelectList(_contextPDB.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+
+
+
+
             return View();
         }
 
 
 
-        // POST: TblUserProfileDetails/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        //BpdbEmployeeId
+        //BpdbDivisionId
+        //BpdbEmpDesignation
+        //ZoneCode
+        //CircleCode
+        //SnDCode
+        //SubstationId
+
+        //,BpdbDivisionId,BpdbEmpDesignation,ZoneCode,CircleCode,SnDCode,SubstationId
+
+    // POST: TblUserProfileDetails/Create
+    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,Id,UserFullName,UserDateOfBirth,UserNID,IsBpdbEmployee,BpdbEmployeeId,UserProfession,UserDesignation,UserAddress,UserAlternateEmail,UserAlternateMobile,UserSecurityQuestionId,SecurityQuestionAnswer,IsProfileSubmitted,SignatureFileName")] TblUserProfileDetail tblUserProfileDetail)
+        public async Task<IActionResult> Create([Bind("UserId,Id,UserFullName,UserDateOfBirth,UserNID,IsBpdbEmployee,BpdbEmployeeId,UserProfession,UserDesignation,UserAddress,UserAlternateEmail,UserAlternateMobile,UserSecurityQuestionId,SecurityQuestionAnswer,IsProfileSubmitted,SignatureFileName,BpdbDivisionId,BpdbEmpDesignation,ZoneCode,CircleCode,SnDCode,SubstationId")] TblUserProfileDetail tblUserProfileDetail)
         {
 
             //de4605d2 - b29c - 4d83 - 9cc6 - 501063993724
@@ -139,6 +159,9 @@ namespace Pdb014App.Controllers.UserController
             ViewData["BpdbEmployeeId"] = new SelectList(_context.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId", tblUserProfileDetail.BpdbEmployeeId);
             ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail, "Id", "Id", tblUserProfileDetail.Id);
             ViewData["UserSecurityQuestionId"] = new SelectList(_context.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion", tblUserProfileDetail.UserSecurityQuestionId);
+            ViewData["BpdbDivisionId"] = new SelectList(_context.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
+            ViewData["ZoneCode"] = new SelectList(_contextPDB.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+
             return View(tblUserProfileDetail);
         }
 
@@ -160,6 +183,8 @@ namespace Pdb014App.Controllers.UserController
             ViewData["BpdbEmployeeId"] = new SelectList(_context.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId", tblUserProfileDetail.BpdbEmployeeId);
             ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail.Where(i=>i.Id== tblUserProfileDetail.Id), "Id", "Id", tblUserProfileDetail.Id);
             ViewData["UserSecurityQuestionId"] = new SelectList(_context.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion", tblUserProfileDetail.UserSecurityQuestionId);
+            ViewData["BpdbDivisionId"] = new SelectList(_context.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
+            ViewData["ZoneCode"] = new SelectList(_contextPDB.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
             return View(tblUserProfileDetail);
         }
 
@@ -168,7 +193,7 @@ namespace Pdb014App.Controllers.UserController
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int UserId, [Bind("UserId,Id,UserFullName,UserDateOfBirth,UserNID,IsBpdbEmployee,BpdbEmployeeId,UserProfession,UserDesignation,UserAddress,UserAlternateEmail,UserAlternateMobile,UserSecurityQuestionId,SecurityQuestionAnswer,IsProfileSubmitted,SignatureFileName")]  TblUserProfileDetail tblUserProfileDetail)
+        public async Task<IActionResult> Edit(int UserId, [Bind("UserId,Id,UserFullName,UserDateOfBirth,UserNID,IsBpdbEmployee,BpdbEmployeeId,UserProfession,UserDesignation,UserAddress,UserAlternateEmail,UserAlternateMobile,UserSecurityQuestionId,SecurityQuestionAnswer,IsProfileSubmitted,SignatureFileName,BpdbDivisionId,BpdbEmpDesignation,ZoneCode,CircleCode,SnDCode,SubstationId")]  TblUserProfileDetail tblUserProfileDetail)
         {
             //
             if (UserId != tblUserProfileDetail.UserId)
@@ -200,10 +225,12 @@ namespace Pdb014App.Controllers.UserController
             ViewData["BpdbEmployeeId"] = new SelectList(_context.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId", tblUserProfileDetail.BpdbEmployeeId);
             ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail, "Id", "Id", tblUserProfileDetail.Id);
             ViewData["UserSecurityQuestionId"] = new SelectList(_context.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion", tblUserProfileDetail.UserSecurityQuestionId);
+            ViewData["BpdbDivisionId"] = new SelectList(_context.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
+            ViewData["ZoneCode"] = new SelectList(_contextPDB.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
             //return RedirectToAction("ProfileDetials")
 
-             
-             return View(tblUserProfileDetail);
+
+            return View(tblUserProfileDetail);
         }
 
         // GET: TblUserProfileDetails/Delete/5
@@ -218,6 +245,7 @@ namespace Pdb014App.Controllers.UserController
                 .Include(t => t.UserProfileDetailToUserBpdbEmployee)
                 .Include(t => t.UserProfileDetailToUserRegistrationDetail)
                 .Include(t => t.UserSecurityQuestion)
+                .Include(l => l.UserBpdbEmployeeUserBpdbDivision)
                 .FirstOrDefaultAsync(m => m.UserId == id);
             if (tblUserProfileDetail == null)
             {
@@ -241,6 +269,36 @@ namespace Pdb014App.Controllers.UserController
         private bool TblUserProfileDetailExists(int id)
         {
             return _context.UserProfileDetail.Any(e => e.UserId == id);
+        }
+
+        public JsonResult GetCircleList(string zoneCode)
+        {
+            var circleList = _contextPDB.LookUpCircleInfo
+                .Where(u => u.ZoneCode.Equals(zoneCode))
+                .Select(u => new { u.CircleCode, u.CircleName })
+                .OrderBy(u => u.CircleCode).ToList();
+
+            return Json(new SelectList(circleList, "CircleCode", "CircleName"));
+        }
+
+        public JsonResult GetSnDList(string circleCode)
+        {
+            var sndList = _contextPDB.LookUpSnDInfo
+                .Where(u => u.CircleCode.Equals(circleCode))
+                .Select(u => new { u.SnDCode, u.SnDName })
+                .OrderBy(u => u.SnDCode).ToList();
+
+            return Json(new SelectList(sndList, "SnDCode", "SnDName"));
+        }
+
+        public JsonResult GetSubStationList(string sndCode)
+        {
+            var substationList = _contextPDB.TblSubstation
+                .Where(u => u.SnDCode.Equals(sndCode))
+                .Select(u => new { u.SubstationId, u.SubstationName })
+                .OrderBy(u => u.SubstationId).ToList();
+
+            return Json(new SelectList(substationList, "SubstationId", "SubstationName"));
         }
     }
 }
