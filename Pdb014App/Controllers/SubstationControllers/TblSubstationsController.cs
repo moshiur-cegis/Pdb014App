@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Pdb014App.Models.PDB;
 using Pdb014App.Models.PDB.SubstationModels;
 using Pdb014App.Models.UserManage;
 using Pdb014App.Models.UserManage.SetRole;
@@ -47,6 +48,7 @@ namespace Pdb014App.Controllers.SubstationControllers
 
 
             //string query = GetUserRoleData.query("TblSubstation");
+          
 
             if (User.IsInRole("System Administrator"))
             {

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Pdb014App.Models.PDB.SubstationModels;
 using Microsoft.AspNetCore.Authorization;
 using NPOI.SS.Formula.Functions;
+using NuGet.Frameworks;
 
 namespace Pdb014App.Models.UserManage.SetRole
 {
@@ -30,17 +31,24 @@ namespace Pdb014App.Models.UserManage.SetRole
             this.UserManager = UserManager;
         }
 
+       
 
+        
 
 
         public string List<T>(string modelName, string property1, string property2)
         {
 
-            ParameterExpression argParam = Expression.Parameter(typeof(T), modelName);
+            string model = "TblPole";
+            string pro = "PoleId";
+
+            ParameterExpression argParam = Expression.Parameter(typeof(T), model);
 
 
 
-            Expression nameProperty = Expression.Property(argParam, property1);
+            Expression nameProperty = Expression.Property(argParam, pro);
+
+
             Expression namespaceProperty = Expression.Property(argParam, property2);
 
             var val1 = Expression.Constant("Modules");
@@ -55,7 +63,7 @@ namespace Pdb014App.Models.UserManage.SetRole
 
 
 
-            //var qry = searchExp != null ? _context.TblPole.Where(searchExp).Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleType).Include(t => t.WireLookUpCondition).AsQueryable() :
+            //var qry = searchExp != null ? _context.+<argParam>+model.Where(searchExp).Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleType).Include(t => t.WireLookUpCondition).AsQueryable() :
             //                             _context.TblPole.Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleType).Include(t => t.WireLookUpCondition).AsQueryable();
 
 

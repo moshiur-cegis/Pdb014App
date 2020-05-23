@@ -39,13 +39,24 @@ namespace Pdb014App.Controllers.PoleControllers
 
         public async Task<IActionResult> Index(string filter, int pageIndex = 1, string sortExpression = "PoleId")
         {
+            //var fieldName = "PoleId";
+            //var tableName = "TblPole";
+
+
+            //var sql = fieldName.Contains("Date")
+            //    ? $"SELECT TOP 5000 ROW_NUMBER() OVER (ORDER BY {fieldName}) AS SlNo, CONVERT(VARCHAR, {fieldName}, 105) AS Term FROM {tableName}"
+            //    : $"SELECT TOP 5000 ROW_NUMBER() OVER (ORDER BY {fieldName}) AS SlNo, CAST({fieldName} AS VARCHAR(500)) AS Term FROM {tableName}";
+
+            //var optionList = await _context.TblPole.FromSql(sql).ToListAsync();
+
+
 
             Expression<Func<TblPole, bool>> searchExp = null;
             Expression<Func<TblPole, bool>> tempExp = null;
+
             var user = await UserManager.GetUserAsync(User);
 
             
-
 
             if (User.IsInRole("System Administrator"))
             {
@@ -83,13 +94,13 @@ namespace Pdb014App.Controllers.PoleControllers
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
-
             if (filter != null)
             {
                 
                     tempExp = p => p.PoleId.Contains(filter);
                     searchExp = searchExp!=null? ExpressionExtension<TblPole>.AndAlso(searchExp, tempExp): tempExp;                            
             }
+
 
             var qry = searchExp != null ? _context.TblPole.Where(searchExp).Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleType).Include(t => t.WireLookUpCondition).AsQueryable() :
                                           _context.TblPole.Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleType).Include(t => t.WireLookUpCondition).AsQueryable();
