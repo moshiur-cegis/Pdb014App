@@ -19,32 +19,40 @@
             </div>
             <div class="form-group">
                 <label asp-for="BpdbDivisionId" class="control-label"> Bpdb Division</label>
-                <select asp-for="BpdbDivisionId" class ="form-control" asp-items="ViewBag.BpdbDivisionId"></select>
+                <select asp-for="BpdbDivisionId" class="form-control" asp-items="ViewBag.BpdbDivisionId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="BpdbEmpDesignation" class="control-label"></label>
                 <input asp-for="BpdbEmpDesignation" class="form-control" />
                 <span asp-validation-for="BpdbEmpDesignation" class="text-danger"></span>
             </div>
+          
+
             <div class="form-group">
-                <label asp-for="ZoneCode" class="control-label"></label>
-                <input asp-for="ZoneCode" class="form-control" />
-                <span asp-validation-for="ZoneCode" class="text-danger"></span>
+                <label class="control-label">Zone</label>
+                <select id="ZoneCode" name="ZoneCode" class="form-control" asp-items="ViewBag.ZoneCode" value="@ViewBag.ZoneCode">
+                    <option value="" selected="selected" disabled="disabled">----- Select Zone -----</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Circle</label>
+                <select id="CircleCode" name="CircleCode" class="form-control">
+                    <option value="" selected="selected" disabled="disabled">----- Select Circle -----</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">S&D</label>
+                <select id="SnDCode" name="SnDCode" class="form-control">
+                    <option value="" selected="selected" disabled="disabled">----- Select S&D -----</option>
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="CircleCode" class="control-label"></label>
-                <input asp-for="CircleCode" class="form-control" />
-                <span asp-validation-for="CircleCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SnDCode" class="control-label"></label>
-                <input asp-for="SnDCode" class="form-control" />
-                <span asp-validation-for="SnDCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SubstationId" class="control-label"></label>
-                <input asp-for="SubstationId" class="form-control" />
-                <span asp-validation-for="SubstationId" class="text-danger"></span>
+                <label class="control-label">Substation</label>
+                <select id="SubstationId" name="SubstationId" class="form-control">
+                    <option value="" selected="selected" disabled="disabled">----- Select Substation -----</option>
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -57,3 +65,101 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+
+
+    <script type="text/javascript">
+
+$("#ZoneCode").on("change",
+                function () {
+                    var zoneCode = $("#ZoneCode").val(),
+                        $circle = $("#CircleCode");
+
+                    $circle.empty();
+                    //$(".dist-code").val(distCode);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetCircleList")",
+                        dataType: "json",
+                        data: { zoneCode: zoneCode },
+                        //before: $("#busy-indicator").fadeIn(150),
+                        success: function (circles) {
+                            //alert(circles);
+
+                            $circle.append('<option value="" selected="selected">------- Select Circle -------</option>');
+                            $.each(circles, function (i, circle) {
+
+                                //console.log(circles);
+                                //alert(circles);
+                                $("<option />").val(circle.value).html(circle.text).appendTo($circle);
+                                });
+                        },
+                        error: function (ex) {
+                            window.msg.init("error", "Error... . . !", "Failed to load circle list. " + ex.error);
+                        },
+                        //complete: $("#busy-indicator").fadeOut(150)
+                    });
+                    return false;
+            });
+        $("#CircleCode").on("change",function () {
+            var circleCode = $("#CircleCode").val(),
+                //upazCode = $(this).val(),
+                $snd = $("#SnDCode");
+                $snd.empty();
+              // $(".upaz-code").val(upazCode);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetSnDList")",
+                dataType: "json",
+                data: { circleCode: circleCode },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (snds) {
+                    $snd.append('<option value="" selected="selected">------ Select SnD ------</option>');
+                    $.each(snds,
+                        function (i, snd) {
+                            $("<option />").val(snd.value).html(snd.text).appendTo($snd);
+                            //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+        $("#SnDCode").on("change",function () {
+            var sndCode = $("#SnDCode").val(),
+
+            $substation = $("#SubstationId");
+            $substation.empty();
+            // $(".upaz-code").val(upazCode);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetSubStationList")",
+                dataType: "json",
+                data: { sndCode: sndCode },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (substations) {
+                    //alert(substations);
+
+                    $substation.append('<option value="" selected="selected">------ Select Sub-Station ------</option>');
+                    $.each(substations,
+                        function (i, substation) {
+                            $("<option />").val(substation.value).html(substation.text).appendTo($substation);
+                            //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+    </script>
+}

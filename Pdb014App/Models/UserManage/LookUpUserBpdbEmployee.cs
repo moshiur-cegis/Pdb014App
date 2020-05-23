@@ -56,7 +56,7 @@ namespace Pdb014App.Models.UserManage
 
         [Column(Order = 6, TypeName = "varchar(50)")]
         [StringLength(50)]
-        [Display(Name = "SnD Code")]
+        [Display(Name = "SnD")]
         public string SnDCode { get; set; }
         //[ForeignKey("SnDCode")]
         //public virtual LookUpSnDInfo UserBpdbEmployeeToLookUpSnD { get; set; }

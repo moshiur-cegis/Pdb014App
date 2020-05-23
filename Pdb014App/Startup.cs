@@ -48,9 +48,12 @@ namespace Pdb014App
             });
 
 
+
+
             services.AddEntityFrameworkSqlServer()
                 .AddDbContext<PdbDbContext>(options =>
                     options.UseSqlServer(dbConnStr, sp => sp.UseRowNumberForPaging()));
+
 
 
             services.AddDbContext<UserDbContext>(options =>

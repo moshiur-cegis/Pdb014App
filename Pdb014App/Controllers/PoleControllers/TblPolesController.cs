@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Pdb014App.Models.PDB;
+using Pdb014App.Models.UserManage;
 using Pdb014App.Repository;
 using ReflectionIT.Mvc.Paging;
 
@@ -17,22 +21,79 @@ namespace Pdb014App.Controllers.PoleControllers
     //[Authorize]
     public class TblPolesController : Controller
     {
+        private readonly UserManager<TblUserRegistrationDetail> UserManager;
+        private readonly UserDbContext contextUser;
+
         private readonly PdbDbContext _context;
 
-        public TblPolesController(PdbDbContext context)
+        public TblPolesController(PdbDbContext context, UserDbContext contextUser, UserManager<TblUserRegistrationDetail> UserManager)
         {
             _context = context;
+            this.contextUser = contextUser;
+            this.UserManager = UserManager;
         }
 
         // GET: TblPoles1
+
+        [Authorize(Roles = "System Administrator,Super User,Zone,Circle,SnD,Substation")]
+
         public async Task<IActionResult> Index(string filter, int pageIndex = 1, string sortExpression = "PoleId")
         {
-            var qry = _context.TblPole.Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleType).Include(t => t.WireLookUpCondition).AsQueryable();
+
+            Expression<Func<TblPole, bool>> searchExp = null;
+            Expression<Func<TblPole, bool>> tempExp = null;
+            var user = await UserManager.GetUserAsync(User);
+
+            
+
+
+            if (User.IsInRole("System Administrator"))
+            {
+                searchExp = null;
+            }
+
+            else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
+            {
+                //var user = await UserManager.GetUserAsync(User);
+                string zoneCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
+                searchExp = i => i.PoleId.Substring(0, 1).Contains(zoneCode);
+            }
+            else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
+            {
+                //var user = await UserManager.GetUserAsync(User);
+                string circleCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
+                searchExp = i => i.PoleId.Substring(0, 3).Contains(circleCode);
+            }
+            else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
+            {
+                //var user = await UserManager.GetUserAsync(User);
+                string sndCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
+                searchExp = i => i.PoleId.Substring(0, 5).Contains(sndCode);
+
+            }
+            else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
+            {
+                //var user = await UserManager.GetUserAsync(User);
+                string SubstationId = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
+                searchExp = i => i.PoleId.Substring(0, 7).Contains(SubstationId);
+
+            }
+            else
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
 
             if (filter != null)
             {
-                qry = qry.Where(p => p.PoleId == filter);
+                
+                    tempExp = p => p.PoleId.Contains(filter);
+                    searchExp = searchExp!=null? ExpressionExtension<TblPole>.AndAlso(searchExp, tempExp): tempExp;                            
             }
+
+            var qry = searchExp != null ? _context.TblPole.Where(searchExp).Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleType).Include(t => t.WireLookUpCondition).AsQueryable() :
+                                          _context.TblPole.Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleType).Include(t => t.WireLookUpCondition).AsQueryable();
+
 
             var model = await PagingList.CreateAsync(qry, 10, pageIndex, sortExpression, "PoleId");
 

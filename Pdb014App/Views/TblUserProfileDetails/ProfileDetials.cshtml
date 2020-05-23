@@ -4,6 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
+
 @section Styles {
 
     <link href="~/css/datastyle.css" rel="stylesheet" />
@@ -96,9 +97,9 @@
             <legend>User Profile</legend>
             <table class="table table-responsive">
                 @*<tr>
-                        <th> Registration Id</th>
-                        <td> @Html.DisplayFor(model => model.UserProfileDetailToUserRegistrationDetail.Id)</td>
-                    </tr>*@
+            <th> Registration Id</th>
+            <td> @Html.DisplayFor(model => model.UserProfileDetailToUserRegistrationDetail.Id)</td>
+        </tr>*@
                 <tr>
                     <th>  User Primary Email</th>
                     <td>  @Html.DisplayFor(model => model.UserProfileDetailToUserRegistrationDetail.Email)</td>
@@ -168,6 +169,40 @@
                 <tr>
                     <th>  @Html.DisplayNameFor(model => model.SignatureFileName)</th>
                     <td>  @Html.DisplayFor(model => model.SignatureFileName)</td>
+                </tr>
+                <tr>
+                    <th>  @Html.DisplayNameFor(model => model.IsBpdbEmployee)</th>
+                    <td>  @Html.DisplayFor(model => model.IsBpdbEmployee)</td>
+                </tr>
+                <tr>
+                    <th>  @Html.DisplayNameFor(model => model.BpdbEmployeeLevel)</th>
+                    <td>  @Html.DisplayFor(model => model.BpdbEmployeeLevel)</td>
+                </tr>
+                <tr>
+                    <th>  @Html.DisplayNameFor(model => model.UserBpdbEmployeeUserBpdbDivision.BpdbDivisionName)</th>
+                    <td>  @Html.DisplayFor(model => model.UserBpdbEmployeeUserBpdbDivision.BpdbDivisionName)</td>
+                </tr>
+                <tr>
+                    <th>  @Html.DisplayNameFor(model => model.BpdbEmpDesignation)</th>
+                    <td>  @Html.DisplayFor(model => model.BpdbEmpDesignation)</td>
+                </tr>
+
+
+                <tr>
+                    <th>  @Html.DisplayNameFor(model => model.ZoneCode)</th>
+                    <td>  @Html.DisplayFor(model => model.ZoneCode)</td>
+                </tr>
+                <tr>
+                    <th>  @Html.DisplayNameFor(model => model.CircleCode)</th>
+                    <td>  @Html.DisplayFor(model => model.CircleCode)</td>
+                </tr>
+                <tr>
+                    <th>  @Html.DisplayNameFor(model => model.SnDCode)</th>
+                    <td>  @Html.DisplayFor(model => model.SnDCode)</td>
+                </tr>
+                <tr>
+                    <th>  @Html.DisplayNameFor(model => model.SubstationId)</th>
+                    <td>  @Html.DisplayFor(model => model.SubstationId)</td>
                 </tr>
             </table>
             <div>
