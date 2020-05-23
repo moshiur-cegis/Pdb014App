@@ -15,7 +15,6 @@ namespace Pdb014App.Models.PDB
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
         [Column("ComplainId", Order = 0, TypeName = "int")]
         [Display(Name = "Complain Id")]
         public int ComplainId { get; set; }
@@ -108,7 +107,7 @@ namespace Pdb014App.Models.PDB
 
         [Column("UnionGeoCode", Order = 12, TypeName = "varchar(8)")]
         [StringLength(8, ErrorMessage = "The {0} must be {1} characters.")]
-        [Display(Name = "Union Geo-Code")]
+        [Display(Name = "Union")]
         public string UnionGeoCode { get; set; }
         [ForeignKey("UnionGeoCode")]
         public virtual LookUpAdminBndUnion ComplainToUnion { get; set; }
@@ -116,7 +115,7 @@ namespace Pdb014App.Models.PDB
 
         [Column("SnDCode", Order = 13, TypeName = "varchar(50)")]
         [StringLength(50)]
-        [Display(Name = "SnD Code")]
+        [Display(Name = "SnD")]
         public string SnDCode { get; set; }
         [ForeignKey("SnDCode")]
         public virtual LookUpSnDInfo ComplainToSnD { get; set; }

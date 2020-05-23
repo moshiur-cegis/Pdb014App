@@ -31,22 +31,196 @@ namespace Pdb014App.Controllers.ComplainControllers
         }
 
 
-
-        // GET: TblComplains
         public IActionResult AddComplain()
         {
             ViewData["DivList"] = new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName");
-            //ViewData["DistList"] = new SelectList(_context.LookUpAdminBndDistrict, "DistrictGeoCode", "DistrictName");
 
             return View();
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RegisterComplain(string unionCode, string sndCode, decimal? latitude, decimal? longitude)
+        // GET: TblComplains
+        public IActionResult AddComplain(Complain newComplain)
+        {
+            ////ViewData["DivList"] = new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName");
+            ////ViewData["DistList"] = new SelectList(_context.LookUpAdminBndDistrict, "DistrictGeoCode", "DistrictName");
+
+            //if (newComplain != null && !string.IsNullOrEmpty(newComplain.UnionGeoCode))
+            //{
+            //    var unionCode = newComplain.UnionGeoCode;
+            //    var upazCode = _context.LookUpAdminBndUnion.FirstOrDefault(u => u.UnionGeoCode.Equals(unionCode))?.UpazilaGeoCode;
+            //    var distCode = _context.LookUpAdminBndUpazila.FirstOrDefault(u => u.UpazilaGeoCode.Equals(upazCode))?.DistrictGeoCode;
+            //    var divCode = _context.LookUpAdminBndDistrict.FirstOrDefault(d => d.DistrictGeoCode.Equals(distCode))?.DivisionGeoCode;
+
+            //    ViewData["DivList"] =
+            //        new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName", divCode);
+            //    ViewData["DistList"] =
+            //        new SelectList(_context.LookUpAdminBndDistrict.Where(d => d.DivisionGeoCode.Equals(divCode)),
+            //            "DistrictGeoCode", "DistrictName", distCode);
+            //    ViewData["UpazList"] =
+            //        new SelectList(_context.LookUpAdminBndUpazila.Where(u => u.DistrictGeoCode.Equals(distCode)),
+            //            "UpazilaGeoCode", "UpazilaName", upazCode);
+            //    ViewData["UnionList"] =
+            //        new SelectList(_context.LookUpAdminBndUnion.Where(u => u.UpazilaGeoCode.Equals(upazCode)),
+            //            "UnionGeoCode", "UnionName", unionCode);
+
+            //    ViewData["SnDList"] =
+            //        new SelectList(_context.LookUpAdminRegionRel.Where(u => u.UnionGeoCode.Equals(unionCode)).Select(s => new { s.SnD.SnDCode, s.SnD.SnDName }),
+            //            "SnDCode", "SnDName", newComplain.SnDCode);
+            //}
+            //else
+            //{
+            //    ViewData["DivList"] = new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName");
+            //}
+
+
+            if (newComplain != null && !string.IsNullOrEmpty(newComplain.UnionGeoCode) && newComplain.UnionGeoCode.Length > 7)
+            {
+                //var unionCode = newComplain.UnionGeoCode;
+                //var upazCode = _context.LookUpAdminBndUnion.FirstOrDefault(u => u.UnionGeoCode.Equals(unionCode))?.UpazilaGeoCode;
+                //var distCode = _context.LookUpAdminBndUpazila.FirstOrDefault(u => u.UpazilaGeoCode.Equals(upazCode))?.DistrictGeoCode;
+                //var divCode = _context.LookUpAdminBndDistrict.FirstOrDefault(d => d.DistrictGeoCode.Equals(distCode))?.DivisionGeoCode;
+
+                var unionCode = newComplain.UnionGeoCode;
+                var divCode = unionCode.Substring(0, 2);
+                var distCode = unionCode.Substring(0, 4);
+                var upazCode = unionCode.Substring(0, 6);
+
+                if (!string.IsNullOrEmpty(divCode))
+                {
+                    ViewData["DivList"] =
+                        new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName", divCode);
+                    ViewData["DistList"] =
+                        new SelectList(_context.LookUpAdminBndDistrict.Where(d => d.DivisionGeoCode.Equals(divCode)),
+                            "DistrictGeoCode", "DistrictName", distCode);
+
+                    if (!string.IsNullOrEmpty(distCode))
+                    {
+                        ViewData["UpazList"] =
+                            new SelectList(_context.LookUpAdminBndUpazila.Where(d => d.DistrictGeoCode.Equals(distCode)),
+                                "UpazilaGeoCode", "UpazilaName", upazCode);
+
+                        if (!string.IsNullOrEmpty(upazCode))
+                        {
+                            ViewData["UnionList"] =
+                                new SelectList(_context.LookUpAdminBndUnion.Where(u => u.UpazilaGeoCode.Equals(upazCode)),
+                                    "UnionGeoCode", "UnionName", unionCode);
+
+                            if (!string.IsNullOrEmpty(unionCode))
+                            {
+                                ViewData["SnDList"] =
+                                    new SelectList(_context.LookUpAdminRegionRel
+                                            .Where(u => u.UnionGeoCode.Equals(unionCode))
+                                            .Select(snd => new { snd.SnD.SnDCode, snd.SnD.SnDName }), "SnDCode", "SnDName",
+                                        newComplain.SnDCode);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    ViewData["DivList"] = new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName");
+
+                    if (!string.IsNullOrEmpty(newComplain.SnDCode))
+                        ViewData["SnDList"] = new SelectList(_context.LookUpSnDInfo.Where(snd => snd.SnDCode.Equals(newComplain.SnDCode)), "SnDCode", "SnDName", newComplain.SnDCode);
+                }
+            }
+            else
+            {
+                ViewData["DivList"] = new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName");
+            }
+
+            return View(newComplain);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        //public async Task<IActionResult> RegisterComplain([Bind("ComplainTypeId,ComplainerName,ComplainerAddress,ComplainerDetails,UnionGeoCode,SnDCode,Latitude,Longitude")] Complain newComplain)
+        public async Task<IActionResult> RegisterComplain(Complain newComplain, string divCode, string distCode, string upazCode)
+        {
+            newComplain.ComplainStatusId = 1;
+            newComplain.ComplainDate = DateTime.Now;
+            newComplain.ComplainPriority = 1;
+
+            if (ModelState.IsValid)
+            {
+                _context.Add(newComplain);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+
+            ViewData["ComplainTypeList"] = new SelectList(_context.ComplainTypes, "ComplainTypeId", "ComplainType", newComplain.ComplainTypeId);
+            //ViewData["ComplainStatusList"] = new SelectList(_context.ComplainStatus, "ComplainStatusId", "ComplainStatus");
+            //ViewData["UnionList"] = new SelectList(_context.LookUpAdminBndUnion.Where(un => un.UnionGeoCode.Equals(unionCode)), "UnionGeoCode", "UnionName", unionCode);
+            //ViewData["SnDList"] = new SelectList(_context.LookUpSnDInfo.Where(snd => snd.SnDCode.Equals(newComplain.SnDCode)), "SnDCode", "SnDName", newComplain.SnDCode);
+
+            //ViewData["SnDList"] = new SelectList(_context.LookUpAdminRegionRel.Where(u => u.UnionGeoCode.Equals(newComplain.SnDCode)), "SnDCode", "SnDName", newComplain.SnDCode);
+
+            var unionCode = newComplain.UnionGeoCode;
+
+            if (!string.IsNullOrEmpty(unionCode) && unionCode.Length > 7)
+            {
+                divCode = !string.IsNullOrEmpty(divCode) ? divCode : unionCode.Substring(0, 2);
+                distCode = !string.IsNullOrEmpty(distCode) ? distCode : unionCode.Substring(0, 4);
+                upazCode = !string.IsNullOrEmpty(upazCode) ? upazCode : unionCode.Substring(0, 6);
+            }
+
+
+            if (!string.IsNullOrEmpty(divCode))
+            {
+                ViewData["DivList"] =
+                    new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName", divCode);
+                ViewData["DistList"] =
+                    new SelectList(_context.LookUpAdminBndDistrict.Where(d => d.DivisionGeoCode.Equals(divCode)),
+                        "DistrictGeoCode", "DistrictName", distCode);
+
+                if (!string.IsNullOrEmpty(distCode))
+                {
+                    ViewData["UpazList"] =
+                        new SelectList(_context.LookUpAdminBndUpazila.Where(d => d.DistrictGeoCode.Equals(distCode)),
+                            "UpazilaGeoCode", "UpazilaName", upazCode);
+
+                    if (!string.IsNullOrEmpty(upazCode))
+                    {
+                        ViewData["UnionList"] =
+                            new SelectList(_context.LookUpAdminBndUnion.Where(u => u.UpazilaGeoCode.Equals(upazCode)),
+                                "UnionGeoCode", "UnionName", unionCode);
+
+                        if (!string.IsNullOrEmpty(unionCode))
+                        {
+                            ViewData["SnDList"] =
+                                new SelectList(_context.LookUpAdminRegionRel
+                                        .Where(u => u.UnionGeoCode.Equals(unionCode))
+                                        .Select(snd => new { snd.SnD.SnDCode, snd.SnD.SnDName }), "SnDCode", "SnDName",
+                                    newComplain.SnDCode);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                ViewData["DivList"] = new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName");
+
+                if (!string.IsNullOrEmpty(newComplain.SnDCode))
+                    ViewData["SnDList"] = new SelectList(_context.LookUpSnDInfo.Where(snd => snd.SnDCode.Equals(newComplain.SnDCode)), "SnDCode", "SnDName", newComplain.SnDCode);
+            }
+
+            return View(newComplain);
+        }
+
+
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RegisterComplainX(string unionCode, string sndCode, decimal? latitude, decimal? longitude)
         {
             Complain newComplain = new Complain
-                {UnionGeoCode = unionCode, SnDCode = sndCode, Latitude = latitude, Longitude = longitude};
+            { UnionGeoCode = unionCode, SnDCode = sndCode, Latitude = latitude, Longitude = longitude };
 
             ViewData["ComplainTypeList"] = new SelectList(_context.ComplainTypes, "ComplainTypeId", "ComplainType");
             //ViewData["ComplainStatusList"] = new SelectList(_context.ComplainStatus, "ComplainStatusId", "ComplainStatus");
@@ -65,7 +239,7 @@ namespace Pdb014App.Controllers.ComplainControllers
 
             //    ViewData["DivList"] = new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName",
             //        divCode);
-            
+
             //    ViewData["DistList"] =
             //        new SelectList(_context.LookUpAdminBndDistrict.Where(un => un.DivisionGeoCode.Equals(divCode)),
             //            "DistrictGeoCode", "DistrictName", distCode);
@@ -87,71 +261,6 @@ namespace Pdb014App.Controllers.ComplainControllers
 
             return View(newComplain);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterComplain([Bind("ComplainTypeId,ComplainerName,ComplainerAddress,ComplainerDetails,UnionGeoCode,SnDCode,Latitude,Longitude")] Complain newComplain)
-        {
-            newComplain.ComplainStatusId = 1;
-            newComplain.ComplainDate = DateTime.Now;
-            newComplain.ComplainPriority = 1;
-
-
-            if (ModelState.IsValid)
-            {
-                _context.Add(newComplain);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-
-
-            ViewData["ComplainTypeList"] = new SelectList(_context.ComplainTypes, "ComplainTypeId", "ComplainType", newComplain.ComplainTypeId);
-            //ViewData["ComplainStatusList"] = new SelectList(_context.ComplainStatus, "ComplainStatusId", "ComplainStatus");
-
-            ViewData["UnionList"] = new SelectList(_context.LookUpAdminBndUnion.Where(un => un.UnionGeoCode.Equals(newComplain.UnionGeoCode)), "UnionGeoCode", "UnionName", newComplain.UnionGeoCode);
-            ViewData["SnDList"] = new SelectList(_context.LookUpSnDInfo.Where(snd => snd.SnDCode.Equals(newComplain.SnDCode)), "SnDCode", "SnDName", newComplain.SnDCode);
-
-            //if (!string.IsNullOrEmpty(newComplain.UnionGeoCode))
-            //{
-            //    var divCode = _context.LookUpAdminBndUnion.FirstOrDefault(un => un.UnionGeoCode.Equals(newComplain.UnionGeoCode))?
-            //        .District.DivisionGeoCode;
-            //    var distCode = _context.LookUpAdminBndUnion.FirstOrDefault(un => un.UnionGeoCode.Equals(newComplain.UnionGeoCode))?
-            //        .DistrictGeoCode;
-            //    var upazCode = _context.LookUpAdminBndUnion.FirstOrDefault(un => un.UnionGeoCode.Equals(newComplain.UnionGeoCode))?
-            //        .UpazilaGeoCode;
-
-            //    ViewData["DivList"] = new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName",
-            //        divCode);
-
-            //    ViewData["DistList"] =
-            //        new SelectList(_context.LookUpAdminBndDistrict.Where(un => un.DivisionGeoCode.Equals(divCode)),
-            //            "DistrictGeoCode", "DistrictName", distCode);
-            //    ViewData["UpazList"] =
-            //        new SelectList(_context.LookUpAdminBndUpazila.Where(up => up.DistrictGeoCode.Equals(distCode)),
-            //            "UpazilaGeoCode", "UpazilaName", upazCode);
-            //    ViewData["UnionList"] =
-            //        new SelectList(_context.LookUpAdminBndUnion.Where(un => un.UpazilaGeoCode.Equals(upazCode)),
-            //            "UnionGeoCode", "UnionName", newComplain.UnionGeoCode);
-            //}
-            //else
-            //{
-            //    ViewData["DivList"] = new SelectList(_context.LookUpAdminBndDivision, "DivisionGeoCode", "DivisionName");
-            //}
-
-
-            //ViewData["ComplainStatusId"] = new SelectList(_context.ComplainStatus, "ComplainStatusId", "ComplainStatus", newComplain.ComplainStatusId);
-            //ViewData["SnDCode"] = new SelectList(_context.LookUpSnDInfo, "SnDCode", "SnDCode", newComplain.SnDCode);
-            //ViewData["UnionGeoCode"] = new SelectList(_context.LookUpAdminBndUnion, "UnionGeoCode", "UnionGeoCode", newComplain.UnionGeoCode);
-            //ViewData["ComplainTypeId"] = new SelectList(_context.ComplainTypes, "ComplainTypeId", "ComplainType", newComplain.ComplainTypeId);
-            //ViewData["ResolvingOfficerId"] = new SelectList(_context.Set<TblUserProfileDetail>(), "UserId", "Id", newComplain.ResolvingOfficerId);
-            //ViewData["ResponsibleOfficerId"] = new SelectList(_context.Set<TblUserProfileDetail>(), "UserId", "Id", newComplain.ResponsibleOfficerId);
-
-            return View(newComplain);
-        }
-
-
-
-
 
 
 

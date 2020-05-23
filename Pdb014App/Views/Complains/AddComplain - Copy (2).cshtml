@@ -30,39 +30,40 @@
                 <legend>▣ Select Basic Information</legend>
 
                 <div class="form-group" style="float: left; width: 75%; margin-bottom: 0.5rem;">
-                    <label class="control-label">Division</label>
+                    <label class="control-label">Division:</label>
                     <select id="DivCode" name="DivCode" class="form-control" asp-items="ViewBag.DivList">
                         <option value="" selected="selected">----- division -----</option>
                     </select>
                 </div>
+
                 <div class="form-group" style="float: left; width: 75%; margin-bottom: 0.5rem;">
-                    <label class="control-label">District</label>
-                    <select id="DistCode" name="DistCode" class="form-control" asp-items="ViewBag.DistList">
+                    <label class="control-label">District:</label>
+                    <select id="DistCode" name="DistCode" class="form-control">
                         <option value="" selected="selected">----- district -----</option>
                     </select>
                 </div>
+
                 <div class="form-group" style="float: left; width: 75%; margin-bottom: 0.5rem;">
-                    <label class="control-label">Upazila</label>
-                    <select id="UpazCode" name="UpazCode" class="form-control" asp-items="ViewBag.UpazList">
+                    <label class="control-label">Upazila:</label>
+                    <select id="UpazCode" name="UpazCode" class="form-control">
                         <option value="" selected="selected">----- upazila -----</option>
                     </select>
                 </div>
 
-                <input type="hidden" asp-for="ComplainTypeId" />
-                <input type="hidden" asp-for="ComplainerName" />
-                <input type="hidden" asp-for="ComplainerAddress" id="Address" />
-                <input type="hidden" asp-for="ComplainerDetails" />
+                <input id="Address" asp-for="ComplainerAddress" type="hidden">
 
                 <div class="form-group" style="float: left; width: 75%; margin-bottom: 0.5rem;">
                     <label asp-for="UnionGeoCode" class="control-label"></label>
-                    <select id="UnionCode" asp-for="UnionGeoCode" class="form-control" asp-items="ViewBag.UnionList">
+                    <select id="UnionCode" asp-for="UnionGeoCode" class="form-control">
                         <option value="" selected="selected">----- union -----</option>
                     </select>
                 </div>
                 <div class="form-group" style="float: left; width: 75%; margin-bottom: 0.5rem;">
                     <label asp-for="SnDCode" class="control-label"></label>
-                    <select id="SnDCode" asp-for="SnDCode" class="form-control" disabled="disabled" asp-items="ViewBag.SnDList"></select>
+                    <select id="SnDCode" asp-for="SnDCode" class="form-control" disabled="disabled"></select>
                 </div>
+
+                @*<hr />*@
 
                 <div class="form-group" style="float: left; width: 48%; margin-bottom: 0.5rem;">
                     <label asp-for="Latitude" class="control-label"></label>
@@ -78,6 +79,34 @@
                 <div class="form-group text-right" style="width: 100%; clear: both; margin-bottom: 0.5rem;">
                     <input type="submit" value="Next" class="btn btn-primary" />
                 </div>
+
+
+                @*<div class="form-group" style="float: left; width: 75%;">
+                        <label class="control-label">Union:</label>
+                        <select id="UnionCode" name="UnionGeoCode" class="form-control" asp-items="ViewBag.UnionList" value="@ViewBag.UnionCode">
+                            <option value="" selected="selected">----- union -----</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="float: left; width: 75%;">
+                        <label class="control-label">S&D:</label>
+                        <select id="SnDCode" name="SnDCode" class="form-control" disabled="disabled" asp-items="ViewBag.SnDList" value="@ViewBag.SnDCode"></select>
+                    </div>
+                            <div class="form-group" style="float: left; width: 48%;">
+                        <label class="control-label" for="Latitude">Latitude:</label>
+                        <input id="Latitude" name="Latitude" type="text" class="form-control" value="" data-val="true" data-val-number="The field Latitude must be a number." data-val-range="Invalid Latitude; Max 11 digits" data-val-range-max="99.99999999" data-val-range-min="0">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Latitude" data-valmsg-replace="true"></span>
+                    </div>
+
+                    <div class="form-group" style="float: right; width: 48%;">
+                        <label class="control-label" for="Longitude">Longitude:</label>
+                        <input id="Longitude" name="Longitude" type="text" class="form-control" value="" data-val="true" data-val-number="The field Longitude must be a number." data-val-range="Invalid Longitude; Max 11 digits" data-val-range-max="99.99999999" data-val-range-min="0">
+                        <span class="text-danger field-validation-valid" data-valmsg-for="Longitude" data-valmsg-replace="true"></span>
+                    </div>*@
+                @*<div class="form-group text-right" style="width: 100%; clear: both;">
+                        <a class="btn btn-primary" asp-action="NewComplain">Next</a>
+                    </div>*@
+
             </fieldset>
         </form>
 
@@ -97,34 +126,6 @@
 
 
     <script>
-
-        $(function() {
-
-            if ($("#DivCode").val()) {
-                add_admin_boundary("div", true, $("#DivCode").val());
-                //$("#DivCode").trigger("change");
-            }
-
-            if ($("#DistCode").val()) {
-                add_admin_boundary("dist", true, $("#DistCode").val());
-                //$("#DistCode").trigger("change");
-            }
-
-            if ($("#UpazCode").val()) {
-                add_admin_boundary("upaz", true, $("#UpazCode").val());
-                //$("#UpazCode").trigger("change");
-            }
-
-            if ($("#UnionCode").val()) {
-                add_admin_boundary("union", true, $("#UnionCode").val());
-                //$("#UnionCode").trigger("change");
-            }
-
-            if ($("#Latitude").val() && $("#Longitude").val()) {
-                add_marker([$("#Latitude").val(), $("#Longitude").val()], "red", $("#UnionCode").val(), $("#SnDCode").val());
-            }
-
-        });
 
         function set_location_data(unionCode, sndCode, latLng) {
 
@@ -173,7 +174,6 @@
                     return false;
 
                 add_admin_boundary("div", true, divCode);
-                add_admin_boundary("dist", true, $("#DivCode option:selected").text(), "div_name");
                 //set_map_filter("div", divCode);
 
                 $.ajax({
@@ -183,6 +183,8 @@
                     data: { divCode: divCode },
                     before: $("#busy-indicator").fadeIn(150),
                     success: function(districts) {
+                        //console.log(divCode);
+                        //console.log(districts);
                         $district.append(
                             '<option value="" selected="selected">----- district -----</option>');
                         $.each(districts,
@@ -201,6 +203,7 @@
                 return false;
             });
 
+
         $("#DistCode").on("change",
             function() {
                 var distCode = $("#DistCode").val(),
@@ -218,7 +221,6 @@
                     return false;
 
                 add_admin_boundary("dist", true, distCode);
-                add_admin_boundary("upaz", true, $("#DistCode option:selected").text(), "dist_name");
 
                 $.ajax({
                     type: "POST",
@@ -259,7 +261,6 @@
                     return false;
 
                 add_admin_boundary("upaz", true, upazCode);
-                add_admin_boundary("union", true, $("#UpazCode option:selected").text(), "upaz_name");
 
                 $.ajax({
                     type: "POST",
@@ -304,7 +305,7 @@
                     dataType: "json",
                     data: { unionCode: unionCode },
                     before: $("#busy-indicator").fadeIn(150),
-                    success: function(snds) {
+                    success: function (snds) {
                         if (!snds || snds.length < 1)
                             return;
 

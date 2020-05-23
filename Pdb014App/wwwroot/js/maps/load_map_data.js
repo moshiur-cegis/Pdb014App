@@ -32,6 +32,425 @@ $(function () {
 
     add_admin_boundary("div", true);
 
+
+
+    /*
+
+
+
+
+    L.marker([23.737777, 90.537777], {
+        icon: L.BeautifyIcon.icon(),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+
+
+
+
+
+
+    var options = {
+        icon: 'bus',
+        borderColor: '#b3334f',
+        textColor: '#b3334f'
+    };
+    L.marker([23.89093747081252, 89.9107666015625], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        icon: 'plane',
+        borderColor: '#8D208B',
+        textColor: '#8D208B',
+        backgroundColor: 'transparent'
+    };
+    L.marker([23.89093747081252, 90.0426025390625], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        icon: 'ambulance',
+        borderColor: 'Red',
+        textColor: 'Red',
+        innerIconStyle: 'font-size:11px;padding-top:1px;'
+    };
+    L.marker([23.89093747081252, 90.17718505859375], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        icon: 'taxi',
+        borderColor: 'red',
+        textColor: 'Red',
+        backgroundColor: '#FFF607',
+        innerIconStyle: 'font-size:9px;padding-top:1px;'
+    };
+    L.marker([23.89093747081252, 90.32000732421875], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        isAlphaNumericIcon: true,
+        borderColor: '#00ABDC',
+        textColor: '#00ABDC',
+        innerIconStyle: 'margin-top:0;'
+    };
+    L.marker([23.89093747081252, 90.49029541015625], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        icon: 'spinner',
+        spin: 'true',
+        borderColor: '#8A90B4',
+        textColor: 'white',
+        backgroundColor: '#8A90B4'
+    };
+    L.marker([23.89093747081252, 90.65509033203125], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+
+
+
+
+
+    options = {
+        icon: 'leaf',
+        iconShape: 'marker'
+    };
+    L.marker([23.73, 89.77069091796875], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("popup").bindPopup("I'm Beautify");
+
+    options = {
+        icon: 'bus',
+        iconShape: 'marker',
+        borderColor: '#b3334f',
+        textColor: '#b3334f'
+    };
+    L.marker([23.73, 89.90802001953125], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        icon: 'plane',
+        iconShape: 'marker',
+        borderColor: '#8D208B',
+        textColor: '#8D208B',
+        backgroundColor: 'transparent'
+    };
+    L.marker([23.73, 90.037109375], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        icon: 'ambulance',
+        iconShape: 'marker',
+        borderColor: 'Red',
+        textColor: 'Red',
+        innerIconStyle: 'font-size:11px;padding-top:1px;'
+    };
+    L.marker([23.73, 90.17718505859375], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        icon: 'close',
+        iconShape: 'marker',
+        borderColor: '#FFF607',
+        textColor: 'Red',
+        backgroundColor: 'red',
+        innerIconStyle: 'font-size:9px;padding-top:1px;'
+    };
+    L.marker([23.73, 90.3172607421875], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        isAlphaNumericIcon: true,
+        text: 10,
+        iconShape: 'marker',
+        borderColor: '#00ABDC',
+        textColor: '#00ABDC'
+    };
+    L.marker([23.73, 90.487548828125], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        icon: 'refresh',
+        iconShape: 'marker',
+        spin: 'true',
+        borderColor: '#8A90B4',
+        textColor: '#8A90B4'
+    };
+    L.marker([23.73, 90.65509033203125], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'doughnut',
+        borderWidth: 5
+    };
+
+    L.marker([23.66, 89.76519775390625], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("popup").bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'doughnut',
+        borderWidth: 5,
+        borderColor: '#b3334f'
+    };
+
+    L.marker([23.66, 89.9052734375], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'doughnut',
+        borderWidth: 5,
+        borderColor: '#8D208B'
+    };
+
+    L.marker([23.66, 90.037109375], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'doughnut',
+        borderWidth: 5,
+        borderColor: 'red'
+    };
+
+    L.marker([23.66, 90.17993164062499], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'doughnut',
+        borderWidth: 5,
+        borderColor: '#FFF607'
+    };
+
+    L.marker([23.66, 90.32550048828125], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'doughnut',
+        borderWidth: 5,
+        borderColor: '#00ABDC'
+    };
+
+    L.marker([23.66, 90.4930419921875], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'doughnut',
+        borderWidth: 5,
+        borderColor: '#8A90B4'
+    };
+
+    L.marker([23.66, 90.66333007812499], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+
+
+
+
+
+
+
+    options = {
+        iconShape: 'circle-dot',
+        borderWidth: 5
+    };
+
+    L.marker([23.55, 89.76519775390625], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'circle-dot',
+        borderWidth: 5,
+        borderColor: '#b3334f'
+    };
+
+    L.marker([23.55, 89.90802001953125], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'circle-dot',
+        borderWidth: 5,
+        borderColor: '#8D208B'
+    };
+
+    L.marker([23.55, 90.03436279296875], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'circle-dot',
+        borderWidth: 5,
+        borderColor: 'red'
+    };
+
+    L.marker([23.55, 90.17993164062499], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'circle-dot',
+        borderWidth: 5,
+        borderColor: '#FFF607'
+    };
+
+    L.marker([23.55, 90.32550048828125], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'circle-dot',
+        borderWidth: 5,
+        borderColor: '#00ABDC'
+    };
+
+    L.marker([23.55, 90.49029541015625], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'circle-dot',
+        borderWidth: 5,
+        borderColor: '#8A90B4'
+    };
+
+    L.marker([23.55, 90.66333007812499], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+
+
+
+
+    options = {
+        iconShape: 'rectangle-dot',
+        borderWidth: 5
+    };
+
+    L.marker([23.45, 89.76519775390625], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'rectangle-dot',
+        borderWidth: 5,
+        borderColor: '#b3334f'
+    };
+
+    L.marker([23.45, 89.90802001953125], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'rectangle-dot',
+        borderWidth: 5,
+        borderColor: '#8D208B'
+    };
+
+    L.marker([23.45, 90.03985595703124], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'rectangle-dot',
+        borderWidth: 5,
+        borderColor: 'red'
+    };
+
+    L.marker([23.45, 90.18267822265625], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'rectangle-dot',
+        borderWidth: 5,
+        borderColor: '#FFF607'
+    };
+
+    L.marker([23.45, 90.32550048828125], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'rectangle-dot',
+        borderWidth: 5,
+        borderColor: '#00ABDC'
+    };
+
+    L.marker([23.45, 90.49029541015625], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+    options = {
+        iconShape: 'rectangle-dot',
+        borderWidth: 5,
+        borderColor: '#8A90B4'
+    };
+
+    L.marker([23.45, 90.66333007812499], {
+        icon: L.BeautifyIcon.icon(options),
+        draggable: true
+    }).addTo(map).bindPopup("I'm Beautify");
+
+
+*/
+
+
+
+
+
+
+
     //add_admin_boundary("dist", false);
 
     //add_admin_boundary("upaz", false);
@@ -273,7 +692,35 @@ function legend_open_close(legendId, openCloseOpt, propOpt) {
     }
 }
 
+var newMarker;
+function add_marker(latlng, fillColor, unionCode, sndCode) {
 
+    if (map.hasLayer(newMarker))
+        map.removeLayer(newMarker);
+
+    var markerOpts = {
+        icon: "close",
+        iconShape: "marker",
+        borderColor: "#FFF607",
+        textColor: "White",
+        backgroundColor: fillColor,
+        innerIconStyle: "font-size:9px; padding-top:1px;"
+    };
+
+    newMarker = L.marker(latlng,
+        {
+            icon: L.BeautifyIcon.icon(markerOpts),
+            draggable: true
+        })
+        .on('dragend',
+            function (e) {
+                set_location_data(unionCode, sndCode, e.target.getLatLng());
+            })
+        .bindPopup("<b>New Complain !!!</b><br />A complaint will be added to this position.").openPopup();
+
+    map.addLayer(newMarker);
+
+}
 
 
 function add_remove_admin_label(adminCode, isShow) {
@@ -307,8 +754,10 @@ function remove_admin_boundary(adminCode) {
     return;
 }
 
-function add_admin_boundary(adminCode, showLabel, selectedAdminCode) {
+function add_admin_boundary(adminCode, showLabel, filterValue, filterField) {
     if (!adminCode) return;
+
+    filterField = filterField || adminCode + "_code";
 
     var labelClass = "map_label",
         labelContent = "",
@@ -423,31 +872,50 @@ function add_admin_boundary(adminCode, showLabel, selectedAdminCode) {
         style: lineStyle,
         onEachFeature: function (feature, layer) {
             getMapLabels(feature, layer, adminCode, labelClass, adminLabels, labelContent, offsetLeft, lineStyle, hoverStyle, focusStyle);
-            //getMapLabels(feature, layer, adminCode, adminLabels, lineStyle);
-
-            //if (adminCode == "union") {
-            //    layer.on({
-            //        "click": function (e) {
-            //            var unionCode = feature.properties[adminCode + "_code"];
-            //            if (e.latlng)
-            //                set_location_data(unionCode, "", e.latlng.lat.toFixed(8), e.latlng.lng.toFixed(8));
-
-            //        }
-            //    });
-            //}
-
 
             switch (adminCode) {
                 case "div":
                     focusStyle.weight = 3.25;
                     focusStyle.color = "#3587EA";
                     focusStyle.fillColor = "#35A3E8";
+
+                    layer.on({
+                        "click": function onDivClick(e) {
+                            if (feature.properties[adminCode + "_code"]) {
+                                var divCode = feature.properties[adminCode + "_code"];
+                                add_admin_boundary("dist", true, divCode, "div_code");
+
+                                layer.className = "focused";
+                                layer.setStyle(focusStyle);
+
+                                map.fitBounds(layer.getBounds());
+                                //return;
+                            }
+                        }
+                    });
+
                     break;
 
                 case "dist":
                     focusStyle.weight = 3.0;
                     focusStyle.color = "#6513F3";
                     focusStyle.fillColor = "#8528FC";
+
+                    layer.on({
+                        "click": function onDistClick(e) {
+                            if (feature.properties[adminCode + "_code"]) {
+                                var distCode = feature.properties[adminCode + "_code"];
+                                add_admin_boundary("upaz", true, distCode, "dist_code");
+
+                                layer.className = "focused";
+                                layer.setStyle(focusStyle);
+
+                                map.fitBounds(layer.getBounds());
+                                //return;
+                            }
+                        }
+                    });
+
                     break;
 
                 case "upaz":
@@ -455,18 +923,39 @@ function add_admin_boundary(adminCode, showLabel, selectedAdminCode) {
                     focusStyle.color = "#17A3B8";
                     focusStyle.fillColor = "#27C5D7";//#20c997;#17a2b8;
 
+                    layer.on({
+                        "click": function onUpazClick(e) {
+                            if (feature.properties[adminCode + "_code"]) {
+                                var upazCode = feature.properties[adminCode + "_code"];
+                                add_admin_boundary("union", true, upazCode, "upaz_code");
+
+                                layer.className = "focused";
+                                layer.setStyle(focusStyle);
+
+                                map.fitBounds(layer.getBounds());
+                                //return;
+                            }
+                        }
+                    });
+
                     break;
 
                 case "union":
                     focusStyle.weight = 2.5;
                     focusStyle.color = "#DC3545";
                     focusStyle.fillColor = "#FA4575";
-                    
+
                     layer.on({
-                        "click": function (e) {
+                        "click": function onUnionClick(e) {
                             var unionCode = feature.properties[adminCode + "_code"];
                             if (e.latlng) {
-                                set_location_data(unionCode, "", e.latlng.lat.toFixed(8), e.latlng.lng.toFixed(8));
+
+                                var clkPos = e.latlng;
+
+                                set_location_data(unionCode, "", clkPos);
+
+                                add_marker(clkPos, "red", unionCode, "");
+
                             }
                         }
                     });
@@ -479,26 +968,18 @@ function add_admin_boundary(adminCode, showLabel, selectedAdminCode) {
                     break;
             }
 
-
-            if (selectedAdminCode && feature.properties[adminCode + "_code"] == selectedAdminCode) {
+            if (filterValue && feature.properties[adminCode + "_code"] == filterValue) {
 
                 layer.className = "focused";
                 layer.setStyle(focusStyle);
 
                 map.fitBounds(layer.getBounds());
-                return;
-
-                //var polyCenter = new L.LatLng(feature.properties["CNT_LAT"], feature.properties["CNT_LONG"]),
-                //    zoomLevel = adminCode == "div" ? 8.0 : adminCode == "dist" ? 9.5 : adminCode =="upaz" ? 11.0 : 12.0;
-
-                ////zoomLevel = map.getZoom() > zoomLevel ? map.getZoom() : zoomLevel;
-
-                //map.setView(polyCenter, zoomLevel);
+                //return;
             }
         },
-        //onEachFeature: getMapLabels,
         filter: function (feature, layer) {
-            return selectedAdminCode ? setMapFilter(feature, adminCode + "_code", selectedAdminCode) : true;
+            console.log("c: "+adminCode);
+            return filterValue ? setMapFilter(feature, filterField, filterValue) : true;
         }
     });
 
@@ -511,7 +992,7 @@ function add_admin_boundary(adminCode, showLabel, selectedAdminCode) {
 
         map.addLayer(mapLayers["admin_" + adminCode].layer);
 
-        if (!selectedAdminCode && (adminCode == "upaz" || adminCode == "union")) {
+        if (!filterValue && (adminCode == "upaz" || adminCode == "union")) {
             var labelGroups = new L.MarkerClusterGroup({
                 disableClusteringAtZoom: adminCode == "upaz" ? 10 : 11,
                 pane: "label-layer"
@@ -541,54 +1022,6 @@ function getMapLabels(feature, layer, adminCode, labelClass, adminLabels, labelC
         ? defaultStyle
         : { opacity: 1, scale: 0.5, color: "#5A3322", weight: 1.0, fill: false, fillColor: null, fillOpacity: 0.0 };
     labelContent = labelContent ? labelContent + currAdminName + "</span>" : currAdminName;
-
-    //,
-    //labelClass = "map_label",
-    //labelContent,
-    //hoverStyle = { dashArray: null, zIndex: 9999, weight: 2.5, fill: false, color: "#FC4F3A", opacity: 1.0, fillColor: null, fillOpacity: 0.15 },
-    //focusStyle = { dashArray: null, zIndex: 9999, weight: 3.0, fill: true, color: "#3587EA", opacity: 1.0, fillColor: "#35A3E8", fillOpacity: 0.15 };
-
-    //switch (adminCode) {
-    //    case "div":
-    //        defaultStyle.weight = 1.5;
-    //        hoverStyle.weight = 2.5;
-
-    //        offsetLeft += 10;
-    //        labelClass = "map_admin_label";
-
-    //        labelContent = "<span style='font-size:15px;font-weight:500;color:#123;'>▣ " + currAdminName + "</span>";
-    //        break;
-
-    //    case "dist":
-    //        defaultStyle.weight = 1.0;
-    //        hoverStyle.weight = 1.5;
-
-    //        offsetLeft += 10;
-    //        labelClass = "map_admin_label";
-
-    //        labelContent = "<span style='font-size:13px;font-weight:400;color:#137;'>☐ " + currAdminName + "</span>";
-    //        break;
-
-    //    case "upaz":
-    //        defaultStyle.weight = 0.5;
-    //        hoverStyle.weight = 1.0;
-
-    //        labelContent = "⚀ " + currAdminName;
-    //        break;
-
-    //    case "union":
-    //        defaultStyle.weight = 0.25;
-    //        hoverStyle.weight = 1.0;
-    //        labelContent = "☉ " + currAdminName;
-    //        break;
-
-    //    default:
-    //        defaultStyle.weight = 0.5;
-    //        hoverStyle.weight = 1.0;
-
-    //        labelContent = currAdminName;
-    //        break;
-    //}
 
     var labelInfo = new L.Marker(polyCenter, {
         pane: "label-layer",
@@ -708,6 +1141,44 @@ function getMapLabels(feature, layer, adminCode, labelClass, adminLabels, labelC
         layer.setStyle(focusStyle);
 
         adminFocused = { layer: layer, label: labelInfo };
+
+        if (feature.properties[adminCode + "_code"]) {
+            switch (adminCode) {
+                case "div":
+                    var divCode = feature.properties[adminCode + "_code"];
+                    add_admin_boundary("dist", true, divCode, "div_code");
+
+                    layer.className = "focused";
+                    layer.setStyle(focusStyle);
+
+                    map.fitBounds(layer.getBounds());
+                    break;
+
+                case "dist":
+                    var distCode = feature.properties[adminCode + "_code"];
+                    add_admin_boundary("upaz", true, distCode, "dist_code");
+
+                    layer.className = "focused";
+                    layer.setStyle(focusStyle);
+
+                    map.fitBounds(layer.getBounds());
+                    break;
+
+                case "upaz":
+                    var upazCode = feature.properties[adminCode + "_code"];
+                    add_admin_boundary("union", true, upazCode, "upaz_code");
+
+                    layer.className = "focused";
+                    layer.setStyle(focusStyle);
+
+                    map.fitBounds(layer.getBounds());
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
     });
 
 
@@ -717,8 +1188,14 @@ function getMapLabels(feature, layer, adminCode, labelClass, adminLabels, labelC
 }
 
 
-function setMapFilter(feature, adminCodeField, selectedAdminCode) {
-    if (!feature || !feature.properties[adminCodeField] || feature.properties[adminCodeField] != selectedAdminCode)
+function setMapFilter(feature, filterField, filterValue) {
+    //console.log(adminCode);
+    console.log(filterField);
+    console.log(filterValue);
+    console.log(feature.properties[filterField]);
+    console.log(feature);
+
+    if (!feature || !feature.properties[filterField] || feature.properties[filterField] != filterValue)
         return false;
     else
         return true;

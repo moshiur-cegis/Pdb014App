@@ -5,15 +5,11 @@
 @inject UserManager<TblUserRegistrationDetail> UserManager
 @*@inject List<TblUserProfileDetail> Userprofile*@
 
-
 @{
     //List<TblUserProfileDetail> Userprofile;
     var user = await UserManager.GetUserAsync(User);
     //var zoneCode = Userprofile.Where(i => i.Id == user.Id).Select(i=>i.UserProfileDetailToUserBpdbEmployee.ZoneCode).SingleOrDefault();
 }
-
-
-
 
 <!DOCTYPE html>
 <html>
@@ -534,16 +530,13 @@
                     </ul>
                 </li>
 
-
-
                 @*<li>
                     <a href="#"><i class="fa fa-download"></i>Data Audit & Import</a>
-                    <a id="dai_01" asp-area="" asp-controller="#" asp-action="#" asp-route-cai="dai_01"><i class="fa fa-download"></i>Data Audit & Inport</a>
+                    @*<a id="dai_01" asp-area="" asp-controller="#" asp-action="#" asp-route-cai="dai_01"><i class="fa fa-download"></i>Data Audit & Inport</a>*@
                     <ul class="submenu">
                         <li><a id="dai_02" asp-area="" asp-controller="Audit" asp-action="Audit" asp-route-cai="dai_02" asp-route-modelId="1">Pole</a></li>
                     </ul>
-                </li>*@
-
+                </li>
 
 
                 <li>
@@ -559,7 +552,7 @@
             </ul>
         </li>*@
                         <li>
-                            <a href="#">Advanced Report</a>
+                            <a href="#">Details Report</a>
                             <ul class="submenu">
                                 <li><a id="adv_rpt_pl" asp-area="" asp-controller="AdvancedReport" asp-action="Pole" asp-route-cai="adv_rpt_pl" asp-route-modelId="1">Pole</a></li>
                                 <li><a id="adv_rpt_fl" asp-area="" asp-controller="AdvancedReport" asp-action="FeederLine" asp-route-cai="adv_rpt_fl" asp-route-modelId="1">Feeder Line</a></li>
