@@ -47,7 +47,8 @@ namespace Pdb014App.Controllers.AdvancedSearching
             {
                 new SelectListItem {Value = "plt.PoleId", Text = "Pole Id"},
                 new SelectListItem {Value = "flt.FeederName", Text = "Feeder Name"},
-                new SelectListItem {Value = "plt.SurveyDate", Text = "Survey Date"},
+                new SelectListItem {Value = "fltl.FeederLineTypeName", Text = "Feeder Line Type"},
+                new SelectListItem {Value = "flcl.FeederConductorType", Text = "Feeder Conductor Type"},
                 new SelectListItem {Value = "roil.RouteName", Text = "Route Name"},
                 new SelectListItem {Value = "plt.PoleNo", Text = "Pole No"},
                 new SelectListItem {Value = "plt.PreviousPoleNo", Text = "Previous Pole No"},
@@ -62,7 +63,8 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 new SelectListItem {Value = "plt.Neutral", Text = "Neutral"},
                 new SelectListItem {Value = "plt.StreetLight", Text = "Street Light"},
                 new SelectListItem {Value = "plt.Latitude", Text = "Latitude"},
-                new SelectListItem {Value = "plt.Longitude", Text = "Longitude"}
+                new SelectListItem {Value = "plt.Longitude", Text = "Longitude"},
+                new SelectListItem {Value = "plt.SurveyDate", Text = "Survey Date"}
             };
 
             var operators = new List<SelectListItem>
@@ -89,6 +91,8 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             var qry = _dbContext.TblPole.AsNoTracking()
                 .Include(pi => pi.PoleToFeederLine)
+                .Include(pi => pi.PoleToFeederLine.FeederLineType)
+                .Include(pi => pi.PoleToFeederLine.FeederConductorType)
                 .Include(pi => pi.PoleToRoute)
                 .Include(pi => pi.PoleType)
                 .Include(pi => pi.PoleCondition)
@@ -117,7 +121,8 @@ namespace Pdb014App.Controllers.AdvancedSearching
             {
                 new SelectListItem {Value = "plt.PoleId", Text = "Pole Id"},
                 new SelectListItem {Value = "flt.FeederName", Text = "Feeder Name"},
-                new SelectListItem {Value = "plt.SurveyDate", Text = "Survey Date"},
+                new SelectListItem {Value = "fltl.FeederLineTypeName", Text = "Feeder Line Type"},
+                new SelectListItem {Value = "flcl.FeederConductorType", Text = "Feeder Conductor Type"},
                 new SelectListItem {Value = "roil.RouteName", Text = "Route Name"},
                 new SelectListItem {Value = "plt.PoleNo", Text = "Pole No"},
                 new SelectListItem {Value = "plt.PreviousPoleNo", Text = "Previous Pole No"},
@@ -132,7 +137,8 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 new SelectListItem {Value = "plt.Neutral", Text = "Neutral"},
                 new SelectListItem {Value = "plt.StreetLight", Text = "Street Light"},
                 new SelectListItem {Value = "plt.Latitude", Text = "Latitude"},
-                new SelectListItem {Value = "plt.Longitude", Text = "Longitude"}
+                new SelectListItem {Value = "plt.Longitude", Text = "Longitude"},
+                new SelectListItem {Value = "plt.SurveyDate", Text = "Survey Date"}
             };
 
             var operators = new List<SelectListItem>
@@ -345,39 +351,82 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
                             break;
 
-                        case "SurveyDate":
+
+
+                        case "FeederLineTypeName":
                             switch (searchOption.Operator)
                             {
                                 case "=":
-                                    tempExp = model => model.SurveyDate == DateTime.Parse(searchOption.FieldValue);
+                                    tempExp = model => model.PoleToFeederLine.FeederLineType.FeederLineTypeName == searchOption.FieldValue;
                                     break;
                                 case "!=":
-                                    tempExp = model => model.SurveyDate != DateTime.Parse(searchOption.FieldValue);
+                                    tempExp = model => model.PoleToFeederLine.FeederLineType.FeederLineTypeName != searchOption.FieldValue;
                                     break;
                                 case ">":
-                                    tempExp = model => model.SurveyDate > DateTime.Parse(searchOption.FieldValue);
+                                    tempExp = model =>
+                                        int.Parse(model.PoleToFeederLine.FeederLineType.FeederLineTypeName) > int.Parse(searchOption.FieldValue);
                                     break;
                                 case "<":
-                                    tempExp = model => model.SurveyDate < DateTime.Parse(searchOption.FieldValue);
+                                    tempExp = model =>
+                                        int.Parse(model.PoleToFeederLine.FeederLineType.FeederLineTypeName) < int.Parse(searchOption.FieldValue);
                                     break;
                                 case ">=":
-                                    tempExp = model => model.SurveyDate >= DateTime.Parse(searchOption.FieldValue);
+                                    tempExp = model =>
+                                        int.Parse(model.PoleToFeederLine.FeederLineType.FeederLineTypeName) >= int.Parse(searchOption.FieldValue);
                                     break;
                                 case "<=":
-                                    tempExp = model => model.SurveyDate <= DateTime.Parse(searchOption.FieldValue);
+                                    tempExp = model =>
+                                        int.Parse(model.PoleToFeederLine.FeederLineType.FeederLineTypeName) <= int.Parse(searchOption.FieldValue);
                                     break;
                                 case "null":
-                                    tempExp = model => model.SurveyDate == null;
+                                    tempExp = model => model.PoleToFeederLine.FeederLineType.FeederLineTypeName == null;
                                     break;
                                 case "not null":
-                                    tempExp = model => model.SurveyDate != null;
+                                    tempExp = model => model.PoleToFeederLine.FeederLineType.FeederLineTypeName != null;
                                     break;
                                 case "Like":
-                                    tempExp = model => model.SurveyDate.ToString().Contains(searchOption.FieldValue);
+                                    tempExp = model => model.PoleToFeederLine.FeederLineType.FeederLineTypeName.Contains(searchOption.FieldValue);
                                     break;
                             }
-
                             break;
+
+                        case "FeederConductorType":
+                            switch (searchOption.Operator)
+                            {
+                                case "=":
+                                    tempExp = model => model.PoleToFeederLine.FeederConductorType.FeederConductorType == searchOption.FieldValue;
+                                    break;
+                                case "!=":
+                                    tempExp = model => model.PoleToFeederLine.FeederConductorType.FeederConductorType != searchOption.FieldValue;
+                                    break;
+                                case ">":
+                                    tempExp = model =>
+                                        int.Parse(model.PoleToFeederLine.FeederConductorType.FeederConductorType) > int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<":
+                                    tempExp = model =>
+                                        int.Parse(model.PoleToFeederLine.FeederConductorType.FeederConductorType) < int.Parse(searchOption.FieldValue);
+                                    break;
+                                case ">=":
+                                    tempExp = model =>
+                                        int.Parse(model.PoleToFeederLine.FeederConductorType.FeederConductorType) >= int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<=":
+                                    tempExp = model =>
+                                        int.Parse(model.PoleToFeederLine.FeederConductorType.FeederConductorType) <= int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "null":
+                                    tempExp = model => model.PoleToFeederLine.FeederConductorType.FeederConductorType == null;
+                                    break;
+                                case "not null":
+                                    tempExp = model => model.PoleToFeederLine.FeederConductorType.FeederConductorType != null;
+                                    break;
+                                case "Like":
+                                    tempExp = model => model.PoleToFeederLine.FeederConductorType.FeederConductorType.Contains(searchOption.FieldValue);
+                                    break;
+                            }
+                            break;
+
 
                         case "RouteName":
                             switch (searchOption.Operator)
@@ -906,6 +955,42 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             }
 
                             break;
+
+
+                        case "SurveyDate":
+                            switch (searchOption.Operator)
+                            {
+                                case "=":
+                                    tempExp = model => model.SurveyDate == DateTime.Parse(searchOption.FieldValue);
+                                    break;
+                                case "!=":
+                                    tempExp = model => model.SurveyDate != DateTime.Parse(searchOption.FieldValue);
+                                    break;
+                                case ">":
+                                    tempExp = model => model.SurveyDate > DateTime.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<":
+                                    tempExp = model => model.SurveyDate < DateTime.Parse(searchOption.FieldValue);
+                                    break;
+                                case ">=":
+                                    tempExp = model => model.SurveyDate >= DateTime.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<=":
+                                    tempExp = model => model.SurveyDate <= DateTime.Parse(searchOption.FieldValue);
+                                    break;
+                                case "null":
+                                    tempExp = model => model.SurveyDate == null;
+                                    break;
+                                case "not null":
+                                    tempExp = model => model.SurveyDate != null;
+                                    break;
+                                case "Like":
+                                    tempExp = model => model.SurveyDate.ToString().Contains(searchOption.FieldValue);
+                                    break;
+                            }
+
+                            break;
+
                     }
 
 
@@ -931,6 +1016,8 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             qry = qry
                 .Include(pi => pi.PoleToFeederLine)
+                .Include(pi => pi.PoleToFeederLine.FeederLineType)
+                .Include(pi => pi.PoleToFeederLine.FeederConductorType)
                 .Include(pi => pi.PoleToRoute)
                 .Include(pi => pi.PoleType)
                 .Include(pi => pi.PoleCondition)
@@ -961,9 +1048,10 @@ namespace Pdb014App.Controllers.AdvancedSearching
             {
                 new SelectListItem {Value = "flt.FeederLineId", Text = "Feeder Line Id"},
                 new SelectListItem {Value = "flt.FeederLineUId", Text = "Feeder Line UId"},
-                new SelectListItem {Value = "fltl.FeederLineTypeName", Text = "Feeder Line Type"},
-                new SelectListItem {Value = "roil.RouteName", Text = "Route Name"},
                 new SelectListItem {Value = "flt.FeederName", Text = "Feeder Line Name"},
+                new SelectListItem {Value = "fltl.FeederLineTypeName", Text = "Feeder Line Type"},
+                new SelectListItem {Value = "flcl.FeederConductorType", Text = "Feeder Conductor Type"},
+                new SelectListItem {Value = "roil.RouteName", Text = "Route Name"},
                 new SelectListItem {Value = "flt.NominalVoltage", Text = "Nominal Voltage"},
                 new SelectListItem {Value = "flt.FeederLocation", Text = "Feeder Location"},
                 new SelectListItem {Value = "flt.FeedermeterNumber", Text = "Feeder Meter Number"},
@@ -998,7 +1086,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             var qry = _dbContext.TblFeederLine.AsNoTracking()
                 .Include(fl => fl.FeederLineType)
-                //.Include(fl => fl.FeederLineToRoute)
+                .Include(fl => fl.FeederConductorType)
                 .Include(fl => fl.FeederLineToRoute.RouteToSubstation.SubstationType)
                 .Include(fl => fl.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
                 .Include(fl => fl.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
@@ -1024,9 +1112,10 @@ namespace Pdb014App.Controllers.AdvancedSearching
             {
                 new SelectListItem {Value = "flt.FeederLineId", Text = "Feeder Line Id"},
                 new SelectListItem {Value = "flt.FeederLineUId", Text = "Feeder Line UId"},
-                new SelectListItem {Value = "fltl.FeederLineTypeName", Text = "Feeder Line Type"},
-                new SelectListItem {Value = "roil.RouteName", Text = "Route Name"},
                 new SelectListItem {Value = "flt.FeederName", Text = "Feeder Line Name"},
+                new SelectListItem {Value = "fltl.FeederLineTypeName", Text = "Feeder Line Type"},
+                new SelectListItem {Value = "flcl.FeederConductorType", Text = "Feeder Conductor Type"},
+                new SelectListItem {Value = "roil.RouteName", Text = "Route Name"},
                 new SelectListItem {Value = "flt.NominalVoltage", Text = "Nominal Voltage"},
                 new SelectListItem {Value = "flt.FeederLocation", Text = "Feeder Location"},
                 new SelectListItem {Value = "flt.FeedermeterNumber", Text = "Feeder Meter Number"},
@@ -1204,8 +1293,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             }
                             break;
 
-
-
                         case "FeederLineUId":
                             switch (searchOption.Operator)
                             {
@@ -1242,7 +1329,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-
 
                         case "FeederLineTypeName":
                             switch (searchOption.Operator)
@@ -1281,6 +1367,42 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             }
                             break;
 
+                        case "FeederConductorType":
+                            switch (searchOption.Operator)
+                            {
+                                case "=":
+                                    tempExp = model => model.FeederConductorType.FeederConductorType == searchOption.FieldValue;
+                                    break;
+                                case "!=":
+                                    tempExp = model => model.FeederConductorType.FeederConductorType != searchOption.FieldValue;
+                                    break;
+                                case ">":
+                                    tempExp = model =>
+                                        int.Parse(model.FeederConductorType.FeederConductorType) > int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<":
+                                    tempExp = model =>
+                                        int.Parse(model.FeederConductorType.FeederConductorType) < int.Parse(searchOption.FieldValue);
+                                    break;
+                                case ">=":
+                                    tempExp = model =>
+                                        int.Parse(model.FeederConductorType.FeederConductorType) >= int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "<=":
+                                    tempExp = model =>
+                                        int.Parse(model.FeederConductorType.FeederConductorType) <= int.Parse(searchOption.FieldValue);
+                                    break;
+                                case "null":
+                                    tempExp = model => model.FeederConductorType.FeederConductorType == null;
+                                    break;
+                                case "not null":
+                                    tempExp = model => model.FeederConductorType.FeederConductorType != null;
+                                    break;
+                                case "Like":
+                                    tempExp = model => model.FeederConductorType.FeederConductorType.Contains(searchOption.FieldValue);
+                                    break;
+                            }
+                            break;
 
                         case "RouteName":
                             switch (searchOption.Operator)
@@ -1356,7 +1478,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             }
                             break;
 
-
                         case "NominalVoltage":
                             switch (searchOption.Operator)
                             {
@@ -1429,9 +1550,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             }
                             break;
 
-
-
-
                         case "FeedermeterNumber":
                             switch (searchOption.Operator)
                             {
@@ -1464,8 +1582,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-
-
 
                         case "MeterCurrentRating":
                             switch (searchOption.Operator)
@@ -1500,8 +1616,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             }
                             break;
 
-
-
                         case "MeterVoltageRating":
                             switch (searchOption.Operator)
                             {
@@ -1534,7 +1648,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-
 
                         case "MaximumDemand":
                             switch (searchOption.Operator)
@@ -1602,8 +1715,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             }
                             break;
 
-
-
                         case "MaximumLoad":
                             switch (searchOption.Operator)
                             {
@@ -1636,7 +1747,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                             }
                             break;
-
 
                         case "SanctionedLoad":
                             switch (searchOption.Operator)
@@ -1696,7 +1806,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             qry = qry
                 .Include(fl => fl.FeederLineType)
-                //.Include(fl => fl.FeederLineToRoute)
+                .Include(fl => fl.FeederConductorType)
                 .Include(fl => fl.FeederLineToRoute.RouteToSubstation.SubstationType)
                 .Include(fl => fl.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
                 .Include(fl => fl.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)

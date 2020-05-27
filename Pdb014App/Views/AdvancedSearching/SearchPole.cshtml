@@ -219,6 +219,18 @@
                             <th>
                                 @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederName)
                             </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederLineTypeId)
+                            </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederConductorTypeId)
+                            </th>
+                            @*<th>
+                                    @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederLineType.FeederLineTypeName)
+                                </th>
+                                <th>
+                                    @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederConductorType.FeederConductorType)
+                                </th>*@
 
 
                             <th>
@@ -273,9 +285,22 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>
+                                <td class="text-center">
                                     <a target="_blank" asp-controller="TblPoles" asp-action="Details" asp-route-id="@item.PoleId" asp-route-cai="@Model.RouteValue["cai"]" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Details">
                                         @Html.DisplayFor(modelItem => item.PoleId)
+                                    </a>
+                                    <br />
+                                    <a target="_blank" asp-controller="MapViewer" asp-action="MapView" 
+                                       asp-route-zoneCode="@item.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode" 
+                                       asp-route-circleCode="@item.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode" 
+                                       asp-route-snDCode="@item.PoleToRoute.RouteToSubstation.SnDCode" 
+                                       asp-route-substationId="@item.PoleToRoute.SubstationId" 
+                                       asp-route-routeCode="@item.RouteCode" 
+                                       asp-route-feederLineId="@item.FeederLineId" 
+                                       asp-route-poleId="@item.PoleId" 
+                                       asp-route-cai="map_01" 
+                                       class="text-success hover-dark" style="color: #15d !important;" data-toggle="tooltip" data-placement="top" title="View in Map.">
+                                        Map
                                     </a>
                                 </td>
 
@@ -299,6 +324,12 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.PoleToFeederLine.FeederName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleToFeederLine.FeederLineType.FeederLineTypeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoleToFeederLine.FeederConductorType.FeederConductorType)
                                 </td>
 
                                 <td>

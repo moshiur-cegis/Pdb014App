@@ -221,6 +221,7 @@ namespace Pdb014App.Controllers
                 case "pltl": tableName = "LookUpPoleType"; break;
                 case "plcl": tableName = "LookUpPoleCondition"; break;
                 case "fltl": tableName = "LookUpFeederLineType"; break;
+                case "flcl": tableName = "LookUpFeederConductorType"; break;
                 case "sstl": tableName = "LookUpSubstationType"; break;
                 case "cftl": tableName = "LookUpTypeOfFittings"; break;
                 case "cfcl": tableName = "LookUpCondition"; break;
