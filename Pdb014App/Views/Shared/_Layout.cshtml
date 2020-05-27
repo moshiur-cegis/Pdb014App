@@ -3,12 +3,9 @@
 
 @inject SignInManager<TblUserRegistrationDetail> SignInManager
 @inject UserManager<TblUserRegistrationDetail> UserManager
-@*@inject List<TblUserProfileDetail> Userprofile*@
 
 @{
-    //List<TblUserProfileDetail> Userprofile;
     var user = await UserManager.GetUserAsync(User);
-    //var zoneCode = Userprofile.Where(i => i.Id == user.Id).Select(i=>i.UserProfileDetailToUserBpdbEmployee.ZoneCode).SingleOrDefault();
 }
 
 <!DOCTYPE html>
@@ -24,25 +21,33 @@
     <link rel="apple-touch-icon" href="~/Images/logo.jpg">
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     </environment>
 
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only"
               asp-fallback-test-property="position"
               asp-fallback-test-value="absolute"
               crossorigin="anonymous"
               integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
-
     </environment>
 
-
     <!-- vendor css -->
+    @*<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />*@
     <link href="~/lib/font-awesome/css/fontawesome.min.css" rel="stylesheet" />
 
-    <link href="~/lib/bracket/css/bracket.css" rel="stylesheet" />
+    <environment include="Development">
+        <link href="~/lib/bracket/css/bracket.css" rel="stylesheet" />
+    </environment>
+
+    <environment exclude="Development">
+        <link href="~/lib/bracket/css/bracket.min.css" rel="stylesheet"
+              asp-fallback-href="~/lib/bracket/css/bracket.css" />
+    </environment>
+
+    @*<link href="~/lib/bracket/css/bracket.min.css" rel="stylesheet" />*@
     <link href="~/lib/bracket/css/accordion.css" rel="stylesheet" />
     <link href="~/lib/bracket/lib/ionicons/css/ionicons.css" rel="stylesheet" />
     <link href="~/lib/bracket/lib/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
@@ -83,47 +88,48 @@
                         <li>
                             <a href="#">Pole Information</a>
                             <ul class="submenu">
-                                <li><a id="advs_010" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchPole" asp-route-cai="advs_010" asp-route-modelId="1">Pole</a></li>
-                                <li><a id="advs_011" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchFeederLine" asp-route-cai="advs_011" asp-route-modelId="1">Feeder Line</a></li>
-                                <li><a id="advs_012" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchCrossArm" asp-route-cai="advs_012" asp-route-modelId="1">Cross Arm</a></li>
+                                <li><a id="advs_010" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchPole" asp-route-cai="advs_010">Pole</a></li>
+                                <li><a id="advs_011" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchFeederLine" asp-route-cai="advs_011">Feeder Line</a></li>
+                                <li><a id="advs_012" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchCrossArm" asp-route-cai="advs_012">Cross Arm</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="#">Substation Information</a>
                             <ul class="submenu">
-                                <li><a id="advs_020" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchSubstation" asp-route-cai="advs_020" asp-route-modelId="1">Substation</a></li>
-                                <li><a id="advs_021" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchSwitch33Kv" asp-route-cai="advs_021" asp-route-modelId="1">Switch (33Kv Isolator)</a></li>
-                                <li><a id="advs_023" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchVacuumCircuitBreaker" asp-route-cai="advs_023" asp-route-modelId="1">Vacuum Circuit Breaker</a></li>
+                                <li><a id="advs_020" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchSubstation" asp-route-cai="advs_020">Substation</a></li>
+                                <li><a id="advs_022" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchMeteringPanel" asp-route-cai="advs_022">Metering Panels</a></li>
 
-                                <li><a id="advs_025" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchSwitchgear" asp-route-cai="advs_025" asp-route-modelId="1">Switchgear</a></li>
-                                <li><a id="advs_026" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchCircuitBreaker" asp-route-cai="advs_026" asp-route-modelId="1">Circuit Breakers</a></li>
+                                <li><a id="advs_025" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchSwitchgear" asp-route-cai="advs_025">Switchgear</a></li>
+                                <li><a id="advs_021" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchSwitch33Kv" asp-route-cai="advs_021">Switch (33Kv Isolator)</a></li>
 
-                                <li><a id="advs_060" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchMeteringPanel" asp-route-cai="advs_060" asp-route-modelId="1">Metering Panels</a></li>
-                                <li><a id="advs_061" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchDifferentRelay" asp-route-cai="advs_061" asp-route-modelId="1">Different Relays</a></li>
+                                <li><a id="advs_026" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchCircuitBreaker" asp-route-cai="advs_026">Circuit Breakers</a></li>
+                                <li><a id="advs_023" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchVacuumCircuitBreaker" asp-route-cai="advs_023">Vacuum Circuit Breaker</a></li>
+
+                                <li><a id="advs_027" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchDifferentRelay" asp-route-cai="advs_027">Different Relays</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="#">Transformer Information</a>
                             <ul class="submenu">
-                                <li><a id="advs_032" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchPowerTransformer" asp-route-cai="advs_032" asp-route-modelId="1">Power Transformers</a></li>
-                                <li><a id="advs_033" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchDistributionTransformer" asp-route-cai="advs_033" asp-route-modelId="1">Distribution Transformers</a></li>
-                                <li><a id="advs_034" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchRelay" asp-route-cai="advs_034" asp-route-modelId="1">Relays</a></li>
+                                <li><a id="advs_032" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchPowerTransformer" asp-route-cai="advs_032">Power Transformers</a></li>
+                                <li><a id="advs_033" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchDistributionTransformer" asp-route-cai="advs_033">Distribution Transformers</a></li>
+                                <li><a id="advs_034" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchRelay" asp-route-cai="advs_034">Relays</a></li>
                             </ul>
                         </li>
 
                         @*<li>
-                            <a href="#">Protection Control & Metering Panel</a>
-                            <ul class="submenu">
-                                <li><a id="advs_060" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchMeteringPanel" asp-route-cai="advs_060" asp-route-modelId="1">Metering Panels</a></li>
-                                <li><a id="advs_061" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchDifferentRelay" asp-route-cai="advs_061" asp-route-modelId="1">Different Relays</a></li>
-                            </ul>
-                        </li>*@
+                                <a href="#">Protection Control & Metering Panel</a>
+                                <ul class="submenu">
+                                    <li><a id="advs_060" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchMeteringPanel" asp-route-cai="advs_060">Metering Panels</a></li>
+                                    <li><a id="advs_061" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchDifferentRelay" asp-route-cai="advs_061">Different Relays</a></li>
+                                </ul>
+                            </li>*@
 
                         <li>
                             <a href="#">Service Point Information</a>
                             <ul class="submenu">
-                                <li><a id="advs_150" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchServicePoint" asp-route-cai="advs_150" asp-route-modelId="1">Service Point</a></li>
-                                <li><a id="advs_151" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchConsumerData" asp-route-cai="advs_151" asp-route-modelId="1">Consumer Data</a></li>
+                                <li><a id="advs_150" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchServicePoint" asp-route-cai="advs_150">Service Point</a></li>
+                                <li><a id="advs_151" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchConsumerData" asp-route-cai="advs_151">Consumer Data</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -218,10 +224,7 @@
                                             <li><a id="a_ss_t_01" asp-area="" asp-controller="LookUpSubstationTypes" asp-action="Create" asp-route-cai="a_ss_t_01">Sub-Stations Type</a></li>
                                             <li><a id="a_acr_t_01" asp-area="" asp-controller="LookUpAutoCircuitReCloserTypes" asp-action="Create" asp-route-cai="a_acr_t_01">Auto Circuit Re-Closer Type</a></li>
 
-
-
                                             @*<li><a id="a_swt_g_01" asp-area="" asp-controller="TblSwitchGears" asp-action="Create" asp-route-cai="a_swt_g_01">Switchgear</a></li>*@
-
 
                                             <li><a id="a_swt_g_02" asp-area="" asp-controller="LookUpSwitchGearTypes" asp-action="Create" asp-route-cai="a_swt_g_02">Switchgear Type</a></li>
                                             <li><a id="a_swt_g_03" asp-area="" asp-controller="LookupBusBars" asp-action="Create" asp-route-cai="a_swt_g_03">Bus Bar</a></li>
@@ -288,7 +291,7 @@
                                             <li><a id="e_met_p_07" asp-area="" asp-controller="LookupControlSwitches" asp-action="Index" asp-route-cai="e_met_p_07">Control Switches</a></li>
                                             <li><a id="e_met_p_08" asp-area="" asp-controller="LookUpDimensionAndWeights" asp-action="Index" asp-route-cai="e_met_p_08">Dimension And Weight</a></li>
                                         }
-                                        </ul>
+                                    </ul>
                                 </li>
                             </ul>
                         </li>
@@ -371,7 +374,7 @@
                                         {
                                             <li><a id="a_con_t_01" asp-area="" asp-controller="LookUpConductorTypes" asp-action="Create" asp-route-cai="a_con_t_01">Conductor Type</a></li>
                                         }
-                                        </ul>
+                                    </ul>
                                 </li>
                                 <li>
                                     <a href="#">Edit</a>
@@ -382,7 +385,7 @@
                                         {
                                             <li><a id="e_con_t_01" asp-area="" asp-controller="LookUpConductorTypes" asp-action="Index" asp-route-cai="e_con_t_01">Conductor Type</a></li>
                                         }
-                                        </ul>
+                                    </ul>
                                 </li>
                             </ul>
                         </li>
@@ -537,7 +540,7 @@
                                             <li><a id="a_sp_13" asp-area="" asp-controller="LookUpServiceCableTypes" asp-action="Create" asp-route-cai="a_sp_13">Service Cable Type</a></li>
                                             <li><a id="a_sp_14" asp-area="" asp-controller="LookUpStructureTypes" asp-action="Create" asp-route-cai="a_sp_14">Structure Type</a></li>
                                         }
-                                        </ul>
+                                    </ul>
                                 </li>
                                 <li>
                                     <a href="#">Edit</a>
@@ -561,7 +564,7 @@
                                             <li><a id="e_sp_13" asp-area="" asp-controller="LookUpServiceCableTypes" asp-action="Index" asp-route-cai="e_sp_13">Service Cable Type</a></li>
                                             <li><a id="e_sp_14" asp-area="" asp-controller="LookUpStructureTypes" asp-action="Index" asp-route-cai="e_sp_14">Structure Type</a></li>
                                         }
-                                        </ul>
+                                    </ul>
                                 </li>
                             </ul>
                         </li>
@@ -596,7 +599,7 @@
                     <a href="#"><i class="fa fa-download"></i>Data Audit & Import</a>
                     @*<a id="dai_01" asp-area="" asp-controller="#" asp-action="#" asp-route-cai="dai_01"><i class="fa fa-download"></i>Data Audit & Inport</a>*@
                 <ul class="submenu">
-                    <li><a id="dai_02" asp-area="" asp-controller="Audit" asp-action="Audit" asp-route-cai="dai_02" asp-route-modelId="1">Pole</a></li>
+                    <li><a id="dai_02" asp-area="" asp-controller="Audit" asp-action="Audit" asp-route-cai="dai_02">Pole</a></li>
                 </ul>
                 </li>
 
@@ -604,25 +607,25 @@
                 <li>
                     <a href="#"><i class="fa fa-database"></i>Reports</a>
                     <ul class="submenu">
-                        <li><a id="smr_rpt_fl" asp-area="" asp-controller="SummaryReport" asp-action="SummaryReport" asp-route-cai="smr_rpt_fl" asp-route-modelId="1">Summary Report</a></li>
+                        <li><a id="smr_rpt_fl" asp-area="" asp-controller="SummaryReport" asp-action="SummaryReport" asp-route-cai="smr_rpt_fl">Summary Report</a></li>
                         @*
-                                    <li><a id="smr_rpt_ss" asp-area="" asp-controller="SummaryReport" asp-action="Substation" asp-route-cai="smr_rpt_ss" asp-route-modelId="1">Summary Report</a></li>
+                                    <li><a id="smr_rpt_ss" asp-area="" asp-controller="SummaryReport" asp-action="Substation" asp-route-cai="smr_rpt_ss">Summary Report</a></li>
                                     <li>
                                 <a href="#">Summary Report</a>
                                 <ul class="submenu">
-                                    <li><a id="smr_rpt_ss" asp-area="" asp-controller="SummaryReport" asp-action="Substation" asp-route-cai="smr_rpt_ss" asp-route-modelId="1">Substation</a></li>
+                                    <li><a id="smr_rpt_ss" asp-area="" asp-controller="SummaryReport" asp-action="Substation" asp-route-cai="smr_rpt_ss">Substation</a></li>
                                 </ul>
                             </li>*@
                         <li>
                             <a href="#">Details Report</a>
                             <ul class="submenu">
-                                <li><a id="adv_rpt_pl" asp-area="" asp-controller="AdvancedReport" asp-action="Pole" asp-route-cai="adv_rpt_pl" asp-route-modelId="1">Pole</a></li>
-                                <li><a id="adv_rpt_fl" asp-area="" asp-controller="AdvancedReport" asp-action="FeederLine" asp-route-cai="adv_rpt_fl" asp-route-modelId="1">Feeder Line</a></li>
-                                <li><a id="adv_rpt_ss" asp-area="" asp-controller="AdvancedReport" asp-action="Substation" asp-route-cai="adv_rpt_ss" asp-route-modelId="1">Substation</a></li>
-                                <li><a id="adv_rpt_dt" asp-area="" asp-controller="AdvancedReport" asp-action="DistributionTransformer" asp-route-cai="adv_rpt_dt" asp-route-modelId="1">Distribution Transformers</a></li>
-                                <li><a id="adv_rpt_pt" asp-area="" asp-controller="AdvancedReport" asp-action="PowerTransformer" asp-route-cai="adv_rpt_pt" asp-route-modelId="1">Power Transformers</a></li>
-                                <li><a id="adv_rpt_sp" asp-area="" asp-controller="AdvancedReport" asp-action="ServicePointInfo" asp-route-cai="adv_rpt_sp" asp-route-modelId="1">Service Point Info.</a></li>
-                                <li><a id="adv_rpt_ci" asp-area="" asp-controller="AdvancedReport" asp-action="ConsumerInfo" asp-route-cai="adv_rpt_ci" asp-route-modelId="1">Consumer Info.</a></li>
+                                <li><a id="adv_rpt_pl" asp-area="" asp-controller="AdvancedReport" asp-action="Pole" asp-route-cai="adv_rpt_pl">Pole</a></li>
+                                <li><a id="adv_rpt_fl" asp-area="" asp-controller="AdvancedReport" asp-action="FeederLine" asp-route-cai="adv_rpt_fl">Feeder Line</a></li>
+                                <li><a id="adv_rpt_ss" asp-area="" asp-controller="AdvancedReport" asp-action="Substation" asp-route-cai="adv_rpt_ss">Substation</a></li>
+                                <li><a id="adv_rpt_dt" asp-area="" asp-controller="AdvancedReport" asp-action="DistributionTransformer" asp-route-cai="adv_rpt_dt">Distribution Transformers</a></li>
+                                <li><a id="adv_rpt_pt" asp-area="" asp-controller="AdvancedReport" asp-action="PowerTransformer" asp-route-cai="adv_rpt_pt">Power Transformers</a></li>
+                                <li><a id="adv_rpt_sp" asp-area="" asp-controller="AdvancedReport" asp-action="ServicePointInfo" asp-route-cai="adv_rpt_sp">Service Point Info.</a></li>
+                                <li><a id="adv_rpt_ci" asp-area="" asp-controller="AdvancedReport" asp-action="ConsumerInfo" asp-route-cai="adv_rpt_ci">Consumer Info.</a></li>
                             </ul>
                         </li>
                     </ul>
