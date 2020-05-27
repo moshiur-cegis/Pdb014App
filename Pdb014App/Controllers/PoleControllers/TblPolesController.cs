@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Pdb014App.Models.PDB;
 using Pdb014App.Models.UserManage;
+using Pdb014App.Models.UserManage.SetRole;
 using Pdb014App.Repository;
 using ReflectionIT.Mvc.Paging;
 
@@ -23,9 +24,9 @@ namespace Pdb014App.Controllers.PoleControllers
     {
         private readonly UserManager<TblUserRegistrationDetail> UserManager;
         private readonly UserDbContext contextUser;
-
         private readonly PdbDbContext _context;
 
+       
         public TblPolesController(PdbDbContext context, UserDbContext contextUser, UserManager<TblUserRegistrationDetail> UserManager)
         {
             _context = context;
@@ -36,73 +37,128 @@ namespace Pdb014App.Controllers.PoleControllers
         // GET: TblPoles1
 
         [Authorize(Roles = "System Administrator,Super User,Zone,Circle,SnD,Substation")]
-
         public async Task<IActionResult> Index(string filter, int pageIndex = 1, string sortExpression = "PoleId")
         {
+            //GetUserRoleData data = new GetUserRoleData(contextUser, UserManager);
+            string  getSql = await GetQuery("TblPole", "PoleId");
 
-            Expression<Func<TblPole, bool>> searchExp = null;
-            Expression<Func<TblPole, bool>> tempExp = null;
+            //string getSql = await new GetUserRoleData(contextUser, UserManager).GetQuery("TblPole", "PoleId");
+
+            var query =  _context.TblPole.FromSql(getSql).AsQueryable();
+
+
+            #region lemda epression
+            //Expression<Func<TblPole, bool>> searchExp = null;
+            //Expression<Func<TblPole, bool>> tempExp = null;
+
+            //var user = await UserManager.GetUserAsync(User);
+
+            //if (User.IsInRole("System Administrator"))
+            //{
+            //    searchExp = null;
+            //}
+
+            //else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
+            //{
+            //    //var user = await UserManager.GetUserAsync(User);
+            //    string zoneCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
+            //    searchExp = i => i.PoleId.Substring(0, 1).Contains(zoneCode);
+            //}
+            //else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
+            //{
+            //    //var user = await UserManager.GetUserAsync(User);
+            //    string circleCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
+            //    searchExp = i => i.PoleId.Substring(0, 3).Contains(circleCode);
+            //}
+            //else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
+            //{
+            //    //var user = await UserManager.GetUserAsync(User);
+            //    string sndCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
+            //    searchExp = i => i.PoleId.Substring(0, 5).Contains(sndCode);
+
+            //}
+            //else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
+            //{
+            //    //var user = await UserManager.GetUserAsync(User);
+            //    string SubstationId = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
+            //    searchExp = i => i.PoleId.Substring(0, 7).Contains(SubstationId);
+
+            //}
+
+            //tempExp = p => p.PoleId.Contains(filter);
+            //searchExp = searchExp!=null? ExpressionExtension<TblPole>.AndAlso(searchExp, tempExp): tempExp;    
+            //var qry = searchExp != null ? _context.TblPole.Where(searchExp).Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleType).Include(t => t.WireLookUpCondition).AsQueryable() :
+            //                              _context.TblPole.Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleType).Include(t => t.WireLookUpCondition).AsQueryable();
+
+            #endregion
+
+            if (query==null)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if (filter != null)
+            {
+                query = query.Where(p => p.PoleId.Contains(filter));
+                                            
+            }
+           
+            var model = await PagingList.CreateAsync(query, 10, pageIndex, sortExpression, "PoleId");
+
+            model.RouteValue = new RouteValueDictionary { { "filter", filter } };
+
+            return View(model);
+        }
+
+
+        public async Task<string> GetQuery(string tableName, string fieldName)
+        {
             var user = await UserManager.GetUserAsync(User);
 
-            
 
+            var sql = "";
 
             if (User.IsInRole("System Administrator"))
             {
-                searchExp = null;
+                sql = $"Select * from  {tableName}";
             }
+
 
             else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
             {
                 //var user = await UserManager.GetUserAsync(User);
                 string zoneCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
-                searchExp = i => i.PoleId.Substring(0, 1).Contains(zoneCode);
+                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,1)={zoneCode}";
+
             }
             else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
             {
                 //var user = await UserManager.GetUserAsync(User);
                 string circleCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
-                searchExp = i => i.PoleId.Substring(0, 3).Contains(circleCode);
+                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,3)={circleCode}";
             }
             else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
             {
                 //var user = await UserManager.GetUserAsync(User);
                 string sndCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
-                searchExp = i => i.PoleId.Substring(0, 5).Contains(sndCode);
+                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,5)={sndCode}";
 
             }
             else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
             {
                 //var user = await UserManager.GetUserAsync(User);
                 string SubstationId = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
-                searchExp = i => i.PoleId.Substring(0, 7).Contains(SubstationId);
+                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,7)={SubstationId}";
 
             }
             else
             {
-                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+                return null;
             }
 
-
-            if (filter != null)
-            {
-                
-                    tempExp = p => p.PoleId.Contains(filter);
-                    searchExp = searchExp!=null? ExpressionExtension<TblPole>.AndAlso(searchExp, tempExp): tempExp;                            
-            }
-
-            var qry = searchExp != null ? _context.TblPole.Where(searchExp).Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleType).Include(t => t.WireLookUpCondition).AsQueryable() :
-                                          _context.TblPole.Include(t => t.LookUpLineType).Include(t => t.LookUpTypeOfWire).Include(t => t.PhaseACondition).Include(t => t.PhaseBCondition).Include(t => t.PhaseCCondition).Include(t => t.PoleCondition).Include(t => t.PoleToFeederLine).Include(t => t.PoleToRoute).Include(t => t.PoleType).Include(t => t.WireLookUpCondition).AsQueryable();
-
-
-            var model = await PagingList.CreateAsync(qry, 10, pageIndex, sortExpression, "PoleId");
-
-            model.RouteValue = new RouteValueDictionary { { "filter", filter } };
-
-            return View(model);
-
-            //return View(await pdbDbContext.ToListAsync());
+            return sql;
         }
+
 
         // GET: TblPoles1/Details/5
         public async Task<IActionResult> Details(string id)
@@ -139,7 +195,7 @@ namespace Pdb014App.Controllers.PoleControllers
         }
 
 
-        [Authorize(Roles = "System Administrator,Super User")]
+        [Authorize(Roles = "System Administrator,Super User,Zone,Circle,SnD,Substation")]
         // GET: TblPoles1/Create
         public IActionResult Create()
         {
@@ -159,7 +215,6 @@ namespace Pdb014App.Controllers.PoleControllers
             var poleIdList = _context.TblPole.AsNoTracking()
            .Select(pi => new SelectListItem() { Text = pi.PoleId, Value = pi.PoleId }).ToList();
             ViewData["PreviousPoleId"] = poleIdList;
-
 
             //ViewData["PreviousPoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId");
 
@@ -434,7 +489,7 @@ namespace Pdb014App.Controllers.PoleControllers
 
             if (poleNo == "")
             {
-                poleId = Convert.ToInt64(feederLineId + "0001");
+                poleId = Convert.ToInt64(feederLineId + "0000");
             }
 
             return Json(poleId);

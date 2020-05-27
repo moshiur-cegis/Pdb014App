@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Pdb014App.Controllers.PoleControllers;
+using Pdb014App.Models.PDB;
 using Pdb014App.Models.PDB.SubstationModels;
 using Pdb014App.Models.UserManage;
 using Pdb014App.Models.UserManage.SetRole;
@@ -41,53 +43,69 @@ namespace Pdb014App.Controllers.SubstationControllers
         public async Task<IActionResult> Index()
         {
 
-            Expression<Func<TblSubstation, bool>> searchExp = null;
-            Expression<Func<TblSubstation, bool>> tempExp = null;
+            string getSql = await GetQuery("TblSubstation", "SubstationId");
+
+            //string getSql = await new TblPolesController().GetQuery("TblSubstation", "SubstationId");
+
+            var query = _context.TblSubstation.Include(st => st.SubstationType).Include(st => st.SubstationToLookUpSnD.CircleInfo.ZoneInfo).FromSql(getSql).AsQueryable();
+
+
+            if (query == null)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+
+
+            return View(query);
+        }
+        public async Task<string> GetQuery(string tableName, string fieldName)
+        {
             var user = await UserManager.GetUserAsync(User);
 
-
-            //string query = GetUserRoleData.query("TblSubstation");
+            var sql = "";
 
             if (User.IsInRole("System Administrator"))
             {
-                searchExp = null;
+                sql = $"Select * from  {tableName}";
             }
-            else if((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
+
+            else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
             {
                 //var user = await UserManager.GetUserAsync(User);
                 string zoneCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
-                searchExp = i => i.SubstationId.Substring(0, 1).Contains(zoneCode);
-            }else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
+                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,1)={zoneCode}";
+
+            }
+            else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
             {
                 //var user = await UserManager.GetUserAsync(User);
                 string circleCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
-                searchExp = i => i.SubstationId.Substring(0, 3).Contains(circleCode);
+                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,3)={circleCode}";
             }
             else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
             {
                 //var user = await UserManager.GetUserAsync(User);
                 string sndCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
-                searchExp = i => i.SubstationId.Substring(0, 5).Contains(sndCode);
-            }
+                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,5)={sndCode}";
 
+            }
             else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
             {
                 //var user = await UserManager.GetUserAsync(User);
                 string SubstationId = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
-                searchExp = i => i.SubstationId.Substring(0, 7).Contains(SubstationId);
+                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,7)={SubstationId}";
+
             }
             else
             {
-                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+                return null;
             }
-          
-            var qry = searchExp != null? _context.TblSubstation.AsNoTracking().Where(searchExp).Include(t => t.SubstationType).Include(t => t.SubstationToLookUpSnD.CircleInfo.ZoneInfo).AsQueryable(): 
-                                         _context.TblSubstation.AsNoTracking().Include(t => t.SubstationType).Include(t => t.SubstationToLookUpSnD.CircleInfo.ZoneInfo).AsQueryable();
 
-
-
-            return View(qry);
+            return sql;
         }
+
+
 
 
         // GET: TblSubstations/Details/5

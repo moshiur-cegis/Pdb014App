@@ -190,19 +190,24 @@
 
                 <tr>
                     <th>  @Html.DisplayNameFor(model => model.ZoneCode)</th>
-                    <td>  @Html.DisplayFor(model => model.ZoneCode)</td>
+                    <td>  @*@Html.DisplayFor(model => model.ZoneCode)*@ @ViewBag.zone</td>
                 </tr>
                 <tr>
                     <th>  @Html.DisplayNameFor(model => model.CircleCode)</th>
-                    <td>  @Html.DisplayFor(model => model.CircleCode)</td>
+                    <td>  @*@Html.DisplayFor(model => model.CircleCode)*@  @ViewBag.circle</td>
                 </tr>
                 <tr>
                     <th>  @Html.DisplayNameFor(model => model.SnDCode)</th>
-                    <td>  @Html.DisplayFor(model => model.SnDCode)</td>
+                    <td>  @*@Html.DisplayFor(model => model.SnDCode)*@
+                    @ViewBag.snd
+                    </td>
                 </tr>
                 <tr>
                     <th>  @Html.DisplayNameFor(model => model.SubstationId)</th>
-                    <td>  @Html.DisplayFor(model => model.SubstationId)</td>
+                    <td>  @*@Html.DisplayFor(model => model.SubstationId)*@
+                            @ViewBag.substation
+                    
+                    </td>
                 </tr>
             </table>
             <div>
