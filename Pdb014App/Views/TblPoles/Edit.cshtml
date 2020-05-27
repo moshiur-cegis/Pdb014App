@@ -21,26 +21,26 @@
                 <input type="hidden" asp-for="PoleId" />
 
                 @*<div class="form-group">
-            <label asp-for="PoleUid" class="control-label"></label>
-            <input asp-for="PoleUid" class="form-control" />
-            <span asp-validation-for="PoleUid" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="FeederLineUid" class="control-label"></label>
-            <input asp-for="FeederLineUid" class="form-control" />
-            <span asp-validation-for="FeederLineUid" class="text-danger"></span>
-        </div>*@
+                        <label asp-for="PoleUid" class="control-label"></label>
+                        <input asp-for="PoleUid" class="form-control" />
+                        <span asp-validation-for="PoleUid" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FeederLineUid" class="control-label"></label>
+                        <input asp-for="FeederLineUid" class="form-control" />
+                        <span asp-validation-for="FeederLineUid" class="text-danger"></span>
+                    </div>*@
 
                 @*<div class="form-group">
-                    <label asp-for="SurveyDate" class="control-label"></label>
-                    <input asp-for="SurveyDate" class="form-control" />
-                    <span asp-validation-for="SurveyDate" class="text-danger"></span>
-                </div>*@
+                        <label asp-for="SurveyDate" class="control-label"></label>
+                        <input asp-for="SurveyDate" class="form-control" />
+                        <span asp-validation-for="SurveyDate" class="text-danger"></span>
+                    </div>*@
 
 
                 <div class="form-group">
                     <label asp-for="SurveyDate" class="control-label"></label>
-                    <input  type="text" name="SurveyDate" id="SurveyDate" class="survey-date form-control" placeholder="dd-mm-yyyy" data-date-format="mm-dd-yyyy" value=@Model.SurveyDate />
+                    <input type="text" name="SurveyDate" id="SurveyDate" class="survey-date form-control" placeholder="dd-mm-yyyy" data-date-format="mm-dd-yyyy" value=@Model.SurveyDate />
                     <span class="glyphicon glyphicon-calendar icon-font" id="dpSurveyDate"></span>
                     <span asp-validation-for="SurveyDate" class="text-danger"></span>
                 </div>
@@ -61,11 +61,18 @@
                     <input asp-for="SurveyorName" class="form-control" />
                     <span asp-validation-for="SurveyorName" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="PoleNo" class="control-label"></label>
-                    <input asp-for="PoleNo" class="form-control" />
-                    <span asp-validation-for="PoleNo" class="text-danger"></span>
-                </div>
+                @*<div class="form-group">
+                        <label asp-for="PoleId" class="control-label"></label>
+                        <input asp-for="PoleNo" class="form-control" />
+                        <span asp-validation-for="PoleNo" class="text-danger"></span>
+                    </div>*@
+            <div class="form-group">
+                <label asp-for="PoleId" class="control-label"></label>
+                @*<input asp-for="PoleId"  class="form-control" />*@
+                <input  value="@Model.PoleId" class="form-control" readonly />
+                @*<label>@Model.PoleId</label>*@
+                <span asp-validation-for="PoleNo" class="text-danger"></span>
+            </div>
                 <div class="form-group">
                     <label asp-for="PreviousPoleNo" class="control-label"></label>
                     <input asp-for="PreviousPoleNo" class="form-control" />
@@ -187,20 +194,20 @@
                 </div>
 
                 @*<div class="form-group">
-            <label asp-for="SourceCableId" class="control-label"></label>
-            <select asp-for="SourceCableId" class="form-control" asp-items="ViewBag.SourceCableId">
-                <option value="">--Select--</option>
-            </select>
-            <span asp-validation-for="SourceCableId" class="text-danger"></span>
-        </div>
+                        <label asp-for="SourceCableId" class="control-label"></label>
+                        <select asp-for="SourceCableId" class="form-control" asp-items="ViewBag.SourceCableId">
+                            <option value="">--Select--</option>
+                        </select>
+                        <span asp-validation-for="SourceCableId" class="text-danger"></span>
+                    </div>
 
-        <div class="form-group">
-            <label asp-for="TargetCableId" class="control-label"></label>
-            <select asp-for="TargetCableId" class="form-control" asp-items="ViewBag.TargetCableId">
-                <option value="">--Select--</option>
-            </select>
-            <span asp-validation-for="TargetCableId" class="text-danger"></span>
-        </div>*@
+                    <div class="form-group">
+                        <label asp-for="TargetCableId" class="control-label"></label>
+                        <select asp-for="TargetCableId" class="form-control" asp-items="ViewBag.TargetCableId">
+                            <option value="">--Select--</option>
+                        </select>
+                        <span asp-validation-for="TargetCableId" class="text-danger"></span>
+                    </div>*@
                 <div class="form-group">
                     <label asp-for="TransformerExist" class="control-label"></label>
                     <input asp-for="TransformerExist" class="form-control" />
@@ -231,8 +238,8 @@
 </div>
 
 @*<div>
-    <a asp-action="Index">Back</a>
-</div>*@
+        <a asp-action="Index">Back</a>
+    </div>*@
 
 @section Scripts {
 
@@ -249,7 +256,7 @@
             formatDate: "Y-m-d",
             timepicker: false
         });
-        
+
 
     </script>
 }

@@ -1,8 +1,20 @@
 ﻿@*@model IEnumerable<Pdb014App.Models.PDB.TblPole>*@
+@using Pdb014App.Models.UserManage;
+@using Microsoft.AspNetCore.Identity
 
 @model ReflectionIT.Mvc.Paging.PagingList<Pdb014App.Models.PDB.TblPole>
 @using ReflectionIT.Mvc.Paging
 @addTagHelper *, ReflectionIT.Mvc.Paging
+
+@inject SignInManager<TblUserRegistrationDetail> SignInManager
+@inject UserManager<TblUserRegistrationDetail> UserManager
+@*@inject List<TblUserProfileDetail> Userprofile*@
+
+@{
+    //List<TblUserProfileDetail> Userprofile;
+    var user = await UserManager.GetUserAsync(User);
+    //var zoneCode = Userprofile.Where(i => i.Id == user.Id).Select(i=>i.UserProfileDetailToUserBpdbEmployee.ZoneCode).SingleOrDefault();
+}
 
 
 @{
@@ -244,11 +256,19 @@
                                         </td>*@
                                     <td>
                                         @*@Html.DisplayFor(modelItem => item.PoleId)*@
+                                        <div class="btn-group">
+                                            <a asp-action="Edit" asp-route-id="@item.PoleId" class="btn btn-info"  data-toggle="tooltip" data-placement="top" title="Edit Pole Information">
+                                                @Html.DisplayFor(modelItem => item.PoleId)
+                                                <span class="glyphicon glyphicon-edit"></span> Edit
+                                            </a>
+                                            @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
+                                            {
+                                                <a asp-action="Delete" asp-route-id="@item.PoleId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit Pole Information">
 
-                                        <a asp-action="Edit" asp-route-id="@item.PoleId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit Pole Information">
-                                            @Html.DisplayFor(modelItem => item.PoleId)
-                                            <span class="glyphicon glyphicon-edit"></span> Edit
-                                        </a>
+                                                    <span class="glyphicon glyphicon-edit"></span> Delete
+                                                </a>
+                                            }
+                                        </div>
 
                                     </td>
 
@@ -347,11 +367,11 @@
                                     </td>
 
                                     @*@if (User.IsInRole("System Administrator"))
-                                    {
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.StreetLight)
-                                        </td>
-                                    }*@
+                                        {
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.StreetLight)
+                                            </td>
+                                        }*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.StreetLight)
                                     </td>

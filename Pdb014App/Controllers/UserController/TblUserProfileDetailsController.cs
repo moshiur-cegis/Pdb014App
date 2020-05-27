@@ -30,11 +30,55 @@ namespace Pdb014App.Controllers.UserController
         public async Task<IActionResult> Index()
         {
             var userDbContext = _context.UserProfileDetail.Include(t => t.UserProfileDetailToUserBpdbEmployee).Include(t => t.UserProfileDetailToUserRegistrationDetail).Include(t => t.UserSecurityQuestion).Include(l => l.UserBpdbEmployeeUserBpdbDivision);
+
+
+            var user = _context.UserProfileDetail.Include(t => t.UserProfileDetailToUserBpdbEmployee).Include(t => t.UserProfileDetailToUserRegistrationDetail).Include(t => t.UserSecurityQuestion).Include(l => l.UserBpdbEmployeeUserBpdbDivision).ToList();
+            var substration = _contextPDB.TblSubstation.ToList();
+
+
+            //var a = user.Join(
+            //                     substration,
+            //                     comp => comp.SubstationId,
+            //                     sect => sect.SubstationId,
+            //                     (comp, sect) => new { User = comp, Substation = sect })
+
+            //                    .Select(c => new
+            //                     {
+            //                         UserId = c.User.UserId,
+            //                         //UserRegistrationId=c.User.Id,
+            //                         UserFullName = c.User.UserFullName,
+            //                         UserNID = c.User.UserNID,
+            //                         UserProfession = c.User.UserProfession,
+            //                         UserDesignation = c.User.UserDesignation,
+            //                         UserAddress = c.User.UserAddress,
+            //                         UserAlternateEmail = c.User.UserAlternateEmail,
+            //                         UserAlternateMobile = c.User.UserAlternateMobile,
+            //                         //UserSecurityQuestion=c.User.UserSecurityQuestion.UserSecurityQuestion,
+            //                         SecurityQuestionAnswer = c.User.SecurityQuestionAnswer,
+            //                         IsProfileSubmitted = c.User.IsProfileSubmitted,
+            //                         SignatureFileName = c.User.SignatureFileName,
+            //                         IsBpdbEmployee = c.User.IsBpdbEmployee,
+
+            //                         BpdbEmployeeLevel = c.User.BpdbEmployeeLevel,
+            //                         //BpdbDivision=c.User.UserBpdbEmployeeUserBpdbDivision.BpdbDivisionName,
+            //                         BpdbEmpDesignation = c.User.BpdbEmpDesignation,
+
+            //                         SubstationName = c.Substation.SubstationName,
+            //                         //SnDCodeName=c.Substation.SubstationToLookUpSnD.SnDName,
+            //                         CircleName = c.Substation.SubstationToLookUpSnD.CircleInfo.CircleName,
+            //                         ZoneName = c.Substation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName,
+            //                     });
+
+
+            //ViewBag.myList = a;
+            //return View();
+
+
             return View(await userDbContext.ToListAsync());
         }
 
         // GET: TblUserProfileDetails/Details/5
-        
+
         public async Task<IActionResult> Details(int? id)
         {
 
@@ -64,7 +108,7 @@ namespace Pdb014App.Controllers.UserController
             if (id == null)
             {
                 return NotFound();
-                
+
             }
 
             var tblUserProfileDetail = await _context.UserProfileDetail
@@ -75,16 +119,21 @@ namespace Pdb014App.Controllers.UserController
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (tblUserProfileDetail == null)
             {
-                return RedirectToAction("Create",new { id=id });
+                return RedirectToAction("Create", new { id = id });
 
                 //return Redirect(returnUrl + "TblUserProfileDetails/Create/" + userId);
                 //return NotFound();
             }
 
+            ViewBag.Zone = _contextPDB.LookUpZoneInfo.Where(i => i.ZoneCode == tblUserProfileDetail.ZoneCode).Select(i=>i.ZoneName).SingleOrDefault();
+            ViewBag.circle = _contextPDB.LookUpCircleInfo.Where(i => i.CircleCode == tblUserProfileDetail.CircleCode).Select(i=>i.CircleName).SingleOrDefault();
+            ViewBag.snd = _contextPDB.LookUpSnDInfo.Where(i => i.SnDCode == tblUserProfileDetail.SnDCode).Select(i=>i.SnDName).SingleOrDefault();
+            ViewBag.substation = _contextPDB.TblSubstation.Where(i => i.SubstationId == tblUserProfileDetail.SubstationId).Select(i=>i.SubstationName).SingleOrDefault();
+
             return View(tblUserProfileDetail);
         }
 
-       
+
 
 
 
@@ -116,10 +165,10 @@ namespace Pdb014App.Controllers.UserController
 
         //,BpdbDivisionId,BpdbEmpDesignation,ZoneCode,CircleCode,SnDCode,SubstationId
 
-    // POST: TblUserProfileDetails/Create
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-    // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
+        // POST: TblUserProfileDetails/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,Id,UserFullName,UserDateOfBirth,UserNID,IsBpdbEmployee,BpdbEmployeeId,UserProfession,UserDesignation,UserAddress,UserAlternateEmail,UserAlternateMobile,UserSecurityQuestionId,SecurityQuestionAnswer,IsProfileSubmitted,SignatureFileName,BpdbDivisionId,BpdbEmpDesignation,ZoneCode,CircleCode,SnDCode,SubstationId")] TblUserProfileDetail tblUserProfileDetail)
         {
@@ -142,13 +191,13 @@ namespace Pdb014App.Controllers.UserController
             else
             {
                 user.UserActivationStatusId = 2;
-               
+
                 //user.City = model.City;
 
                 var result = await _userManager.UpdateAsync(user);
             }
 
-                if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _context.Add(tblUserProfileDetail);
                 await _context.SaveChangesAsync();
@@ -181,7 +230,7 @@ namespace Pdb014App.Controllers.UserController
                 return NotFound();
             }
             ViewData["BpdbEmployeeId"] = new SelectList(_context.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId", tblUserProfileDetail.BpdbEmployeeId);
-            ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail.Where(i=>i.Id== tblUserProfileDetail.Id), "Id", "Id", tblUserProfileDetail.Id);
+            ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail.Where(i => i.Id == tblUserProfileDetail.Id), "Id", "Id", tblUserProfileDetail.Id);
             ViewData["UserSecurityQuestionId"] = new SelectList(_context.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion", tblUserProfileDetail.UserSecurityQuestionId);
             ViewData["BpdbDivisionId"] = new SelectList(_context.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
             ViewData["ZoneCode"] = new SelectList(_contextPDB.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");

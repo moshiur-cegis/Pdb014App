@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<Pdb014App.Models.UserManage.TblUserProfileDetail>
+
+@*@using Pdb014App.Models.UserManage.User
+@model IEnumerable<Pdb014App.Models.UserManage.User.UserDetailsViewModel>*@
 @{
     ViewData["Title"] = "Index";
 }
@@ -145,68 +148,68 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                            <tr>
-                                <td>
-                                    <div class="btn-group">
-                                        <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.UserId">Edit</a>
-                                        <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.UserId">Details</a>
-                                        <a asp-action="Delete" class="btn btn-primary" asp-route-id="@item.UserId">Delete</a>
-                                    </div>
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserProfileDetailToUserRegistrationDetail.Email)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserFullName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserDateOfBirth)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserNID)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IsBpdbEmployee)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserProfileDetailToUserBpdbEmployee.BpdbEmployeeId)
+                                <tr>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.UserId">Edit</a>
+                                            <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.UserId">Details</a>
+                                            <a asp-action="Delete" class="btn btn-primary" asp-route-id="@item.UserId">Delete</a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserProfileDetailToUserRegistrationDetail.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserFullName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserDateOfBirth)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserNID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IsBpdbEmployee)
+                                    </td>
+                                    @*<td>
+                                        @Html.DisplayFor(modelItem => item.Bp)
 
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserProfession)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserDesignation)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserAddress)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserAlternateEmail)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserAlternateMobile)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.UserSecurityQuestion.UserSecurityQuestion)
+                                    </td>*@
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserProfession)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserDesignation)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserAddress)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserAlternateEmail)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserAlternateMobile)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserSecurityQuestion.UserSecurityQuestion)
 
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.SecurityQuestionAnswer)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IsProfileSubmitted)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.SignatureFileName)
-                                </td>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SecurityQuestionAnswer)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IsProfileSubmitted)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SignatureFileName)
+                                    </td>
 
-                            </tr>
+                                </tr>
                             }
                         </tbody>
                     </table>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
 </div>

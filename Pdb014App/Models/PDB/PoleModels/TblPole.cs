@@ -14,7 +14,7 @@ namespace Pdb014App.Models.PDB
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         [Column("PoleId", Order = 0, TypeName = "varchar(50)")]
-        [StringLength(50, ErrorMessage = "The {0} must be {1} characters.")]
+        //[StringLength(50, ErrorMessage = "The {0} must be at least {15} and at max {15} characters long.", MinimumLength = 15)]
         [Display(Name = "Pole Id")]
         public string PoleId { get; set; }
 
