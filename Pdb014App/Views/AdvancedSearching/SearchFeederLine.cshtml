@@ -222,13 +222,16 @@
                                 @Html.SortableHeaderFor(model => model.FeederLineToRoute.RouteName)
                             </th>
 
-
                             <th>
                                 @Html.SortableHeaderFor(model => model.FeederLineUId)
                             </th>
                             <th>
                                 @Html.SortableHeaderFor(model => model.FeederLineType.FeederLineTypeName)
                             </th>
+                            <th>
+                                @Html.SortableHeaderFor(model => model.FeederConductorType.FeederConductorType)
+                            </th>
+
                             <th>
                                 @Html.SortableHeaderFor(model => model.FeederName)
                             </th>
@@ -264,72 +267,88 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    <a target="_blank" asp-controller="TblFeederLines" asp-action="Details" asp-route-id="@item.FeederLineId" asp-route-cai="@Model.RouteValue["cai"]" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Details">
-                                        @Html.DisplayFor(modelItem => item.FeederLineId)
-                                    </a>
-                                </td>
+                        <tr>
+                            <td class="text-center">
+                                <a target="_blank" asp-controller="TblFeederLines" asp-action="Details" asp-route-id="@item.FeederLineId" asp-route-cai="@Model.RouteValue["cai"]" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Details">
+                                    @Html.DisplayFor(modelItem => item.FeederLineId)
+                                </a>
+                                <br />
+                                <a target="_blank" asp-controller="MapViewer" asp-action="MapView" 
+                                   asp-route-zoneCode="@item.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode" 
+                                   asp-route-circleCode="@item.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode" 
+                                   asp-route-snDCode="@item.FeederLineToRoute.RouteToSubstation.SnDCode" 
+                                   asp-route-substationId="@item.FeederLineToRoute.SubstationId" 
+                                   asp-route-routeCode="@item.RouteCode" 
+                                   asp-route-feederLineId="@item.FeederLineId" 
+                                   asp-route-cai="map_01" 
+                                   class="text-success hover-dark" style="color: #15d !important;" data-toggle="tooltip" data-placement="top" title="View in Map.">
+                                    Map
+                                </a>
+                            </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteToSubstation.SubstationName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteToSubstation.SubstationType.SubstationTypeName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteName)
-                                </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteToSubstation.SubstationName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteToSubstation.SubstationType.SubstationTypeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederLineToRoute.RouteName)
+                            </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederLineUId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederLineType.FeederLineTypeName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NominalVoltage)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederLocation)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.FeederMeterNumber)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MeterCurrentRating)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MeterVoltageRating)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MaximumDemand)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.PeakDemand)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MaximumLoad)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.SanctionedLoad)
-                                </td>
-                            </tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederLineUId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederLineType.FeederLineTypeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederConductorType.FeederConductorType)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NominalVoltage)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederLocation)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederMeterNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MeterCurrentRating)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MeterVoltageRating)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MaximumDemand)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PeakDemand)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MaximumLoad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SanctionedLoad)
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

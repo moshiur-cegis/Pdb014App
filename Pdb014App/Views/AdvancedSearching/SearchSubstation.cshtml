@@ -241,9 +241,19 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>
+                                <td class="text-center">
                                     <a target="_blank" asp-controller="TblSubstations" asp-action="Details" asp-route-id="@item.SubstationId" asp-route-cai="@Model.RouteValue["cai"]" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Details">
                                         @Html.DisplayFor(modelItem => item.SubstationId)
+                                    </a>
+                                    <br />
+                                    <a target="_blank" asp-controller="MapViewer" asp-action="MapView" 
+                                       asp-route-zoneCode="@item.SubstationToLookUpSnD.CircleInfo.ZoneCode" 
+                                       asp-route-circleCode="@item.SubstationToLookUpSnD.CircleCode" 
+                                       asp-route-snDCode="@item.SnDCode" 
+                                       asp-route-substationId="@item.SubstationId" 
+                                       asp-route-cai="map_01" 
+                                       class="text-success hover-dark" style="color: #15d !important;" data-toggle="tooltip" data-placement="top" title="View in Map.">
+                                        Map
                                     </a>
                                 </td>
 

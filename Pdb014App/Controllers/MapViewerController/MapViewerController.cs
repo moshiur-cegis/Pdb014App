@@ -22,7 +22,7 @@ namespace Pdb014App.Controllers
         {
             _context = context;
         }
-                                
+        
         [HttpGet]
         public IActionResult MeasureDistance()
         {            
@@ -58,7 +58,7 @@ namespace Pdb014App.Controllers
             ViewData["ZoneList"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
             return View();
         }
-                
+        
         [HttpGet]
         public IActionResult MapViewDev()
         {
@@ -199,7 +199,7 @@ namespace Pdb014App.Controllers
 
             return View();
         }
-                
+        
         public JsonResult GetDefaultBasicInfo()
         {
             var basicInfo = _context.LookUpMapViewBaseMapDetail.Where(w => w.BaseMapActivationStatus == 1)

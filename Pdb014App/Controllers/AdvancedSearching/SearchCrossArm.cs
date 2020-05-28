@@ -66,7 +66,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(ca => ca.CrossArmToPole)
                 .Include(ca => ca.FittingsLookUpCondition)
                 .Include(ca => ca.LookUpTypeOfFittings)
-                .Include(ca => ca.CrossArmToPole.PoleToRoute)
+                .Include(ca => ca.CrossArmToPole.PoleToFeederLine)
                 .Include(ca => ca.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
                 .Include(ca => ca.CrossArmToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();

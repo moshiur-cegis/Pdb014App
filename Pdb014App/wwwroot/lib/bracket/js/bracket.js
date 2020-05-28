@@ -154,79 +154,7 @@ $(document).ready(function () {
         }
     });
     
-/*
-    // displaying time and date in right sidebar
-    var interval = setInterval(function () {
-        var momentNow = moment();
-        $('#brDate').html(momentNow.format('MMMM DD, YYYY') + ' ' + momentNow.format('dddd').substring(0, 3).toUpperCase());
-        $('#brTime').html(momentNow.format('hh:mm:ss A'));
-    }, 100);
-
-    // Datepicker
-    if ($().datepicker) {
-        $('.form-control-datepicker').datepicker()
-            .on("change", function (e) {
-                console.log("Date changed: ", e.target.value);
-            });
-    }
-   */ 
 
     // custom scrollbar style
     $('.overflow-y-auto').perfectScrollbar();
-/*
-    // jquery ui datepicker
-    $('.datepicker').datepicker();
-
-    // switch button
-    $('.switch-button').switchButton();
-
-    // peity charts
-    $('.peity-bar').peity('bar');
-
-    // highlight syntax highlighter
-    $('pre code').each(function (i, block) {
-        hljs.highlightBlock(block);
-    });
-
-    // Initialize tooltip
-    $('[data-toggle="tooltip"]').tooltip();
-
-    // Initialize popover
-    $('[data-popover-color="default"]').popover();
-    
-
-    // By default, Bootstrap doesn't auto close popover after appearing in the page
-    // resulting other popover overlap each other. Doing this will auto dismiss a popover
-    // when clicking anywhere outside of it
-    $(document).on('click', function (e) {
-        $('[data-toggle="popover"],[data-original-title]').each(function () {
-            //the 'is' for buttons that trigger popups
-            //the 'has' for icons within a button that triggers a popup
-            if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-                (($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false  // fix for BS 3.3.6
-            }
-
-        });
-    });
-
-
-    // Select2 Initialize
-    // Select2 without the search
-    if ($().select2) {
-        $('.select2').select2({
-            minimumResultsForSearch: Infinity
-        });
-
-        // Select2 by showing the search
-        $('.select2-show-search').select2({
-            minimumResultsForSearch: ''
-        });
-
-        // Select2 with tagging support
-        $('.select2-tag').select2({
-            tags: true,
-            tokenSeparators: [',', ' ']
-        });
-    }
-    */
 });
