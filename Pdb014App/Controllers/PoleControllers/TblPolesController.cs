@@ -37,7 +37,7 @@ namespace Pdb014App.Controllers.PoleControllers
         // GET: TblPoles1
 
         [Authorize(Roles = "System Administrator,Super User,Zone,Circle,SnD,Substation")]
-        public async Task<IActionResult> Index(string filter, int pageIndex = 1, string sortExpression = "PoleId")
+        public async Task<IActionResult> Index([FromQuery] string cai,string filter, int pageIndex = 1, string sortExpression = "PoleId")
         {
             //GetUserRoleData data = new GetUserRoleData(contextUser, UserManager);
             string  getSql = await GetQuery("TblPole", "PoleId");
@@ -105,7 +105,9 @@ namespace Pdb014App.Controllers.PoleControllers
            
             var model = await PagingList.CreateAsync(query, 10, pageIndex, sortExpression, "PoleId");
 
-            model.RouteValue = new RouteValueDictionary { { "filter", filter } };
+            model.RouteValue = new RouteValueDictionary { { "cai", cai }, { "filter", filter } };
+
+            //model.RouteValue = new RouteValueDictionary() { { "cai", cai } };
 
             return View(model);
         }
