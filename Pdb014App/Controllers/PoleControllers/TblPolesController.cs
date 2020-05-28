@@ -206,7 +206,7 @@ namespace Pdb014App.Controllers.PoleControllers
             ViewData["PhaseAId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
             ViewData["PhaseBId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
             ViewData["PhaseCId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
-            ViewData["PoleConditionId"] = new SelectList(_context.LookUpPoleCondition, "PoleConditionId", "PoleConditionId");
+            ViewData["PoleConditionId"] = new SelectList(_context.LookUpPoleCondition, "PoleConditionId", "Name");
             ViewData["FeederLineId"] = new SelectList(_context.TblFeederLine, "FeederLineId", "FeederName");
             ViewData["RouteCode"] = new SelectList(_context.LookUpRouteInfo, "RouteCode", "RouteName");
             ViewData["SourceCableId"] = new SelectList(_context.TblFeederLine, "FeederLineId", "FeederName");
@@ -262,7 +262,7 @@ namespace Pdb014App.Controllers.PoleControllers
 
             //tblPole.SurveyDate = DateTime.ParseExact(surveyDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-            tblPole.SurveyDate = Convert.ToDateTime(surveyDate) != null ? Convert.ToDateTime(surveyDate) : DateTime.Now;
+            //tblPole.SurveyDate = Convert.ToDateTime(surveyDate) != null ? Convert.ToDateTime(surveyDate) : DateTime.Now;
 
             //tblPole.WireLength = Convert.ToDouble(tblPole.WireLength);
             //tblPole.Latitude = Convert.ToDouble(tblPole.Latitude);
@@ -270,24 +270,53 @@ namespace Pdb014App.Controllers.PoleControllers
 
             if (ModelState.IsValid)
             {
-                _context.Add(tblPole);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    string UpdatePoleId = _context.TblPole.Where(i => i.PreviousPoleNo == tblPole.PreviousPoleNo).Select(i => i.PoleId).FirstOrDefault();
+                    _context.Add(tblPole);
+                    await _context.SaveChangesAsync();
+
+                    //Update Pole After Inserting New pole Between Existing Pole
+                    if (Convert.ToInt64(tblPole.PreviousPoleNo) != (Convert.ToInt64(tblPole.PoleId) - 1))
+                    {                        
+                        var findPoleInfo = await _context.TblPole.FindAsync(UpdatePoleId);
+                        findPoleInfo.PreviousPoleNo = tblPole.PoleId;
+                        _context.Update(findPoleInfo);
+                        await _context.SaveChangesAsync();
+                    }
+
+                    //await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    //if(IsPoleIdExist(tblPole.PoleId))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
+                }
             }
+
+            
+
             ViewData["LineTypeId"] = new SelectList(_context.LookUpLineType, "Code", "Name");
             ViewData["TypeOfWireId"] = new SelectList(_context.LookUpTypeOfWire, "Code", "Name");
             ViewData["PhaseAId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
             ViewData["PhaseBId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
             ViewData["PhaseCId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
-            ViewData["PoleConditionId"] = new SelectList(_context.LookUpPoleCondition, "PoleConditionId", "PoleConditionId");
+            ViewData["PoleConditionId"] = new SelectList(_context.LookUpPoleCondition, "PoleConditionId", "Name");
             ViewData["FeederLineId"] = new SelectList(_context.TblFeederLine, "FeederLineId", "FeederName");
             ViewData["RouteCode"] = new SelectList(_context.LookUpRouteInfo, "RouteCode", "RouteName");
             ViewData["SourceCableId"] = new SelectList(_context.TblFeederLine, "FeederLineId", "FeederName");
             ViewData["TargetCableId"] = new SelectList(_context.TblFeederLine, "FeederLineId", "FeederName");
             ViewData["PoleTypeId"] = new SelectList(_context.LookUpPoleType, "PoleTypeId", "Name");
             ViewData["WireConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name");
-            var poleIdList = _context.TblPole.AsNoTracking()
-           .Select(pi => new SelectListItem() { Text = pi.PoleId, Value = pi.PoleId }).ToList();
+            var poleIdList = _context.TblPole.AsNoTracking().Select(pi => new SelectListItem() { Text = pi.PoleId, Value = pi.PoleId }).ToList();
             ViewData["PreviousPoleId"] = poleIdList;
 
             //ViewData["PreviousPoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId");
@@ -305,6 +334,9 @@ namespace Pdb014App.Controllers.PoleControllers
             }
 
             var tblPole = await _context.TblPole.FindAsync(id);
+
+
+            var feederLineId = id.Substring(0,11);
             if (tblPole == null)
             {
                 return NotFound();
@@ -314,13 +346,14 @@ namespace Pdb014App.Controllers.PoleControllers
             ViewData["PhaseAId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
             ViewData["PhaseBId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
             ViewData["PhaseCId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
-            ViewData["PoleConditionId"] = new SelectList(_context.LookUpPoleCondition, "PoleConditionId", "PoleConditionId");
-            ViewData["FeederLineId"] = new SelectList(_context.TblFeederLine, "FeederLineId", "FeederName");
-            ViewData["RouteCode"] = new SelectList(_context.LookUpRouteInfo, "RouteCode", "RouteName");
+            ViewData["PoleConditionId"] = new SelectList(_context.LookUpPoleCondition, "PoleConditionId", "Name");
+            ViewData["FeederLineId"] = new SelectList(_context.TblFeederLine.Where(i=>i.FeederLineId==feederLineId), "FeederLineId", "FeederName");
+            ViewData["RouteCode"] = new SelectList(_context.LookUpRouteInfo.Where(i => i.RouteCode == feederLineId.Substring(0, 9)), "RouteCode", "RouteName");
             ViewData["SourceCableId"] = new SelectList(_context.TblFeederLine, "FeederLineId", "FeederName");
             ViewData["TargetCableId"] = new SelectList(_context.TblFeederLine, "FeederLineId", "FeederName");
             ViewData["PoleTypeId"] = new SelectList(_context.LookUpPoleType, "PoleTypeId", "Name");
             ViewData["WireConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name");
+            ViewData["PreviousPoleNo"] = new SelectList(_context.TblPole.Where(i=>i.PoleId.Substring(0,11).Contains(feederLineId)), "PoleId", "PoleId");
             return View(tblPole);
         }
 
@@ -331,11 +364,7 @@ namespace Pdb014App.Controllers.PoleControllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("PoleId,PoleUid,FeederLineUid,SurveyDate,RouteCode,FeederLineId,SurveyorName,PoleNo,PreviousPoleNo,Latitude,Longitude,PoleTypeId,PoleConditionId,LineTypeId,BackSpan,TypeOfWireId,NoOfWireHt,NoOfWireLt,WireLength,WireConditionId,MSJNo,SleeveNo,TwistNo,PhaseAId,PhaseBId,PhaseCId,Neutral,StreetLight,SourceCableId,TargetCableId,TransformerExist,CommonPole,Tap")] TblPole tblPole, string surveyDate)
         {
-
-            string dateFormat = surveyDate.ToString();
-
-            tblPole.SurveyDate = Convert.ToDateTime(dateFormat) != null ? Convert.ToDateTime(dateFormat) : DateTime.Now;
-
+            var feederLineId = id.Substring(0, 11);
 
 
             if (id != tblPole.PoleId)
@@ -349,9 +378,18 @@ namespace Pdb014App.Controllers.PoleControllers
                 try
                 {
 
-
+                    string UpdatePoleId = _context.TblPole.Where(i => i.PreviousPoleNo == tblPole.PreviousPoleNo).Select(i => i.PoleId).FirstOrDefault();
                     _context.Update(tblPole);
                     await _context.SaveChangesAsync();
+
+                    if (Convert.ToInt64(tblPole.PreviousPoleNo) != (Convert.ToInt64(tblPole.PoleId) - 1))
+                    {
+                        var findPoleInfo = await _context.TblPole.FindAsync(UpdatePoleId);
+                        findPoleInfo.PreviousPoleNo = tblPole.PoleId;
+                        _context.Update(findPoleInfo);
+                        await _context.SaveChangesAsync();
+                    }
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -373,13 +411,14 @@ namespace Pdb014App.Controllers.PoleControllers
             ViewData["PhaseAId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
             ViewData["PhaseBId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
             ViewData["PhaseCId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
-            ViewData["PoleConditionId"] = new SelectList(_context.LookUpPoleCondition, "PoleConditionId", "PoleConditionId");
-            ViewData["FeederLineId"] = new SelectList(_context.TblFeederLine, "FeederLineId", "FeederName");
-            ViewData["RouteCode"] = new SelectList(_context.LookUpRouteInfo, "RouteCode", "RouteName");
+            ViewData["PoleConditionId"] = new SelectList(_context.LookUpPoleCondition, "PoleConditionId", "Name");
+            ViewData["FeederLineId"] = new SelectList(_context.TblFeederLine.Where(i => i.FeederLineId == feederLineId), "FeederLineId", "FeederName");
+            ViewData["RouteCode"] = new SelectList(_context.LookUpRouteInfo.Where(i=>i.RouteCode==feederLineId.Substring(0,9)), "RouteCode", "RouteName");
             ViewData["SourceCableId"] = new SelectList(_context.TblFeederLine, "FeederLineId", "FeederName");
             ViewData["TargetCableId"] = new SelectList(_context.TblFeederLine, "FeederLineId", "FeederName");
             ViewData["PoleTypeId"] = new SelectList(_context.LookUpPoleType, "PoleTypeId", "Name");
             ViewData["WireConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name");
+            ViewData["PreviousPoleNo"] = new SelectList(_context.TblPole.Where(i => i.PoleId.Substring(0, 11).Contains(feederLineId)), "PoleId", "PoleId");
             return View(tblPole);
         }
 
@@ -427,6 +466,23 @@ namespace Pdb014App.Controllers.PoleControllers
         {
             return _context.TblPole.Any(e => e.PoleId == id);
         }
+
+
+        public JsonResult IsPoleIdExist(string id)
+        {
+            var validateName = _context.TblPole.FirstOrDefault
+                                (x => x.PoleId == id);
+            if (validateName != null)
+            {
+                return Json(false);
+            }
+            else
+            {
+                return Json(true);
+            }
+        }
+
+
         [HttpPost]
         public JsonResult GetCircleList(string zoneCode)
         {
@@ -482,19 +538,38 @@ namespace Pdb014App.Controllers.PoleControllers
         public JsonResult GetPoleList(string feederLineId)
         {
 
-            var poleNo = _context.TblPole
-                .Where(u => u.FeederLineId.Equals(feederLineId)).OrderBy(u => u.PoleId).Select(u => u.PoleId).LastOrDefault();
+            //var poleNo = _context.TblPole
+            //    .Where(u => u.FeederLineId.Equals(feederLineId)).OrderBy(u => u.PoleId).Select(u => u.PoleId).LastOrDefault();
 
-            var poleId = Convert.ToInt64(poleNo);
+            //var poleId = Convert.ToInt64(poleNo);
 
-            poleId = Convert.ToInt64(poleNo);
+            //poleId = Convert.ToInt64(poleNo);
 
-            if (poleNo == "")
-            {
-                poleId = Convert.ToInt64(feederLineId + "0000");
-            }
+            //if (poleNo == "")
+            //{
+            //    poleId = Convert.ToInt64(feederLineId + "0000");
+            //}
+            
 
-            return Json(poleId);
+            var poleList = _context.TblPole
+               .Where(u => u.FeederLineId.Equals(feederLineId)).OrderBy(u => u.PoleId)
+               .Select(u => new { u.PoleId, FeederName = u.PoleId })
+               .OrderByDescending(u => u.PoleId).ToList();
+
+            //if (poleList.Count > 0)
+            //{
+
+
+            //else
+            //{
+            //    var poleId = Convert.ToInt64(feederLineId + "0000");
+            //    return Json(poleId);
+            //}
+
+
+
+            return Json(new SelectList(poleList, "PoleId", "PoleId"));
+
         }
 
         //public async Task<IActionResult> JCP()

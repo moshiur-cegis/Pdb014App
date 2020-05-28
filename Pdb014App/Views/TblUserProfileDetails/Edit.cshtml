@@ -4,16 +4,19 @@
     ViewData["Title"] = "Edit";
 }
 
-@section Styles{ 
-<style>
+@section Styles{
 
-    .error {
-        /*background: #FEF1EC;*/
-        background: #FFC199; /*Change background color*/
-        border-left: 9px solid #FF6600; /*Change left border color*/
-        color: #2c3e50; /*Change text color*/
-    }
-</style>
+    <link href="~/css/datetimepicker.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-select.css" rel="stylesheet" />
+    <style>
+
+        .error {
+            /*background: #FEF1EC;*/
+            background: #FFC199; /*Change background color*/
+            border-left: 9px solid #FF6600; /*Change left border color*/
+            color: #2c3e50; /*Change text color*/
+        }
+    </style>
 }
 
 <div class="row">
@@ -38,11 +41,28 @@
                     <input asp-for="UserFullName" class="form-control" />
                     <span asp-validation-for="UserFullName" class="text-danger"></span>
                 </div>
+
+                @*<div class="form-group">
+                        <label asp-for="UserDateOfBirth" class="control-label"></label>
+                        <input asp-for="UserDateOfBirth" class="form-control" />
+                        <span asp-validation-for="UserDateOfBirth" class="text-danger"></span>
+                    </div>*@
+
+
                 <div class="form-group">
                     <label asp-for="UserDateOfBirth" class="control-label"></label>
-                    <input asp-for="UserDateOfBirth" class="form-control" />
+                    <input asp-for="UserDateOfBirth" type="hidden" id="UserDateOfBirth" />
+                    <div class="input-group">
+                        <input type="text" id="altUserDateOfBirth" value="@Model?.UserDateOfBirth?.ToString("dd-MM-yyyy")" class="form-control" placeholder="DD-MM-YYYY" />
+                        <span class="input-group-append" id="dpUserDateOfBirth">
+                            <span class="input-group-text fas fa-calendar-alt calendar-icon"></span>
+                        </span>
+                    </div>
                     <span asp-validation-for="UserDateOfBirth" class="text-danger"></span>
                 </div>
+
+
+
                 <div class="form-group">
                     <label asp-for="UserNID" class="control-label"></label>
                     <input asp-for="UserNID" class="form-control" />
@@ -104,7 +124,7 @@
                 <div class="form-group">
                     <label asp-for="BpdbEmployeeId" class="control-label"></label>
                     <select asp-for="BpdbEmployeeId" class="form-control" asp-items="ViewBag.BpdbEmployeeId">
-                        <option value="" selected="selected" >----- Select Employee Id -----</option>
+                        <option value="" selected="selected">----- Select Employee Id -----</option>
                     </select>
                     <span asp-validation-for="BpdbEmployeeId" class="text-danger"></span>
                 </div>
@@ -128,25 +148,25 @@
                     <span asp-validation-for="BpdbEmpDesignation" class="text-danger"></span>
                 </div>
                 @*<div class="form-group">
-            <label asp-for="ZoneCode" class="control-label"></label>
-            <input asp-for="ZoneCode" class="form-control" />
-            <span asp-validation-for="ZoneCode" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CircleCode" class="control-label"></label>
-            <input asp-for="CircleCode" class="form-control" />
-            <span asp-validation-for="CircleCode" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="SnDCode" class="control-label"></label>
-            <input asp-for="SnDCode" class="form-control" />
-            <span asp-validation-for="SnDCode" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="SubstationId" class="control-label"></label>
-            <input asp-for="SubstationId" class="form-control" />
-            <span asp-validation-for="SubstationId" class="text-danger"></span>
-        </div>*@
+                        <label asp-for="ZoneCode" class="control-label"></label>
+                        <input asp-for="ZoneCode" class="form-control" />
+                        <span asp-validation-for="ZoneCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CircleCode" class="control-label"></label>
+                        <input asp-for="CircleCode" class="form-control" />
+                        <span asp-validation-for="CircleCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SnDCode" class="control-label"></label>
+                        <input asp-for="SnDCode" class="form-control" />
+                        <span asp-validation-for="SnDCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SubstationId" class="control-label"></label>
+                        <input asp-for="SubstationId" class="form-control" />
+                        <span asp-validation-for="SubstationId" class="text-danger"></span>
+                    </div>*@
                 <div class="form-group">
                     <label class="control-label">Zone</label>
                     <select id="ZoneCode" name="ZoneCode" class="form-control" asp-items="ViewBag.ZoneCode" value="@ViewBag.ZoneCode">
@@ -184,14 +204,17 @@
 </div>
 
 @*<div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
+        <a asp-action="Index">Back to List</a>
+    </div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/lib/jquery/3.4.1/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    <script src="~/js/datetimepicker.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap-select.js"></script>
 
     <script>
         $("#myform").validate({
@@ -214,6 +237,40 @@
                 //}
             }
         });
+        $("#altUserDateOfBirth").datetimepicker({
+            lang: "en",
+            format: "d-m-Y",
+            formatTime: "",
+            formatDate: "d-m-Y",
+            timepicker: false,
+            onChangeDateTime: function (dp, $inp) {
+                $("#UserDateOfBirth").val($inp.val() ? format_date($inp.val()) : "");
+            }
+        });
+
+        $("#dpUserDateOfBirth").on("click", function () { $("#altUserDateOfBirth").datetimepicker("show"); });
+
+
+
+        function format_date(strDate) {
+            if (!strDate)
+                return "";
+            if (strDate.match(/\-/g).length < 2 &&
+                strDate.match(/\./g).length < 2 &&
+                strDate.match(/\//g).length < 2)
+                return "";
+            var regExpDate = new RegExp(/^(0?[1-9]|[12][0-9]|3[01])[\/\-\.](0?[1-9]|1[012])[\/\-\.](\d{4})$/);
+            var matchDates = regExpDate.exec(strDate);
+            if (matchDates == null)
+                return "";
+            var year = parseInt(matchDates[3], 10),
+                month = parseInt(matchDates[2], 10),
+                day = parseInt(matchDates[1], 10),
+                date = new Date(year, month - 1, day);
+            return (date.getFullYear() == year && date.getMonth() == (month - 1) && date.getDate() == day)
+                ? year + "/" + month + "/" + day
+                : "";
+        }
 
 
         $("#ZoneCode").on("change",
@@ -226,7 +283,7 @@
                     var $snd = $("#SnDCode");
                     $snd.empty();
 
-                    
+
                     var $substation = $("#SubstationId");
                     $substation.empty();
 

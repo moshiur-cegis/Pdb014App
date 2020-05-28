@@ -115,8 +115,10 @@
                 </tr>
                 <tr>
                     <th>  @Html.DisplayNameFor(model => model.UserDateOfBirth)</th>
-                    <td>  @Html.DisplayFor(model => model.UserDateOfBirth)</td>
+                    <td>  @*@Html.DisplayFor(model => model.UserDateOfBirth)*@ @Model?.UserDateOfBirth?.ToString("dd-MM-yyyy")</td>
                 </tr>
+
+                
                 <tr>
                     <th>  @Html.DisplayNameFor(model => model.UserNID)</th>
                     <td>  @Html.DisplayFor(model => model.UserNID)</td>
@@ -198,15 +200,17 @@
                 </tr>
                 <tr>
                     <th>  @Html.DisplayNameFor(model => model.SnDCode)</th>
-                    <td>  @*@Html.DisplayFor(model => model.SnDCode)*@
-                    @ViewBag.snd
+                    <td>
+                        @*@Html.DisplayFor(model => model.SnDCode)*@
+                        @ViewBag.snd
                     </td>
                 </tr>
                 <tr>
                     <th>  @Html.DisplayNameFor(model => model.SubstationId)</th>
-                    <td>  @*@Html.DisplayFor(model => model.SubstationId)*@
-                            @ViewBag.substation
-                    
+                    <td>
+                        @*@Html.DisplayFor(model => model.SubstationId)*@
+                        @ViewBag.substation
+
                     </td>
                 </tr>
             </table>

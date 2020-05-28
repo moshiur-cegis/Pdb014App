@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using Microsoft.AspNetCore.Mvc;
 using Pdb014App.Models.PDB.LookUpModels;
 
 
@@ -14,8 +14,10 @@ namespace Pdb014App.Models.PDB
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         [Column("PoleId", Order = 0, TypeName = "varchar(50)")]
-        //[StringLength(50, ErrorMessage = "The {0} must be at least {15} and at max {15} characters long.", MinimumLength = 15)]
-        [Display(Name = "Pole Id")]
+        [StringLength(15)]
+        //[Remote("IsPoleIdExist", "TblPoles", AdditionalFields = "PoleId",
+        //        ErrorMessage = "Pole Id already exists")]
+        //[Display(Name = "Pole Id")]
         public string PoleId { get; set; }
 
         [Column("PoleUid", Order = 1, TypeName = "varchar(50)")]
@@ -86,7 +88,8 @@ namespace Pdb014App.Models.PDB
         public string PoleNo { get; set; }
 
         [Column("PreviousPoleNo", Order = 9, TypeName = "nvarchar(50)")]
-        [StringLength(250)]
+        [StringLength(15, ErrorMessage = "Can't more then 15 digits.")]
+
         [Display(Name = "Previous Pole No.")]
         public string PreviousPoleNo { get; set; }
 
