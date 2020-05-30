@@ -1210,6 +1210,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                     .Include(fl => fl.Poles)
                     .AsNoTracking();
 
+
             object data;
 
             switch (regionLevel)

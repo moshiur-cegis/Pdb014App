@@ -114,6 +114,10 @@
                 <form method="get" class="form-inline">
                     <input name="filter" class="form-control" placeholder="filter"
                            value="@Model.RouteValue["Filter"]" />
+
+                    <input name="cai" class="form-control" placeholder="cai"
+                           value="@Model.RouteValue["cai"]" type="hidden"/>
+
                     <button type="submit" class="btn btn-info">
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                     </button>
@@ -257,13 +261,13 @@
                                     <td>
                                         @*@Html.DisplayFor(modelItem => item.PoleId)*@
                                         <div class="btn-group">
-                                            <a asp-action="Edit" asp-route-id="@item.PoleId" class="btn btn-info"  data-toggle="tooltip" data-placement="top" title="Edit Pole Information">
+                                            <a asp-action="Edit" asp-route-id="@item.PoleId" class="btn btn-info"  data-toggle="tooltip" data-placement="top" asp-route-cai="@Model.RouteValue["cai"]" title="Edit Pole Information">
                                                 @Html.DisplayFor(modelItem => item.PoleId)
                                                 <span class="glyphicon glyphicon-edit"></span> Edit
                                             </a>
                                             @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
                                             {
-                                                <a asp-action="Delete" asp-route-id="@item.PoleId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit Pole Information">
+                                                <a asp-action="Delete" asp-route-id="@item.PoleId" class="btn btn-info" data-toggle="tooltip" data-placement="top" asp-route-cai="@Model.RouteValue["cai"]" title="Edit Pole Information">
 
                                                     <span class="glyphicon glyphicon-edit"></span> Delete
                                                 </a>

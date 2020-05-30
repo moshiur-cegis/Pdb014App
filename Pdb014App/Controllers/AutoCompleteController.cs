@@ -51,7 +51,7 @@ namespace Pdb014App.Controllers
             //: $"SELECT ROW_NUMBER() OVER (ORDER BY {fieldName}) AS SlNo, CONVERT(VARCHAR(100), {fieldName}, 105) AS Term FROM {tableName}";
             //CONVERT(VARCHAR(100), {fieldName}, 105)
 
-            var optionList = await _dbContext.AutoCompleteInfo.FromSql(sql)
+            var optionList = await _dbContext.AutoCompleteInfo.FromSqlRaw(sql)
                 .Where(t => !string.IsNullOrEmpty(t.Term))
                 .GroupBy(t => t.Term)
                 .OrderBy(gt => gt.Key)
@@ -92,7 +92,7 @@ namespace Pdb014App.Controllers
                 ? $"SELECT TOP 1000 ROW_NUMBER() OVER (ORDER BY {fieldName}) AS SlNo, CONVERT(VARCHAR, {fieldName}, 105) AS Term FROM {tableName}"
                 : $"SELECT TOP 1000 ROW_NUMBER() OVER (ORDER BY CHARINDEX('{term}', {fieldName})) AS SlNo, CONVERT(VARCHAR, {fieldName}, 105) AS Term FROM {tableName} WHERE CONVERT(VARCHAR, {fieldName}, 105) LIKE '%{term}%'";
 
-            var optionList = await _dbContext.AutoCompleteInfo.FromSql(sql)
+            var optionList = await _dbContext.AutoCompleteInfo.FromSqlRaw(sql)
                 .Where(t => !string.IsNullOrEmpty(t.Term))
                 .OrderBy(t => t.SlNo)
                 .Select(t => t.Term)

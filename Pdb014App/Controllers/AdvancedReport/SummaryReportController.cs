@@ -239,14 +239,15 @@ namespace Pdb014App.Controllers.AdvancedReport
 
             var qryFeeder = searchExp1 != null
                 ? _context.TblFeederLine
+                    .Include(fl => fl.Poles)
                     .AsNoTracking()
                     .Where(searchExp1)
                 : _context.TblFeederLine
+                    .Include(fl => fl.Poles)
                     .AsNoTracking();
 
 
             var flInfo = qryFeeder
-                .Include(p => p.Poles)
                 .Select(f => new
                 {
                     RegionCode = f.FeederLineToRoute.SubstationId,
@@ -560,14 +561,15 @@ namespace Pdb014App.Controllers.AdvancedReport
 
             var qryFeeder = searchExp1 != null
                 ? _context.TblFeederLine
+                    .Include(fl => fl.Poles)
                     .AsNoTracking()
                     .Where(searchExp1)
                 : _context.TblFeederLine
+                    .Include(fl => fl.Poles)
                     .AsNoTracking();
 
 
             var flInfo = qryFeeder
-                .Include(p => p.Poles)
                 .Select(f => new
                 {
                     RegionCode = f.FeederLineToRoute.SubstationId,

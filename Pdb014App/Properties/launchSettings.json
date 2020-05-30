@@ -7,8 +7,8 @@
       "sslPort": 0
     },
     "iisExpress": {
-      "applicationUrl": "http://localhost:6163",
-      "sslPort": 44306
+      "applicationUrl": "http://localhost:62879",
+      "sslPort": 44311
     }
   },
   "profiles": {
@@ -17,7 +17,8 @@
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "ancmHostingModel": "OutOfProcess"
     },
     "Pdb014App": {
       "commandName": "Project",
