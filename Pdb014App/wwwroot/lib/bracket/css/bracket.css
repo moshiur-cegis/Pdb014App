@@ -106,9 +106,6 @@ html {
     width: device-width;
 }
 
-/*article, aside, dialog, figcaption, figure, footer, header, hgroup, main, nav, section {
-    display: block;
-}*/
 
 body {
     margin: 0;
@@ -140,20 +137,6 @@ p {
     margin-bottom: 0.5rem;
 }
 
-/*abbr[title],
-abbr[data-original-title] {
-    text-decoration: underline;
-    text-decoration: underline dotted;
-    cursor: help;
-    border-bottom: 0;
-}
-
-address {
-    margin-bottom: 1rem;
-    font-style: normal;
-    line-height: inherit;
-}*/
-
 ol,
 ul,
 dl {
@@ -176,13 +159,13 @@ dl {
         border-bottom: 1px solid #ddd;
         padding: .5rem;
         font-weight: 500;
-        background: #eaf8fa;
+        background: #edfcfd;
         word-wrap: break-word;
         word-break: break-word;
     }
 
         dl dt:nth-of-type(2n+1) {
-            background: #eafcfd;
+            background: #edf8fc;
         }
 
     dl dd {
@@ -191,27 +174,14 @@ dl {
         padding: .5rem;
         font-weight: 400;
         text-align: justify;
-        background: #f5fcfc;
+        background: #fcfefe;
     }
 
         dl dd:nth-of-type(2n+1) {
-            background: #fcfefe;
+            background: #f5fcfc;
         }
 
 
-/*
-blockquote {
-    margin: 0 0 1rem;
-}
-
-dfn {
-    font-style: italic;
-}
-
-b,
-strong {
-    font-weight: bolder;
-}*/
 small {
     font-size: 80%;
 }
@@ -258,23 +228,6 @@ a {
             outline: 0;
         }
 
-/*pre,
-code,
-kbd,
-samp {
-    font-family: monospace, monospace;
-    font-size: 1em;
-}
-
-pre {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    overflow: auto;
-}
-
-figure {
-    margin: 0 0 1rem;
-}*/
 
 img {
     vertical-align: middle;

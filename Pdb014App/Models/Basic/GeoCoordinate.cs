@@ -37,7 +37,7 @@ namespace Pdb014App.Models.Basic
             double dist = Math.Sin(baseRad) * Math.Sin(targetRad) +
                           Math.Cos(baseRad) * Math.Cos(targetRad) * Math.Cos(thetaRad);
 
-            return Math.Acos(dist) * 6378137.0;
+            return double.IsNaN(dist) || double.IsNaN(Math.Acos(dist)) ? 0.0 : Math.Acos(dist) * 6378137.0;
         }
 
         public static double DistanceTo(this GeoCoordinate startCrd, GeoCoordinate endCrd)
@@ -56,7 +56,7 @@ namespace Pdb014App.Models.Basic
             double dist = Math.Pow(Math.Sin(dLat / 2), 2) +
                        Math.Cos(sLat) * Math.Cos(eLat) * Math.Pow(Math.Sin(dLon / 2), 2);
 
-            return 6378137.0 * 2 * Math.Asin(Math.Sqrt(dist));
+            return double.IsNaN(dist) || double.IsNaN(Math.Asin(Math.Sqrt(dist))) ? 0.0 : 6378137.0 * 2 * Math.Asin(Math.Sqrt(dist));
         }
 
     }

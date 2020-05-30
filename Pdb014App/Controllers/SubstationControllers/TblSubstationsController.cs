@@ -47,7 +47,10 @@ namespace Pdb014App.Controllers.SubstationControllers
 
             //string getSql = await new TblPolesController().GetQuery("TblSubstation", "SubstationId");
 
-            var query = _context.TblSubstation.Include(st => st.SubstationType).Include(st => st.SubstationToLookUpSnD.CircleInfo.ZoneInfo).FromSql(getSql).AsQueryable();
+            var query = _context.TblSubstation.FromSqlRaw(getSql)
+                .Include(st => st.SubstationType)
+                .Include(st => st.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                .AsQueryable();
 
 
             if (query == null)

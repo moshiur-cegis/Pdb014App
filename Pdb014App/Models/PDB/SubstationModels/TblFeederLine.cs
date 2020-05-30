@@ -151,7 +151,7 @@ namespace Pdb014App.Models.PDB
                 var poleList = Poles
                     .Where(pi => pi.FeederLineId == FeederLineId)
                     .Select(pi => new {pi.PoleNo, pi.PreviousPoleNo, pi.Latitude, pi.Longitude})
-                    .OrderBy(pi => pi.PoleNo) //.OrderBy(pi => pi.FeederWiseSerialNo)
+                    .OrderBy(pi => pi.PoleNo)
                     .ToList();
 
                 if (poleList.Count < 2)
@@ -160,7 +160,7 @@ namespace Pdb014App.Models.PDB
                 for (int pc = 1; pc < poleList.Count; pc++)
                 {
                     var curPole = poleList[pc];
-                    if (string.IsNullOrEmpty(curPole.PreviousPoleNo) || curPole.PreviousPoleNo == "0" ||
+                    if (string.IsNullOrEmpty(curPole.PreviousPoleNo) || curPole.PreviousPoleNo.Equals("0") ||
                         curPole.Latitude == null || curPole.Longitude == null)
                         continue;
 

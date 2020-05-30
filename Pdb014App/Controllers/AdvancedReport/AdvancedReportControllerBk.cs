@@ -18,11 +18,11 @@ using Pdb014App.Models.Report;
 
 namespace Pdb014App.Controllers.AdvancedReport
 {
-    public partial class AdvancedReportController : Controller
+    public partial class AdvancedReportControllerBk : Controller
     {
         private readonly PdbDbContext _context;
 
-        public AdvancedReportController(PdbDbContext context)
+        public AdvancedReportControllerBk(PdbDbContext context)
         {
             _context = context;
         }
@@ -41,8 +41,8 @@ namespace Pdb014App.Controllers.AdvancedReport
             var fieldList = new List<ReportField>(13)
                 {
                     new ReportField {Name = "totalCount", Title = "Total Pole", Selected = true},
-                    //new ReportField {Name = "total33kCount", Title = "33KV Pole", Selected = true},
-                    //new ReportField {Name = "total11kCount", Title = "11KV Pole", Selected = true},
+                    //new ReportField {Name = "total33Count", Title = "33KV Pole", Selected = true},
+                    //new ReportField {Name = "total11Count", Title = "11KV Pole", Selected = true},
                     ////new ReportField {Name = "totalP4Count", Title = ".4KV Pole", Selected = true},
 
                     new ReportField {Name = "groupPoleType", Title = "Pole Type", Selected = true},
@@ -71,8 +71,8 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                     new ReportField {Name = "totalWireLength", Title = "Wire Length (Km)", Selected = true},
 
-                    //new ReportField {Name = "total33kFeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
-                    //new ReportField {Name = "total11kFeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
+                    //new ReportField {Name = "total33FeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
+                    //new ReportField {Name = "total11FeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
                 };
 
             ViewBag.ReportName = "Advanced";
@@ -109,8 +109,8 @@ namespace Pdb014App.Controllers.AdvancedReport
                 fieldList = new List<ReportField>(13)
                     {
                     new ReportField {Name = "totalCount", Title = "Total Pole", Selected = true},
-                    //new ReportField {Name = "total33kCount", Title = "33KV Pole", Selected = true},
-                    //new ReportField {Name = "total11kCount", Title = "11KV Pole", Selected = true},
+                    //new ReportField {Name = "total33Count", Title = "33KV Pole", Selected = true},
+                    //new ReportField {Name = "total11Count", Title = "11KV Pole", Selected = true},
                     ////new ReportField {Name = "totalP4Count", Title = ".4KV Pole", Selected = true},
 
                     new ReportField {Name = "groupPoleType", Title = "Pole Type", Selected = true},
@@ -139,8 +139,8 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                     new ReportField {Name = "totalWireLength", Title = "Wire Length (Km)", Selected = true},
 
-                    //new ReportField {Name = "total33kFeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
-                    //new ReportField {Name = "total11kFeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
+                    //new ReportField {Name = "total33FeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
+                    //new ReportField {Name = "total11FeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
                     };
             }
 
@@ -238,7 +238,7 @@ namespace Pdb014App.Controllers.AdvancedReport
     }
 
 
-    public partial class AdvancedReportController
+    public partial class AdvancedReportControllerBk
     {
         #region PoleAdvancedReport
 
@@ -366,8 +366,8 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                 new ReportField {Name = "totalWireLength", Title = "Wire Length (Km)", Selected = true},
 
-                //new ReportField {Name = "total33kFeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
-                //new ReportField {Name = "total11kFeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
+                //new ReportField {Name = "total33FeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
+                //new ReportField {Name = "total11FeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
                 };
             }
 
@@ -520,6 +520,7 @@ namespace Pdb014App.Controllers.AdvancedReport
 
 
             object data;
+            List<object> allData = new List<object>();
 
             switch (regionLevel)
             {
@@ -580,7 +581,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                             select new
                             {
                                 zoneCode = rg.regionCode,
-                                rg.zoneName,
+                                zoneName = rg.zoneName,
 
                                 pl?.totalCount,
 
@@ -601,46 +602,278 @@ namespace Pdb014App.Controllers.AdvancedReport
                             })
                             .ToList();
 
+                    return Json(data);
                     break;
-
 
                 case "circle":
 
-                    plInfo = qry
-                        .Select(pl => new
-                        {
-                            RegionCode = pl.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode,
-                            PoleType = pl.PoleTypeId != null ? pl.PoleTypeId.ToLower() : "",
-                            PoleCondition = pl.PoleTypeId != null ? pl.PoleConditionId.ToLower() : "",
-                            Neutral = pl.Neutral != null ? pl.Neutral.ToLower() : "",
-                            StreetLight = pl.StreetLight != null ? pl.StreetLight.ToLower() : "",
-                            WireLength = pl.WireLength ?? 0
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(pl => pl.RegionCode)
+                    var basicInfo = qry
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
                             regionCode = k.Key,
-
                             totalCount = k.Count(),
-
-                            totalSpcCount = k.Count(p => p.PoleType.Equals("1")),
-                            totalSpCount = k.Count(p => p.PoleType.Equals("2")),
-                            totalTowerCount = k.Count(p => p.PoleType.Equals("3")),
-                            totalOthersCount = k.Count(p => p.PoleType.Equals("4")),
-
-                            totalAgedCount = k.Count(p => p.PoleCondition.Equals("ag")),
-                            totalBadCount = k.Count(p => p.PoleCondition.Equals("b")),
-                            totalBrokenCount = k.Count(p => p.PoleCondition.Equals("br")),
-                            totalGoodCount = k.Count(p => p.PoleCondition.Equals("g")),
-
-                            totalNeutralPole = k.Count(p => p.Neutral.Equals("y")),
-                            totalStreetLight = k.Count(p => p.StreetLight.Equals("y")),
-
-                            totalWireLength = Math.Round(k.Sum(d => d.WireLength) / 1000, 0),
+                            totalWireLength = Math.Round(((double)k.Sum(d => d.WireLength ?? 0)) / 1000, 0),
                         })
                         .ToList();
+
+                    //totalSpcCount = k.Count(d => d.PoleTypeId == "1"),
+                    //totalSpCount = k.Count(d => d.PoleTypeId == "2"),
+                    //totalTowerCount = k.Count(d => d.PoleTypeId == "3"),
+                    //totalOthersCount = k.Count(d => d.PoleTypeId == "4"),
+                    var spcInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("1"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    var spInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("2"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    var towerInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("3"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    var otherInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("4"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    //totalAgedCount = k.Count(d => d.PoleConditionId == "Ag"),
+                    //totalBadCount = k.Count(d => d.PoleConditionId == "B"),
+                    //totalBrokenCount = k.Count(d => d.PoleConditionId == "Br"),
+                    //totalGoodCount = k.Count(d => d.PoleConditionId == "G"),
+                    var agedInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("AG"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    var badInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("B"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    var brokenInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("BR"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    var goodInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("G"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    //totalNeutralPole = k.Count(d => d.Neutral == "Y"),
+                    //totalStreetLight = k.Count(d => d.StreetLight == "Y"),
+                    var neutralInfo = qry
+                        .Where(p => p.Neutral.ToUpper().Equals("Y"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    var strLightInfo = qry
+                        .Where(p => p.StreetLight.ToUpper().Equals("Y"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    regions = _context.LookUpZoneInfo
+                        .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
+                        .Select(z => new
+                        {
+                            regionCode = z.ZoneCode,
+                            zoneName = z.ZoneName,
+                            circleName = "",
+                            sndName = "",
+                            substationName = "",
+                        })
+                        .ToList();
+
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            zoneCode = region.regionCode,
+                            zoneName = region.zoneName,
+
+                            totalCount = basicInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+
+                            totalSpcCount = spcInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalSpCount = spInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalTowerCount = towerInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalOthersCount = otherInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+
+                            totalAgedCount = agedInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalBadCount = badInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalBrokenCount = brokenInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalGoodCount = goodInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+
+                            totalNeutralPole = neutralInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalStreetLight = strLightInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+
+                            totalWireLength = basicInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalWireLength > 0)?.totalWireLength
+                        });
+                    }
+
+                    return Json(allData);
+
+                    break;
+
+
+                case "circleX":
+                    basicInfo = qry
+                       .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count(),
+                           totalWireLength = Math.Round(((double)k.Sum(d => d.WireLength ?? 0)) / 1000, 0),
+                       }).ToList();
+
+
+                    spcInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("1"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        }).ToList();
+
+                    spInfo = qry
+                       .Where(p => p.PoleTypeId.Equals("2"))
+                       .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       }).ToList();
+
+                    towerInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("3"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        }).ToList();
+
+                    otherInfo = qry
+                       .Where(p => p.PoleTypeId.Equals("4"))
+                       .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       }).ToList();
+
+
+                    agedInfo = qry
+                       .Where(p => p.PoleConditionId.ToUpper().Equals("AG"))
+                       .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       }).ToList();
+
+                    badInfo = qry
+                       .Where(p => p.PoleConditionId.ToUpper().Equals("B"))
+                       .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       }).ToList();
+
+                    brokenInfo = qry
+                       .Where(p => p.PoleConditionId.ToUpper().Equals("BR"))
+                       .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       }).ToList();
+
+                    goodInfo = qry
+                       .Where(p => p.PoleConditionId.ToUpper().Equals("G"))
+                       .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       }).ToList();
+
+
+                    neutralInfo = qry
+                       .Where(p => p.Neutral.ToUpper().Equals("Y"))
+                       .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       }).ToList();
+
+                    strLightInfo = qry
+                       .Where(p => p.StreetLight.ToUpper().Equals("Y"))
+                       .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       }).ToList();
 
 
                     regions = _context.LookUpCircleInfo
@@ -657,72 +890,145 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join pl in plInfo on rg.regionCode equals pl.regionCode into rpl
-                            from pl in rpl.DefaultIfEmpty()
-                            select new
-                            {
-                                circleCode = rg.regionCode,
-                                rg.zoneName,
-                                rg.circleName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            circleCode = region.regionCode,
+                            zoneName = region.zoneName,
+                            circleName = region.circleName,
 
-                                pl?.totalCount,
+                            totalCount = basicInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalSpcCount,
-                                pl?.totalSpCount,
-                                pl?.totalTowerCount,
-                                pl?.totalOthersCount,
+                            totalSpcCount = spcInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalSpCount = spInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalTowerCount = towerInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalOthersCount = otherInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalAgedCount,
-                                pl?.totalBadCount,
-                                pl?.totalBrokenCount,
-                                pl?.totalGoodCount,
+                            totalAgedCount = agedInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalBadCount = badInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalBrokenCount = brokenInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalGoodCount = goodInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalNeutralPole,
-                                pl?.totalStreetLight,
+                            totalNeutralPole = neutralInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalStreetLight = strLightInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalWireLength
-                            })
-                        .ToList();
+                            totalWireLength = basicInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalWireLength > 0)?.totalWireLength
+                        });
+                    }
 
                     break;
 
-
                 case "snd":
 
-                    plInfo = qry
-                        .Select(pl => new
-                        {
-                            RegionCode = pl.PoleToRoute.RouteToSubstation.SnDCode,
-                            PoleType = pl.PoleTypeId != null ? pl.PoleTypeId.ToLower() : "",
-                            PoleCondition = pl.PoleTypeId != null ? pl.PoleConditionId.ToLower() : "",
-                            Neutral = pl.Neutral != null ? pl.Neutral.ToLower() : "",
-                            StreetLight = pl.StreetLight != null ? pl.StreetLight.ToLower() : "",
-                            WireLength = pl.WireLength ?? 0
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(pl => pl.RegionCode)
+                    basicInfo = qry
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SnDCode)
                         .Select(k => new
                         {
                             regionCode = k.Key,
-
                             totalCount = k.Count(),
+                            totalWireLength = Math.Round(((double)k.Sum(d => d.WireLength ?? 0)) / 1000, 0),
+                        })
+                        .ToList();
 
-                            totalSpcCount = k.Count(p => p.PoleType.Equals("1")),
-                            totalSpCount = k.Count(p => p.PoleType.Equals("2")),
-                            totalTowerCount = k.Count(p => p.PoleType.Equals("3")),
-                            totalOthersCount = k.Count(p => p.PoleType.Equals("4")),
 
-                            totalAgedCount = k.Count(p => p.PoleCondition.Equals("ag")),
-                            totalBadCount = k.Count(p => p.PoleCondition.Equals("b")),
-                            totalBrokenCount = k.Count(p => p.PoleCondition.Equals("br")),
-                            totalGoodCount = k.Count(p => p.PoleCondition.Equals("g")),
+                    spcInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("1"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
 
-                            totalNeutralPole = k.Count(p => p.Neutral.Equals("y")),
-                            totalStreetLight = k.Count(p => p.StreetLight.Equals("y")),
+                    spInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("2"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
 
-                            totalWireLength = Math.Round(k.Sum(d => d.WireLength) / 1000, 0),
+                    towerInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("3"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    otherInfo = qry
+                       .Where(p => p.PoleTypeId.Equals("4"))
+                       .GroupBy(g => g.PoleToRoute.RouteToSubstation.SnDCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       }).ToList();
+
+
+                    agedInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("AG"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    badInfo = qry
+                       .Where(p => p.PoleConditionId.ToUpper().Equals("B"))
+                       .GroupBy(g => g.PoleToRoute.RouteToSubstation.SnDCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       }).ToList();
+
+                    brokenInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("BR"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    goodInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("G"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    neutralInfo = qry
+                        .Where(p => p.Neutral.ToUpper().Equals("Y"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    strLightInfo = qry
+                        .Where(p => p.StreetLight.ToUpper().Equals("Y"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
                         })
                         .ToList();
 
@@ -742,73 +1048,149 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join pl in plInfo on rg.regionCode equals pl.regionCode into rpl
-                            from pl in rpl.DefaultIfEmpty()
-                            select new
-                            {
-                                sndCode = rg.regionCode,
-                                rg.zoneName,
-                                rg.circleName,
-                                rg.sndName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            sndCode = region.regionCode,
+                            zoneName = region.zoneName,
+                            circleName = region.circleName,
+                            sndName = region.sndName,
 
-                                pl?.totalCount,
+                            totalCount = basicInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalSpcCount,
-                                pl?.totalSpCount,
-                                pl?.totalTowerCount,
-                                pl?.totalOthersCount,
+                            totalSpcCount = spcInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalSpCount = spInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalTowerCount = towerInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalOthersCount = otherInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalAgedCount,
-                                pl?.totalBadCount,
-                                pl?.totalBrokenCount,
-                                pl?.totalGoodCount,
+                            totalAgedCount = agedInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalBadCount = badInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalBrokenCount = brokenInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalGoodCount = goodInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalNeutralPole,
-                                pl?.totalStreetLight,
+                            totalNeutralPole = neutralInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalStreetLight = strLightInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalWireLength
-                            })
-                        .ToList();
+                            totalWireLength = basicInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalWireLength > 0)?.totalWireLength
+                        }
+                        );
+                    }
 
                     break;
 
-
                 case "substation":
 
-                    plInfo = qry
-                        .Select(pl => new
-                        {
-                            RegionCode = pl.PoleToRoute.SubstationId,
-                            PoleType = pl.PoleTypeId != null ? pl.PoleTypeId.ToLower() : "",
-                            PoleCondition = pl.PoleTypeId != null ? pl.PoleConditionId.ToLower() : "",
-                            Neutral = pl.Neutral != null ? pl.Neutral.ToLower() : "",
-                            StreetLight = pl.StreetLight != null ? pl.StreetLight.ToLower() : "",
-                            WireLength = pl.WireLength ?? 0
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(pl => pl.RegionCode)
+                    basicInfo = qry
+                        .GroupBy(g => g.PoleToRoute.SubstationId)
                         .Select(k => new
                         {
                             regionCode = k.Key,
-
                             totalCount = k.Count(),
+                            totalWireLength = Math.Round(((double)k.Sum(d => d.WireLength ?? 0)) / 1000, 0),
+                        })
+                        .ToList();
 
-                            totalSpcCount = k.Count(p => p.PoleType.Equals("1")),
-                            totalSpCount = k.Count(p => p.PoleType.Equals("2")),
-                            totalTowerCount = k.Count(p => p.PoleType.Equals("3")),
-                            totalOthersCount = k.Count(p => p.PoleType.Equals("4")),
 
-                            totalAgedCount = k.Count(p => p.PoleCondition.Equals("ag")),
-                            totalBadCount = k.Count(p => p.PoleCondition.Equals("b")),
-                            totalBrokenCount = k.Count(p => p.PoleCondition.Equals("br")),
-                            totalGoodCount = k.Count(p => p.PoleCondition.Equals("g")),
+                    spcInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("1"))
+                        .GroupBy(g => g.PoleToRoute.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
 
-                            totalNeutralPole = k.Count(p => p.Neutral.Equals("y")),
-                            totalStreetLight = k.Count(p => p.StreetLight.Equals("y")),
+                    spInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("2"))
+                        .GroupBy(g => g.PoleToRoute.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
 
-                            totalWireLength = Math.Round(k.Sum(d => d.WireLength) / 1000, 0),
+                    towerInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("3"))
+                        .GroupBy(g => g.PoleToRoute.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    otherInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("4"))
+                        .GroupBy(g => g.PoleToRoute.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    agedInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("AG"))
+                        .GroupBy(g => g.PoleToRoute.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    badInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("B"))
+                        .GroupBy(g => g.PoleToRoute.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    brokenInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("BR"))
+                        .GroupBy(g => g.PoleToRoute.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    goodInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("G"))
+                        .GroupBy(g => g.PoleToRoute.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    neutralInfo = qry
+                        .Where(p => p.Neutral.ToUpper().Equals("Y"))
+                        .GroupBy(g => g.PoleToRoute.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    strLightInfo = qry
+                        .Where(p => p.StreetLight.ToUpper().Equals("Y"))
+                        .GroupBy(g => g.PoleToRoute.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
                         })
                         .ToList();
 
@@ -830,74 +1212,149 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join pl in plInfo on rg.regionCode equals pl.regionCode into rpl
-                            from pl in rpl.DefaultIfEmpty()
-                            select new
-                            {
-                                substationCode = rg.regionCode,
-                                rg.zoneName,
-                                rg.circleName,
-                                rg.sndName,
-                                rg.substationName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            substationCode = region.regionCode,
+                            zoneName = region.zoneName,
+                            circleName = region.circleName,
+                            sndName = region.sndName,
+                            substationName = region.substationName,
 
-                                pl?.totalCount,
+                            totalCount = basicInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalSpcCount,
-                                pl?.totalSpCount,
-                                pl?.totalTowerCount,
-                                pl?.totalOthersCount,
+                            totalSpcCount = spcInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalSpCount = spInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalTowerCount = towerInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalOthersCount = otherInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalAgedCount,
-                                pl?.totalBadCount,
-                                pl?.totalBrokenCount,
-                                pl?.totalGoodCount,
+                            totalAgedCount = agedInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalBadCount = badInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalBrokenCount = brokenInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalGoodCount = goodInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalNeutralPole,
-                                pl?.totalStreetLight,
+                            totalNeutralPole = neutralInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalStreetLight = strLightInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalWireLength
-                            })
-                        .ToList();
+                            totalWireLength = basicInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalWireLength > 0)?.totalWireLength
+                        });
+                    }
 
                     break;
 
-
                 default:
 
-                    plInfo = qry
-                        .Select(pl => new
-                        {
-                            RegionCode = pl.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
-                            PoleType = pl.PoleTypeId != null ? pl.PoleTypeId.ToLower() : "",
-                            PoleCondition = pl.PoleTypeId != null ? pl.PoleConditionId.ToLower() : "",
-                            Neutral = pl.Neutral != null ? pl.Neutral.ToLower() : "",
-                            StreetLight = pl.StreetLight != null ? pl.StreetLight.ToLower() : "",
-                            WireLength = pl.WireLength ?? 0
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(pl => pl.RegionCode)
+                    basicInfo = qry
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
                             regionCode = k.Key,
-
                             totalCount = k.Count(),
+                            totalWireLength = Math.Round(((double)k.Sum(d => d.WireLength ?? 0)) / 1000, 0),
+                        })
+                        .ToList();
 
-                            totalSpcCount = k.Count(p => p.PoleType.Equals("1")),
-                            totalSpCount = k.Count(p => p.PoleType.Equals("2")),
-                            totalTowerCount = k.Count(p => p.PoleType.Equals("3")),
-                            totalOthersCount = k.Count(p => p.PoleType.Equals("4")),
 
-                            totalAgedCount = k.Count(p => p.PoleCondition.Equals("ag")),
-                            totalBadCount = k.Count(p => p.PoleCondition.Equals("b")),
-                            totalBrokenCount = k.Count(p => p.PoleCondition.Equals("br")),
-                            totalGoodCount = k.Count(p => p.PoleCondition.Equals("g")),
+                    spcInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("1"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
 
-                            totalNeutralPole = k.Count(p => p.Neutral.Equals("y")),
-                            totalStreetLight = k.Count(p => p.StreetLight.Equals("y")),
+                    spInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("2"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
 
-                            totalWireLength = Math.Round(k.Sum(d => d.WireLength) / 1000, 0),
+                    towerInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("3"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    otherInfo = qry
+                        .Where(p => p.PoleTypeId.Equals("4"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    agedInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("AG"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    badInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("B"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    brokenInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("BR"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    goodInfo = qry
+                        .Where(p => p.PoleConditionId.ToUpper().Equals("G"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    neutralInfo = qry
+                        .Where(p => p.Neutral.ToUpper().Equals("Y"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    strLightInfo = qry
+                        .Where(p => p.StreetLight.ToUpper().Equals("Y"))
+                        .GroupBy(g => g.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
                         })
                         .ToList();
 
@@ -914,37 +1371,36 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join pl in plInfo on rg.regionCode equals pl.regionCode into rpl
-                            from pl in rpl.DefaultIfEmpty()
-                            select new
-                            {
-                                zoneCode = rg.regionCode,
-                                rg.zoneName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            zoneCode = region.regionCode,
+                            zoneName = region.zoneName,
 
-                                pl?.totalCount,
+                            totalCount = basicInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalSpcCount,
-                                pl?.totalSpCount,
-                                pl?.totalTowerCount,
-                                pl?.totalOthersCount,
+                            totalSpcCount = spcInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalSpCount = spInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalTowerCount = towerInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalOthersCount = otherInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalAgedCount,
-                                pl?.totalBadCount,
-                                pl?.totalBrokenCount,
-                                pl?.totalGoodCount,
+                            totalAgedCount = agedInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalBadCount = badInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalBrokenCount = brokenInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalGoodCount = goodInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalNeutralPole,
-                                pl?.totalStreetLight,
+                            totalNeutralPole = neutralInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
+                            totalStreetLight = strLightInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalCount > 0)?.totalCount,
 
-                                pl?.totalWireLength
-                            })
-                        .ToList();
+                            totalWireLength = basicInfo.FirstOrDefault(pl => pl.regionCode == region.regionCode && pl.totalWireLength > 0)?.totalWireLength
+                        });
+                    }
 
                     break;
             }
 
-            return Json(data);
+            return Json(allData);
         }
 
         #endregion
@@ -965,13 +1421,13 @@ namespace Pdb014App.Controllers.AdvancedReport
             var fieldList = new List<ReportField>(13)
             {
                 new ReportField {Name = "totalCount", Title = "Total Feeder Line", Selected = true},
-                new ReportField {Name = "total33kCount", Title = "33KV Feeder Line", Selected = true},
-                new ReportField {Name = "total11kCount", Title = "11KV Feeder Line", Selected = true},
+                new ReportField {Name = "total33Count", Title = "33KV Feeder Line", Selected = true},
+                new ReportField {Name = "total11Count", Title = "11KV Feeder Line", Selected = true},
                 //new ReportField {Name = "totalP4Count", Title = ".4KV Feeder Line", Selected = true},
 
                 new ReportField {Name = "totalFeederLength", Title = "Feeder Length (Km)", Selected = true},
-                new ReportField {Name = "total33kFeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
-                new ReportField {Name = "total11kFeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
+                new ReportField {Name = "total33FeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
+                new ReportField {Name = "total11FeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
                 //new ReportField {Name = "totalP4FeederLength", Title = ".4KV Feeder Length (Km)", Selected = true},
 
                 //new ReportField {Name = "totalCurrentRating", Title = "Meter Current Rating", Selected = true},
@@ -1031,13 +1487,13 @@ namespace Pdb014App.Controllers.AdvancedReport
                 fieldList = new List<ReportField>(13)
                 {
                     new ReportField {Name = "totalCount", Title = "Total Feeder Line", Selected = true},
-                    new ReportField {Name = "total33kCount", Title = "33KV Feeder Line", Selected = true},
-                    new ReportField {Name = "total11kCount", Title = "11KV Feeder Line", Selected = true},
+                    new ReportField {Name = "total33Count", Title = "33KV Feeder Line", Selected = true},
+                    new ReportField {Name = "total11Count", Title = "11KV Feeder Line", Selected = true},
                     //new ReportField {Name = "totalP4Count", Title = ".4KV Feeder Line", Selected = true},
 
                     new ReportField {Name = "totalFeederLength", Title = "Feeder Length (Km)", Selected = true},
-                    new ReportField {Name = "total33kFeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
-                    new ReportField {Name = "total11kFeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
+                    new ReportField {Name = "total33FeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
+                    new ReportField {Name = "total11FeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
                     //new ReportField {Name = "totalP4FeederLength", Title = ".4KV Feeder Length (Km)", Selected = true},
 
                     //new ReportField {Name = "totalCurrentRating", Title = "Meter Current Rating", Selected = true},
@@ -1203,54 +1659,77 @@ namespace Pdb014App.Controllers.AdvancedReport
 
             var qry = searchExp != null
                 ? _context.TblFeederLine
-                    .Include(fl => fl.Poles)
                     .AsNoTracking()
                     .Where(searchExp)
                 : _context.TblFeederLine
-                    .Include(fl => fl.Poles)
                     .AsNoTracking();
 
 
-            object data;
+            //object data;
+            List<object> allData = new List<object>();
 
             switch (regionLevel)
             {
                 case "zone":
 
-                    var flInfo = qry
-                        .Select(f => new
-                        {
-                            RegionCode =
-                                f.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
-                            FeederType = f.FeederLineType.FeederLineTypeName,
-                            //FeederType = f.NominalVoltage.ToString(),
-                            FeederLength = f.FeederLength,
-                            MaximumDemand = f.MaximumDemand ?? 0,
-                            PeakDemand = f.PeakDemand ?? 0,
-                            MaximumLoad = f.MaximumLoad ?? 0,
-                            SanctionedLoad = f.SanctionedLoad ?? 0
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(f => f.RegionCode)
+                    var basicInfo = qry
+                        .GroupBy(g => g.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
                             regionCode = k.Key,
-
                             totalCount = k.Count(),
-                            total11kCount = k.Count(f => f.FeederType.Contains("11")),
-                            total33kCount = k.Count(f => f.FeederType.Contains("33")),
+                            //feederLength = 0.0,//Math.Round(k.Sum(d => d.FeederLength) / 1000, 0),
 
-                            totalFeederLength = Math.Round(k.Sum(f => f.FeederLength) / 1000, 0),
-                            total11kFeederLength =
-                                Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0),
-                            total33kFeederLength =
-                                Math.Round(k.Sum(f => f.FeederType.Contains("33") ? f.FeederLength : 0) / 1000, 0),
+                            totalMaxDemand = k.Sum(d => d.MaximumDemand),
+                            totalPeakDemand = k.Sum(d => d.PeakDemand),
+                            totalMaxLoad = k.Sum(d => d.MaximumLoad),
+                            totalSanctionedLoad = k.Sum(d => d.SanctionedLoad),
+                        })
+                        .ToList();
 
-                            totalMaxDemand = k.Sum(f => f.MaximumDemand),
-                            totalPeakDemand = k.Sum(f => f.PeakDemand),
-                            totalMaxLoad = k.Sum(f => f.MaximumLoad),
-                            totalSanctionedLoad = k.Sum(f => f.SanctionedLoad)
+                    //totalP4Count = k.Count(d => d.NominalVoltage == 0.4m),
+                    var fl11kInfo = qry
+                        //.Where(f => f.NominalVoltage == 11)
+                        .Where(f => f.FeederLineType.FeederLineTypeName.Contains("11"))
+                        .GroupBy(g => g.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    var fl33kInfo = qry
+                        //.Where(f => f.NominalVoltage == 11)
+                        .Where(f => f.FeederLineType.FeederLineTypeName.Contains("11"))
+                        .GroupBy(g => g.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    var flLengthInfo = qry
+                        .Include(p => p.Poles)
+                        .Select(f => new
+                        {
+                            RegionCode = f.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
+                            FeederType = f.FeederLineType.FeederLineTypeName,
+                            //FeederType = f.NominalVoltage.ToString(),
+                            FeederLength = f.FeederLength
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(s => s.RegionCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            feederLength = Math.Round(k.Sum(d => d.FeederLength) / 1000, 0),
+                            feeder11kLength = Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0),
+                            feeder33kLength = Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0)
+                            //feeder33kLength = Math.Round(k.Sum(d => d.NominalVoltage == 33 ? d.FeederLength : 0) / 1000, 0)
                         })
                         .ToList();
 
@@ -1267,68 +1746,91 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join fl in flInfo on rg.regionCode equals fl.regionCode into rfl
-                            from fl in rfl.DefaultIfEmpty()
-                            select new
-                            {
-                                zoneCode = rg.regionCode,
-                                rg.zoneName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            zoneCode = region.regionCode,
+                            zoneName = region.zoneName,
 
-                                fl?.totalCount,
-                                fl?.total11kCount,
-                                fl?.total33kCount,
+                            totalCount = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
 
-                                fl?.totalFeederLength,
-                                fl?.total11kFeederLength,
-                                fl?.total33kFeederLength,
+                            total11Count = fl11kInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
+                            total33Count = fl33kInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
 
-                                fl?.totalMaxDemand,
-                                fl?.totalPeakDemand,
-                                fl?.totalMaxLoad,
-                                fl?.totalSanctionedLoad
-                            })
-                        .ToList();
+                            totalFeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feederLength > 0)?.feederLength,
+                            total11FeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feeder11kLength > 0)?.feeder11kLength,
+                            total33FeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feeder33kLength > 0)?.feeder33kLength,
+
+                            totalMaxDemand = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalMaxDemand > 0)?.totalMaxDemand,
+                            totalPeakDemand = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalPeakDemand > 0)?.totalPeakDemand,
+                            totalMaxLoad = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalMaxLoad > 0)?.totalMaxLoad,
+                            totalSanctionedLoad = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalSanctionedLoad > 0)?.totalSanctionedLoad
+                        });
+                    }
 
                     break;
 
-
                 case "circle":
-                    
-                    flInfo = qry
-                        .Select(f => new
-                        {
-                            RegionCode =
-                                f.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode,
-                            FeederType = f.FeederLineType.FeederLineTypeName,
-                            //FeederType = f.NominalVoltage.ToString(),
-                            FeederLength = f.FeederLength,
-                            MaximumDemand = f.MaximumDemand ?? 0,
-                            PeakDemand = f.PeakDemand ?? 0,
-                            MaximumLoad = f.MaximumLoad ?? 0,
-                            SanctionedLoad = f.SanctionedLoad ?? 0
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(f => f.RegionCode)
+
+                    basicInfo = qry
+                        .GroupBy(g => g.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
                         .Select(k => new
                         {
                             regionCode = k.Key,
-
                             totalCount = k.Count(),
-                            total11kCount = k.Count(f => f.FeederType.Contains("11")),
-                            total33kCount = k.Count(f => f.FeederType.Contains("33")),
+                            //feederLength = 0.0,//Math.Round(k.Sum(d => d.FeederLength) / 1000, 0),
 
-                            totalFeederLength = Math.Round(k.Sum(f => f.FeederLength) / 1000, 0),
-                            total11kFeederLength =
-                                Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0),
-                            total33kFeederLength =
-                                Math.Round(k.Sum(f => f.FeederType.Contains("33") ? f.FeederLength : 0) / 1000, 0),
+                            totalMaxDemand = k.Sum(d => d.MaximumDemand),
+                            totalPeakDemand = k.Sum(d => d.PeakDemand),
+                            totalMaxLoad = k.Sum(d => d.MaximumLoad),
+                            totalSanctionedLoad = k.Sum(d => d.SanctionedLoad),
+                        })
+                        .ToList();
 
-                            totalMaxDemand = k.Sum(f => f.MaximumDemand),
-                            totalPeakDemand = k.Sum(f => f.PeakDemand),
-                            totalMaxLoad = k.Sum(f => f.MaximumLoad),
-                            totalSanctionedLoad = k.Sum(f => f.SanctionedLoad)
+                    //totalP4Count = k.Count(d => d.NominalVoltage == 0.4m),
+                    fl11kInfo = qry
+                        //.Where(f => f.NominalVoltage == 11)
+                        .Where(f => f.FeederLineType.FeederLineTypeName.Contains("11"))
+                        .GroupBy(g => g.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    fl33kInfo = qry
+                       //.Where(f => f.NominalVoltage == 11)
+                       .Where(f => f.FeederLineType.FeederLineTypeName.Contains("11"))
+                       .GroupBy(g => g.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       })
+                       .ToList();
+
+
+                    flLengthInfo = qry
+                        .Include(p => p.Poles)
+                        .Select(f => new
+                        {
+                            RegionCode = f.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode,
+                            FeederType = f.FeederLineType.FeederLineTypeName,
+                            //FeederType = f.NominalVoltage.ToString(),
+                            FeederLength = f.FeederLength
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(s => s.RegionCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            feederLength = Math.Round(k.Sum(d => d.FeederLength) / 1000, 0),
+                            feeder11kLength = Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0),
+                            feeder33kLength = Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0)
+                            //feeder33kLength = Math.Round(k.Sum(d => d.NominalVoltage == 33 ? d.FeederLength : 0) / 1000, 0)
                         })
                         .ToList();
 
@@ -1347,69 +1849,92 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join fl in flInfo on rg.regionCode equals fl.regionCode into rfl
-                            from fl in rfl.DefaultIfEmpty()
-                            select new
-                            {
-                                circleCode = rg.regionCode,
-                                rg.zoneName,
-                                rg.circleName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            circleCode = region.regionCode,
+                            zoneName = region.zoneName,
+                            circleName = region.circleName,
 
-                                fl?.totalCount,
-                                fl?.total11kCount,
-                                fl?.total33kCount,
+                            totalCount = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
 
-                                fl?.totalFeederLength,
-                                fl?.total11kFeederLength,
-                                fl?.total33kFeederLength,
+                            total11Count = fl11kInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
+                            total33Count = fl33kInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
 
-                                fl?.totalMaxDemand,
-                                fl?.totalPeakDemand,
-                                fl?.totalMaxLoad,
-                                fl?.totalSanctionedLoad
-                            })
-                        .ToList();
+                            totalFeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feederLength > 0)?.feederLength,
+                            total11FeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feeder11kLength > 0)?.feeder11kLength,
+                            total33FeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feeder33kLength > 0)?.feeder33kLength,
+
+                            totalMaxDemand = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalMaxDemand > 0)?.totalMaxDemand,
+                            totalPeakDemand = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalPeakDemand > 0)?.totalPeakDemand,
+                            totalMaxLoad = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalMaxLoad > 0)?.totalMaxLoad,
+                            totalSanctionedLoad = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalSanctionedLoad > 0)?.totalSanctionedLoad
+                        });
+                    }
 
                     break;
 
-
                 case "snd":
-                    
-                    flInfo = qry
-                        .Select(f => new
-                        {
-                            RegionCode =
-                                f.FeederLineToRoute.RouteToSubstation.SnDCode,
-                            FeederType = f.FeederLineType.FeederLineTypeName,
-                            //FeederType = f.NominalVoltage.ToString(),
-                            FeederLength = f.FeederLength,
-                            MaximumDemand = f.MaximumDemand ?? 0,
-                            PeakDemand = f.PeakDemand ?? 0,
-                            MaximumLoad = f.MaximumLoad ?? 0,
-                            SanctionedLoad = f.SanctionedLoad ?? 0
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(f => f.RegionCode)
+
+                    basicInfo = qry
+                        .GroupBy(g => g.FeederLineToRoute.RouteToSubstation.SnDCode)
                         .Select(k => new
                         {
                             regionCode = k.Key,
-
                             totalCount = k.Count(),
-                            total11kCount = k.Count(f => f.FeederType.Contains("11")),
-                            total33kCount = k.Count(f => f.FeederType.Contains("33")),
+                            //feederLength = 0.0,//Math.Round(k.Sum(d => d.FeederLength) / 1000, 0),
 
-                            totalFeederLength = Math.Round(k.Sum(f => f.FeederLength) / 1000, 0),
-                            total11kFeederLength =
-                                Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0),
-                            total33kFeederLength =
-                                Math.Round(k.Sum(f => f.FeederType.Contains("33") ? f.FeederLength : 0) / 1000, 0),
+                            totalMaxDemand = k.Sum(d => d.MaximumDemand),
+                            totalPeakDemand = k.Sum(d => d.PeakDemand),
+                            totalMaxLoad = k.Sum(d => d.MaximumLoad),
+                            totalSanctionedLoad = k.Sum(d => d.SanctionedLoad),
+                        })
+                        .ToList();
 
-                            totalMaxDemand = k.Sum(f => f.MaximumDemand),
-                            totalPeakDemand = k.Sum(f => f.PeakDemand),
-                            totalMaxLoad = k.Sum(f => f.MaximumLoad),
-                            totalSanctionedLoad = k.Sum(f => f.SanctionedLoad)
+                    //totalP4Count = k.Count(d => d.NominalVoltage == 0.4m),
+                    fl11kInfo = qry
+                        //.Where(f => f.NominalVoltage == 11)
+                        .Where(f => f.FeederLineType.FeederLineTypeName.Contains("11"))
+                        .GroupBy(g => g.FeederLineToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    fl33kInfo = qry
+                       //.Where(f => f.NominalVoltage == 11)
+                       .Where(f => f.FeederLineType.FeederLineTypeName.Contains("11"))
+                       .GroupBy(g => g.FeederLineToRoute.RouteToSubstation.SnDCode)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       })
+                       .ToList();
+
+
+                    flLengthInfo = qry
+                        .Include(p => p.Poles)
+                        .Select(f => new
+                        {
+                            RegionCode = f.FeederLineToRoute.RouteToSubstation.SnDCode,
+                            FeederType = f.FeederLineType.FeederLineTypeName,
+                            //FeederType = f.NominalVoltage.ToString(),
+                            FeederLength = f.FeederLength
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(s => s.RegionCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            feederLength = Math.Round(k.Sum(d => d.FeederLength) / 1000, 0),
+                            feeder11kLength = Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0),
+                            feeder33kLength = Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0)
+                            //feeder33kLength = Math.Round(k.Sum(d => d.NominalVoltage == 33 ? d.FeederLength : 0) / 1000, 0)
                         })
                         .ToList();
 
@@ -1429,70 +1954,93 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join fl in flInfo on rg.regionCode equals fl.regionCode into rfl
-                            from fl in rfl.DefaultIfEmpty()
-                            select new
-                            {
-                                sndCode = rg.regionCode,
-                                rg.zoneName,
-                                rg.circleName,
-                                rg.sndName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            sndCode = region.regionCode,
+                            zoneName = region.zoneName,
+                            circleName = region.circleName,
+                            sndName = region.sndName,
 
-                                fl?.totalCount,
-                                fl?.total11kCount,
-                                fl?.total33kCount,
+                            totalCount = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
 
-                                fl?.totalFeederLength,
-                                fl?.total11kFeederLength,
-                                fl?.total33kFeederLength,
+                            total11Count = fl11kInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
+                            total33Count = fl33kInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
 
-                                fl?.totalMaxDemand,
-                                fl?.totalPeakDemand,
-                                fl?.totalMaxLoad,
-                                fl?.totalSanctionedLoad
-                            })
-                        .ToList();
+                            totalFeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feederLength > 0)?.feederLength,
+                            total11FeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feeder11kLength > 0)?.feeder11kLength,
+                            total33FeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feeder33kLength > 0)?.feeder33kLength,
+
+                            totalMaxDemand = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalMaxDemand > 0)?.totalMaxDemand,
+                            totalPeakDemand = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalPeakDemand > 0)?.totalPeakDemand,
+                            totalMaxLoad = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalMaxLoad > 0)?.totalMaxLoad,
+                            totalSanctionedLoad = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalSanctionedLoad > 0)?.totalSanctionedLoad
+                        });
+                    }
 
                     break;
 
-
                 case "substation":
 
-                    flInfo = qry
-                        .Select(f => new
-                        {
-                            RegionCode =
-                                f.FeederLineToRoute.SubstationId,
-                            FeederType = f.FeederLineType.FeederLineTypeName,
-                            //FeederType = f.NominalVoltage.ToString(),
-                            FeederLength = f.FeederLength,
-                            MaximumDemand = f.MaximumDemand ?? 0,
-                            PeakDemand = f.PeakDemand ?? 0,
-                            MaximumLoad = f.MaximumLoad ?? 0,
-                            SanctionedLoad = f.SanctionedLoad ?? 0
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(f => f.RegionCode)
+                    basicInfo = qry
+                        .GroupBy(g => g.FeederLineToRoute.SubstationId)
                         .Select(k => new
                         {
                             regionCode = k.Key,
-
                             totalCount = k.Count(),
-                            total11kCount = k.Count(f => f.FeederType.Contains("11")),
-                            total33kCount = k.Count(f => f.FeederType.Contains("33")),
+                            //feederLength = 0.0,//Math.Round(k.Sum(d => d.FeederLength) / 1000, 0),
 
-                            totalFeederLength = Math.Round(k.Sum(f => f.FeederLength) / 1000, 0),
-                            total11kFeederLength =
-                                Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0),
-                            total33kFeederLength =
-                                Math.Round(k.Sum(f => f.FeederType.Contains("33") ? f.FeederLength : 0) / 1000, 0),
+                            totalMaxDemand = k.Sum(d => d.MaximumDemand),
+                            totalPeakDemand = k.Sum(d => d.PeakDemand),
+                            totalMaxLoad = k.Sum(d => d.MaximumLoad),
+                            totalSanctionedLoad = k.Sum(d => d.SanctionedLoad),
+                        })
+                        .ToList();
 
-                            totalMaxDemand = k.Sum(f => f.MaximumDemand),
-                            totalPeakDemand = k.Sum(f => f.PeakDemand),
-                            totalMaxLoad = k.Sum(f => f.MaximumLoad),
-                            totalSanctionedLoad = k.Sum(f => f.SanctionedLoad)
+                    //totalP4Count = k.Count(d => d.NominalVoltage == 0.4m),
+                    fl11kInfo = qry
+                        //.Where(f => f.NominalVoltage == 11)
+                        .Where(f => f.FeederLineType.FeederLineTypeName.Contains("11"))
+                        .GroupBy(g => g.FeederLineToRoute.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    fl33kInfo = qry
+                       //.Where(f => f.NominalVoltage == 11)
+                       .Where(f => f.FeederLineType.FeederLineTypeName.Contains("11"))
+                       .GroupBy(g => g.FeederLineToRoute.SubstationId)
+                       .Select(k => new
+                       {
+                           regionCode = k.Key,
+                           totalCount = k.Count()
+                       })
+                       .ToList();
+
+
+                    flLengthInfo = qry
+                        .Include(p => p.Poles)
+                        .Select(f => new
+                        {
+                            RegionCode = f.FeederLineToRoute.SubstationId,
+                            FeederType = f.FeederLineType.FeederLineTypeName,
+                            //FeederType = f.NominalVoltage.ToString(),
+                            FeederLength = f.FeederLength
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(s => s.RegionCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            feederLength = Math.Round(k.Sum(d => d.FeederLength) / 1000, 0),
+                            feeder11kLength = Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0),
+                            feeder33kLength = Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0)
+                            //feeder33kLength = Math.Round(k.Sum(d => d.NominalVoltage == 33 ? d.FeederLength : 0) / 1000, 0)
                         })
                         .ToList();
 
@@ -1514,71 +2062,94 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join fl in flInfo on rg.regionCode equals fl.regionCode into rfl
-                            from fl in rfl.DefaultIfEmpty()
-                            select new
-                            {
-                                substationCode = rg.regionCode,
-                                rg.zoneName,
-                                rg.circleName,
-                                rg.sndName,
-                                rg.substationName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            substationCode = region.regionCode,
+                            zoneName = region.zoneName,
+                            circleName = region.circleName,
+                            sndName = region.sndName,
+                            substationName = region.substationName,
 
-                                fl?.totalCount,
-                                fl?.total11kCount,
-                                fl?.total33kCount,
+                            totalCount = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
 
-                                fl?.totalFeederLength,
-                                fl?.total11kFeederLength,
-                                fl?.total33kFeederLength,
+                            total11Count = fl11kInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
+                            total33Count = fl33kInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
 
-                                fl?.totalMaxDemand,
-                                fl?.totalPeakDemand,
-                                fl?.totalMaxLoad,
-                                fl?.totalSanctionedLoad
-                            })
-                        .ToList();
+                            totalFeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feederLength > 0)?.feederLength,
+                            total11FeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feeder11kLength > 0)?.feeder11kLength,
+                            total33FeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feeder33kLength > 0)?.feeder33kLength,
+
+                            totalMaxDemand = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalMaxDemand > 0)?.totalMaxDemand,
+                            totalPeakDemand = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalPeakDemand > 0)?.totalPeakDemand,
+                            totalMaxLoad = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalMaxLoad > 0)?.totalMaxLoad,
+                            totalSanctionedLoad = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalSanctionedLoad > 0)?.totalSanctionedLoad
+                        });
+                    }
 
                     break;
 
-
                 default:
 
-                    flInfo = qry
-                        .Select(f => new
-                        {
-                            RegionCode =
-                                f.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
-                            FeederType = f.FeederLineType.FeederLineTypeName,
-                            //FeederType = f.NominalVoltage.ToString(),
-                            FeederLength = f.FeederLength,
-                            MaximumDemand = f.MaximumDemand ?? 0,
-                            PeakDemand = f.PeakDemand ?? 0,
-                            MaximumLoad = f.MaximumLoad ?? 0,
-                            SanctionedLoad = f.SanctionedLoad ?? 0
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(f => f.RegionCode)
+                    basicInfo = qry
+                        .GroupBy(g => g.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
                             regionCode = k.Key,
-
                             totalCount = k.Count(),
-                            total11kCount = k.Count(f => f.FeederType.Contains("11")),
-                            total33kCount = k.Count(f => f.FeederType.Contains("33")),
+                            //feederLength = 0.0,//Math.Round(k.Sum(d => d.FeederLength) / 1000, 0),
 
-                            totalFeederLength = Math.Round(k.Sum(f => f.FeederLength) / 1000, 0),
-                            total11kFeederLength =
-                                Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0),
-                            total33kFeederLength =
-                                Math.Round(k.Sum(f => f.FeederType.Contains("33") ? f.FeederLength : 0) / 1000, 0),
+                            totalMaxDemand = k.Sum(d => d.MaximumDemand),
+                            totalPeakDemand = k.Sum(d => d.PeakDemand),
+                            totalMaxLoad = k.Sum(d => d.MaximumLoad),
+                            totalSanctionedLoad = k.Sum(d => d.SanctionedLoad),
+                        })
+                        .ToList();
 
-                            totalMaxDemand = k.Sum(f => f.MaximumDemand),
-                            totalPeakDemand = k.Sum(f => f.PeakDemand),
-                            totalMaxLoad = k.Sum(f => f.MaximumLoad),
-                            totalSanctionedLoad = k.Sum(f => f.SanctionedLoad)
+                    //totalP4Count = k.Count(d => d.NominalVoltage == 0.4m),
+                    fl11kInfo = qry
+                        //.Where(f => f.NominalVoltage == 11)
+                        .Where(f => f.FeederLineType.FeederLineTypeName.Contains("11"))
+                        .GroupBy(g => g.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    fl33kInfo = qry
+                        //.Where(f => f.NominalVoltage == 11)
+                        .Where(f => f.FeederLineType.FeederLineTypeName.Contains("11"))
+                        .GroupBy(g => g.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    flLengthInfo = qry
+                        .Include(p => p.Poles)
+                        .Select(f => new
+                        {
+                            RegionCode = f.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
+                            FeederType = f.FeederLineType.FeederLineTypeName,
+                            //FeederType = f.NominalVoltage.ToString(),
+                            FeederLength = f.FeederLength
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(s => s.RegionCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            feederLength = Math.Round(k.Sum(d => d.FeederLength) / 1000, 0),
+                            feeder11kLength = Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0),
+                            feeder33kLength = Math.Round(k.Sum(f => f.FeederType.Contains("11") ? f.FeederLength : 0) / 1000, 0)
+                            //feeder33kLength = Math.Round(k.Sum(d => d.NominalVoltage == 33 ? d.FeederLength : 0) / 1000, 0)
                         })
                         .ToList();
 
@@ -1595,33 +2166,33 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join fl in flInfo on rg.regionCode equals fl.regionCode into rfl
-                            from fl in rfl.DefaultIfEmpty()
-                            select new
-                            {
-                                zoneCode = rg.regionCode,
-                                rg.zoneName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            zoneCode = region.regionCode,
+                            zoneName = region.zoneName,
 
-                                fl?.totalCount,
-                                fl?.total11kCount,
-                                fl?.total33kCount,
+                            totalCount = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
 
-                                fl?.totalFeederLength,
-                                fl?.total11kFeederLength,
-                                fl?.total33kFeederLength,
+                            total11Count = fl11kInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
+                            total33Count = fl33kInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalCount > 0)?.totalCount,
 
-                                fl?.totalMaxDemand,
-                                fl?.totalPeakDemand,
-                                fl?.totalMaxLoad,
-                                fl?.totalSanctionedLoad
-                            })
-                        .ToList();
+                            totalFeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feederLength > 0)?.feederLength,
+                            total11FeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feeder11kLength > 0)?.feeder11kLength,
+                            total33FeederLength = flLengthInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.feeder33kLength > 0)?.feeder33kLength,
 
+                            totalMaxDemand = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalMaxDemand > 0)?.totalMaxDemand,
+                            totalPeakDemand = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalPeakDemand > 0)?.totalPeakDemand,
+                            totalMaxLoad = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalMaxLoad > 0)?.totalMaxLoad,
+                            totalSanctionedLoad = basicInfo.FirstOrDefault(fl => fl.regionCode == region.regionCode && fl.totalSanctionedLoad > 0)?.totalSanctionedLoad
+                        });
+                    }
                     break;
             }
 
-            return Json(data);
+            return Json(allData);
+            //return Json(data);
         }
 
         #endregion
@@ -1643,8 +2214,8 @@ namespace Pdb014App.Controllers.AdvancedReport
             var fieldList = new List<ReportField>(8)
             {
                 new ReportField {Name = "totalCount", Title = "Total Substation", Selected = true},
-                new ReportField {Name = "total11kCount", Title = "33/11 kV Substation", Selected = true},
-                new ReportField {Name = "total33kCount", Title = "132/33 kV Substation", Selected = true},
+                new ReportField {Name = "total11Count", Title = "33/11 kV Substation", Selected = true},
+                new ReportField {Name = "total33Count", Title = "132/33 kV Substation", Selected = true},
                 new ReportField {Name = "totalCapacity", Title = "Capacity (MVA)", Selected = true},
                 new ReportField {Name = "totalDemand", Title = "Demand (Max) (MW)", Selected = true},
                 new ReportField {Name = "totalPeakLoad", Title = "Peak Load (MW)", Selected = true},
@@ -1690,8 +2261,8 @@ namespace Pdb014App.Controllers.AdvancedReport
                 fieldList = new List<ReportField>(5)
                 {
                     new ReportField {Name = "totalCount", Title = "Total Substation", Selected = true},
-                    new ReportField {Name = "total11kCount", Title = "33/11 kV Substation", Selected = true},
-                    new ReportField {Name = "total33kCount", Title = "132/33 kV Substation", Selected = true},
+                    new ReportField {Name = "total11Count", Title = "33/11 kV Substation", Selected = true},
+                    new ReportField {Name = "total33Count", Title = "132/33 kV Substation", Selected = true},
                     new ReportField {Name = "totalCapacity", Title = "Capacity (MVA)", Selected = true},
                     new ReportField {Name = "totalDemand", Title = "Demand (Max) (MW)", Selected = true},
                     new ReportField {Name = "totalPeakLoad", Title = "Peak Load (MW)", Selected = true},
@@ -1852,21 +2423,51 @@ namespace Pdb014App.Controllers.AdvancedReport
                 return Json(null);
 
 
-            object data;
+            List<object> allData = new List<object>();
 
             switch (regionLevel)
             {
                 case "zone":
 
-                    var ssInfo = qry
+                    var basicInfo = qry
+                        .GroupBy(g => g.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count(),
+                            totalDemand = k.Sum(d => d.MaximumDemand),
+                            totalPeakLoad = k.Sum(d => d.PeakLoad),
+                            maxPeakLoad = k.Max(d => d.PeakLoad),
+                            minPeakLoad = k.Min(d => d.PeakLoad)
+                        })
+                        .ToList();
+
+                    var st11kInfo = qry
+                        .Where(s => s.SubstationType.SubstationTypeName.Contains("/11"))
+                        .GroupBy(g => g.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    var st33kInfo = qry
+                        .Where(s => s.SubstationType.SubstationTypeName.Contains("/33"))
+                        .GroupBy(g => g.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    var capacityInfo = qry
                         .Select(s => new
                         {
                             RegionCode = s.SubstationToLookUpSnD.CircleInfo.ZoneCode,
-                            SubstationType = s.SubstationType.SubstationTypeName,
                             CapacityMin = s.TotalCapacity.Min,
-                            CapacityMax = s.TotalCapacity.Max,
-                            MaximumDemand = s.MaximumDemand ?? 0,
-                            PeakLoad = s.PeakLoad ?? 0
+                            CapacityMax = s.TotalCapacity.Max
                         })
                         .ToList()
                         .AsQueryable()
@@ -1874,18 +2475,8 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(k => new
                         {
                             regionCode = k.Key,
-                            totalCount = k.Count(),
-
-                            total11kCount = k.Count(s => s.SubstationType.Contains("/11")),
-                            total33kCount = k.Count(s => s.SubstationType.Contains("/33")),
-
-                            totalCapacity = k.Sum(s => s.CapacityMin).ToString("0.##") + "/" +
-                                            k.Sum(s => s.CapacityMax).ToString("0.##"),
-
-                            totalDemand = k.Sum(s => s.MaximumDemand),
-                            totalPeakLoad = k.Sum(s => s.PeakLoad),
-                            maxPeakLoad = k.Max(s => s.PeakLoad),
-                            minPeakLoad = k.Min(s => s.PeakLoad),
+                            totalCapacity = k.Sum(c => c.CapacityMin).ToString("0.##") + "/" +
+                                            k.Sum(c => c.CapacityMax).ToString("0.##")
                         })
                         .ToList();
 
@@ -1902,41 +2493,69 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join ss in ssInfo on rg.regionCode equals ss.regionCode into rss
-                            from ss in rss.DefaultIfEmpty()
-                            select new
-                            {
-                                zoneCode = rg.regionCode,
-                                rg.zoneName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            zoneCode = region.regionCode,
+                            zoneName = region.zoneName,
 
-                                ss?.totalCount,
-                                ss?.total11kCount,
-                                ss?.total33kCount,
+                            totalCount = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
 
-                                ss?.totalCapacity,
+                            total11Count = st11kInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
+                            total33Count = st33kInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
 
-                                ss?.totalDemand,
-                                ss?.totalPeakLoad,
-                                ss?.maxPeakLoad,
-                                ss?.minPeakLoad
-                            })
-                        .ToList();
+                            totalCapacity = capacityInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode)?.totalCapacity,
+                            totalDemand = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalDemand > 0)?.totalDemand,
+                            totalPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalPeakLoad > 0)?.totalPeakLoad,
+                            maxPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.maxPeakLoad > 0)?.maxPeakLoad,
+                            minPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.minPeakLoad > 0)?.minPeakLoad
+                        });
+                    }
 
                     break;
 
                 case "circle":
 
+                    basicInfo = qry
+                        .GroupBy(g => g.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count(),
+                            totalDemand = k.Sum(d => d.MaximumDemand),
+                            totalPeakLoad = k.Sum(d => d.PeakLoad),
+                            maxPeakLoad = k.Max(d => d.PeakLoad),
+                            minPeakLoad = k.Min(d => d.PeakLoad)
+                        })
+                        .ToList();
 
-                    ssInfo = qry
+                    st11kInfo = qry
+                        .Where(s => s.SubstationType.SubstationTypeName.Contains("/11"))
+                        .GroupBy(g => g.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    st33kInfo = qry
+                        .Where(s => s.SubstationType.SubstationTypeName.Contains("/33"))
+                        .GroupBy(g => g.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    capacityInfo = qry
                         .Select(s => new
                         {
                             RegionCode = s.SubstationToLookUpSnD.CircleCode,
-                            SubstationType = s.SubstationType.SubstationTypeName,
                             CapacityMin = s.TotalCapacity.Min,
-                            CapacityMax = s.TotalCapacity.Max,
-                            MaximumDemand = s.MaximumDemand ?? 0,
-                            PeakLoad = s.PeakLoad ?? 0
+                            CapacityMax = s.TotalCapacity.Max
                         })
                         .ToList()
                         .AsQueryable()
@@ -1944,18 +2563,8 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(k => new
                         {
                             regionCode = k.Key,
-                            totalCount = k.Count(),
-
-                            total11kCount = k.Count(s => s.SubstationType.Contains("/11")),
-                            total33kCount = k.Count(s => s.SubstationType.Contains("/33")),
-
-                            totalCapacity = k.Sum(s => s.CapacityMin).ToString("0.##") + "/" +
-                                            k.Sum(s => s.CapacityMax).ToString("0.##"),
-
-                            totalDemand = k.Sum(s => s.MaximumDemand),
-                            totalPeakLoad = k.Sum(s => s.PeakLoad),
-                            maxPeakLoad = k.Max(s => s.PeakLoad),
-                            minPeakLoad = k.Min(s => s.PeakLoad),
+                            totalCapacity = k.Sum(c => c.CapacityMin).ToString("0.##") + "/" +
+                                            k.Sum(c => c.CapacityMax).ToString("0.##")
                         })
                         .ToList();
 
@@ -1974,42 +2583,70 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join ss in ssInfo on rg.regionCode equals ss.regionCode into rss
-                            from ss in rss.DefaultIfEmpty()
-                            select new
-                            {
-                                circleCode = rg.regionCode,
-                                rg.zoneName,
-                                rg.circleName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            circleCode = region.regionCode,
+                            zoneName = region.zoneName,
+                            circleName = region.circleName,
 
-                                ss?.totalCount,
-                                ss?.total11kCount,
-                                ss?.total33kCount,
+                            totalCount = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
 
-                                ss?.totalCapacity,
+                            total11Count = st11kInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
+                            total33Count = st33kInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
 
-                                ss?.totalDemand,
-                                ss?.totalPeakLoad,
-                                ss?.maxPeakLoad,
-                                ss?.minPeakLoad
-                            })
-                        .ToList();
+                            totalCapacity = capacityInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode)?.totalCapacity,
+                            totalDemand = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalDemand > 0)?.totalDemand,
+                            totalPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalPeakLoad > 0)?.totalPeakLoad,
+                            maxPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.maxPeakLoad > 0)?.maxPeakLoad,
+                            minPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.minPeakLoad > 0)?.minPeakLoad
+                        });
+                    }
 
                     break;
 
-
                 case "snd":
 
-                    ssInfo = qry
+                    basicInfo = qry
+                        .GroupBy(g => g.SnDCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count(),
+                            totalDemand = k.Sum(d => d.MaximumDemand),
+                            totalPeakLoad = k.Sum(d => d.PeakLoad),
+                            maxPeakLoad = k.Max(d => d.PeakLoad),
+                            minPeakLoad = k.Min(d => d.PeakLoad)
+                        })
+                        .ToList();
+
+                    st11kInfo = qry
+                        .Where(s => s.SubstationType.SubstationTypeName.Contains("/11"))
+                        .GroupBy(g => g.SnDCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    st33kInfo = qry
+                        .Where(s => s.SubstationType.SubstationTypeName.Contains("/33"))
+                        .GroupBy(g => g.SnDCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    capacityInfo = qry
                         .Select(s => new
                         {
                             RegionCode = s.SnDCode,
-                            SubstationType = s.SubstationType.SubstationTypeName,
                             CapacityMin = s.TotalCapacity.Min,
-                            CapacityMax = s.TotalCapacity.Max,
-                            MaximumDemand = s.MaximumDemand ?? 0,
-                            PeakLoad = s.PeakLoad ?? 0
+                            CapacityMax = s.TotalCapacity.Max
                         })
                         .ToList()
                         .AsQueryable()
@@ -2017,18 +2654,8 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(k => new
                         {
                             regionCode = k.Key,
-                            totalCount = k.Count(),
-
-                            total11kCount = k.Count(s => s.SubstationType.Contains("/11")),
-                            total33kCount = k.Count(s => s.SubstationType.Contains("/33")),
-
-                            totalCapacity = k.Sum(s => s.CapacityMin).ToString("0.##") + "/" +
-                                            k.Sum(s => s.CapacityMax).ToString("0.##"),
-
-                            totalDemand = k.Sum(s => s.MaximumDemand),
-                            totalPeakLoad = k.Sum(s => s.PeakLoad),
-                            maxPeakLoad = k.Max(s => s.PeakLoad),
-                            minPeakLoad = k.Min(s => s.PeakLoad),
+                            totalCapacity = k.Sum(c => c.CapacityMin).ToString("0.##") + "/" +
+                                            k.Sum(c => c.CapacityMax).ToString("0.##")
                         })
                         .ToList();
 
@@ -2048,43 +2675,71 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join ss in ssInfo on rg.regionCode equals ss.regionCode into rss
-                            from ss in rss.DefaultIfEmpty()
-                            select new
-                            {
-                                sndCode = rg.regionCode,
-                                rg.zoneName,
-                                rg.circleName,
-                                rg.sndName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            sndCode = region.regionCode,
+                            zoneName = region.zoneName,
+                            circleName = region.circleName,
+                            sndName = region.sndName,
 
-                                ss?.totalCount,
-                                ss?.total11kCount,
-                                ss?.total33kCount,
+                            totalCount = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
 
-                                ss?.totalCapacity,
+                            total11Count = st11kInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
+                            total33Count = st33kInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
 
-                                ss?.totalDemand,
-                                ss?.totalPeakLoad,
-                                ss?.maxPeakLoad,
-                                ss?.minPeakLoad
-                            })
-                        .ToList();
+                            totalCapacity = capacityInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode)?.totalCapacity,
+                            totalDemand = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalDemand > 0)?.totalDemand,
+                            totalPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalPeakLoad > 0)?.totalPeakLoad,
+                            maxPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.maxPeakLoad > 0)?.maxPeakLoad,
+                            minPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.minPeakLoad > 0)?.minPeakLoad
+                        });
+                    }
 
                     break;
 
-
                 case "substation":
 
-                    ssInfo = qry
+                    basicInfo = qry
+                        .GroupBy(g => g.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count(),
+                            totalDemand = k.Sum(d => d.MaximumDemand),
+                            totalPeakLoad = k.Sum(d => d.PeakLoad),
+                            maxPeakLoad = k.Max(d => d.PeakLoad),
+                            minPeakLoad = k.Min(d => d.PeakLoad)
+                        })
+                        .ToList();
+
+                    st11kInfo = qry
+                        .Where(s => s.SubstationType.SubstationTypeName.Contains("/11"))
+                        .GroupBy(g => g.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    st33kInfo = qry
+                        .Where(s => s.SubstationType.SubstationTypeName.Contains("/33"))
+                        .GroupBy(g => g.SubstationId)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    capacityInfo = qry
                         .Select(s => new
                         {
                             RegionCode = s.SubstationId,
-                            SubstationType = s.SubstationType.SubstationTypeName,
                             CapacityMin = s.TotalCapacity.Min,
-                            CapacityMax = s.TotalCapacity.Max,
-                            MaximumDemand = s.MaximumDemand ?? 0,
-                            PeakLoad = s.PeakLoad ?? 0
+                            CapacityMax = s.TotalCapacity.Max
                         })
                         .ToList()
                         .AsQueryable()
@@ -2092,18 +2747,8 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(k => new
                         {
                             regionCode = k.Key,
-                            totalCount = k.Count(),
-
-                            total11kCount = k.Count(s => s.SubstationType.Contains("/11")),
-                            total33kCount = k.Count(s => s.SubstationType.Contains("/33")),
-
-                            totalCapacity = k.Sum(s => s.CapacityMin).ToString("0.##") + "/" +
-                                            k.Sum(s => s.CapacityMax).ToString("0.##"),
-
-                            totalDemand = k.Sum(s => s.MaximumDemand),
-                            totalPeakLoad = k.Sum(s => s.PeakLoad),
-                            maxPeakLoad = k.Max(s => s.PeakLoad),
-                            minPeakLoad = k.Min(s => s.PeakLoad),
+                            totalCapacity = k.Sum(c => c.CapacityMin).ToString("0.##") + "/" +
+                                            k.Sum(c => c.CapacityMax).ToString("0.##")
                         })
                         .ToList();
 
@@ -2125,43 +2770,72 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join ss in ssInfo on rg.regionCode equals ss.regionCode into rss
-                            from ss in rss.DefaultIfEmpty()
-                            select new
-                            {
-                                substationCode = rg.regionCode,
-                                rg.zoneName,
-                                rg.circleName,
-                                rg.sndName,
-                                rg.substationName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            substationCode = region.regionCode,
+                            zoneName = region.zoneName,
+                            circleName = region.circleName,
+                            sndName = region.sndName,
+                            substationName = region.substationName,
 
-                                ss?.totalCount,
-                                ss?.total11kCount,
-                                ss?.total33kCount,
+                            totalCount = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
 
-                                ss?.totalCapacity,
+                            total11Count = st11kInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
+                            total33Count = st33kInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
 
-                                ss?.totalDemand,
-                                ss?.totalPeakLoad,
-                                ss?.maxPeakLoad,
-                                ss?.minPeakLoad
-                            })
-                        .ToList();
+                            totalCapacity = capacityInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode)?.totalCapacity,
+                            totalDemand = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalDemand > 0)?.totalDemand,
+                            totalPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalPeakLoad > 0)?.totalPeakLoad,
+                            maxPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.maxPeakLoad > 0)?.maxPeakLoad,
+                            minPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.minPeakLoad > 0)?.minPeakLoad
+                        });
+                    }
 
                     break;
 
                 default:
 
-                    ssInfo = qry
+                    basicInfo = qry
+                        .GroupBy(g => g.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count(),
+                            totalDemand = k.Sum(d => d.MaximumDemand),
+                            totalPeakLoad = k.Sum(d => d.PeakLoad),
+                            maxPeakLoad = k.Max(d => d.PeakLoad),
+                            minPeakLoad = k.Min(d => d.PeakLoad)
+                        })
+                        .ToList();
+
+                    st11kInfo = qry
+                        .Where(s => s.SubstationType.SubstationTypeName.Contains("/11"))
+                        .GroupBy(g => g.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    st33kInfo = qry
+                        .Where(s => s.SubstationType.SubstationTypeName.Contains("/33"))
+                        .GroupBy(g => g.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            regionCode = k.Key,
+                            totalCount = k.Count()
+                        })
+                        .ToList();
+
+                    capacityInfo = qry
                         .Select(s => new
                         {
                             RegionCode = s.SubstationToLookUpSnD.CircleInfo.ZoneCode,
-                            SubstationType = s.SubstationType.SubstationTypeName,
                             CapacityMin = s.TotalCapacity.Min,
-                            CapacityMax = s.TotalCapacity.Max,
-                            MaximumDemand = s.MaximumDemand ?? 0,
-                            PeakLoad = s.PeakLoad ?? 0
+                            CapacityMax = s.TotalCapacity.Max
                         })
                         .ToList()
                         .AsQueryable()
@@ -2169,18 +2843,8 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(k => new
                         {
                             regionCode = k.Key,
-                            totalCount = k.Count(),
-
-                            total11kCount = k.Count(s => s.SubstationType.Contains("/11")),
-                            total33kCount = k.Count(s => s.SubstationType.Contains("/33")),
-
-                            totalCapacity = k.Sum(s => s.CapacityMin).ToString("0.##") + "/" +
-                                            k.Sum(s => s.CapacityMax).ToString("0.##"),
-
-                            totalDemand = k.Sum(s => s.MaximumDemand),
-                            totalPeakLoad = k.Sum(s => s.PeakLoad),
-                            maxPeakLoad = k.Max(s => s.PeakLoad),
-                            minPeakLoad = k.Min(s => s.PeakLoad),
+                            totalCapacity = k.Sum(c => c.CapacityMin).ToString("0.##") + "/" +
+                                            k.Sum(c => c.CapacityMax).ToString("0.##")
                         })
                         .ToList();
 
@@ -2197,32 +2861,31 @@ namespace Pdb014App.Controllers.AdvancedReport
                         })
                         .ToList();
 
-                    data = (from rg in regions
-                            join ss in ssInfo on rg.regionCode equals ss.regionCode into rss
-                            from ss in rss.DefaultIfEmpty()
-                            select new
-                            {
-                                zoneCode = rg.regionCode,
-                                rg.zoneName,
+                    foreach (var region in regions)
+                    {
+                        allData.Add(new
+                        {
+                            zoneCode = region.regionCode,
+                            zoneName = region.zoneName,
 
-                                ss?.totalCount,
-                                ss?.total11kCount,
-                                ss?.total33kCount,
+                            totalCount = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
 
-                                ss?.totalCapacity,
+                            total11Count = st11kInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
+                            total33Count = st33kInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalCount > 0)?.totalCount,
 
-                                ss?.totalDemand,
-                                ss?.totalPeakLoad,
-                                ss?.maxPeakLoad,
-                                ss?.minPeakLoad
-                            })
-                        .ToList();
+                            totalCapacity = capacityInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode)?.totalCapacity,
+                            totalDemand = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalDemand > 0)?.totalDemand,
+                            totalPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.totalPeakLoad > 0)?.totalPeakLoad,
+                            maxPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.maxPeakLoad > 0)?.maxPeakLoad,
+                            minPeakLoad = basicInfo.FirstOrDefault(ss => ss.regionCode == region.regionCode && ss.minPeakLoad > 0)?.minPeakLoad
+                        });
+                    }
 
                     break;
             }
 
 
-            return Json(data);
+            return Json(allData);
         }
 
         #endregion
@@ -2244,8 +2907,8 @@ namespace Pdb014App.Controllers.AdvancedReport
             var fieldList = new List<ReportField>(16)
             {
                 new ReportField {Name = "totalCount", Title = "Total DT", Selected = true},
-                //new ReportField {Name = "total33kCount", Title = "33KV DT", Selected = true},
-                //new ReportField {Name = "total11kCount", Title = "11KV DT", Selected = true},
+                //new ReportField {Name = "total33Count", Title = "33KV DT", Selected = true},
+                //new ReportField {Name = "total11Count", Title = "11KV DT", Selected = true},
                 ////new ReportField {Name = "totalP4Count", Title = ".4KV DT", Selected = true},
                 
                 new ReportField {Name = "groupIC", Title = "Installed Condition", Selected = true},
@@ -2311,8 +2974,8 @@ namespace Pdb014App.Controllers.AdvancedReport
                 fieldList = new List<ReportField>(16)
                 {
                     new ReportField {Name = "totalCount", Title = "Total DT", Selected = true},
-                    //new ReportField {Name = "total33kCount", Title = "33KV DT", Selected = true},
-                    //new ReportField {Name = "total11kCount", Title = "11KV DT", Selected = true},
+                    //new ReportField {Name = "total33Count", Title = "33KV DT", Selected = true},
+                    //new ReportField {Name = "total11Count", Title = "11KV DT", Selected = true},
                     ////new ReportField {Name = "totalP4Count", Title = ".4KV DT", Selected = true},
                     
                     new ReportField {Name = "groupIC", Title = "Installed Condition", Selected = true},
@@ -2545,7 +3208,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                             select new
                             {
                                 zoneCode = rg.regionCode,
-                                rg.zoneName,
+                                zoneName = rg.zoneName,
 
                                 dt?.totalCount,
                                 dt?.totalIcPadCount,
@@ -2563,7 +3226,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                                 dt?.totalPmAngleCount,
                                 dt?.totalPmChannelCount,
                             })
-                        .ToList();
+                            .ToList();
 
                     break;
 
@@ -2574,9 +3237,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(dt => new
                         {
                             RegionCode = dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode,
-                            InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null
-                                ? dt.InstalledConditionPadbsPoleMounted.ToLower()
-                                : "",
+                            InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null ? dt.InstalledConditionPadbsPoleMounted.ToLower() : "",
                             InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor.ToLower(),
                             Owner = dt.OwneroftheTransformerBPDBbsConsumer.ToLower(),
                             OilLeakage = dt.OilLeakageYesOrNo.ToLower(),
@@ -2647,7 +3308,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                                 dt?.totalPmAngleCount,
                                 dt?.totalPmChannelCount,
                             })
-                        .ToList();
+                            .ToList();
 
                     break;
 
@@ -3169,19 +3830,15 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(pt => new
                         {
                             RegionCode = pt.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
-                            SourceSubstationType = pt.PhasePowerTransformerToSourceSubstation.NominalVoltage ?? "",
-                            RatedVoltage = pt.RatedVoltagePhaseToPhase ?? "",
-                            Radiator = pt.RadiatorsYesNo != null ? pt.RadiatorsYesNo.ToLower() : "",
-                            SupervisoryAlarm = pt.SupervisoryAlarmAndTripContactsYesNo != null
-                                ? pt.SupervisoryAlarmAndTripContactsYesNo.ToLower()
-                                : "",
-                            TemperatureIndicator = pt.TemperatureIndicatorsYesNo != null
-                                ? pt.TemperatureIndicatorsYesNo.ToLower()
-                                : ""
+                            SourceSubstationType = pt.PhasePowerTransformerToSourceSubstation.NominalVoltage != null ? pt.PhasePowerTransformerToSourceSubstation.NominalVoltage : "",
+                            RatedVoltage = pt.RatedVoltagePhaseToPhase,
+                            Radiator = pt.RadiatorsYesNo.ToLower(),
+                            SupervisoryAlarm = pt.SupervisoryAlarmAndTripContactsYesNo.ToLower(),
+                            TemperatureIndicator = pt.TemperatureIndicatorsYesNo.ToLower()
                         })
                         .ToList()
                         .AsQueryable()
-                        .GroupBy(pt => pt.RegionCode)
+                        .GroupBy(dt => dt.RegionCode)
                         .Select(k => new
                         {
                             regionCode = k.Key,
@@ -3224,7 +3881,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                             select new
                             {
                                 zoneCode = rg.regionCode,
-                                rg.zoneName,
+                                zoneName = rg.zoneName,
 
                                 pt?.totalCount,
                                 pt?.total132SrcCount,
@@ -3242,359 +3899,148 @@ namespace Pdb014App.Controllers.AdvancedReport
                                 pt?.totalTIYes,
                                 pt?.totalTINo,
                             })
-                        .ToList();
-
+                            .ToList();
                     break;
 
 
                 case "circle":
-                    ptInfo = qry
-                        .Select(pt => new
-                        {
-                            RegionCode = pt.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleCode,
-                            SourceSubstationType = pt.PhasePowerTransformerToSourceSubstation.NominalVoltage ?? "",
-                            RatedVoltage = pt.RatedVoltagePhaseToPhase ?? "",
-                            Radiator = pt.RadiatorsYesNo != null ? pt.RadiatorsYesNo.ToLower() : "",
-                            SupervisoryAlarm = pt.SupervisoryAlarmAndTripContactsYesNo != null
-                                ? pt.SupervisoryAlarmAndTripContactsYesNo.ToLower()
-                                : "",
-                            TemperatureIndicator = pt.TemperatureIndicatorsYesNo != null
-                                ? pt.TemperatureIndicatorsYesNo.ToLower()
-                                : ""
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(pt => pt.RegionCode)
+                    data = qry
+                        .Include(st => st.PhasePowerTransformerToSourceSubstation)
+                        .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .GroupBy(i => i.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleCode)
                         .Select(k => new
                         {
-                            regionCode = k.Key,
+                            //wl = k.Sum(d => d.Poles.Sum(pi => pi.WireLength)),
+                            zoneName = k.First().PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD
+                                .CircleInfo.ZoneInfo.ZoneName,
+                            circleCode = k.Key,
+                            circleName = k.First().PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo
+                                .CircleName,
 
                             totalCount = k.Count(),
 
-                            total132SrcCount = k.Count(pt => pt.SourceSubstationType.Contains("132")),
-                            total33SrcCount = k.Count(pt => pt.SourceSubstationType.Contains("33")),
+                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("132")),
+                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("33")),
 
-                            total132RatVolCount = k.Count(pt => pt.RatedVoltage.Contains("132")),
-                            total33RatVolCount = k.Count(pt => pt.RatedVoltage.Contains("33")),
+                            total132RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("132")),
+                            total33RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("33")),
 
-                            totalRadiatorsYes = k.Count(pt => pt.Radiator.Contains("yes")),
-                            totalRadiatorsNo = k.Count(pt => pt.Radiator.Contains("no")),
+                            totalRadiatorsYes = k.Count(d => d.RadiatorsYesNo.ToLower().Contains("yes")),
+                            totalRadiatorsNo = k.Count(d => d.RadiatorsYesNo.ToLower().Contains("no")),
 
-                            totalSATCYes = k.Count(pt => pt.SupervisoryAlarm.Contains("yes")),
-                            totalSATCNo = k.Count(pt => pt.SupervisoryAlarm.Contains("no")),
+                            totalSATCYes = k.Count(d => d.SupervisoryAlarmAndTripContactsYesNo.ToLower().Contains("yes")),
+                            totalSATCNo = k.Count(d => d.SupervisoryAlarmAndTripContactsYesNo.ToLower().Contains("no")),
 
-                            totalTIYes = k.Count(pt => pt.TemperatureIndicator.Contains("yes")),
-                            totalTINo = k.Count(pt => pt.TemperatureIndicator.Contains("no")),
+                            totalTIYes = k.Count(d => d.TemperatureIndicatorsYesNo.ToLower().Contains("yes")),
+                            totalTINo = k.Count(d => d.TemperatureIndicatorsYesNo.ToLower().Contains("no")),
+
                         })
                         .ToList();
-
-
-                    regions = _context.LookUpCircleInfo
-                        .Where(c => (zoneCode.Equals("") || c.ZoneCode.Equals(zoneCode))
-                                    && (circleCode.Equals("") || c.CircleCode.Equals(circleCode)))
-                        .Include(z => z.ZoneInfo)
-                        .Select(c => new
-                        {
-                            regionCode = c.CircleCode,
-                            zoneName = c.ZoneInfo.ZoneName,
-                            circleName = c.CircleName,
-                            sndName = "",
-                            substationName = "",
-                        })
-                        .ToList();
-
-                    data = (from rg in regions
-                            join pt in ptInfo on rg.regionCode equals pt.regionCode into rpt
-                            from pt in rpt.DefaultIfEmpty()
-                            select new
-                            {
-                                circleCode = rg.regionCode,
-                                rg.zoneName,
-                                rg.circleName,
-
-                                pt?.totalCount,
-                                pt?.total132SrcCount,
-                                pt?.total33SrcCount,
-
-                                pt?.total132RatVolCount,
-                                pt?.total33RatVolCount,
-
-                                pt?.totalRadiatorsYes,
-                                pt?.totalRadiatorsNo,
-
-                                pt?.totalSATCYes,
-                                pt?.totalSATCNo,
-
-                                pt?.totalTIYes,
-                                pt?.totalTINo,
-                            })
-                        .ToList();
-
                     break;
-
 
                 case "snd":
-
-                    ptInfo = qry
-                        .Select(pt => new
-                        {
-                            RegionCode = pt.PhasePowerTransformerToTblSubstation.SnDCode,
-                            SourceSubstationType = pt.PhasePowerTransformerToSourceSubstation.NominalVoltage ?? "",
-                            RatedVoltage = pt.RatedVoltagePhaseToPhase ?? "",
-                            Radiator = pt.RadiatorsYesNo != null ? pt.RadiatorsYesNo.ToLower() : "",
-                            SupervisoryAlarm = pt.SupervisoryAlarmAndTripContactsYesNo != null
-                                ? pt.SupervisoryAlarmAndTripContactsYesNo.ToLower()
-                                : "",
-                            TemperatureIndicator = pt.TemperatureIndicatorsYesNo != null
-                                ? pt.TemperatureIndicatorsYesNo.ToLower()
-                                : ""
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(pt => pt.RegionCode)
+                    data = qry
+                        .Include(st => st.PhasePowerTransformerToSourceSubstation)
+                        .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD)
+                        .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo)
+                        .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .GroupBy(i => i.PhasePowerTransformerToTblSubstation.SnDCode)
                         .Select(k => new
                         {
-                            regionCode = k.Key,
+                            zoneName = k.First().PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneInfo.ZoneName,
+                            circleName = k.First().PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo
+                                .CircleName,
+                            sndCode = k.Key,
+                            sndName = k.First().PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.SnDName,
+
 
                             totalCount = k.Count(),
 
-                            total132SrcCount = k.Count(pt => pt.SourceSubstationType.Contains("132")),
-                            total33SrcCount = k.Count(pt => pt.SourceSubstationType.Contains("33")),
+                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("132")),
+                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("33")),
 
-                            total132RatVolCount = k.Count(pt => pt.RatedVoltage.Contains("132")),
-                            total33RatVolCount = k.Count(pt => pt.RatedVoltage.Contains("33")),
+                            total132RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("132")),
+                            total33RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("33")),
 
-                            totalRadiatorsYes = k.Count(pt => pt.Radiator.Contains("yes")),
-                            totalRadiatorsNo = k.Count(pt => pt.Radiator.Contains("no")),
+                            totalRadiatorsYes = k.Count(d => d.RadiatorsYesNo.ToLower().Contains("yes")),
+                            totalRadiatorsNo = k.Count(d => d.RadiatorsYesNo.ToLower().Contains("no")),
 
-                            totalSATCYes = k.Count(pt => pt.SupervisoryAlarm.Contains("yes")),
-                            totalSATCNo = k.Count(pt => pt.SupervisoryAlarm.Contains("no")),
+                            totalSATCYes = k.Count(d => d.SupervisoryAlarmAndTripContactsYesNo.ToLower().Contains("yes")),
+                            totalSATCNo = k.Count(d => d.SupervisoryAlarmAndTripContactsYesNo.ToLower().Contains("no")),
 
-                            totalTIYes = k.Count(pt => pt.TemperatureIndicator.Contains("yes")),
-                            totalTINo = k.Count(pt => pt.TemperatureIndicator.Contains("no")),
-                        })
-                        .ToList();
+                            totalTIYes = k.Count(d => d.TemperatureIndicatorsYesNo.ToLower().Contains("yes")),
+                            totalTINo = k.Count(d => d.TemperatureIndicatorsYesNo.ToLower().Contains("no")),
 
-
-                    regions = _context.LookUpSnDInfo
-                        .Where(d => (zoneCode.Equals("") || d.CircleInfo.ZoneCode.Equals(zoneCode))
-                                    && (circleCode.Equals("") || d.CircleCode.Equals(circleCode))
-                                    && (snDCode.Equals("") || d.SnDCode.Equals(snDCode)))
-                        .Include(z => z.CircleInfo.ZoneInfo)
-                        .Select(d => new
-                        {
-                            regionCode = d.SnDCode,
-                            zoneName = d.CircleInfo.ZoneInfo.ZoneName,
-                            circleName = d.CircleInfo.CircleName,
-                            sndName = d.SnDName,
-                            substationName = "",
-                        })
-                        .ToList();
-
-                    data = (from rg in regions
-                            join pt in ptInfo on rg.regionCode equals pt.regionCode into rpt
-                            from pt in rpt.DefaultIfEmpty()
-                            select new
-                            {
-                                sndCode = rg.regionCode,
-                                rg.zoneName,
-                                rg.circleName,
-                                rg.sndName,
-
-                                pt?.totalCount,
-                                pt?.total132SrcCount,
-                                pt?.total33SrcCount,
-
-                                pt?.total132RatVolCount,
-                                pt?.total33RatVolCount,
-
-                                pt?.totalRadiatorsYes,
-                                pt?.totalRadiatorsNo,
-
-                                pt?.totalSATCYes,
-                                pt?.totalSATCNo,
-
-                                pt?.totalTIYes,
-                                pt?.totalTINo,
-                            })
-                        .ToList();
-
+                        }).ToList();
                     break;
-
 
                 case "substation":
-
-                    ptInfo = qry
-                        .Select(pt => new
-                        {
-                            RegionCode = pt.SubstationId,
-                            SourceSubstationType = pt.PhasePowerTransformerToSourceSubstation.NominalVoltage ?? "",
-                            RatedVoltage = pt.RatedVoltagePhaseToPhase ?? "",
-                            Radiator = pt.RadiatorsYesNo != null ? pt.RadiatorsYesNo.ToLower() : "",
-                            SupervisoryAlarm = pt.SupervisoryAlarmAndTripContactsYesNo != null
-                                ? pt.SupervisoryAlarmAndTripContactsYesNo.ToLower()
-                                : "",
-                            TemperatureIndicator = pt.TemperatureIndicatorsYesNo != null
-                                ? pt.TemperatureIndicatorsYesNo.ToLower()
-                                : ""
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(pt => pt.RegionCode)
+                    data = qry
+                        .Include(st => st.PhasePowerTransformerToSourceSubstation)
+                        .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .GroupBy(i => i.SubstationId)
                         .Select(k => new
                         {
-                            regionCode = k.Key,
+                            zoneName = k.First().PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneInfo.ZoneName,
+                            circleName = k.First().PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo
+                                .CircleName,
+                            sndName = k.First().PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.SnDName,
+                            substationCode = k.Key,
+                            substationName = k.First().PhasePowerTransformerToTblSubstation.SubstationName,
+
 
                             totalCount = k.Count(),
 
-                            total132SrcCount = k.Count(pt => pt.SourceSubstationType.Contains("132")),
-                            total33SrcCount = k.Count(pt => pt.SourceSubstationType.Contains("33")),
+                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("132")),
+                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("33")),
 
-                            total132RatVolCount = k.Count(pt => pt.RatedVoltage.Contains("132")),
-                            total33RatVolCount = k.Count(pt => pt.RatedVoltage.Contains("33")),
+                            total132RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("132")),
+                            total33RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("33")),
 
-                            totalRadiatorsYes = k.Count(pt => pt.Radiator.Contains("yes")),
-                            totalRadiatorsNo = k.Count(pt => pt.Radiator.Contains("no")),
+                            totalRadiatorsYes = k.Count(d => d.RadiatorsYesNo.ToLower().Contains("yes")),
+                            totalRadiatorsNo = k.Count(d => d.RadiatorsYesNo.ToLower().Contains("no")),
 
-                            totalSATCYes = k.Count(pt => pt.SupervisoryAlarm.Contains("yes")),
-                            totalSATCNo = k.Count(pt => pt.SupervisoryAlarm.Contains("no")),
+                            totalSATCYes = k.Count(d => d.SupervisoryAlarmAndTripContactsYesNo.ToLower().Contains("yes")),
+                            totalSATCNo = k.Count(d => d.SupervisoryAlarmAndTripContactsYesNo.ToLower().Contains("no")),
 
-                            totalTIYes = k.Count(pt => pt.TemperatureIndicator.Contains("yes")),
-                            totalTINo = k.Count(pt => pt.TemperatureIndicator.Contains("no")),
-                        })
-                        .ToList();
+                            totalTIYes = k.Count(d => d.TemperatureIndicatorsYesNo.ToLower().Contains("yes")),
+                            totalTINo = k.Count(d => d.TemperatureIndicatorsYesNo.ToLower().Contains("no")),
 
-
-                    regions = _context.TblSubstation
-                        .Where(s =>
-                            (zoneCode.Equals("") || s.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
-                            && (circleCode.Equals("") || s.SubstationToLookUpSnD.CircleCode.Equals(circleCode))
-                            && (snDCode.Equals("") || s.SnDCode.Equals(snDCode))
-                            && (substationCode.Equals("") || s.SubstationId.Equals(substationCode)))
-                        .Include(z => z.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .Select(s => new
-                        {
-                            regionCode = s.SubstationId,
-                            zoneName = s.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName,
-                            circleName = s.SubstationToLookUpSnD.CircleInfo.CircleName,
-                            sndName = s.SubstationToLookUpSnD.SnDName,
-                            substationName = s.SubstationName,
-                        })
-                        .ToList();
-
-                    data = (from rg in regions
-                            join pt in ptInfo on rg.regionCode equals pt.regionCode into rpt
-                            from pt in rpt.DefaultIfEmpty()
-                            select new
-                            {
-                                substationCode = rg.regionCode,
-                                rg.zoneName,
-                                rg.circleName,
-                                rg.sndName,
-                                rg.substationName,
-
-                                pt?.totalCount,
-                                pt?.total132SrcCount,
-                                pt?.total33SrcCount,
-
-                                pt?.total132RatVolCount,
-                                pt?.total33RatVolCount,
-
-                                pt?.totalRadiatorsYes,
-                                pt?.totalRadiatorsNo,
-
-                                pt?.totalSATCYes,
-                                pt?.totalSATCNo,
-
-                                pt?.totalTIYes,
-                                pt?.totalTINo,
-                            })
-                        .ToList();
-
+                        }).ToList();
                     break;
 
-
                 default:
-
-                    ptInfo = qry
-                        .Select(pt => new
-                        {
-                            RegionCode = pt.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
-                            SourceSubstationType = pt.PhasePowerTransformerToSourceSubstation.NominalVoltage ?? "",
-                            RatedVoltage = pt.RatedVoltagePhaseToPhase ?? "",
-                            Radiator = pt.RadiatorsYesNo != null ? pt.RadiatorsYesNo.ToLower() : "",
-                            SupervisoryAlarm = pt.SupervisoryAlarmAndTripContactsYesNo != null
-                                ? pt.SupervisoryAlarmAndTripContactsYesNo.ToLower()
-                                : "",
-                            TemperatureIndicator = pt.TemperatureIndicatorsYesNo != null
-                                ? pt.TemperatureIndicatorsYesNo.ToLower()
-                                : ""
-                        })
-                        .ToList()
-                        .AsQueryable()
-                        .GroupBy(pt => pt.RegionCode)
+                    data = qry
+                        .Include(st => st.PhasePowerTransformerToSourceSubstation)
+                        .Include(st => st.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .GroupBy(i => i.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
-                            regionCode = k.Key,
+                            zoneCode = k.Key,
+                            zoneName = k.First().PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneInfo.ZoneName,
+
 
                             totalCount = k.Count(),
 
-                            total132SrcCount = k.Count(pt => pt.SourceSubstationType.Contains("132")),
-                            total33SrcCount = k.Count(pt => pt.SourceSubstationType.Contains("33")),
+                            total132SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("132")),
+                            total33SrcCount = k.Count(d => d.PhasePowerTransformerToSourceSubstation.NominalVoltage.Contains("33")),
 
-                            total132RatVolCount = k.Count(pt => pt.RatedVoltage.Contains("132")),
-                            total33RatVolCount = k.Count(pt => pt.RatedVoltage.Contains("33")),
+                            total132RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("132")),
+                            total33RatVolCount = k.Count(d => d.RatedVoltagePhaseToPhase.Contains("33")),
 
-                            totalRadiatorsYes = k.Count(pt => pt.Radiator.Contains("yes")),
-                            totalRadiatorsNo = k.Count(pt => pt.Radiator.Contains("no")),
+                            totalRadiatorsYes = k.Count(d => d.RadiatorsYesNo.ToLower().Contains("yes")),
+                            totalRadiatorsNo = k.Count(d => d.RadiatorsYesNo.ToLower().Contains("no")),
 
-                            totalSATCYes = k.Count(pt => pt.SupervisoryAlarm.Contains("yes")),
-                            totalSATCNo = k.Count(pt => pt.SupervisoryAlarm.Contains("no")),
+                            totalSATCYes = k.Count(d => d.SupervisoryAlarmAndTripContactsYesNo.ToLower().Contains("yes")),
+                            totalSATCNo = k.Count(d => d.SupervisoryAlarmAndTripContactsYesNo.ToLower().Contains("no")),
 
-                            totalTIYes = k.Count(pt => pt.TemperatureIndicator.Contains("yes")),
-                            totalTINo = k.Count(pt => pt.TemperatureIndicator.Contains("no")),
-                        })
-                        .ToList();
+                            totalTIYes = k.Count(d => d.TemperatureIndicatorsYesNo.ToLower().Contains("yes")),
+                            totalTINo = k.Count(d => d.TemperatureIndicatorsYesNo.ToLower().Contains("no")),
 
-
-                    regions = _context.LookUpZoneInfo
-                        .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
-                        .Select(z => new
-                        {
-                            regionCode = z.ZoneCode,
-                            zoneName = z.ZoneName,
-                            circleName = "",
-                            sndName = "",
-                            substationName = "",
-                        })
-                        .ToList();
-
-                    data = (from rg in regions
-                            join pt in ptInfo on rg.regionCode equals pt.regionCode into rpt
-                            from pt in rpt.DefaultIfEmpty()
-                            select new
-                            {
-                                zoneCode = rg.regionCode,
-                                rg.zoneName,
-
-                                pt?.totalCount,
-                                pt?.total132SrcCount,
-                                pt?.total33SrcCount,
-
-                                pt?.total132RatVolCount,
-                                pt?.total33RatVolCount,
-
-                                pt?.totalRadiatorsYes,
-                                pt?.totalRadiatorsNo,
-
-                                pt?.totalSATCYes,
-                                pt?.totalSATCNo,
-
-                                pt?.totalTIYes,
-                                pt?.totalTINo,
-                            })
-                        .ToList();
-
+                        }).ToList();
                     break;
             }
 

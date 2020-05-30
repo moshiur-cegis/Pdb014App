@@ -114,6 +114,10 @@
                 <form method="get" class="form-inline">
                     <input name="filter" class="form-control" placeholder="filter"
                            value="@Model.RouteValue["Filter"]" />
+
+                    <input name="cai" class="form-control" placeholder="cai"
+                           value="@Model.RouteValue["cai"]" type="hidden"/>
+
                     <button type="submit" class="btn btn-info">
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
                     </button>

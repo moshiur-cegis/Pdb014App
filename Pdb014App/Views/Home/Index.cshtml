@@ -254,11 +254,11 @@
             set_basic_info(regionLevel, "pl");
             load_chart_data("chart_2_1", reportName, chartType, regionLevel, headerList, dataColumns, url);
 
-            //set_basic_info(regionLevel, "ss");
-            //load_chart_data("chart_2_1", reportName, chartType, regionLevel, headerList, dataColumns, url);
-            //load_chart_data("chart_2_2", reportName, chartType, regionLevel, headerList, dataColumns, url);
-            //set_basic_info(regionLevel, "dt");
-            //load_chart_data("chart_2_2", reportName, chartType, regionLevel, headerList, dataColumns, url);
+            ////set_basic_info(regionLevel, "ss");
+            ////load_chart_data("chart_2_1", reportName, chartType, regionLevel, headerList, dataColumns, url);
+            ////load_chart_data("chart_2_2", reportName, chartType, regionLevel, headerList, dataColumns, url);
+            ////set_basic_info(regionLevel, "dt");
+            ////load_chart_data("chart_2_2", reportName, chartType, regionLevel, headerList, dataColumns, url);
 
         });
 
@@ -325,15 +325,15 @@
                 url = '@Url.Action("GetSubstationData", "AdvancedReport")';
 
                 headerList["totalCount"] = "Total Substation";
-                headerList["total11Count"] = "33/11 kV Substation";
-                headerList["total33Count"] = "132/33 kV Substation";
+                headerList["total11kCount"] = "33/11 kV Substation";
+                headerList["total33kCount"] = "132/33 kV Substation";
                 headerList["totalCapacity"] = "Capacity (MVA)";
                 headerList["totalDemand"] = "Demand (Max) (MW)";
                 headerList["totalPeakLoad"] = "Peak Load (MW)";
                 headerList["maxPeakLoad"] = "Max Peak Load (MW)";
                 headerList["minPeakLoad"] = "Min Peak Load (MW)";
 
-                dataColumns = ["totalCount", "total11Count", "total33Count", "totalCapacity", "totalDemand", "totalPeakLoad", "maxPeakLoad", "minPeakLoad"];
+                dataColumns = ["totalCount", "total11kCount", "total33kCount", "totalCapacity", "totalDemand", "totalPeakLoad", "maxPeakLoad", "minPeakLoad"];
 
                 break;
 
@@ -342,17 +342,17 @@
                 url = '@Url.Action("GetFeederLineData", "AdvancedReport")';
 
                 headerList["totalCount"] = "Total Feeder Line";
-                headerList["total11Count"] = "11KV Feeder Line";
-                headerList["total33Count"] = "33KV Feeder Line";
+                headerList["total11kCount"] = "11KV Feeder Line";
+                headerList["total33kCount"] = "33KV Feeder Line";
                 headerList["totalFeederLength"] = "Feeder Length (Km)";
-                headerList["total11FeederLength"] = "11KV Feeder Length (Km)";
-                headerList["total33FeederLength"] = "33KV Feeder Length (Km)";
+                headerList["total11kFeederLength"] = "11KV Feeder Length (Km)";
+                headerList["total33kFeederLength"] = "33KV Feeder Length (Km)";
                 headerList["totalMaxDemand"] = "Maximum Demand (MW)";
                 headerList["totalPeakDemand"] = "Peak Demand (MW)";
                 headerList["totalMaxLoad"] = "Maximum Load (MW)";
                 headerList["totalSanctionedLoad"] = "Sanctioned Load (MW)";
 
-                dataColumns = ["totalCount", "total11Count", "total33Count", "totalFeederLength", "total11FeederLength", "total33FeederLength", "totalMaxDemand", "totalPeakDemand", "totalMaxLoad", "totalSanctionedLoad"];
+                dataColumns = ["totalCount", "total11kCount", "total33kCount", "totalFeederLength", "total11kFeederLength", "total33kFeederLength", "totalMaxDemand", "totalPeakDemand", "totalMaxLoad", "totalSanctionedLoad"];
 
                 break;
 

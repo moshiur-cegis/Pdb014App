@@ -538,7 +538,7 @@ namespace Pdb014App.Controllers.AdvancedReport
             ViewBag.FieldList = fieldList;
             ViewBag.RegionList = regionList;
 
-            string zoneCode, circleCode, snDCode, substationCode, routeCode;
+            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "", routeCode = "";
 
             zoneCode = circleCode = snDCode = substationCode = routeCode = "";
 
@@ -624,7 +624,7 @@ namespace Pdb014App.Controllers.AdvancedReport
 
             Expression<Func<TblConsumerData, bool>> searchExp = null;
 
-            string zoneCode, circleCode, snDCode, substationCode, routeCode;
+            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "", routeCode = "";
 
             if (regionList != null && regionList.Count > 0 && !string.IsNullOrEmpty(regionList[0]))
             {
@@ -1275,7 +1275,7 @@ namespace Pdb014App.Controllers.AdvancedReport
             ViewBag.FieldList = fieldList;
             ViewBag.RegionList = regionList;
 
-            string zoneCode, circleCode, snDCode, substationCode, routeCode;
+            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "", routeCode = "";
 
             zoneCode = circleCode = snDCode = substationCode = routeCode = "";
 
@@ -1361,7 +1361,7 @@ namespace Pdb014App.Controllers.AdvancedReport
 
             Expression<Func<TblServicePoint, bool>> searchExp = null;
 
-            string zoneCode, circleCode, snDCode, substationCode, routeCode;
+            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "", routeCode = "";
 
             if (regionList != null && regionList.Count > 0 && !string.IsNullOrEmpty(regionList[0]))
             {

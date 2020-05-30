@@ -44,7 +44,7 @@ namespace Pdb014App.Controllers.PoleControllers
 
             //string getSql = await new GetUserRoleData(contextUser, UserManager).GetQuery("TblPole", "PoleId");
 
-            var query =  _context.TblPole.FromSql(getSql).AsQueryable();
+            var query =  _context.TblPole.FromSqlRaw(getSql).AsQueryable();
 
 
             #region lemda epression
@@ -105,9 +105,8 @@ namespace Pdb014App.Controllers.PoleControllers
            
             var model = await PagingList.CreateAsync(query, 10, pageIndex, sortExpression, "PoleId");
 
-            model.RouteValue = new RouteValueDictionary { { "cai", cai }, { "filter", filter } };
+            model.RouteValue = new RouteValueDictionary { { "cai", cai }, { "Filter", filter } };
 
-            //model.RouteValue = new RouteValueDictionary() { { "cai", cai } };
 
             return View(model);
         }
@@ -201,6 +200,7 @@ namespace Pdb014App.Controllers.PoleControllers
         // GET: TblPoles1/Create
         public IActionResult Create()
         {
+            ViewBag.Error = "";
             ViewData["LineTypeId"] = new SelectList(_context.LookUpLineType, "Code", "Name");
             ViewData["TypeOfWireId"] = new SelectList(_context.LookUpTypeOfWire, "Code", "Name");
             ViewData["PhaseAId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
@@ -224,6 +224,26 @@ namespace Pdb014App.Controllers.PoleControllers
             return View();
         }
 
+
+        public decimal GetPoleDistance(double latA, double longA, double latB, double longB)
+        {
+            var RadianLatA = Math.PI * latA / 180;
+            var RadianLatb = Math.PI * latB / 180;
+            var RadianLongA = Math.PI * longA / 180;
+            var RadianLongB = Math.PI * longB / 180;
+
+            double theDistance = (Math.Sin(RadianLatA)) *
+                                 Math.Sin(RadianLatb) +
+                                 Math.Cos(RadianLatA) *
+                                 Math.Cos(RadianLatb) *
+                                 Math.Cos(RadianLongA - RadianLongB);
+
+           var dis = Convert.ToDecimal(((Math.Acos(theDistance) * (180.0 / Math.PI)))) * 69.09M * 1.6093M;
+
+            return dis*1000;
+        }
+
+
         // POST: TblPoles1/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -231,78 +251,51 @@ namespace Pdb014App.Controllers.PoleControllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PoleId,PoleUid,FeederLineUid,SurveyDate,RouteCode,FeederLineId,SurveyorName,PoleNo,PreviousPoleNo,Latitude,Longitude,PoleTypeId,PoleConditionId,LineTypeId,BackSpan,TypeOfWireId,NoOfWireHt,NoOfWireLt,WireLength,WireConditionId,MSJNo,SleeveNo,TwistNo,PhaseAId,PhaseBId,PhaseCId,Neutral,StreetLight,SourceCableId,TargetCableId,TransformerExist,CommonPole,Tap")] TblPole tblPole, string surveyDate)
         {
-            //double latA = Convert.ToDouble(tblPole.Latitude);
-            //double longA = Convert.ToDouble(tblPole.Longitude);
-            //double latB = Convert.ToDouble(_context.TblPole.Where(i => i.PoleId == tblPole.PreviousPoleNo).Select(i => i.Latitude).SingleOrDefault());
-            //double longB = Convert.ToDouble(_context.TblPole.Where(i => i.PoleId == tblPole.PreviousPoleNo).Select(i => i.Longitude).SingleOrDefault());
+            string errorMsg = "";
+            double latA = Convert.ToDouble(tblPole.Latitude);
+            double longA = Convert.ToDouble(tblPole.Longitude);
+            double latB = Convert.ToDouble(_context.TblPole.Where(i => i.PoleId == tblPole.PreviousPoleNo).Select(i => i.Latitude).SingleOrDefault());
+            double longB = Convert.ToDouble(_context.TblPole.Where(i => i.PoleId == tblPole.PreviousPoleNo).Select(i => i.Longitude).SingleOrDefault());
 
+            var poleDistance = GetPoleDistance(latA,longA,latB,longB);
 
-            //var RadianLatA = Math.PI * latA / 180;
-            //var RadianLatb = Math.PI * latB / 180;
-            //var RadianLongA = Math.PI * longA / 180;
-            //var RadianLongB = Math.PI * longB / 180;
-
-            //double theDistance = (Math.Sin(RadianLatA)) *
-            //                     Math.Sin(RadianLatb) +
-            //                     Math.Cos(RadianLatA) *
-            //                     Math.Cos(RadianLatb) *
-            //                     Math.Cos(RadianLongA - RadianLongB);
-
-            //var dis = Convert.ToDecimal(((Math.Acos(theDistance) * (180.0 / Math.PI)))) * 69.09M * 1.6093M;
-
-            //if (dis * 1000 < 70)
-            //{
-            //    ViewData["Error"] = "To pole distance can not less then 70 miter";
-            //    return View();
-            //}
-
-
-            //10-31-2019
-
-
-            //tblPole.SurveyDate = DateTime.ParseExact(surveyDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-            //tblPole.SurveyDate = Convert.ToDateTime(surveyDate) != null ? Convert.ToDateTime(surveyDate) : DateTime.Now;
-
-            //tblPole.WireLength = Convert.ToDouble(tblPole.WireLength);
-            //tblPole.Latitude = Convert.ToDouble(tblPole.Latitude);
-            //tblPole.Longitude = Convert.ToDouble(tblPole.Longitude);
-
-            if (ModelState.IsValid)
+            if (poleDistance > 500)
             {
-                try
-                {
-                    string UpdatePoleId = _context.TblPole.Where(i => i.PreviousPoleNo == tblPole.PreviousPoleNo).Select(i => i.PoleId).FirstOrDefault();
-                    _context.Add(tblPole);
-                    await _context.SaveChangesAsync();
+                errorMsg = "* Pole Distance is " + poleDistance.ToString("#.##") + "! Pole distance can not more  then 500 miter";
+                //return RedirectToAction("Create");
+            }
+            else
+            {
+                tblPole.WireLength = poleDistance;
 
-                    //Update Pole After Inserting New pole Between Existing Pole
-                    if (Convert.ToInt64(tblPole.PreviousPoleNo) != (Convert.ToInt64(tblPole.PoleId) - 1))
-                    {                        
-                        var findPoleInfo = await _context.TblPole.FindAsync(UpdatePoleId);
-                        findPoleInfo.PreviousPoleNo = tblPole.PoleId;
-                        _context.Update(findPoleInfo);
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        string UpdatePoleId = _context.TblPole.Where(i => i.PreviousPoleNo == tblPole.PreviousPoleNo).Select(i => i.PoleId).FirstOrDefault();
+                        _context.Add(tblPole);
                         await _context.SaveChangesAsync();
+
+                        //Update Pole After Inserting New pole Between Existing Pole
+                        if (Convert.ToInt64(tblPole.PreviousPoleNo) != (Convert.ToInt64(tblPole.PoleId) - 1))
+                        {
+                            var findPoleInfo = await _context.TblPole.FindAsync(UpdatePoleId);
+                            findPoleInfo.PreviousPoleNo = tblPole.PoleId;
+                            _context.Update(findPoleInfo);
+                            await _context.SaveChangesAsync();
+                        }
+
+                        return RedirectToAction(nameof(Index));
                     }
-
-                    //await _context.SaveChangesAsync();
-
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    //if(IsPoleIdExist(tblPole.PoleId))
-                    //{
-                    //    return NotFound();
-                    //}
-                    //else
-                    //{
-                    //    throw;
-                    //}
+                    catch (Exception ex)
+                    {
+                        errorMsg = ex.Message;
+                       
+                    }
                 }
             }
 
-            
+            ViewBag.Error = errorMsg;
 
             ViewData["LineTypeId"] = new SelectList(_context.LookUpLineType, "Code", "Name");
             ViewData["TypeOfWireId"] = new SelectList(_context.LookUpTypeOfWire, "Code", "Name");
@@ -320,11 +313,10 @@ namespace Pdb014App.Controllers.PoleControllers
             ViewData["PreviousPoleId"] = poleIdList;
 
             //ViewData["PreviousPoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId");
-
             ViewData["ZoneCode"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
             return View(tblPole);
         }
-
+       
         // GET: TblPoles1/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -555,6 +547,7 @@ namespace Pdb014App.Controllers.PoleControllers
                .Where(u => u.FeederLineId.Equals(feederLineId)).OrderBy(u => u.PoleId)
                .Select(u => new { u.PoleId, FeederName = u.PoleId })
                .OrderByDescending(u => u.PoleId).ToList();
+
 
             //if (poleList.Count > 0)
             //{

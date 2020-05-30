@@ -165,7 +165,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             Expression<Func<TblPole, bool>> searchExp = null;
 
-            string zoneCode, circleCode, snDCode, substationCode, routeCode;
+            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "", routeCode = "";
 
             zoneCode = circleCode = snDCode = substationCode = routeCode = "";
 
@@ -1150,7 +1150,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             Expression<Func<TblFeederLine, bool>> searchExp = null;
 
-            string zoneCode, circleCode, snDCode, substationCode, routeCode;
+            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "", routeCode = "";
 
             zoneCode = circleCode = snDCode = substationCode = routeCode = "";
 
@@ -2688,7 +2688,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             Expression<Func<TblDistributionTransformer, bool>> searchExp = null;
 
-            string zoneCode, circleCode, snDCode, substationCode, routeCode;
+            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "", routeCode = "";
 
             zoneCode = circleCode = snDCode = substationCode = routeCode = "";
 
@@ -3802,7 +3802,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             Expression<Func<TblPhasePowerTransformer, bool>> searchExp = null;
 
-            string zoneCode, circleCode, snDCode, substationCode, routeCode;
+            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "", routeCode = "";
 
             zoneCode = circleCode = snDCode = substationCode = routeCode = "";
 
