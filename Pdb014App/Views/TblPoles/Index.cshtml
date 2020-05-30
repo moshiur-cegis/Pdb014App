@@ -1,5 +1,4 @@
-﻿@*@model IEnumerable<Pdb014App.Models.PDB.TblPole>*@
-@using Pdb014App.Models.UserManage;
+﻿@using Pdb014App.Models.UserManage;
 @using Microsoft.AspNetCore.Identity
 
 @model ReflectionIT.Mvc.Paging.PagingList<Pdb014App.Models.PDB.TblPole>
@@ -8,12 +7,9 @@
 
 @inject SignInManager<TblUserRegistrationDetail> SignInManager
 @inject UserManager<TblUserRegistrationDetail> UserManager
-@*@inject List<TblUserProfileDetail> Userprofile*@
 
 @{
-    //List<TblUserProfileDetail> Userprofile;
     var user = await UserManager.GetUserAsync(User);
-    //var zoneCode = Userprofile.Where(i => i.Id == user.Id).Select(i=>i.UserProfileDetailToUserBpdbEmployee.ZoneCode).SingleOrDefault();
 }
 
 
@@ -125,6 +121,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-view" id="updatePanel">

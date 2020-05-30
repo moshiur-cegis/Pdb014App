@@ -1,4 +1,17 @@
-﻿@model IEnumerable<Pdb014App.Models.PDB.SubstationModels.TblSubstation>
+﻿@using Pdb014App.Models.UserManage;
+@using Microsoft.AspNetCore.Identity
+
+@model ReflectionIT.Mvc.Paging.PagingList<Pdb014App.Models.PDB.SubstationModels.TblSubstation>
+@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
+
+@inject SignInManager<TblUserRegistrationDetail> SignInManager
+@inject UserManager<TblUserRegistrationDetail> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
 
 @{
     ViewData["Title"] = "Index";
@@ -91,8 +104,26 @@
     <hr>
 
     <p>
-        <a asp-action="Create">Add New Substation</a>
+       <a asp-action="Create" class="btn btn-success">Add New Substation</a>
     </p>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="float-md-right">
+                <form method="get" class="form-inline">
+                    <input name="filter" class="form-control" placeholder="filter"
+                           value="@Model.RouteValue["Filter"]" />
+
+                    <input name="cai" class="form-control" placeholder="cai"
+                           value="@Model.RouteValue["cai"]" type="hidden" />
+
+                    <button type="submit" class="btn btn-info">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-12">
@@ -101,9 +132,17 @@
                     <table id="multi-form-view" class="table table-responsive multi-form-view">
                         <thead>
                             <tr>
+
+                                @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
+                                {
+                                    <th>
+                                        Action
+                                    </th>
+                                }
                                 <th>
                                     Substation Id
                                 </th>
+
                                 <th>
 
                                     Substation Type
@@ -140,78 +179,85 @@
                                     @Html.DisplayNameFor(model => model.Location)
                                 </th>
                                 @*<th>
-            @Html.DisplayNameFor(model => model.AreaOfSubstation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Latitude)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Longitude)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.YearOfComissioning)
-        </th>*@
+                                        @Html.DisplayNameFor(model => model.AreaOfSubstation)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Latitude)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Longitude)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.YearOfComissioning)
+                                    </th>*@
                                 @*<th>Action</th>*@
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                            <tr>
-                                <td>
-                                    @*@Html.DisplayFor(modelItem => item.SubstationId)*@
-                                    <a asp-action="Edit" asp-route-id="@item.SubstationId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.SubstationId)</a>
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.SubstationType.SubstationTypeId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.SubstationName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                                <tr>
+                                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
+                                    {
+                                        <td>
+                                            @*@Html.DisplayFor(modelItem => item.SubstationId)*@
+                                            <a asp-action="Delete" asp-route-id="@item.SubstationId" class="btn btn-success" data-toggle="tooltip" asp-route-cai="@Model.RouteValue["cai"]" data-placement="top" title="Delete">Delete</a>
+                                        </td>
+                                    }
+                                    <td>
+                                        @*@Html.DisplayFor(modelItem => item.SubstationId)*@
+                                        <a asp-action="Edit" asp-route-id="@item.SubstationId" class="text-success hover-dark" data-toggle="tooltip" asp-route-cai="@Model.RouteValue["cai"]" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.SubstationId)</a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubstationType.SubstationTypeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubstationName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
 
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.CircleInfo.CircleName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.CircleInfo.CircleName)
 
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.SnDName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NominalVoltage)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.InstalledCapacity)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MaximumDemand)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.PeakLoad)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Location)
-                                </td>
-                                @*<td>
-            @Html.DisplayFor(modelItem => item.AreaOfSubstation)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Latitude)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Longitude)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.YearOfComissioning)
-        </td>*@
-                                @*<td>
-            <a asp-action="Edit" asp-route-id="@item.SubstationId">Edit</a>
-            <a asp-action="Details" asp-route-id="@item.SubstationId">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.SubstationId">Delete</a>
-        </td>*@
-                            </tr>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.SnDName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NominalVoltage)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InstalledCapacity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MaximumDemand)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PeakLoad)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Location)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.AreaOfSubstation)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Latitude)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Longitude)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.YearOfComissioning)
+                                        </td>*@
+                                    @*<td>
+                                            <a asp-action="Edit" asp-route-id="@item.SubstationId">Edit</a>
+                                            <a asp-action="Details" asp-route-id="@item.SubstationId">Details</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.SubstationId">Delete</a>
+                                        </td>*@
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -221,4 +267,7 @@
             </div>
         </div>
     </div>
+</div>
+<div style="text-align: center;">
+    <vc:pager paging-list="@Model" />
 </div>

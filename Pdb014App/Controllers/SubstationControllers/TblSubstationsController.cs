@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Pdb014App.Controllers.PoleControllers;
 using Pdb014App.Models.PDB;
@@ -14,7 +15,7 @@ using Pdb014App.Models.PDB.SubstationModels;
 using Pdb014App.Models.UserManage;
 using Pdb014App.Models.UserManage.SetRole;
 using Pdb014App.Repository;
-
+using ReflectionIT.Mvc.Paging;
 
 namespace Pdb014App.Controllers.SubstationControllers
 {
@@ -39,8 +40,9 @@ namespace Pdb014App.Controllers.SubstationControllers
 
         // GET: TblSubstations
 
+
         [Authorize(Roles = "System Administrator,Super User,Zone,Circle,SnD,Substation")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] string cai, string filter, int pageIndex = 1, string sortExpression = "SubstationId")
         {
 
             string getSql = await GetQuery("TblSubstation", "SubstationId");
@@ -58,10 +60,21 @@ namespace Pdb014App.Controllers.SubstationControllers
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
+           
+            if (filter != null)
+            {
+                query = query.Where(p => p.SubstationId.Contains(filter));
 
+            }
 
-            return View(query);
+            var model = await PagingList.CreateAsync(query, 10, pageIndex, sortExpression, "SubstationId");
+
+            model.RouteValue = new RouteValueDictionary { { "cai", cai }, { "Filter", filter } };
+
+            return View(model);
         }
+
+
         public async Task<string> GetQuery(string tableName, string fieldName)
         {
             var user = await UserManager.GetUserAsync(User);
@@ -315,7 +328,7 @@ namespace Pdb014App.Controllers.SubstationControllers
             var substationList = _context.TblSubstation
                 .Where(u => u.SnDCode.Equals(sndCode))
                 .Select(u => new { u.SubstationId, u.SubstationName })
-                .OrderBy(u => u.SubstationId).ToList();
+                .OrderByDescending(u => u.SubstationId).ToList();
 
             return Json(new SelectList(substationList, "SubstationId", "SubstationName"));
         }
