@@ -189,20 +189,20 @@
                             </th>
 
                             <th>
-                                @Html.SortableHeaderFor(model => model.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                                @Html.SortableHeaderFor(model => model.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName, "SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.SubstationToLookUpSnD.CircleInfo.CircleName)
+                                @Html.SortableHeaderFor(model => model.SubstationToLookUpSnD.CircleInfo.CircleName, "SubstationToLookUpSnD.CircleInfo.CircleName")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+                                @Html.SortableHeaderFor(model => model.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName, "SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.SubstationToLookUpSnD.SnDName)
+                                @Html.SortableHeaderFor(model => model.SubstationToLookUpSnD.SnDName, "SubstationToLookUpSnD.SnDName")
                             </th>
 
                             <th>
-                                @Html.SortableHeaderFor(model => model.SubstationType.SubstationTypeName)
+                                @Html.SortableHeaderFor(model => model.SubstationType.SubstationTypeName, "SubstationType.SubstationTypeName")
                             </th>
                             <th>
                                 @Html.SortableHeaderFor(model => model.SubstationName)
@@ -246,12 +246,12 @@
                                         @Html.DisplayFor(modelItem => item.SubstationId)
                                     </a>
                                     <br />
-                                    <a target="_blank" asp-controller="MapViewer" asp-action="MapView" 
-                                       asp-route-zoneCode="@item.SubstationToLookUpSnD.CircleInfo.ZoneCode" 
-                                       asp-route-circleCode="@item.SubstationToLookUpSnD.CircleCode" 
-                                       asp-route-snDCode="@item.SnDCode" 
-                                       asp-route-substationId="@item.SubstationId" 
-                                       asp-route-cai="map_01" 
+                                    <a target="_blank" asp-controller="MapViewer" asp-action="MapView"
+                                       asp-route-zoneCode="@item.SubstationToLookUpSnD.CircleInfo.ZoneCode"
+                                       asp-route-circleCode="@item.SubstationToLookUpSnD.CircleCode"
+                                       asp-route-snDCode="@item.SnDCode"
+                                       asp-route-substationId="@item.SubstationId"
+                                       asp-route-cai="map_01"
                                        class="text-success hover-dark" style="color: #15d !important;" data-toggle="tooltip" data-placement="top" title="View in Map.">
                                         Map
                                     </a>
