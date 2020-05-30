@@ -2613,11 +2613,11 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
 
             var qry = _dbContext.TblDistributionTransformer.AsNoTracking()
-                .Include(dt => dt.DtToPole)
-                //.Include(dt => dt.DtToFeederLine)
-                .Include(dt => dt.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
-                .Include(dt => dt.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
-                .Include(dt => dt.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                .Include(dt => dt.DtToFeederLine)
+                //.Include(dt => dt.DtToPole)
+                .Include(dt => dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationType)
+                .Include(dt => dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(dt => dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .Include(dt => dt.PoleStructureMountedSurgeArrestor)
                 .AsQueryable();
 
@@ -2697,7 +2697,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 zoneCode = regionList[0];
 
                 searchExp = model =>
-                    model.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
+                    model.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode == zoneCode;
 
                 ViewBag.CircleList = new SelectList(_dbContext.LookUpCircleInfo
                     .Where(c => c.ZoneCode.Equals(zoneCode))
@@ -2709,7 +2709,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                     circleCode = regionList[1];
 
                     Expression<Func<TblDistributionTransformer, bool>> tempExp = model =>
-                        model.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode == circleCode;
+                        model.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode == circleCode;
                     searchExp = ExpressionExtension<TblDistributionTransformer>.AndAlso(searchExp, tempExp);
 
                     ViewBag.SnDList = new SelectList(_dbContext.LookUpSnDInfo
@@ -2721,7 +2721,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                     {
                         snDCode = regionList[2];
 
-                        tempExp = model => model.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SnDCode == snDCode;
+                        tempExp = model => model.DtToPole.PoleToRoute.RouteToSubstation.SnDCode == snDCode;
                         searchExp = ExpressionExtension<TblDistributionTransformer>.AndAlso(searchExp, tempExp);
 
                         ViewBag.SubstationList = new SelectList(_dbContext.TblSubstation
@@ -2734,14 +2734,14 @@ namespace Pdb014App.Controllers.AdvancedSearching
                         {
                             substationCode = regionList[3];
 
-                            tempExp = model => model.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationId == substationCode;
+                            tempExp = model => model.DtToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblDistributionTransformer>.AndAlso(searchExp, tempExp);
 
                             if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
                             {
                                 routeCode = regionList[4];
 
-                                tempExp = model => model.DtToFeederLine.FeederLineToRoute.RouteCode == routeCode;
+                                tempExp = model => model.DtToPole.PoleToRoute.RouteCode == routeCode;
                                 searchExp = ExpressionExtension<TblDistributionTransformer>.AndAlso(searchExp, tempExp);
 
                                 ViewBag.RouteList = new SelectList(_dbContext.LookUpRouteInfo
@@ -3673,11 +3673,11 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 : _dbContext.TblDistributionTransformer.AsNoTracking();
 
             qry = qry
-                .Include(dt => dt.DtToPole)
-                //.Include(dt => dt.DtToFeederLine)
-                .Include(dt => dt.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
-                .Include(dt => dt.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
-                .Include(dt => dt.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                //.Include(dt => dt.DtToPole)
+                .Include(dt => dt.DtToFeederLine)
+                .Include(dt => dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationType)
+                .Include(dt => dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
+                .Include(dt => dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .Include(dt => dt.PoleStructureMountedSurgeArrestor)
                 .AsQueryable();
 

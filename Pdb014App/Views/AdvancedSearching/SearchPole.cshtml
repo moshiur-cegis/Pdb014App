@@ -199,31 +199,31 @@
                             </th>
 
                             <th>
-                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName, "PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName)
+                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName, "PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleName")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName)
+                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName, "PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict.DistrictName")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName)
+                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName, "PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDName")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationName)
+                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteToSubstation.SubstationName, "PoleToRoute.RouteToSubstation.SubstationName")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteName)
+                                @Html.SortableHeaderFor(model => model.PoleToRoute.RouteName, "PoleToRoute.RouteName")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederName)
+                                @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederName, "PoleToFeederLine.FeederName")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederLineTypeId)
+                                @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederLineTypeId, "PoleToFeederLine.FeederLineType.FeederLineTypeName")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederConductorTypeId)
+                                @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederConductorTypeId, "PoleToFeederLine.FeederConductorType.FeederConductorType")
                             </th>
                             @*<th>
                                     @Html.SortableHeaderFor(model => model.PoleToFeederLine.FeederLineType.FeederLineTypeName)
@@ -240,10 +240,10 @@
                                 @Html.SortableHeaderFor(model => model.PreviousPoleNo)
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PoleTypeId)
+                                @Html.SortableHeaderFor(model => model.PoleTypeId, "PoleType.Name")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PoleConditionId)
+                                @Html.SortableHeaderFor(model => model.PoleConditionId, "PoleCondition.Name")
                             </th>
                             <th>
                                 @Html.SortableHeaderFor(model => model.MSJNo)
@@ -255,13 +255,13 @@
                                 @Html.SortableHeaderFor(model => model.TwistNo)
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PhaseAId)
+                                @Html.SortableHeaderFor(model => model.PhaseAId, "PhaseACondition.Name")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PhaseBId)
+                                @Html.SortableHeaderFor(model => model.PhaseBId, "PhaseBCondition.Name")
                             </th>
                             <th>
-                                @Html.SortableHeaderFor(model => model.PhaseCId)
+                                @Html.SortableHeaderFor(model => model.PhaseCId, "PhaseCCondition.Name")
                             </th>
                             <th>
                                 @Html.SortableHeaderFor(model => model.Neutral)
@@ -361,7 +361,7 @@
                                     @Html.DisplayFor(modelItem => item.PhaseBCondition.Name)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.PhaseBCondition.Name)
+                                    @Html.DisplayFor(modelItem => item.PhaseCCondition.Name)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Neutral)

@@ -1925,9 +1925,9 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                     break;
 
+
                 case "circle":
-
-
+                    
                     ssInfo = qry
                         .Select(s => new
                         {

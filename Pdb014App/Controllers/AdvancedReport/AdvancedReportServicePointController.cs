@@ -274,7 +274,7 @@ namespace Pdb014App.Controllers.AdvancedReport
             return View("AdvancedReport");
             //return View("ConsumerInfo");
         }
-        
+
         [HttpPost]
         public IActionResult ConsumerInfo([FromQuery] string cai, string regionLevel, List<ReportField> fieldList, List<string> regionList)
         {
@@ -624,7 +624,7 @@ namespace Pdb014App.Controllers.AdvancedReport
 
             Expression<Func<TblConsumerData, bool>> searchExp = null;
 
-            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "", routeCode = "";
+            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "";
 
             if (regionList != null && regionList.Count > 0 && !string.IsNullOrEmpty(regionList[0]))
             {
@@ -661,14 +661,14 @@ namespace Pdb014App.Controllers.AdvancedReport
                                     .SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
-                            {
-                                routeCode = regionList[4];
-                                //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
+                            //if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
+                            //{
+                            //    routeCode = regionList[4];
+                            //    //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
 
-                                //tempExp = model => model. == substationCode;
-                                //searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
-                            }
+                            //    //tempExp = model => model. == substationCode;
+                            //    //searchExp = ExpressionExtension<TblConsumerData>.AndAlso(searchExp, tempExp);
+                            //}
                         }
                     }
                 }
@@ -687,369 +687,763 @@ namespace Pdb014App.Controllers.AdvancedReport
             switch (regionLevel)
             {
                 case "zone":
-                    data = qry
-                        .Include(st =>
-                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i =>
-                            i.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo.ZoneCode)
+
+                    var cmInfo = qry
+                        .Select(c => new
+                        {
+                            RegionCode = c.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
+                                    .RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
+
+                            ConsumerType = c.ConsumerTypeId ?? 0,
+                            OperatingVoltage = c.OperatingVoltageId ?? 0,
+                            //OperatingVoltage = c.OperatingVoltageId != null ? c.ConsumerToOperatingVoltage.OperatingVoltageName : "",
+                            ConnectionStatus = c.ConnectionStatusId ?? 0,
+                            ConnectionType = c.ConnectionTypeId ?? 0,
+                            MeterType = c.MeterTypeId ?? 0,
+                            PhasingCode = c.PhasingCodeId ?? 0,
+
+                            BusinessType = c.BusinessTypeId ?? 0,
+                            ServiceCableType = c.ServiceCableTypeId ?? 0,
+                            StructureType = c.StructureTypeId ?? 0,
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(f => f.RegionCode)
                         .Select(k => new
                         {
-                            zoneCode = k.Key,
-                            zoneName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
-                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .ZoneInfo.ZoneName,
+                            regionCode = k.Key,
 
                             totalCount = k.Count(),
 
-                            totalGovtCount = k.Count(d => d.ConsumerTypeId == 1),
-                            totalPrivateCount = k.Count(d => d.ConsumerTypeId == 2),
+                            totalGovtCount = k.Count(d => d.ConsumerType == 1),
+                            totalPrivateCount = k.Count(d => d.ConsumerType == 2),
 
-                            //total11kOpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("11")),
-                            //total400OpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("400")),
-                            //total230OpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("230")),
+                            //total11kOpeVolCount = k.Count(d => d.OperatingVoltage.Contains("11")),
+                            //total400OpeVolCount = k.Count(d => d.OperatingVoltage.Contains("400")),
+                            //total230OpeVolCount = k.Count(d => d.OperatingVoltage.Contains("230")),
 
-                            total11kOpeVolCount = k.Count(d => d.OperatingVoltageId == 1),
-                            total400OpeVolCount = k.Count(d => d.OperatingVoltageId == 2),
-                            total230OpeVolCount = k.Count(d => d.OperatingVoltageId == 3),
+                            total11kOpeVolCount = k.Count(d => d.OperatingVoltage == 1),
+                            total400OpeVolCount = k.Count(d => d.OperatingVoltage == 2),
+                            total230OpeVolCount = k.Count(d => d.OperatingVoltage == 3),
 
-                            totalRegularCount = k.Count(d => d.ConnectionStatusId == 1),
-                            totalTemporaryCount = k.Count(d => d.ConnectionStatusId == 2),
+                            totalRegularCount = k.Count(d => d.ConnectionStatus == 1),
+                            totalTemporaryCount = k.Count(d => d.ConnectionStatus == 2),
 
-                            totalMotherCount = k.Count(d => d.ConnectionTypeId == 1),
-                            totalChildCount = k.Count(d => d.ConnectionTypeId == 2),
-                            totalNACount = k.Count(d => d.ConnectionTypeId == 3),
+                            totalMotherCount = k.Count(d => d.ConnectionType == 1),
+                            totalChildCount = k.Count(d => d.ConnectionType == 2),
+                            totalNACount = k.Count(d => d.ConnectionType == 3),
 
-                            totalPreCardCount = k.Count(d => d.MeterTypeId == 1),
-                            totalPreKeypadCount = k.Count(d => d.MeterTypeId == 2),
-                            totalPreSmartCount = k.Count(d => d.MeterTypeId == 3),
-                            totalPosDigitalCount = k.Count(d => d.MeterTypeId == 4),
-                            totalPosAnalogueCount = k.Count(d => d.MeterTypeId == 5),
+                            totalPreCardCount = k.Count(d => d.MeterType == 1),
+                            totalPreKeypadCount = k.Count(d => d.MeterType == 2),
+                            totalPreSmartCount = k.Count(d => d.MeterType == 3),
+                            totalPosDigitalCount = k.Count(d => d.MeterType == 4),
+                            totalPosAnalogueCount = k.Count(d => d.MeterType == 5),
 
-                            totalRCount = k.Count(d => d.PhasingCodeId == 1),
-                            totalYCount = k.Count(d => d.PhasingCodeId == 2),
-                            totalBCount = k.Count(d => d.PhasingCodeId == 3),
-                            totalRYBCount = k.Count(d => d.PhasingCodeId == 4),
+                            totalRCount = k.Count(d => d.PhasingCode == 1),
+                            totalYCount = k.Count(d => d.PhasingCode == 2),
+                            totalBCount = k.Count(d => d.PhasingCode == 3),
+                            totalRYBCount = k.Count(d => d.PhasingCode == 4),
 
-                            totalEducationCount = k.Count(d => d.BusinessTypeId == 2),
-                            totalHospitalCount = k.Count(d => d.BusinessTypeId == 3),
-                            totalFreedomFighterCount = k.Count(d => d.BusinessTypeId == 4),
-                            totalWaterPumpCount = k.Count(d => d.BusinessTypeId == 5),
-                            totalOfficeCount = k.Count(d => d.BusinessTypeId == 6),
-                            totalStreetLightCount = k.Count(d => d.BusinessTypeId == 7),
-                            totalReligiousCount = k.Count(d => d.BusinessTypeId == 10),
-                            totalResidentialCount = k.Count(d => d.BusinessTypeId == 11),
-                            totalMixedResidentialCount = k.Count(d => d.BusinessTypeId == 12),
-                            totalBusinessCount = k.Count(d => d.BusinessTypeId == 51),
-                            totalOthersCount = k.Count(d => d.BusinessTypeId == 99),
+                            totalEducationCount = k.Count(d => d.BusinessType == 2),
+                            totalHospitalCount = k.Count(d => d.BusinessType == 3),
+                            totalFreedomFighterCount = k.Count(d => d.BusinessType == 4),
+                            totalWaterPumpCount = k.Count(d => d.BusinessType == 5),
+                            totalOfficeCount = k.Count(d => d.BusinessType == 6),
+                            totalStreetLightCount = k.Count(d => d.BusinessType == 7),
+                            totalReligiousCount = k.Count(d => d.BusinessType == 10),
+                            totalResidentialCount = k.Count(d => d.BusinessType == 11),
+                            totalMixedResidentialCount = k.Count(d => d.BusinessType == 12),
+                            totalBusinessCount = k.Count(d => d.BusinessType == 51),
+                            totalOthersCount = k.Count(d => d.BusinessType == 99),
 
-                            totalPVCCount = k.Count(d => d.ServiceCableTypeId == 1),
-                            totalCBVCount = k.Count(d => d.ServiceCableTypeId == 2),
+                            totalPVCCount = k.Count(d => d.ServiceCableType == 1),
+                            totalCBVCount = k.Count(d => d.ServiceCableType == 2),
 
-                            totalPaccaCount = k.Count(d => d.StructureTypeId == 1),
-                            totalSemiPaccaCount = k.Count(d => d.StructureTypeId == 2),
-                            totalWoodenCount = k.Count(d => d.StructureTypeId == 3),
-                            totalEarthenCount = k.Count(d => d.StructureTypeId == 4),
+                            totalPaccaCount = k.Count(d => d.StructureType == 1),
+                            totalSemiPaccaCount = k.Count(d => d.StructureType == 2),
+                            totalWoodenCount = k.Count(d => d.StructureType == 3),
+                            totalEarthenCount = k.Count(d => d.StructureType == 4),
+                        })
+                        .ToList();
 
-                        }).ToList();
+
+                    var regions = _context.LookUpZoneInfo
+                        .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
+                        .Select(z => new
+                        {
+                            regionCode = z.ZoneCode,
+                            zoneName = z.ZoneName,
+                            circleName = "",
+                            sndName = "",
+                            substationName = "",
+                        })
+                        .ToList();
+
+                    data = (from rg in regions
+                            join cm in cmInfo on rg.regionCode equals cm.regionCode into rcm
+                            from cm in rcm.DefaultIfEmpty()
+                            select new
+                            {
+                                zoneCode = rg.regionCode,
+                                rg.zoneName,
+
+                                cm?.totalCount,
+
+                                cm?.totalGovtCount,
+                                cm?.totalPrivateCount,
+
+                                cm?.total11kOpeVolCount,
+                                cm?.total400OpeVolCount,
+                                cm?.total230OpeVolCount,
+
+                                cm?.totalRegularCount,
+                                cm?.totalTemporaryCount,
+
+                                cm?.totalMotherCount,
+                                cm?.totalChildCount,
+                                cm?.totalNACount,
+
+                                cm?.totalPreCardCount,
+                                cm?.totalPreKeypadCount,
+                                cm?.totalPreSmartCount,
+                                cm?.totalPosDigitalCount,
+                                cm?.totalPosAnalogueCount,
+
+                                cm?.totalRCount,
+                                cm?.totalYCount,
+                                cm?.totalBCount,
+                                cm?.totalRYBCount,
+
+                                cm?.totalEducationCount,
+                                cm?.totalHospitalCount,
+                                cm?.totalFreedomFighterCount,
+                                cm?.totalWaterPumpCount,
+                                cm?.totalOfficeCount,
+                                cm?.totalStreetLightCount,
+                                cm?.totalReligiousCount,
+                                cm?.totalResidentialCount,
+                                cm?.totalMixedResidentialCount,
+                                cm?.totalBusinessCount,
+                                cm?.totalOthersCount,
+
+                                cm?.totalPVCCount,
+                                cm?.totalCBVCount,
+
+                                cm?.totalPaccaCount,
+                                cm?.totalSemiPaccaCount,
+                                cm?.totalWoodenCount,
+                                cm?.totalEarthenCount,
+                            })
+                        .ToList();
+
                     break;
 
 
                 case "circle":
-                    data = qry
-                        .Include(st =>
-                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i =>
-                            i.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleCode)
+
+                    cmInfo = qry
+                        .Select(c => new
+                        {
+                            RegionCode = c.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
+                                    .RouteToSubstation.SubstationToLookUpSnD.CircleCode,
+
+                            ConsumerType = c.ConsumerTypeId ?? 0,
+                            OperatingVoltage = c.OperatingVoltageId ?? 0,
+                            ConnectionStatus = c.ConnectionStatusId ?? 0,
+                            ConnectionType = c.ConnectionTypeId ?? 0,
+                            MeterType = c.MeterTypeId ?? 0,
+                            PhasingCode = c.PhasingCodeId ?? 0,
+
+                            BusinessType = c.BusinessTypeId ?? 0,
+                            ServiceCableType = c.ServiceCableTypeId ?? 0,
+                            StructureType = c.StructureTypeId ?? 0,
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(f => f.RegionCode)
                         .Select(k => new
                         {
-                            //wl = k.Sum(d => d.Poles.Sum(pi => pi.WireLength)),
-                            zoneName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
-                                .RouteToSubstation.SubstationToLookUpSnD
-                                .CircleInfo.ZoneInfo.ZoneName,
-                            circleCode = k.Key,
-                            circleName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
-                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .CircleName,
+                            regionCode = k.Key,
 
                             totalCount = k.Count(),
 
-                            totalGovtCount = k.Count(d => d.ConsumerTypeId == 1),
-                            totalPrivateCount = k.Count(d => d.ConsumerTypeId == 2),
+                            totalGovtCount = k.Count(d => d.ConsumerType == 1),
+                            totalPrivateCount = k.Count(d => d.ConsumerType == 2),
 
-                            //total11kOpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("11")),
-                            //total400OpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("400")),
-                            //total230OpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("230")),
+                            total11kOpeVolCount = k.Count(d => d.OperatingVoltage == 1),
+                            total400OpeVolCount = k.Count(d => d.OperatingVoltage == 2),
+                            total230OpeVolCount = k.Count(d => d.OperatingVoltage == 3),
 
-                            total11kOpeVolCount = k.Count(d => d.OperatingVoltageId == 1),
-                            total400OpeVolCount = k.Count(d => d.OperatingVoltageId == 2),
-                            total230OpeVolCount = k.Count(d => d.OperatingVoltageId == 3),
+                            totalRegularCount = k.Count(d => d.ConnectionStatus == 1),
+                            totalTemporaryCount = k.Count(d => d.ConnectionStatus == 2),
 
-                            totalRegularCount = k.Count(d => d.ConnectionStatusId == 1),
-                            totalTemporaryCount = k.Count(d => d.ConnectionStatusId == 2),
+                            totalMotherCount = k.Count(d => d.ConnectionType == 1),
+                            totalChildCount = k.Count(d => d.ConnectionType == 2),
+                            totalNACount = k.Count(d => d.ConnectionType == 3),
 
-                            totalMotherCount = k.Count(d => d.ConnectionTypeId == 1),
-                            totalChildCount = k.Count(d => d.ConnectionTypeId == 2),
-                            totalNACount = k.Count(d => d.ConnectionTypeId == 3),
+                            totalPreCardCount = k.Count(d => d.MeterType == 1),
+                            totalPreKeypadCount = k.Count(d => d.MeterType == 2),
+                            totalPreSmartCount = k.Count(d => d.MeterType == 3),
+                            totalPosDigitalCount = k.Count(d => d.MeterType == 4),
+                            totalPosAnalogueCount = k.Count(d => d.MeterType == 5),
 
-                            totalPreCardCount = k.Count(d => d.MeterTypeId == 1),
-                            totalPreKeypadCount = k.Count(d => d.MeterTypeId == 2),
-                            totalPreSmartCount = k.Count(d => d.MeterTypeId == 3),
-                            totalPosDigitalCount = k.Count(d => d.MeterTypeId == 4),
-                            totalPosAnalogueCount = k.Count(d => d.MeterTypeId == 5),
+                            totalRCount = k.Count(d => d.PhasingCode == 1),
+                            totalYCount = k.Count(d => d.PhasingCode == 2),
+                            totalBCount = k.Count(d => d.PhasingCode == 3),
+                            totalRYBCount = k.Count(d => d.PhasingCode == 4),
 
-                            totalRCount = k.Count(d => d.PhasingCodeId == 1),
-                            totalYCount = k.Count(d => d.PhasingCodeId == 2),
-                            totalBCount = k.Count(d => d.PhasingCodeId == 3),
-                            totalRYBCount = k.Count(d => d.PhasingCodeId == 4),
+                            totalEducationCount = k.Count(d => d.BusinessType == 2),
+                            totalHospitalCount = k.Count(d => d.BusinessType == 3),
+                            totalFreedomFighterCount = k.Count(d => d.BusinessType == 4),
+                            totalWaterPumpCount = k.Count(d => d.BusinessType == 5),
+                            totalOfficeCount = k.Count(d => d.BusinessType == 6),
+                            totalStreetLightCount = k.Count(d => d.BusinessType == 7),
+                            totalReligiousCount = k.Count(d => d.BusinessType == 10),
+                            totalResidentialCount = k.Count(d => d.BusinessType == 11),
+                            totalMixedResidentialCount = k.Count(d => d.BusinessType == 12),
+                            totalBusinessCount = k.Count(d => d.BusinessType == 51),
+                            totalOthersCount = k.Count(d => d.BusinessType == 99),
 
-                            totalEducationCount = k.Count(d => d.BusinessTypeId == 2),
-                            totalHospitalCount = k.Count(d => d.BusinessTypeId == 3),
-                            totalFreedomFighterCount = k.Count(d => d.BusinessTypeId == 4),
-                            totalWaterPumpCount = k.Count(d => d.BusinessTypeId == 5),
-                            totalOfficeCount = k.Count(d => d.BusinessTypeId == 6),
-                            totalStreetLightCount = k.Count(d => d.BusinessTypeId == 7),
-                            totalReligiousCount = k.Count(d => d.BusinessTypeId == 10),
-                            totalResidentialCount = k.Count(d => d.BusinessTypeId == 11),
-                            totalMixedResidentialCount = k.Count(d => d.BusinessTypeId == 12),
-                            totalBusinessCount = k.Count(d => d.BusinessTypeId == 51),
-                            totalOthersCount = k.Count(d => d.BusinessTypeId == 99),
+                            totalPVCCount = k.Count(d => d.ServiceCableType == 1),
+                            totalCBVCount = k.Count(d => d.ServiceCableType == 2),
 
-                            totalPVCCount = k.Count(d => d.ServiceCableTypeId == 1),
-                            totalCBVCount = k.Count(d => d.ServiceCableTypeId == 2),
-
-                            totalPaccaCount = k.Count(d => d.StructureTypeId == 1),
-                            totalSemiPaccaCount = k.Count(d => d.StructureTypeId == 2),
-                            totalWoodenCount = k.Count(d => d.StructureTypeId == 3),
-                            totalEarthenCount = k.Count(d => d.StructureTypeId == 4),
-
+                            totalPaccaCount = k.Count(d => d.StructureType == 1),
+                            totalSemiPaccaCount = k.Count(d => d.StructureType == 2),
+                            totalWoodenCount = k.Count(d => d.StructureType == 3),
+                            totalEarthenCount = k.Count(d => d.StructureType == 4),
                         })
                         .ToList();
+
+
+                    regions = _context.LookUpCircleInfo
+                        .Where(c => (zoneCode.Equals("") || c.ZoneCode.Equals(zoneCode))
+                                    && (circleCode.Equals("") || c.CircleCode.Equals(circleCode)))
+                        .Include(z => z.ZoneInfo)
+                        .Select(c => new
+                        {
+                            regionCode = c.CircleCode,
+                            zoneName = c.ZoneInfo.ZoneName,
+                            circleName = c.CircleName,
+                            sndName = "",
+                            substationName = "",
+                        })
+                        .ToList();
+
+                    data = (from rg in regions
+                            join cm in cmInfo on rg.regionCode equals cm.regionCode into rcm
+                            from cm in rcm.DefaultIfEmpty()
+                            select new
+                            {
+                                circleCode = rg.regionCode,
+                                rg.zoneName,
+                                rg.circleName,
+
+                                cm?.totalCount,
+
+                                cm?.totalGovtCount,
+                                cm?.totalPrivateCount,
+
+                                cm?.total11kOpeVolCount,
+                                cm?.total400OpeVolCount,
+                                cm?.total230OpeVolCount,
+
+                                cm?.totalRegularCount,
+                                cm?.totalTemporaryCount,
+
+                                cm?.totalMotherCount,
+                                cm?.totalChildCount,
+                                cm?.totalNACount,
+
+                                cm?.totalPreCardCount,
+                                cm?.totalPreKeypadCount,
+                                cm?.totalPreSmartCount,
+                                cm?.totalPosDigitalCount,
+                                cm?.totalPosAnalogueCount,
+
+                                cm?.totalRCount,
+                                cm?.totalYCount,
+                                cm?.totalBCount,
+                                cm?.totalRYBCount,
+
+                                cm?.totalEducationCount,
+                                cm?.totalHospitalCount,
+                                cm?.totalFreedomFighterCount,
+                                cm?.totalWaterPumpCount,
+                                cm?.totalOfficeCount,
+                                cm?.totalStreetLightCount,
+                                cm?.totalReligiousCount,
+                                cm?.totalResidentialCount,
+                                cm?.totalMixedResidentialCount,
+                                cm?.totalBusinessCount,
+                                cm?.totalOthersCount,
+
+                                cm?.totalPVCCount,
+                                cm?.totalCBVCount,
+
+                                cm?.totalPaccaCount,
+                                cm?.totalSemiPaccaCount,
+                                cm?.totalWoodenCount,
+                                cm?.totalEarthenCount,
+                            })
+                        .ToList();
+
                     break;
+
 
                 case "snd":
-                    data = qry
-                        .Include(st =>
-                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD)
-                        .Include(st =>
-                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo)
-                        .Include(st =>
-                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i =>
-                            i.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode)
+
+                    cmInfo = qry
+                        .Select(c => new
+                        {
+                            RegionCode = c.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode,
+
+                            ConsumerType = c.ConsumerTypeId ?? 0,
+                            OperatingVoltage = c.OperatingVoltageId ?? 0,
+                            ConnectionStatus = c.ConnectionStatusId ?? 0,
+                            ConnectionType = c.ConnectionTypeId ?? 0,
+                            MeterType = c.MeterTypeId ?? 0,
+                            PhasingCode = c.PhasingCodeId ?? 0,
+
+                            BusinessType = c.BusinessTypeId ?? 0,
+                            ServiceCableType = c.ServiceCableTypeId ?? 0,
+                            StructureType = c.StructureTypeId ?? 0,
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(f => f.RegionCode)
                         .Select(k => new
                         {
-                            zoneName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
-                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .ZoneInfo.ZoneName,
-                            circleName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
-                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .CircleName,
-                            sndCode = k.Key,
-                            sndName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
-                                .RouteToSubstation.SubstationToLookUpSnD.SnDName,
+                            regionCode = k.Key,
 
                             totalCount = k.Count(),
 
-                            totalGovtCount = k.Count(d => d.ConsumerTypeId == 1),
-                            totalPrivateCount = k.Count(d => d.ConsumerTypeId == 2),
+                            totalGovtCount = k.Count(d => d.ConsumerType == 1),
+                            totalPrivateCount = k.Count(d => d.ConsumerType == 2),
 
-                            //total11kOpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("11")),
-                            //total400OpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("400")),
-                            //total230OpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("230")),
+                            total11kOpeVolCount = k.Count(d => d.OperatingVoltage == 1),
+                            total400OpeVolCount = k.Count(d => d.OperatingVoltage == 2),
+                            total230OpeVolCount = k.Count(d => d.OperatingVoltage == 3),
 
-                            total11kOpeVolCount = k.Count(d => d.OperatingVoltageId == 1),
-                            total400OpeVolCount = k.Count(d => d.OperatingVoltageId == 2),
-                            total230OpeVolCount = k.Count(d => d.OperatingVoltageId == 3),
+                            totalRegularCount = k.Count(d => d.ConnectionStatus == 1),
+                            totalTemporaryCount = k.Count(d => d.ConnectionStatus == 2),
 
-                            totalRegularCount = k.Count(d => d.ConnectionStatusId == 1),
-                            totalTemporaryCount = k.Count(d => d.ConnectionStatusId == 2),
+                            totalMotherCount = k.Count(d => d.ConnectionType == 1),
+                            totalChildCount = k.Count(d => d.ConnectionType == 2),
+                            totalNACount = k.Count(d => d.ConnectionType == 3),
 
-                            totalMotherCount = k.Count(d => d.ConnectionTypeId == 1),
-                            totalChildCount = k.Count(d => d.ConnectionTypeId == 2),
-                            totalNACount = k.Count(d => d.ConnectionTypeId == 3),
+                            totalPreCardCount = k.Count(d => d.MeterType == 1),
+                            totalPreKeypadCount = k.Count(d => d.MeterType == 2),
+                            totalPreSmartCount = k.Count(d => d.MeterType == 3),
+                            totalPosDigitalCount = k.Count(d => d.MeterType == 4),
+                            totalPosAnalogueCount = k.Count(d => d.MeterType == 5),
 
-                            totalPreCardCount = k.Count(d => d.MeterTypeId == 1),
-                            totalPreKeypadCount = k.Count(d => d.MeterTypeId == 2),
-                            totalPreSmartCount = k.Count(d => d.MeterTypeId == 3),
-                            totalPosDigitalCount = k.Count(d => d.MeterTypeId == 4),
-                            totalPosAnalogueCount = k.Count(d => d.MeterTypeId == 5),
+                            totalRCount = k.Count(d => d.PhasingCode == 1),
+                            totalYCount = k.Count(d => d.PhasingCode == 2),
+                            totalBCount = k.Count(d => d.PhasingCode == 3),
+                            totalRYBCount = k.Count(d => d.PhasingCode == 4),
 
-                            totalRCount = k.Count(d => d.PhasingCodeId == 1),
-                            totalYCount = k.Count(d => d.PhasingCodeId == 2),
-                            totalBCount = k.Count(d => d.PhasingCodeId == 3),
-                            totalRYBCount = k.Count(d => d.PhasingCodeId == 4),
+                            totalEducationCount = k.Count(d => d.BusinessType == 2),
+                            totalHospitalCount = k.Count(d => d.BusinessType == 3),
+                            totalFreedomFighterCount = k.Count(d => d.BusinessType == 4),
+                            totalWaterPumpCount = k.Count(d => d.BusinessType == 5),
+                            totalOfficeCount = k.Count(d => d.BusinessType == 6),
+                            totalStreetLightCount = k.Count(d => d.BusinessType == 7),
+                            totalReligiousCount = k.Count(d => d.BusinessType == 10),
+                            totalResidentialCount = k.Count(d => d.BusinessType == 11),
+                            totalMixedResidentialCount = k.Count(d => d.BusinessType == 12),
+                            totalBusinessCount = k.Count(d => d.BusinessType == 51),
+                            totalOthersCount = k.Count(d => d.BusinessType == 99),
 
-                            totalEducationCount = k.Count(d => d.BusinessTypeId == 2),
-                            totalHospitalCount = k.Count(d => d.BusinessTypeId == 3),
-                            totalFreedomFighterCount = k.Count(d => d.BusinessTypeId == 4),
-                            totalWaterPumpCount = k.Count(d => d.BusinessTypeId == 5),
-                            totalOfficeCount = k.Count(d => d.BusinessTypeId == 6),
-                            totalStreetLightCount = k.Count(d => d.BusinessTypeId == 7),
-                            totalReligiousCount = k.Count(d => d.BusinessTypeId == 10),
-                            totalResidentialCount = k.Count(d => d.BusinessTypeId == 11),
-                            totalMixedResidentialCount = k.Count(d => d.BusinessTypeId == 12),
-                            totalBusinessCount = k.Count(d => d.BusinessTypeId == 51),
-                            totalOthersCount = k.Count(d => d.BusinessTypeId == 99),
+                            totalPVCCount = k.Count(d => d.ServiceCableType == 1),
+                            totalCBVCount = k.Count(d => d.ServiceCableType == 2),
 
-                            totalPVCCount = k.Count(d => d.ServiceCableTypeId == 1),
-                            totalCBVCount = k.Count(d => d.ServiceCableTypeId == 2),
+                            totalPaccaCount = k.Count(d => d.StructureType == 1),
+                            totalSemiPaccaCount = k.Count(d => d.StructureType == 2),
+                            totalWoodenCount = k.Count(d => d.StructureType == 3),
+                            totalEarthenCount = k.Count(d => d.StructureType == 4),
+                        })
+                        .ToList();
 
-                            totalPaccaCount = k.Count(d => d.StructureTypeId == 1),
-                            totalSemiPaccaCount = k.Count(d => d.StructureTypeId == 2),
-                            totalWoodenCount = k.Count(d => d.StructureTypeId == 3),
-                            totalEarthenCount = k.Count(d => d.StructureTypeId == 4),
 
-                        }).ToList();
+                    regions = _context.LookUpSnDInfo
+                        .Where(d => (zoneCode.Equals("") || d.CircleInfo.ZoneCode.Equals(zoneCode))
+                                    && (circleCode.Equals("") || d.CircleCode.Equals(circleCode))
+                                    && (snDCode.Equals("") || d.SnDCode.Equals(snDCode)))
+                        .Include(z => z.CircleInfo.ZoneInfo)
+                        .Select(d => new
+                        {
+                            regionCode = d.SnDCode,
+                            zoneName = d.CircleInfo.ZoneInfo.ZoneName,
+                            circleName = d.CircleInfo.CircleName,
+                            sndName = d.SnDName,
+                            substationName = "",
+                        })
+                        .ToList();
+
+                    data = (from rg in regions
+                            join cm in cmInfo on rg.regionCode equals cm.regionCode into rcm
+                            from cm in rcm.DefaultIfEmpty()
+                            select new
+                            {
+                                sndCode = rg.regionCode,
+                                rg.zoneName,
+                                rg.circleName,
+                                rg.sndName,
+
+                                cm?.totalCount,
+
+                                cm?.totalGovtCount,
+                                cm?.totalPrivateCount,
+
+                                cm?.total11kOpeVolCount,
+                                cm?.total400OpeVolCount,
+                                cm?.total230OpeVolCount,
+
+                                cm?.totalRegularCount,
+                                cm?.totalTemporaryCount,
+
+                                cm?.totalMotherCount,
+                                cm?.totalChildCount,
+                                cm?.totalNACount,
+
+                                cm?.totalPreCardCount,
+                                cm?.totalPreKeypadCount,
+                                cm?.totalPreSmartCount,
+                                cm?.totalPosDigitalCount,
+                                cm?.totalPosAnalogueCount,
+
+                                cm?.totalRCount,
+                                cm?.totalYCount,
+                                cm?.totalBCount,
+                                cm?.totalRYBCount,
+
+                                cm?.totalEducationCount,
+                                cm?.totalHospitalCount,
+                                cm?.totalFreedomFighterCount,
+                                cm?.totalWaterPumpCount,
+                                cm?.totalOfficeCount,
+                                cm?.totalStreetLightCount,
+                                cm?.totalReligiousCount,
+                                cm?.totalResidentialCount,
+                                cm?.totalMixedResidentialCount,
+                                cm?.totalBusinessCount,
+                                cm?.totalOthersCount,
+
+                                cm?.totalPVCCount,
+                                cm?.totalCBVCount,
+
+                                cm?.totalPaccaCount,
+                                cm?.totalSemiPaccaCount,
+                                cm?.totalWoodenCount,
+                                cm?.totalEarthenCount,
+                            })
+                        .ToList();
+
                     break;
+
 
                 case "substation":
-                    data = qry
-                        .Include(st =>
-                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i => i.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.SubstationId)
+
+                    cmInfo = qry
+                        .Select(c => new
+                        {
+                            RegionCode = c.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.SubstationId,
+
+                            ConsumerType = c.ConsumerTypeId ?? 0,
+                            OperatingVoltage = c.OperatingVoltageId ?? 0,
+                            ConnectionStatus = c.ConnectionStatusId ?? 0,
+                            ConnectionType = c.ConnectionTypeId ?? 0,
+                            MeterType = c.MeterTypeId ?? 0,
+                            PhasingCode = c.PhasingCodeId ?? 0,
+
+                            BusinessType = c.BusinessTypeId ?? 0,
+                            ServiceCableType = c.ServiceCableTypeId ?? 0,
+                            StructureType = c.StructureTypeId ?? 0,
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(f => f.RegionCode)
                         .Select(k => new
                         {
-                            zoneName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
-                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .ZoneInfo.ZoneName,
-                            circleName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
-                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .CircleName,
-                            sndName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
-                                .RouteToSubstation.SubstationToLookUpSnD.SnDName,
-                            substationCode = k.Key,
-                            substationName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
-                                .RouteToSubstation.SubstationName,
+                            regionCode = k.Key,
 
                             totalCount = k.Count(),
 
-                            totalGovtCount = k.Count(d => d.ConsumerTypeId == 1),
-                            totalPrivateCount = k.Count(d => d.ConsumerTypeId == 2),
+                            totalGovtCount = k.Count(d => d.ConsumerType == 1),
+                            totalPrivateCount = k.Count(d => d.ConsumerType == 2),
 
-                            //total11kOpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("11")),
-                            //total400OpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("400")),
-                            //total230OpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("230")),
+                            total11kOpeVolCount = k.Count(d => d.OperatingVoltage == 1),
+                            total400OpeVolCount = k.Count(d => d.OperatingVoltage == 2),
+                            total230OpeVolCount = k.Count(d => d.OperatingVoltage == 3),
 
-                            total11kOpeVolCount = k.Count(d => d.OperatingVoltageId == 1),
-                            total400OpeVolCount = k.Count(d => d.OperatingVoltageId == 2),
-                            total230OpeVolCount = k.Count(d => d.OperatingVoltageId == 3),
+                            totalRegularCount = k.Count(d => d.ConnectionStatus == 1),
+                            totalTemporaryCount = k.Count(d => d.ConnectionStatus == 2),
 
-                            totalRegularCount = k.Count(d => d.ConnectionStatusId == 1),
-                            totalTemporaryCount = k.Count(d => d.ConnectionStatusId == 2),
+                            totalMotherCount = k.Count(d => d.ConnectionType == 1),
+                            totalChildCount = k.Count(d => d.ConnectionType == 2),
+                            totalNACount = k.Count(d => d.ConnectionType == 3),
 
-                            totalMotherCount = k.Count(d => d.ConnectionTypeId == 1),
-                            totalChildCount = k.Count(d => d.ConnectionTypeId == 2),
-                            totalNACount = k.Count(d => d.ConnectionTypeId == 3),
+                            totalPreCardCount = k.Count(d => d.MeterType == 1),
+                            totalPreKeypadCount = k.Count(d => d.MeterType == 2),
+                            totalPreSmartCount = k.Count(d => d.MeterType == 3),
+                            totalPosDigitalCount = k.Count(d => d.MeterType == 4),
+                            totalPosAnalogueCount = k.Count(d => d.MeterType == 5),
 
-                            totalPreCardCount = k.Count(d => d.MeterTypeId == 1),
-                            totalPreKeypadCount = k.Count(d => d.MeterTypeId == 2),
-                            totalPreSmartCount = k.Count(d => d.MeterTypeId == 3),
-                            totalPosDigitalCount = k.Count(d => d.MeterTypeId == 4),
-                            totalPosAnalogueCount = k.Count(d => d.MeterTypeId == 5),
+                            totalRCount = k.Count(d => d.PhasingCode == 1),
+                            totalYCount = k.Count(d => d.PhasingCode == 2),
+                            totalBCount = k.Count(d => d.PhasingCode == 3),
+                            totalRYBCount = k.Count(d => d.PhasingCode == 4),
 
-                            totalRCount = k.Count(d => d.PhasingCodeId == 1),
-                            totalYCount = k.Count(d => d.PhasingCodeId == 2),
-                            totalBCount = k.Count(d => d.PhasingCodeId == 3),
-                            totalRYBCount = k.Count(d => d.PhasingCodeId == 4),
+                            totalEducationCount = k.Count(d => d.BusinessType == 2),
+                            totalHospitalCount = k.Count(d => d.BusinessType == 3),
+                            totalFreedomFighterCount = k.Count(d => d.BusinessType == 4),
+                            totalWaterPumpCount = k.Count(d => d.BusinessType == 5),
+                            totalOfficeCount = k.Count(d => d.BusinessType == 6),
+                            totalStreetLightCount = k.Count(d => d.BusinessType == 7),
+                            totalReligiousCount = k.Count(d => d.BusinessType == 10),
+                            totalResidentialCount = k.Count(d => d.BusinessType == 11),
+                            totalMixedResidentialCount = k.Count(d => d.BusinessType == 12),
+                            totalBusinessCount = k.Count(d => d.BusinessType == 51),
+                            totalOthersCount = k.Count(d => d.BusinessType == 99),
 
-                            totalEducationCount = k.Count(d => d.BusinessTypeId == 2),
-                            totalHospitalCount = k.Count(d => d.BusinessTypeId == 3),
-                            totalFreedomFighterCount = k.Count(d => d.BusinessTypeId == 4),
-                            totalWaterPumpCount = k.Count(d => d.BusinessTypeId == 5),
-                            totalOfficeCount = k.Count(d => d.BusinessTypeId == 6),
-                            totalStreetLightCount = k.Count(d => d.BusinessTypeId == 7),
-                            totalReligiousCount = k.Count(d => d.BusinessTypeId == 10),
-                            totalResidentialCount = k.Count(d => d.BusinessTypeId == 11),
-                            totalMixedResidentialCount = k.Count(d => d.BusinessTypeId == 12),
-                            totalBusinessCount = k.Count(d => d.BusinessTypeId == 51),
-                            totalOthersCount = k.Count(d => d.BusinessTypeId == 99),
+                            totalPVCCount = k.Count(d => d.ServiceCableType == 1),
+                            totalCBVCount = k.Count(d => d.ServiceCableType == 2),
 
-                            totalPVCCount = k.Count(d => d.ServiceCableTypeId == 1),
-                            totalCBVCount = k.Count(d => d.ServiceCableTypeId == 2),
+                            totalPaccaCount = k.Count(d => d.StructureType == 1),
+                            totalSemiPaccaCount = k.Count(d => d.StructureType == 2),
+                            totalWoodenCount = k.Count(d => d.StructureType == 3),
+                            totalEarthenCount = k.Count(d => d.StructureType == 4),
+                        })
+                        .ToList();
 
-                            totalPaccaCount = k.Count(d => d.StructureTypeId == 1),
-                            totalSemiPaccaCount = k.Count(d => d.StructureTypeId == 2),
-                            totalWoodenCount = k.Count(d => d.StructureTypeId == 3),
-                            totalEarthenCount = k.Count(d => d.StructureTypeId == 4),
 
-                        }).ToList();
+                    regions = _context.TblSubstation
+                        .Where(s =>
+                            (zoneCode.Equals("") || s.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                            && (circleCode.Equals("") || s.SubstationToLookUpSnD.CircleCode.Equals(circleCode))
+                            && (snDCode.Equals("") || s.SnDCode.Equals(snDCode))
+                            && (substationCode.Equals("") || s.SubstationId.Equals(substationCode)))
+                        .Include(z => z.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .Select(s => new
+                        {
+                            regionCode = s.SubstationId,
+                            zoneName = s.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName,
+                            circleName = s.SubstationToLookUpSnD.CircleInfo.CircleName,
+                            sndName = s.SubstationToLookUpSnD.SnDName,
+                            substationName = s.SubstationName,
+                        })
+                        .ToList();
+
+                    data = (from rg in regions
+                            join cm in cmInfo on rg.regionCode equals cm.regionCode into rcm
+                            from cm in rcm.DefaultIfEmpty()
+                            select new
+                            {
+
+                                substationCode = rg.regionCode,
+                                rg.zoneName,
+                                rg.circleName,
+                                rg.sndName,
+                                rg.substationName,
+
+                                cm?.totalCount,
+
+                                cm?.totalGovtCount,
+                                cm?.totalPrivateCount,
+
+                                cm?.total11kOpeVolCount,
+                                cm?.total400OpeVolCount,
+                                cm?.total230OpeVolCount,
+
+                                cm?.totalRegularCount,
+                                cm?.totalTemporaryCount,
+
+                                cm?.totalMotherCount,
+                                cm?.totalChildCount,
+                                cm?.totalNACount,
+
+                                cm?.totalPreCardCount,
+                                cm?.totalPreKeypadCount,
+                                cm?.totalPreSmartCount,
+                                cm?.totalPosDigitalCount,
+                                cm?.totalPosAnalogueCount,
+
+                                cm?.totalRCount,
+                                cm?.totalYCount,
+                                cm?.totalBCount,
+                                cm?.totalRYBCount,
+
+                                cm?.totalEducationCount,
+                                cm?.totalHospitalCount,
+                                cm?.totalFreedomFighterCount,
+                                cm?.totalWaterPumpCount,
+                                cm?.totalOfficeCount,
+                                cm?.totalStreetLightCount,
+                                cm?.totalReligiousCount,
+                                cm?.totalResidentialCount,
+                                cm?.totalMixedResidentialCount,
+                                cm?.totalBusinessCount,
+                                cm?.totalOthersCount,
+
+                                cm?.totalPVCCount,
+                                cm?.totalCBVCount,
+
+                                cm?.totalPaccaCount,
+                                cm?.totalSemiPaccaCount,
+                                cm?.totalWoodenCount,
+                                cm?.totalEarthenCount,
+                            })
+                        .ToList();
+
                     break;
 
+
                 default:
-                    data = qry
-                        .Include(st =>
-                            st.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i =>
-                            i.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo.ZoneCode)
+
+                    cmInfo = qry
+                        .Select(c => new
+                        {
+                            RegionCode =
+                                c.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
+                                    .RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
+
+                            ConsumerType = c.ConsumerTypeId ?? 0,
+                            OperatingVoltage = c.OperatingVoltageId ?? 0,
+                            ConnectionStatus = c.ConnectionStatusId ?? 0,
+                            ConnectionType = c.ConnectionTypeId ?? 0,
+                            MeterType = c.MeterTypeId ?? 0,
+                            PhasingCode = c.PhasingCodeId ?? 0,
+
+                            BusinessType = c.BusinessTypeId ?? 0,
+                            ServiceCableType = c.ServiceCableTypeId ?? 0,
+                            StructureType = c.StructureTypeId ?? 0,
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(f => f.RegionCode)
                         .Select(k => new
                         {
-                            zoneCode = k.Key,
-                            zoneName = k.First().ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute
-                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .ZoneInfo.ZoneName,
+                            regionCode = k.Key,
 
                             totalCount = k.Count(),
 
-                            totalGovtCount = k.Count(d => d.ConsumerTypeId == 1),
-                            totalPrivateCount = k.Count(d => d.ConsumerTypeId == 2),
+                            totalGovtCount = k.Count(d => d.ConsumerType == 1),
+                            totalPrivateCount = k.Count(d => d.ConsumerType == 2),
 
-                            //total11kOpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("11")),
-                            //total400OpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("400")),
-                            //total230OpeVolCount = k.Count(d => d.ConsumerToOperatingVoltage.OperatingVoltageName.Contains("230")),
+                            total11kOpeVolCount = k.Count(d => d.OperatingVoltage == 1),
+                            total400OpeVolCount = k.Count(d => d.OperatingVoltage == 2),
+                            total230OpeVolCount = k.Count(d => d.OperatingVoltage == 3),
 
-                            total11kOpeVolCount = k.Count(d => d.OperatingVoltageId == 1),
-                            total400OpeVolCount = k.Count(d => d.OperatingVoltageId == 2),
-                            total230OpeVolCount = k.Count(d => d.OperatingVoltageId == 3),
+                            totalRegularCount = k.Count(d => d.ConnectionStatus == 1),
+                            totalTemporaryCount = k.Count(d => d.ConnectionStatus == 2),
 
-                            totalRegularCount = k.Count(d => d.ConnectionStatusId == 1),
-                            totalTemporaryCount = k.Count(d => d.ConnectionStatusId == 2),
+                            totalMotherCount = k.Count(d => d.ConnectionType == 1),
+                            totalChildCount = k.Count(d => d.ConnectionType == 2),
+                            totalNACount = k.Count(d => d.ConnectionType == 3),
 
-                            totalMotherCount = k.Count(d => d.ConnectionTypeId == 1),
-                            totalChildCount = k.Count(d => d.ConnectionTypeId == 2),
-                            totalNACount = k.Count(d => d.ConnectionTypeId == 3),
+                            totalPreCardCount = k.Count(d => d.MeterType == 1),
+                            totalPreKeypadCount = k.Count(d => d.MeterType == 2),
+                            totalPreSmartCount = k.Count(d => d.MeterType == 3),
+                            totalPosDigitalCount = k.Count(d => d.MeterType == 4),
+                            totalPosAnalogueCount = k.Count(d => d.MeterType == 5),
 
-                            totalPreCardCount = k.Count(d => d.MeterTypeId == 1),
-                            totalPreKeypadCount = k.Count(d => d.MeterTypeId == 2),
-                            totalPreSmartCount = k.Count(d => d.MeterTypeId == 3),
-                            totalPosDigitalCount = k.Count(d => d.MeterTypeId == 4),
-                            totalPosAnalogueCount = k.Count(d => d.MeterTypeId == 5),
+                            totalRCount = k.Count(d => d.PhasingCode == 1),
+                            totalYCount = k.Count(d => d.PhasingCode == 2),
+                            totalBCount = k.Count(d => d.PhasingCode == 3),
+                            totalRYBCount = k.Count(d => d.PhasingCode == 4),
 
-                            totalRCount = k.Count(d => d.PhasingCodeId == 1),
-                            totalYCount = k.Count(d => d.PhasingCodeId == 2),
-                            totalBCount = k.Count(d => d.PhasingCodeId == 3),
-                            totalRYBCount = k.Count(d => d.PhasingCodeId == 4),
+                            totalEducationCount = k.Count(d => d.BusinessType == 2),
+                            totalHospitalCount = k.Count(d => d.BusinessType == 3),
+                            totalFreedomFighterCount = k.Count(d => d.BusinessType == 4),
+                            totalWaterPumpCount = k.Count(d => d.BusinessType == 5),
+                            totalOfficeCount = k.Count(d => d.BusinessType == 6),
+                            totalStreetLightCount = k.Count(d => d.BusinessType == 7),
+                            totalReligiousCount = k.Count(d => d.BusinessType == 10),
+                            totalResidentialCount = k.Count(d => d.BusinessType == 11),
+                            totalMixedResidentialCount = k.Count(d => d.BusinessType == 12),
+                            totalBusinessCount = k.Count(d => d.BusinessType == 51),
+                            totalOthersCount = k.Count(d => d.BusinessType == 99),
 
-                            totalEducationCount = k.Count(d => d.BusinessTypeId == 2),
-                            totalHospitalCount = k.Count(d => d.BusinessTypeId == 3),
-                            totalFreedomFighterCount = k.Count(d => d.BusinessTypeId == 4),
-                            totalWaterPumpCount = k.Count(d => d.BusinessTypeId == 5),
-                            totalOfficeCount = k.Count(d => d.BusinessTypeId == 6),
-                            totalStreetLightCount = k.Count(d => d.BusinessTypeId == 7),
-                            totalReligiousCount = k.Count(d => d.BusinessTypeId == 10),
-                            totalResidentialCount = k.Count(d => d.BusinessTypeId == 11),
-                            totalMixedResidentialCount = k.Count(d => d.BusinessTypeId == 12),
-                            totalBusinessCount = k.Count(d => d.BusinessTypeId == 51),
-                            totalOthersCount = k.Count(d => d.BusinessTypeId == 99),
+                            totalPVCCount = k.Count(d => d.ServiceCableType == 1),
+                            totalCBVCount = k.Count(d => d.ServiceCableType == 2),
 
-                            totalPVCCount = k.Count(d => d.ServiceCableTypeId == 1),
-                            totalCBVCount = k.Count(d => d.ServiceCableTypeId == 2),
+                            totalPaccaCount = k.Count(d => d.StructureType == 1),
+                            totalSemiPaccaCount = k.Count(d => d.StructureType == 2),
+                            totalWoodenCount = k.Count(d => d.StructureType == 3),
+                            totalEarthenCount = k.Count(d => d.StructureType == 4),
+                        })
+                        .ToList();
 
-                            totalPaccaCount = k.Count(d => d.StructureTypeId == 1),
-                            totalSemiPaccaCount = k.Count(d => d.StructureTypeId == 2),
-                            totalWoodenCount = k.Count(d => d.StructureTypeId == 3),
-                            totalEarthenCount = k.Count(d => d.StructureTypeId == 4),
 
-                        }).ToList();
+                    regions = _context.LookUpZoneInfo
+                        .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
+                        .Select(z => new
+                        {
+                            regionCode = z.ZoneCode,
+                            zoneName = z.ZoneName,
+                            circleName = "",
+                            sndName = "",
+                            substationName = "",
+                        })
+                        .ToList();
+
+                    data = (from rg in regions
+                            join cm in cmInfo on rg.regionCode equals cm.regionCode into rcm
+                            from cm in rcm.DefaultIfEmpty()
+                            select new
+                            {
+                                zoneCode = rg.regionCode,
+                                rg.zoneName,
+
+                                cm?.totalCount,
+
+                                cm?.totalGovtCount,
+                                cm?.totalPrivateCount,
+
+                                cm?.total11kOpeVolCount,
+                                cm?.total400OpeVolCount,
+                                cm?.total230OpeVolCount,
+
+                                cm?.totalRegularCount,
+                                cm?.totalTemporaryCount,
+
+                                cm?.totalMotherCount,
+                                cm?.totalChildCount,
+                                cm?.totalNACount,
+
+                                cm?.totalPreCardCount,
+                                cm?.totalPreKeypadCount,
+                                cm?.totalPreSmartCount,
+                                cm?.totalPosDigitalCount,
+                                cm?.totalPosAnalogueCount,
+
+                                cm?.totalRCount,
+                                cm?.totalYCount,
+                                cm?.totalBCount,
+                                cm?.totalRYBCount,
+
+                                cm?.totalEducationCount,
+                                cm?.totalHospitalCount,
+                                cm?.totalFreedomFighterCount,
+                                cm?.totalWaterPumpCount,
+                                cm?.totalOfficeCount,
+                                cm?.totalStreetLightCount,
+                                cm?.totalReligiousCount,
+                                cm?.totalResidentialCount,
+                                cm?.totalMixedResidentialCount,
+                                cm?.totalBusinessCount,
+                                cm?.totalOthersCount,
+
+                                cm?.totalPVCCount,
+                                cm?.totalCBVCount,
+
+                                cm?.totalPaccaCount,
+                                cm?.totalSemiPaccaCount,
+                                cm?.totalWoodenCount,
+                                cm?.totalEarthenCount,
+                            })
+                        .ToList();
+
                     break;
             }
 
@@ -1057,7 +1451,7 @@ namespace Pdb014App.Controllers.AdvancedReport
         }
 
         #endregion
-        
+
 
 
         #region ServicePointAdvancedReport
@@ -1275,9 +1669,7 @@ namespace Pdb014App.Controllers.AdvancedReport
             ViewBag.FieldList = fieldList;
             ViewBag.RegionList = regionList;
 
-            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "", routeCode = "";
-
-            zoneCode = circleCode = snDCode = substationCode = routeCode = "";
+            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "";
 
             if (regionList.Count > 0)
             {
@@ -1308,7 +1700,7 @@ namespace Pdb014App.Controllers.AdvancedReport
             ViewBag.CircleCode = circleCode;
             ViewBag.SnDCode = snDCode;
             ViewBag.SubstationCode = substationCode;
-            ViewBag.RouteCode = routeCode;
+            //ViewBag.RouteCode = routeCode;
 
 
             ViewData["ZoneList"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode).ToList(), "ZoneCode",
@@ -1361,7 +1753,7 @@ namespace Pdb014App.Controllers.AdvancedReport
 
             Expression<Func<TblServicePoint, bool>> searchExp = null;
 
-            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "", routeCode = "";
+            string zoneCode = "", circleCode = "", snDCode = "", substationCode = "";
 
             if (regionList != null && regionList.Count > 0 && !string.IsNullOrEmpty(regionList[0]))
             {
@@ -1395,14 +1787,14 @@ namespace Pdb014App.Controllers.AdvancedReport
                                 model.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblServicePoint>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
-                            {
-                                routeCode = regionList[4];
-                                //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
+                            //if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
+                            //{
+                            //    routeCode = regionList[4];
+                            //    //Expression<Func<LookUpRouteInfo, bool>> tempExpR = model => model.RouteCode == routeCode;
 
-                                //tempExp = model => model. == substationCode;
-                                //searchExp = ExpressionExtension<TblServicePoint>.AndAlso(searchExp, tempExp);
-                            }
+                            //    //tempExp = model => model. == substationCode;
+                            //    //searchExp = ExpressionExtension<TblServicePoint>.AndAlso(searchExp, tempExp);
+                            //}
                         }
                     }
                 }
@@ -1421,252 +1813,519 @@ namespace Pdb014App.Controllers.AdvancedReport
             switch (regionLevel)
             {
                 case "zone":
-                    data = qry
-                        .Include(st =>
-                            st.ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                        .GroupBy(i =>
-                            i.ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo.ZoneCode)
+
+                    var spInfo = qry
+                        .Select(sp => new
+                        {
+                            RegionCode = sp.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
+
+                            ServicePointType = sp.ServicePointTypeId ?? 0,
+                            VoltageCategory = sp.VoltageCategoryId ?? 0,
+                            //ServicePointType = sp.ServicePointTypeId != null ? sp.ServicePointType.ServicePointTypeName : "",
+                            //VoltageCategory = sp.VoltageCategoryId != null ? sp.VoltageCategory.VoltageCategoryName : "",
+
+                            NoOfConsumersR = string.IsNullOrEmpty(sp.NoOFConsumersR) ? 0 : Convert.ToInt32(sp.NoOFConsumersR),
+                            NoOfConsumersY = string.IsNullOrEmpty(sp.NoOFConsumersY) ? 0 : Convert.ToInt32(sp.NoOFConsumersY),
+                            NoOfConsumersB = string.IsNullOrEmpty(sp.NoOFConsumersB) ? 0 : Convert.ToInt32(sp.NoOFConsumersB),
+                            NoOfConsumersRyb = string.IsNullOrEmpty(sp.NoOfConsumersRyb) ? 0 : Convert.ToInt32(sp.NoOfConsumersRyb),
+
+                            AggregateLoadkw = string.IsNullOrEmpty(sp.AggregateLoadkw) ? 0 : Convert.ToInt32(sp.AggregateLoadkw),
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(f => f.RegionCode)
                         .Select(k => new
                         {
-                            zoneCode = k.Key,
-                            zoneName = k.First().ServicePointToPole.PoleToRoute
-                                .RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .ZoneInfo.ZoneName,
+                            regionCode = k.Key,
 
                             totalCount = k.Count(),
 
-                            totalSingleCount = k.Count(d => d.ServicePointTypeId == 1),
-                            total3PhaseCount = k.Count(d => d.ServicePointTypeId == 2),
-                            totalBothCount = k.Count(d => d.ServicePointTypeId == 3),
+                            totalSingleCount = k.Count(p => p.ServicePointType == 1),
+                            total3PhaseCount = k.Count(p => p.ServicePointType == 2),
+                            totalBothCount = k.Count(p => p.ServicePointType == 3),
 
-                            total11kVolCatCount = k.Count(d => d.VoltageCategoryId == 1),
-                            total400VolCatCount = k.Count(d => d.VoltageCategoryId == 2),
-                            total230VolCatCount = k.Count(d => d.VoltageCategoryId == 3),
+                            total11kVolCatCount = k.Count(p => p.VoltageCategory == 1),
+                            total400VolCatCount = k.Count(p => p.VoltageCategory == 2),
+                            total230VolCatCount = k.Count(p => p.VoltageCategory == 3),
 
-                            totalRConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
-                            totalYConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
-                            totalBConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
-                            totalRYBConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
+                            totalRConsumers = k.Sum(p => p.NoOfConsumersR),
+                            totalYConsumers = k.Sum(p => p.NoOfConsumersY),
+                            totalBConsumers = k.Sum(p => p.NoOfConsumersB),
+                            totalRYBConsumers = k.Sum(p => p.NoOfConsumersRyb),
 
-                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw)
-                                ? 0
-                                : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
-                            maxAggregateLoad = k.Max(d =>
-                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
-                            minAggregateLoad = k.Min(d =>
-                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            totalAggregateLoad = (k.Sum(p => p.AggregateLoadkw) / 1000).ToString("0.##"),
+                            maxAggregateLoad = k.Max(p => p.AggregateLoadkw),
+                            minAggregateLoad = k.Min(p => p.AggregateLoadkw),
 
+                            //total11kOpeVolCount = k.Count(p => p.ServicePointType.Contains("11")),
+                            //total400OpeVolCount = k.Count(p => p.ServicePointType.Contains("400")),
+                            //total230OpeVolCount = k.Count(p => p.ServicePointType.Contains("230")),
 
-                            //total11kOpeVolCount = k.Count(d => d.ServicePointToOperatingVoltage.OperatingVoltageName.Contains("11")),
-                            //total400OpeVolCount = k.Count(d => d.ServicePointToOperatingVoltage.OperatingVoltageName.Contains("400")),
-                            //total230OpeVolCount = k.Count(d => d.ServicePointToOperatingVoltage.OperatingVoltageName.Contains("230")),
-
-                            //total11kOpeVolCount = k.Count(d => d.OperatingVoltageId == 1),
-                            //total400OpeVolCount = k.Count(d => d.OperatingVoltageId == 2),
-                            //total230OpeVolCount = k.Count(d => d.OperatingVoltageId == 3),
+                            //total11kVolCatCount = k.Count(p => p.VoltageCategory.Contains("11")),
+                            //total400VolCatCount = k.Count(p => p.VoltageCategory.Contains("400")),
+                            //total230VolCatCount = k.Count(p => p.VoltageCategory.Contains("230")),
+                        })
+                        .ToList();
 
 
-                        }).ToList();
+                    var regions = _context.LookUpZoneInfo
+                        .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
+                        .Select(z => new
+                        {
+                            regionCode = z.ZoneCode,
+                            zoneName = z.ZoneName,
+                            circleName = "",
+                            sndName = "",
+                            substationName = "",
+                        })
+                        .ToList();
+
+                    data = (from rg in regions
+                            join sp in spInfo on rg.regionCode equals sp.regionCode into rsp
+                            from sp in rsp.DefaultIfEmpty()
+                            select new
+                            {
+                                zoneCode = rg.regionCode,
+                                rg.zoneName,
+
+                                sp?.totalCount,
+
+                                sp?.totalSingleCount,
+                                sp?.total3PhaseCount,
+                                sp?.totalBothCount,
+
+                                sp?.total11kVolCatCount,
+                                sp?.total400VolCatCount,
+                                sp?.total230VolCatCount,
+
+                                sp?.totalRConsumers,
+                                sp?.totalYConsumers,
+                                sp?.totalBConsumers,
+                                sp?.totalRYBConsumers,
+
+                                sp?.totalAggregateLoad,
+                                sp?.maxAggregateLoad,
+                                sp?.minAggregateLoad,
+                            })
+                        .ToList();
+
                     break;
 
 
                 case "circle":
-                    data = qry
-                        .Include(st =>
-                            st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .ZoneInfo)
-                        .GroupBy(i =>
-                            i.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+
+                    spInfo = qry
+                        .Select(sp => new
+                        {
+                            RegionCode = sp.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode,
+
+                            ServicePointType = sp.ServicePointTypeId ?? 0,
+                            VoltageCategory = sp.VoltageCategoryId ?? 0,
+
+                            NoOfConsumersR = string.IsNullOrEmpty(sp.NoOFConsumersR)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOFConsumersR),
+                            NoOfConsumersY = string.IsNullOrEmpty(sp.NoOFConsumersY)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOFConsumersY),
+                            NoOfConsumersB = string.IsNullOrEmpty(sp.NoOFConsumersB)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOFConsumersB),
+                            NoOfConsumersRyb = string.IsNullOrEmpty(sp.NoOfConsumersRyb)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOfConsumersRyb),
+
+                            AggregateLoadkw = string.IsNullOrEmpty(sp.AggregateLoadkw)
+                                ? 0
+                                : Convert.ToInt32(sp.AggregateLoadkw),
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(f => f.RegionCode)
                         .Select(k => new
                         {
-                            //wl = k.Sum(d => d.Poles.Sum(pi => pi.WireLength)),
-                            zoneName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                .CircleInfo.ZoneInfo.ZoneName,
-                            circleCode = k.Key,
-                            circleName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo
-                                .CircleName,
+                            regionCode = k.Key,
 
                             totalCount = k.Count(),
 
-                            totalSingleCount = k.Count(d => d.ServicePointTypeId == 1),
-                            total3PhaseCount = k.Count(d => d.ServicePointTypeId == 2),
-                            totalBothCount = k.Count(d => d.ServicePointTypeId == 3),
+                            totalSingleCount = k.Count(p => p.ServicePointType == 1),
+                            total3PhaseCount = k.Count(p => p.ServicePointType == 2),
+                            totalBothCount = k.Count(p => p.ServicePointType == 3),
 
-                            total11kVolCatCount = k.Count(d => d.VoltageCategoryId == 1),
-                            total400VolCatCount = k.Count(d => d.VoltageCategoryId == 2),
-                            total230VolCatCount = k.Count(d => d.VoltageCategoryId == 3),
+                            total11kVolCatCount = k.Count(p => p.VoltageCategory == 1),
+                            total400VolCatCount = k.Count(p => p.VoltageCategory == 2),
+                            total230VolCatCount = k.Count(p => p.VoltageCategory == 3),
 
-                            totalRConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
-                            totalYConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
-                            totalBConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
-                            totalRYBConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
+                            totalRConsumers = k.Sum(p => p.NoOfConsumersR),
+                            totalYConsumers = k.Sum(p => p.NoOfConsumersY),
+                            totalBConsumers = k.Sum(p => p.NoOfConsumersB),
+                            totalRYBConsumers = k.Sum(p => p.NoOfConsumersRyb),
 
-                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw)
-                                ? 0
-                                : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
-                            maxAggregateLoad = k.Max(d =>
-                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
-                            minAggregateLoad = k.Min(d =>
-                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
-
+                            totalAggregateLoad = (k.Sum(p => p.AggregateLoadkw) / 1000).ToString("0.##"),
+                            maxAggregateLoad = k.Max(p => p.AggregateLoadkw),
+                            minAggregateLoad = k.Min(p => p.AggregateLoadkw),
                         })
                         .ToList();
+
+
+                    regions = _context.LookUpCircleInfo
+                        .Where(c => (zoneCode.Equals("") || c.ZoneCode.Equals(zoneCode))
+                                    && (circleCode.Equals("") || c.CircleCode.Equals(circleCode)))
+                        .Include(z => z.ZoneInfo)
+                        .Select(c => new
+                        {
+                            regionCode = c.CircleCode,
+                            zoneName = c.ZoneInfo.ZoneName,
+                            circleName = c.CircleName,
+                            sndName = "",
+                            substationName = "",
+                        })
+                        .ToList();
+
+
+                    data = (from rg in regions
+                            join sp in spInfo on rg.regionCode equals sp.regionCode into rsp
+                            from sp in rsp.DefaultIfEmpty()
+                            select new
+                            {
+                                circleCode = rg.regionCode,
+                                rg.zoneName,
+                                rg.circleName,
+
+                                sp?.totalCount,
+
+                                sp?.totalSingleCount,
+                                sp?.total3PhaseCount,
+                                sp?.totalBothCount,
+
+                                sp?.total11kVolCatCount,
+                                sp?.total400VolCatCount,
+                                sp?.total230VolCatCount,
+
+                                sp?.totalRConsumers,
+                                sp?.totalYConsumers,
+                                sp?.totalBConsumers,
+                                sp?.totalRYBConsumers,
+
+                                sp?.totalAggregateLoad,
+                                sp?.maxAggregateLoad,
+                                sp?.minAggregateLoad,
+                            })
+                        .ToList();
+
                     break;
 
                 case "snd":
-                    data = qry
-                        .Include(st => st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD)
-                        .Include(st =>
-                            st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo)
-                        .Include(st =>
-                            st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .ZoneInfo)
-                        .GroupBy(i => i.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode)
+
+                    spInfo = qry
+                        .Select(sp => new
+                        {
+                            RegionCode = sp.ServicePointToPole.PoleToRoute.RouteToSubstation.SnDCode,
+
+                            ServicePointType = sp.ServicePointTypeId ?? 0,
+                            VoltageCategory = sp.VoltageCategoryId ?? 0,
+
+                            NoOfConsumersR = string.IsNullOrEmpty(sp.NoOFConsumersR)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOFConsumersR),
+                            NoOfConsumersY = string.IsNullOrEmpty(sp.NoOFConsumersY)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOFConsumersY),
+                            NoOfConsumersB = string.IsNullOrEmpty(sp.NoOFConsumersB)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOFConsumersB),
+                            NoOfConsumersRyb = string.IsNullOrEmpty(sp.NoOfConsumersRyb)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOfConsumersRyb),
+
+                            AggregateLoadkw = string.IsNullOrEmpty(sp.AggregateLoadkw)
+                                ? 0
+                                : Convert.ToInt32(sp.AggregateLoadkw),
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(f => f.RegionCode)
                         .Select(k => new
                         {
-                            zoneName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                .CircleInfo
-                                .ZoneInfo.ZoneName,
-                            circleName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo
-                                .CircleName,
-                            sndCode = k.Key,
-                            sndName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                .SnDName,
+                            regionCode = k.Key,
 
                             totalCount = k.Count(),
 
-                            totalSingleCount = k.Count(d => d.ServicePointTypeId == 1),
-                            total3PhaseCount = k.Count(d => d.ServicePointTypeId == 2),
-                            totalBothCount = k.Count(d => d.ServicePointTypeId == 3),
+                            totalSingleCount = k.Count(p => p.ServicePointType == 1),
+                            total3PhaseCount = k.Count(p => p.ServicePointType == 2),
+                            totalBothCount = k.Count(p => p.ServicePointType == 3),
 
-                            total11kVolCatCount = k.Count(d => d.VoltageCategoryId == 1),
-                            total400VolCatCount = k.Count(d => d.VoltageCategoryId == 2),
-                            total230VolCatCount = k.Count(d => d.VoltageCategoryId == 3),
+                            total11kVolCatCount = k.Count(p => p.VoltageCategory == 1),
+                            total400VolCatCount = k.Count(p => p.VoltageCategory == 2),
+                            total230VolCatCount = k.Count(p => p.VoltageCategory == 3),
 
-                            totalRConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
-                            totalYConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
-                            totalBConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
-                            totalRYBConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
+                            totalRConsumers = k.Sum(p => p.NoOfConsumersR),
+                            totalYConsumers = k.Sum(p => p.NoOfConsumersY),
+                            totalBConsumers = k.Sum(p => p.NoOfConsumersB),
+                            totalRYBConsumers = k.Sum(p => p.NoOfConsumersRyb),
 
-                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw)
-                                ? 0
-                                : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
-                            maxAggregateLoad = k.Max(d =>
-                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
-                            minAggregateLoad = k.Min(d =>
-                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            totalAggregateLoad = (k.Sum(p => p.AggregateLoadkw) / 1000).ToString("0.##"),
+                            maxAggregateLoad = k.Max(p => p.AggregateLoadkw),
+                            minAggregateLoad = k.Min(p => p.AggregateLoadkw),
+                        })
+                        .ToList();
 
-                        }).ToList();
+
+                    regions = _context.LookUpSnDInfo
+                        .Where(d => (zoneCode.Equals("") || d.CircleInfo.ZoneCode.Equals(zoneCode))
+                                    && (circleCode.Equals("") || d.CircleCode.Equals(circleCode))
+                                    && (snDCode.Equals("") || d.SnDCode.Equals(snDCode)))
+                        .Include(z => z.CircleInfo.ZoneInfo)
+                        .Select(d => new
+                        {
+                            regionCode = d.SnDCode,
+                            zoneName = d.CircleInfo.ZoneInfo.ZoneName,
+                            circleName = d.CircleInfo.CircleName,
+                            sndName = d.SnDName,
+                            substationName = "",
+                        })
+                        .ToList();
+
+                    data = (from rg in regions
+                            join sp in spInfo on rg.regionCode equals sp.regionCode into rsp
+                            from sp in rsp.DefaultIfEmpty()
+                            select new
+                            {
+                                sndCode = rg.regionCode,
+                                rg.zoneName,
+                                rg.circleName,
+                                rg.sndName,
+
+                                sp?.totalCount,
+
+                                sp?.totalSingleCount,
+                                sp?.total3PhaseCount,
+                                sp?.totalBothCount,
+
+                                sp?.total11kVolCatCount,
+                                sp?.total400VolCatCount,
+                                sp?.total230VolCatCount,
+
+                                sp?.totalRConsumers,
+                                sp?.totalYConsumers,
+                                sp?.totalBConsumers,
+                                sp?.totalRYBConsumers,
+
+                                sp?.totalAggregateLoad,
+                                sp?.maxAggregateLoad,
+                                sp?.minAggregateLoad,
+                            })
+                        .ToList();
+
                     break;
+
 
                 case "substation":
-                    data = qry
-                        .Include(st =>
-                            st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .ZoneInfo)
-                        .GroupBy(i => i.ServicePointToPole.PoleToRoute.SubstationId)
+
+                    spInfo = qry
+                        .Select(sp => new
+                        {
+                            RegionCode = sp.ServicePointToPole.PoleToRoute.SubstationId,
+
+                            ServicePointType = sp.ServicePointTypeId ?? 0,
+                            VoltageCategory = sp.VoltageCategoryId ?? 0,
+
+                            NoOfConsumersR = string.IsNullOrEmpty(sp.NoOFConsumersR)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOFConsumersR),
+                            NoOfConsumersY = string.IsNullOrEmpty(sp.NoOFConsumersY)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOFConsumersY),
+                            NoOfConsumersB = string.IsNullOrEmpty(sp.NoOFConsumersB)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOFConsumersB),
+                            NoOfConsumersRyb = string.IsNullOrEmpty(sp.NoOfConsumersRyb)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOfConsumersRyb),
+
+                            AggregateLoadkw = string.IsNullOrEmpty(sp.AggregateLoadkw)
+                                ? 0
+                                : Convert.ToInt32(sp.AggregateLoadkw),
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(f => f.RegionCode)
                         .Select(k => new
                         {
-                            zoneName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                .CircleInfo
-                                .ZoneInfo.ZoneName,
-                            circleName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation
-                                .SubstationToLookUpSnD.CircleInfo
-                                .CircleName,
-                            sndName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                .SnDName,
-                            substationCode = k.Key,
-                            substationName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationName,
+                            regionCode = k.Key,
 
                             totalCount = k.Count(),
 
-                            totalSingleCount = k.Count(d => d.ServicePointTypeId == 1),
-                            total3PhaseCount = k.Count(d => d.ServicePointTypeId == 2),
-                            totalBothCount = k.Count(d => d.ServicePointTypeId == 3),
+                            totalSingleCount = k.Count(p => p.ServicePointType == 1),
+                            total3PhaseCount = k.Count(p => p.ServicePointType == 2),
+                            totalBothCount = k.Count(p => p.ServicePointType == 3),
 
-                            total11kVolCatCount = k.Count(d => d.VoltageCategoryId == 1),
-                            total400VolCatCount = k.Count(d => d.VoltageCategoryId == 2),
-                            total230VolCatCount = k.Count(d => d.VoltageCategoryId == 3),
+                            total11kVolCatCount = k.Count(p => p.VoltageCategory == 1),
+                            total400VolCatCount = k.Count(p => p.VoltageCategory == 2),
+                            total230VolCatCount = k.Count(p => p.VoltageCategory == 3),
 
-                            totalRConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
-                            totalYConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
-                            totalBConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
-                            totalRYBConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
+                            totalRConsumers = k.Sum(p => p.NoOfConsumersR),
+                            totalYConsumers = k.Sum(p => p.NoOfConsumersY),
+                            totalBConsumers = k.Sum(p => p.NoOfConsumersB),
+                            totalRYBConsumers = k.Sum(p => p.NoOfConsumersRyb),
 
-                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw)
-                                ? 0
-                                : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
-                            maxAggregateLoad = k.Max(d =>
-                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
-                            minAggregateLoad = k.Min(d =>
-                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            totalAggregateLoad = (k.Sum(p => p.AggregateLoadkw) / 1000).ToString("0.##"),
+                            maxAggregateLoad = k.Max(p => p.AggregateLoadkw),
+                            minAggregateLoad = k.Min(p => p.AggregateLoadkw),
+                        })
+                        .ToList();
 
-                        }).ToList();
+
+                    regions = _context.TblSubstation
+                        .Where(s =>
+                            (zoneCode.Equals("") || s.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                            && (circleCode.Equals("") || s.SubstationToLookUpSnD.CircleCode.Equals(circleCode))
+                            && (snDCode.Equals("") || s.SnDCode.Equals(snDCode))
+                            && (substationCode.Equals("") || s.SubstationId.Equals(substationCode)))
+                        .Include(z => z.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
+                        .Select(s => new
+                        {
+                            regionCode = s.SubstationId,
+                            zoneName = s.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName,
+                            circleName = s.SubstationToLookUpSnD.CircleInfo.CircleName,
+                            sndName = s.SubstationToLookUpSnD.SnDName,
+                            substationName = s.SubstationName,
+                        })
+                        .ToList();
+
+                    data = (from rg in regions
+                            join sp in spInfo on rg.regionCode equals sp.regionCode into rsp
+                            from sp in rsp.DefaultIfEmpty()
+                            select new
+                            {
+                                substationCode = rg.regionCode,
+                                rg.zoneName,
+                                rg.circleName,
+                                rg.sndName,
+                                rg.substationName,
+
+                                sp?.totalCount,
+
+                                sp?.totalSingleCount,
+                                sp?.total3PhaseCount,
+                                sp?.totalBothCount,
+
+                                sp?.total11kVolCatCount,
+                                sp?.total400VolCatCount,
+                                sp?.total230VolCatCount,
+
+                                sp?.totalRConsumers,
+                                sp?.totalYConsumers,
+                                sp?.totalBConsumers,
+                                sp?.totalRYBConsumers,
+
+                                sp?.totalAggregateLoad,
+                                sp?.maxAggregateLoad,
+                                sp?.minAggregateLoad,
+                            })
+                        .ToList();
+
                     break;
 
+
                 default:
-                    data = qry
-                        .Include(st =>
-                            st.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .ZoneInfo)
-                        .GroupBy(i =>
-                            i.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
-                                .ZoneCode)
+
+                    spInfo = qry
+                        .Select(sp => new
+                        {
+                            RegionCode = sp.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                .CircleInfo.ZoneCode,
+
+                            ServicePointType = sp.ServicePointTypeId ?? 0,
+                            VoltageCategory = sp.VoltageCategoryId ?? 0,
+
+                            NoOfConsumersR = string.IsNullOrEmpty(sp.NoOFConsumersR)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOFConsumersR),
+                            NoOfConsumersY = string.IsNullOrEmpty(sp.NoOFConsumersY)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOFConsumersY),
+                            NoOfConsumersB = string.IsNullOrEmpty(sp.NoOFConsumersB)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOFConsumersB),
+                            NoOfConsumersRyb = string.IsNullOrEmpty(sp.NoOfConsumersRyb)
+                                ? 0
+                                : Convert.ToInt32(sp.NoOfConsumersRyb),
+
+                            AggregateLoadkw = string.IsNullOrEmpty(sp.AggregateLoadkw)
+                                ? 0
+                                : Convert.ToInt32(sp.AggregateLoadkw),
+                        })
+                        .ToList()
+                        .AsQueryable()
+                        .GroupBy(f => f.RegionCode)
                         .Select(k => new
                         {
-                            zoneCode = k.Key,
-                            zoneName = k.First().ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                .CircleInfo
-                                .ZoneInfo.ZoneName,
+                            regionCode = k.Key,
 
                             totalCount = k.Count(),
 
-                            totalSingleCount = k.Count(d => d.ServicePointTypeId == 1),
-                            total3PhaseCount = k.Count(d => d.ServicePointTypeId == 2),
-                            totalBothCount = k.Count(d => d.ServicePointTypeId == 3),
+                            totalSingleCount = k.Count(p => p.ServicePointType == 1),
+                            total3PhaseCount = k.Count(p => p.ServicePointType == 2),
+                            totalBothCount = k.Count(p => p.ServicePointType == 3),
 
-                            total11kVolCatCount = k.Count(d => d.VoltageCategoryId == 1),
-                            total400VolCatCount = k.Count(d => d.VoltageCategoryId == 2),
-                            total230VolCatCount = k.Count(d => d.VoltageCategoryId == 3),
+                            total11kVolCatCount = k.Count(p => p.VoltageCategory == 1),
+                            total400VolCatCount = k.Count(p => p.VoltageCategory == 2),
+                            total230VolCatCount = k.Count(p => p.VoltageCategory == 3),
 
-                            totalRConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersR) ? 0 : Convert.ToInt32(d.NoOFConsumersR)),
-                            totalYConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersY) ? 0 : Convert.ToInt32(d.NoOFConsumersY)),
-                            totalBConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOFConsumersB) ? 0 : Convert.ToInt32(d.NoOFConsumersB)),
-                            totalRYBConsumers = k.Sum(d =>
-                                string.IsNullOrEmpty(d.NoOfConsumersRyb) ? 0 : Convert.ToInt32(d.NoOfConsumersRyb)),
+                            totalRConsumers = k.Sum(p => p.NoOfConsumersR),
+                            totalYConsumers = k.Sum(p => p.NoOfConsumersY),
+                            totalBConsumers = k.Sum(p => p.NoOfConsumersB),
+                            totalRYBConsumers = k.Sum(p => p.NoOfConsumersRyb),
 
-                            totalAggregateLoad = k.Sum(d => string.IsNullOrEmpty(d.AggregateLoadkw)
-                                ? 0
-                                : Convert.ToInt32(d.AggregateLoadkw)) / 1000,
-                            maxAggregateLoad = k.Max(d =>
-                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
-                            minAggregateLoad = k.Min(d =>
-                                string.IsNullOrEmpty(d.AggregateLoadkw) ? 0 : Convert.ToInt32(d.AggregateLoadkw)),
+                            totalAggregateLoad = (k.Sum(p => p.AggregateLoadkw) / 1000).ToString("0.##"),
+                            maxAggregateLoad = k.Max(p => p.AggregateLoadkw),
+                            minAggregateLoad = k.Min(p => p.AggregateLoadkw),
+                        })
+                        .ToList();
 
-                        }).ToList();
+
+                    regions = _context.LookUpZoneInfo
+                        .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
+                        .Select(z => new
+                        {
+                            regionCode = z.ZoneCode,
+                            zoneName = z.ZoneName,
+                            circleName = "",
+                            sndName = "",
+                            substationName = "",
+                        })
+                        .ToList();
+
+                    data = (from rg in regions
+                            join sp in spInfo on rg.regionCode equals sp.regionCode into rsp
+                            from sp in rsp.DefaultIfEmpty()
+                            select new
+                            {
+                                zoneCode = rg.regionCode,
+                                rg.zoneName,
+
+                                sp?.totalCount,
+
+                                sp?.totalSingleCount,
+                                sp?.total3PhaseCount,
+                                sp?.totalBothCount,
+
+                                sp?.total11kVolCatCount,
+                                sp?.total400VolCatCount,
+                                sp?.total230VolCatCount,
+
+                                sp?.totalRConsumers,
+                                sp?.totalYConsumers,
+                                sp?.totalBConsumers,
+                                sp?.totalRYBConsumers,
+
+                                sp?.totalAggregateLoad,
+                                sp?.maxAggregateLoad,
+                                sp?.minAggregateLoad,
+                            })
+                        .ToList();
+
                     break;
             }
 
