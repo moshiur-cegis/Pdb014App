@@ -14,6 +14,11 @@ namespace Pdb014App.Models.PDB
 {
     public class TblFeederLine
     {
+        //public TblFeederLine()
+        //{
+        //    Poles=
+        //}
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
@@ -160,7 +165,7 @@ namespace Pdb014App.Models.PDB
                 for (int pc = 1; pc < poleList.Count; pc++)
                 {
                     var curPole = poleList[pc];
-                    if (string.IsNullOrEmpty(curPole.PreviousPoleNo) || curPole.PreviousPoleNo == "0" ||
+                    if (string.IsNullOrEmpty(curPole.PreviousPoleNo) || curPole.PreviousPoleNo.Equals("0") ||
                         curPole.Latitude == null || curPole.Longitude == null)
                         continue;
 
