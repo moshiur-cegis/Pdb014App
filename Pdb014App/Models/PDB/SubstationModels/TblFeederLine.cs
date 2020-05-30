@@ -14,6 +14,11 @@ namespace Pdb014App.Models.PDB
 {
     public class TblFeederLine
     {
+        //public TblFeederLine()
+        //{
+        //    Poles=
+        //}
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
