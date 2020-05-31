@@ -1686,11 +1686,6 @@ namespace Pdb014App.Controllers.AdvancedReport
                         if (regionList.Count > 3)
                         {
                             substationCode = regionList[3];
-
-                            if (regionList.Count > 4)
-                            {
-                                routeCode = regionList[4];
-                            }
                         }
                     }
                 }
