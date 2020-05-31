@@ -17,7 +17,7 @@
             new ReportField {Name = "circle", Title = "Circle"},
             new ReportField {Name = "snd", Title = "S&D"},
             new ReportField {Name = "substation", Title = "Substation"},
-                                                };
+                        };
 
     var fieldList = ViewBag.FieldList != null
     ? ViewBag.FieldList as List<ReportField>
@@ -275,7 +275,8 @@
         });
 
 
-        var regionLevel,
+        var regionName = "Zone",
+            regionLevel,
             regionList = [],
             headerGroups = {},
             headerList = {},
@@ -389,46 +390,51 @@
             dataColumns = [];
 
             switch (regionLevel) {
-            case "zone":
-                basicColumns.push("zoneName");
+                case "zone":
+                    regionName = "Zone";
+                    basicColumns.push("zoneName");
 
-                headerList["zoneName"] = "Zone Name";
-                break;
+                    headerList["zoneName"] = "Zone Name";
+                    break;
 
-            case "circle":
-                basicColumns.push("zoneName");
-                basicColumns.push("circleName");
+                case "circle":
+                    regionName = "Circle";
+                    basicColumns.push("zoneName");
+                    basicColumns.push("circleName");
 
-                headerList["zoneName"] = "Zone Name";
-                headerList["circleName"] = "Circle Name";
-                break;
+                    headerList["zoneName"] = "Zone Name";
+                    headerList["circleName"] = "Circle Name";
+                    break;
 
-            case "snd":
-                basicColumns.push("zoneName");
-                basicColumns.push("circleName");
-                basicColumns.push("sndName");
+                case "snd":
+                    regionName = "S&D";
+                    basicColumns.push("zoneName");
+                    basicColumns.push("circleName");
+                    basicColumns.push("sndName");
 
-                headerList["zoneName"] = "Zone Name";
-                headerList["circleName"] = "Circle Name";
-                headerList["sndName"] = "S&D Name";
-                break;
+                    headerList["zoneName"] = "Zone Name";
+                    headerList["circleName"] = "Circle Name";
+                    headerList["sndName"] = "S&D Name";
+                    break;
 
-            case "substation":
-                basicColumns.push("zoneName");
-                basicColumns.push("circleName");
-                basicColumns.push("sndName");
-                basicColumns.push("substationName");
+                case "substation":
+                    regionName = "Substation";
+                    basicColumns.push("zoneName");
+                    basicColumns.push("circleName");
+                    basicColumns.push("sndName");
+                    basicColumns.push("substationName");
 
-                headerList["zoneName"] = "Zone Name";
-                headerList["circleName"] = "Circle Name";
-                headerList["sndName"] = "S&D Name";
-                headerList["substationName"] = "Sub-station Name";
-                break;
+                    headerList["zoneName"] = "Zone Name";
+                    headerList["circleName"] = "Circle Name";
+                    headerList["sndName"] = "S&D Name";
+                    headerList["substationName"] = "Sub-station Name";
+                    break;
 
-            default:
-                basicColumns.push("zoneName");
-                headerList["zoneName"] = "Zone Name";
-                break;
+                default:
+                    regionName = "Zone";
+                    basicColumns.push("zoneName");
+                    headerList["zoneName"] = "Zone Name";
+                    break;
             }
 
             //$("#field_list input[type='checkbox']:checked").each(function() {
@@ -634,7 +640,7 @@
                 .trigger("sortReset");
             //** Set/Re-set Table Sorter End **//
         }
-        
+
         function init_chart_data(headers, chartColumns, rawData) {
 
             $("#chartBar").empty();
@@ -648,8 +654,8 @@
             $("#chartAll").css('display', '');
 
 
-            var chartTitle = rptName + ' Report',
-                chartSubTitle = 'Source: bpdb_app.com',
+            var chartTitle = regionName + " wise " + rptName + " Report",
+                chartSubTitle = "Source: bpdb_app.com",
                 chartCategories = [],
                 chartDataBar = [],
                 barYAxises = [],
