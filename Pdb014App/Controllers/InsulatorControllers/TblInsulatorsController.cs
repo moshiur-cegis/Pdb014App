@@ -30,7 +30,7 @@ namespace Pdb014App.Controllers.InsulatorControllers
             }
            
             
-            return View(await pdbDbContext.ToListAsync());
+            return PartialView(await pdbDbContext.ToListAsync());
         }
 
         // GET: TblInsulators/Details/5

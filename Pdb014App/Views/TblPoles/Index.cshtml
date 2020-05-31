@@ -20,6 +20,7 @@
 
 
 @section Styles {
+    <link href="~/lib/jquery-ui/jquery-ui.css" rel="stylesheet" />
 
     <link href="~/css/datastyle.css" rel="stylesheet" />
 
@@ -112,7 +113,7 @@
                            value="@Model.RouteValue["Filter"]" />
 
                     <input name="cai" class="form-control" placeholder="cai"
-                           value="@Model.RouteValue["cai"]" type="hidden"/>
+                           value="@Model.RouteValue["cai"]" type="hidden" />
 
                     <button type="submit" class="btn btn-info">
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
@@ -125,17 +126,28 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-view" id="updatePanel">
+
+                @if(TempData["statuMessageSuccess"] != null)
+                {
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    @TempData["statuMessageSuccess"]
+                </div>
+                }
+
+
+
                 <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
                     <table id="multi-form-view" class="table table-responsive multi-form-view">
                         <thead>
                             <tr>
                                 @*<th>
-                                        @Html.DisplayNameFor(model => model.PoleUid)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.FeederLineUid)
+                            @Html.DisplayNameFor(model => model.PoleUid)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FeederLineUid)
 
-                                    </th>*@
+                        </th>*@
                                 <th>
                                     @Html.DisplayNameFor(model => model.PoleId)
 
@@ -246,19 +258,19 @@
                             {
                                 <tr>
                                     @*<td>
-                                            @Html.DisplayFor(modelItem => item.PoleUid)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.FeederLineUid)
-                                        </td>*@
+                                @Html.DisplayFor(modelItem => item.PoleUid)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FeederLineUid)
+                            </td>*@
 
                                     @*<td>
-                                            <input type="checkbox" id="@item.PoleId" onclick="activePole(this.id)"/>
-                                        </td>*@
+                                <input type="checkbox" id="@item.PoleId" onclick="activePole(this.id)"/>
+                            </td>*@
                                     <td>
                                         @*@Html.DisplayFor(modelItem => item.PoleId)*@
                                         <div class="btn-group">
-                                            <a asp-action="Edit" asp-route-id="@item.PoleId" class="btn btn-info"  data-toggle="tooltip" data-placement="top" asp-route-cai="@Model.RouteValue["cai"]" title="Edit Pole Information">
+                                            <a asp-action="Edit" asp-route-id="@item.PoleId" class="btn btn-info" data-toggle="tooltip" data-placement="top" asp-route-cai="@Model.RouteValue["cai"]" title="Edit Pole Information">
                                                 @Html.DisplayFor(modelItem => item.PoleId)
                                                 <span class="glyphicon glyphicon-edit"></span> Edit
                                             </a>
@@ -276,19 +288,23 @@
                                     <td>
                                         <div class="btn-group">
                                             <a asp-controller="TblInsulators" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Insulator">Add</a>
-                                            <a asp-controller="TblInsulators" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show Insulator">Show</a>
+                                            @*<a asp-controller="TblInsulators" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show Insulator">Show</a>*@
+                                            <button id="TblInsulators_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary TblInsulators" data-toggle="tooltip" data-placement="top" title="Show Insulator">Show</button>
+
                                         </div>
                                     </td>
                                     <td>
                                         <div class="btn-group">
                                             <a asp-controller="TblGuys" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="Add Guy">Add</a>
-                                            <a asp-controller="TblGuys" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="Show Guy">Show</a>
+                                            @*<a asp-controller="TblGuys" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="Show Guy">Show</a>*@
+                                            <button id="TblGuys_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary display: inline-block TblGuys" data-toggle="tooltip" data-placement="top" title="Show Guy">Show</button>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="btn-group">
                                             <a asp-controller="TblCrossArmInfoes" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Cross Arms">Add</a>
-                                            <a asp-controller="TblCrossArmInfoes" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show Cross Arms">Show</a>
+                                            @*<a asp-controller="TblCrossArmInfoes" asp-action="IndexPartialView" id="crossArm" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show Cross Arms">Show</a>*@
+                                            <button id="crossArm_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary crossArm" data-toggle="tooltip" data-placement="top" title="Show Cross Arms">Show</button>
                                         </div>
                                     </td>
 
@@ -368,11 +384,11 @@
                                     </td>
 
                                     @*@if (User.IsInRole("System Administrator"))
-                                        {
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.StreetLight)
-                                            </td>
-                                        }*@
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StreetLight)
+                                </td>
+                            }*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.StreetLight)
                                     </td>
@@ -390,6 +406,7 @@
                             }
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>
@@ -402,16 +419,100 @@
     <vc:pager paging-list="@Model" />
 </div>
 @section Scripts {
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
 
     <script type="text/javascript">
 
-        //$(".extraInfo").hide();
-        function activePole(id) {
+            $(function () {
 
-            $(".extraInfo").show();
+                //var title = "Cross Arm List";
 
-        }
+                $(".crossArm").click(function () {
+                    var crossArmId = this.id;
+                    var poleId = crossArmId.substring(9, 25);
 
+                    $.ajax({
+                        url: "@Url.Action("Index", "TblCrossArmInfoes")",
+                        data: { id: poleId},
+                        type: "POST",
+                        dataType: "html",
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function (response) {
+                            $('#dialog').html(response);
+                            $('#dialog').dialog('open');
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                });
+
+                $(".TblGuys").click(function () {
+                    var guyId = this.id;
+                    var poleId = guyId.substring(8, 24);
+
+                    $.ajax({
+                        url: "@Url.Action("Index", "TblGuys")",
+                        data: { id: poleId },
+                        type: "POST",
+                        dataType: "html",
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function (response) {
+                            $('#dialog').html(response);
+                            $('#dialog').dialog('open');
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                });
+                $(".TblInsulators").click(function () {
+                    var insulatorId = this.id;
+                    var poleId = insulatorId.substring(14, 29);
+
+                    $.ajax({
+                        url: "@Url.Action("Index", "TblInsulators")",
+                        data: { id: poleId },
+                        type: "POST",
+                        dataType: "html",
+                        before: $("#busy-indicator").fadeIn(150),
+                        success: function (response) {
+                            $('#dialog').html(response);
+                            $('#dialog').dialog('open');
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    });
+                });
+
+                $("#dialog").dialog({
+                    autoOpen: false,
+                    modal: true,
+                    width: 600,
+                    title: ""
+                    //show: {
+                    //    effect: "blind",
+                    //    duration: 1000
+                    //},
+                    //hide: {
+                    //    effect: "explode",
+                    //    duration: 1000
+                    //}
+                });
+            });
 
     </script>
 }

@@ -10,7 +10,7 @@
 <h4>TblFeederLine</h4>
 <hr />*@
 <div class="row">
-    <div class="offset-md-3 col-md-6 offset-md-3">
+    <div class="offset-md-2 col-md-8 offset-md-2">
         
         <fieldset>
             <legend>Update Feeder Line Information</legend>
@@ -27,7 +27,7 @@
                     <select asp-for="FeederLineTypeId" class="form-control" asp-items="ViewBag.FeederLineTypeId"></select>
                     <span asp-validation-for="FeederLineTypeId" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="display: none">
                     <label asp-for="RouteCode" class="control-label"></label>
                     <select asp-for="RouteCode" class="form-control" asp-items="ViewBag.RouteCode"></select>
                     <span asp-validation-for="RouteCode" class="text-danger"></span>

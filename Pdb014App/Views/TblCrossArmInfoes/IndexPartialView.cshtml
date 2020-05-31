@@ -1,17 +1,4 @@
-﻿@model IEnumerable<Pdb014App.Models.PDB.InsulatorModels.TblGuy>
-@using Pdb014App.Models.UserManage;
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<TblUserRegistrationDetail> SignInManager
-@inject UserManager<TblUserRegistrationDetail> UserManager
-
-@{
-    var user = await UserManager.GetUserAsync(User);
-}
-
-@*@{
-        ViewData["Title"] = "Index";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }*@
+﻿@model IEnumerable<Pdb014App.Models.PDB.PoleModels.TblCrossArmInfo>
 
 @section Styles {
 
@@ -90,12 +77,6 @@
 
 }
 
-<h2>List of Guy</h2>
-<hr>
-
-@*<p>
-        <a asp-action="Create">Add New</a>
-    </p>*@
 <div class="row">
     <div class="col-md-12">
         <div class="form-view" id="updatePanel">
@@ -104,22 +85,33 @@
                     <thead>
                         <tr>
                             <th>
-                                @*@Html.DisplayNameFor(model => model.GuyType)*@
-                                Guy Id
+                                @Html.DisplayNameFor(model => model.CrossArmId)
                             </th>
                             <th>
-                                @*@Html.DisplayNameFor(model => model.GuyType)*@
-                                Guy Type
+                                @Html.DisplayNameFor(model => model.Materials)
                             </th>
                             <th>
-                                @*@Html.DisplayNameFor(model => model.GuyToLookUpCondition)*@
-                                Guy Condition
+                                @Html.DisplayNameFor(model => model.Type)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.NoOfSet)
+                                @Html.DisplayNameFor(model => model.Standard)
                             </th>
                             <th>
-                                @*@Html.DisplayNameFor(model => model.GuyToPole)*@
+                                @Html.DisplayNameFor(model => model.UltimateTensileStrength)
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.LookUpTypeOfFittings)*@
+                                Type Of Fittings
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NoOfSetFittings)
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.FittingsLookUpCondition)*@
+                                Fittings Condition
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.CrossArmToPole)*@
                                 Pole Id
                             </th>
                             @*<th>Action</th>*@
@@ -130,35 +122,37 @@
                         {
                             <tr>
                                 <td>
-                                    <div class="btn-group">
-                                        <a asp-action="Edit" asp-route-id="@item.GuyId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a>
-
-                                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
-                                        {
-                                            <a asp-action="Delete" asp-route-id="@item.GuyId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Delete Guy Information">
-
-                                                <span class="glyphicon glyphicon-edit"></span> Delete
-                                            </a>
-                                        }
-                                    </div>
+                                    <a asp-action="Edit" asp-route-id="@item.CrossArmId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.CrossArmId)</a>
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.GuyType.GuyTypeName)
+                                    @Html.DisplayFor(modelItem => item.Materials)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.GuyToLookUpCondition.Name)
+                                    @Html.DisplayFor(modelItem => item.Type)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.NoOfSet)
+                                    @Html.DisplayFor(modelItem => item.Standard)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.GuyToPole.PoleId)
+                                    @Html.DisplayFor(modelItem => item.UltimateTensileStrength)
                                 </td>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.GuyId">Edit</a> |
-                                    @*<a asp-action="Details" asp-route-id="@item.GuyId">Details</a> |*@
-                                    <a asp-action="Delete" asp-route-id="@item.GuyId">Delete</a>
+                                    @Html.DisplayFor(modelItem => item.LookUpTypeOfFittings.Name)
                                 </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoOfSetFittings)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FittingsLookUpCondition.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CrossArmToPole.PoleId)
+                                </td>
+                                @*<td>
+                                        <a asp-action="Edit" asp-route-id="@item.CrossArmId">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.CrossArmId">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.CrossArmId">Delete</a>
+                                    </td>*@
                             </tr>
                         }
                     </tbody>

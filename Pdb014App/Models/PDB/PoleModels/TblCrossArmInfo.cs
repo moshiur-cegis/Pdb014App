@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Pdb014App.Models.PDB.PoleModels
 {
+    [Display(Name = "Cross Arm")]
     public class TblCrossArmInfo
     {
         [Key]

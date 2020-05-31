@@ -106,8 +106,6 @@ namespace Pdb014App.Controllers.PoleControllers
             var model = await PagingList.CreateAsync(query, 10, pageIndex, sortExpression, "PoleId");
 
             model.RouteValue = new RouteValueDictionary { { "cai", cai }, { "Filter", filter } };
-
-
             return View(model);
         }
 
@@ -267,6 +265,7 @@ namespace Pdb014App.Controllers.PoleControllers
             else
             {
                 tblPole.WireLength = poleDistance;
+                tblPole.BackSpan = poleDistance.ToString();
 
                 if (ModelState.IsValid)
                 {

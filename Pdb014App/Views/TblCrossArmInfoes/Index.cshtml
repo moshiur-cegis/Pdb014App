@@ -1,9 +1,18 @@
 ﻿@model IEnumerable<Pdb014App.Models.PDB.PoleModels.TblCrossArmInfo>
+@using Pdb014App.Models.UserManage;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<TblUserRegistrationDetail> SignInManager
+@inject UserManager<TblUserRegistrationDetail> UserManager
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = await UserManager.GetUserAsync(User);
 }
+
+@*@{
+        ViewData["Title"] = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
+
 @section Styles {
 
     <link href="~/css/datastyle.css" rel="stylesheet" />
@@ -84,17 +93,18 @@
 <h2>List of Cross Arm</h2>
 <hr>
 
-<p>
+@*<p>
     <a asp-action="Create">Add New</a>
-</p>
+</p>*@
 <div class="row">
+    @ViewBag.statuMessageSuccess
     <div class="col-md-12">
         <div class="form-view" id="updatePanel">
             <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
                 <table id="multi-form-view" class="table table-responsive multi-form-view">
                     <thead>
                         <tr>
-                             <th>
+                            <th>
                                 @Html.DisplayNameFor(model => model.CrossArmId)
                             </th>
                             <th>
@@ -132,7 +142,17 @@
                         {
                             <tr>
                                 <td>
-                                   <a asp-action="Edit" asp-route-id="@item.CrossArmId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.CrossArmId)</a>
+                                    <div class="btn-group">
+                                        <a asp-action="Edit" asp-route-id="@item.CrossArmId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a>
+
+                                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@item.CrossArmId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Delete Cross Arm Information">
+
+                                                <span class="glyphicon glyphicon-edit"></span> Delete
+                                            </a>
+                                        }
+                                    </div>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Materials)
@@ -159,10 +179,10 @@
                                     @Html.DisplayFor(modelItem => item.CrossArmToPole.PoleId)
                                 </td>
                                 @*<td>
-                                    <a asp-action="Edit" asp-route-id="@item.CrossArmId">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.CrossArmId">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.CrossArmId">Delete</a>
-                                </td>*@
+                                        <a asp-action="Edit" asp-route-id="@item.CrossArmId">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.CrossArmId">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.CrossArmId">Delete</a>
+                                    </td>*@
                             </tr>
                         }
                     </tbody>

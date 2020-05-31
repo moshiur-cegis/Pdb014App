@@ -180,7 +180,7 @@ namespace Pdb014App.Models.PDB
         [Column("WireLength", Order = 16, TypeName = "decimal(10, 2)")]
         [DataType(DataType.Text)]
         [Range(0, 9999999999, ErrorMessage = "Invalid {0}; Max 10 digits")]
-        [Display(Name = "WireLength")]
+        [Display(Name = "WireL ength")]
         public decimal? WireLength { get; set; }
 
 
@@ -189,7 +189,6 @@ namespace Pdb014App.Models.PDB
         [DataType(DataType.Text)]
         [Display(Name = "Wire Condition")]
         public int? WireConditionId { get; set; }
-
         [ForeignKey("WireConditionId")] public virtual LookUpCondition WireLookUpCondition { get; set; }
 
         #endregion
@@ -218,7 +217,7 @@ namespace Pdb014App.Models.PDB
         [StringLength(6)]
         [Display(Name = "Phase A (R)")]
         public string PhaseAId { get; set; }
-
+        [Display(Name = "Phase A (R)")]
         [ForeignKey("PhaseAId")] public virtual LookUpSagCondition PhaseACondition { get; set; }
 
 
@@ -227,7 +226,6 @@ namespace Pdb014App.Models.PDB
         [StringLength(6)]
         [Display(Name = "Phase B (Y)")]
         public string PhaseBId { get; set; }
-
         [ForeignKey("PhaseBId")] public virtual LookUpSagCondition PhaseBCondition { get; set; }
 
 
@@ -236,7 +234,6 @@ namespace Pdb014App.Models.PDB
         [StringLength(6)]
         [Display(Name = "Phase C (B)")]
         public string PhaseCId { get; set; }
-
         [ForeignKey("PhaseCId")] public virtual LookUpSagCondition PhaseCCondition { get; set; }
 
         //Neutral
