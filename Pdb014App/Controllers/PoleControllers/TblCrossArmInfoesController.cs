@@ -22,7 +22,7 @@ namespace Pdb014App.Controllers.PoleControllers
         // GET: TblCrossArmInfoes
         public async Task<IActionResult> Index(string id)
         {
-            TempData["statuMessageSuccess"] = "";
+            
             var pdbDbContext = _context.TblCrossArmInfo.Include(t => t.CrossArmToPole).Include(t => t.FittingsLookUpCondition).Include(t => t.LookUpTypeOfFittings);
             if (id != null)
             {
@@ -69,7 +69,7 @@ namespace Pdb014App.Controllers.PoleControllers
         // GET: TblCrossArmInfoes/Create
         public IActionResult Create()
         {
-            TempData["statuMessageSuccess"] = "";
+           
             ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId");
             ViewData["FittingsConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name");
             ViewData["TypeOfFittingsId"] = new SelectList(_context.LookUpTypeOfFittings, "Code", "Name");
@@ -87,7 +87,7 @@ namespace Pdb014App.Controllers.PoleControllers
             {
                 _context.Add(tblCrossArmInfo);
                 await _context.SaveChangesAsync();
-                ViewBag.statuMessageSuccess = "Cross Arm has been Added Successfully";
+                
                 TempData["statuMessageSuccess"] = "Cross Arm has been Added Successfully under pole id: "+ tblCrossArmInfo.PoleId;
                 //return RedirectToAction(nameof(Index));
                 return RedirectToAction("Index", "TblPoles");

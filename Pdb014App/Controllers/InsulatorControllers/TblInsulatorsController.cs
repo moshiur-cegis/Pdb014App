@@ -78,7 +78,10 @@ namespace Pdb014App.Controllers.InsulatorControllers
             {
                 _context.Add(tblInsulator);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                TempData["statuMessageSuccess"] = "Insulator has been Added Successfully under pole id: " + tblInsulator.PoleId;
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "TblPoles");
             }
             ViewData["ConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name", tblInsulator.ConditionId);
             ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId", tblInsulator.PoleId);
@@ -135,7 +138,10 @@ namespace Pdb014App.Controllers.InsulatorControllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                TempData["statuMessageSuccess"] = "Insulator has been Updated Successfully under pole id: " + tblInsulator.PoleId;
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "TblPoles");
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["ConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name", tblInsulator.ConditionId);
             ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId", tblInsulator.PoleId);
@@ -172,7 +178,10 @@ namespace Pdb014App.Controllers.InsulatorControllers
             var tblInsulator = await _context.TblInsulator.FindAsync(id);
             _context.TblInsulator.Remove(tblInsulator);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            TempData["statuMessageSuccess"] = "Insulator has been Deleted Successfully under pole id: " + tblInsulator.PoleId;
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "TblPoles");
+            //return RedirectToAction(nameof(Index));
         }
 
         private bool TblInsulatorExists(int id)

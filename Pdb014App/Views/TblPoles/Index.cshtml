@@ -16,13 +16,14 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 
 @section Styles {
     <link href="~/lib/jquery-ui/jquery-ui.css" rel="stylesheet" />
-
     <link href="~/css/datastyle.css" rel="stylesheet" />
+    <link href="~/css/autocomplete.style.css" rel="stylesheet" />
 
     <style type="text/css">
 
@@ -102,22 +103,51 @@
     <hr>
 
     <p>
-        <a asp-action="Create">Add New Pole</a>
+        <a asp-action="Create" class="btn btn-info">Add New Pole</a>
     </p>
 
     <div class="row">
         <div class="col-12">
             <div class="float-md-right">
                 <form method="get" class="form-inline">
-                    <input name="filter" class="form-control" placeholder="filter"
-                           value="@Model.RouteValue["Filter"]" />
 
-                    <input name="cai" class="form-control" placeholder="cai"
-                           value="@Model.RouteValue["cai"]" type="hidden" />
+                        <table id="tblSearchOptions" class="table" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 48%">Field Name</th>
+                                    <th style="width: 50%">Field Value</th>
+                                    <th style="width: 80px">Action</th>
+                                </tr>
+                            </thead>
 
-                    <button type="submit" class="btn btn-info">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                    </button>
+                            <tbody>                            
+                                <tr>                                    
+                                    <td>
+                                       
+                                        <select id="fieldName" name="fieldName"  asp-for="@Model.RouteValue["FieldName"]" class="form-control text-left field-name" asp-items="ViewBag.FieldList">                                            
+                                            <option value="">--- Select ---</option>                                         
+                                        </select>
+                                        <input name="cai" class="form-control" placeholder="cai"
+                                               value="@Model.RouteValue["cai"]" type="hidden" />
+                                    </td>
+                                  
+                                    <td>
+                                        <input id="fieldValue" name="fieldValue" asp-for="@Model.RouteValue["FieldValue"]"  autocomplete="off" class="form-control text-left field-value" />
+                                        <div id="ac-list-0" class="ac-list-content"></div>  @*Very Much Important*@
+                                    </td>
+
+                                    <td>
+
+                                        <button type="submit" class="btn btn-info">
+                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                        </button>
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+
+                        </table>
+
                 </form>
             </div>
         </div>
@@ -127,12 +157,12 @@
         <div class="col-md-12">
             <div class="form-view" id="updatePanel">
 
-                @if(TempData["statuMessageSuccess"] != null)
+                @if (TempData["statuMessageSuccess"] != null)
                 {
-                <div class="alert alert-success alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    @TempData["statuMessageSuccess"]
-                </div>
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        @TempData["statuMessageSuccess"]
+                    </div>
                 }
 
 
@@ -142,12 +172,12 @@
                         <thead>
                             <tr>
                                 @*<th>
-                            @Html.DisplayNameFor(model => model.PoleUid)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.FeederLineUid)
+                                        @Html.DisplayNameFor(model => model.PoleUid)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FeederLineUid)
 
-                        </th>*@
+                                    </th>*@
                                 <th>
                                     @Html.DisplayNameFor(model => model.PoleId)
 
@@ -170,9 +200,9 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.SurveyorName)
                                 </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.PoleNo)
-                                </th>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.PoleNo)
+                                    </th>*@
                                 <th>
                                     @Html.DisplayNameFor(model => model.PreviousPoleNo)
                                 </th>
@@ -258,15 +288,15 @@
                             {
                                 <tr>
                                     @*<td>
-                                @Html.DisplayFor(modelItem => item.PoleUid)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.FeederLineUid)
-                            </td>*@
+                                            @Html.DisplayFor(modelItem => item.PoleUid)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FeederLineUid)
+                                        </td>*@
 
                                     @*<td>
-                                <input type="checkbox" id="@item.PoleId" onclick="activePole(this.id)"/>
-                            </td>*@
+                                            <input type="checkbox" id="@item.PoleId" onclick="activePole(this.id)"/>
+                                        </td>*@
                                     <td>
                                         @*@Html.DisplayFor(modelItem => item.PoleId)*@
                                         <div class="btn-group">
@@ -322,9 +352,9 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.SurveyorName)
                                     </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PoleNo)
-                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.PoleNo)
+                                        </td>*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.PreviousPoleNo)
                                     </td>
@@ -384,11 +414,11 @@
                                     </td>
 
                                     @*@if (User.IsInRole("System Administrator"))
-                            {
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StreetLight)
-                                </td>
-                            }*@
+                                        {
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.StreetLight)
+                                            </td>
+                                        }*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.StreetLight)
                                     </td>
@@ -420,10 +450,20 @@
 </div>
 @section Scripts {
     <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/js/autocomplete.extend.js"></script>
 
     <script type="text/javascript">
 
-            $(function () {
+        $(function () {
+
+            $(".field-name").on("change",
+                function () {
+
+                    console.log($(this))
+
+                    setAutocomplete($(this));
+                    return false;
+                }).trigger("change");
 
                 //var title = "Cross Arm List";
 
