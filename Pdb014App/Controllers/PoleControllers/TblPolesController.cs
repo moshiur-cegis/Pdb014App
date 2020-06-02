@@ -276,7 +276,7 @@ namespace Pdb014App.Controllers.PoleControllers
         // GET: TblPoles1/Create
         public IActionResult Create()
         {
-            ViewBag.Error = "";
+            
             ViewData["LineTypeId"] = new SelectList(_context.LookUpLineType, "Code", "Name");
             ViewData["TypeOfWireId"] = new SelectList(_context.LookUpTypeOfWire, "Code", "Name");
             ViewData["PhaseAId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
@@ -327,7 +327,7 @@ namespace Pdb014App.Controllers.PoleControllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PoleId,PoleUid,FeederLineUid,SurveyDate,RouteCode,FeederLineId,SurveyorName,PoleNo,PreviousPoleNo,Latitude,Longitude,PoleTypeId,PoleConditionId,LineTypeId,BackSpan,TypeOfWireId,NoOfWireHt,NoOfWireLt,WireLength,WireConditionId,MSJNo,SleeveNo,TwistNo,PhaseAId,PhaseBId,PhaseCId,Neutral,StreetLight,SourceCableId,TargetCableId,TransformerExist,CommonPole,Tap")] TblPole tblPole, string surveyDate)
         {
-            string errorMsg = "";
+            
             double latA = Convert.ToDouble(tblPole.Latitude);
             double longA = Convert.ToDouble(tblPole.Longitude);
             double latB = Convert.ToDouble(_context.TblPole.Where(i => i.PoleId == tblPole.PreviousPoleNo).Select(i => i.Latitude).SingleOrDefault());
@@ -337,13 +337,13 @@ namespace Pdb014App.Controllers.PoleControllers
 
             if (poleDistance > 500)
             {
-                errorMsg = "* Pole Distance is " + poleDistance.ToString("#.##") + "! Pole distance can not more  then 500 miter";
+                TempData["statuMessageError"] = "Pole Distance is " + poleDistance.ToString("#.##") + "! Pole distance can not more  then 500 miter";
                 //return RedirectToAction("Create");
             }
             else
             {
                 tblPole.WireLength = poleDistance;
-                tblPole.BackSpan = poleDistance.ToString();
+                tblPole.BackSpan = poleDistance.ToString("#.##");
 
                 if (ModelState.IsValid)
                 {
@@ -362,17 +362,19 @@ namespace Pdb014App.Controllers.PoleControllers
                             await _context.SaveChangesAsync();
                         }
 
+                        TempData["statuMessageSuccess"] = "Pole has been added successfully";
+
                         return RedirectToAction(nameof(Index));
                     }
                     catch (Exception ex)
                     {
-                        errorMsg = ex.Message;
+                        TempData["statuMessageError"] = ex.Message;
 
                     }
                 }
             }
 
-            ViewBag.Error = errorMsg;
+           
 
             ViewData["LineTypeId"] = new SelectList(_context.LookUpLineType, "Code", "Name");
             ViewData["TypeOfWireId"] = new SelectList(_context.LookUpTypeOfWire, "Code", "Name");
@@ -471,6 +473,7 @@ namespace Pdb014App.Controllers.PoleControllers
                         throw;
                     }
                 }
+                TempData["statuMessageSuccess"] = "Pole has been updated successfully";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -528,6 +531,7 @@ namespace Pdb014App.Controllers.PoleControllers
             var tblPole = await _context.TblPole.FindAsync(id);
             _context.TblPole.Remove(tblPole);
             await _context.SaveChangesAsync();
+            TempData["statuMessageSuccess"] = "Pole has been deleted successfully";
             return RedirectToAction(nameof(Index));
         }
 

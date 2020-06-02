@@ -40,7 +40,6 @@ namespace Pdb014App.Models.PDB
         [StringLength(50)]
         [Display(Name = "Feeder Line")]
         public string FeederLineId { get; set; }
-
         [ForeignKey("FeederLineId")] public virtual TblFeederLine PoleToFeederLine { get; set; }
 
 
@@ -104,14 +103,13 @@ namespace Pdb014App.Models.PDB
         [Display(Name = "Longitude")]
         public decimal? Longitude { get; set; }
 
-
         [Required]
         [Column("PoleTypeId", Order = 12, TypeName = "varchar(6)")]
         [StringLength(6)]
         [Display(Name = "Pole Type")]
         public string PoleTypeId { get; set; }
-
-        [ForeignKey("PoleTypeId")] public virtual LookUpPoleType PoleType { get; set; }
+        [ForeignKey("PoleTypeId")] 
+        public virtual LookUpPoleType PoleType { get; set; }
 
 
         [Required]

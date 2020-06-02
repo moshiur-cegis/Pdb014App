@@ -118,7 +118,7 @@
                                 @Html.DisplayNameFor(model => model.NominalSystemVoltage)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.InsulatorType)
+                                @Html.DisplayNameFor(model => model.InsulatorTypeId)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.MaximumSystemVoltage)
@@ -301,15 +301,16 @@
                                     @Html.DisplayFor(modelItem => item.InsulatorToPole.PoleId)
                                 </td>
                                 @*<td>
-                                        <a asp-action="Edit" asp-route-id="@item.InsulatorId">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.InsulatorId">Details</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.InsulatorId">Delete</a>
-                                    </td>*@
+                                <a asp-action="Edit" asp-route-id="@item.InsulatorId">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.InsulatorId">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.InsulatorId">Delete</a>
+                            </td>*@
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
+            
         </div>
     </div>
 </div>
