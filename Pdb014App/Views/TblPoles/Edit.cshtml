@@ -16,34 +16,41 @@
 
         <fieldset>
             <legend>Update Pole Information</legend>
+            @if (TempData["statuMessageError"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    @TempData["statuMessageError"]
+                </div>
+            }
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="PoleId" />
 
                 @*<div class="form-group">
-            <label asp-for="PoleUid" class="control-label"></label>
-            <input asp-for="PoleUid" class="form-control" />
-            <span asp-validation-for="PoleUid" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="FeederLineUid" class="control-label"></label>
-            <input asp-for="FeederLineUid" class="form-control" />
-            <span asp-validation-for="FeederLineUid" class="text-danger"></span>
-        </div>*@
+                        <label asp-for="PoleUid" class="control-label"></label>
+                        <input asp-for="PoleUid" class="form-control" />
+                        <span asp-validation-for="PoleUid" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FeederLineUid" class="control-label"></label>
+                        <input asp-for="FeederLineUid" class="form-control" />
+                        <span asp-validation-for="FeederLineUid" class="text-danger"></span>
+                    </div>*@
 
                 @*<div class="form-group">
-            <label asp-for="SurveyDate" class="control-label"></label>
-            <input asp-for="SurveyDate" class="form-control" />
-            <span asp-validation-for="SurveyDate" class="text-danger"></span>
-        </div>*@
+                        <label asp-for="SurveyDate" class="control-label"></label>
+                        <input asp-for="SurveyDate" class="form-control" />
+                        <span asp-validation-for="SurveyDate" class="text-danger"></span>
+                    </div>*@
 
 
                 @*<div class="form-group">
-            <label asp-for="SurveyDate" class="control-label"></label>
-            <input type="text" name="SurveyDate" id="SurveyDate" class="survey-date form-control" placeholder="dd-mm-yyyy" data-date-format="mm-dd-yyyy" value=@Model.SurveyDate />
-            <span class="glyphicon glyphicon-calendar icon-font" id="dpSurveyDate"></span>
-            <span asp-validation-for="SurveyDate" class="text-danger"></span>
-        </div>*@
+                        <label asp-for="SurveyDate" class="control-label"></label>
+                        <input type="text" name="SurveyDate" id="SurveyDate" class="survey-date form-control" placeholder="dd-mm-yyyy" data-date-format="mm-dd-yyyy" value=@Model.SurveyDate />
+                        <span class="glyphicon glyphicon-calendar icon-font" id="dpSurveyDate"></span>
+                        <span asp-validation-for="SurveyDate" class="text-danger"></span>
+                    </div>*@
                 <div class="form-group">
                     <label asp-for="SurveyDate" class="control-label"></label>
                     <input asp-for="SurveyDate" type="hidden" id="SurveyDate" />
@@ -73,16 +80,16 @@
                     <span asp-validation-for="SurveyorName" class="text-danger"></span>
                 </div>
                 @*<div class="form-group">
-            <label asp-for="PoleId" class="control-label"></label>
-            <input asp-for="PoleNo" class="form-control" />
-            <span asp-validation-for="PoleNo" class="text-danger"></span>
-        </div>*@
+                        <label asp-for="PoleId" class="control-label"></label>
+                        <input asp-for="PoleNo" class="form-control" />
+                        <span asp-validation-for="PoleNo" class="text-danger"></span>
+                    </div>*@
 
                 @*<div class="form-group">
-            <label asp-for="PreviousPoleNo" class="control-label"></label>
-            <input type="number" asp-for="PreviousPoleNo" class="form-control" />
-            <span asp-validation-for="PreviousPoleNo" class="text-danger"></span>
-        </div>*@
+                        <label asp-for="PreviousPoleNo" class="control-label"></label>
+                        <input type="number" asp-for="PreviousPoleNo" class="form-control" />
+                        <span asp-validation-for="PreviousPoleNo" class="text-danger"></span>
+                    </div>*@
 
                 <div class="form-group">
                     <label asp-for="PreviousPoleNo" class="control-label"></label>
@@ -97,10 +104,10 @@
                     <span asp-validation-for="PoleNo" class="text-danger"></span>
                 </div>
                 @*<div class="form-group">
-            <label asp-for="PreviousPoleNo" class="control-label"></label>
-            <input asp-for="PreviousPoleNo" class="form-control" />
-            <span asp-validation-for="PreviousPoleNo" class="text-danger"></span>
-        </div>*@
+                        <label asp-for="PreviousPoleNo" class="control-label"></label>
+                        <input asp-for="PreviousPoleNo" class="form-control" />
+                        <span asp-validation-for="PreviousPoleNo" class="text-danger"></span>
+                    </div>*@
 
                 <div class="form-group">
                     <label asp-for="Latitude" class="control-label"></label>
@@ -135,7 +142,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="BackSpan" class="control-label"></label>
-                    <input asp-for="BackSpan" class="form-control" readonly/>
+                    <input asp-for="BackSpan" class="form-control" readonly />
                     <span asp-validation-for="BackSpan" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -147,17 +154,17 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="NoOfWireHt" class="control-label"></label>
-                    <input asp-for="NoOfWireHt" class="form-control" />
+                    <input type="number" asp-for="NoOfWireHt" class="form-control" />
                     <span asp-validation-for="NoOfWireHt" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="NoOfWireLt" class="control-label"></label>
-                    <input asp-for="NoOfWireLt" class="form-control" />
+                    <input type="number" asp-for="NoOfWireLt" class="form-control" />
                     <span asp-validation-for="NoOfWireLt" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="WireLength" class="control-label"></label>
-                    <input asp-for="WireLength" class="form-control" readonly/>
+                    <input asp-for="WireLength" class="form-control" readonly />
                     <span asp-validation-for="WireLength" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -225,54 +232,54 @@
                 </div>
 
                 @*<div class="form-group">
-            <label asp-for="Neutral" class="control-label"></label>
-            <input type="checkbox" asp-for="Neutral" class="form-control" />
-            <span asp-validation-for="Neutral" class="text-danger"></span>
-        </div>
+                        <label asp-for="Neutral" class="control-label"></label>
+                        <input type="checkbox" asp-for="Neutral" class="form-control" />
+                        <span asp-validation-for="Neutral" class="text-danger"></span>
+                    </div>
 
-        <div class="form-group">
-            <label asp-for="StreetLight" class="control-label"></label>
-            <input type="checkbox" asp-for="StreetLight" class="form-control" />
-            <span asp-validation-for="StreetLight" class="text-danger"></span>
-        </div>*@
-
-                @*<div class="form-group">
-            <label asp-for="SourceCableId" class="control-label"></label>
-            <select asp-for="SourceCableId" class="form-control" asp-items="ViewBag.SourceCableId">
-                <option value="">--Select--</option>
-            </select>
-            <span asp-validation-for="SourceCableId" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="TargetCableId" class="control-label"></label>
-            <select asp-for="TargetCableId" class="form-control" asp-items="ViewBag.TargetCableId">
-                <option value="">--Select--</option>
-            </select>
-            <span asp-validation-for="TargetCableId" class="text-danger"></span>
-        </div>*@
+                    <div class="form-group">
+                        <label asp-for="StreetLight" class="control-label"></label>
+                        <input type="checkbox" asp-for="StreetLight" class="form-control" />
+                        <span asp-validation-for="StreetLight" class="text-danger"></span>
+                    </div>*@
 
                 @*<div class="form-group">
-            <label asp-for="TransformerExist" class="control-label"></label>
-            <input type="checkbox" asp-for="TransformerExist" class="form-control" />
-            <span asp-validation-for="TransformerExist" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="CommonPole" class="control-label"></label>
-            <input type="checkbox" asp-for="CommonPole" class="form-control" />
-            <span asp-validation-for="CommonPole" class="text-danger"></span>
-        </div>
+                        <label asp-for="SourceCableId" class="control-label"></label>
+                        <select asp-for="SourceCableId" class="form-control" asp-items="ViewBag.SourceCableId">
+                            <option value="">--Select--</option>
+                        </select>
+                        <span asp-validation-for="SourceCableId" class="text-danger"></span>
+                    </div>
 
-        <div class="form-group">
-            <label asp-for="Tap" class="control-label"></label>
-            <input type="checkbox" asp-for="Tap" class="form-control" />
-            <span asp-validation-for="Tap" class="text-danger"></span>
-        </div>*@
+                    <div class="form-group">
+                        <label asp-for="TargetCableId" class="control-label"></label>
+                        <select asp-for="TargetCableId" class="form-control" asp-items="ViewBag.TargetCableId">
+                            <option value="">--Select--</option>
+                        </select>
+                        <span asp-validation-for="TargetCableId" class="text-danger"></span>
+                    </div>*@
+
+                @*<div class="form-group">
+                        <label asp-for="TransformerExist" class="control-label"></label>
+                        <input type="checkbox" asp-for="TransformerExist" class="form-control" />
+                        <span asp-validation-for="TransformerExist" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CommonPole" class="control-label"></label>
+                        <input type="checkbox" asp-for="CommonPole" class="form-control" />
+                        <span asp-validation-for="CommonPole" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Tap" class="control-label"></label>
+                        <input type="checkbox" asp-for="Tap" class="form-control" />
+                        <span asp-validation-for="Tap" class="text-danger"></span>
+                    </div>*@
                 @*<div class="form-group row">
-                <label asp-for="Tap" class="control-label col-md-2"></label>
-                <input type="checkbox" asp-for="Tap" class="form-control col-md-8 float-left" />
-                <span asp-validation-for="Tap" class="text-danger col-md-4"></span>
-        </div>*@
+                            <label asp-for="Tap" class="control-label col-md-2"></label>
+                            <input type="checkbox" asp-for="Tap" class="form-control col-md-8 float-left" />
+                            <span asp-validation-for="Tap" class="text-danger col-md-4"></span>
+                    </div>*@
                 <hr />
                 <div class="form-group">
 
@@ -297,7 +304,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap-select.js"></script>
     <script type="text/javascript">
 
-       
+
 
         $("#altSurveyDate").datetimepicker({
             lang: "en",

@@ -204,7 +204,11 @@ namespace Pdb014App.Controllers.DtControllers
             var tblDistributionTransformer = await _context.TblDistributionTransformer.FindAsync(id);
             _context.TblDistributionTransformer.Remove(tblDistributionTransformer);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+
+            TempData["statuMessageSuccess"] = "Distribution Transformer has been Deleted successfully under pole id " + tblDistributionTransformer.PoleId;
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "TblPoles");
         }
 
         private bool TblDistributionTransformerExists(string id)

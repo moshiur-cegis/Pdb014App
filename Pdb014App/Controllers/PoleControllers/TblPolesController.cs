@@ -437,46 +437,62 @@ namespace Pdb014App.Controllers.PoleControllers
         {
             var feederLineId = id.Substring(0, 11);
 
-
             if (id != tblPole.PoleId)
             {
                 return NotFound();
             }
 
+            double latA = Convert.ToDouble(tblPole.Latitude);
+            double longA = Convert.ToDouble(tblPole.Longitude);
+            double latB = Convert.ToDouble(_context.TblPole.Where(i => i.PoleId == tblPole.PreviousPoleNo).Select(i => i.Latitude).SingleOrDefault());
+            double longB = Convert.ToDouble(_context.TblPole.Where(i => i.PoleId == tblPole.PreviousPoleNo).Select(i => i.Longitude).SingleOrDefault());
 
-            if (ModelState.IsValid)
+            var poleDistance = GetPoleDistance(latA, longA, latB, longB);
+
+            if (poleDistance > 500)
             {
-                try
-                {
-
-                    string UpdatePoleId = _context.TblPole.Where(i => i.PreviousPoleNo == tblPole.PreviousPoleNo).Select(i => i.PoleId).FirstOrDefault();
-                    _context.Update(tblPole);
-                    await _context.SaveChangesAsync();
-
-                    if (Convert.ToInt64(tblPole.PreviousPoleNo) != (Convert.ToInt64(tblPole.PoleId) - 1))
-                    {
-                        var findPoleInfo = await _context.TblPole.FindAsync(UpdatePoleId);
-                        findPoleInfo.PreviousPoleNo = tblPole.PoleId;
-                        _context.Update(findPoleInfo);
-                        await _context.SaveChangesAsync();
-                    }
-
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TblPoleExists(tblPole.PoleId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                TempData["statuMessageSuccess"] = "Pole has been updated successfully";
-                return RedirectToAction(nameof(Index));
+                TempData["statuMessageError"] = "Pole Distance is " + poleDistance.ToString("#.##") + "! Pole distance can not more  then 500 miter";
+                //return RedirectToAction("Create");
             }
+            else
+            {
+                tblPole.WireLength = poleDistance;
+                tblPole.BackSpan = poleDistance.ToString("#.##");
 
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+
+                        string UpdatePoleId = _context.TblPole.Where(i => i.PreviousPoleNo == tblPole.PreviousPoleNo).Select(i => i.PoleId).FirstOrDefault();
+                        _context.Update(tblPole);
+                        await _context.SaveChangesAsync();
+
+                        if (Convert.ToInt64(tblPole.PreviousPoleNo) != (Convert.ToInt64(tblPole.PoleId) - 1))
+                        {
+                            var findPoleInfo = await _context.TblPole.FindAsync(UpdatePoleId);
+                            findPoleInfo.PreviousPoleNo = tblPole.PoleId;
+                            _context.Update(findPoleInfo);
+                            await _context.SaveChangesAsync();
+                        }
+
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!TblPoleExists(tblPole.PoleId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    TempData["statuMessageSuccess"] = "Pole has been updated successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
 
             ViewData["LineTypeId"] = new SelectList(_context.LookUpLineType, "Code", "Name");
             ViewData["TypeOfWireId"] = new SelectList(_context.LookUpTypeOfWire, "Code", "Name");

@@ -307,7 +307,7 @@
                                         </a>
                                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
                                         {
-                                            <a asp-action="Delete" asp-route-id="@item.PoleId" class="btn btn-info" data-toggle="tooltip" data-placement="top" asp-route-cai="@Model.RouteValue["cai"]" title="Edit Pole Information">
+                                            <a asp-action="Delete" asp-route-id="@item.PoleId" class="btn btn-info" data-toggle="tooltip" data-placement="top" asp-route-cai="@Model.RouteValue["cai"]" title="Delete Pole Information">
 
                                                 <span class="glyphicon glyphicon-edit"></span> Delete
                                             </a>
