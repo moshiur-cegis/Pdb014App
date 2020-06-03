@@ -275,7 +275,11 @@
                 data: { "regionList": regionList },
                 before: $("#busy-indicator").fadeIn(150),
                 success: function (data) {
-                    init_data_table("#report_view", headerList, basicColumns, dataColumns, data);
+                    if (data && data.length > 0) {
+                        init_data_table("#report_view", headerList, basicColumns, dataColumns, data);
+                    } else {
+                        msg.init("warning", "Warning... . . !", "Report data not available... . . !! ");
+                    }
                     $("#busy-indicator").fadeOut(150);
                 },
                 error: function(ex, status, error) {
@@ -514,7 +518,7 @@
 																				: typeof (sstInfo[groupName][dataColumn]) != "undefined"
 																				? sstInfo[groupName][dataColumn]
 																				: "";
-																			
+
 																			if (dataValue) {
 																				isRight = (dataValue === parseInt(dataValue, 10));
 																				$infoTds += rsGrp[groupName] > 1
@@ -580,7 +584,7 @@
                                                 $infoTrs += '</tr>';
                                                 $infoTds = "";
                                             }
-                                            
+
                                             rsSnD += rsSSt;
 
                                             if ($sstTrs) {
