@@ -3,7 +3,6 @@ tr.grandTotal td,
 .grandTotal td {
     font-weight: bold !important;
     text-align: right;
-    /* size: 19px; */
     font-size: 16px !important;
 }
 
@@ -63,12 +62,27 @@ tr.subTotal td,
         padding: 5px;
         text-align: center !important;
         vertical-align: middle !important;
-        color: #125;
-        /*font: 500 0.85rem/1.42857 Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+        /*color: #125;
+        font: 500 0.85rem/1.42857 Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;*/
         text-transform: none;
         letter-spacing: 0.5px;
         background-color: #f0f7f8;
     }
+
+        .table th, .table > thead > th,
+        .table > thead > tr > th,
+        .table th, .table > thead > th > a,
+        .table > thead > tr > th > a {
+            color: #04a !important;
+            /*font: 500 0.85rem/1.42857 Cambria, "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+            text-transform: none;
+            letter-spacing: 0.5px;
+        }
+
+        .table th, .table > thead > th > a:hover,
+        .table > thead > tr > th > a:hover {
+            color: #15d !important;
+        }
 
     .table > tr.sub-header-tr > th,
     .table > thead > tr.sub-header-tr > th {
