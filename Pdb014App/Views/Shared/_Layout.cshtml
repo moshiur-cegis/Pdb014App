@@ -54,6 +54,7 @@
 
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/css/msgstyle.css" rel="stylesheet" />
+ 
 
     @await RenderSectionAsync("Styles", required: false)
 
@@ -90,7 +91,7 @@
                             <ul class="submenu">
                                 <li><a id="advs_010" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchPole" asp-route-cai="advs_010">Pole</a></li>
                                 <li><a id="advs_011" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchFeederLine" asp-route-cai="advs_011">Feeder Line</a></li>
-                                <li><a id="advs_012" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchCrossArm" asp-route-cai="advs_012">Cross Arm</a></li>
+                                @*<li><a id="advs_012" asp-area="" asp-controller="AdvancedSearching" asp-action="SearchCrossArm" asp-route-cai="advs_012">Cross Arm</a></li>*@
                             </ul>
                         </li>
                         <li>
@@ -150,9 +151,19 @@
                                         <li><a id="de_pi_ad_02" asp-area="" asp-controller="TblFeederLines" asp-action="Create" asp-route-cai="de_pi_ad_02">Feeder Line</a></li>
                                         <li><a id="de_pi_ad_03" asp-area="" asp-controller="LookUpFeederLineTypes" asp-action="Create" asp-route-cai="de_pi_ad_03">Feeder Line Type</a></li>
 
+                                        @*<li><a id="a_dis_tr_01" asp-area="" asp-controller="TblDistributionTransformers" asp-action="Create" asp-route-cai="a_dis_tr_01">Distribution Transformers</a></li>*@
+                                        <li><a id="a_psms_01" asp-area="" asp-controller="TblPoleStructureMountedSurgeArrestors" asp-action="Create" asp-route-cai="a_psms_01">Pole Structure Mounted Surge Arrestors</a></li>
+
+                                        <li><a id="a_con_01" asp-area="" asp-controller="TblConductors" asp-action="Create" asp-route-cai="a_con_01">Conductor</a></li>
+
+                                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
+                                        {
+                                            <li><a id="a_con_t_01" asp-area="" asp-controller="LookUpConductorTypes" asp-action="Create" asp-route-cai="a_con_t_01">Conductor Type</a></li>
+                                        }
+
                                         @*<li><a id="de_pi_ad_04" asp-area="" asp-controller="TblCrossArmInfoes" asp-action="Create" asp-route-cai="de_pi_ad_04">Cross Arms</a></li>
-                                            <li><a id="de_pi_ad_12" asp-area="" asp-controller="TblInsulators" asp-action="Create" asp-route-cai="de_pi_ad_12">Insulator</a></li>
-                                            <li><a id="de_pi_ad_13" asp-area="" asp-controller="TblGuys" asp-action="Create" asp-route-cai="de_pi_ad_13">Guy</a></li>*@
+        <li><a id="de_pi_ad_12" asp-area="" asp-controller="TblInsulators" asp-action="Create" asp-route-cai="de_pi_ad_12">Insulator</a></li>
+        <li><a id="de_pi_ad_13" asp-area="" asp-controller="TblGuys" asp-action="Create" asp-route-cai="de_pi_ad_13">Guy</a></li>*@
 
                                         <li><a id="de_pi_ad_05" asp-area="" asp-controller="TblSpecificationsOfMountBrackets" asp-action="Create" asp-route-cai="de_pi_ad_05">Mount Bracket</a></li>
                                         <li><a id="de_pi_ad_06" asp-area="" asp-controller="LookUpSpecificationsOfMountBracketTypes" asp-action="Create" asp-route-cai="de_pi_ad_06">Mount Bracket Types</a></li>
@@ -170,9 +181,19 @@
                                         <li><a id="de_pi_ed_02" asp-area="" asp-controller="TblFeederLines" asp-action="Index" asp-route-cai="de_pi_ed_02">Feeder Line</a></li>
                                         <li><a id="de_pi_ed_03" asp-area="" asp-controller="LookUpFeederLineTypes" asp-action="Index" asp-route-cai="de_pi_ed_03">Feeder Line Type</a></li>
 
+                                        @*<li><a id="e_dis_tr_01" asp-area="" asp-controller="TblDistributionTransformers" asp-action="Index" asp-route-cai="e_dis_tr_01">Distribution Transformers</a></li>*@
+                                        <li><a id="e_psms_01" asp-area="" asp-controller="TblPoleStructureMountedSurgeArrestors" asp-action="Index" asp-route-cai="e_psms_01">Pole Structure Mounted Surge Arrestors</a></li>
+
+                                        <li><a id="e_con_01" asp-area="" asp-controller="TblConductors" asp-action="Index" asp-route-cai="e_con_01">Conductor</a></li>
+
+                                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
+                                        {
+                                            <li><a id="e_con_t_01" asp-area="" asp-controller="LookUpConductorTypes" asp-action="Index" asp-route-cai="e_con_t_01">Conductor Type</a></li>
+                                        }
+
                                         @*<li><a id="de_pi_ed_04" asp-area="" asp-controller="TblCrossArmInfoes" asp-action="Index" asp-route-cai="de_pi_ed_04">Cross Arms</a></li>
-                                            <li><a id="de_pi_ed_12" asp-area="" asp-controller="TblInsulators" asp-action="Index" asp-route-cai="de_pi_ed_12">Insulator</a></li>
-                                            <li><a id="de_pi_ed_13" asp-area="" asp-controller="TblGuys" asp-action="Index" asp-route-cai="de_pi_ed_13">Guy</a></li>*@
+        <li><a id="de_pi_ed_12" asp-area="" asp-controller="TblInsulators" asp-action="Index" asp-route-cai="de_pi_ed_12">Insulator</a></li>
+        <li><a id="de_pi_ed_13" asp-area="" asp-controller="TblGuys" asp-action="Index" asp-route-cai="de_pi_ed_13">Guy</a></li>*@
 
                                         <li><a id="de_pi_ed_05" asp-area="" asp-controller="TblSpecificationsOfMountBrackets" asp-action="Index" asp-route-cai="de_pi_ed_05">Mount Bracket</a></li>
                                         <li><a id="de_pi_ed_06" asp-area="" asp-controller="LookUpSpecificationsOfMountBracketTypes" asp-action="Index" asp-route-cai="de_pi_ed_06">Mount Bracket Types</a></li>
@@ -182,16 +203,16 @@
                                         <li><a id="de_pi_ed_10" asp-area="" asp-controller="LookUpCopperCablesTypes" asp-action="Index" asp-route-cai="de_pi_ed_10">Copper Cable Type</a></li>
                                         <li><a id="de_pi_ed_11" asp-area="" asp-controller="TblPoleToMultiFeederlineInfoes" asp-action="Index" asp-route-cai="de_pi_ed_11">Pole To Multi-Feeder Line Information</a></li>
                                         @*
-                                            <li><a id="de_pi_ed_p_01" asp-area="" asp-controller="TblPoles" asp-action="Index" asp-route-cai="de_pi_ed_p_01">Pole</a></li>
-                                            <li><a id="de_pi_ed_fl_01" asp-area="" asp-controller="TblFeederLines" asp-action="Index" asp-route-cai="de_pi_ed_fl_01">Feeder Line</a></li>
-                                            <li><a id="de_pi_ed_fl_t_01" asp-area="" asp-controller="LookUpFeederLineTypes" asp-action="Index" asp-route-cai="de_pi_ed_fl_t_01">Feeder Line Type</a></li>
-                                            <li><a id="de_pi_ed_ca_01" asp-area="" asp-controller="TblCrossArms" asp-action="Index" asp-route-cai="de_pi_ed_ca_01">Cross Arms</a></li>
-                                            <li><a id="de_pi_ed_mb_01" asp-area="" asp-controller="TblSpecificationsOfMountBrackets" asp-action="Index" asp-route-cai="de_pi_ed_mb_01">Mount Bracket</a></li>
-                                            <li><a id="de_pi_ed_mb_t_01" asp-area="" asp-controller="LookUpSpecificationsOfMountBracketTypes" asp-action="Index" asp-route-cai="de_pi_ed_mb_t_01">Mount Bracket Types</a></li>
-                                            <li><a id="de_pi_ed_slttcm_01" asp-area="" asp-controller="LookUpSideLockTieTerminalClampMerlins" asp-action="Index" asp-route-cai="de_pi_ed_slttcm_01">Side Lock Tie Terminal Clamp Merlins</a></li>
-                                            <li><a id="de_pi_ed_pmdcfl_01" asp-area="" asp-controller="TblPoleMountedDofCutOutFuseLinks" asp-action="Index" asp-route-cai="de_pi_ed_pmdcfl_01">Pole Mounted Dof Cut-Out Fuse Link</a></li>
-                                            <li><a id="de_pi_ed_cc_01" asp-area="" asp-controller="TblCopperCables" asp-action="Index" asp-route-cai="de_pi_ed_cc_01">Copper Cable</a></li>
-                                            <li><a id="de_pi_ed_cc_t_01" asp-area="" asp-controller="LookUpCopperCablesTypes" asp-action="Index" asp-route-cai="de_pi_ed_cc_t_01">Copper Cable Type</a></li>*@
+        <li><a id="de_pi_ed_p_01" asp-area="" asp-controller="TblPoles" asp-action="Index" asp-route-cai="de_pi_ed_p_01">Pole</a></li>
+        <li><a id="de_pi_ed_fl_01" asp-area="" asp-controller="TblFeederLines" asp-action="Index" asp-route-cai="de_pi_ed_fl_01">Feeder Line</a></li>
+        <li><a id="de_pi_ed_fl_t_01" asp-area="" asp-controller="LookUpFeederLineTypes" asp-action="Index" asp-route-cai="de_pi_ed_fl_t_01">Feeder Line Type</a></li>
+        <li><a id="de_pi_ed_ca_01" asp-area="" asp-controller="TblCrossArms" asp-action="Index" asp-route-cai="de_pi_ed_ca_01">Cross Arms</a></li>
+        <li><a id="de_pi_ed_mb_01" asp-area="" asp-controller="TblSpecificationsOfMountBrackets" asp-action="Index" asp-route-cai="de_pi_ed_mb_01">Mount Bracket</a></li>
+        <li><a id="de_pi_ed_mb_t_01" asp-area="" asp-controller="LookUpSpecificationsOfMountBracketTypes" asp-action="Index" asp-route-cai="de_pi_ed_mb_t_01">Mount Bracket Types</a></li>
+        <li><a id="de_pi_ed_slttcm_01" asp-area="" asp-controller="LookUpSideLockTieTerminalClampMerlins" asp-action="Index" asp-route-cai="de_pi_ed_slttcm_01">Side Lock Tie Terminal Clamp Merlins</a></li>
+        <li><a id="de_pi_ed_pmdcfl_01" asp-area="" asp-controller="TblPoleMountedDofCutOutFuseLinks" asp-action="Index" asp-route-cai="de_pi_ed_pmdcfl_01">Pole Mounted Dof Cut-Out Fuse Link</a></li>
+        <li><a id="de_pi_ed_cc_01" asp-area="" asp-controller="TblCopperCables" asp-action="Index" asp-route-cai="de_pi_ed_cc_01">Copper Cable</a></li>
+        <li><a id="de_pi_ed_cc_t_01" asp-area="" asp-controller="LookUpCopperCablesTypes" asp-action="Index" asp-route-cai="de_pi_ed_cc_t_01">Copper Cable Type</a></li>*@
                                     </ul>
                                 </li>
                             </ul>
@@ -296,41 +317,7 @@
                             </ul>
                         </li>
 
-                        @*<li>
-                                <a href="#">Switchgear Information</a>
-                                <ul class="submenu">
-                                    <li>
-                                        <a href="#">Add</a>
-                                        <ul class="submenu">
-                                            <li><a id="a_swt_g_01" asp-area="" asp-controller="TblSwitchGears" asp-action="Create" asp-route-cai="a_swt_g_01">Switchgear</a></li>
-                                            <li><a id="a_swt_g_02" asp-area="" asp-controller="LookUpSwitchGearTypes" asp-action="Create" asp-route-cai="a_swt_g_02">Switchgear Type</a></li>
-                                            <li><a id="a_swt_g_03" asp-area="" asp-controller="LookupBusBars" asp-action="Create" asp-route-cai="a_swt_g_03">Bus Bar</a></li>
-                                            <li><a id="a_swt_g_04" asp-area="" asp-controller="LookUpCircuitBreakers" asp-action="Create" asp-route-cai="a_swt_g_04">Circuit Breaker</a></li>
-                                            <li><a id="a_swt_g_05" asp-area="" asp-controller="LookupSf6SafetyAndLife" asp-action="Create" asp-route-cai="a_swt_g_05">Sf6 Safety And Life</a></li>
-                                            <li><a id="a_swt_g_06" asp-area="" asp-controller="LookUpSwitchPositions" asp-action="Create" asp-route-cai="a_swt_g_06">Position</a></li>
-
-                                            <li><a id="a_swt_g_07" asp-area="" asp-controller="TblTerminationKits" asp-action="Create" asp-route-cai="a_swt_g_07">Termination Kits</a></li>
-                                            <li><a id="a_swt_g_08" asp-area="" asp-controller="TblXLPEaluminiumCopperGalvanize11KV" asp-action="Create" asp-route-cai="a_swt_g_08">11KV XLPE Aluminium Copper Galvanize</a></li>
-                                            <li><a id="a_swt_g_09" asp-area="" asp-controller="TblIndoorOutdoorTypeProgrammableEnergyMeters" asp-action="Create" asp-route-cai="a_swt_g_09">Programmable Energy Meter </a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">Edit</a>
-                                        <ul class="submenu">
-                                            <li><a id="e_swt_g_01" asp-area="" asp-controller="TblSwitchGears" asp-action="Index" asp-route-cai="e_swt_g_01">Switchgear</a></li>
-                                            <li><a id="e_swt_g_02" asp-area="" asp-controller="LookUpSwitchGearTypes" asp-action="Index" asp-route-cai="e_swt_g_02">Switchgear Type</a></li>
-                                            <li><a id="e_swt_g_03" asp-area="" asp-controller="LookupBusBars" asp-action="Create" asp-route-cai="e_swt_g_03">Bus Bar</a></li>
-                                            <li><a id="e_swt_g_04" asp-area="" asp-controller="LookUpCircuitBreakers" asp-action="Index" asp-route-cai="e_swt_g_04">Circuit Breaker</a></li>
-                                            <li><a id="e_swt_g_05" asp-area="" asp-controller="LookupSf6SafetyAndLife" asp-action="Index" asp-route-cai="e_swt_g_05">Sf6 Safety And Life</a></li>
-                                            <li><a id="e_swt_g_06" asp-area="" asp-controller="LookUpSwitchPositions" asp-action="Index" asp-route-cai="e_swt_g_06">Position</a></li>
-
-                                            <li><a id="e_swt_g_07" asp-area="" asp-controller="TblTerminationKits" asp-action="Index" asp-route-cai="e_swt_g_07">Termination Kits</a></li>
-                                            <li><a id="e_swt_g_08" asp-area="" asp-controller="TblXLPEaluminiumCopperGalvanize11KV" asp-action="Index" asp-route-cai="e_swt_g_08">11KV XLPE Aluminium Copper Galvanize</a></li>
-                                            <li><a id="e_swt_g_09" asp-area="" asp-controller="TblIndoorOutdoorTypeProgrammableEnergyMeters" asp-action="Index" asp-route-cai="e_swt_g_09">Programmable Energy Meter </a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>*@
+                       
 
                         <li>
                             <a href="#">Transformer Information</a>
@@ -339,11 +326,13 @@
                                     <a href="#">Add</a>
                                     <ul class="submenu">
                                         <li><a id="a_pow_tr_01" asp-area="" asp-controller="TblPhasePowerTransformers" asp-action="Create" asp-route-cai="a_pow_tr_01">Power Transformers</a></li>
-                                        <li><a id="a_dis_tr_01" asp-area="" asp-controller="TblDistributionTransformers" asp-action="Create" asp-route-cai="a_dis_tr_01">Distribution Transformers</a></li>
+
+
+
                                         <li><a id="a_cur_tr_01" asp-area="" asp-controller="LookUpCurrentTransformers" asp-action="Create" asp-route-cai="a_cur_tr_01">Current Transformers</a></li>
                                         <li><a id="a_aux_tr_01" asp-area="" asp-controller="LookUpAuxiliaryTransformers" asp-action="Create" asp-route-cai="a_aux_tr_01">Auxiliary Transformers</a></li>
                                         <li><a id="a_pot_tr_01" asp-area="" asp-controller="LookUpPotentialTrans33KV" asp-action="Create" asp-route-cai="a_pot_tr_01">Potential Transformers</a></li>
-                                        <li><a id="a_psms_01" asp-area="" asp-controller="TblPoleStructureMountedSurgeArrestors" asp-action="Create" asp-route-cai="a_psms_01">Pole Structure Mounted Surge Arrestors</a></li>
+
                                         <li><a id="a_sur_a_01" asp-area="" asp-controller="TblSurgeArrestors" asp-action="Create" asp-route-cai="a_sur_a_01">Surge Arrestors</a></li>
                                     </ul>
                                 </li>
@@ -351,44 +340,18 @@
                                     <a href="#">Edit</a>
                                     <ul class="submenu">
                                         <li><a id="e_pow_tr_01" asp-area="" asp-controller="TblPhasePowerTransformers" asp-action="Index" asp-route-cai="e_pow_tr_01">Power Transformers</a></li>
-                                        <li><a id="e_dis_tr_01" asp-area="" asp-controller="TblDistributionTransformers" asp-action="Index" asp-route-cai="e_dis_tr_01">Distribution Transformers</a></li>
+                                        
                                         <li><a id="e_cur_tr_01" asp-area="" asp-controller="LookUpCurrentTransformers" asp-action="Index" asp-route-cai="e_cur_tr_01">Current Transformers</a></li>
                                         <li><a id="e_aux_tr_01" asp-area="" asp-controller="LookUpAuxiliaryTransformers" asp-action="Index" asp-route-cai="e_aux_tr_01">Auxiliary Transformers</a></li>
                                         <li><a id="e_pot_tr_01" asp-area="" asp-controller="LookUpPotentialTrans33KV" asp-action="Index" asp-route-cai="e_pot_tr_01">Potential Transformers</a></li>
-                                        <li><a id="e_psms_01" asp-area="" asp-controller="TblPoleStructureMountedSurgeArrestors" asp-action="Index" asp-route-cai="e_psms_01">Pole Structure Mounted Surge Arrestors</a></li>
+
                                         <li><a id="e_sur_a_01" asp-area="" asp-controller="TblSurgeArrestors" asp-action="Index" asp-route-cai="e_sur_a_01">Surge Arrestors</a></li>
                                     </ul>
                                 </li>
                             </ul>
                         </li>
 
-                        <li>
-                            <a href="#">Conductor Information</a>
-                            <ul class="submenu">
-                                <li>
-                                    <a href="#">Add</a>
-                                    <ul class="submenu">
-                                        <li><a id="a_con_01" asp-area="" asp-controller="TblConductors" asp-action="Create" asp-route-cai="a_con_01">Conductor</a></li>
-
-                                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
-                                        {
-                                            <li><a id="a_con_t_01" asp-area="" asp-controller="LookUpConductorTypes" asp-action="Create" asp-route-cai="a_con_t_01">Conductor Type</a></li>
-                                        }
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">Edit</a>
-                                    <ul class="submenu">
-                                        <li><a id="e_con_01" asp-area="" asp-controller="TblConductors" asp-action="Index" asp-route-cai="e_con_01">Conductor</a></li>
-
-                                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
-                                        {
-                                            <li><a id="e_con_t_01" asp-area="" asp-controller="LookUpConductorTypes" asp-action="Index" asp-route-cai="e_con_t_01">Conductor Type</a></li>
-                                        }
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
+                      
 
                         @*<li>
                                 <a href="#">Insulator Information</a>
@@ -804,51 +767,52 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <footer class="footer">
-        <div class="row">
-            <div class="col-md-7 tx-md-left pd-md-l-20">
-                <a href="http://www.bpdb.gov.bd/bpdb_new/" target="_blank">
-                    <span>&copy; @DateTime.Now.Year <symbol>::</symbol> Bangladesh Power Development Board (<strong>BPDB</strong>)</span>
-                </a>
-            </div>
-            @*<div class="col-md-2"></div>*@
-            <div class="col-md-5 tx-md-right pd-md-r-20">
-                <a href="http://www.cegisbd.com/" target="_blank">
-                    <span>Developed by <strong>CEGIS</strong></span>
-                </a>
-            </div>
+        <div id="dialog" style="display: none">
         </div>
-    </footer>
 
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/jquery-ui/jquery-ui.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    </environment>
-
-    <environment exclude="Development">
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    </environment>
-
-    <script src="~/lib/bracket/js/bracket.js"></script>
-    <script src="~/lib/bracket/js/accordion.js"></script>
-
-    <script src="~/lib/bracket/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
-
-    <script src="~/js/site.js" asp-append-version="true"></script>
+        <footer class="footer">
+            <div class="row">
+                <div class="col-md-7 tx-md-left pd-md-l-20">
+                    <a href="http://www.bpdb.gov.bd/bpdb_new/" target="_blank">
+                        <span>&copy; @DateTime.Now.Year <symbol>::</symbol> Bangladesh Power Development Board (<strong>BPDB</strong>)</span>
+                    </a>
+                </div>
+                @*<div class="col-md-2"></div>*@
+                <div class="col-md-5 tx-md-right pd-md-r-20">
+                    <a href="http://www.cegisbd.com/" target="_blank">
+                        <span>Developed by <strong>CEGIS</strong></span>
+                    </a>
+                </div>
+            </div>
+        </footer>
 
 
-    <script>
+        <environment include="Development">
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+            <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+            <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        </environment>
+
+        <environment exclude="Development">
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+            <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        </environment>
+
+        <script src="~/lib/bracket/js/bracket.js"></script>
+        <script src="~/lib/bracket/js/accordion.js"></script>
+
+        <script src="~/lib/bracket/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
+
+        <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+        <script>
         //var apiBase1 = '@Url.Content("../api")';
         apiBase = '@Url.Content("~/api")';
 
@@ -916,9 +880,9 @@
             return false;
         };
 
-    </script>
+        </script>
 
-    @await RenderSectionAsync("Scripts", required: false)
+        @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>

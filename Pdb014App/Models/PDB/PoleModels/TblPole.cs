@@ -40,7 +40,6 @@ namespace Pdb014App.Models.PDB
         [StringLength(50)]
         [Display(Name = "Feeder Line")]
         public string FeederLineId { get; set; }
-
         [ForeignKey("FeederLineId")] public virtual TblFeederLine PoleToFeederLine { get; set; }
 
 
@@ -104,14 +103,13 @@ namespace Pdb014App.Models.PDB
         [Display(Name = "Longitude")]
         public decimal? Longitude { get; set; }
 
-
         [Required]
         [Column("PoleTypeId", Order = 12, TypeName = "varchar(6)")]
         [StringLength(6)]
         [Display(Name = "Pole Type")]
         public string PoleTypeId { get; set; }
-
-        [ForeignKey("PoleTypeId")] public virtual LookUpPoleType PoleType { get; set; }
+        [ForeignKey("PoleTypeId")] 
+        public virtual LookUpPoleType PoleType { get; set; }
 
 
         [Required]
@@ -180,7 +178,7 @@ namespace Pdb014App.Models.PDB
         [Column("WireLength", Order = 16, TypeName = "decimal(10, 2)")]
         [DataType(DataType.Text)]
         [Range(0, 9999999999, ErrorMessage = "Invalid {0}; Max 10 digits")]
-        [Display(Name = "WireLength")]
+        [Display(Name = "WireL ength")]
         public decimal? WireLength { get; set; }
 
 
@@ -189,7 +187,6 @@ namespace Pdb014App.Models.PDB
         [DataType(DataType.Text)]
         [Display(Name = "Wire Condition")]
         public int? WireConditionId { get; set; }
-
         [ForeignKey("WireConditionId")] public virtual LookUpCondition WireLookUpCondition { get; set; }
 
         #endregion
@@ -218,7 +215,7 @@ namespace Pdb014App.Models.PDB
         [StringLength(6)]
         [Display(Name = "Phase A (R)")]
         public string PhaseAId { get; set; }
-
+        [Display(Name = "Phase A (R)")]
         [ForeignKey("PhaseAId")] public virtual LookUpSagCondition PhaseACondition { get; set; }
 
 
@@ -227,7 +224,6 @@ namespace Pdb014App.Models.PDB
         [StringLength(6)]
         [Display(Name = "Phase B (Y)")]
         public string PhaseBId { get; set; }
-
         [ForeignKey("PhaseBId")] public virtual LookUpSagCondition PhaseBCondition { get; set; }
 
 
@@ -236,7 +232,6 @@ namespace Pdb014App.Models.PDB
         [StringLength(6)]
         [Display(Name = "Phase C (B)")]
         public string PhaseCId { get; set; }
-
         [ForeignKey("PhaseCId")] public virtual LookUpSagCondition PhaseCCondition { get; set; }
 
         //Neutral

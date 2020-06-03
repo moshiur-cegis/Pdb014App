@@ -14,7 +14,13 @@
     <div class="offset-md-2 col-md-8 offset-md-2">
         <fieldset>
             <legend>Add Pole Information</legend>
-            <lebel style="color:red">@ViewBag.Error</lebel>
+            @if (TempData["statuMessageError"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    @TempData["statuMessageError"]
+                </div>
+            }
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
@@ -166,7 +172,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="BackSpan" class="control-label"></label>
-                    <input asp-for="BackSpan" class="form-control" />
+                    <input asp-for="BackSpan" class="form-control" readonly />
                     <span asp-validation-for="BackSpan" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -174,18 +180,18 @@
                     <select asp-for="TypeOfWireId" class="form-control" asp-items="ViewBag.TypeOfWireId"></select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="NoOfWireHt" class="control-label"></label>
-                    <input asp-for="NoOfWireHt" class="form-control" />
+                    <label  asp-for="NoOfWireHt" class="control-label"></label>
+                    <input type="number" asp-for="NoOfWireHt" class="form-control" />
                     <span asp-validation-for="NoOfWireHt" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="NoOfWireLt" class="control-label"></label>
-                    <input asp-for="NoOfWireLt" class="form-control" />
+                    <input type="number" asp-for="NoOfWireLt" class="form-control" />
                     <span asp-validation-for="NoOfWireLt" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="WireLength" class="control-label"></label>
-                    <input asp-for="WireLength" class="form-control" />
+                    <input asp-for="WireLength" class="form-control" readonly />
                     <span asp-validation-for="WireLength" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -219,16 +225,50 @@
                     <label asp-for="PhaseCId" class="control-label"></label>
                     <select asp-for="PhaseCId" class="form-control" asp-items="ViewBag.PhaseCId"></select>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Neutral" class="control-label"></label>
-                    <input type="checkbox" asp-for="Neutral" class="form-control" />
-                    <span asp-validation-for="Neutral" class="text-danger"></span>
+
+
+
+                <div class="form-group row">
+                    <label asp-for="Neutral" class="control-label col-md-1"></label>
+                    <input type="checkbox" asp-for="Neutral" class="form-control col-md-1" />
+
+                    <label asp-for="StreetLight" class="control-label col-md-1"></label>
+                    <input type="checkbox" asp-for="StreetLight" class="form-control col-md-1" />
+
+                    <label asp-for="TransformerExist" class="control-label col-md-2"></label>
+                    <input type="checkbox" asp-for="TransformerExist" class="form-control col-md-1" />
+
+                    <label asp-for="CommonPole" class="control-label col-md-2"></label>
+                    <input type="checkbox" asp-for="CommonPole" class="form-control col-md-1" />
+
+                    <label asp-for="Tap" class="control-label col-md-1"></label>
+                    <input type="checkbox" asp-for="Tap" class="form-control col-md-1" />
+
                 </div>
-                <div class="form-group">
-                    <label asp-for="StreetLight" class="control-label"></label>
-                    <input type="checkbox" asp-for="StreetLight" class="form-control" />
-                    <span asp-validation-for="StreetLight" class="text-danger"></span>
-                </div>
+                @*<div class="form-group row">
+                <label asp-for="StreetLight" class="control-label"></label>
+                <input type="checkbox" asp-for="StreetLight" class="form-control" />
+                <span asp-validation-for="StreetLight" class="text-danger"></span>
+            </div>*@
+
+
+                @*<div class="form-group">
+                <label asp-for="TransformerExist" class="control-label"></label>
+                <input type="checkbox" asp-for="TransformerExist" class="form-control" />
+                <span asp-validation-for="TransformerExist" class="text-danger"></span>
+            </div>*@
+                @*<div class="form-group">
+                <label asp-for="CommonPole" class="control-label"></label>
+                <input type="checkbox" asp-for="CommonPole" class="form-control" />
+                <span asp-validation-for="CommonPole" class="text-danger"></span>
+            </div>*@
+                @*<div class="form-group">
+                <label asp-for="Tap" class="control-label"></label>
+                <input type="checkbox" asp-for="Tap" class="form-control" />
+                <span asp-validation-for="Tap" class="text-danger"></span>
+            </div>*@
+
+
                 @*<div class="form-group">
                 <label asp-for="SourceCableId" class="control-label"></label>
                 <select asp-for="SourceCableId" class="form-control" asp-items="ViewBag.SourceCableId"></select>
@@ -237,23 +277,8 @@
                 <label asp-for="TargetCableId" class="control-label"></label>
                 <select asp-for="TargetCableId" class="form-control" asp-items="ViewBag.TargetCableId"></select>
             </div>*@
-                <div class="form-group">
-                    <label asp-for="TransformerExist" class="control-label"></label>
-                    <input type="checkbox" asp-for="TransformerExist" class="form-control" />
-                    <span asp-validation-for="TransformerExist" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CommonPole" class="control-label"></label>
-                    <input type="checkbox" asp-for="CommonPole" class="form-control" />
-                    <span asp-validation-for="CommonPole" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Tap" class="control-label"></label>
-                    <input type="checkbox" asp-for="Tap" class="form-control" />
-                    <span asp-validation-for="Tap" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
+                <hr />
+                <div class="form-group m-2">
                     <input type="submit" value="Create" class="btn btn-success float-right" />
                     <a class="btn btn-success float-left" asp-action="Index">Back</a>
                 </div>

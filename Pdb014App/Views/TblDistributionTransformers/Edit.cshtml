@@ -10,7 +10,7 @@
     <h4>TblDistributionTransformer</h4>
     <hr />*@
 <div class="row">
-    <div class="offset-md-3 col-md-6 offset-md-3">
+    <div class="offset-md-2 col-md-8 offset-md-2">
         <fieldset>
             <legend>Add Distribution Transformer Information</legend>
             <form asp-action="Edit">
@@ -18,17 +18,21 @@
                 <input type="hidden" asp-for="DistributionTransformerId" />
                 <div class="form-group">
                     <label asp-for="PoleStructureMountedSurgearrestorId" class="control-label"></label>
-                    <select asp-for="PoleStructureMountedSurgearrestorId" class="form-control" asp-items="ViewBag.PoleStructureMountedSurgearrestorId"></select>
+                    <select asp-for="PoleStructureMountedSurgearrestorId" class="form-control" asp-items="ViewBag.PoleStructureMountedSurgearrestorId">
+                        <option value="">--Select--</option>
+                    </select>
                     <span asp-validation-for="PoleStructureMountedSurgearrestorId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="PoleId" class="control-label"></label>
-                    <select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>
+                    @*<select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>*@
+                    <input asp-for="PoleId" class="form-control" readonly/>
                     <span asp-validation-for="PoleId" class="text-danger"></span>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="display:none">
                     <label asp-for="FeederLineId" class="control-label"></label>
-                    <select asp-for="FeederLineId" class="form-control" asp-items="ViewBag.FeederLineId"></select>
+                    @*<select asp-for="FeederLineId" class="form-control" asp-items="ViewBag.FeederLineId"></select>*@
+                    <input asp-for="FeederLineId" class="form-control" readonly/>
                     <span asp-validation-for="FeederLineId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -712,15 +716,15 @@
                     <span asp-validation-for="Recommendation" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-success float-right" />
-                    <a class="btn btn-success float-left" asp-action="Index">Cencel</a>
+                    <input type="submit" value="Save" class="btn btn-success float-right m-1" />
+                    <a class="btn btn-success float-right m-1" asp-action="Index" asp-controller="TblPoles">Back to List</a>
                 </div>
             </form>
         </fieldset>
     </div>
 </div>
 
-<div>
+@*<div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 

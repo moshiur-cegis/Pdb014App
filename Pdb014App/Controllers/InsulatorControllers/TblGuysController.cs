@@ -21,15 +21,13 @@ namespace Pdb014App.Controllers.InsulatorControllers
 
         // GET: TblGuys
         public async Task<IActionResult> Index(string id)
-        {
-
-           
+        {           
             var pdbDbContext = _context.TblGuy.Include(t => t.GuyToLookUpCondition).Include(t => t.GuyToPole).Include(t => t.GuyType);
             if (id != null)
             {
                 pdbDbContext = _context.TblGuy.Where(i => i.PoleId == id).Include(t => t.GuyToLookUpCondition).Include(t => t.GuyToPole).Include(t => t.GuyType);
             }
-            return View(await pdbDbContext.ToListAsync());
+            return PartialView(await pdbDbContext.ToListAsync());
         }
 
         // GET: TblGuys/Details/5
@@ -73,7 +71,10 @@ namespace Pdb014App.Controllers.InsulatorControllers
             {
                 _context.Add(tblGuy);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                TempData["statuMessageSuccess"] = "Guy has been Added Successfully under pole id: " + tblGuy.PoleId;
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "TblPoles");
             }
             ViewData["ConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name", tblGuy.ConditionId);
             ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId", tblGuy.PoleId);
@@ -118,6 +119,7 @@ namespace Pdb014App.Controllers.InsulatorControllers
                 {
                     _context.Update(tblGuy);
                     await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -130,7 +132,10 @@ namespace Pdb014App.Controllers.InsulatorControllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                TempData["statuMessageSuccess"] = "Guy has been Updated Successfully under pole id: " + tblGuy.PoleId;
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "TblPoles");
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["ConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name", tblGuy.ConditionId);
             ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId", tblGuy.PoleId);
@@ -167,7 +172,11 @@ namespace Pdb014App.Controllers.InsulatorControllers
             var tblGuy = await _context.TblGuy.FindAsync(id);
             _context.TblGuy.Remove(tblGuy);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+
+            TempData["statuMessageSuccess"] = "Guy has been Deleted Successfully under pole id: " + tblGuy.PoleId;
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "TblPoles");
         }
 
         private bool TblGuyExists(int id)

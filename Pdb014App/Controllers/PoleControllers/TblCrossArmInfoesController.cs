@@ -22,12 +22,23 @@ namespace Pdb014App.Controllers.PoleControllers
         // GET: TblCrossArmInfoes
         public async Task<IActionResult> Index(string id)
         {
+            
             var pdbDbContext = _context.TblCrossArmInfo.Include(t => t.CrossArmToPole).Include(t => t.FittingsLookUpCondition).Include(t => t.LookUpTypeOfFittings);
             if (id != null)
             {
                 pdbDbContext = _context.TblCrossArmInfo.Where(i => i.PoleId == id).Include(t => t.CrossArmToPole).Include(t => t.FittingsLookUpCondition).Include(t => t.LookUpTypeOfFittings);
             }
-            return View(await pdbDbContext.ToListAsync());
+            return PartialView(await pdbDbContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> IndexPartialView(string poleId)
+        {
+            var pdbDbContext = _context.TblCrossArmInfo.Include(t => t.CrossArmToPole).Include(t => t.FittingsLookUpCondition).Include(t => t.LookUpTypeOfFittings);
+            if (poleId != null)
+            {
+                pdbDbContext = _context.TblCrossArmInfo.Where(i => i.PoleId == poleId).Include(t => t.CrossArmToPole).Include(t => t.FittingsLookUpCondition).Include(t => t.LookUpTypeOfFittings);
+            }
+            return PartialView(await pdbDbContext.ToListAsync());
         }
 
         // GET: TblCrossArmInfoes/Details/5
@@ -58,6 +69,7 @@ namespace Pdb014App.Controllers.PoleControllers
         // GET: TblCrossArmInfoes/Create
         public IActionResult Create()
         {
+           
             ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId");
             ViewData["FittingsConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name");
             ViewData["TypeOfFittingsId"] = new SelectList(_context.LookUpTypeOfFittings, "Code", "Name");
@@ -75,12 +87,19 @@ namespace Pdb014App.Controllers.PoleControllers
             {
                 _context.Add(tblCrossArmInfo);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                
+                TempData["statuMessageSuccess"] = "Cross Arm has been Added Successfully under pole id: "+ tblCrossArmInfo.PoleId;
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "TblPoles");
             }
             ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId", tblCrossArmInfo.PoleId);
             ViewData["FittingsConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name", tblCrossArmInfo.FittingsConditionId);
             ViewData["TypeOfFittingsId"] = new SelectList(_context.LookUpTypeOfFittings, "Code", "Name", tblCrossArmInfo.TypeOfFittingsId);
+
+
+
             return View(tblCrossArmInfo);
+            
         }
 
         // GET: TblCrossArmInfoes/Edit/5
@@ -132,7 +151,10 @@ namespace Pdb014App.Controllers.PoleControllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                TempData["statuMessageSuccess"] = "Cross Arm has been Updated Successfully under pole id: " + tblCrossArmInfo.PoleId;
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "TblPoles");
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId", tblCrossArmInfo.PoleId);
             ViewData["FittingsConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name", tblCrossArmInfo.FittingsConditionId);
@@ -169,7 +191,11 @@ namespace Pdb014App.Controllers.PoleControllers
             var tblCrossArmInfo = await _context.TblCrossArmInfo.FindAsync(id);
             _context.TblCrossArmInfo.Remove(tblCrossArmInfo);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+
+            TempData["statuMessageSuccess"] = "Cross Arm has been Deleted Successfully under pole id: " + tblCrossArmInfo.PoleId;
+
+            return RedirectToAction("Index", "TblPoles");
         }
 
         private bool TblCrossArmInfoExists(int id)

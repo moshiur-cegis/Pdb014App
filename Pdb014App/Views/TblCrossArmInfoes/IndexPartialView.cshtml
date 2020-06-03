@@ -1,17 +1,4 @@
 ﻿@model IEnumerable<Pdb014App.Models.PDB.PoleModels.TblCrossArmInfo>
-@using Pdb014App.Models.UserManage;
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<TblUserRegistrationDetail> SignInManager
-@inject UserManager<TblUserRegistrationDetail> UserManager
-
-@{
-    var user = await UserManager.GetUserAsync(User);
-}
-
-@*@{
-        ViewData["Title"] = "Index";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }*@
 
 @section Styles {
 
@@ -90,14 +77,7 @@
 
 }
 
-<h2>List of Cross Arm</h2>
-<hr>
-
-@*<p>
-    <a asp-action="Create">Add New</a>
-</p>*@
 <div class="row">
-    @ViewBag.statuMessageSuccess
     <div class="col-md-12">
         <div class="form-view" id="updatePanel">
             <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
@@ -105,8 +85,7 @@
                     <thead>
                         <tr>
                             <th>
-                                @*@Html.DisplayNameFor(model => model.CrossArmId)*@
-                                Action
+                                @Html.DisplayNameFor(model => model.CrossArmId)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Materials)
@@ -143,17 +122,7 @@
                         {
                             <tr>
                                 <td>
-                                    <div class="btn-group">
-                                        <a asp-action="Edit" asp-route-id="@item.CrossArmId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a>
-
-                                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
-                                        {
-                                            <a asp-action="Delete" asp-route-id="@item.CrossArmId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Delete Cross Arm Information">
-
-                                                <span class="glyphicon glyphicon-edit"></span> Delete
-                                            </a>
-                                        }
-                                    </div>
+                                    <a asp-action="Edit" asp-route-id="@item.CrossArmId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.CrossArmId)</a>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Materials)

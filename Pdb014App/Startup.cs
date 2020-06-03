@@ -36,7 +36,7 @@ namespace Pdb014App
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-          
+
 
             string dbConnStr = Configuration.GetConnectionString("ConnectionStr");
 
@@ -114,7 +114,8 @@ namespace Pdb014App
             services.AddDistributedMemoryCache();
 
 
-
+            services.AddControllersWithViews().AddSessionStateTempDataProvider();
+            services.AddRazorPages().AddSessionStateTempDataProvider();
 
             services.AddSession(options =>
             {
@@ -132,7 +133,7 @@ namespace Pdb014App
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
             });
-
+           
 
             services.AddMvc()
                 .AddSessionStateTempDataProvider()
@@ -141,10 +142,15 @@ namespace Pdb014App
                     options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
                 });
-               
+
+
+            //services.AddControllersWithViews();
+            //services.AddRazorPages();
+
+
             
-            services.AddControllersWithViews();
-            services.AddRazorPages();
+
+            //services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -169,7 +175,7 @@ namespace Pdb014App
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
-           
+
 
             app.UseEndpoints(endpoints =>
             {

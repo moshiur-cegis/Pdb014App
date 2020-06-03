@@ -1,9 +1,17 @@
 ﻿@model IEnumerable<Pdb014App.Models.PDB.InsulatorModels.TblGuy>
+@using Pdb014App.Models.UserManage;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<TblUserRegistrationDetail> SignInManager
+@inject UserManager<TblUserRegistrationDetail> UserManager
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = await UserManager.GetUserAsync(User);
 }
+
+@*@{
+        ViewData["Title"] = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
 
 @section Styles {
 
@@ -85,9 +93,9 @@
 <h2>List of Guy</h2>
 <hr>
 
-<p>
-    <a asp-action="Create">Add New</a>
-</p>
+@*<p>
+        <a asp-action="Create">Add New</a>
+    </p>*@
 <div class="row">
     <div class="col-md-12">
         <div class="form-view" id="updatePanel">
@@ -97,7 +105,7 @@
                         <tr>
                             <th>
                                 @*@Html.DisplayNameFor(model => model.GuyType)*@
-                                Guy Id
+                                Action
                             </th>
                             <th>
                                 @*@Html.DisplayNameFor(model => model.GuyType)*@
@@ -122,7 +130,17 @@
                         {
                             <tr>
                                 <td>
-                                    <a asp-action="Edit" asp-route-id="@item.GuyId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.GuyId)</a>
+                                    <div class="btn-group">
+                                        <a asp-action="Edit" asp-route-id="@item.GuyId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a>
+
+                                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@item.GuyId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Delete Guy Information">
+
+                                                <span class="glyphicon glyphicon-edit"></span> Delete
+                                            </a>
+                                        }
+                                    </div>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.GuyType.GuyTypeName)
@@ -136,11 +154,11 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.GuyToPole.PoleId)
                                 </td>
-                                <td>
+                                @*<td>
                                     <a asp-action="Edit" asp-route-id="@item.GuyId">Edit</a> |
-                                    @*<a asp-action="Details" asp-route-id="@item.GuyId">Details</a> |*@
+                                    <a asp-action="Details" asp-route-id="@item.GuyId">Details</a> |
                                     <a asp-action="Delete" asp-route-id="@item.GuyId">Delete</a>
-                                </td>
+                                </td>*@
                             </tr>
                         }
                     </tbody>

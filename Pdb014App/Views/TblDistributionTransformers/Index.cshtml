@@ -1,4 +1,15 @@
-﻿@model IEnumerable<Pdb014App.Models.PDB.DistributionTransformerModel.TblDistributionTransformer>
+﻿@using Pdb014App.Models.UserManage;
+@using Microsoft.AspNetCore.Identity
+
+@model IEnumerable<Pdb014App.Models.PDB.DistributionTransformerModel.TblDistributionTransformer>
+
+
+@inject SignInManager<TblUserRegistrationDetail> SignInManager
+@inject UserManager<TblUserRegistrationDetail> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 
 @{
     ViewData["Title"] = "Index";
@@ -82,9 +93,9 @@
 }
 <h2>List of Distribution Transformer</h2>
 
-<p>
-    <a asp-action="Create">Add New</a>
-</p>
+@*<p>
+        <a asp-action="Create">Add New</a>
+    </p>*@
 <div class="row">
     <div class="col-md-12">
         <div class="form-view" id="updatePanel">
@@ -93,18 +104,19 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.DistributionTransformerId)
+                                @*@Html.DisplayNameFor(model => model.DistributionTransformerId)*@
+                                Action
                             </th>
 
                             @*<th>
-                                    @Html.DisplayNameFor(model => model.PoleStructureMountedSurgeArrestor)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.DtToPole)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.DtToFeederLine)
+                                    @Html.DisplayNameFor(model => model.PoleStructureMountedSurgeArrestor.)
                                 </th>*@
+                            <th>
+                                @Html.DisplayNameFor(model => model.DtToPole.PoleId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DtToFeederLine.FeederName)
+                            </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.NameOf33bs11kVSubdsstation)
                             </th>
@@ -521,18 +533,29 @@
                         {
                             <tr>
                                 <td>
+                                    <div class="btn-group">
+
+                                        <a asp-action="Edit" asp-route-id="@item.DistributionTransformerId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a>
+                                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@item.DistributionTransformerId" class="btn btn-info" data-toggle="tooltip" data-placement="top" asp-route-cai="" title="Delete">
+
+                                                <span class="glyphicon glyphicon-edit"></span> Delete
+                                            </a>
+                                        }
+                                    </div>
                                     @*@Html.DisplayFor(modelItem => item.DistributionTransformerId)*@
-                                    <a asp-action="Edit" asp-route-id="@item.DistributionTransformerId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.DistributionTransformerId)</a>
+
                                 </td>
                                 @*<td>
                                         @Html.DisplayFor(modelItem => item.PoleStructureMountedSurgeArrestor.PoleStructureMountedSurgeArrestorId)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DtToPole.PoleId)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DtToFeederLine.FeederLineId)
                                     </td>*@
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DtToPole.PoleId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DtToFeederLine.FeederName)
+                                </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.NameOf33bs11kVSubdsstation)
                                 </td>
@@ -951,6 +974,9 @@
                     </tbody>
                 </table>
             </div>
+
         </div>
+        <a class="btn btn-success float-right m-1" asp-action="Index" asp-controller="TblPoles">Back to List</a>
     </div>
+
 </div>
