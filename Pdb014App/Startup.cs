@@ -53,9 +53,10 @@ namespace Pdb014App
                 .AddDbContext<PdbDbContext>(options =>
                     options.UseSqlServer(dbConnStr));
 
-
             services.AddDbContext<UserDbContext>(options =>
                 options.UseSqlServer(dbConnStr));
+
+
 
             services.AddIdentity<TblUserRegistrationDetail, IdentityRole>(options =>
             {

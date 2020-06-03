@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repository\Migrations\PdbDb\20200602112522_UpdateDtModel.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200602112522_UpdateDtModel.Designer.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200602113455_UpdateDt_01_06_2020.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200602113455_UpdateDt_01_06_2020.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />

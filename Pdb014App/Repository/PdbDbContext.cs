@@ -23,7 +23,9 @@ using Pdb014App.Models.PDB.CopperCableModels;
 using Pdb014App.Models.PDB.RegionModels;
 using Pdb014App.Models.Search;
 using Pdb014App.Models.MapViewer.Settings;
-
+using Pdb014App.Models.PDB.DistributionTransformerModels;
+using Microsoft.AspNetCore.Identity;
+using Pdb014App.Models.UserManage;
 
 namespace Pdb014App.Repository
 {
@@ -40,7 +42,6 @@ namespace Pdb014App.Repository
         public virtual DbSet<TblConductor> TblConductor { get; set; }
         public virtual DbSet<LookUpConductorType> LookUpConductorType { get; set; }
         #endregion
-
         #region CopperCable 2
         public virtual DbSet<TblCopperCables> TblCopperCables { get; set; }
         public virtual DbSet<LookUpCopperCablesType> LookUpCopperCablesType { get; set; }
@@ -50,6 +51,7 @@ namespace Pdb014App.Repository
         public virtual DbSet<TblDistributionTransformer> TblDistributionTransformer { get; set; }
         public virtual DbSet<TblDistributionTransformerPicture> TblDistributionTransformerPicture { get; set; }
         public virtual DbSet<TblPoleStructureMountedSurgeArrestor> TblPoleStructureMountedSurgearrestor { get; set; }
+        //public virtual DbSet<LookUpDtCondition> LookUpDtCondition { get; set; }       
         #endregion
 
         #region InsulatorModels 8
@@ -226,6 +228,24 @@ namespace Pdb014App.Repository
 
 
 
+
+        #region User Model
+        //public virtual DbSet<TblUserRegistrationDetail> TblUserRegistrationDetail { get; set; }
+        //public virtual DbSet<LookUpUserActivationStatus> UserActivationStatus { get; set; }
+        //public virtual DbSet<LookUpUserBpdbDivision> UserBpdbDivision { get; set; }
+        //public virtual DbSet<LookUpUserBpdbEmployee> UserBpdbEmployee { get; set; }
+        //public virtual DbSet<LookUpUserContentType> UserContentType { get; set; }
+        //public virtual DbSet<LookUpUserPermissionType> UserPermissionType { get; set; }
+        //public virtual DbSet<LookUpUserSecurityQuestion> UserSecurityQuestion { get; set; }
+        //public virtual DbSet<LookUpUsersPermittedContent> UsersPermittedContent { get; set; }
+
+        //public virtual DbSet<TblUserGrpWisePermissionDetail> UserGrpWisePermissionDetail { get; set; }
+        //public virtual DbSet<TblUserGrpWiseUsersDistribution> UserGrpWiseUsersDistribution { get; set; }
+        //public virtual DbSet<TblUserLogHistory> UserLogHistory { get; set; }
+        //public virtual DbSet<TblUserProfileDetail> UserProfileDetail { get; set; }
+        #endregion
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -234,18 +254,15 @@ namespace Pdb014App.Repository
                 .HasKey(ar => new { ar.UnionGeoCode, ar.SnDCode });
 
 
-            //modelBuilder.Entity<TblComplain>()
-            //    .HasOne(c => c.ResponsibleOfficer)
-            //    .WithMany(o => o.Complains)
-            //    .HasForeignKey(c => c.ResponsibleOfficerId)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
-            //modelBuilder.Entity<TblComplain>()
-            //    .HasOne(c => c.ResolvingOfficer)
-            //    .WithMany(o => o.Complains)
-            //    .HasForeignKey(c => c.ResolvingOfficerId)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
+            #region User Model
+            //modelBuilder.Entity<TblUserRegistrationDetail>().ToTable("Users").Property(p => p.Id).HasColumnName("UserId");
+            //modelBuilder.Entity<IdentityRole>().ToTable("UserRoleList").Property(p => p.Id).HasColumnName("RoleId");
+            //modelBuilder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("UserRoles"); });
+            //modelBuilder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("UserClaims"); });
+            //modelBuilder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("UserLogins"); });
+            //modelBuilder.Entity<IdentityUserToken<string>>(entity => { entity.ToTable("UserToken"); });
+            //modelBuilder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("UserRoleClaim"); });
+            #endregion
 
         }
 

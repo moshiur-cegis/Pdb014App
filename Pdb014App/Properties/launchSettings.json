@@ -3,7 +3,7 @@
     "windowsAuthentication": true,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost/pdb_core",
+      "applicationUrl": "http://localhost/pdb_app",
       "sslPort": 0
     },
     "iisExpress": {
