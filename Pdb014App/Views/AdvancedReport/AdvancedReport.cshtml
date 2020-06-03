@@ -17,7 +17,7 @@
             new ReportField {Name = "circle", Title = "Circle"},
             new ReportField {Name = "snd", Title = "S&D"},
             new ReportField {Name = "substation", Title = "Substation"},
-                        };
+        };
 
     var fieldList = ViewBag.FieldList != null
     ? ViewBag.FieldList as List<ReportField>
@@ -339,6 +339,16 @@
             $("#dataView").css('display', 'none');
             $("#chartAll").css('display', 'none');
 
+            $("#report_view").empty();
+            $("#chartBar").empty();
+            $("#chartPie").empty();
+            $("#chartPieOpts").empty();
+
+            if (!dataColumns || dataColumns.length < 1) {
+                msg.init("warning", "Warning... . . !", "Select at least one data field... . . !! ");
+            }
+
+
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -346,19 +356,11 @@
                 data: { "regionLevel": regionLevel, "regionList": regionList },
                 before: $("#busy-indicator").fadeIn(150),
                 success: function(data) {
-                    $("#report_view").empty();
-                    $("#chartBar").empty();
-                    $("#chartPie").empty();
-                    $("#chartPieOpts").empty();
-
-                    if (dataColumns && dataColumns.length > 0) {
-                        $("#dataView").css('display', '');
-                        $("#chartAll").css('display', '');
-
+                    if (data && data.length > 0) {
                         init_data_table("#report_view", headerList, basicColumns, dataColumns, data);
                         init_chart_data(headerList, dataColumns, data);
                     } else {
-                        msg.init("warning", "Warning... . . !", "Select at least one data field... . . !! ");
+                        msg.init("warning", "Warning... . . !", "Report data not available... . . !! ");
                     }
                     $("#busy-indicator").fadeOut(150);
                 },
