@@ -183,12 +183,12 @@
 
                                 </th>
                                 <th>
-                                    Components
+                                    Pole Components
                                 </th>
                                 @*<th class="extraInfo">Insulator</th>
                                 <th class="extraInfo">Guy</th>
                                 <th class="extraInfo">Cross Arms</th>*@
-                                <th class="extraInfo">Distribution Transformer</th>
+                                @*<th class="extraInfo">Distribution Transformer</th>*@
 
                                 <th>
                                     @Html.DisplayNameFor(model => model.SurveyDate)
@@ -345,13 +345,13 @@
                                     </div>
                                 </td>*@
 
-                                <td>
+                                @*<td>
                                     <div class="btn-group">
                                         <a asp-controller="TblDistributionTransformers" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Distribution Transformer">Add</a>
                                         
                                         <a asp-controller="TblDistributionTransformers" asp-action="Index" id="dT_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary dT" data-toggle="tooltip" data-placement="top" title="Show Distribution Transformer">Show</a>
                                     </div>
-                                </td>
+                                </td>*@
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.SurveyDate)
@@ -472,7 +472,7 @@
             if (!poleId)
                  return false;
 
-             var isShowAction = 1;
+             var isShowAction = 1; //By RMO
 
                 //url: 'Url.Action("SearchPoleComponents", "AdvancedSearching")',
             $.ajax({
@@ -494,6 +494,7 @@
 
             return false;
         }
+
 
         $(function () {
 

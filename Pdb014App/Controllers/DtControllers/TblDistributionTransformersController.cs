@@ -33,6 +33,24 @@ namespace Pdb014App.Controllers.DtControllers
             return View(await pdbDbContext.ToListAsync());
         }
 
+        public async Task<IActionResult> DistributionTransformerList(string poleId, int isShowLayout = 0, int isShowAction = 0)
+        {
+            //ViewBag.PoleId = poleId;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+
+            var distributionTransformerList = _context.TblDistributionTransformer.Include(t => t.DtToFeederLine).Include(t => t.DtToPole).Include(t => t.PoleStructureMountedSurgeArrestor).AsNoTracking(); ;
+            
+
+            if (poleId != null)
+            {
+                distributionTransformerList = distributionTransformerList.Where(p => p.PoleId == poleId);
+            }
+
+            return View(await distributionTransformerList.ToListAsync());
+        }
+
         // GET: TblDistributionTransformers/Details/5
         public async Task<IActionResult> Details(string id)
         {

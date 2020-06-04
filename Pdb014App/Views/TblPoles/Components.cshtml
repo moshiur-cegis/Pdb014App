@@ -47,6 +47,9 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#comp3">Cross Arms</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#comp4">Distribution Transformer</a>
+        </li>
     </ul>
 
     <!-- Tab panes -->
@@ -73,6 +76,15 @@
         <div id="comp3" class="tab-pane">
 
             <div id="comp_info_3" class="text-center" style="min-height:250px; padding:0.75rem;">
+                <div class="spinner-grow text-danger" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
+                    <span class="sr-only">Loading... . .</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="comp4" class="tab-pane">
+
+            <div id="comp_info_4" class="text-center" style="min-height:250px; padding:0.75rem;">
                 <div class="spinner-grow text-danger" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
                     <span class="sr-only">Loading... . .</span>
                 </div>
@@ -119,9 +131,9 @@
 
     function load_component_data() {
 
-        var noOfomponent = 3;
-        $("#busy-indicator").fadeIn(150);
+        var noOfomponent = 4;
 
+        $("#busy-indicator").fadeIn(150);
         ajax_load_data('@Url.Action("InsulatorList", "TblInsulators")', { poleId: poleId, isShowLayout: isShowLayout, isShowAction: isShowAction })
             .done(function (compList) {
                 $("#comp_info_1").html(compList);
@@ -151,6 +163,19 @@
                     $("#busy-indicator").fadeOut(150);
                 }
             });
+
+        ajax_load_data('@Url.Action("DistributionTransformerList", "TblDistributionTransformers")', { poleId: poleId, isShowLayout: isShowLayout, isShowAction: isShowAction })
+            .done(function(compList) {
+                $("#comp_info_4").html(compList);
+            }).always(function () {
+                --noOfomponent;
+                if (noOfomponent <= 1) {
+                    $("#busy-indicator").fadeOut(150);
+                }
+            });
+
+
+        
 
         return false;
     }
