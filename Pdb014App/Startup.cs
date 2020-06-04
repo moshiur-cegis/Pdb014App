@@ -57,7 +57,6 @@ namespace Pdb014App
                 options.UseSqlServer(dbConnStr));
 
 
-
             services.AddIdentity<TblUserRegistrationDetail, IdentityRole>(options =>
             {
                 // User settings
