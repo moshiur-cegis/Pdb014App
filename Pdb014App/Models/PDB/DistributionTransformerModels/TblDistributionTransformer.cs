@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pdb014App.Models.PDB.DistributionTransformerModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -712,11 +713,16 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [DataType(DataType.Text)]
         [Display(Name = "Condition of MCCB for Circuit-1 (Working/Not Working/Good/Bad)")]
         public string ConditionofMCCBforCircuit1 { get; set; }
+        //[ForeignKey("ConditionofMCCBforCircuit1")]
+        //public virtual LookUpDtCondition ConditionofMCCBforCircuit1ToCondition { get; set; }
 
         [Column("ConditionofMCCBforCircuit2", Order = 140, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of MCCB for Circuit-2 (Working/Not Working/Good/Bad)")]
         public string ConditionofMCCBforCircuit2 { get; set; }
+
+        //[ForeignKey("ConditionofMCCBforCircuit2")]
+        //public virtual LookUpDtCondition ConditionofMCCBforCircuit2ToCondition { get; set; }
 
         [Column("Recommendation", Order = 141, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]

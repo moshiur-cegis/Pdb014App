@@ -23,9 +23,11 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("SlNo")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Term");
+                    b.Property<string>("Term")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SlNo");
 
@@ -3569,6 +3571,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FeederLineId")
@@ -3754,6 +3757,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("BusinessTypeId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BusinessTypeName")
@@ -3770,6 +3774,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("ConnectionStatusId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConnectionStatusName")
@@ -3786,6 +3791,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("ConnectionTypeId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConnectionTypeName")
@@ -3802,6 +3808,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("ConsumerTypeId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ConsumerTypeName")
@@ -3818,6 +3825,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("LocationId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("LocationName")
@@ -3834,6 +3842,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("MeterTypeId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("MeterTypeName")
@@ -3850,6 +3859,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("OperatingVoltageId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("OperatingVoltageName")
@@ -3866,6 +3876,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("PhasingCodeId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("PhasingCodeName")
@@ -3882,6 +3893,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("ServiceCableTypeId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ServiceCableTypeName")
@@ -3898,6 +3910,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("ServicePointTypeId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ServicePointTypeName")
@@ -3914,6 +3927,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("StructureTypeId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("StructureTypeName")
@@ -3930,6 +3944,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                 {
                     b.Property<int>("VoltageCategoryId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("VoltageCategoryName")
@@ -3999,7 +4014,8 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<string>("InstallDate");
+                    b.Property<string>("InstallDate")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Latitude")
                         .HasColumnName("Latitude")
@@ -6185,21 +6201,29 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("FieldDataType");
+                    b.Property<string>("FieldDataType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FieldDisplayFormat");
+                    b.Property<string>("FieldDisplayFormat")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FieldDisplayName");
+                    b.Property<string>("FieldDisplayName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FieldId");
+                    b.Property<int>("FieldId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("FieldName");
+                    b.Property<string>("FieldName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("IsUSeInSearch");
+                    b.Property<bool?>("IsUSeInSearch")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("ModelId");
+                    b.Property<int>("ModelId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("SortingOrder");
+                    b.Property<int?>("SortingOrder")
+                        .HasColumnType("int");
 
                     b.HasKey("ModeFieldId");
 
@@ -6216,13 +6240,17 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ModelName");
+                    b.Property<string>("ModelName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ModelTitle");
+                    b.Property<string>("ModelTitle")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ModelType");
+                    b.Property<string>("ModelType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SortingOrder");
+                    b.Property<int>("SortingOrder")
+                        .HasColumnType("int");
 
                     b.HasKey("ModelId");
 
@@ -6236,13 +6264,17 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<string>("PropertyName");
+                    b.Property<string>("PropertyName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PropertyNameDetails");
+                    b.Property<string>("PropertyNameDetails")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TableGroupId");
+                    b.Property<int>("TableGroupId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("TableGroupName");
+                    b.Property<string>("TableGroupName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SearchFieldId");
 
@@ -6298,9 +6330,11 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasColumnType("int");
 
                     b.Property<string>("BpdbEmpDesignation")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("BpdbEmployeeLevel")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("CircleCode")
@@ -6363,9 +6397,11 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasColumnType("nvarchar(450)")
                         .HasMaxLength(450);
 
-                    b.Property<bool>("IsBpdbEmployee");
+                    b.Property<bool>("IsBpdbEmployee")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsProfileSubmitted");
+                    b.Property<bool>("IsProfileSubmitted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("SecurityQuestionAnswer")
                         .HasColumnType("nvarchar(250)")
@@ -6379,11 +6415,14 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<string>("UserAlternateEmail");
+                    b.Property<string>("UserAlternateEmail")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserAlternateMobile");
+                    b.Property<string>("UserAlternateMobile")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UserDateOfBirth");
+                    b.Property<DateTime?>("UserDateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserDesignation")
                         .HasColumnType("nvarchar(250)")
@@ -6394,6 +6433,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasMaxLength(250);
 
                     b.Property<string>("UserNID")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("UserProfession")
@@ -6418,48 +6458,69 @@ namespace Pdb014App.Repository.Migrations.PdbDb
             modelBuilder.Entity("Pdb014App.Models.UserManage.TblUserRegistrationDetail", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AccessFailedCount");
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
-                    b.Property<string>("ConcurrencyStamp");
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DateOfCreation");
+                    b.Property<DateTime?>("DateOfCreation")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("EmailConfirmed");
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsVerified");
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTime?>("LastModifiedDate");
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("LockoutEnabled");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("NormalizedEmail");
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NormalizedUserName");
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PasswordHash");
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("SecurityStamp");
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("TwoFactorEnabled");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
 
-                    b.Property<int?>("UserActivationStatusId");
+                    b.Property<int?>("UserActivationStatusId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserNames")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("VerificationCode")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");

@@ -18,7 +18,7 @@ namespace Pdb014App.Repository
     {
         //public virtual DbSet<UserInfo> UserInfo { get; set; }
 
-        public virtual DbSet<TblUserRegistrationDetail> TblUserRegistrationDetail { get; set; }
+
         //public virtual DbSet<LookUpUserGroup> LookUpUserGroup { get; set; }
 
 
@@ -34,6 +34,8 @@ namespace Pdb014App.Repository
         //TblUserGrpWiseUsersDistribution
         //TblUserLogHistory
         //TblUserProfileDetail
+
+        public virtual DbSet<TblUserRegistrationDetail> TblUserRegistrationDetail { get; set; }
 
         public virtual DbSet<LookUpUserActivationStatus> UserActivationStatus { get; set; }
         public virtual DbSet<LookUpUserBpdbDivision> UserBpdbDivision { get; set; }
@@ -84,8 +86,6 @@ namespace Pdb014App.Repository
 
             //modelBuilder.Entity<IdentityRole>(entity => { entity.ToTable(name: "UserRoleList"); });
             modelBuilder.Entity<IdentityRole>().ToTable("UserRoleList").Property(p => p.Id).HasColumnName("RoleId");            
-
-
             modelBuilder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("UserRoles"); });
             modelBuilder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("UserClaims"); });
             modelBuilder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("UserLogins"); });
