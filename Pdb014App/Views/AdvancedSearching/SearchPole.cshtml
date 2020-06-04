@@ -290,18 +290,21 @@
                                         @Html.DisplayFor(modelItem => item.PoleId)
                                     </a>
                                     <br />
-                                    <a target="_blank" asp-controller="MapViewer" asp-action="MapView" 
-                                       asp-route-zoneCode="@item.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode" 
-                                       asp-route-circleCode="@item.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode" 
-                                       asp-route-snDCode="@item.PoleToRoute.RouteToSubstation.SnDCode" 
-                                       asp-route-substationId="@item.PoleToRoute.SubstationId" 
-                                       asp-route-routeCode="@item.RouteCode" 
-                                       asp-route-feederLineId="@item.FeederLineId" 
-                                       asp-route-poleId="@item.PoleId" 
-                                       asp-route-cai="map_01" 
+                                    <a href="#" onclick="show_components(@item.PoleId); return false;">Components</a>
+                                    <br />
+                                    <a target="_blank" asp-controller="MapViewer" asp-action="MapView"
+                                       asp-route-zoneCode="@item.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode"
+                                       asp-route-circleCode="@item.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode"
+                                       asp-route-snDCode="@item.PoleToRoute.RouteToSubstation.SnDCode"
+                                       asp-route-substationId="@item.PoleToRoute.SubstationId"
+                                       asp-route-routeCode="@item.RouteCode"
+                                       asp-route-feederLineId="@item.FeederLineId"
+                                       asp-route-poleId="@item.PoleId"
+                                       asp-route-cai="map_01"
                                        class="text-success hover-dark" style="color: #15d !important;" data-toggle="tooltip" data-placement="top" title="View in Map.">
                                         Map
                                     </a>
+
                                 </td>
 
                                 <td>
@@ -394,13 +397,137 @@
 </div>
 
 
+
+
+@*<div class="row">
+
+    <div class="col-md-12">
+        <h2>Components of Pole</h2>
+        <hr />
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#comp1">Insulators</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#comp2">Guys</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#comp3">Cross Arms</a>
+            </li>
+        </ul>
+              
+        <div class="tab-content">
+
+            <div id="comp1" class="container tab-pane active">
+                <fieldset>
+                    <legend>Insulators</legend>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div id="comp2" class="container tab-pane active">
+                <fieldset>
+                    <legend>Guys</legend>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div id="comp3" class="container tab-pane active">
+                <fieldset>
+                    <legend>Cross Arms</legend>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>*@
+
+
+
 @section Scripts{
 
     <script src="~/js/autocomplete.extend.js"></script>
 
     <script type="text/javascript">
 
-        $(function () {
+        //function ajax_load_data(url, data) {
+        //    return $.ajax({
+        //        type: "POST",
+        //        url: url,
+        //        dataType: "html",
+        //        data: data,
+        //    });
+        //}
+
+        @*function refresh_data_table() {
+        var adminLevel = "@adminLevel";
+
+        ajax_load_data('@Url.Action("EventList", "EventInfoes")', { adminLevel: adminLevel })
+            .done(function(eventList) {
+                $("#event_list").html(eventList);
+
+                ajax_load_data('@Url.Action("EventStatus", "EventInfoes")', {})
+                    .done(function(eventStatus) {
+                        $("#event_status").html(eventStatus);
+                    });
+            });
+
+        return false;
+    }*@
+
+        function show_components(poleId) {
+            if (!poleId)
+                return false;
+
+            $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("SearchPoleComponents", "AdvancedSearching")',
+                    dataType: "html",
+                    data: { poleId: poleId },
+                    before: $("#busy-indicator").fadeIn(150),
+                    //success: function(eventDetails) {
+                    //    modal.init("Event Details", eventDetails, true, false);
+                    //},
+                    error: function(ex) {
+                        modal.init("Components Information", "...", false, false);
+                        msg.init("error", "Error... . . !", "Failed to load components information. " + ex.error);
+                    },
+                    complete: $("#busy-indicator").fadeOut(150)
+                })
+                .done(function(compInfo) {
+                    modal.init("Components Information", compInfo, true, false);
+                });
+
+            return false;
+        }
+
+    </script>
+
+    <script type="text/javascript">
+
+        $(function() {
 
             $(".field-name").on("change",
                 function() {

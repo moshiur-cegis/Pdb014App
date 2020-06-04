@@ -252,10 +252,12 @@ namespace Pdb014App.Controllers.AdvancedReport
                 {
                     RegionCode = f.FeederLineToRoute.SubstationId,
                     FeederName = f.FeederName,
-                    FeederType = f.FeederLineType.FeederLineTypeName,
+                    FeederType = f.FeederLineTypeId != null ? f.FeederLineType.FeederLineTypeName : "",
                     ConductorType = f.FeederConductorTypeId.HasValue ? f.FeederConductorType.FeederConductorType : "",
                     //FeederType = f.NominalVoltage.ToString(),
-                    FeederLength = f.FeederLength,
+                    //FeederLength = f.Poles.Sum(p => p.WireLength ?? 0),
+                    FeederLength = f.Poles.Where(p => p.FeederLineId == f.FeederLineId).Sum(p => p.WireLength ?? 0),
+                    //FeederLength = f.FeederLength,
                 })
                 .ToList()
                 .AsQueryable()
@@ -321,23 +323,23 @@ namespace Pdb014App.Controllers.AdvancedReport
 
 
             var data = (from si in ssInfo
-                    join fl in flInfo on si.substationCode equals fl.substationCode into sfl
-                    from fl in sfl.DefaultIfEmpty()
-                    select new
-                    {
-                        si.zoneName,
-                        si.circleName,
-                        si.isCity,
-                        si.distName,
-                        si.sndName,
-                        si.substationCode,
-                        si.substation,
-                        fl?.f11kInfo,
-                        fl?.f33kInInfo,
-                        fl?.f33kOutInfo
-                    })
+                        join fl in flInfo on si.substationCode equals fl.substationCode into sfl
+                        from fl in sfl.DefaultIfEmpty()
+                        select new
+                        {
+                            si.zoneName,
+                            si.circleName,
+                            si.isCity,
+                            si.distName,
+                            si.sndName,
+                            si.substationCode,
+                            si.substation,
+                            fl?.f11kInfo,
+                            fl?.f33kInInfo,
+                            fl?.f33kOutInfo
+                        })
                 .ToList();
-            
+
             return Json(data);
         }
 
@@ -577,7 +579,8 @@ namespace Pdb014App.Controllers.AdvancedReport
                     FeederType = f.FeederLineType.FeederLineTypeName,
                     ConductorType = f.FeederConductorTypeId.HasValue ? f.FeederConductorType.FeederConductorType : "",
                     //FeederType = f.NominalVoltage.ToString(),
-                    FeederLength = f.FeederLength,
+                    FeederLength = f.Poles.Where(p => p.FeederLineId == f.FeederLineId).Sum(p => p.WireLength ?? 0),
+                    //FeederLength = f.FeederLength,
                 })
                 .ToList()
                 .AsQueryable()
