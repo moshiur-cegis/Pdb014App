@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.InsulatorModels.TblGuy>
+
+@using Pdb014App.Models.UserManage;
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<TblUserRegistrationDetail> SignInManager
+@inject UserManager<TblUserRegistrationDetail> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@{
+    var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1);
+    var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1);
+
+    ViewData["Title"] = "Guy List";
+    Layout = isShowLayout ? "~/Views/Shared/_Layout.cshtml" : null;
+}
+
+@section Styles {
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+}
+
+@if (isShowAction)
+{
+
+    @*<div class="row">
+        @ViewBag.statuMessageSuccess
+        <div class="col-md-12">
+            <div class="form-view" id="updatePanel">
+                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">*@
+
+}
+
+
+<h3>@ViewData["Title"]</h3>
+<hr>
+
+<table id="multi-form-view" class="table table-responsive multi-form-view">
+    <thead>
+        <tr>
+
+            @if (isShowAction)
+            {
+                <th>
+                    @*@Html.DisplayNameFor(model => model.CrossArmId)*@
+                    Action
+                </th>
+            }
+
+            <th>
+                @*@Html.DisplayNameFor(model => model.GuyType)*@
+                Guy Type
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.GuyToLookUpCondition)*@
+                Guy Condition
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfSet)
+            </th>
+            @*<th>
+                    Pole Id
+                </th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                @if (isShowAction)
+                {
+                    <td>
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.GuyId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a>
+
+                            @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
+                            {
+                                <a asp-action="Delete" asp-route-id="@item.GuyId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Delete Guy Information">
+
+                                    <span class="glyphicon glyphicon-edit"></span> Delete
+                                </a>
+                            }
+                        </div>
+                    </td>
+                }
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.GuyType.GuyTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GuyToLookUpCondition.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfSet)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.GuyToPole.PoleId)
+                    </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@if (isShowAction)
+{
+
+    @*              </div>
+                </div>
+            </div>
+        </div>*@
+
+    <a asp-action="Components" asp-controller="TblPoles">Back</a>
+
+}

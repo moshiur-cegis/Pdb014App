@@ -22,13 +22,35 @@ namespace Pdb014App.Controllers.PoleControllers
         // GET: TblCrossArmInfoes
         public async Task<IActionResult> Index(string id)
         {
-            
+
             var pdbDbContext = _context.TblCrossArmInfo.Include(t => t.CrossArmToPole).Include(t => t.FittingsLookUpCondition).Include(t => t.LookUpTypeOfFittings);
             if (id != null)
             {
                 pdbDbContext = _context.TblCrossArmInfo.Where(i => i.PoleId == id).Include(t => t.CrossArmToPole).Include(t => t.FittingsLookUpCondition).Include(t => t.LookUpTypeOfFittings);
             }
             return PartialView(await pdbDbContext.ToListAsync());
+        }
+
+
+        // GET: TblCrossArmInfoes
+        public async Task<IActionResult> CrossArmList(string poleId, int isShowLayout = 0, int isShowAction = 0)
+        {
+            //ViewBag.PoleId = poleId;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+            var crossArmList = _context.TblCrossArmInfo
+                .Include(t => t.CrossArmToPole)
+                .Include(t => t.FittingsLookUpCondition)
+                .Include(t => t.LookUpTypeOfFittings)
+                .AsNoTracking();
+
+            if (poleId != null)
+            {
+                crossArmList = crossArmList.Where(p => p.PoleId == poleId);
+            }
+
+            return View(await crossArmList.ToListAsync());
         }
 
         public async Task<IActionResult> IndexPartialView(string poleId)
@@ -69,7 +91,7 @@ namespace Pdb014App.Controllers.PoleControllers
         // GET: TblCrossArmInfoes/Create
         public IActionResult Create()
         {
-           
+
             ViewData["PoleId"] = new SelectList(_context.TblPole, "PoleId", "PoleId");
             ViewData["FittingsConditionId"] = new SelectList(_context.LookUpCondition, "Code", "Name");
             ViewData["TypeOfFittingsId"] = new SelectList(_context.LookUpTypeOfFittings, "Code", "Name");
@@ -87,8 +109,8 @@ namespace Pdb014App.Controllers.PoleControllers
             {
                 _context.Add(tblCrossArmInfo);
                 await _context.SaveChangesAsync();
-                
-                TempData["statuMessageSuccess"] = "Cross Arm has been Added Successfully under pole id: "+ tblCrossArmInfo.PoleId;
+
+                TempData["statuMessageSuccess"] = "Cross Arm has been Added Successfully under pole id: " + tblCrossArmInfo.PoleId;
                 //return RedirectToAction(nameof(Index));
                 return RedirectToAction("Index", "TblPoles");
             }
@@ -99,7 +121,7 @@ namespace Pdb014App.Controllers.PoleControllers
 
 
             return View(tblCrossArmInfo);
-            
+
         }
 
         // GET: TblCrossArmInfoes/Edit/5

@@ -33,6 +33,29 @@ namespace Pdb014App.Controllers.InsulatorControllers
             return PartialView(await pdbDbContext.ToListAsync());
         }
 
+
+        // GET: TblCrossArmInfoes
+        public async Task<IActionResult> InsulatorList(string poleId, int isShowLayout = 0, int isShowAction = 0)
+        {
+            //ViewBag.PoleId = poleId;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+            var insulatorList = _context.TblInsulator
+                .Include(t => t.InsulatorToLookUpCondition)
+                .Include(t => t.InsulatorToPole)
+                .Include(t => t.InsulatorType)
+                .AsNoTracking();
+
+            if (poleId != null)
+            {
+                insulatorList = insulatorList.Where(p => p.PoleId == poleId);
+            }
+
+            return View(await insulatorList.ToListAsync());
+        }
+
+
         // GET: TblInsulators/Details/5
         public async Task<IActionResult> Details(int? id)
         {

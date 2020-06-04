@@ -57,7 +57,7 @@
 
                     <input type="hidden" name="cai" value="@Model.RouteValue["cai"]" />
 
-                    <fieldset>
+                    <fieldset style="padding-top:1.1rem;">
                         <legend>▣ Regional Boundaries</legend>
                         <div class="row">
                             <div class="col-md-6">
@@ -97,7 +97,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        @*<div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Route</label>
@@ -106,7 +106,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                     </fieldset>
 
                 </div>
@@ -121,7 +121,7 @@
                                     <th style="width: 48%">Field Name</th>
                                     <th style="width: 70px">Operator</th>
                                     <th style="width: 50%">Field Value</th>
-                                    <th style="width: 70px">Join (AND/OR)</th>
+                                    <th style="width: 70px">Join</th> @*(AND/OR)*@
                                 </tr>
                             </thead>
 
@@ -397,127 +397,32 @@
 </div>
 
 
-
-
-@*<div class="row">
-
-    <div class="col-md-12">
-        <h2>Components of Pole</h2>
-        <hr />
-
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#comp1">Insulators</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#comp2">Guys</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#comp3">Cross Arms</a>
-            </li>
-        </ul>
-              
-        <div class="tab-content">
-
-            <div id="comp1" class="container tab-pane active">
-                <fieldset>
-                    <legend>Insulators</legend>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                        </div>
-                        <div class="col-md-6">
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-
-            <div id="comp2" class="container tab-pane active">
-                <fieldset>
-                    <legend>Guys</legend>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                        </div>
-                        <div class="col-md-6">
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-
-            <div id="comp3" class="container tab-pane active">
-                <fieldset>
-                    <legend>Cross Arms</legend>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                        </div>
-                        <div class="col-md-6">
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-
-        </div>
-
-    </div>
-
-</div>*@
-
-
-
 @section Scripts{
 
     <script src="~/js/autocomplete.extend.js"></script>
 
     <script type="text/javascript">
 
-        //function ajax_load_data(url, data) {
-        //    return $.ajax({
-        //        type: "POST",
-        //        url: url,
-        //        dataType: "html",
-        //        data: data,
-        //    });
-        //}
-
-        @*function refresh_data_table() {
-        var adminLevel = "@adminLevel";
-
-        ajax_load_data('@Url.Action("EventList", "EventInfoes")', { adminLevel: adminLevel })
-            .done(function(eventList) {
-                $("#event_list").html(eventList);
-
-                ajax_load_data('@Url.Action("EventStatus", "EventInfoes")', {})
-                    .done(function(eventStatus) {
-                        $("#event_status").html(eventStatus);
-                    });
-            });
-
-        return false;
-    }*@
-
         function show_components(poleId) {
             if (!poleId)
                 return false;
 
+                //url: 'Url.Action("SearchPoleComponents", "AdvancedSearching")',
             $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("SearchPoleComponents", "AdvancedSearching")',
-                    dataType: "html",
-                    data: { poleId: poleId },
-                    before: $("#busy-indicator").fadeIn(150),
-                    //success: function(eventDetails) {
-                    //    modal.init("Event Details", eventDetails, true, false);
-                    //},
-                    error: function(ex) {
-                        modal.init("Components Information", "...", false, false);
-                        msg.init("error", "Error... . . !", "Failed to load components information. " + ex.error);
-                    },
-                    complete: $("#busy-indicator").fadeOut(150)
-                })
-                .done(function(compInfo) {
+                type: "GET",
+                url: '@Url.Action("Components", "TblPoles")',
+                dataType: "html",
+                data: { poleId: poleId, isShowLayout: 0, isShowAction: 0 },
+                before: $("#busy-indicator").fadeIn(150),
+            })
+                .done(function (compInfo) {
                     modal.init("Components Information", compInfo, true, false);
+                })
+                .fail(function (ex) {
+                    modal.init("Components Information", "...", false, false);
+                    msg.init("error", "Error... . . !", "Failed to load components information. " + ex.error);
+                }).always(function () {
+                    $("#busy-indicator").fadeOut(150);
                 });
 
             return false;
@@ -544,7 +449,7 @@
                     $circle.empty();
                     $("#SnDCode").empty();
                     $("#SubstationId").empty();
-                    $("#RouteCode").empty();
+                    //$("#RouteCode").empty();
 
                     if (!zoneCode)
                         return false;
@@ -581,7 +486,7 @@
 
                     $snd.empty();
                     $("#SubstationId").empty();
-                    $("#RouteCode").empty();
+                    //$("#RouteCode").empty();
 
                     if (!circleCode)
                         return false;
@@ -616,7 +521,7 @@
                         $substation = $("#SubstationId");
 
                     $substation.empty();
-                    $("#RouteCode").empty();
+                    //$("#RouteCode").empty();
 
                     if (!sndCode)
                         return false;
@@ -645,7 +550,7 @@
                     return false;
                 });
 
-            $("#SubstationId").on("change",
+            @*$("#SubstationId").on("change",
                 function() {
                     var substationId = $("#SubstationId").val(),
                         $route = $("#RouteCode");
@@ -675,7 +580,7 @@
                         complete: $("#busy-indicator").fadeOut(150)
                     });
                     return false;
-                });
+                });*@
 
         });
 

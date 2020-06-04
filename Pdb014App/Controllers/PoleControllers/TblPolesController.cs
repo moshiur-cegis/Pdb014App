@@ -35,14 +35,10 @@ namespace Pdb014App.Controllers.PoleControllers
         }
 
         // GET: TblPoles1
-
         [Authorize(Roles = "System Administrator,Super User,Zone,Circle,SnD,Substation")]
         //public async Task<IActionResult> Index([FromQuery] string cai, string poleId, string condition, string feederLineName, int pageIndex = 1, string sortExpression = "PoleId")
-
         public async Task<IActionResult> Index([FromQuery] string cai, string fieldName, string fieldValue, int pageIndex = 1, string sortExpression = "PoleId")
         {
-
-
             //ViewBag.SearchParameters = new List<List<string>>(3);
 
             var fields = new List<SelectListItem>
@@ -151,19 +147,19 @@ namespace Pdb014App.Controllers.PoleControllers
             }
 
 
-            if (fieldName != null && fieldValue!=null)
+            if (fieldName != null && fieldValue != null)
             {
 
                 if (fieldName == "plt.PoleId")
                 {
-                    
+
                     query = query.Where(p => p.PoleId.Contains(fieldValue));
                 }
                 else
                 {
                     query = query.Where(p => p.PoleToFeederLine.FeederName.Contains(fieldValue));
                 }
-               
+
             }
 
             //if (poleId != null || feederLineName != null)
@@ -181,10 +177,21 @@ namespace Pdb014App.Controllers.PoleControllers
 
             var model = await PagingList.CreateAsync(query, 10, pageIndex, sortExpression, "PoleId");
             //model.RouteValue = new RouteValueDictionary { { "cai", cai }, { "FeederLineName", feederLineName }, { "Condition", condition }, { "PoleId", poleId } };
-            model.RouteValue = new RouteValueDictionary { { "cai", cai }, { "FieldName", fieldName }, { "FieldValue", fieldValue }};
-            
+            model.RouteValue = new RouteValueDictionary { { "cai", cai }, { "FieldName", fieldName }, { "FieldValue", fieldValue } };
+
 
             return View(model);
+        }
+
+
+        public IActionResult Components(string poleId, int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.PoleId = poleId;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+            return View("Components");
+            //return View("Pole");
         }
 
 
@@ -276,7 +283,7 @@ namespace Pdb014App.Controllers.PoleControllers
         // GET: TblPoles1/Create
         public IActionResult Create()
         {
-            
+
             ViewData["LineTypeId"] = new SelectList(_context.LookUpLineType, "Code", "Name");
             ViewData["TypeOfWireId"] = new SelectList(_context.LookUpTypeOfWire, "Code", "Name");
             ViewData["PhaseAId"] = new SelectList(_context.LookUpSagCondition, "SagConditionId", "Name");
@@ -327,7 +334,7 @@ namespace Pdb014App.Controllers.PoleControllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PoleId,PoleUid,FeederLineUid,SurveyDate,RouteCode,FeederLineId,SurveyorName,PoleNo,PreviousPoleNo,Latitude,Longitude,PoleTypeId,PoleConditionId,LineTypeId,BackSpan,TypeOfWireId,NoOfWireHt,NoOfWireLt,WireLength,WireConditionId,MSJNo,SleeveNo,TwistNo,PhaseAId,PhaseBId,PhaseCId,Neutral,StreetLight,SourceCableId,TargetCableId,TransformerExist,CommonPole,Tap")] TblPole tblPole, string surveyDate)
         {
-            
+
             double latA = Convert.ToDouble(tblPole.Latitude);
             double longA = Convert.ToDouble(tblPole.Longitude);
             double latB = Convert.ToDouble(_context.TblPole.Where(i => i.PoleId == tblPole.PreviousPoleNo).Select(i => i.Latitude).SingleOrDefault());
@@ -374,7 +381,7 @@ namespace Pdb014App.Controllers.PoleControllers
                 }
             }
 
-           
+
 
             ViewData["LineTypeId"] = new SelectList(_context.LookUpLineType, "Code", "Name");
             ViewData["TypeOfWireId"] = new SelectList(_context.LookUpTypeOfWire, "Code", "Name");

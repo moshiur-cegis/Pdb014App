@@ -30,6 +30,28 @@ namespace Pdb014App.Controllers.InsulatorControllers
             return PartialView(await pdbDbContext.ToListAsync());
         }
 
+        // GET: TblCrossArmInfoes
+        public async Task<IActionResult> GuyList(string poleId, int isShowLayout = 0, int isShowAction = 0)
+        {
+            //ViewBag.PoleId = poleId;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+            var guyList = _context.TblGuy
+                .Include(t => t.GuyToLookUpCondition)
+                .Include(t => t.GuyToPole)
+                .Include(t => t.GuyType)
+                .AsNoTracking();
+
+            if (poleId != null)
+            {
+                guyList = guyList.Where(p => p.PoleId == poleId);
+            }
+
+            return View(await guyList.ToListAsync());
+        }
+
+
         // GET: TblGuys/Details/5
         public async Task<IActionResult> Details(int? id)
         {

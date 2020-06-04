@@ -398,10 +398,13 @@ legend {
     }
 
 
-
-.tab-nav-bar {
+.nav-tabs {
     border-bottom: 0 none;
 }
+
+    /*.nav-tabs .nav-item {
+        margin-bottom: -1px;
+    }*/
 
 .tab-content {
     border: 1px solid #ddd;

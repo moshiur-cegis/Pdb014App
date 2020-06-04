@@ -1,20 +1,24 @@
 ﻿@{
-    //ViewData["Title"] = "Components of the Sub-station";
-    Layout = ViewBag.IsLayout ? "~/Views/Shared/_Layout.cshtml" : null;
-    //Layout = null;
+    var poleId = ViewBag.PoleId;
+    var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1);
+    var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1);
 
-    //var isEdit
+    //ViewData["Title"] = "Components of the Sub-station";
+    Layout = isShowLayout ? "~/Views/Shared/_Layout.cshtml" : null;
+
 }
+
+<link href="~/css/site.css" rel="stylesheet" />
 
 <style type="text/css">
 
-    .tab-nav-bar {
-        border-bottom: 0 none;
+    .nav-tabs {
+        border-bottom: 0 none !important;
     }
 
-    .nav-tabs .nav-item {
-        margin-bottom: -1px;
-    }
+        .nav-tabs .nav-item {
+            margin-bottom: 0 !important;
+        }
 
     .tab-content {
         border: 1px solid #ddd;
@@ -31,64 +35,67 @@
 </style>
 
 
-<div id="components">
-    <div style="padding: 0.5rem">
+<div id="components" style="padding:0.5rem;">
 
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#comp1">Insulators</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#comp2">Guys</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#comp3">Cross Arms</a>
-            </li>
-        </ul>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#comp1">Insulators</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#comp2">Guys</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#comp3">Cross Arms</a>
+        </li>
+    </ul>
 
-        <!-- Tab panes -->
-        <div class="tab-content">
+    <!-- Tab panes -->
+    <div class="tab-content">
 
-            <div id="comp1" class="container tab-pane active">
-                <fieldset>
-                    <legend>Insulators</legend>
+        <div id="comp1" class="tab-pane active">
 
-                    <div id="comp_info_1">
-                    </div>
-                </fieldset>
+            <div id="comp_info_1" class="text-center" style="min-height:250px; padding:0.75rem;">
+                <div class="spinner-grow text-info" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
+                    <span class="sr-only">Loading... . .</span>
+                </div>
             </div>
+        </div>
 
-            <div id="comp2" class="container tab-pane active">
-                <fieldset>
-                    <legend>Guys</legend>
+        <div id="comp2" class="tab-pane">
 
-                    <div id="comp_info_2">
-                    </div>
-                </fieldset>
+            <div id="comp_info_2" class="text-center" style="min-height:250px; padding:0.75rem;">
+                <div class="spinner-grow text-success" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
+                    <span class="sr-only">Loading... . .</span>
+                </div>
             </div>
+        </div>
 
-            <div id="comp3" class="container tab-pane active">
-                <fieldset>
-                    <legend>Cross Arms</legend>
+        <div id="comp3" class="tab-pane">
 
-                    <div id="comp_info_3">
-                    </div>
-                </fieldset>
+            <div id="comp_info_3" class="text-center" style="min-height:250px; padding:0.75rem;">
+                <div class="spinner-grow text-danger" style="width:5rem; height:5rem; margin-top:4.5rem;" role="status">
+                    <span class="sr-only">Loading... . .</span>
+                </div>
             </div>
-
         </div>
 
     </div>
+
 </div>
 
+@if (isShowAction)
+{
+    <div>
+        <a class="btn btn-success float-left" asp-action="Index"></a>
+    </div>
+}
 
 <script type="text/javascript">
 
-    var poleId = "@ViewBag.PoleId",
-        poleId1 = "@ViewBag.PoleId1";
+    var poleId = "@poleId",
+        isShowLayout = "@isShowLayout",
+        isShowAction = "@isShowAction";
 
-    $(function() {
-    });
     if (poleId && poleId != '') {
         load_component_data();
     } else {
@@ -106,19 +113,37 @@
 
     function load_component_data() {
 
-        ajax_load_data('@Url.Action("Index", "TblInsulators")', { poleId: poleId })
-            .done(function(compList) {
+        var noOfomponent = 3;
+        $("#busy-indicator").fadeIn(150);
+
+        ajax_load_data('@Url.Action("InsulatorList", "TblInsulators")', { poleId: poleId, isShowLayout: isShowLayout, isShowAction: isShowAction })
+            .done(function (compList) {
                 $("#comp_info_1").html(compList);
+            }).always(function () {
+                --noOfomponent;
+                if (noOfomponent <= 1) {
+                    $("#busy-indicator").fadeOut(150);
+                }
             });
 
-        ajax_load_data('@Url.Action("Index", "TblGuys")', { poleId: poleId })
+        ajax_load_data('@Url.Action("GuyList", "TblGuys")', { poleId: poleId, isShowLayout: isShowLayout, isShowAction: isShowAction })
             .done(function(compList) {
                 $("#comp_info_2").html(compList);
+            }).always(function () {
+                --noOfomponent;
+                if (noOfomponent <= 1) {
+                    $("#busy-indicator").fadeOut(150);
+                }
             });
 
-        ajax_load_data('@Url.Action("Index", "TblCrossArmInfoes")', { poleId: poleId })
+        ajax_load_data('@Url.Action("CrossArmList", "TblCrossArmInfoes")', { poleId: poleId, isShowLayout: isShowLayout, isShowAction: isShowAction })
             .done(function(compList) {
                 $("#comp_info_3").html(compList);
+            }).always(function () {
+                --noOfomponent;
+                if (noOfomponent <= 1) {
+                    $("#busy-indicator").fadeOut(150);
+                }
             });
 
         return false;

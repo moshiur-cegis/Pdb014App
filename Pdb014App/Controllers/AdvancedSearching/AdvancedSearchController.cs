@@ -1034,24 +1034,11 @@ namespace Pdb014App.Controllers.AdvancedSearching
         }
 
         
-        public IActionResult SearchPoleComponents(string poleId)
+        public IActionResult SearchPoleComponents(string poleId, int isShowLayout, int isShowAction)
         {
-            //ViewBag.ReportName = "Pole";
-            //ViewBag.ReportAction = "GetPoleData";
-            //ViewBag.ReportController = "AdvancedReport";
-
-            //var regionList = new List<string>(5);
-
-            //regionLevel = regionLevel ?? "zone";
-
-            //ViewBag.RegionInfo = regionInfo;
-            //ViewBag.FieldList = fieldList;
-            //ViewBag.RegionList = regionList;
-
-            //ViewData["ZoneList"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
-
-
             ViewBag.PoleId = poleId;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
 
             return View("SearchPoleComponents");
             //return View("Pole");
