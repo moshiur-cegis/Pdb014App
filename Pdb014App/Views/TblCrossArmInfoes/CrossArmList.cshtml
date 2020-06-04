@@ -22,15 +22,15 @@
     <link href="~/css/datastyle.css" rel="stylesheet" />
 }
 
-@if (isShowAction)
+@*@if (isShowAction)
 {
-    @*<div class="row">
+    <div class="row">
         @ViewBag.statuMessageSuccess
         <div class="col-md-12">
             <div class="form-view" id="updatePanel">
-                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">*@
+                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
 
-}
+}*@
 
 
 <h3>@ViewData["Title"]</h3>
@@ -128,14 +128,4 @@
     </tbody>
 </table>
 
-@if (isShowAction)
-{
 
-    @*</div>
-                </div>
-            </div>
-        </div>*@
-
-    <a asp-action="Components" asp-controller="TblPoles">Back</a>
-
-}

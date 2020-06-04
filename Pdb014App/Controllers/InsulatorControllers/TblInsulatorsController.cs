@@ -35,6 +35,8 @@ namespace Pdb014App.Controllers.InsulatorControllers
 
 
         // GET: TblCrossArmInfoes
+
+
         public async Task<IActionResult> InsulatorList(string poleId, int isShowLayout = 0, int isShowAction = 0)
         {
             //ViewBag.PoleId = poleId;

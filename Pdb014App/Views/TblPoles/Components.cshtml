@@ -83,18 +83,24 @@
 
 </div>
 
-@if (isShowAction)
+@*@if (isShowAction)
 {
     <div>
         <a class="btn btn-success float-left" asp-action="Index"></a>
     </div>
-}
+}*@
 
 <script type="text/javascript">
 
-    var poleId = "@poleId",
+    @*var poleId = "@poleId",
         isShowLayout = "@isShowLayout",
-        isShowAction = "@isShowAction";
+        isShowAction = "@isShowAction";*@
+
+    //Code By RMO
+    var poleId = "@poleId";
+    var isShowLayout = '@isShowLayout'==='True'? 1:0;
+    var isShowAction = '@isShowAction'==='True'? 1:0;
+
 
     if (poleId && poleId != '') {
         load_component_data();

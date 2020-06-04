@@ -182,9 +182,12 @@
                                     @Html.DisplayNameFor(model => model.PoleId)
 
                                 </th>
-                                <th class="extraInfo">Insulator</th>
+                                <th>
+                                    Components
+                                </th>
+                                @*<th class="extraInfo">Insulator</th>
                                 <th class="extraInfo">Guy</th>
-                                <th class="extraInfo">Cross Arms</th>
+                                <th class="extraInfo">Cross Arms</th>*@
                                 <th class="extraInfo">Distribution Transformer</th>
 
                                 <th>
@@ -315,11 +318,14 @@
                                     </div>
 
                                 </td>
-
                                 <td>
+                                    <a class="btn btn-info" href="#" onclick="show_components(@item.PoleId); return false;">Components</a>
+                                </td>
+
+                                @*<td>
                                     <div class="btn-group">
                                         <a asp-controller="TblInsulators" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Insulator">Add</a>
-                                        @*<a asp-controller="TblInsulators" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show Insulator">Show</a>*@
+                                        <a asp-controller="TblInsulators" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show Insulator">Show</a>
                                         <button id="TblInsulators_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary TblInsulators" data-toggle="tooltip" data-placement="top" title="Show Insulator">Show</button>
 
                                     </div>
@@ -327,17 +333,17 @@
                                 <td>
                                     <div class="btn-group">
                                         <a asp-controller="TblGuys" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="Add Guy">Add</a>
-                                        @*<a asp-controller="TblGuys" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="Show Guy">Show</a>*@
+                                        <a asp-controller="TblGuys" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="Show Guy">Show</a>
                                         <button id="TblGuys_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary display: inline-block TblGuys" data-toggle="tooltip" data-placement="top" title="Show Guy">Show</button>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="btn-group">
                                         <a asp-controller="TblCrossArmInfoes" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Cross Arms">Add</a>
-                                        @*<a asp-controller="TblCrossArmInfoes" asp-action="IndexPartialView" id="crossArm" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show Cross Arms">Show</a>*@
+                                        <a asp-controller="TblCrossArmInfoes" asp-action="IndexPartialView" id="crossArm" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show Cross Arms">Show</a>
                                         <button id="crossArm_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary crossArm" data-toggle="tooltip" data-placement="top" title="Show Cross Arms">Show</button>
                                     </div>
-                                </td>
+                                </td>*@
 
                                 <td>
                                     <div class="btn-group">
@@ -461,6 +467,33 @@
     <script src="~/js/autocomplete.extend.js"></script>
 
     <script type="text/javascript">
+
+         function show_components(poleId) {
+            if (!poleId)
+                 return false;
+
+             var isShowAction = 1;
+
+                //url: 'Url.Action("SearchPoleComponents", "AdvancedSearching")',
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("Components", "TblPoles")',
+                dataType: "html",
+                data: { poleId: poleId, isShowLayout: 0, isShowAction: isShowAction },
+                before: $("#busy-indicator").fadeIn(150),
+            })
+                .done(function (compInfo) {
+                    modal.init("Components Information", compInfo, true, false);
+                })
+                .fail(function (ex) {
+                    modal.init("Components Information", "...", false, false);
+                    msg.init("error", "Error... . . !", "Failed to load components information. " + ex.error);
+                }).always(function () {
+                    $("#busy-indicator").fadeOut(150);
+                });
+
+            return false;
+        }
 
         $(function () {
 
