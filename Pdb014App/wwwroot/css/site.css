@@ -64,7 +64,6 @@ body {
     text-align: center;
     color: #07C !important;
     background: #f0fdfe;
-
     /*white-space: nowrap;*/
     white-space: normal;
     letter-spacing: .035rem;
@@ -79,11 +78,11 @@ body {
         letter-spacing: .25rem;
     }
 
-        .footer .row div a strong:hover,
-        .footer .row div a:hover strong,
-        .footer .row div a:hover strong:hover {
-            color: #0a7cd5;
-        }
+    .footer .row div a strong:hover,
+    .footer .row div a:hover strong,
+    .footer .row div a:hover strong:hover {
+        color: #0a7cd5;
+    }
 
 @media (min-width: 576px) {
     .footer {
@@ -399,6 +398,23 @@ legend {
     }
 
 
+
+.tab-nav-bar {
+    border-bottom: 0 none;
+}
+
+.tab-content {
+    border: 1px solid #ddd;
+    border-radius: 0 .5rem .5rem;
+}
+
+    .tab-content > .tab-pane {
+        display: none;
+    }
+
+    .tab-content > .active {
+        display: block;
+    }
 
 
 .row {

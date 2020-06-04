@@ -33,7 +33,7 @@
 .modal-title {
     border: 1px solid #dedede;
     margin: 0;
-    padding: 10px;
+    padding: 0;
     cursor: move;
     background: #f7f8f8;
     background: -moz-linear-gradient(top, #f7f8fa, #e5e7e8);
@@ -41,17 +41,11 @@
     background: linear-gradient(to bottom, #f7f8fa, #e5e7e8);
 }
 
-    .modal-title .close {
-        float: right !important;
-        margin: -10px -10px 0 0 !important;
-        padding: 6px 16px !important;
-        font: 500 18px/1.5 Helvetica, Verdana, Arial, sans-serif !important;
-    }
 
 .modal-title-txt {
     margin: 0;
-    padding: 5px;
-    font: 700 15px/1.42857 "Open Sans", Helvetica, Arial, sans-serif;
+    padding: .75rem;
+    font: 500 1rem/2.75 "Roboto", "Helvetica Neue", Helvetica, Verdana, Arial, sans-serif;
     color: #0587c5;
     -webkit-text-shadow: 0 1px 0 #fff;
     -moz-text-shadow: 0 1px 0 #fff;
@@ -99,12 +93,12 @@
 }
 
 
-.modal-title .close,
-.close {
+.close,
+.modal-title .close {
     border: 1px solid transparent;
     margin: 0;
-    padding: 6px 16px;
-    font: 500 14px/1.42857 Helvetica, Verdana, Arial, sans-serif;
+    padding: 0.5rem .85rem;
+    font: 500 1.15rem/1.25 Helvetica, Verdana, Arial, sans-serif;
     color: #333;
     opacity: 0.5;
     cursor: default;
@@ -113,16 +107,21 @@
     border-radius: 0;
 }
 
-    .modal-title .close:hover,
-    .modal-title .close:focus,
+.modal-title .close {
+    float: right;
+    padding: 0.6rem 1rem;
+}
+
     .close:hover,
-    .close:focus {
-        border: 1px solid #f53723;
+    .close:focus,
+    .modal-title .close:hover,
+    .modal-title .close:focus {
+        border: 1px solid #f23723;
         color: #fff;
         opacity: 1.0;
         text-decoration: none;
         box-shadow: none;
-        background: #f74334 none repeat scroll 0 0;
+        background: #f34334 none repeat scroll 0 0;
         background: -moz-linear-gradient(top, #fa4538, #f54030);
         background: -webkit-linear-gradient(top, #fa4538, #f54030);
         background: linear-gradient(to bottom, #fa4538, #f54030);
@@ -134,12 +133,12 @@
 .modal-btns, .modal-close {
     display: inline-block;
     border: 1px solid #bdbdbd;
-    margin: 3px;
-    padding: 5px 10px;
+    margin: 0.25rem;
+    padding: 0.45rem 0.75rem;
     width: auto;
     min-width: 60px;
     color: #555;
-    font: 500 14px/1.42857 Helvetica, Verdana, Arial, sans-serif;
+    font: 500 .85rem/1.0 Helvetica, Verdana, Arial, sans-serif;
     cursor: default;
     text-align: center;
     vertical-align: middle;
@@ -168,7 +167,7 @@
     .modal-close:hover {
         border: 1px solid #f52a24;
         color: #fff;
-        background: #fe4334; /*#f83428;*/
+        background: #fe4334;
         background: -moz-linear-gradient(top, #fa3830, #f53028);
         background: -webkit-linear-gradient(top, #fa3830, #f53028);
         background: linear-gradient(to bottom, #fa3830, #f53028);
@@ -176,6 +175,7 @@
         -moz-text-shadow: 0 1px 1px #333;
         text-shadow: 0 1px 1px #333;
     }
+
 
 /***** Modal Message *****/
 .msg-modal-bg {
@@ -239,7 +239,7 @@
     margin: 0;
     padding: 7px 15px 7px 40px;
     color: #0783af;
-    font: 600 13pt/1.42857 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font: 600 13pt/1.50 'Helvetica Neue', Helvetica, Arial, sans-serif;
     text-align: left;
     overflow: hidden;
     background-size: 32px auto;
@@ -276,9 +276,9 @@
     min-height: 85px;
     max-height: 45vh;
     margin: 0;
-    padding: 10px 35px 5px 70px;
+    padding: 15px 35px 0 65px;
     color: #242853;
-    font: normal 10.25pt/85px 'Lucida Grande', Verdana, Helvetica, Arial, sans-serif;
+    font: normal 10.25pt/65px 'Lucida Grande', Verdana, Helvetica, Arial, sans-serif;
     text-align: left;
     vertical-align: top;
     cursor: default;

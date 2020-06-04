@@ -533,7 +533,8 @@ namespace Pdb014App.Controllers.AdvancedReport
                             PoleCondition = pl.PoleTypeId != null ? pl.PoleConditionId.ToLower() : "",
                             Neutral = pl.Neutral != null ? pl.Neutral.ToLower() : "",
                             StreetLight = pl.StreetLight != null ? pl.StreetLight.ToLower() : "",
-                            WireLength = pl.WireLength ?? 0
+                            WireLength = pl.WireLength ?? 0,
+                            //WireCondition = pl.WireConditionId ?? 0,
                         })
                         .ToList()
                         .AsQueryable()
@@ -1220,11 +1221,12 @@ namespace Pdb014App.Controllers.AdvancedReport
                     var flInfo = qry
                         .Select(f => new
                         {
-                            RegionCode =
-                                f.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
-                            FeederType = f.FeederLineType.FeederLineTypeName,
+                            RegionCode = f.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
+                            FeederType = f.FeederLineTypeId != null ? f.FeederLineType.FeederLineTypeName : "",
                             //FeederType = f.NominalVoltage.ToString(),
-                            FeederLength = f.FeederLength,
+                            FeederLength = f.Poles.Sum(p => p.WireLength ?? 0),
+                            //FeederLength = f.Poles.Where(p => p.FeederLineId == f.FeederLineId).Sum(p => p.WireLength ?? 0),
+                            //FeederLength = f.FeederLength,
                             MaximumDemand = f.MaximumDemand ?? 0,
                             PeakDemand = f.PeakDemand ?? 0,
                             MaximumLoad = f.MaximumLoad ?? 0,
@@ -1294,15 +1296,15 @@ namespace Pdb014App.Controllers.AdvancedReport
 
 
                 case "circle":
-                    
+
                     flInfo = qry
                         .Select(f => new
                         {
-                            RegionCode =
-                                f.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode,
-                            FeederType = f.FeederLineType.FeederLineTypeName,
+                            RegionCode = f.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode,
+                            FeederType = f.FeederLineTypeId != null ? f.FeederLineType.FeederLineTypeName : "",
                             //FeederType = f.NominalVoltage.ToString(),
-                            FeederLength = f.FeederLength,
+                            FeederLength = f.Poles.Sum(p => p.WireLength ?? 0),
+                            //FeederLength = f.FeederLength,
                             MaximumDemand = f.MaximumDemand ?? 0,
                             PeakDemand = f.PeakDemand ?? 0,
                             MaximumLoad = f.MaximumLoad ?? 0,
@@ -1375,15 +1377,15 @@ namespace Pdb014App.Controllers.AdvancedReport
 
 
                 case "snd":
-                    
+
                     flInfo = qry
                         .Select(f => new
                         {
-                            RegionCode =
-                                f.FeederLineToRoute.RouteToSubstation.SnDCode,
-                            FeederType = f.FeederLineType.FeederLineTypeName,
+                            RegionCode = f.FeederLineToRoute.RouteToSubstation.SnDCode,
+                            FeederType = f.FeederLineTypeId != null ? f.FeederLineType.FeederLineTypeName : "",
                             //FeederType = f.NominalVoltage.ToString(),
-                            FeederLength = f.FeederLength,
+                            FeederLength = f.Poles.Sum(p => p.WireLength ?? 0),
+                            //FeederLength = f.FeederLength,
                             MaximumDemand = f.MaximumDemand ?? 0,
                             PeakDemand = f.PeakDemand ?? 0,
                             MaximumLoad = f.MaximumLoad ?? 0,
@@ -1462,11 +1464,11 @@ namespace Pdb014App.Controllers.AdvancedReport
                     flInfo = qry
                         .Select(f => new
                         {
-                            RegionCode =
-                                f.FeederLineToRoute.SubstationId,
-                            FeederType = f.FeederLineType.FeederLineTypeName,
+                            RegionCode = f.FeederLineToRoute.SubstationId,
+                            FeederType = f.FeederLineTypeId != null ? f.FeederLineType.FeederLineTypeName : "",
                             //FeederType = f.NominalVoltage.ToString(),
-                            FeederLength = f.FeederLength,
+                            FeederLength = f.Poles.Sum(p => p.WireLength ?? 0),
+                            //FeederLength = f.FeederLength,
                             MaximumDemand = f.MaximumDemand ?? 0,
                             PeakDemand = f.PeakDemand ?? 0,
                             MaximumLoad = f.MaximumLoad ?? 0,
@@ -1548,11 +1550,11 @@ namespace Pdb014App.Controllers.AdvancedReport
                     flInfo = qry
                         .Select(f => new
                         {
-                            RegionCode =
-                                f.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
-                            FeederType = f.FeederLineType.FeederLineTypeName,
+                            RegionCode = f.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
+                            FeederType = f.FeederLineTypeId != null ? f.FeederLineType.FeederLineTypeName : "",
                             //FeederType = f.NominalVoltage.ToString(),
-                            FeederLength = f.FeederLength,
+                            FeederLength = f.Poles.Sum(p => p.WireLength ?? 0),
+                            //FeederLength = f.FeederLength,
                             MaximumDemand = f.MaximumDemand ?? 0,
                             PeakDemand = f.PeakDemand ?? 0,
                             MaximumLoad = f.MaximumLoad ?? 0,
@@ -1862,7 +1864,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(s => new
                         {
                             RegionCode = s.SubstationToLookUpSnD.CircleInfo.ZoneCode,
-                            SubstationType = s.SubstationType.SubstationTypeName,
+                            SubstationType = s.SubstationTypeId != null ? s.SubstationType.SubstationTypeName : "",
                             CapacityMin = s.TotalCapacity.Min,
                             CapacityMax = s.TotalCapacity.Max,
                             MaximumDemand = s.MaximumDemand ?? 0,
@@ -1927,12 +1929,12 @@ namespace Pdb014App.Controllers.AdvancedReport
 
 
                 case "circle":
-                    
+
                     ssInfo = qry
                         .Select(s => new
                         {
                             RegionCode = s.SubstationToLookUpSnD.CircleCode,
-                            SubstationType = s.SubstationType.SubstationTypeName,
+                            SubstationType = s.SubstationTypeId != null ? s.SubstationType.SubstationTypeName : "",
                             CapacityMin = s.TotalCapacity.Min,
                             CapacityMax = s.TotalCapacity.Max,
                             MaximumDemand = s.MaximumDemand ?? 0,
@@ -2005,7 +2007,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(s => new
                         {
                             RegionCode = s.SnDCode,
-                            SubstationType = s.SubstationType.SubstationTypeName,
+                            SubstationType = s.SubstationTypeId != null ? s.SubstationType.SubstationTypeName : "",
                             CapacityMin = s.TotalCapacity.Min,
                             CapacityMax = s.TotalCapacity.Max,
                             MaximumDemand = s.MaximumDemand ?? 0,
@@ -2080,7 +2082,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(s => new
                         {
                             RegionCode = s.SubstationId,
-                            SubstationType = s.SubstationType.SubstationTypeName,
+                            SubstationType = s.SubstationTypeId != null ? s.SubstationType.SubstationTypeName : "",
                             CapacityMin = s.TotalCapacity.Min,
                             CapacityMax = s.TotalCapacity.Max,
                             MaximumDemand = s.MaximumDemand ?? 0,
@@ -2157,7 +2159,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(s => new
                         {
                             RegionCode = s.SubstationToLookUpSnD.CircleInfo.ZoneCode,
-                            SubstationType = s.SubstationType.SubstationTypeName,
+                            SubstationType = s.SubstationTypeId != null ? s.SubstationType.SubstationTypeName : "",
                             CapacityMin = s.TotalCapacity.Min,
                             CapacityMax = s.TotalCapacity.Max,
                             MaximumDemand = s.MaximumDemand ?? 0,
@@ -2496,10 +2498,10 @@ namespace Pdb014App.Controllers.AdvancedReport
                         {
                             RegionCode = dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
                             InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null ? dt.InstalledConditionPadbsPoleMounted.ToLower() : "",
-                            InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor.ToLower(),
-                            Owner = dt.OwneroftheTransformerBPDBbsConsumer.ToLower(),
-                            OilLeakage = dt.OilLeakageYesOrNo.ToLower(),
-                            PlatformMaterial = dt.PlatformMaterialAnglbsChannel.ToLower()
+                            InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor != null ? dt.InstalledPlaceIndoorbsOutdoor.ToLower() : "",
+                            Owner = dt.OwneroftheTransformerBPDBbsConsumer != null ? dt.OwneroftheTransformerBPDBbsConsumer.ToLower() : "",
+                            OilLeakage = dt.OilLeakageYesOrNo != null ? dt.OilLeakageYesOrNo.ToLower() : "",
+                            PlatformMaterial = dt.PlatformMaterialAnglbsChannel != null ? dt.PlatformMaterialAnglbsChannel.ToLower() : ""
                         })
                         .ToList()
                         .AsQueryable()
@@ -2574,13 +2576,11 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(dt => new
                         {
                             RegionCode = dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode,
-                            InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null
-                                ? dt.InstalledConditionPadbsPoleMounted.ToLower()
-                                : "",
-                            InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor.ToLower(),
-                            Owner = dt.OwneroftheTransformerBPDBbsConsumer.ToLower(),
-                            OilLeakage = dt.OilLeakageYesOrNo.ToLower(),
-                            PlatformMaterial = dt.PlatformMaterialAnglbsChannel.ToLower()
+                            InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null ? dt.InstalledConditionPadbsPoleMounted.ToLower() : "",
+                            InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor != null ? dt.InstalledPlaceIndoorbsOutdoor.ToLower() : "",
+                            Owner = dt.OwneroftheTransformerBPDBbsConsumer != null ? dt.OwneroftheTransformerBPDBbsConsumer.ToLower() : "",
+                            OilLeakage = dt.OilLeakageYesOrNo != null ? dt.OilLeakageYesOrNo.ToLower() : "",
+                            PlatformMaterial = dt.PlatformMaterialAnglbsChannel != null ? dt.PlatformMaterialAnglbsChannel.ToLower() : ""
                         })
                         .ToList()
                         .AsQueryable()
@@ -2658,10 +2658,10 @@ namespace Pdb014App.Controllers.AdvancedReport
                         {
                             RegionCode = dt.DtToPole.PoleToRoute.RouteToSubstation.SnDCode,
                             InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null ? dt.InstalledConditionPadbsPoleMounted.ToLower() : "",
-                            InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor.ToLower(),
-                            Owner = dt.OwneroftheTransformerBPDBbsConsumer.ToLower(),
-                            OilLeakage = dt.OilLeakageYesOrNo.ToLower(),
-                            PlatformMaterial = dt.PlatformMaterialAnglbsChannel.ToLower()
+                            InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor != null ? dt.InstalledPlaceIndoorbsOutdoor.ToLower() : "",
+                            Owner = dt.OwneroftheTransformerBPDBbsConsumer != null ? dt.OwneroftheTransformerBPDBbsConsumer.ToLower() : "",
+                            OilLeakage = dt.OilLeakageYesOrNo != null ? dt.OilLeakageYesOrNo.ToLower() : "",
+                            PlatformMaterial = dt.PlatformMaterialAnglbsChannel != null ? dt.PlatformMaterialAnglbsChannel.ToLower() : ""
                         })
                         .ToList()
                         .AsQueryable()
@@ -2740,10 +2740,10 @@ namespace Pdb014App.Controllers.AdvancedReport
                         {
                             RegionCode = dt.DtToPole.PoleToRoute.SubstationId,
                             InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null ? dt.InstalledConditionPadbsPoleMounted.ToLower() : "",
-                            InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor.ToLower(),
-                            Owner = dt.OwneroftheTransformerBPDBbsConsumer.ToLower(),
-                            OilLeakage = dt.OilLeakageYesOrNo.ToLower(),
-                            PlatformMaterial = dt.PlatformMaterialAnglbsChannel.ToLower()
+                            InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor != null ? dt.InstalledPlaceIndoorbsOutdoor.ToLower() : "",
+                            Owner = dt.OwneroftheTransformerBPDBbsConsumer != null ? dt.OwneroftheTransformerBPDBbsConsumer.ToLower() : "",
+                            OilLeakage = dt.OilLeakageYesOrNo != null ? dt.OilLeakageYesOrNo.ToLower() : "",
+                            PlatformMaterial = dt.PlatformMaterialAnglbsChannel != null ? dt.PlatformMaterialAnglbsChannel.ToLower() : ""
                         })
                         .ToList()
                         .AsQueryable()
@@ -2825,10 +2825,10 @@ namespace Pdb014App.Controllers.AdvancedReport
                         {
                             RegionCode = dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
                             InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null ? dt.InstalledConditionPadbsPoleMounted.ToLower() : "",
-                            InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor.ToLower(),
-                            Owner = dt.OwneroftheTransformerBPDBbsConsumer.ToLower(),
-                            OilLeakage = dt.OilLeakageYesOrNo.ToLower(),
-                            PlatformMaterial = dt.PlatformMaterialAnglbsChannel.ToLower()
+                            InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor != null ? dt.InstalledPlaceIndoorbsOutdoor.ToLower() : "",
+                            Owner = dt.OwneroftheTransformerBPDBbsConsumer != null ? dt.OwneroftheTransformerBPDBbsConsumer.ToLower() : "",
+                            OilLeakage = dt.OilLeakageYesOrNo != null ? dt.OilLeakageYesOrNo.ToLower() : "",
+                            PlatformMaterial = dt.PlatformMaterialAnglbsChannel != null ? dt.PlatformMaterialAnglbsChannel.ToLower() : ""
                         })
                         .ToList()
                         .AsQueryable()
@@ -3172,12 +3172,8 @@ namespace Pdb014App.Controllers.AdvancedReport
                             SourceSubstationType = pt.PhasePowerTransformerToSourceSubstation.NominalVoltage ?? "",
                             RatedVoltage = pt.RatedVoltagePhaseToPhase ?? "",
                             Radiator = pt.RadiatorsYesNo != null ? pt.RadiatorsYesNo.ToLower() : "",
-                            SupervisoryAlarm = pt.SupervisoryAlarmAndTripContactsYesNo != null
-                                ? pt.SupervisoryAlarmAndTripContactsYesNo.ToLower()
-                                : "",
-                            TemperatureIndicator = pt.TemperatureIndicatorsYesNo != null
-                                ? pt.TemperatureIndicatorsYesNo.ToLower()
-                                : ""
+                            SupervisoryAlarm = pt.SupervisoryAlarmAndTripContactsYesNo != null ? pt.SupervisoryAlarmAndTripContactsYesNo.ToLower() : "",
+                            TemperatureIndicator = pt.TemperatureIndicatorsYesNo != null ? pt.TemperatureIndicatorsYesNo.ToLower() : ""
                         })
                         .ToList()
                         .AsQueryable()

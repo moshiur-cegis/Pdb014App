@@ -1033,6 +1033,31 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
         }
 
+        
+        public IActionResult SearchPoleComponents(string poleId)
+        {
+            //ViewBag.ReportName = "Pole";
+            //ViewBag.ReportAction = "GetPoleData";
+            //ViewBag.ReportController = "AdvancedReport";
+
+            //var regionList = new List<string>(5);
+
+            //regionLevel = regionLevel ?? "zone";
+
+            //ViewBag.RegionInfo = regionInfo;
+            //ViewBag.FieldList = fieldList;
+            //ViewBag.RegionList = regionList;
+
+            //ViewData["ZoneList"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+
+
+            ViewBag.PoleId = poleId;
+
+            return View("SearchPoleComponents");
+            //return View("Pole");
+        }
+
+
     }
 
 
