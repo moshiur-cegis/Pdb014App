@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pdb014App.Models.Report
 {
-    public class ZoneWiseData
+    public class RegionWiseData
     {
         public string Name { get; set; }
 

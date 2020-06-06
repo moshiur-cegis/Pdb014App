@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
 using Pdb014App.Models;
 using Pdb014App.Models.Report;
+using Pdb014App.Models.UserManage;
 using Pdb014App.Repository;
 
 
@@ -13,17 +16,164 @@ namespace Pdb014App.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly PdbDbContext _context;
+        private readonly PdbDbContext _dbContext;
+        private readonly UserDbContext _dbContextUser;
+        private readonly UserManager<TblUserRegistrationDetail> _userManager;
 
-        public HomeController(PdbDbContext context)
+
+        //public HomeController(PdbDbContext context)
+        //{
+        //    _dbContext = context;
+        //}
+
+        //public HomeController(PdbDbContext context, UserDbContext contextUser)
+        //{
+        //    _dbContext = context;
+        //    _dbContextUser = contextUser;
+        //}
+
+        public HomeController(PdbDbContext context, UserDbContext contextUser, UserManager<TblUserRegistrationDetail> userManager)
         {
-            _context = context;
+            _dbContext = context;
+            _dbContextUser = contextUser;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var regionLevel = "zone";
+            var regionList = new List<string>(4) { "", "", "", "" };
 
-            var stInfo = _context.TblSubstation
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user != null && !string.IsNullOrEmpty(user.Id))
+            {
+                var userInfo = _dbContextUser.UserProfileDetail.SingleOrDefault(u => u.Id == user.Id);
+
+                if (userInfo != null)
+                {
+                    regionList[0] = userInfo.ZoneCode;
+                    regionList[1] = userInfo.CircleCode;
+                    regionList[2] = userInfo.SnDCode;
+                    regionList[3] = userInfo.SubstationId;
+
+
+                    if (User.IsInRole("System Administrator"))
+                    {
+                        regionLevel = "zone";
+                    }
+                    else if (User.IsInRole("Zone"))
+                    {
+                        regionLevel = "circle";
+                    }
+                    else if (User.IsInRole("Circle"))
+                    {
+                        regionLevel = "snd";
+                    }
+                    else if (User.IsInRole("SnD"))
+                    {
+                        regionLevel = "substation";
+                    }
+                    else if (User.IsInRole("Substation"))
+                    {
+                        regionLevel = "substation";
+                    }
+                    else
+                    {
+                        regionLevel = "zone";
+                        
+                        if (!string.IsNullOrEmpty(regionList[3]))
+                        {
+                            regionLevel = "substation";
+                        }
+                        else if (!string.IsNullOrEmpty(regionList[2]))
+                        {
+                            regionLevel = "substation";
+                        }
+                        else if (!string.IsNullOrEmpty(regionList[1]))
+                        {
+                            regionLevel = "snd";
+                        }
+                        else if (!string.IsNullOrEmpty(regionList[0]))
+                        {
+                            regionLevel = "circle";
+                        }
+                    }
+                }
+            }
+
+
+            ViewBag.RegionLevel = regionLevel;
+
+            ViewBag.ZoneCode = regionList[0];
+            ViewBag.CircleCode = regionList[1];
+            ViewBag.SnDCode = regionList[2];
+            ViewBag.SubstationId = regionList[3];
+
+
+            ViewBag.PlCount = _dbContext.TblPole.Count();
+            ViewBag.FlCount = _dbContext.TblFeederLine.Count();
+            ViewBag.SsCount = _dbContext.TblSubstation.Count();
+            ViewBag.PtCount = _dbContext.TblPhasePowerTransformer.Count();
+            ViewBag.DtCount = _dbContext.TblDistributionTransformer.Count();
+            ViewBag.CmCount = _dbContext.TblConsumerData.Count();
+
+
+            return View(GetDashboardData(regionLevel, regionList));
+        }
+
+        public async Task<IActionResult> Index_ok()
+        {
+            ViewBag.RegionLevel = "zone";
+
+            ViewBag.ZoneCode =
+                ViewBag.CircleCode =
+                    ViewBag.SnDCode =
+                        ViewBag.SubstationId = "";
+
+
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user != null && !string.IsNullOrEmpty(user.Id))
+            {
+                var userInfo = _dbContextUser.UserProfileDetail.SingleOrDefault(u => u.Id == user.Id);
+
+                if (userInfo != null)
+                {
+                    ViewBag.ZoneCode = userInfo.ZoneCode;
+                    ViewBag.CircleCode = userInfo.CircleCode;
+                    ViewBag.SnDCode = userInfo.SnDCode;
+                    ViewBag.SubstationId = userInfo.SubstationId;
+
+
+                    if (User.IsInRole("System Administrator"))
+                    {
+                        ViewBag.RegionLevel = "zone";
+                    }
+                    else if (User.IsInRole("Zone"))
+                    {
+                        ViewBag.RegionLevel = "circle";
+                    }
+                    else if (User.IsInRole("Circle"))
+                    {
+                        ViewBag.RegionLevel = "snd";
+                    }
+                    else if (User.IsInRole("SnD"))
+                    {
+                        ViewBag.RegionLevel = "substation";
+                    }
+                    else if (User.IsInRole("Substation"))
+                    {
+                        ViewBag.RegionLevel = "substation";
+                    }
+                    else
+                    {
+                        ViewBag.RegionLevel = "zone";
+                    }
+                }
+            }
+
+            var stInfo = _dbContext.TblSubstation
                 .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                 .Select(k => new
                 {
@@ -31,7 +181,7 @@ namespace Pdb014App.Controllers
                     StCount = k.Count()
                 }).ToList();
 
-            var st11Info = _context.TblSubstation
+            var st11Info = _dbContext.TblSubstation
                 .Where(ss => ss.SubstationType.SubstationTypeName.Contains("/11"))
                 .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                 .Select(k => new
@@ -40,7 +190,7 @@ namespace Pdb014App.Controllers
                     StCount = k.Count()
                 }).ToList();
 
-            var st33Info = _context.TblSubstation
+            var st33Info = _dbContext.TblSubstation
                 .Where(ss => ss.SubstationType.SubstationTypeName.Contains("/33"))
                 .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                 .Select(k => new
@@ -48,9 +198,9 @@ namespace Pdb014App.Controllers
                     ZoneCode = k.Key,
                     StCount = k.Count()
                 }).ToList();
-            
 
-            var flInfo = _context.TblFeederLine
+
+            var flInfo = _dbContext.TblFeederLine
                 .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                 .Select(k => new
                 {
@@ -58,7 +208,7 @@ namespace Pdb014App.Controllers
                     FlCount = k.Count()
                 }).ToList();
 
-            var fl11Info = _context.TblFeederLine
+            var fl11Info = _dbContext.TblFeederLine
                 .Where(fl => fl.NominalVoltage == 11)
                 .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                 .Select(k => new
@@ -67,7 +217,7 @@ namespace Pdb014App.Controllers
                     FlCount = k.Count()
                 }).ToList();
 
-            var fl33Info = _context.TblFeederLine
+            var fl33Info = _dbContext.TblFeederLine
                 .Where(fl => fl.NominalVoltage == 33)
                 .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                 .Select(k => new
@@ -75,9 +225,9 @@ namespace Pdb014App.Controllers
                     ZoneCode = k.Key,
                     FlCount = k.Count()
                 }).ToList();
-            
 
-            var dtInfo = _context.TblDistributionTransformer
+
+            var dtInfo = _dbContext.TblDistributionTransformer
                 .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                 .Select(k => new
                 {
@@ -85,7 +235,7 @@ namespace Pdb014App.Controllers
                     DtCount = k.Count()
                 }).ToList();
 
-            var dt11Info = _context.TblDistributionTransformer
+            var dt11Info = _dbContext.TblDistributionTransformer
                 .Where(dt => dt.DtToFeederLine.NominalVoltage == 11)
                 .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                 .Select(k => new
@@ -94,7 +244,7 @@ namespace Pdb014App.Controllers
                     DtCount = k.Count()
                 }).ToList();
 
-            var dt33Info = _context.TblDistributionTransformer
+            var dt33Info = _dbContext.TblDistributionTransformer
                 .Where(dt => dt.DtToFeederLine.NominalVoltage == 33)
                 .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                 .Select(k => new
@@ -104,7 +254,7 @@ namespace Pdb014App.Controllers
                 }).ToList();
 
 
-            var plInfo = _context.TblPole
+            var plInfo = _dbContext.TblPole
                 .GroupBy(z => z.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                 .Select(k => new
                 {
@@ -113,7 +263,7 @@ namespace Pdb014App.Controllers
                 }).ToList();
 
 
-            var ptInfo = _context.TblPhasePowerTransformer
+            var ptInfo = _dbContext.TblPhasePowerTransformer
                 .GroupBy(z => z.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                 .Select(k => new
                 {
@@ -122,15 +272,15 @@ namespace Pdb014App.Controllers
                 }).ToList();
 
 
-            var zoneList = _context.LookUpZoneInfo.Select(z => new { z.ZoneCode, z.ZoneName }).ToList();
+            var zoneList = _dbContext.LookUpZoneInfo.Select(z => new { z.ZoneCode, z.ZoneName }).ToList();
 
 
-            ZoneWiseData dtRow;
-            List<ZoneWiseData> aData = new List<ZoneWiseData>();
+            RegionWiseData dtRow;
+            List<RegionWiseData> aData = new List<RegionWiseData>();
 
             foreach (var zone in zoneList)
             {
-                dtRow = new ZoneWiseData
+                dtRow = new RegionWiseData
                 {
                     Name = zone.ZoneName,
                     St = stInfo.FirstOrDefault(ss => ss.ZoneCode == zone.ZoneCode && ss.StCount > 0)?.StCount,
@@ -150,7 +300,7 @@ namespace Pdb014App.Controllers
             }
 
 
-            dtRow = new ZoneWiseData
+            dtRow = new RegionWiseData
             {
                 Name = "Total",
                 St = stInfo.Sum(ss => ss.StCount),
@@ -169,255 +319,1065 @@ namespace Pdb014App.Controllers
             aData.Add(dtRow);
 
 
-            ViewBag.SsCount = stInfo.Sum(ss => ss.StCount);
-            ViewBag.DtCount = dtInfo.Sum(dt => dt.DtCount);
-            ViewBag.FlCount = flInfo.Sum(fl => fl.FlCount);
-            ViewBag.PtCount = ptInfo.Sum(pt => pt.PtCount);
             ViewBag.PlCount = plInfo.Sum(pl => pl.PlCount);
-
+            ViewBag.FlCount = flInfo.Sum(fl => fl.FlCount);
+            ViewBag.SsCount = stInfo.Sum(ss => ss.StCount);
+            ViewBag.PtCount = ptInfo.Sum(pt => pt.PtCount);
+            ViewBag.DtCount = dtInfo.Sum(dt => dt.DtCount);
+            ViewBag.CmCount = _dbContext.TblConsumerData.Count();
 
             return View(aData);
 
         }
 
 
-
-        public IActionResult Index_bk()
+        [HttpPost]
+        public List<RegionWiseData> GetDashboardData(string regionLevel = "zone", List<string> regionList = null)
         {
-            ViewBag.SsCount = _context.TblSubstation.Count();
-            ViewBag.DtCount = _context.TblDistributionTransformer.Count();
-            ViewBag.FlCount = _context.TblFeederLine.Count();
-            ViewBag.PtCount = _context.TblPhasePowerTransformer.Count();
-            ViewBag.PlCount = _context.TblPole.Count();
-            
+            regionLevel = string.IsNullOrEmpty(regionLevel) ? "zone" : regionLevel;
 
-            var stInfo = _context.TblSubstation
-                .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
-                .Select(k => new
-                {
-                    ZoneCode = k.Key,
-                    StCount = k.Count(),
-                    //StCount11 = k.Count(ss => ss.NominalVoltage.Contains("11")),
-                    //StCount33 = k.Count(ss => ss.NominalVoltage.Contains("33")),
-                    StCount11 = k.Count(s => s.SubstationType.SubstationTypeName.Contains("/11")),
-                    StCount33 = k.Count(s => s.SubstationType.SubstationTypeName.Contains("/33"))
-                }).ToList();
+            string zoneCode = "", circleCode = "", snDCode = "", substationId = "";
 
-
-            var flInfo = _context.TblFeederLine
-                .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
-                .Select(k => new
-                {
-                    ZoneCode = k.Key,
-                    FlCount = k.Count(),
-                    FlCount11 = k.Count(dt => dt.NominalVoltage == 11),
-                    FlCount33 = k.Count(dt => dt.NominalVoltage == 33)
-                }).ToList();
-
-
-            var dtInfo = _context.TblDistributionTransformer
-                .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
-                .Select(k => new
-                {
-                    ZoneCode = k.Key,
-                    DtCount = k.Count(),
-                    DtCount11 = k.Count(dt => dt.DtToFeederLine.NominalVoltage == 11),
-                    DtCount33 = k.Count(dt => dt.DtToFeederLine.NominalVoltage == 33)
-                }).ToList();
-
-
-            var plInfo = _context.TblPole
-                .GroupBy(z => z.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
-                .Select(k => new
-                {
-                    ZoneCode = k.Key,
-                    PlCount = k.Count()
-                }).ToList();
-
-
-            var ptInfo = _context.TblPhasePowerTransformer
-                .GroupBy(z => z.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
-                .Select(k => new
-                {
-                    ZoneCode = k.Key,
-                    PtCount = k.Count()
-                }).ToList();
-
-
-            var zoneList = _context.LookUpZoneInfo.Select(z => new { z.ZoneCode, z.ZoneName }).ToList();
-
-
-            ZoneWiseData dtRow;
-            List<ZoneWiseData> aData = new List<ZoneWiseData>();
-
-            foreach (var zone in zoneList)
+            if (regionList != null && regionList.Count > 0 && !string.IsNullOrEmpty(regionList[0]))
             {
-                dtRow = new ZoneWiseData
-                {
-                    Name = zone.ZoneName,
-                    St = stInfo.FirstOrDefault(ss => ss.ZoneCode == zone.ZoneCode && ss.StCount > 0)?.StCount,
-                    St11 = stInfo.FirstOrDefault(ss => ss.ZoneCode == zone.ZoneCode && ss.StCount11 > 0)?.StCount11,
-                    St33 = stInfo.FirstOrDefault(ss => ss.ZoneCode == zone.ZoneCode && ss.StCount33 > 0)?.StCount33,
-                    Fl = flInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.FlCount > 0)?.FlCount,
-                    Fl11 = flInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.FlCount11 > 0)?.FlCount11,
-                    Fl33 = flInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.FlCount33 > 0)?.FlCount33,
-                    Pt = ptInfo.FirstOrDefault(pt => pt.ZoneCode == zone.ZoneCode && pt.PtCount > 0)?.PtCount,
-                    Dt = dtInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.DtCount > 0)?.DtCount,
-                    Dt11 = dtInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.DtCount11 > 0)?.DtCount11,
-                    Dt33 = dtInfo.FirstOrDefault(dt => dt.ZoneCode == zone.ZoneCode && dt.DtCount33 > 0)?.DtCount33,
-                    Pl = plInfo.FirstOrDefault(pl => pl.ZoneCode == zone.ZoneCode && pl.PlCount > 0)?.PlCount
-                };
+                zoneCode = regionList[0];
 
-                aData.Add(dtRow);
+                if (regionList.Count > 1 && !string.IsNullOrEmpty(regionList[1]))
+                {
+                    circleCode = regionList[1];
+
+                    if (regionList.Count > 2 && !string.IsNullOrEmpty(regionList[2]))
+                    {
+                        snDCode = regionList[2];
+
+                        if (regionList.Count > 3 && !string.IsNullOrEmpty(regionList[3]))
+                        {
+                            substationId = regionList[3];
+                        }
+                    }
+                }
             }
 
 
-            //dtRow = new ZoneWiseData
-            //{
-            //    Name = "Total",
-            //    St = stInfo.Sum(ss => ss.StCount),
-            //    St11 = stInfo.Sum(ss => ss.StCount11),
-            //    St33 = stInfo.Sum(ss => ss.StCount33),
-            //    Fl = flInfo.Sum(dt => dt.FlCount),
-            //    Fl11 = flInfo.Sum(dt => dt.FlCount11),
-            //    Fl33 = flInfo.Sum(dt => dt.FlCount33),
-            //    Pt = ptInfo.Sum(pt => pt.PtCount),
-            //    Dt = dtInfo.Sum(dt => dt.DtCount),
-            //    Dt11 = dtInfo.Sum(dt => dt.DtCount11),
-            //    Dt33 = dtInfo.Sum(dt => dt.DtCount33),
-            //    Pl = plInfo.Sum(pl => pl.PlCount)
-            //};
+            RegionWiseData dtRow;
+            List<RegionWiseData> allData = new List<RegionWiseData>();
 
-            //aData.Add(dtRow);
-
-
-            //ViewBag.SsCount = stInfo.Sum(ss => ss.StCount);
-            //ViewBag.DtCount = dtInfo.Sum(dt => dt.DtCount);
-            //ViewBag.FlCount = flInfo.Sum(fl => fl.FlCount);
-            //ViewBag.PtCount = ptInfo.Sum(pt => pt.PtCount);
-            //ViewBag.PlCount = plInfo.Sum(pl => pl.PlCount);
-
-
-            return View(aData);
-
-        }
-
-        public IActionResult Index_ok()
-        {
-            ViewBag.SubstationCount = _context.TblSubstation.Count();
-
-            ViewBag.DistributionTransformerCount = _context.TblDistributionTransformer.Count();
-            ViewBag.FeederLineCount = _context.TblFeederLine.Count();
-
-            ViewBag.PhasePowerTransformerCount = _context.TblPhasePowerTransformer.Count();
-
-            ViewBag.PoleCount = _context.TblPole.Count();
-
-
-            var stCount = _context.TblSubstation
-                .GroupBy(i => i.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
-                .Select(k => new
-                {
-                    ZoneName = k.Key,
-                    StCount = k.Count()
-                }).ToList();
-
-            var stCount11 = _context.TblSubstation
-                .Where(s => s.SubstationType.SubstationTypeName.Contains("/11"))
-                .GroupBy(i => i.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
-                .Select(k => new
-                {
-                    ZoneName = k.Key,
-                    StCount = k.Count()
-                }).ToList();
-            var stCount33 = _context.TblSubstation
-                .Where(s => s.SubstationType.SubstationTypeName.Contains("/33"))
-                .GroupBy(i => i.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
-                .Select(k => new
-                {
-                    ZoneName = k.Key,
-                    StCount = k.Count()
-                }).ToList();
-
-            var plCount = _context.TblPole
-                .GroupBy(i => i.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
-                .Select(k => new
-                {
-                    ZoneName = k.Key,
-                    PlCount = k.Count()
-                }).ToList();
-
-
-            var dtCount11 = _context.TblDistributionTransformer
-                .Where(d => d.DtToFeederLine.NominalVoltage == 11)
-                .GroupBy(i => i.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
-                .Select(k => new
-                {
-                    ZoneName = k.Key,
-                    DtCount = k.Count()
-                }).ToList();
-
-            var dtCount33 = _context.TblDistributionTransformer
-                .Where(d => d.DtToFeederLine.NominalVoltage == 33)
-                .GroupBy(i => i.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
-                .Select(k => new
-                {
-                    ZoneName = k.Key,
-                    DtCount = k.Count()
-                }).ToList();
-
-            var dtCount = _context.TblDistributionTransformer
-                .GroupBy(i => i.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
-                .Select(k => new
-                {
-                    ZoneName = k.Key,
-                    DtCount = k.Count()
-                }).ToList();
-
-            var ptCount = _context.TblPhasePowerTransformer
-                .GroupBy(i => i.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
-                .Select(k => new
-                {
-                    ZoneName = k.Key,
-                    PtCount = k.Count()
-                }).ToList();
-            
-
-            var zoneList = _context.LookUpZoneInfo.Select(i => i.ZoneName).ToList();
-
-
-            List<ZoneWiseData> aData = new List<ZoneWiseData>();
-
-            foreach (var zone in zoneList)
+            switch (regionLevel)
             {
-                var dtRow = new ZoneWiseData
-                {
-                    Name = zone,
-                    St = stCount.FirstOrDefault(d => d.ZoneName == zone)?.StCount,
-                    St11 = stCount11.FirstOrDefault(d => d.ZoneName == zone)?.StCount,
-                    St33 = stCount33.FirstOrDefault(d => d.ZoneName == zone)?.StCount,
-                    Pt = ptCount.FirstOrDefault(d => d.ZoneName == zone)?.PtCount,
-                    Dt = dtCount.FirstOrDefault(d => d.ZoneName == zone)?.DtCount,
-                    Dt11 = dtCount11.FirstOrDefault(d => d.ZoneName == zone)?.DtCount,
-                    Dt33 = dtCount33.FirstOrDefault(d => d.ZoneName == zone)?.DtCount,
-                    Pl = plCount.FirstOrDefault(d => d.ZoneName == zone)?.PlCount
-                };
+                case "zone":
 
-                aData.Add(dtRow);
+                    var stInfo = _dbContext.TblSubstation
+                        .Where(z => zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                        .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+                    var st11Info = _dbContext.TblSubstation
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode) &&
+                                    z.SubstationType.SubstationTypeName.Contains("/11"))
+                        .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+                    var st33Info = _dbContext.TblSubstation.Where(z =>
+                            zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode) &&
+                            z.SubstationType.SubstationTypeName.Contains("/33"))
+                        .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    var flInfo = _dbContext.TblFeederLine
+                        .Where(z => zoneCode.Equals("") || z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                            .CircleInfo.ZoneCode.Equals(zoneCode))
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+                    var fl11Info = _dbContext.TblFeederLine
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode
+                                        .Equals(zoneCode) && z.NominalVoltage == 11)
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+                    var fl33Info = _dbContext.TblFeederLine
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode
+                                        .Equals(zoneCode) && z.NominalVoltage == 33)
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    var dtInfo = _dbContext.TblDistributionTransformer
+                        .Where(z => zoneCode.Equals("") || z.DtToFeederLine.FeederLineToRoute.RouteToSubstation
+                            .SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                        .GroupBy(z =>
+                            z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+                    var dt11Info = _dbContext.TblDistributionTransformer
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleInfo.ZoneCode.Equals(zoneCode) && z.DtToFeederLine.NominalVoltage == 11)
+                        .GroupBy(z =>
+                            z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+                    var dt33Info = _dbContext.TblDistributionTransformer
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleInfo.ZoneCode.Equals(zoneCode) && z.DtToFeederLine.NominalVoltage == 33)
+                        .GroupBy(z =>
+                            z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    var plInfo = _dbContext.TblPole
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(
+                                        zoneCode))
+                        .GroupBy(z => z.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            PlCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    var ptInfo = _dbContext.TblPhasePowerTransformer
+                        .Where(z => zoneCode.Equals("") || z.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD
+                            .CircleInfo.ZoneCode.Equals(zoneCode))
+                        .GroupBy(z => z.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            PtCount = k.Count()
+                        })
+                        .ToList();
+
+                    var regions = _dbContext.LookUpZoneInfo
+                        .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
+                        .Select(z => new
+                        {
+                            RegionCode = z.ZoneCode,
+                            RegionName = z.ZoneName
+                        })
+                        .ToList();
+
+
+                    foreach (var region in regions)
+                    {
+                        dtRow = new RegionWiseData
+                        {
+                            Name = region.RegionName,
+                            St = stInfo.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            St11 = st11Info.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            St33 = st33Info.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            Fl = flInfo.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Fl11 = fl11Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Fl33 = fl33Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Pt = ptInfo.FirstOrDefault(pt => pt.RegionCode == region.RegionCode && pt.PtCount > 0)
+                                ?.PtCount,
+                            Dt = dtInfo.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Dt11 = dt11Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Dt33 = dt33Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Pl = plInfo.FirstOrDefault(pl => pl.RegionCode == region.RegionCode && pl.PlCount > 0)
+                                ?.PlCount
+                        };
+
+                        allData.Add(dtRow);
+                    }
+
+                    dtRow = new RegionWiseData
+                    {
+                        Name = "Total",
+                        St = stInfo.Sum(ss => ss.StCount),
+                        St11 = st11Info.Sum(ss => ss.StCount),
+                        St33 = st33Info.Sum(ss => ss.StCount),
+                        Fl = flInfo.Sum(dt => dt.FlCount),
+                        Fl11 = fl11Info.Sum(dt => dt.FlCount),
+                        Fl33 = fl33Info.Sum(dt => dt.FlCount),
+                        Pt = ptInfo.Sum(pt => pt.PtCount),
+                        Dt = dtInfo.Sum(dt => dt.DtCount),
+                        Dt11 = dt11Info.Sum(dt => dt.DtCount),
+                        Dt33 = dt33Info.Sum(dt => dt.DtCount),
+                        Pl = plInfo.Sum(pl => pl.PlCount)
+                    };
+
+                    allData.Add(dtRow);
+
+                    break;
+
+
+                case "circle":
+
+                    stInfo = _dbContext.TblSubstation
+                        .Where(z => zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                        .GroupBy(z => z.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+                    st11Info = _dbContext.TblSubstation
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode) &&
+                                    z.SubstationType.SubstationTypeName.Contains("/11"))
+                        .GroupBy(z => z.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+                    st33Info = _dbContext.TblSubstation.Where(z =>
+                            zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode) &&
+                            z.SubstationType.SubstationTypeName.Contains("/33"))
+                        .GroupBy(z => z.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    flInfo = _dbContext.TblFeederLine
+                        .Where(z => zoneCode.Equals("") || z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                            .CircleInfo.ZoneCode.Equals(zoneCode))
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+                    fl11Info = _dbContext.TblFeederLine
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode
+                                        .Equals(zoneCode) && z.NominalVoltage == 11)
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+                    fl33Info = _dbContext.TblFeederLine
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode
+                                        .Equals(zoneCode) && z.NominalVoltage == 33)
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    dtInfo = _dbContext.TblDistributionTransformer
+                        .Where(z => zoneCode.Equals("") || z.DtToFeederLine.FeederLineToRoute.RouteToSubstation
+                            .SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                        .GroupBy(z =>
+                            z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+                    dt11Info = _dbContext.TblDistributionTransformer
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleInfo.ZoneCode.Equals(zoneCode) && z.DtToFeederLine.NominalVoltage == 11)
+                        .GroupBy(z =>
+                            z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+                    dt33Info = _dbContext.TblDistributionTransformer
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleInfo.ZoneCode.Equals(zoneCode) && z.DtToFeederLine.NominalVoltage == 33)
+                        .GroupBy(z =>
+                            z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    plInfo = _dbContext.TblPole
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(
+                                        zoneCode))
+                        .GroupBy(z => z.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            PlCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    ptInfo = _dbContext.TblPhasePowerTransformer
+                        .Where(z => zoneCode.Equals("") || z.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD
+                            .CircleInfo.ZoneCode.Equals(zoneCode))
+                        .GroupBy(z => z.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            PtCount = k.Count()
+                        })
+                        .ToList();
+
+                    regions = _dbContext.LookUpCircleInfo
+                        .Where(c => (zoneCode.Equals("") || c.ZoneCode.Equals(zoneCode))
+                                    && (circleCode.Equals("") || c.CircleCode.Equals(circleCode)))
+                        .Select(c => new
+                        {
+                            RegionCode = c.CircleCode,
+                            RegionName = c.CircleName
+                        })
+                        .ToList();
+
+
+                    foreach (var region in regions)
+                    {
+                        dtRow = new RegionWiseData
+                        {
+                            Name = region.RegionName,
+                            St = stInfo.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            St11 = st11Info.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            St33 = st33Info.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            Fl = flInfo.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Fl11 = fl11Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Fl33 = fl33Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Pt = ptInfo.FirstOrDefault(pt => pt.RegionCode == region.RegionCode && pt.PtCount > 0)
+                                ?.PtCount,
+                            Dt = dtInfo.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Dt11 = dt11Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Dt33 = dt33Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Pl = plInfo.FirstOrDefault(pl => pl.RegionCode == region.RegionCode && pl.PlCount > 0)
+                                ?.PlCount
+                        };
+
+                        allData.Add(dtRow);
+                    }
+
+                    dtRow = new RegionWiseData
+                    {
+                        Name = "Total",
+                        St = stInfo.Sum(ss => ss.StCount),
+                        St11 = st11Info.Sum(ss => ss.StCount),
+                        St33 = st33Info.Sum(ss => ss.StCount),
+                        Fl = flInfo.Sum(dt => dt.FlCount),
+                        Fl11 = fl11Info.Sum(dt => dt.FlCount),
+                        Fl33 = fl33Info.Sum(dt => dt.FlCount),
+                        Pt = ptInfo.Sum(pt => pt.PtCount),
+                        Dt = dtInfo.Sum(dt => dt.DtCount),
+                        Dt11 = dt11Info.Sum(dt => dt.DtCount),
+                        Dt33 = dt33Info.Sum(dt => dt.DtCount),
+                        Pl = plInfo.Sum(pl => pl.PlCount)
+                    };
+
+                    allData.Add(dtRow);
+
+                    break;
+
+
+                case "snd":
+
+                    stInfo = _dbContext.TblSubstation
+                        .Where(z => circleCode.Equals("") || z.SubstationToLookUpSnD.CircleCode.Equals(circleCode))
+                        .GroupBy(z => z.SnDCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+                    st11Info = _dbContext.TblSubstation
+                        .Where(z => circleCode.Equals("") || z.SubstationToLookUpSnD.CircleCode.Equals(circleCode) &&
+                            z.SubstationType.SubstationTypeName.Contains("/11"))
+                        .GroupBy(z => z.SnDCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+                    st33Info = _dbContext.TblSubstation.Where(z =>
+                            circleCode.Equals("") || z.SubstationToLookUpSnD.CircleCode.Equals(circleCode) &&
+                            z.SubstationType.SubstationTypeName.Contains("/33"))
+                        .GroupBy(z => z.SnDCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    flInfo = _dbContext.TblFeederLine
+                        .Where(z => circleCode.Equals("") ||
+                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode.Equals(
+                                        circleCode))
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+                    fl11Info = _dbContext.TblFeederLine
+                        .Where(z => circleCode.Equals("") ||
+                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode.Equals(
+                                        circleCode) && z.NominalVoltage == 11)
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+                    fl33Info = _dbContext.TblFeederLine
+                        .Where(z => circleCode.Equals("") ||
+                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode.Equals(
+                                        circleCode) && z.NominalVoltage == 33)
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    dtInfo = _dbContext.TblDistributionTransformer
+                        .Where(z => circleCode.Equals("") ||
+                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleCode.Equals(circleCode))
+                        .GroupBy(z =>
+                            z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+                    dt11Info = _dbContext.TblDistributionTransformer
+                        .Where(z => circleCode.Equals("") ||
+                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleCode.Equals(circleCode) && z.DtToFeederLine.NominalVoltage == 11)
+                        .GroupBy(z =>
+                            z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+                    dt33Info = _dbContext.TblDistributionTransformer
+                        .Where(z => circleCode.Equals("") ||
+                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleCode.Equals(circleCode) && z.DtToFeederLine.NominalVoltage == 33)
+                        .GroupBy(z =>
+                            z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    plInfo = _dbContext.TblPole
+                        .Where(z => circleCode.Equals("") ||
+                                    z.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode.Equals(circleCode))
+                        .GroupBy(z => z.PoleToRoute.RouteToSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            PlCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    ptInfo = _dbContext.TblPhasePowerTransformer
+                        .Where(z => circleCode.Equals("") ||
+                                    z.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleCode.Equals(
+                                        circleCode))
+                        .GroupBy(z => z.PhasePowerTransformerToTblSubstation.SnDCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            PtCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    regions = _dbContext.LookUpSnDInfo
+                        .Where(d => (circleCode.Equals("") || d.CircleCode.Equals(circleCode))
+                                    && (snDCode.Equals("") || d.SnDCode.Equals(snDCode)))
+                        .Select(d => new
+                        {
+                            RegionCode = d.SnDCode,
+                            RegionName = d.SnDName
+                        })
+                        .ToList();
+
+
+                    foreach (var region in regions)
+                    {
+                        dtRow = new RegionWiseData
+                        {
+                            Name = region.RegionName,
+                            St = stInfo.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            St11 = st11Info.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            St33 = st33Info.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            Fl = flInfo.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Fl11 = fl11Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Fl33 = fl33Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Pt = ptInfo.FirstOrDefault(pt => pt.RegionCode == region.RegionCode && pt.PtCount > 0)
+                                ?.PtCount,
+                            Dt = dtInfo.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Dt11 = dt11Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Dt33 = dt33Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Pl = plInfo.FirstOrDefault(pl => pl.RegionCode == region.RegionCode && pl.PlCount > 0)
+                                ?.PlCount
+                        };
+
+                        allData.Add(dtRow);
+                    }
+
+                    dtRow = new RegionWiseData
+                    {
+                        Name = "Total",
+                        St = stInfo.Sum(ss => ss.StCount),
+                        St11 = st11Info.Sum(ss => ss.StCount),
+                        St33 = st33Info.Sum(ss => ss.StCount),
+                        Fl = flInfo.Sum(dt => dt.FlCount),
+                        Fl11 = fl11Info.Sum(dt => dt.FlCount),
+                        Fl33 = fl33Info.Sum(dt => dt.FlCount),
+                        Pt = ptInfo.Sum(pt => pt.PtCount),
+                        Dt = dtInfo.Sum(dt => dt.DtCount),
+                        Dt11 = dt11Info.Sum(dt => dt.DtCount),
+                        Dt33 = dt33Info.Sum(dt => dt.DtCount),
+                        Pl = plInfo.Sum(pl => pl.PlCount)
+                    };
+
+                    allData.Add(dtRow);
+
+                    break;
+
+
+                case "substation":
+
+                    stInfo = _dbContext.TblSubstation
+                        .Where(z => snDCode.Equals("") || z.SubstationToLookUpSnD.SnDCode.Equals(snDCode))
+                        .GroupBy(z => z.SubstationId)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+                    st11Info = _dbContext.TblSubstation
+                        .Where(z => snDCode.Equals("") || z.SubstationToLookUpSnD.SnDCode.Equals(snDCode) &&
+                            z.SubstationType.SubstationTypeName.Contains("/11"))
+                        .GroupBy(z => z.SubstationId)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+                    st33Info = _dbContext.TblSubstation.Where(z =>
+                            snDCode.Equals("") || z.SubstationToLookUpSnD.SnDCode.Equals(snDCode) &&
+                            z.SubstationType.SubstationTypeName.Contains("/33"))
+                        .GroupBy(z => z.SubstationId)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    flInfo = _dbContext.TblFeederLine
+                        .Where(z => snDCode.Equals("") ||
+                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode.Equals(snDCode))
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationId)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+                    fl11Info = _dbContext.TblFeederLine
+                        .Where(z => snDCode.Equals("") ||
+                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode
+                                        .Equals(snDCode) && z.NominalVoltage == 11)
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationId)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+                    fl33Info = _dbContext.TblFeederLine
+                        .Where(z => snDCode.Equals("") ||
+                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode
+                                        .Equals(snDCode) && z.NominalVoltage == 33)
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationId)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    dtInfo = _dbContext.TblDistributionTransformer
+                        .Where(z => snDCode.Equals("") || z.DtToFeederLine.FeederLineToRoute.RouteToSubstation
+                            .SubstationToLookUpSnD.SnDCode.Equals(snDCode))
+                        .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationId)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+                    dt11Info = _dbContext.TblDistributionTransformer
+                        .Where(z => snDCode.Equals("") ||
+                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode
+                                        .Equals(snDCode) && z.DtToFeederLine.NominalVoltage == 11)
+                        .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationId)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+                    dt33Info = _dbContext.TblDistributionTransformer
+                        .Where(z => snDCode.Equals("") ||
+                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode
+                                        .Equals(snDCode) && z.DtToFeederLine.NominalVoltage == 33)
+                        .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationId)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    plInfo = _dbContext.TblPole
+                        .Where(z => snDCode.Equals("") ||
+                                    z.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode.Equals(snDCode))
+                        .GroupBy(z => z.PoleToRoute.RouteToSubstation.SubstationId)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            PlCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    ptInfo = _dbContext.TblPhasePowerTransformer
+                        .Where(z => snDCode.Equals("") ||
+                                    z.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.SnDCode
+                                        .Equals(snDCode))
+                        .GroupBy(z => z.PhasePowerTransformerToTblSubstation.SubstationId)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            PtCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    regions = _dbContext.TblSubstation
+                        .Where(s =>
+                            (snDCode.Equals("") || s.SnDCode.Equals(snDCode))
+                            && (substationId.Equals("") || s.SubstationId.Equals(substationId)))
+                        .Select(s => new
+                        {
+                            RegionCode = s.SubstationId,
+                            RegionName = s.SubstationName
+                        })
+                        .ToList();
+
+
+                    foreach (var region in regions)
+                    {
+                        dtRow = new RegionWiseData
+                        {
+                            Name = region.RegionName,
+                            St = stInfo.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            St11 = st11Info.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            St33 = st33Info.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            Fl = flInfo.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Fl11 = fl11Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Fl33 = fl33Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Pt = ptInfo.FirstOrDefault(pt => pt.RegionCode == region.RegionCode && pt.PtCount > 0)
+                                ?.PtCount,
+                            Dt = dtInfo.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Dt11 = dt11Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Dt33 = dt33Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Pl = plInfo.FirstOrDefault(pl => pl.RegionCode == region.RegionCode && pl.PlCount > 0)
+                                ?.PlCount
+                        };
+
+                        allData.Add(dtRow);
+                    }
+
+                    dtRow = new RegionWiseData
+                    {
+                        Name = "Total",
+                        St = stInfo.Sum(ss => ss.StCount),
+                        St11 = st11Info.Sum(ss => ss.StCount),
+                        St33 = st33Info.Sum(ss => ss.StCount),
+                        Fl = flInfo.Sum(dt => dt.FlCount),
+                        Fl11 = fl11Info.Sum(dt => dt.FlCount),
+                        Fl33 = fl33Info.Sum(dt => dt.FlCount),
+                        Pt = ptInfo.Sum(pt => pt.PtCount),
+                        Dt = dtInfo.Sum(dt => dt.DtCount),
+                        Dt11 = dt11Info.Sum(dt => dt.DtCount),
+                        Dt33 = dt33Info.Sum(dt => dt.DtCount),
+                        Pl = plInfo.Sum(pl => pl.PlCount)
+                    };
+
+                    allData.Add(dtRow);
+
+                    break;
+
+
+                default:
+
+                    stInfo = _dbContext.TblSubstation
+                        .Where(z => zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                        .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+                    st11Info = _dbContext.TblSubstation
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode) &&
+                                    z.SubstationType.SubstationTypeName.Contains("/11"))
+                        .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+                    st33Info = _dbContext.TblSubstation.Where(z =>
+                            zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode) &&
+                            z.SubstationType.SubstationTypeName.Contains("/33"))
+                        .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            StCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    flInfo = _dbContext.TblFeederLine
+                        .Where(z => zoneCode.Equals("") || z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                            .CircleInfo.ZoneCode.Equals(zoneCode))
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+                    fl11Info = _dbContext.TblFeederLine
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode
+                                        .Equals(zoneCode) && z.NominalVoltage == 11)
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+                    fl33Info = _dbContext.TblFeederLine
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode
+                                        .Equals(zoneCode) && z.NominalVoltage == 33)
+                        .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            FlCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    dtInfo = _dbContext.TblDistributionTransformer
+                        .Where(z => zoneCode.Equals("") || z.DtToFeederLine.FeederLineToRoute.RouteToSubstation
+                            .SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                        .GroupBy(z =>
+                            z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+                    dt11Info = _dbContext.TblDistributionTransformer
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleInfo.ZoneCode.Equals(zoneCode) && z.DtToFeederLine.NominalVoltage == 11)
+                        .GroupBy(z =>
+                            z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+                    dt33Info = _dbContext.TblDistributionTransformer
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleInfo.ZoneCode.Equals(zoneCode) && z.DtToFeederLine.NominalVoltage == 33)
+                        .GroupBy(z =>
+                            z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
+                                .ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            DtCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    plInfo = _dbContext.TblPole
+                        .Where(z => zoneCode.Equals("") ||
+                                    z.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(
+                                        zoneCode))
+                        .GroupBy(z => z.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            PlCount = k.Count()
+                        })
+                        .ToList();
+
+
+                    ptInfo = _dbContext.TblPhasePowerTransformer
+                        .Where(z => zoneCode.Equals("") || z.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD
+                            .CircleInfo.ZoneCode.Equals(zoneCode))
+                        .GroupBy(z => z.PhasePowerTransformerToTblSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
+                        .Select(k => new
+                        {
+                            RegionCode = k.Key,
+                            PtCount = k.Count()
+                        })
+                        .ToList();
+
+                    regions = _dbContext.LookUpZoneInfo
+                        .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
+                        .Select(z => new
+                        {
+                            RegionCode = z.ZoneCode,
+                            RegionName = z.ZoneName
+                        })
+                        .ToList();
+
+
+                    foreach (var region in regions)
+                    {
+                        dtRow = new RegionWiseData
+                        {
+                            Name = region.RegionName,
+                            St = stInfo.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            St11 = st11Info.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            St33 = st33Info.FirstOrDefault(ss => ss.RegionCode == region.RegionCode && ss.StCount > 0)
+                                ?.StCount,
+                            Fl = flInfo.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Fl11 = fl11Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Fl33 = fl33Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.FlCount > 0)
+                                ?.FlCount,
+                            Pt = ptInfo.FirstOrDefault(pt => pt.RegionCode == region.RegionCode && pt.PtCount > 0)
+                                ?.PtCount,
+                            Dt = dtInfo.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Dt11 = dt11Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Dt33 = dt33Info.FirstOrDefault(dt => dt.RegionCode == region.RegionCode && dt.DtCount > 0)
+                                ?.DtCount,
+                            Pl = plInfo.FirstOrDefault(pl => pl.RegionCode == region.RegionCode && pl.PlCount > 0)
+                                ?.PlCount
+                        };
+
+                        allData.Add(dtRow);
+                    }
+
+                    dtRow = new RegionWiseData
+                    {
+                        Name = "Total",
+                        St = stInfo.Sum(ss => ss.StCount),
+                        St11 = st11Info.Sum(ss => ss.StCount),
+                        St33 = st33Info.Sum(ss => ss.StCount),
+                        Fl = flInfo.Sum(dt => dt.FlCount),
+                        Fl11 = fl11Info.Sum(dt => dt.FlCount),
+                        Fl33 = fl33Info.Sum(dt => dt.FlCount),
+                        Pt = ptInfo.Sum(pt => pt.PtCount),
+                        Dt = dtInfo.Sum(dt => dt.DtCount),
+                        Dt11 = dt11Info.Sum(dt => dt.DtCount),
+                        Dt33 = dt33Info.Sum(dt => dt.DtCount),
+                        Pl = plInfo.Sum(pl => pl.PlCount)
+                    };
+
+                    allData.Add(dtRow);
+
+                    break;
             }
 
 
-            ViewBag.SummaryData = aData;
-
-            return View(aData);
+            return allData;
+            //return Json(allData);
         }
 
 
 
-        public IActionResult Privacy()
+
+        [HttpPost]
+        public JsonResult GetBasicData(string regionLevel = "zone", List<string> regionList = null)
         {
-            return View();
+            return Json(GetDashboardData(regionLevel, regionList));
         }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

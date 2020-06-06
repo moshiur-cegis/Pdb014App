@@ -353,8 +353,8 @@
                 type: 'POST',
                 url: url,
                 dataType: "json",
-                data: { "regionLevel": regionLevel, "regionList": regionList },
-                //data: JSON.stringify({ "regionLevel": regionLevel, "regionList": regionList }),
+                data: { regionLevel: regionLevel, regionList: regionList },
+                //data: JSON.stringify({ regionLevel: regionLevel, regionList: regionList }),
                 before: $("#busy-indicator").fadeIn(150),
                 success: function(data) {
                     if (data && data.length > 0) {
