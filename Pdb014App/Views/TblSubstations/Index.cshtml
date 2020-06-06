@@ -99,175 +99,238 @@
 
 }
 
-<div class="container">
-    <h2>List of Substation</h2>
-    <hr>
 
-    <p>
-       <a asp-action="Create" class="btn btn-success">Add New Substation</a>
-    </p>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="float-md-right">
-                <form method="get" class="form-inline">
-                    <input name="filter" class="form-control" placeholder="filter"
-                           value="@Model.RouteValue["Filter"]" />
 
-                    <input name="cai" class="form-control" placeholder="cai"
-                           value="@Model.RouteValue["cai"]" type="hidden" />
+<div class="row">
+    <div class="col-12">
+        <h2>List of Substation</h2>
+        <hr>
 
-                    <button type="submit" class="btn btn-info">
-                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                    </button>
-                </form>
-            </div>
+        <p>
+            <a asp-action="Create" class="btn btn-success">Add New Substation</a>
+        </p>
+        <div class="float-md-right">
+            <form method="get" class="form-inline">
+                <input name="filter" class="form-control" placeholder="filter"
+                       value="@Model.RouteValue["Filter"]" />
+
+                <input name="cai" class="form-control" placeholder="cai"
+                       value="@Model.RouteValue["cai"]" type="hidden" />
+
+                <button type="submit" class="btn btn-info">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+            </form>
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-view" id="updatePanel">
-                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
-                    <table id="multi-form-view" class="table table-responsive multi-form-view">
-                        <thead>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-view" id="updatePanel">
+            @if (TempData["statuMessageSuccess"] != null)
+            {
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    @TempData["statuMessageSuccess"]
+                </div>
+            }
+            <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                <table id="multi-form-view" class="table table-responsive multi-form-view">
+                    <thead>
+                        <tr>
+
+
+                            <th>
+                                Action
+                            </th>
+                            <th>
+                                Substation Components
+                            </th>
+
+
+                            <th>
+
+                                Substation Type
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SubstationName)
+
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SubstationToLookUpSnD.CircleInfo.CircleName)
+
+                            </th>
+                            <th>
+
+                                S&D Code
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NominalVoltage)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.InstalledCapacity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MaximumDemand)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PeakLoad)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Location)
+                            </th>
+                            @*<th>
+                                    @Html.DisplayNameFor(model => model.AreaOfSubstation)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Latitude)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Longitude)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.YearOfComissioning)
+                                </th>*@
+                            @*<th>Action</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
                             <tr>
 
-                                @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
-                                {
-                                    <th>
-                                        Action
-                                    </th>
-                                }
-                                <th>
-                                    Substation Id
-                                </th>
-
-                                <th>
-
-                                    Substation Type
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.SubstationName)
-
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
-
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.SubstationToLookUpSnD.CircleInfo.CircleName)
-
-                                </th>
-                                <th>
-
-                                    S&D Code
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.NominalVoltage)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.InstalledCapacity)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.MaximumDemand)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.PeakLoad)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Location)
-                                </th>
-                                @*<th>
-                                        @Html.DisplayNameFor(model => model.AreaOfSubstation)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Latitude)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Longitude)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.YearOfComissioning)
-                                    </th>*@
-                                @*<th>Action</th>*@
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
-                                    {
-                                        <td>
-                                            @*@Html.DisplayFor(modelItem => item.SubstationId)*@
-                                            <a asp-action="Delete" asp-route-id="@item.SubstationId" class="btn btn-success" data-toggle="tooltip" asp-route-cai="@Model.RouteValue["cai"]" data-placement="top" title="Delete">Delete</a>
-                                        </td>
-                                    }
-                                    <td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a asp-action="Edit" asp-route-id="@item.SubstationId" class="btn btn-success" data-toggle="tooltip" asp-route-cai="@Model.RouteValue["cai"]" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.SubstationId) Edit</a>
                                         @*@Html.DisplayFor(modelItem => item.SubstationId)*@
-                                        <a asp-action="Edit" asp-route-id="@item.SubstationId" class="text-success hover-dark" data-toggle="tooltip" asp-route-cai="@Model.RouteValue["cai"]" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.SubstationId)</a>
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SubstationType.SubstationTypeName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SubstationName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+                                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@item.SubstationId" class="btn btn-success" data-toggle="tooltip" asp-route-cai="@Model.RouteValue["cai"]" data-placement="top" title="Delete">Delete</a>
+                                        }
+                                    </div>
+                                </td>
+                                <td>
+                                    <a class="btn btn-info" href="#" onclick="show_components(@item.SubstationId); return false;">Components</a>
+                                </td>
 
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.CircleInfo.CircleName)
+                                <td>
+                                    @*@Html.DisplayFor(modelItem => item.SubstationId)*@
 
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubstationType.SubstationTypeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubstationName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneName)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.CircleInfo.CircleName)
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.SnDName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NominalVoltage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InstalledCapacity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MaximumDemand)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PeakLoad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Location)
+                                </td>
+                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.AreaOfSubstation)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.SubstationToLookUpSnD.SnDName)
+                                        @Html.DisplayFor(modelItem => item.Latitude)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.NominalVoltage)
+                                        @Html.DisplayFor(modelItem => item.Longitude)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.InstalledCapacity)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.MaximumDemand)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PeakLoad)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Location)
-                                    </td>
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.AreaOfSubstation)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Latitude)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Longitude)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.YearOfComissioning)
-                                        </td>*@
-                                    @*<td>
-                                            <a asp-action="Edit" asp-route-id="@item.SubstationId">Edit</a>
-                                            <a asp-action="Details" asp-route-id="@item.SubstationId">Details</a> |
-                                            <a asp-action="Delete" asp-route-id="@item.SubstationId">Delete</a>
-                                        </td>*@
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                        @Html.DisplayFor(modelItem => item.YearOfComissioning)
+                                    </td>*@
+                                @*<td>
+                                        <a asp-action="Edit" asp-route-id="@item.SubstationId">Edit</a>
+                                        <a asp-action="Details" asp-route-id="@item.SubstationId">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.SubstationId">Delete</a>
+                                    </td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
 
-                </div>
             </div>
         </div>
     </div>
 </div>
+
 <div style="text-align: center;">
     <vc:pager paging-list="@Model" />
 </div>
+
+@section Scripts {
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/js/autocomplete.extend.js"></script>
+
+    <script type="text/javascript">
+
+         function show_components(substationId) {
+             if (!substationId)
+                 return false;
+
+             var isShowAction = 1; //By RMO
+
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("Components", "Tblsubstations")',
+                dataType: "html",
+                data: { substationId: substationId, isShowLayout: 0, isShowAction: isShowAction },
+                before: $("#busy-indicator").fadeIn(150),
+            })
+                .done(function (compInfo) {
+                    modal.init("Components Information", compInfo, true, false);
+                })
+                .fail(function (ex) {
+                    modal.init("Components Information", "...", false, false);
+                    msg.init("error", "Error... . . !", "Failed to load components information. " + ex.error);
+                }).always(function () {
+                    $("#busy-indicator").fadeOut(150);
+                });
+
+            return false;
+        }
+
+
+        //$(function () {
+
+        //    $(".field-name").on("change",
+        //        function () {
+
+        //            console.log($(this))
+        //            setAutocomplete($(this));
+        //            return false;
+        //        }).trigger("change");
+
+        //    });
+
+    </script>
+}

@@ -24,10 +24,10 @@ namespace Pdb014App.Controllers
         
         //private readonly UserDbContext _dbContextUser;
 
-        //public AutoCompleteController(PdbDbContext context, UserDbContext contextUser)
+        //public AutoCompleteController(PdbDbContext context, UserDbContext _contextUser)
         //{
         //    _dbContext = context;
-        //    _dbContextUser = contextUser;
+        //    _dbContextUser = _contextUser;
         //}
 
         [HttpGet("search/{fieldInfo}")]

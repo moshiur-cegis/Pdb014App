@@ -26,6 +26,23 @@ namespace Pdb014App.Controllers.SubstationControllers
             return View(await pdbDbContext.ToListAsync());
         }
 
+
+        public async Task<IActionResult> BatteryChargerList(string substationId, int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+            var batteryChargerList = _context.LookUpBatteryCharger.Include(l => l.BatteryChargerToSubstation).AsNoTracking();
+
+
+            if (substationId != null)
+            {
+                batteryChargerList = batteryChargerList.Where(p => p.SubstationId == substationId);
+            }
+
+            return View(await batteryChargerList.ToListAsync());
+        }
+
         // GET: LookUpBatteryChargers/Details/5
         public async Task<IActionResult> Details(int? id)
         {

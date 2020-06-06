@@ -1,0 +1,239 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SubstationModels.TblOutDoorTypeVacumnCircuitBreaker>
+
+@using Pdb014App.Models.UserManage;
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<TblUserRegistrationDetail> SignInManager
+@inject UserManager<TblUserRegistrationDetail> UserManager
+
+@{
+
+
+    var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1);
+    var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1);
+
+
+    ViewData["Title"] = "Out Door Type Vacumn Circuit Breaker List";
+    Layout = isShowLayout ? "~/Views/Shared/_Layout.cshtml" : null;
+}
+
+
+@section Styles {
+
+    <link href="~/css/datastyle.css" rel="stylesheet" />
+
+
+}
+<h3>@ViewData["Title"]</h3>
+<hr>
+
+<table id="multi-form-view" class="table table-responsive multi-form-view">
+    <thead>
+        <tr>
+            <th>
+
+                Vacumn Circuit Breaker Id
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.OutDoorTypeVacumnCircuitBreakerIdToSubstation)*@
+                Substation
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersNameCountry)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersModelNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaximumRatedVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Frequency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedNormalCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfPhase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfBreakPerPhrase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InterruptingMedium)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImpulseWithstandOn1250MsWave)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PowerFrequencyTestVoltageDryAt50Hz1Min)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortTimeWithstandCurrent3SecondRms)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SymmetricalRms)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AsymmetricalRms)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortCircuitMakingCurrentPeak)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TripCoilCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TripCoilVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BreakingTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClosingTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedVoltageofSpringWindingMotorforClosing)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpringWindingMotorCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClosingReleaseCoilCurrent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClosingReleaseCoilVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfTrippingCoil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CircuitBreakerTerminalConnectors)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PressureInVacuumTubeforVCB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AtRatedCurrentSwitching)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AtShortCircuitCurrentSwitching)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedOperatingSequence)
+            </th>
+            @*<th>Action</th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.OutDoorTypeVacumnCircuitBreakerId)*@
+                    <a asp-action="Edit" asp-route-id="@item.VacumnCircuitBreakerId" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Edit">@Html.DisplayFor(modelItem => item.VacumnCircuitBreakerId)</a>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.OutDoorTypeVacumnCircuitBreakerIdToSubstation.SubstationId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManufacturersNameCountry)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManufacturersModelNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaximumRatedVoltage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Frequency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatedNormalCurrent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfPhase)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfBreakPerPhrase)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InterruptingMedium)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImpulseWithstandOn1250MsWave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PowerFrequencyTestVoltageDryAt50Hz1Min)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortTimeWithstandCurrent3SecondRms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SymmetricalRms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AsymmetricalRms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortCircuitMakingCurrentPeak)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TripCoilCurrent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TripCoilVoltage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OpeningTimeWithoutCurrentAt100OfRatedBreakingcurrent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BreakingTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosingTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatedVoltageofSpringWindingMotorforClosing)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpringWindingMotorCurrent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosingReleaseCoilCurrent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosingReleaseCoilVoltage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfTrippingCoil)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CircuitBreakerTerminalConnectors)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PressureInVacuumTubeforVCB)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AtRatedCurrentSwitching)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AtShortCircuitCurrentSwitching)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatedOperatingSequence)
+                </td>
+                @*<td>
+                                            <a asp-action="Edit" asp-route-id="@item.OutDoorTypeVacumnCircuitBreakerId">Edit</a>
+                                            <a asp-action="Details" asp-route-id="@item.OutDoorTypeVacumnCircuitBreakerId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.OutDoorTypeVacumnCircuitBreakerId">Delete</a>
+                                        </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+

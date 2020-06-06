@@ -22,6 +22,8 @@ namespace Pdb014App.Controllers.SubstationControllers
         }
 
         // GET: TblOutDoorTypeVacumnCircuitBreakers
+
+
         public async Task<IActionResult> Index(string filter, int pageIndex = 1, string sortExpression = "VacumnCircuitBreakerId")
         {
             var qry = _context.TblOutDoorTypeVacumnCircuitBreaker.Include(t => t.OutDoorTypeVacumnCircuitBreakerIdToSubstation).AsQueryable();
@@ -38,6 +40,24 @@ namespace Pdb014App.Controllers.SubstationControllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> OutDoorTypeVacumnCircuitBreakersList(string substationId, int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+            var vacumnCircuitBreakersList = _context.TblOutDoorTypeVacumnCircuitBreaker.Include(t => t.OutDoorTypeVacumnCircuitBreakerIdToSubstation).AsNoTracking();
+
+
+            if (substationId != null)
+            {
+                vacumnCircuitBreakersList = vacumnCircuitBreakersList.Where(p => p.SubstationId == substationId);
+            }
+
+            return View(await vacumnCircuitBreakersList.ToListAsync());
+        }
+
+
 
         // GET: TblOutDoorTypeVacumnCircuitBreakers/Details/5
         public async Task<IActionResult> Details(string id)

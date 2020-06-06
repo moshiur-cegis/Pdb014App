@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Pdb014App.Controllers.UserController;
 using Pdb014App.Models.PDB;
 using Pdb014App.Models.UserManage;
 using Pdb014App.Models.UserManage.SetRole;
@@ -22,16 +23,18 @@ namespace Pdb014App.Controllers.PoleControllers
     //[Authorize]
     public class TblPolesController : Controller
     {
-        private readonly UserManager<TblUserRegistrationDetail> UserManager;
-        private readonly UserDbContext contextUser;
-        private readonly PdbDbContext _context;
+        private readonly UserManager<TblUserRegistrationDetail> _userManger;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserDbContext _contextUser;
 
+
+        private readonly PdbDbContext _context;
 
         public TblPolesController(PdbDbContext context, UserDbContext contextUser, UserManager<TblUserRegistrationDetail> UserManager)
         {
             _context = context;
-            this.contextUser = contextUser;
-            this.UserManager = UserManager;
+            _contextUser = contextUser;
+            _userManger = UserManager;
         }
 
         // GET: TblPoles1
@@ -39,7 +42,6 @@ namespace Pdb014App.Controllers.PoleControllers
         //public async Task<IActionResult> Index([FromQuery] string cai, string poleId, string condition, string feederLineName, int pageIndex = 1, string sortExpression = "PoleId")
         public async Task<IActionResult> Index([FromQuery] string cai, string fieldName, string fieldValue, int pageIndex = 1, string sortExpression = "PoleId")
         {
-            //ViewBag.SearchParameters = new List<List<string>>(3);
 
             var fields = new List<SelectListItem>
             {
@@ -65,33 +67,16 @@ namespace Pdb014App.Controllers.PoleControllers
                 //new SelectListItem {Value = "plt.SurveyDate", Text = "Survey Date"}
             };
 
-            //var operators = new List<SelectListItem>
-            //{
-            //    new SelectListItem {Value = "=", Text = "="},
-            //    new SelectListItem {Value = "!=", Text = "!="},
-            //    new SelectListItem {Value = ">", Text = ">"},
-            //    new SelectListItem {Value = "<", Text = "<"},
-            //    new SelectListItem {Value = ">=", Text = ">="},
-            //    new SelectListItem {Value = "<=", Text = "<="},
-            //    new SelectListItem {Value = "null", Text = "Is Null"},
-            //    new SelectListItem {Value = "not null", Text = "Is Not Null"},
-            //    new SelectListItem {Value = "Like", Text = "Like"}
-            //};
-
-
 
             var fieldList = new SelectList(fields, "Value", "Text");
-            //var operatorList = new SelectList(operators, "Value", "Text");
-
-
-            //ViewData["FieldList"] = fieldList;
-
             ViewBag.FieldList = fieldList;
-            //ViewBag.OperatorList = operatorList;
 
-            string getSql = await GetQuery("TblPole", "PoleId");
+            //string getSql = await GetQuery("TblPole", "PoleId");
+            var user = await _userManger.GetUserAsync(User);
+            IList<string> userRole = await _userManger.GetRolesAsync(user);
+            string getSql = await new GetUserDetailsController(_contextUser).GetUserRoleWiseQuery("TblPole", "PoleId", user.Id, userRole);
 
-            //string getSql = await new GetUserRoleData(contextUser, UserManager).GetQuery("TblPole", "PoleId");
+            //string getSql = await new GetUserRoleData(_contextUser, _userManger).GetQuery("TblPole", "PoleId");
 
             var query = _context.TblPole.FromSqlRaw(getSql).Include(i => i.PoleType).Include(i => i.PoleToRoute).Include(i => i.PoleToFeederLine).Include(i => i.PoleCondition).Include(i => i.LookUpLineType).Include(i => i.LookUpTypeOfWire).Include(i => i.WireLookUpCondition).Include(i => i.PhaseACondition).Include(i => i.PhaseBCondition).Include(i => i.PhaseCCondition).AsQueryable();
 
@@ -100,7 +85,7 @@ namespace Pdb014App.Controllers.PoleControllers
             //Expression<Func<TblPole, bool>> searchExp = null;
             //Expression<Func<TblPole, bool>> tempExp = null;
 
-            //var user = await UserManager.GetUserAsync(User);
+            //var user = await _userManger.GetUserAsync(User);
 
             //if (User.IsInRole("System Administrator"))
             //{
@@ -109,27 +94,27 @@ namespace Pdb014App.Controllers.PoleControllers
 
             //else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
             //{
-            //    //var user = await UserManager.GetUserAsync(User);
-            //    string zoneCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
+            //    //var user = await _userManger.GetUserAsync(User);
+            //    string zoneCode = _contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
             //    searchExp = i => i.PoleId.Substring(0, 1).Contains(zoneCode);
             //}
             //else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
             //{
-            //    //var user = await UserManager.GetUserAsync(User);
-            //    string circleCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
+            //    //var user = await _userManger.GetUserAsync(User);
+            //    string circleCode = _contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
             //    searchExp = i => i.PoleId.Substring(0, 3).Contains(circleCode);
             //}
             //else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
             //{
-            //    //var user = await UserManager.GetUserAsync(User);
-            //    string sndCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
+            //    //var user = await _userManger.GetUserAsync(User);
+            //    string sndCode = _contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
             //    searchExp = i => i.PoleId.Substring(0, 5).Contains(sndCode);
 
             //}
             //else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
             //{
-            //    //var user = await UserManager.GetUserAsync(User);
-            //    string SubstationId = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
+            //    //var user = await _userManger.GetUserAsync(User);
+            //    string SubstationId = _contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
             //    searchExp = i => i.PoleId.Substring(0, 7).Contains(SubstationId);
 
             //}
@@ -162,18 +147,6 @@ namespace Pdb014App.Controllers.PoleControllers
 
             }
 
-            //if (poleId != null || feederLineName != null)
-            //{
-            //    if (condition == "or")
-            //    {
-            //        query = query.Where(p => p.PoleId.Contains(poleId) || p.PoleToFeederLine.FeederName.Contains(feederLineName));
-            //    }
-            //    else
-            //    {
-            //        query = query.Where(p => p.PoleId.Contains(poleId) && p.PoleToFeederLine.FeederName.Contains(feederLineName));
-            //    }
-
-            //}
 
             var model = await PagingList.CreateAsync(query, 10, pageIndex, sortExpression, "PoleId");
             //model.RouteValue = new RouteValueDictionary { { "cai", cai }, { "FeederLineName", feederLineName }, { "Condition", condition }, { "PoleId", poleId } };
@@ -195,53 +168,53 @@ namespace Pdb014App.Controllers.PoleControllers
         }
 
 
-        public async Task<string> GetQuery(string tableName, string fieldName)
-        {
-            var user = await UserManager.GetUserAsync(User);
+        //public async Task<string> GetQuery(string tableName, string fieldName)
+        //{
+        //    var user = await UserManager.GetUserAsync(User);
 
 
-            var sql = "";
+        //    var sql = "";
 
-            if (User.IsInRole("System Administrator"))
-            {
-                sql = $"Select * from  {tableName}";
-            }
+        //    if (User.IsInRole("System Administrator"))
+        //    {
+        //        sql = $"Select * from  {tableName}";
+        //    }
 
 
-            else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string zoneCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,1)={zoneCode}";
+        //    else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
+        //    {
+        //        //var user = await _userManger.GetUserAsync(User);
+        //        string zoneCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
+        //        sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,1)={zoneCode}";
 
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string circleCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,3)={circleCode}";
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string sndCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,5)={sndCode}";
+        //    }
+        //    else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
+        //    {
+        //        //var user = await _userManger.GetUserAsync(User);
+        //        string circleCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
+        //        sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,3)={circleCode}";
+        //    }
+        //    else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
+        //    {
+        //        //var user = await _userManger.GetUserAsync(User);
+        //        string sndCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
+        //        sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,5)={sndCode}";
 
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string SubstationId = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,7)={SubstationId}";
+        //    }
+        //    else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
+        //    {
+        //        //var user = await _userManger.GetUserAsync(User);
+        //        string SubstationId = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
+        //        sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,7)={SubstationId}";
 
-            }
-            else
-            {
-                return null;
-            }
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
 
-            return sql;
-        }
+        //    return sql;
+        //}
 
 
         // GET: TblPoles1/Details/5

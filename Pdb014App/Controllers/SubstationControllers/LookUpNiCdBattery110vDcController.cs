@@ -26,6 +26,23 @@ namespace Pdb014App.Controllers.SubstationControllers
             return View(await pdbDbContext.ToListAsync());
         }
 
+
+        public async Task<IActionResult> NiCdBattery110vDcList(string substationId, int isShowLayout = 0, int isShowAction = 0)
+        {
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+
+            var niCdBattery110vDcList = _context.LookUpNiCdBattery110vDc.Include(l => l.NiCdBattery110VDcToSubstation).AsNoTracking();
+
+
+            if (substationId != null)
+            {
+                niCdBattery110vDcList = niCdBattery110vDcList.Where(p => p.SubstationId == substationId);
+            }
+
+            return View(await niCdBattery110vDcList.ToListAsync());
+        }
+
         // GET: LookUpNiCdBattery110vDc/Details/5
         public async Task<IActionResult> Details(int? id)
         {

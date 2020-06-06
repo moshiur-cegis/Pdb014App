@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Pdb014App.Controllers.PoleControllers;
+using Pdb014App.Controllers.UserController;
 using Pdb014App.Models.PDB;
 using Pdb014App.Models.PDB.SubstationModels;
 using Pdb014App.Models.UserManage;
@@ -25,8 +26,9 @@ namespace Pdb014App.Controllers.SubstationControllers
     public class TblSubstationsController : Controller
     {
        
-        private readonly UserManager<TblUserRegistrationDetail> UserManager;
-        private readonly UserDbContext contextUser;
+        private readonly UserManager<TblUserRegistrationDetail> _userManger;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserDbContext _contextUser;
 
 
         private readonly PdbDbContext _context;
@@ -34,8 +36,8 @@ namespace Pdb014App.Controllers.SubstationControllers
         public TblSubstationsController(PdbDbContext context, UserDbContext contextUser, UserManager<TblUserRegistrationDetail> UserManager)
         {
             _context = context;            
-            this.contextUser = contextUser;
-            this.UserManager = UserManager;
+            _contextUser = contextUser;
+            _userManger = UserManager;
         }
 
         // GET: TblSubstations
@@ -44,10 +46,9 @@ namespace Pdb014App.Controllers.SubstationControllers
         [Authorize(Roles = "System Administrator,Super User,Zone,Circle,SnD,Substation")]
         public async Task<IActionResult> Index([FromQuery] string cai, string filter, int pageIndex = 1, string sortExpression = "SubstationId")
         {
-
-            string getSql = await GetQuery("TblSubstation", "SubstationId");
-
-            //string getSql = await new TblPolesController().GetQuery("TblSubstation", "SubstationId");
+            var user = await _userManger.GetUserAsync(User);
+            IList<string> userRole = await _userManger.GetRolesAsync(user);
+            string getSql = await new GetUserDetailsController(_contextUser).GetUserRoleWiseQuery("TblSubstation", "SubstationId", user.Id,userRole);
 
             var query = _context.TblSubstation.FromSqlRaw(getSql)
                 .Include(st => st.SubstationType)
@@ -74,51 +75,15 @@ namespace Pdb014App.Controllers.SubstationControllers
             return View(model);
         }
 
+     
 
-        public async Task<string> GetQuery(string tableName, string fieldName)
+        public IActionResult Components(string substationId, int isShowLayout = 0, int isShowAction = 0)
         {
-            var user = await UserManager.GetUserAsync(User);
-
-            var sql = "";
-
-            if (User.IsInRole("System Administrator"))
-            {
-                sql = $"Select * from  {tableName}";
-            }
-
-            else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string zoneCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,1)={zoneCode}";
-
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string circleCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,3)={circleCode}";
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string sndCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,5)={sndCode}";
-
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string SubstationId = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,7)={SubstationId}";
-
-            }
-            else
-            {
-                return null;
-            }
-
-            return sql;
+            ViewBag.SubstationId = substationId;
+            ViewBag.IsShowLayout = isShowLayout;
+            ViewBag.IsShowAction = isShowAction;
+            return View("Components");
+            //return View("Pole");
         }
 
 
