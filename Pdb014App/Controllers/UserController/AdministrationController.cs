@@ -153,7 +153,7 @@ namespace Pdb014App.Controllers.UserController
                 return View("NotFound");
             }
 
-            // UserManager service GetClaimsAsync method gets all the current claims of the user
+            // _userManger service GetClaimsAsync method gets all the current claims of the user
             var existingUserClaims = await userManager.GetClaimsAsync(user);
 
             var model = new UserClaimsViewModel

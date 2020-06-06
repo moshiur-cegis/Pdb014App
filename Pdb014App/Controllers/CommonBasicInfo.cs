@@ -4,10 +4,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Pdb014App.Models.UserManage;
+
 using Pdb014App.Repository;
 
 
@@ -18,129 +17,114 @@ namespace Pdb014App.Controllers
     public class CommonBasicInfo : Controller
     {
         private readonly PdbDbContext _dbContext;
-        private readonly UserDbContext _dbContextUser;
-        private readonly UserManager<TblUserRegistrationDetail> _userManager;
-
 
         public CommonBasicInfo(PdbDbContext context)
         {
             _dbContext = context;
         }
 
-        public CommonBasicInfo(PdbDbContext context, UserDbContext contextUser)
-        {
-            _dbContext = context;
-            _dbContextUser = contextUser;
-        }
-
-        public CommonBasicInfo(PdbDbContext context, UserDbContext contextUser, UserManager<TblUserRegistrationDetail> userManager)
-        {
-            _dbContext = context;
-            _dbContextUser = contextUser;
-            _userManager = userManager;
-        }
-
         
-        public string GetUserRoleWiseQuery(string userId, string tableName, string queryFieldName)
-        {
-            //var user = await UserManager.GetUserAsync(User);
+        /*
+                public string GetUserRoleWiseQuery(string userId, string tableName, string queryFieldName)
+                {
+                    //var user = await _userManger.GetUserAsync(User);
 
-            string sql = "";
+                    string sql = "";
 
-            if (User.IsInRole("System Administrator"))
-            {
-                sql = $"Select * from  {tableName}";
-            }
-
-
-            else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string zoneCode = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.ZoneCode).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({queryFieldName}, 1, 1) = {zoneCode}";
-
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string circleCode = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.CircleCode).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({queryFieldName}, 1, 3) = {circleCode}";
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string sndCode = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.SnDCode).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({queryFieldName}, 1, 5) = {sndCode}";
-
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string substationId = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.SubstationId).SingleOrDefault();
-                sql = $"Select * from {tableName} where SUBSTRING({queryFieldName}, 1, 7) = {substationId}";
-
-            }
-            else
-            {
-                return null;
-            }
-
-            return sql;
-        }
-
-        public string GetUserRoleWiseQuery(string userId, string tableName, string queryFieldName, List<string> fieldList)
-        {
-            //var user = await UserManager.GetUserAsync(User);
-
-            string sql = "";
-            //fieldList == fieldList.RemoveAll(string.IsNullOrEmpty);
-            string fields = fieldList == null
-                ? "*"
-                : string.Join(",", fieldList.RemoveAll(string.IsNullOrEmpty));
-
-            fields = fields.Remove(',').Equals("") ? "*" : fields;
-
-            if (User.IsInRole("System Administrator"))
-            {
-                sql = $"SELECT {fields} FROM {tableName}";
-            }
+                    if (User.IsInRole("System Administrator"))
+                    {
+                        sql = $"Select * from  {tableName}";
+                    }
 
 
-            else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string zoneCode = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.ZoneCode).SingleOrDefault();
-                sql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 1) = {zoneCode}";
+                    else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
+                    {
+                        //var user = await _userManger.GetUserAsync(User);
+                        string zoneCode = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.ZoneCode).SingleOrDefault();
+                        sql = $"Select * from  {tableName} where SUBSTRING({queryFieldName}, 1, 1) = {zoneCode}";
 
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string circleCode = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.CircleCode).SingleOrDefault();
-                sql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 3) = {circleCode}";
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string sndCode = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.SnDCode).SingleOrDefault();
-                sql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 5) = {sndCode}";
+                    }
+                    else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
+                    {
+                        //var user = await _userManger.GetUserAsync(User);
+                        string circleCode = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.CircleCode).SingleOrDefault();
+                        sql = $"Select * from  {tableName} where SUBSTRING({queryFieldName}, 1, 3) = {circleCode}";
+                    }
+                    else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
+                    {
+                        //var user = await _userManger.GetUserAsync(User);
+                        string sndCode = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.SnDCode).SingleOrDefault();
+                        sql = $"Select * from  {tableName} where SUBSTRING({queryFieldName}, 1, 5) = {sndCode}";
 
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string substationId = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.SubstationId).SingleOrDefault();
-                sql = $"Select * from {tableName} where SUBSTRING({queryFieldName}, 1, 7) = {substationId}";
-            }
-            else
-            {
-                return null;
-            }
+                    }
+                    else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
+                    {
+                        //var user = await _userManger.GetUserAsync(User);
+                        string substationId = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.SubstationId).SingleOrDefault();
+                        sql = $"Select * from {tableName} where SUBSTRING({queryFieldName}, 1, 7) = {substationId}";
 
-            return sql;
-        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                    return sql;
+                }
+
+                public string GetUserRoleWiseQuery(string userId, string tableName, string queryFieldName, List<string> fieldList)
+                {
+                    //var user = await _userManger.GetUserAsync(User);
+
+                    string sql = "";
+                    //fieldList == fieldList.RemoveAll(string.IsNullOrEmpty);
+                    string fields = fieldList == null
+                        ? "*"
+                        : string.Join(",", fieldList.RemoveAll(string.IsNullOrEmpty));
+
+                    fields = fields.Remove(',').Equals("") ? "*" : fields;
+
+                    if (User.IsInRole("System Administrator"))
+                    {
+                        sql = $"SELECT {fields} FROM {tableName}";
+                    }
 
 
+                    else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
+                    {
+                        //var user = await _userManger.GetUserAsync(User);
+                        string zoneCode = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.ZoneCode).SingleOrDefault();
+                        sql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 1) = {zoneCode}";
+
+                    }
+                    else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
+                    {
+                        //var user = await _userManger.GetUserAsync(User);
+                        string circleCode = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.CircleCode).SingleOrDefault();
+                        sql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 3) = {circleCode}";
+                    }
+                    else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
+                    {
+                        //var user = await _userManger.GetUserAsync(User);
+                        string sndCode = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.SnDCode).SingleOrDefault();
+                        sql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 5) = {sndCode}";
+
+                    }
+                    else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
+                    {
+                        //var user = await _userManger.GetUserAsync(User);
+                        string substationId = _dbContextUser.UserProfileDetail.Where(u => u.Id == userId).Select(u => u.SubstationId).SingleOrDefault();
+                        sql = $"Select * from {tableName} where SUBSTRING({queryFieldName}, 1, 7) = {substationId}";
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                    return sql;
+                }
+
+        */
 
         public string GetUserRoleWiseQueryX(string userRole, string regionCode, string tableName, string queryFieldName, List<string> fieldList)
         {
@@ -325,7 +309,7 @@ namespace Pdb014App.Controllers
             if (string.IsNullOrEmpty(fieldInfo))
                 return Ok(null);
 
-            string fieldName, tableName = "";
+            string fieldName, tableName="";
             if (fieldInfo.Contains('.'))
             {
                 fieldName = fieldInfo.Split('.').Length > 2 ? fieldInfo.Split('.')[2] : fieldInfo.Split('.')[1];
@@ -369,7 +353,7 @@ namespace Pdb014App.Controllers
             if (string.IsNullOrEmpty(fieldInfo))
                 return Ok(null);
 
-            string fieldName, tableName = "";
+            string fieldName, tableName="";
             if (fieldInfo.Contains('.'))
             {
                 fieldName = fieldInfo.Split('.').Length > 2 ? fieldInfo.Split('.')[2] : fieldInfo.Split('.')[1];

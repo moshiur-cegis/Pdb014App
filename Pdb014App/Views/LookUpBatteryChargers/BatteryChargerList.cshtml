@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SubstationModels.LookUpBatteryCharger>
+
+@using Pdb014App.Models.UserManage;
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<TblUserRegistrationDetail> SignInManager
+@inject UserManager<TblUserRegistrationDetail> UserManager
+
+@{
+
+    var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1);
+    var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1);
+
+
+    ViewData["Title"] = "Battery Charger List";
+    Layout = isShowLayout ? "~/Views/Shared/_Layout.cshtml" : null;
+}
+
+
+<h3>@ViewData["Title"]</h3>
+<hr>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.BatteryChargerId)*@
+                Battery Charger Id
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.BatteryChargerToSubstation)*@
+                Substation
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersNameAndCompany)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersModelNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedInputVoltageRange)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedFrequency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfPhase)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.NominalOutputVoltage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ChargingOperatingControl)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OutputCurrent)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ContinuousCurrentRating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Efficiency)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VoltageRegulation)
+                </th>*@
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BatteryChargerId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BatteryChargerToSubstation.SubstationId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManufacturersNameAndCompany)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManufacturersModelNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatedInputVoltageRange)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RatedFrequency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfPhase)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.NominalOutputVoltage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ChargingOperatingControl)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OutputCurrent)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContinuousCurrentRating)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Efficiency)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VoltageRegulation)
+                    </td>*@
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.BatteryChargerId">Edit</a>
+                    @*<a asp-action="Details" asp-route-id="@item.BatteryChargerId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.BatteryChargerId">Delete</a>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

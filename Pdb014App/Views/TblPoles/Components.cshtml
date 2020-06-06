@@ -1,10 +1,11 @@
 ﻿@{
     var poleId = ViewBag.PoleId;
-    var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1);
-    var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1);
 
-    //ViewData["Title"] = "Components of the Sub-station";
-    Layout = isShowLayout ? "~/Views/Shared/_Layout.cshtml" : null;
+    var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1) ? 1 : 0;
+    var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1) ? 1 : 0;
+
+    Layout = isShowLayout == 1 ? "~/Views/Shared/_Layout.cshtml" : null;
+
 
 }
 
@@ -51,6 +52,7 @@
             <a class="nav-link" data-toggle="tab" href="#comp4">Distribution Transformer</a>
         </li>
     </ul>
+
 
     <!-- Tab panes -->
     <div class="tab-content">
@@ -104,15 +106,11 @@
 
 <script type="text/javascript">
 
-    @*var poleId = "@poleId",
-        isShowLayout = "@isShowLayout",
-        isShowAction = "@isShowAction";*@
+    var poleId = "@poleId",
+        isShowLayout =1* "@isShowLayout",
+        isShowAction = 1*"@isShowAction";
 
-    //Code By RMO
-    var poleId = "@poleId";
-    var isShowLayout = '@isShowLayout'==='True'? 1:0;
-    var isShowAction = '@isShowAction'==='True'? 1:0;
-
+   
 
     if (poleId && poleId != '') {
         load_component_data();

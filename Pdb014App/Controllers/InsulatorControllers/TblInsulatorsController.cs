@@ -42,6 +42,7 @@ namespace Pdb014App.Controllers.InsulatorControllers
             //ViewBag.PoleId = poleId;
             ViewBag.IsShowLayout = isShowLayout;
             ViewBag.IsShowAction = isShowAction;
+            ViewBag.PoleId = poleId;
 
             var insulatorList = _context.TblInsulator
                 .Include(t => t.InsulatorToLookUpCondition)

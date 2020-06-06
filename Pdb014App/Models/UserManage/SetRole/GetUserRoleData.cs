@@ -28,53 +28,160 @@ namespace Pdb014App.Models.UserManage.SetRole
             _userManager = UserManager;
         }
 
-        [Authorize(Roles = "System Administrator,Super User,Zone,Circle,SnD,Substation")]
-        public async Task<string> GetQuery(string tableName, string fieldName)
+        public string GetUserRoleWiseQuery(string userRole, string regionCode, string tableName, string queryFieldName, List<string> fieldList)
         {
-            //this.userManager = UserManager;
-            var user = await _userManager.GetUserAsync(User);
+            string fields = fieldList == null
+                ? "*"
+                : string.Join(",", fieldList.RemoveAll(string.IsNullOrEmpty));
+
+            fields = fields.Remove(',').Equals("") ? "*" : fields;
 
 
-            var sql = "";
+            string retSql = "";
 
-            if (User.IsInRole("System Administrator"))
+            switch (userRole.Trim().ToLower())
             {
-                sql = $"Select * from  {tableName}";
+                case "system":
+                case "administrator":
+                    retSql = $"SELECT {fields} FROM {tableName}";
+                    break;
+
+                case "zone":
+                    retSql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 1) = {regionCode}";
+                    break;
+
+                case "circle":
+                    retSql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 3) = {regionCode}";
+                    break;
+
+                case "snd":
+                    retSql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 5) = {regionCode}";
+                    break;
+
+                case "substation":
+                    retSql = $"Select * from {tableName} where SUBSTRING({queryFieldName}, 1, 7) = {regionCode}";
+                    break;
+
+                default:
+                    retSql = null;
+                    break;
             }
 
-            else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string zoneCode = _contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,1)={zoneCode}";
+            //if (User.IsInRole("System Administrator"))
+            //{
+            //    retSql = $"SELECT {fields} FROM {tableName}";
+            //}
+            //else if (User.IsInRole("Zone"))
+            //{
+            //    retSql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 1) = {regionCode}";
+            //}
+            //else if (User.IsInRole("Circle"))
+            //{
+            //    retSql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 3) = {regionCode}";
+            //}
+            //else if (User.IsInRole("SnD"))
+            //{
+            //    retSql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 5) = {regionCode}";
+            //}
+            //else if (User.IsInRole("Substation"))
+            //{
+            //    retSql = $"Select * from {tableName} where SUBSTRING({queryFieldName}, 1, 7) = {regionCode}";
+            //}
+            //else
+            //{
+            //    return null;
+            //}
 
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string circleCode = _contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,3)={circleCode}";
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string sndCode = _contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,5)={sndCode}";
+            return retSql;
+        }
+                      
+        public string GetUserRoleWiseQuery(string userRole, List<string> regionList, string tableName, string queryFieldName, List<string> fieldList)
+        {
+            string fields = fieldList == null
+                ? "*"
+                : string.Join(",", fieldList.RemoveAll(string.IsNullOrEmpty));
 
-            }
-            else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
-            {
-                //var user = await UserManager.GetUserAsync(User);
-                string SubstationId = _contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
-                sql = $"Select * from  {tableName} where SUBSTRING({fieldName},1,7)={SubstationId}";
+            fields = fields.Remove(',').Equals("") ? "*" : fields;
 
-            }
-            else
+
+            string retSql = "", zoneCode = "", circleCode = "", sndCode = "", substationId = "";
+
+            if (regionList != null && regionList.Count > 0 && !string.IsNullOrEmpty(regionList[0]))
             {
-                return null;
+                zoneCode = regionList[0];
+
+                if (regionList.Count > 1 && !string.IsNullOrEmpty(regionList[1]))
+                {
+                    circleCode = regionList[1];
+
+                    if (regionList.Count > 2 && !string.IsNullOrEmpty(regionList[2]))
+                    {
+                        sndCode = regionList[2];
+
+                        if (regionList.Count > 3 && !string.IsNullOrEmpty(regionList[3]))
+                        {
+                            substationId = regionList[3];
+                        }
+                    }
+                }
             }
 
-            return sql;
+
+            switch (userRole.Trim().ToLower())
+            {
+                case "system":
+                case "administrator":
+                    retSql = $"SELECT {fields} FROM {tableName}";
+                    break;
+
+                case "zone":
+                    retSql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 1) = {zoneCode}";
+                    break;
+
+                case "circle":
+                    retSql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 3) = {circleCode}";
+                    break;
+
+                case "snd":
+                    retSql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 5) = {sndCode}";
+                    break;
+
+                case "substation":
+                    retSql = $"Select * from {tableName} where SUBSTRING({queryFieldName}, 1, 7) = {substationId}";
+                    break;
+
+                default:
+                    retSql = null;
+                    break;
+            }
+
+
+            //if (User.IsInRole("System Administrator"))
+            //{
+            //    retSql = $"SELECT {fields} FROM {tableName}";
+            //}
+            //else if (User.IsInRole("Zone"))
+            //{
+            //    retSql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 1) = {zoneCode}";
+            //}
+            //else if (User.IsInRole("Circle"))
+            //{
+            //    retSql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 3) = {circleCode}";
+            //}
+            //else if (User.IsInRole("SnD"))
+            //{
+            //    retSql = $"SELECT {fields} FROM {tableName} WHERE SUBSTRING({queryFieldName}, 1, 5) = {sndCode}";
+            //}
+            //else if (User.IsInRole("Substation"))
+            //{
+            //    retSql = $"Select * from {tableName} where SUBSTRING({queryFieldName}, 1, 7) = {substationId}";
+            //}
+            //else
+            //{
+            //    return null;
+            //}
+
+            return retSql;
         }
 
 
@@ -127,7 +234,7 @@ namespace Pdb014App.Models.UserManage.SetRole
         //    //    Expression<Func<TblSubstation, bool>> tempExp = null;
         //    //}
 
-        //    //var user = await UserManager.GetUserAsync(User);
+        //    //var user = await _userManger.GetUserAsync(User);
 
 
 
@@ -139,29 +246,29 @@ namespace Pdb014App.Models.UserManage.SetRole
 
         //    //else if ((User.IsInRole("Super User") && User.IsInRole("Zone")) || User.IsInRole("Zone"))
         //    //{
-        //    //    var user = await UserManager.GetUserAsync(User);
-        //    //    string zoneCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
+        //    //    var user = await _userManger.GetUserAsync(User);
+        //    //    string zoneCode = _contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.ZoneCode).SingleOrDefault();
         //    //    searchExp = i => i.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo.ZoneCode == zoneCode;
         //    //}
         //    //else if ((User.IsInRole("Super User") && User.IsInRole("Circle")) || User.IsInRole("Circle"))
         //    //{
-        //    //    var user = await UserManager.GetUserAsync(User);
-        //    //    string circleCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
+        //    //    var user = await _userManger.GetUserAsync(User);
+        //    //    string circleCode = _contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.CircleCode).SingleOrDefault();
         //    //    searchExp = i => i.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.CircleCode == circleCode;
 
         //    //    searchExp = i => i.PoleId.Substring(0, 1) == circleCode;
         //    //}
         //    //else if ((User.IsInRole("Super User") && User.IsInRole("SnD")) || User.IsInRole("SnD"))
         //    //{
-        //    //    var user = await UserManager.GetUserAsync(User);
-        //    //    string sndCode = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
+        //    //    var user = await _userManger.GetUserAsync(User);
+        //    //    string sndCode = _contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SnDCode).SingleOrDefault();
         //    //    searchExp = i => i.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode == sndCode;
 
         //    //}
         //    //else if ((User.IsInRole("Super User") && User.IsInRole("Substation")) || User.IsInRole("Substation"))
         //    //{
-        //    //    var user = await UserManager.GetUserAsync(User);
-        //    //    string SubstationId = contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
+        //    //    var user = await _userManger.GetUserAsync(User);
+        //    //    string SubstationId = _contextUser.UserProfileDetail.Where(i => i.Id == user.Id).Select(i => i.SubstationId).SingleOrDefault();
         //    //    searchExp = i => i.PoleToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationId == SubstationId;
 
         //    //}

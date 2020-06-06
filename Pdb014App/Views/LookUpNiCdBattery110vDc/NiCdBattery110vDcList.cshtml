@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Pdb014App.Models.PDB.SubstationModels.LookUpNiCdBattery110vDc>
+
+@using Pdb014App.Models.UserManage;
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<TblUserRegistrationDetail> SignInManager
+@inject UserManager<TblUserRegistrationDetail> UserManager
+
+@{
+
+    var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1);
+    var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1);
+
+
+    ViewData["Title"] = "Ni-Cd Battery 110v Dc List";
+    Layout = isShowLayout ? "~/Views/Shared/_Layout.cshtml" : null;
+}
+
+    <p>
+        <a asp-action="Create" class="btn btn-success">Add New</a>
+    </p>
+
+<h3>@ViewData["Title"]</h3>
+<hr>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.NiCdBattery110vDcId)*@
+                Ni-Cd Battery 110 V DC Id
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.NiCdBattery110VDcToSubstation)*@
+                Substation
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersNameAndAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ManufacturersModelNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OperatingVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfCells)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VoltagePerCell)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NiCdBattery110vDcId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NiCdBattery110VDcToSubstation.SubstationId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManufacturersNameAndAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManufacturersModelNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OperatingVoltage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfCells)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VoltagePerCell)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.NiCdBattery110vDcId">Edit</a>
+                    @*<a asp-action="Details" asp-route-id="@item.NiCdBattery110vDcId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.NiCdBattery110vDcId">Delete</a>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

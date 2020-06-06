@@ -98,209 +98,213 @@
 
 }
 
-<div class="container">
-    <h2>List of Pole</h2>
-    <hr>
 
-    <p>
-        <a asp-action="Create" class="btn btn-info">Add New Pole</a>
-    </p>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="float-md-right">
-                <form method="get" class="form-inline">
 
-                        <table id="tblSearchOptions" class="table" cellpadding="0" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th style="width: 48%">Field Name</th>
-                                    <th style="width: 50%">Field Value</th>
-                                    <th style="width: 80px">Action</th>
-                                </tr>
-                            </thead>
+<div class="row">
 
-                            <tbody>                            
-                                <tr>                                    
-                                    <td>
-                                       
-                                        <select id="fieldName" name="fieldName"  asp-for="@Model.RouteValue["FieldName"]" class="form-control text-left field-name" asp-items="ViewBag.FieldList">                                            
-                                            <option value="">--- Select ---</option>                                         
-                                        </select>
-                                        <input name="cai" class="form-control" placeholder="cai"
-                                               value="@Model.RouteValue["cai"]" type="hidden" />
-                                    </td>
-                                  
-                                    <td>
-                                        <input id="fieldValue" name="fieldValue" asp-for="@Model.RouteValue["FieldValue"]"  autocomplete="off" class="form-control text-left field-value" />
-                                        <div id="ac-list-0" class="ac-list-content"></div>  @*Very Much Important*@
-                                    </td>
 
-                                    <td>
+   
 
-                                        <button type="submit" class="btn btn-info">
-                                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                                        </button>
-                                    </td>
-                                </tr>
-                                
-                            </tbody>
+    <div class="col-12">
+        <h2>List of Pole</h2>
+        <hr>
+        <p>
+            <a asp-action="Create" class="btn btn-info">Add New Pole</a>
+        </p>
+        <div class="float-md-right">
+            <form method="get" class="form-inline">
 
-                        </table>
+                <table id="tblSearchOptions" class="table" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th style="width: 48%">Field Name</th>
+                            <th style="width: 50%">Field Value</th>
+                            <th style="width: 80px">Action</th>
+                        </tr>
+                    </thead>
 
-                </form>
-            </div>
+                    <tbody>
+                        <tr>
+                            <td>
+
+                                <select id="fieldName" name="fieldName" asp-for="@Model.RouteValue["FieldName"]" class="form-control text-left field-name" asp-items="ViewBag.FieldList">
+                                    <option value="">--- Select ---</option>
+                                </select>
+                                <input name="cai" class="form-control" placeholder="cai"
+                                       value="@Model.RouteValue["cai"]" type="hidden" />
+                            </td>
+
+                            <td>
+                                <input id="fieldValue" name="fieldValue" asp-for="@Model.RouteValue["FieldValue"]" autocomplete="off" class="form-control text-left field-value" />
+                                <div id="ac-list-0" class="ac-list-content"></div>  @*Very Much Important*@
+                            </td>
+
+                            <td>
+
+                                <button type="submit" class="btn btn-info">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </form>
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-view" id="updatePanel">
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-view" id="updatePanel">
 
-                @if (TempData["statuMessageSuccess"] != null)
-                {
-                    <div class="alert alert-success alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        @TempData["statuMessageSuccess"]
-                    </div>
-                }
+            @if (TempData["statuMessageSuccess"] != null)
+            {
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    @TempData["statuMessageSuccess"]
+                </div>
+            }
 
 
 
-                <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
-                    <table id="multi-form-view" class="table table-responsive multi-form-view">
-                        <thead>
-                            <tr>
-                                @*<th>
-            @Html.DisplayNameFor(model => model.PoleUid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FeederLineUid)
-
-        </th>*@
-                                <th>
-                                    @Html.DisplayNameFor(model => model.PoleId)
-
+            <div id="multi-form-wrapper" class="data-view multi-form-wrapper">
+                <table id="multi-form-view" class="table table-responsive multi-form-view">
+                    <thead>
+                        <tr>
+                            @*<th>
+                                    @Html.DisplayNameFor(model => model.PoleUid)
                                 </th>
                                 <th>
-                                    Pole Components
-                                </th>
-                                @*<th class="extraInfo">Insulator</th>
+                                    @Html.DisplayNameFor(model => model.FeederLineUid)
+
+                                </th>*@
+                            <th>
+                                @Html.DisplayNameFor(model => model.PoleId)
+
+                            </th>
+                            <th>
+                                Pole Components
+                            </th>
+                            @*<th class="extraInfo">Insulator</th>
                                 <th class="extraInfo">Guy</th>
                                 <th class="extraInfo">Cross Arms</th>*@
-                                @*<th class="extraInfo">Distribution Transformer</th>*@
+                            @*<th class="extraInfo">Distribution Transformer</th>*@
 
-                                <th>
-                                    @Html.DisplayNameFor(model => model.SurveyDate)
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.PoleToRoute)*@
-                                    Route Name
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.PoleToFeederLine)*@
-                                    FeederLine Name
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.SurveyorName)
-                                </th>
-                                @*<th>
-            @Html.DisplayNameFor(model => model.PoleNo)
-        </th>*@
-                                <th>
-                                    @Html.DisplayNameFor(model => model.PreviousPoleNo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Latitude)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Longitude)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.PoleType)
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.PoleCondition)*@
-                                    Pole Condition
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.LookUpLineType)*@
-                                    Line Type
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.BackSpan)
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.LookUpTypeOfWire)*@
-                                    Wire Type
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.NoOfWireHt)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.NoOfWireLt)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.WireLength)
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.WireLookUpCondition)*@
-                                    Wire Condition
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.MSJNo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.SleeveNo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TwistNo)
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.PhaseACondition)*@
-                                    Phase A Condition
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.PhaseBCondition)*@
-                                    Phase B Condition
-                                </th>
-                                <th>
-                                    @*@Html.DisplayNameFor(model => model.PhaseCCondition)*@
-                                    Phase C Condition
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Neutral)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.StreetLight)
-                                </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SurveyDate)
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.PoleToRoute)*@
+                                Route Name
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.PoleToFeederLine)*@
+                                FeederLine Name
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SurveyorName)
+                            </th>
+                            @*<th>
+                                    @Html.DisplayNameFor(model => model.PoleNo)
+                                </th>*@
+                            <th>
+                                @Html.DisplayNameFor(model => model.PreviousPoleNo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Latitude)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Longitude)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PoleType)
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.PoleCondition)*@
+                                Pole Condition
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.LookUpLineType)*@
+                                Line Type
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.BackSpan)
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.LookUpTypeOfWire)*@
+                                Wire Type
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NoOfWireHt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NoOfWireLt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.WireLength)
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.WireLookUpCondition)*@
+                                Wire Condition
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MSJNo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SleeveNo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TwistNo)
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.PhaseACondition)*@
+                                Phase A Condition
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.PhaseBCondition)*@
+                                Phase B Condition
+                            </th>
+                            <th>
+                                @*@Html.DisplayNameFor(model => model.PhaseCCondition)*@
+                                Phase C Condition
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Neutral)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.StreetLight)
+                            </th>
 
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TransformerExist)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CommonPole)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Tap)
-                                </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TransformerExist)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CommonPole)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Tap)
+                            </th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
                             <tr>
                                 @*<td>
-            @Html.DisplayFor(modelItem => item.PoleUid)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FeederLineUid)
-        </td>*@
+                                        @Html.DisplayFor(modelItem => item.PoleUid)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FeederLineUid)
+                                    </td>*@
 
                                 @*<td>
-            <input type="checkbox" id="@item.PoleId" onclick="activePole(this.id)"/>
-        </td>*@
+                                        <input type="checkbox" id="@item.PoleId" onclick="activePole(this.id)"/>
+                                    </td>*@
                                 <td>
                                     @*@Html.DisplayFor(modelItem => item.PoleId)*@
                                     <div class="btn-group">
@@ -323,35 +327,35 @@
                                 </td>
 
                                 @*<td>
-                                    <div class="btn-group">
-                                        <a asp-controller="TblInsulators" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Insulator">Add</a>
-                                        <a asp-controller="TblInsulators" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show Insulator">Show</a>
-                                        <button id="TblInsulators_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary TblInsulators" data-toggle="tooltip" data-placement="top" title="Show Insulator">Show</button>
+                                        <div class="btn-group">
+                                            <a asp-controller="TblInsulators" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Insulator">Add</a>
+                                            <a asp-controller="TblInsulators" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show Insulator">Show</a>
+                                            <button id="TblInsulators_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary TblInsulators" data-toggle="tooltip" data-placement="top" title="Show Insulator">Show</button>
 
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a asp-controller="TblGuys" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="Add Guy">Add</a>
-                                        <a asp-controller="TblGuys" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="Show Guy">Show</a>
-                                        <button id="TblGuys_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary display: inline-block TblGuys" data-toggle="tooltip" data-placement="top" title="Show Guy">Show</button>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a asp-controller="TblCrossArmInfoes" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Cross Arms">Add</a>
-                                        <a asp-controller="TblCrossArmInfoes" asp-action="IndexPartialView" id="crossArm" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show Cross Arms">Show</a>
-                                        <button id="crossArm_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary crossArm" data-toggle="tooltip" data-placement="top" title="Show Cross Arms">Show</button>
-                                    </div>
-                                </td>*@
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a asp-controller="TblGuys" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="Add Guy">Add</a>
+                                            <a asp-controller="TblGuys" asp-action="Index" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary display: inline-block;" data-toggle="tooltip" data-placement="top" title="Show Guy">Show</a>
+                                            <button id="TblGuys_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary display: inline-block TblGuys" data-toggle="tooltip" data-placement="top" title="Show Guy">Show</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a asp-controller="TblCrossArmInfoes" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Cross Arms">Add</a>
+                                            <a asp-controller="TblCrossArmInfoes" asp-action="IndexPartialView" id="crossArm" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show Cross Arms">Show</a>
+                                            <button id="crossArm_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary crossArm" data-toggle="tooltip" data-placement="top" title="Show Cross Arms">Show</button>
+                                        </div>
+                                    </td>*@
 
                                 @*<td>
-                                    <div class="btn-group">
-                                        <a asp-controller="TblDistributionTransformers" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Distribution Transformer">Add</a>
-                                        
-                                        <a asp-controller="TblDistributionTransformers" asp-action="Index" id="dT_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary dT" data-toggle="tooltip" data-placement="top" title="Show Distribution Transformer">Show</a>
-                                    </div>
-                                </td>*@
+                                        <div class="btn-group">
+                                            <a asp-controller="TblDistributionTransformers" asp-action="Create" asp-route-id="@item.PoleId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Distribution Transformer">Add</a>
+
+                                            <a asp-controller="TblDistributionTransformers" asp-action="Index" id="dT_@item.PoleId" asp-route-id="@item.PoleId" class="btn btn-primary dT" data-toggle="tooltip" data-placement="top" title="Show Distribution Transformer">Show</a>
+                                        </div>
+                                    </td>*@
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.SurveyDate)
@@ -367,8 +371,8 @@
                                     @Html.DisplayFor(modelItem => item.SurveyorName)
                                 </td>
                                 @*<td>
-            @Html.DisplayFor(modelItem => item.PoleNo)
-        </td>*@
+                                        @Html.DisplayFor(modelItem => item.PoleNo)
+                                    </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.PreviousPoleNo)
                                 </td>
@@ -428,11 +432,11 @@
                                 </td>
 
                                 @*@if (User.IsInRole("System Administrator"))
-        {
-            <td>
-                @Html.DisplayFor(modelItem => item.StreetLight)
-            </td>
-        }*@
+                                    {
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.StreetLight)
+                                        </td>
+                                    }*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.StreetLight)
                                 </td>
@@ -447,21 +451,22 @@
                                 </td>
 
                             </tr>
-                            }
-                        </tbody>
-                    </table>
+                        }
+                    </tbody>
+                </table>
 
-                </div>
             </div>
         </div>
     </div>
-
 </div>
+
+
 
 
 <div style="text-align: center;">
     <vc:pager paging-list="@Model" />
 </div>
+
 @section Scripts {
     <script src="~/lib/jquery-ui/jquery-ui.js"></script>
     <script src="~/js/autocomplete.extend.js"></script>
@@ -474,7 +479,6 @@
 
              var isShowAction = 1; //By RMO
 
-                //url: 'Url.Action("SearchPoleComponents", "AdvancedSearching")',
             $.ajax({
                 type: "GET",
                 url: '@Url.Action("Components", "TblPoles")',
