@@ -269,7 +269,7 @@ namespace Pdb014App.Controllers.AdvancedReport
             ViewBag.RegionList = regionList;
 
             ViewData["ZoneList"] =
-                new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+                new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
 
             return View("AdvancedReport");
             //return View("ConsumerInfo");
@@ -574,26 +574,26 @@ namespace Pdb014App.Controllers.AdvancedReport
             ViewBag.RouteCode = routeCode;
 
 
-            ViewData["ZoneList"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode).ToList(), "ZoneCode",
+            ViewData["ZoneList"] = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode).ToList(), "ZoneCode",
                 "ZoneName");
 
             if (!string.IsNullOrEmpty(zoneCode))
             {
-                ViewData["CircleList"] = new SelectList(_context.LookUpCircleInfo
+                ViewData["CircleList"] = new SelectList(_dbContext.LookUpCircleInfo
                     .Where(c => c.ZoneCode.Equals(zoneCode))
                     .Select(c => new { c.CircleCode, c.CircleName })
                     .OrderBy(c => c.CircleCode).ToList(), "CircleCode", "CircleName");
 
                 if (!string.IsNullOrEmpty(circleCode))
                 {
-                    ViewData["SnDList"] = new SelectList(_context.LookUpSnDInfo
+                    ViewData["SnDList"] = new SelectList(_dbContext.LookUpSnDInfo
                         .Where(sd => sd.CircleCode.Equals(circleCode))
                         .Select(sd => new { sd.SnDCode, sd.SnDName })
                         .OrderBy(sd => sd.SnDCode).ToList(), "SnDCode", "SnDName");
 
                     //if (!string.IsNullOrEmpty(snDCode))
                     //{
-                    //    ViewData["DtList"] = new SelectList(_context.TblDT
+                    //    ViewData["DtList"] = new SelectList(_dbContext.TblDT
                     //        //.Where(ss => ss.DTId..SnDCode.Equals(snDCode))
                     //        .Select(ss => new { ss.SubstationId, ss.SubstationName })
                     //        .OrderBy(ss => ss.SubstationId).ToList(), "SubstationId", "SubstationName");
@@ -675,10 +675,10 @@ namespace Pdb014App.Controllers.AdvancedReport
             }
 
             var qry = searchExp != null
-                ? _context.TblConsumerData
+                ? _dbContext.TblConsumerData
                     .AsNoTracking()
                     .Where(searchExp)
-                : _context.TblConsumerData
+                : _dbContext.TblConsumerData
                     .AsNoTracking();
 
 
@@ -767,7 +767,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .ToList();
 
 
-                    var regions = _context.LookUpZoneInfo
+                    var regions = _dbContext.LookUpZoneInfo
                         .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
                         .Select(z => new
                         {
@@ -915,7 +915,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .ToList();
 
 
-                    regions = _context.LookUpCircleInfo
+                    regions = _dbContext.LookUpCircleInfo
                         .Where(c => (zoneCode.Equals("") || c.ZoneCode.Equals(zoneCode))
                                     && (circleCode.Equals("") || c.CircleCode.Equals(circleCode)))
                         .Include(z => z.ZoneInfo)
@@ -1065,7 +1065,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .ToList();
 
 
-                    regions = _context.LookUpSnDInfo
+                    regions = _dbContext.LookUpSnDInfo
                         .Where(d => (zoneCode.Equals("") || d.CircleInfo.ZoneCode.Equals(zoneCode))
                                     && (circleCode.Equals("") || d.CircleCode.Equals(circleCode))
                                     && (snDCode.Equals("") || d.SnDCode.Equals(snDCode)))
@@ -1217,7 +1217,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .ToList();
 
 
-                    regions = _context.TblSubstation
+                    regions = _dbContext.TblSubstation
                         .Where(s =>
                             (zoneCode.Equals("") || s.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
                             && (circleCode.Equals("") || s.SubstationToLookUpSnD.CircleCode.Equals(circleCode))
@@ -1375,7 +1375,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .ToList();
 
 
-                    regions = _context.LookUpZoneInfo
+                    regions = _dbContext.LookUpZoneInfo
                         .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
                         .Select(z => new
                         {
@@ -1556,7 +1556,7 @@ namespace Pdb014App.Controllers.AdvancedReport
             ViewBag.RegionList = regionList;
 
             ViewData["ZoneList"] =
-                new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+                new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
 
             return View("AdvancedReport");
             //return View("ServicePointInfo");
@@ -1698,26 +1698,26 @@ namespace Pdb014App.Controllers.AdvancedReport
             //ViewBag.RouteCode = routeCode;
 
 
-            ViewData["ZoneList"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode).ToList(), "ZoneCode",
+            ViewData["ZoneList"] = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode).ToList(), "ZoneCode",
                 "ZoneName");
 
             if (!string.IsNullOrEmpty(zoneCode))
             {
-                ViewData["CircleList"] = new SelectList(_context.LookUpCircleInfo
+                ViewData["CircleList"] = new SelectList(_dbContext.LookUpCircleInfo
                     .Where(c => c.ZoneCode.Equals(zoneCode))
                     .Select(c => new { c.CircleCode, c.CircleName })
                     .OrderBy(c => c.CircleCode).ToList(), "CircleCode", "CircleName");
 
                 if (!string.IsNullOrEmpty(circleCode))
                 {
-                    ViewData["SnDList"] = new SelectList(_context.LookUpSnDInfo
+                    ViewData["SnDList"] = new SelectList(_dbContext.LookUpSnDInfo
                         .Where(sd => sd.CircleCode.Equals(circleCode))
                         .Select(sd => new { sd.SnDCode, sd.SnDName })
                         .OrderBy(sd => sd.SnDCode).ToList(), "SnDCode", "SnDName");
 
                     //if (!string.IsNullOrEmpty(snDCode))
                     //{
-                    //    ViewData["DtList"] = new SelectList(_context.TblDT
+                    //    ViewData["DtList"] = new SelectList(_dbContext.TblDT
                     //        //.Where(ss => ss.DTId..SnDCode.Equals(snDCode))
                     //        .Select(ss => new { ss.SubstationId, ss.SubstationName })
                     //        .OrderBy(ss => ss.SubstationId).ToList(), "SubstationId", "SubstationName");
@@ -1796,10 +1796,10 @@ namespace Pdb014App.Controllers.AdvancedReport
             }
 
             var qry = searchExp != null
-                ? _context.TblServicePoint
+                ? _dbContext.TblServicePoint
                     .AsNoTracking()
                     .Where(searchExp)
-                : _context.TblServicePoint
+                : _dbContext.TblServicePoint
                     .AsNoTracking();
 
 
@@ -1863,7 +1863,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .ToList();
 
 
-                    var regions = _context.LookUpZoneInfo
+                    var regions = _dbContext.LookUpZoneInfo
                         .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
                         .Select(z => new
                         {
@@ -1963,7 +1963,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .ToList();
 
 
-                    regions = _context.LookUpCircleInfo
+                    regions = _dbContext.LookUpCircleInfo
                         .Where(c => (zoneCode.Equals("") || c.ZoneCode.Equals(zoneCode))
                                     && (circleCode.Equals("") || c.CircleCode.Equals(circleCode)))
                         .Include(z => z.ZoneInfo)
@@ -2066,7 +2066,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .ToList();
 
 
-                    regions = _context.LookUpSnDInfo
+                    regions = _dbContext.LookUpSnDInfo
                         .Where(d => (zoneCode.Equals("") || d.CircleInfo.ZoneCode.Equals(zoneCode))
                                     && (circleCode.Equals("") || d.CircleCode.Equals(circleCode))
                                     && (snDCode.Equals("") || d.SnDCode.Equals(snDCode)))
@@ -2171,7 +2171,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .ToList();
 
 
-                    regions = _context.TblSubstation
+                    regions = _dbContext.TblSubstation
                         .Where(s =>
                             (zoneCode.Equals("") || s.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
                             && (circleCode.Equals("") || s.SubstationToLookUpSnD.CircleCode.Equals(circleCode))
@@ -2280,7 +2280,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .ToList();
 
 
-                    regions = _context.LookUpZoneInfo
+                    regions = _dbContext.LookUpZoneInfo
                         .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
                         .Select(z => new
                         {

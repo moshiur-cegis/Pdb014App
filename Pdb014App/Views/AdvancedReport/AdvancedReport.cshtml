@@ -228,7 +228,7 @@
                 </div>
             </div>
 
-            <div id="chartAll">
+            <div id="chartAll" style="display: none;">
                 <div id="chartBar" style="min-width: 320px; max-height: 500px; margin: 1.5rem auto"></div>
 
                 <div id="chartPieOptionPanel" class="form-group" style="margin-top: 1rem; margin-bottom: .25rem;">
@@ -354,6 +354,7 @@
                 url: url,
                 dataType: "json",
                 data: { "regionLevel": regionLevel, "regionList": regionList },
+                //data: JSON.stringify({ "regionLevel": regionLevel, "regionList": regionList }),
                 before: $("#busy-indicator").fadeIn(150),
                 success: function(data) {
                     if (data && data.length > 0) {
