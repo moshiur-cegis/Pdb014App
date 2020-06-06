@@ -265,7 +265,7 @@
             if (!dataColumns || dataColumns.length < 1) {
                 $("#dataView").css('display', 'none');
                 msg.init("warning", "Warning... . . !", "Select at least one data field... . . !! ");
-                return;
+                return false;
             }
 
             $.ajax({
@@ -429,15 +429,6 @@
 
                     if (!dataColumnGroups[gName]) {
                         dataColumnGroups[gName] = {};
-
-                        var grpName = "";
-                        $.each(headerGroups,
-                            function(groupNam, groupFields) {
-                                if (Object.keys(groupFields).includes(dColumn)) {
-                                    grpName = groupNam;
-                                    return;
-                                }
-                            });
                     }
                     dataColumnGroups[gName][fName] = fName;
                 } else {
@@ -461,18 +452,25 @@
 
             //** Table Body **//
             var slNo = 1, rsZone = 0, $zoneTrs = "", $allTrs = "";
+
             $.each(groupedData,
                 function(zoneName, zoneInfo) {
 
                     var rsCircle = 0, $circleTrs = "";
+
+                    rsZone = 0;
                     $.each(zoneInfo,
                         function(circleName, circleInfo) {
 
                             var rsSnD = 0, $sndTrs = "", isCity = "", dist = "";
+
+                            rsCircle = 0;
                             $.each(circleInfo,
                                 function(sndName, sndInfo) {
 
                                     var rsSSt = 1, $sstTrs = "";
+
+                                    rsSnD = 0;
                                     $.each(sndInfo,
                                         function(sstCode, sstInfo) {
                                             if (!sstInfo)
@@ -483,6 +481,7 @@
 
                                             var rsGrp = {}, isLast = {}, isRight, dataValue = "", $infoTrs = "";
 
+                                            rsSSt = 1;
                                             $.each(dataColumnGroups,
                                                 function(groupName, dtColumns) {
                                                     rsSSt = sstInfo[groupName] && sstInfo[groupName].length > rsSSt ? sstInfo[groupName].length : rsSSt;
@@ -508,43 +507,41 @@
 
                                                         if (dc > di && !isLast[groupName]) {
                                                             switch (typeof dtColumns) {
-																case "object":
-																	$.each(dtColumns,
-																		function(ci, dataColumn) {
-																			dataValue = typeof (sstInfo[groupName]) == "undefined"
-																				? ""
-																				: typeof (sstInfo[groupName][di]) != "undefined"
-																				? sstInfo[groupName][di][dataColumn]
-																				: typeof (sstInfo[groupName][dataColumn]) != "undefined"
-																				? sstInfo[groupName][dataColumn]
-																				: "";
+                                                            case "object":
+                                                                $.each(dtColumns,
+                                                                    function(ci, dataColumn) {
+                                                                        dataValue = sstInfo[groupName] !== undefined && sstInfo[groupName] != null
+                                                                            ? (sstInfo[groupName][di] !== undefined && sstInfo[groupName][di] != null
+                                                                                ? (sstInfo[groupName][di][dataColumn] !== undefined ? sstInfo[groupName][di][dataColumn] : "")
+                                                                                : (sstInfo[groupName][dataColumn] !== undefined ? sstInfo[groupName][dataColumn] : ""))
+                                                                            : "";
 
-																			if (dataValue) {
-																				isRight = (dataValue === parseInt(dataValue, 10));
-																				$infoTds += rsGrp[groupName] > 1
-																					? "<td rowspan='" + rsGrp[groupName] + "' style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>"
-																					: "<td style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>";
-																			} else {
-																				$infoTds += rsGrp[groupName] > 1 ? "<td rowspan='" + rsGrp[groupName] + "'></td>" : "<td></td>";
-																			}
-																		});
-																	break;
+                                                                        if (dataValue) {
+                                                                            isRight = (dataValue === parseInt(dataValue, 10));
+                                                                            $infoTds += rsGrp[groupName] > 1
+                                                                                ? "<td rowspan='" + rsGrp[groupName] + "' style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>"
+                                                                                : "<td style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>";
+                                                                        } else {
+                                                                            $infoTds += rsGrp[groupName] > 1 ? "<td rowspan='" + rsGrp[groupName] + "'></td>" : "<td></td>";
+                                                                        }
+                                                                    });
+                                                                break;
 
-																case "string":
-																	if (sstInfo[dtColumns]) {
-																		dataValue = sstInfo[dtColumns];
-																		isRight = (dataValue === parseInt(dataValue, 10));
-																		$infoTds += rsGrp[groupName] > 1
-																			? "<td rowspan='" + rsGrp[groupName] + "' style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>"
-																			: "<td style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>";
-																	} else {
-																		$infoTds += rsGrp[groupName] > 1 ? "<td rowspan='" + rsGrp[groupName] + "'></td>" : "<td></td>";
-																	}
-																	break;
+                                                            case "string":
+                                                                if (sstInfo[dtColumns]) {
+                                                                    dataValue = sstInfo[dtColumns];
+                                                                    isRight = (dataValue === parseInt(dataValue, 10));
+                                                                    $infoTds += rsGrp[groupName] > 1
+                                                                        ? "<td rowspan='" + rsGrp[groupName] + "' style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>"
+                                                                        : "<td style='text-align:" + (isRight ? "right" : "left") + ";'>" + dataValue + "</td>";
+                                                                } else {
+                                                                    $infoTds += rsGrp[groupName] > 1 ? "<td rowspan='" + rsGrp[groupName] + "'></td>" : "<td></td>";
+                                                                }
+                                                                break;
 
-																default:
-																	$infoTds += rsGrp[groupName] > 1 ? "<td rowspan='" + rsGrp[groupName] + "'></td>" : "<td></td>";
-																	break;
+                                                            default:
+                                                                $infoTds += rsGrp[groupName] > 1 ? "<td rowspan='" + rsGrp[groupName] + "'></td>" : "<td></td>";
+                                                                break;
                                                             }
 
                                                             if (dc == di + 1 && rsSSt > rsGrp[groupName])
@@ -555,16 +552,16 @@
                                                             if (rsSSt > (rsGrp[groupName] * di)) {
                                                                 var rsExt = rsSSt - (rsGrp[groupName] * di);
                                                                 switch (typeof dtColumns) {
-																	case "object":
-																		$.each(dtColumns,
-																			function(ci, dataColumn) {
-																				$infoTds += rsExt > 1 ? "<td rowspan='" + rsExt + "'></td>" : "<td></td>";
-																			});
-																		break;
+                                                                case "object":
+                                                                    $.each(dtColumns,
+                                                                        function(ci, dataColumn) {
+                                                                            $infoTds += rsExt > 1 ? "<td rowspan='" + rsExt + "'></td>" : "<td></td>";
+                                                                        });
+                                                                    break;
 
-																	default:
-																		$infoTds += rsExt > 1 ? "<td rowspan='" + rsExt + "'></td>" : "<td></td>";
-																		break;
+                                                                default:
+                                                                    $infoTds += rsExt > 1 ? "<td rowspan='" + rsExt + "'></td>" : "<td></td>";
+                                                                    break;
                                                                 }
                                                             }
                                                             rsGrp[groupName] = rsSSt + 999;
@@ -593,8 +590,6 @@
 
                                             $sstTrs += $infoTrs;
                                             $sstTrs += '</tr>';
-
-                                            rsSSt = 0;
                                         });
 
                                     rsCircle += rsSnD;
@@ -611,7 +606,6 @@
                                     $sndTrs += '</tr>';
 
                                     $sstTrs = "";
-                                    rsSnD = 0;
                                 });
 
                             rsZone += rsCircle;
@@ -624,7 +618,6 @@
                             $circleTrs += $sndTrs;
                             $circleTrs += '</tr>';
                             $sndTrs = "";
-                            rsCircle = 0;
                         });
 
 
@@ -644,7 +637,6 @@
                     }
                     $allTrs += $zoneTrs;
                     $zoneTrs = "";
-                    rsZone = 0;
                     ++slNo;
                 });
 

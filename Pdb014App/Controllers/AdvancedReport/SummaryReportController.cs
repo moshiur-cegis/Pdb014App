@@ -18,11 +18,11 @@ namespace Pdb014App.Controllers.AdvancedReport
 {
     public class SummaryReportController : Controller
     {
-        private readonly PdbDbContext _context;
+        private readonly PdbDbContext _dbContext;
 
         public SummaryReportController(PdbDbContext context)
         {
-            _context = context;
+            _dbContext = context;
         }
 
 
@@ -66,7 +66,7 @@ namespace Pdb014App.Controllers.AdvancedReport
             ViewBag.RegionList = regionList;
 
             ViewData["ZoneList"] =
-                new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+                new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
 
             return View("~/Views/AdvancedReport/SummaryReport.cshtml");
         }
@@ -140,19 +140,19 @@ namespace Pdb014App.Controllers.AdvancedReport
             ViewBag.RouteCode = routeCode;
 
 
-            ViewData["ZoneList"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode).ToList(), "ZoneCode",
+            ViewData["ZoneList"] = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode).ToList(), "ZoneCode",
                 "ZoneName");
 
             if (!string.IsNullOrEmpty(zoneCode))
             {
-                ViewData["CircleList"] = new SelectList(_context.LookUpCircleInfo
+                ViewData["CircleList"] = new SelectList(_dbContext.LookUpCircleInfo
                     .Where(c => c.ZoneCode.Equals(zoneCode))
                     .Select(c => new { c.CircleCode, c.CircleName })
                     .OrderBy(c => c.CircleCode).ToList(), "CircleCode", "CircleName");
 
                 if (!string.IsNullOrEmpty(circleCode))
                 {
-                    ViewData["SnDList"] = new SelectList(_context.LookUpSnDInfo
+                    ViewData["SnDList"] = new SelectList(_dbContext.LookUpSnDInfo
                         .Where(sd => sd.CircleCode.Equals(circleCode))
                         .Select(sd => new { sd.SnDCode, sd.SnDName })
                         .OrderBy(sd => sd.SnDCode).ToList(), "SnDCode", "SnDName");
@@ -160,7 +160,7 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                     if (!string.IsNullOrEmpty(snDCode))
                     {
-                        ViewData["SubstationList"] = new SelectList(_context.TblSubstation
+                        ViewData["SubstationList"] = new SelectList(_dbContext.TblSubstation
                             .Where(ss => ss.SnDCode.Equals(snDCode))
                             .Select(ss => new { ss.SubstationId, ss.SubstationName })
                             .OrderBy(ss => ss.SubstationId).ToList(), "SubstationId", "SubstationName");
@@ -238,11 +238,11 @@ namespace Pdb014App.Controllers.AdvancedReport
 
 
             var qryFeeder = searchExp1 != null
-                ? _context.TblFeederLine
+                ? _dbContext.TblFeederLine
                     .Include(fl => fl.Poles)
                     .AsNoTracking()
                     .Where(searchExp1)
-                : _context.TblFeederLine
+                : _dbContext.TblFeederLine
                     .Include(fl => fl.Poles)
                     .AsNoTracking();
 
@@ -295,10 +295,10 @@ namespace Pdb014App.Controllers.AdvancedReport
 
 
             var qrySubstation = searchExp != null
-                ? _context.TblSubstation
+                ? _dbContext.TblSubstation
                     .AsNoTracking()
                     .Where(searchExp)
-                : _context.TblSubstation
+                : _dbContext.TblSubstation
                     .AsNoTracking();
 
             var ssInfo = qrySubstation
@@ -387,7 +387,7 @@ namespace Pdb014App.Controllers.AdvancedReport
             ViewBag.RegionList = regionList;
 
             ViewData["ZoneList"] =
-                new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+                new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
 
             return View("~/Views/AdvancedReport/SummaryReportOk.cshtml");
             //return View("~/Views/AdvancedReport/SummaryReport");
@@ -463,19 +463,19 @@ namespace Pdb014App.Controllers.AdvancedReport
             ViewBag.RouteCode = routeCode;
 
 
-            ViewData["ZoneList"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode).ToList(), "ZoneCode",
+            ViewData["ZoneList"] = new SelectList(_dbContext.LookUpZoneInfo.OrderBy(d => d.ZoneCode).ToList(), "ZoneCode",
                 "ZoneName");
 
             if (!string.IsNullOrEmpty(zoneCode))
             {
-                ViewData["CircleList"] = new SelectList(_context.LookUpCircleInfo
+                ViewData["CircleList"] = new SelectList(_dbContext.LookUpCircleInfo
                     .Where(c => c.ZoneCode.Equals(zoneCode))
                     .Select(c => new { c.CircleCode, c.CircleName })
                     .OrderBy(c => c.CircleCode).ToList(), "CircleCode", "CircleName");
 
                 if (!string.IsNullOrEmpty(circleCode))
                 {
-                    ViewData["SnDList"] = new SelectList(_context.LookUpSnDInfo
+                    ViewData["SnDList"] = new SelectList(_dbContext.LookUpSnDInfo
                         .Where(sd => sd.CircleCode.Equals(circleCode))
                         .Select(sd => new { sd.SnDCode, sd.SnDName })
                         .OrderBy(sd => sd.SnDCode).ToList(), "SnDCode", "SnDName");
@@ -483,7 +483,7 @@ namespace Pdb014App.Controllers.AdvancedReport
 
                     if (!string.IsNullOrEmpty(snDCode))
                     {
-                        ViewData["SubstationList"] = new SelectList(_context.TblSubstation
+                        ViewData["SubstationList"] = new SelectList(_dbContext.TblSubstation
                             .Where(ss => ss.SnDCode.Equals(snDCode))
                             .Select(ss => new { ss.SubstationId, ss.SubstationName })
                             .OrderBy(ss => ss.SubstationId).ToList(), "SubstationId", "SubstationName");
@@ -562,11 +562,11 @@ namespace Pdb014App.Controllers.AdvancedReport
 
 
             var qryFeeder = searchExp1 != null
-                ? _context.TblFeederLine
+                ? _dbContext.TblFeederLine
                     .Include(fl => fl.Poles)
                     .AsNoTracking()
                     .Where(searchExp1)
-                : _context.TblFeederLine
+                : _dbContext.TblFeederLine
                     .Include(fl => fl.Poles)
                     .AsNoTracking();
 
@@ -618,10 +618,10 @@ namespace Pdb014App.Controllers.AdvancedReport
 
 
             var qrySubstation = searchExp != null
-                ? _context.TblSubstation
+                ? _dbContext.TblSubstation
                     .AsNoTracking()
                     .Where(searchExp)
-                : _context.TblSubstation
+                : _dbContext.TblSubstation
                     .AsNoTracking();
 
             var ssInfo = qrySubstation

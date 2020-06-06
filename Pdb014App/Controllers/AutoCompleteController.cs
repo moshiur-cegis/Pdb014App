@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using Pdb014App.Repository;
 
 
@@ -20,6 +21,14 @@ namespace Pdb014App.Controllers
         {
             _dbContext = context;
         }
+        
+        //private readonly UserDbContext _dbContextUser;
+
+        //public AutoCompleteController(PdbDbContext context, UserDbContext contextUser)
+        //{
+        //    _dbContext = context;
+        //    _dbContextUser = contextUser;
+        //}
 
         [HttpGet("search/{fieldInfo}")]
         [Consumes("application/json")]
@@ -246,6 +255,7 @@ namespace Pdb014App.Controllers
             return tableName;
 
         }
+
 
     }
 }

@@ -9,6 +9,7 @@
 
 
 @section Styles {
+
     <style type="text/css">
 
         .title_txt {
@@ -69,6 +70,7 @@
                 background-color: #e5f7fc;
             }
     </style>
+
 }
 
 
@@ -184,7 +186,7 @@
         <div class="pd-x-0 pd-t-20">
             <div class="card pd-10 bd-0 shadow-base text-center">
                 <div id="chart_1_2" class="text-center" style="max-height: 320px">
-                    <div class="spinner-grow text-primary" role="status">
+                    <div class="spinner-grow text-primary" style="width:3rem;height:3rem;" role="status">
                         <span class="sr-only">Loading... . .</span>
                     </div>
                 </div>
@@ -200,7 +202,7 @@
         <div class="pd-x-0 pd-t-20">
             <div class="card pd-10 bd-0 shadow-base text-center">
                 <div id="chart_2_1" class="text-center">
-                    <div class="spinner-grow text-danger" role="status">
+                    <div class="spinner-grow text-danger" style="width:3rem;height:3rem;" role="status">
                         <span class="sr-only">Loading... . . </span>
                     </div>
                 </div>
@@ -211,7 +213,7 @@
         <div class="pd-x-0 pd-t-20">
             <div class="card pd-10 bd-0 shadow-base text-center">
                 <div id="chart_2_2" class="text-center">
-                    <div class="spinner-grow text-info" role="status">
+                    <div class="spinner-grow text-info" style="width:3rem;height:3rem;" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
@@ -220,6 +222,30 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-6">
+        <div class="pd-x-0 pd-t-20">
+            <div class="card pd-10 bd-0 shadow-base text-center">
+                <div id="chart_3_1" class="text-center">
+                    <div class="spinner-grow text-success" style="width:3rem;height:3rem;" role="status">
+                        <span class="sr-only">Loading... . . </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="pd-x-0 pd-t-20">
+            <div class="card pd-10 bd-0 shadow-base text-center">
+                <div id="chart_3_2" class="text-center">
+                    <div class="spinner-grow text-warning" style="width:3rem;height:3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 @section Scripts
@@ -232,6 +258,7 @@
             reportName = "Pole",
             chartType = "bar",
             regionLevel = "zone",
+            regionList = [],
             headerList = {},
             dataColumns = [],
             chartDataPie = [];
@@ -254,6 +281,15 @@
             set_basic_info(regionLevel, "pl");
             load_chart_data("chart_2_1", reportName, chartType, regionLevel, headerList, dataColumns, url);
 
+
+            set_basic_info(regionLevel, "sp");
+            //set_basic_info(regionLevel, "ss");
+            load_chart_data("chart_3_1", reportName, chartType, regionLevel, headerList, dataColumns, url);
+
+            set_basic_info(regionLevel, "cd");
+            //set_basic_info(regionLevel, "dt");
+            load_chart_data("chart_3_2", reportName, chartType, regionLevel, headerList, dataColumns, url);
+
             ////set_basic_info(regionLevel, "ss");
             ////load_chart_data("chart_2_1", reportName, chartType, regionLevel, headerList, dataColumns, url);
             ////load_chart_data("chart_2_2", reportName, chartType, regionLevel, headerList, dataColumns, url);
@@ -265,6 +301,15 @@
 
 
         function set_basic_info(regionLevel, reportOpt) {
+
+            regionLevel = "zone";
+
+            regionList = [];
+            regionList[0] = $("#ZoneCode").val();
+            regionList[1] = $("#CircleCode").val();
+            regionList[2] = $("#SnDCode").val();
+            regionList[3] = $("#SubstationId").val();
+
 
             headerList = {};
             dataColumns = [];
@@ -356,47 +401,107 @@
 
                 break;
 
-            case "dt":
-                reportName = "Distribution Transformer";
-                url = '@Url.Action("GetDistributionTransformerData", "AdvancedReport")';
+                case "dt":
+                    reportName = "Distribution Transformer";
+                    url = '@Url.Action("GetDistributionTransformerData", "AdvancedReport")';
 
-
-                headerList["totalIcPadCount"] = "Installed Condition (Pad)";
-                headerList["totalIcPoleMountCount"] = "Installed Condition (Pole Mounted)";
-                headerList["totalIpIndoorCount"] = "Installed Place (Indoor)";
-                headerList["totalIpOutdoorCount"] = "Installed Place (Outdoor)";
-                headerList["totalBpdbDtCount"] = "Owner (BPDB)";
-                headerList["totalConsumerDtCount"] = "Owner (Consumer)";
-                headerList["totalOlYesCount"] = "Oil Leakage (Yes)";
-                headerList["totalOlNoCount"] = "Oil Leakage (No)";
-                headerList["totalPmAngleCount"] = "Platform Material (Angle)";
-                headerList["totalPmChannelCount"] = "Platform Material (Channel)";
+                    headerList["totalCount"] = "Total DT";
+                    headerList["totalIcPadCount"] = "Installed Condition (Pad)";
+                    headerList["totalIcPoleMountCount"] = "Installed Condition (Pole Mounted)";
+                    headerList["totalIpIndoorCount"] = "Installed Place (Indoor)";
+                    headerList["totalIpOutdoorCount"] = "Installed Place (Outdoor)";
+                    headerList["totalBpdbDtCount"] = "Owner (BPDB)";
+                    headerList["totalConsumerDtCount"] = "Owner (Consumer)";
+                    headerList["totalOlYesCount"] = "Oil Leakage (Yes)";
+                    headerList["totalOlNoCount"] = "Oil Leakage (No)";
+                    headerList["totalPmAngleCount"] = "Platform Material (Angle)";
+                    headerList["totalPmChannelCount"] = "Platform Material (Channel)";
 
                     dataColumns = ["totalCount", "totalIcPoleMountCount", "totalIpIndoorCount", "totalIpOutdoorCount", "totalBpdbDtCount", "totalOlYesCount", "totalOlNoCount", "totalPmAngleCount", "totalPmChannelCount"];
 
-                break;
+                    break;
 
-            default:
+                case "sp":
+                    reportName = "Service Point";
+                    url = '@Url.Action("GetServicePointInfoData", "AdvancedReport")';
 
-                reportName = "Pole";
-                url = '@Url.Action("GetPoleData", "AdvancedReport")';
+                    headerList["totalCount"] = "No. of Service Point";
+                    headerList["totalSingleCount"] = "Service Point Type (Single Phase)";
+                    headerList["total3PhaseCount"] = "Service Point Type (3-Phase)";
+                    headerList["totalBothCount"] = "Service Point Type (Both Phase)";
+                    headerList["totalRConsumers"] = "No. of Consumers (R)";
+                    headerList["totalYConsumers"] = "No. of Consumers (Y)";
+                    headerList["totalBConsumers"] = "No. of Consumers (B)";
+                    headerList["totalRYBConsumers"] = "No. of Consumers (RYB)";
+                    headerList["totalAggregateLoad"] = "Total Aggregate Load (MW)";
+                    headerList["maxAggregateLoad"] = "Max Aggregate Load (KW)";
+                    headerList["minAggregateLoad"] = "Min Aggregate Load (KW)";
 
-                headerList["totalCount"] = "Total Pole";
-                headerList["totalSpcCount"] = "SPC Pole";
-                headerList["totalSpCount"] = "SP Pole";
-                headerList["totalTowerCount"] = "Tower Pole";
-                headerList["totalOthersCount"] = "Others Pole";
-                headerList["totalAgedCount"] = "Aged Pole";
-                headerList["totalBadCount"] = "Bad Pole";
-                headerList["totalBrokenCount"] = "Broken Pole";
-                headerList["totalGoodCount"] = "Good Pole";
-                headerList["totalNeutralPole"] = "Has Neutral Cable";
-                headerList["totalStreetLight"] = "Has Street Light";
-                headerList["totalWireLength"] = "Wire Length (Km)";
+                    dataColumns = ["totalCount", "totalSingleCount", "total3PhaseCount", "totalBothCount", "totalRConsumers", "totalYConsumers", "totalBConsumers", "totalRYBConsumers", "totalAggregateLoad", "maxAggregateLoad", "minAggregateLoad"];
 
-                dataColumns = ["totalCount", "totalSpcCount", "totalSpCount", "totalTowerCount", "totalOthersCount", "totalAgedCount", "totalBadCount", "totalBrokenCount", "totalGoodCount", "totalNeutralPole", "totalStreetLight", "totalWireLength"];
+                    break;
 
-                break;
+
+                case "cd":
+                    reportName = "Consumer Info";
+                    url = '@Url.Action("GetConsumerInfoData", "AdvancedReport")';
+
+                    headerList["totalCount"] = "No. of Consumer";
+                    headerList["totalGovtCount"] = "Consumer Type (Govt.)";
+                    headerList["totalPrivateCount"] = "Consumer Type (Private)";
+                    headerList["totalRegularCount"] = "Connection Status (Regular)";
+                    headerList["totalTemporaryCount"] = "Connection Status (Temporary)";
+                    headerList["totalMotherCount"] = "Connection Type (Mother Meter)";
+                    headerList["totalChildCount"] = "Connection Type (Child Meter)";
+                    headerList["totalNACount"] = "Connection Type (N/A)";
+                    headerList["totalPreCardCount"] = "Meter Type (Prepaid (Card based))";
+                    headerList["totalPreKeypadCount"] = "Meter Type (Prepaid (Keypad))";
+                    headerList["totalPreSmartCount"] = "Meter Type (Prepaid (Smart))";
+                    headerList["totalPosDigitalCount"] = "Meter Type (Postpaid (Digital))";
+                    headerList["totalPosAnalogueCount"] = "Meter Type (Postpaid (Analogue))";
+
+                    headerList["totalEducationCount"] = "Business Type (Education)";
+                    headerList["totalHospitalCount"] = "Business Type (Govt. Hospital)";
+                    headerList["totalFreedomFighterCount"] = "Business Type (Freedom Fighter)";
+                    headerList["totalWaterPumpCount"] = "Business Type (Water Pump)";
+                    headerList["totalOfficeCount"] = "Business Type (Office)";
+                    headerList["totalStreetLightCount"] = "Business Type (Street Light)";
+                    headerList["totalReligiousCount"] = "Business Type (Religious)";
+                    headerList["totalResidentialCount"] = "Business Type (Residential)";
+                    headerList["totalMixedResidentialCount"] = "Business Type (Mixed Residential)";
+
+                    headerList["totalBusinessCount"] = "Business Type (Business)";
+                    headerList["totalOthersCount"] = "Business Type (Others)";
+                    headerList["totalPaccaCount"] = "Connection Status (Pacca)";
+                    headerList["totalSemiPaccaCount"] = "Connection Status (Semi-Pacca)";
+                    headerList["totalWoodenCount"] = "Connection Status (Wooden)";
+                    headerList["totalEarthenCount"] = "Connection Status (Earthen)";
+
+                    dataColumns = ["totalCount", "totalGovtCount", "totalPrivateCount", "totalRegularCount", "totalTemporaryCount", "totalMotherCount", "totalChildCount", "totalNACount", "totalPreCardCount", "totalPreKeypadCount", "totalPreSmartCount", "totalPosDigitalCount", "totalPosAnalogueCount", "totalEducationCount", "totalHospitalCount", "totalFreedomFighterCount", "totalWaterPumpCount", "totalOfficeCount", "totalStreetLightCount", "totalReligiousCount", "totalResidentialCount", "totalMixedResidentialCount", "totalBusinessCount", "totalOthersCount", "totalPaccaCount", "totalSemiPaccaCount", "totalWoodenCount", "totalEarthenCount"];
+
+                    break;
+
+                default:
+
+                    reportName = "Pole";
+                    url = '@Url.Action("GetPoleData", "AdvancedReport")';
+
+                    headerList["totalCount"] = "Total Pole";
+                    headerList["totalSpcCount"] = "SPC Pole";
+                    headerList["totalSpCount"] = "SP Pole";
+                    headerList["totalTowerCount"] = "Tower Pole";
+                    headerList["totalOthersCount"] = "Others Pole";
+                    headerList["totalAgedCount"] = "Aged Pole";
+                    headerList["totalBadCount"] = "Bad Pole";
+                    headerList["totalBrokenCount"] = "Broken Pole";
+                    headerList["totalGoodCount"] = "Good Pole";
+                    headerList["totalNeutralPole"] = "Has Neutral Cable";
+                    headerList["totalStreetLight"] = "Has Street Light";
+                    headerList["totalWireLength"] = "Wire Length (Km)";
+
+                    dataColumns = ["totalCount", "totalSpcCount", "totalSpCount", "totalTowerCount", "totalOthersCount", "totalAgedCount", "totalBadCount", "totalBrokenCount", "totalGoodCount", "totalNeutralPole", "totalStreetLight", "totalWireLength"];
+
+                    break;
             }
         }
 
@@ -407,7 +512,7 @@
                 type: 'POST',
                 url: url,
                 dataType: "json",
-                data: { "regionLevel": regionLevel },
+                data: { "regionLevel": regionLevel, "regionList": regionList },
                 //before: $("#busy-indicator").fadeIn(150),
                 success: function(data) {
                     $("#" + containerId).empty();
