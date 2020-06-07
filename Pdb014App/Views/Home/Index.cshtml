@@ -54,22 +54,92 @@
                 background-color: #08a;
             }
 
-            .table-info td,
-            .table-info tbody td,
-            .table-info tbody tr td {
-                border: 1px solid #ddd !important;
-                padding: 2px 5px;
-                color: #024;
-                text-align: center;
-                font-weight: 400;
+
+            .table-info tr,
+            .table-info tbody tr,
+            .table-info tbody tr:nth-child(2n) {
                 background-color: #fff;
             }
 
-            .table-info tr.alt td,
-            .table-info tbody tr.alt td {
-                background-color: #f5fcfe;
-                background-color: #e5f7fc;
-            }
+                .table-info td,
+                .table-info tbody td,
+                .table-info tbody tr td {
+                    border: 1px solid #ddd !important;
+                    padding: 2px 5px;
+                    color: #024;
+                    text-align: center;
+                    font-weight: 400;
+                    background-color: #fff;
+                }
+
+                    .table-info td.text-bold,
+                    .table-info tbody td.text-bold,
+                    .table-info tbody tr td.text-bold {
+                        font-weight: 500;
+                    }
+
+                .table-info tr.alt,
+                .table-info tbody tr.alt,
+                .table-info tbody tr:nth-child(2n+1) {
+                    background-color: #f5fcfe;
+                    background-color: #eff7fe;
+                }
+
+                    .table-info tr.alt td,
+                    .table-info tbody tr.alt td,
+                    .table-info tbody tr:nth-child(2n+1) td {
+                        background-color: #f5fcfe;
+                        background-color: #e5f7fc;
+                    }
+
+
+        .td-bg-green1 {
+            background-color: rgba(100, 235, 125, 0.1) !important;
+        }
+
+        .td-bg-green1b {
+            background-color: rgba(100, 235, 125, 0.2) !important;
+        }
+
+        .td-bg-red1 {
+            background-color: rgba(240, 145, 125, 0.1) !important;
+        }
+
+        .td-bg-red1b {
+            background-color: rgba(240, 145, 125, 0.2) !important;
+        }
+
+        .td-bg-blue1 {
+            background-color: rgba(120, 175, 235, 0.1) !important;
+        }
+
+        .td-bg-blue1b {
+            background-color: rgba(120, 175, 235, 0.2) !important;
+        }
+
+        .td-bg-green2 {
+            background-color: rgba(30, 230, 15, 0.1) !important;
+        }
+
+        .td-bg-green2b {
+            background-color: rgba(30, 230, 15, 0.2) !important;
+        }
+
+        .td-bg-red2 {
+            background-color: rgba(230, 30, 15, 0.1) !important;
+        }
+
+        .td-bg-red2b {
+            background-color: rgba(230, 30, 15, 0.2) !important;
+        }
+
+        .td-bg-red3 {
+            background-color: rgba(175, 150, 35, 0.1) !important;
+        }
+
+        .td-bg-red3b {
+            background-color: rgba(175, 150, 35, 0.2) !important;
+        }
     </style>
 
 }
@@ -95,13 +165,13 @@
     </div>
     <div class="col-md-2">
         <div class="card pd-10 bd-0 shadow-base text-center rounded overflow-hidden" style="border:1px solid rgba(0, 0, 0, 0.25);">
-            <p class="title_txt">No. of PT @*Power Transformer*@</p>
+            <p class="title_txt">No. of P/T @*Power Transformer*@</p>
             <p class="num_txt">@ViewBag.PtCount.ToString("N0", bdCulture)</p>
         </div>
     </div>
     <div class="col-md-2">
         <div class="card pd-10 bd-0 shadow-base text-center rounded overflow-hidden" style="border:1px solid rgba(0, 0, 0, 0.25);">
-            <p class="title_txt">No. of DT @*Distribution Transformer*@</p>
+            <p class="title_txt">No. of D/T @*Distribution Transformer*@</p>
             <p class="num_txt">@ViewBag.DtCount.ToString("N0", bdCulture)</p>
         </div>
     </div>
@@ -160,36 +230,46 @@
                                 ++ic;
                                 if (!item.Name.ToLower().Equals("total"))
                                 {
-                                    <tr @((ic % 2 == 0) ? " class=alt" : "")>
+                                    <tr @((ic % 2 == 1) ? " class=alt" : "")>
                                         <td style="text-align:left;">@item.Name</td>
-                                        <td style="text-align:right;">@(item.Fl11?.ToString("N0", bdCulture))</td>
-                                        <td style="text-align:right;">@(item.Fl33?.ToString("N0", bdCulture))</td>
-                                        <td style="text-align:right;">@(item.Fl?.ToString("N0", bdCulture))</td>
-                                        <td style="text-align:right;">@(item.St11?.ToString("N0", bdCulture))</td>
-                                        <td style="text-align:right;">@(item.St33?.ToString("N0", bdCulture))</td>
-                                        <td style="text-align:right;">@(item.St?.ToString("N0", bdCulture))</td>
-                                        <td style="text-align:right;">@(item.Pt?.ToString("N0", bdCulture))</td>
-                                        <td style="text-align:right;">@(item.Dt11?.ToString("N0", bdCulture))</td>
-                                        <td style="text-align:right;">@(item.Dt33?.ToString("N0", bdCulture))</td>
-                                        <td style="text-align:right;">@(item.Dt?.ToString("N0", bdCulture))</td>
-                                        <td style="text-align:right;">@(item.Pl?.ToString("N0", bdCulture))</td>
+
+                                        <td class="text-right td-bg-red1">@(item.Fl11?.ToString("N0", bdCulture))</td>
+                                        <td class="text-right td-bg-red1">@(item.Fl33?.ToString("N0", bdCulture))</td>
+                                        <td class="text-right td-bg-red1b text-bold">@(item.Fl?.ToString("N0", bdCulture))</td>
+
+                                        <td class="text-right td-bg-blue1">@(item.St11?.ToString("N0", bdCulture))</td>
+                                        <td class="text-right td-bg-blue1">@(item.St33?.ToString("N0", bdCulture))</td>
+                                        <td class="text-right td-bg-blue1b text-bold">@(item.St?.ToString("N0", bdCulture))</td>
+
+                                        <td class="text-right td-bg-red2b">@(item.Pt?.ToString("N0", bdCulture))</td>
+
+                                        <td class="text-right td-bg-green1">@(item.Dt11?.ToString("N0", bdCulture))</td>
+                                        <td class="text-right td-bg-green1">@(item.Dt33?.ToString("N0", bdCulture))</td>
+                                        <td class="text-right td-bg-green1b text-bold">@(item.Dt?.ToString("N0", bdCulture))</td>
+
+                                        <td class="text-right td-bg-blue1b">@(item.Pl?.ToString("N0", bdCulture))</td>
                                     </tr>
                                 }
                                 else
                                 {
                                     <tr>
-                                        <th style="text-align:right;">@item.Name</th>
-                                        <th style="text-align:right;">@(item.Fl11?.ToString("N0", bdCulture))</th>
-                                        <th style="text-align:right;">@(item.Fl33?.ToString("N0", bdCulture))</th>
-                                        <th style="text-align:right;">@(item.Fl?.ToString("N0", bdCulture))</th>
-                                        <th style="text-align:right;">@(item.St11?.ToString("N0", bdCulture))</th>
-                                        <th style="text-align:right;">@(item.St33?.ToString("N0", bdCulture))</th>
-                                        <th style="text-align:right;">@(item.St?.ToString("N0", bdCulture))</th>
-                                        <th style="text-align:right;">@(item.Pt?.ToString("N0", bdCulture))</th>
-                                        <th style="text-align:right;">@(item.Dt11?.ToString("N0", bdCulture))</th>
-                                        <th style="text-align:right;">@(item.Dt33?.ToString("N0", bdCulture))</th>
-                                        <th style="text-align:right;">@(item.Dt?.ToString("N0", bdCulture))</th>
-                                        <th style="text-align:right;">@(item.Pl?.ToString("N0", bdCulture))</th>
+                                        <th class="text-right">@item.Name</th>
+
+                                        <th class="text-right">@(item.Fl11?.ToString("N0", bdCulture))</th>
+                                        <th class="text-right">@(item.Fl33?.ToString("N0", bdCulture))</th>
+                                        <th class="text-right">@(item.Fl?.ToString("N0", bdCulture))</th>
+
+                                        <th class="text-right">@(item.St11?.ToString("N0", bdCulture))</th>
+                                        <th class="text-right">@(item.St33?.ToString("N0", bdCulture))</th>
+                                        <th class="text-right">@(item.St?.ToString("N0", bdCulture))</th>
+
+                                        <th class="text-right">@(item.Pt?.ToString("N0", bdCulture))</th>
+
+                                        <th class="text-right">@(item.Dt11?.ToString("N0", bdCulture))</th>
+                                        <th class="text-right">@(item.Dt33?.ToString("N0", bdCulture))</th>
+                                        <th class="text-right">@(item.Dt?.ToString("N0", bdCulture))</th>
+
+                                        <th class="text-right">@(item.Pl?.ToString("N0", bdCulture))</th>
                                     </tr>
                                 }
                             }
@@ -375,151 +455,132 @@
                 headerList["totalBadCount"] = "Bad Pole";
                 headerList["totalBrokenCount"] = "Broken Pole";
                 headerList["totalGoodCount"] = "Good Pole";
-                headerList["totalNeutralPole"] = "Has Neutral Cable";
-                headerList["totalStreetLight"] = "Has Street Light";
+                //headerList["totalNeutralPole"] = "Has Neutral Cable";
+                //headerList["totalStreetLight"] = "Has Street Light";
                 headerList["totalWireLength"] = "Wire Length (Km)";
 
-                dataColumns = ["totalCount", "totalSpcCount", "totalSpCount", "totalTowerCount", "totalOthersCount", "totalAgedCount", "totalBadCount", "totalBrokenCount", "totalGoodCount", "totalNeutralPole", "totalStreetLight", "totalWireLength"];
+                dataColumns = ["totalCount", "totalSpcCount", "totalSpCount", "totalTowerCount", "totalOthersCount", "totalAgedCount", "totalBadCount", "totalBrokenCount", "totalGoodCount", /*"totalNeutralPole", "totalStreetLight",*/ "totalWireLength"];
 
                 break;
 
-            case "ss":
-                reportName = "Sub-Station";
-                url = '@Url.Action("GetSubstationData", "AdvancedReport")';
+                case "ss":
+                    reportName = "Sub-Station";
+                    url = '@Url.Action("GetSubstationData", "AdvancedReport")';
 
-                headerList["totalCount"] = "Total Substation";
-                headerList["total11kCount"] = "33/11 kV Substation";
-                headerList["total33kCount"] = "132/33 kV Substation";
-                headerList["totalCapacity"] = "Capacity (MVA)";
-                headerList["totalDemand"] = "Demand (Max) (MW)";
-                headerList["totalPeakLoad"] = "Peak Load (MW)";
-                headerList["maxPeakLoad"] = "Max Peak Load (MW)";
-                headerList["minPeakLoad"] = "Min Peak Load (MW)";
+                    headerList["totalCount"] = "Total Substation";
+                    headerList["total11kCount"] = "33/11 kV Substation";
+                    headerList["total33kCount"] = "132/33 kV Substation";
+                    headerList["totalCapacity"] = "Capacity (MVA)";
+                    headerList["totalDemand"] = "Demand (Max) (MW)";
+                    //headerList["totalPeakLoad"] = "Peak Load (MW)";
+                    headerList["maxPeakLoad"] = "Max Peak Load (MW)";
+                    headerList["minPeakLoad"] = "Min Peak Load (MW)";
 
-                dataColumns = ["totalCount", "total11kCount", "total33kCount", "totalCapacity", "totalDemand", "totalPeakLoad", "maxPeakLoad", "minPeakLoad"];
+                    dataColumns = ["totalCount", "total11kCount", "total33kCount", "totalCapacity", "totalDemand", /*"totalPeakLoad",*/ "maxPeakLoad", "minPeakLoad"];
 
-                break;
+                    break;
 
-            case "fl":
-                reportName = "Feeder Line";
-                url = '@Url.Action("GetFeederLineData", "AdvancedReport")';
+                case "fl":
+                    reportName = "Feeder Line";
+                    url = '@Url.Action("GetFeederLineData", "AdvancedReport")';
 
-                headerList["totalCount"] = "Total Feeder Line";
-                headerList["total11kCount"] = "11KV Feeder Line";
-                headerList["total33kCount"] = "33KV Feeder Line";
-                headerList["totalFeederLength"] = "Feeder Length (Km)";
-                headerList["total11kFeederLength"] = "11KV Feeder Length (Km)";
-                headerList["total33kFeederLength"] = "33KV Feeder Length (Km)";
-                headerList["totalMaxDemand"] = "Maximum Demand (MW)";
-                headerList["totalPeakDemand"] = "Peak Demand (MW)";
-                headerList["totalMaxLoad"] = "Maximum Load (MW)";
-                headerList["totalSanctionedLoad"] = "Sanctioned Load (MW)";
+                    headerList["totalCount"] = "Total Feeder Line";
+                    headerList["total11kCount"] = "11KV Feeder Line";
+                    headerList["total33kCount"] = "33KV Feeder Line";
+                    headerList["totalFeederLength"] = "Feeder Length (Km)";
+                    headerList["total11kFeederLength"] = "11KV Feeder Length (Km)";
+                    headerList["total33kFeederLength"] = "33KV Feeder Length (Km)";
+                    headerList["totalMaxDemand"] = "Maximum Demand (MW)";
+                    headerList["totalPeakDemand"] = "Peak Demand (MW)";
+                    headerList["totalMaxLoad"] = "Maximum Load (MW)";
+                    //headerList["totalSanctionedLoad"] = "Sanctioned Load (MW)";
 
-                dataColumns = ["totalCount", "total11kCount", "total33kCount", "totalFeederLength", "total11kFeederLength", "total33kFeederLength", "totalMaxDemand", "totalPeakDemand", "totalMaxLoad", "totalSanctionedLoad"];
+                    dataColumns = ["totalCount", "total11kCount", "total33kCount", "totalFeederLength", "total11kFeederLength", "total33kFeederLength", "totalMaxDemand", "totalPeakDemand", "totalMaxLoad"/*, "totalSanctionedLoad"*/];
 
-                break;
+                    break;
 
-            case "dt":
-                reportName = "Distribution Transformer";
-                url = '@Url.Action("GetDistributionTransformerData", "AdvancedReport")';
+                case "dt":
+                    reportName = "Distribution Transformer";
+                    url = '@Url.Action("GetDistributionTransformerData", "AdvancedReport")';
 
-                headerList["totalCount"] = "Total DT";
-                headerList["totalIcPadCount"] = "Installed Condition (Pad)";
-                headerList["totalIcPoleMountCount"] = "Installed Condition (Pole Mounted)";
-                headerList["totalIpIndoorCount"] = "Installed Place (Indoor)";
-                headerList["totalIpOutdoorCount"] = "Installed Place (Outdoor)";
-                headerList["totalBpdbDtCount"] = "Owner (BPDB)";
-                headerList["totalConsumerDtCount"] = "Owner (Consumer)";
-                headerList["totalOlYesCount"] = "Oil Leakage (Yes)";
-                headerList["totalOlNoCount"] = "Oil Leakage (No)";
-                headerList["totalPmAngleCount"] = "Platform Material (Angle)";
-                headerList["totalPmChannelCount"] = "Platform Material (Channel)";
+                    headerList["totalCount"] = "Total DT";
+                    headerList["totalIcPadCount"] = "Installed Condition (Pad)";
+                    headerList["totalIcPoleMountCount"] = "Installed Condition (Pole Mounted)";
+                    //headerList["totalIpIndoorCount"] = "Installed Place (Indoor)";
+                    //headerList["totalIpOutdoorCount"] = "Installed Place (Outdoor)";
+                    headerList["totalBpdbDtCount"] = "Owner (BPDB)";
+                    headerList["totalConsumerDtCount"] = "Owner (Consumer)";
+                    //headerList["totalOlYesCount"] = "Oil Leakage (Yes)";
+                    //headerList["totalOlNoCount"] = "Oil Leakage (No)";
+                    headerList["totalPmAngleCount"] = "Platform Material (Angle)";
+                    headerList["totalPmChannelCount"] = "Platform Material (Channel)";
 
-                dataColumns = ["totalCount", "totalIcPoleMountCount", "totalIpIndoorCount", "totalIpOutdoorCount", "totalBpdbDtCount", "totalOlYesCount", "totalOlNoCount", "totalPmAngleCount", "totalPmChannelCount"];
+                    dataColumns = ["totalCount", "totalIcPadCount", "totalIcPoleMountCount", /*"totalIpIndoorCount", "totalIpOutdoorCount",*/ "totalBpdbDtCount", "totalConsumerDtCount", /*"totalOlYesCount", "totalOlNoCount",*/ "totalPmAngleCount", "totalPmChannelCount"];
 
-                break;
+                    break;
 
-            case "sp":
-                reportName = "Service Point";
-                url = '@Url.Action("GetServicePointInfoData", "AdvancedReport")';
+                case "sp":
+                    reportName = "Service Point";
+                    url = '@Url.Action("GetServicePointInfoData", "AdvancedReport")';
 
-                headerList["totalCount"] = "No. of Service Point";
-                headerList["totalSingleCount"] = "Service Point Type (Single Phase)";
-                headerList["total3PhaseCount"] = "Service Point Type (3-Phase)";
-                headerList["totalBothCount"] = "Service Point Type (Both Phase)";
-                headerList["totalRConsumers"] = "No. of Consumers (R)";
-                headerList["totalYConsumers"] = "No. of Consumers (Y)";
-                headerList["totalBConsumers"] = "No. of Consumers (B)";
-                headerList["totalRYBConsumers"] = "No. of Consumers (RYB)";
-                headerList["totalAggregateLoad"] = "Total Aggregate Load (MW)";
-                headerList["maxAggregateLoad"] = "Max Aggregate Load (KW)";
-                headerList["minAggregateLoad"] = "Min Aggregate Load (KW)";
+                    headerList["totalCount"] = "No. of Service Point";
+                    headerList["totalSingleCount"] = "Service Point Type (Single Phase)";
+                    headerList["total3PhaseCount"] = "Service Point Type (3-Phase)";
+                    headerList["totalBothCount"] = "Service Point Type (Both Phase)";
+                    //headerList["totalRConsumers"] = "No. of Consumers (R)";
+                    //headerList["totalYConsumers"] = "No. of Consumers (Y)";
+                    //headerList["totalBConsumers"] = "No. of Consumers (B)";
+                    //headerList["totalRYBConsumers"] = "No. of Consumers (RYB)";
+                    headerList["totalAggregateLoad"] = "Total Aggregate Load (MW)";
+                    headerList["maxAggregateLoad"] = "Max Aggregate Load (KW)";
+                    headerList["minAggregateLoad"] = "Min Aggregate Load (KW)";
 
-                dataColumns = ["totalCount", "totalSingleCount", "total3PhaseCount", "totalBothCount", "totalRConsumers", "totalYConsumers", "totalBConsumers", "totalRYBConsumers", "totalAggregateLoad", "maxAggregateLoad", "minAggregateLoad"];
+                    dataColumns = ["totalCount", "totalSingleCount", "total3PhaseCount", "totalBothCount", /*"totalRConsumers", "totalYConsumers", "totalBConsumers", "totalRYBConsumers",*/ "totalAggregateLoad", "maxAggregateLoad", "minAggregateLoad"];
 
-                break;
+                    break;
 
 
-            case "cd":
-                reportName = "Consumer Info";
-                url = '@Url.Action("GetConsumerInfoData", "AdvancedReport")';
+                case "cd":
+                    reportName = "Consumer Info";
+                    url = '@Url.Action("GetConsumerInfoData", "AdvancedReport")';
 
-                headerList["totalCount"] = "No. of Consumer";
-                headerList["totalGovtCount"] = "Consumer Type (Govt.)";
-                headerList["totalPrivateCount"] = "Consumer Type (Private)";
-                headerList["totalRegularCount"] = "Connection Status (Regular)";
-                headerList["totalTemporaryCount"] = "Connection Status (Temporary)";
-                headerList["totalMotherCount"] = "Connection Type (Mother Meter)";
-                headerList["totalChildCount"] = "Connection Type (Child Meter)";
-                headerList["totalNACount"] = "Connection Type (N/A)";
-                headerList["totalPreCardCount"] = "Meter Type (Prepaid (Card based))";
-                headerList["totalPreKeypadCount"] = "Meter Type (Prepaid (Keypad))";
-                headerList["totalPreSmartCount"] = "Meter Type (Prepaid (Smart))";
-                headerList["totalPosDigitalCount"] = "Meter Type (Postpaid (Digital))";
-                headerList["totalPosAnalogueCount"] = "Meter Type (Postpaid (Analogue))";
+                    headerList["totalCount"] = "No. of Consumer";
+                    headerList["totalGovtCount"] = "Consumer Type (Govt.)";
+                    headerList["totalPrivateCount"] = "Consumer Type (Private)";
+                    headerList["totalRegularCount"] = "Connection Status (Regular)";
+                    headerList["totalTemporaryCount"] = "Connection Status (Temporary)";
+                    //headerList["totalMotherCount"] = "Connection Type (Mother Meter)";
+                    //headerList["totalChildCount"] = "Connection Type (Child Meter)";
+                    //headerList["totalNACount"] = "Connection Type (N/A)";
+                    headerList["totalPreCardCount"] = "Meter Type (Prepaid (Card based))";
+                    headerList["totalPreKeypadCount"] = "Meter Type (Prepaid (Keypad))";
+                    headerList["totalPreSmartCount"] = "Meter Type (Prepaid (Smart))";
+                    headerList["totalPosDigitalCount"] = "Meter Type (Postpaid (Digital))";
+                    headerList["totalPosAnalogueCount"] = "Meter Type (Postpaid (Analogue))";
 
-                headerList["totalEducationCount"] = "Business Type (Education)";
-                headerList["totalHospitalCount"] = "Business Type (Govt. Hospital)";
-                headerList["totalFreedomFighterCount"] = "Business Type (Freedom Fighter)";
-                headerList["totalWaterPumpCount"] = "Business Type (Water Pump)";
-                headerList["totalOfficeCount"] = "Business Type (Office)";
-                headerList["totalStreetLightCount"] = "Business Type (Street Light)";
-                headerList["totalReligiousCount"] = "Business Type (Religious)";
-                headerList["totalResidentialCount"] = "Business Type (Residential)";
-                headerList["totalMixedResidentialCount"] = "Business Type (Mixed Residential)";
+                    //headerList["totalEducationCount"] = "Business Type (Education)";
+                    //headerList["totalHospitalCount"] = "Business Type (Govt. Hospital)";
+                    //headerList["totalFreedomFighterCount"] = "Business Type (Freedom Fighter)";
+                    //headerList["totalWaterPumpCount"] = "Business Type (Water Pump)";
+                    //headerList["totalOfficeCount"] = "Business Type (Office)";
+                    //headerList["totalStreetLightCount"] = "Business Type (Street Light)";
+                    //headerList["totalReligiousCount"] = "Business Type (Religious)";
+                    //headerList["totalResidentialCount"] = "Business Type (Residential)";
+                    //headerList["totalMixedResidentialCount"] = "Business Type (Mixed Residential)";
 
-                headerList["totalBusinessCount"] = "Business Type (Business)";
-                headerList["totalOthersCount"] = "Business Type (Others)";
-                headerList["totalPaccaCount"] = "Connection Status (Pacca)";
-                headerList["totalSemiPaccaCount"] = "Connection Status (Semi-Pacca)";
-                headerList["totalWoodenCount"] = "Connection Status (Wooden)";
-                headerList["totalEarthenCount"] = "Connection Status (Earthen)";
+                    //headerList["totalBusinessCount"] = "Business Type (Business)";
+                    //headerList["totalOthersCount"] = "Business Type (Others)";
+                    //headerList["totalPaccaCount"] = "Connection Status (Pacca)";
+                    //headerList["totalSemiPaccaCount"] = "Connection Status (Semi-Pacca)";
+                    //headerList["totalWoodenCount"] = "Connection Status (Wooden)";
+                    //headerList["totalEarthenCount"] = "Connection Status (Earthen)";
 
-                dataColumns = ["totalCount", "totalGovtCount", "totalPrivateCount", "totalRegularCount", "totalTemporaryCount", "totalMotherCount", "totalChildCount", "totalNACount", "totalPreCardCount", "totalPreKeypadCount", "totalPreSmartCount", "totalPosDigitalCount", "totalPosAnalogueCount", "totalEducationCount", "totalHospitalCount", "totalFreedomFighterCount", "totalWaterPumpCount", "totalOfficeCount", "totalStreetLightCount", "totalReligiousCount", "totalResidentialCount", "totalMixedResidentialCount", "totalBusinessCount", "totalOthersCount", "totalPaccaCount", "totalSemiPaccaCount", "totalWoodenCount", "totalEarthenCount"];
+                    dataColumns = ["totalCount", "totalGovtCount", "totalPrivateCount", "totalRegularCount", "totalTemporaryCount", /*"totalMotherCount", "totalChildCount", "totalNACount",*/ "totalPreCardCount", "totalPreKeypadCount", "totalPreSmartCount", "totalPosDigitalCount", "totalPosAnalogueCount", /*"totalEducationCount", "totalHospitalCount", "totalFreedomFighterCount", "totalWaterPumpCount", "totalOfficeCount", "totalStreetLightCount", "totalReligiousCount", "totalResidentialCount", "totalMixedResidentialCount", "totalBusinessCount", "totalOthersCount", "totalPaccaCount", "totalSemiPaccaCount", "totalWoodenCount", "totalEarthenCount"*/];
 
-                break;
+                    break;
 
-            default:
-
-                reportName = "Pole";
-                url = '@Url.Action("GetPoleData", "AdvancedReport")';
-
-                headerList["totalCount"] = "Total Pole";
-                headerList["totalSpcCount"] = "SPC Pole";
-                headerList["totalSpCount"] = "SP Pole";
-                headerList["totalTowerCount"] = "Tower Pole";
-                headerList["totalOthersCount"] = "Others Pole";
-                headerList["totalAgedCount"] = "Aged Pole";
-                headerList["totalBadCount"] = "Bad Pole";
-                headerList["totalBrokenCount"] = "Broken Pole";
-                headerList["totalGoodCount"] = "Good Pole";
-                headerList["totalNeutralPole"] = "Has Neutral Cable";
-                headerList["totalStreetLight"] = "Has Street Light";
-                headerList["totalWireLength"] = "Wire Length (Km)";
-
-                dataColumns = ["totalCount", "totalSpcCount", "totalSpCount", "totalTowerCount", "totalOthersCount", "totalAgedCount", "totalBadCount", "totalBrokenCount", "totalGoodCount", "totalNeutralPole", "totalStreetLight", "totalWireLength"];
-
-                break;
+                default:
+                    break;
             }
         }
 

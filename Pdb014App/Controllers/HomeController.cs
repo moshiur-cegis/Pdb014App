@@ -81,7 +81,7 @@ namespace Pdb014App.Controllers
                     else
                     {
                         regionLevel = "zone";
-                        
+
                         if (!string.IsNullOrEmpty(regionList[3]))
                         {
                             regionLevel = "substation";
@@ -377,9 +377,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     var st11Info = _dbContext.TblSubstation
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode) &&
-                                    z.SubstationType.SubstationTypeName.Contains("/11"))
+                        .Where(z =>
+                            (zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                            && z.SubstationType.SubstationTypeName.Contains("/11"))
                         .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
@@ -388,9 +388,10 @@ namespace Pdb014App.Controllers
                         })
                         .ToList();
 
-                    var st33Info = _dbContext.TblSubstation.Where(z =>
-                            zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode) &&
-                            z.SubstationType.SubstationTypeName.Contains("/33"))
+                    var st33Info = _dbContext.TblSubstation
+                        .Where(z =>
+                            (zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                            && z.SubstationType.SubstationTypeName.Contains("/33"))
                         .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
@@ -412,9 +413,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     var fl11Info = _dbContext.TblFeederLine
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode
-                                        .Equals(zoneCode) && z.NominalVoltage == 11)
+                        .Where(z => (zoneCode.Equals("") || z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleInfo.ZoneCode.Equals(zoneCode))
+                                    && z.NominalVoltage == 11)
                         .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
@@ -424,9 +425,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     var fl33Info = _dbContext.TblFeederLine
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode
-                                        .Equals(zoneCode) && z.NominalVoltage == 33)
+                        .Where(z => (zoneCode.Equals("") || z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleInfo.ZoneCode.Equals(zoneCode))
+                                    && z.NominalVoltage == 33)
                         .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
@@ -450,9 +451,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     var dt11Info = _dbContext.TblDistributionTransformer
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                        .CircleInfo.ZoneCode.Equals(zoneCode) && z.DtToFeederLine.NominalVoltage == 11)
+                        .Where(z => (zoneCode.Equals("") || z.DtToFeederLine.FeederLineToRoute.RouteToSubstation
+                                        .SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                                    && z.DtToFeederLine.NominalVoltage == 11)
                         .GroupBy(z =>
                             z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .ZoneCode)
@@ -464,9 +465,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     var dt33Info = _dbContext.TblDistributionTransformer
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                        .CircleInfo.ZoneCode.Equals(zoneCode) && z.DtToFeederLine.NominalVoltage == 33)
+                        .Where(z => (zoneCode.Equals("") || z.DtToFeederLine.FeederLineToRoute.RouteToSubstation
+                                        .SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                                    && z.DtToFeederLine.NominalVoltage == 33)
                         .GroupBy(z =>
                             z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .ZoneCode)
@@ -501,6 +502,7 @@ namespace Pdb014App.Controllers
                             PtCount = k.Count()
                         })
                         .ToList();
+
 
                     var regions = _dbContext.LookUpZoneInfo
                         .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
@@ -578,9 +580,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     st11Info = _dbContext.TblSubstation
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode) &&
-                                    z.SubstationType.SubstationTypeName.Contains("/11"))
+                        .Where(z =>
+                            (zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode)) &&
+                            z.SubstationType.SubstationTypeName.Contains("/11"))
                         .GroupBy(z => z.SubstationToLookUpSnD.CircleCode)
                         .Select(k => new
                         {
@@ -590,7 +592,7 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     st33Info = _dbContext.TblSubstation.Where(z =>
-                            zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode) &&
+                            (zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode)) &&
                             z.SubstationType.SubstationTypeName.Contains("/33"))
                         .GroupBy(z => z.SubstationToLookUpSnD.CircleCode)
                         .Select(k => new
@@ -613,9 +615,8 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     fl11Info = _dbContext.TblFeederLine
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode
-                                        .Equals(zoneCode) && z.NominalVoltage == 11)
+                        .Where(z => (zoneCode.Equals("") || z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                            .CircleInfo.ZoneCode.Equals(zoneCode)) && z.NominalVoltage == 11)
                         .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
                         .Select(k => new
                         {
@@ -625,9 +626,8 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     fl33Info = _dbContext.TblFeederLine
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode
-                                        .Equals(zoneCode) && z.NominalVoltage == 33)
+                        .Where(z => (zoneCode.Equals("") || z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                            .CircleInfo.ZoneCode.Equals(zoneCode)) && z.NominalVoltage == 33)
                         .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
                         .Select(k => new
                         {
@@ -650,9 +650,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     dt11Info = _dbContext.TblDistributionTransformer
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                        .CircleInfo.ZoneCode.Equals(zoneCode) && z.DtToFeederLine.NominalVoltage == 11)
+                        .Where(z => (zoneCode.Equals("") || z.DtToFeederLine.FeederLineToRoute.RouteToSubstation
+                                        .SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode)) &&
+                                    z.DtToFeederLine.NominalVoltage == 11)
                         .GroupBy(z =>
                             z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
                         .Select(k => new
@@ -663,9 +663,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     dt33Info = _dbContext.TblDistributionTransformer
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                        .CircleInfo.ZoneCode.Equals(zoneCode) && z.DtToFeederLine.NominalVoltage == 33)
+                        .Where(z => (zoneCode.Equals("") || z.DtToFeederLine.FeederLineToRoute.RouteToSubstation
+                                        .SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode)) &&
+                                    z.DtToFeederLine.NominalVoltage == 33)
                         .GroupBy(z =>
                             z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode)
                         .Select(k => new
@@ -699,6 +699,7 @@ namespace Pdb014App.Controllers
                             PtCount = k.Count()
                         })
                         .ToList();
+
 
                     regions = _dbContext.LookUpCircleInfo
                         .Where(c => (zoneCode.Equals("") || c.ZoneCode.Equals(zoneCode))
@@ -777,8 +778,8 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     st11Info = _dbContext.TblSubstation
-                        .Where(z => circleCode.Equals("") || z.SubstationToLookUpSnD.CircleCode.Equals(circleCode) &&
-                            z.SubstationType.SubstationTypeName.Contains("/11"))
+                        .Where(z => (circleCode.Equals("") || z.SubstationToLookUpSnD.CircleCode.Equals(circleCode)) &&
+                                    z.SubstationType.SubstationTypeName.Contains("/11"))
                         .GroupBy(z => z.SnDCode)
                         .Select(k => new
                         {
@@ -788,7 +789,7 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     st33Info = _dbContext.TblSubstation.Where(z =>
-                            circleCode.Equals("") || z.SubstationToLookUpSnD.CircleCode.Equals(circleCode) &&
+                            (circleCode.Equals("") || z.SubstationToLookUpSnD.CircleCode.Equals(circleCode)) &&
                             z.SubstationType.SubstationTypeName.Contains("/33"))
                         .GroupBy(z => z.SnDCode)
                         .Select(k => new
@@ -812,9 +813,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     fl11Info = _dbContext.TblFeederLine
-                        .Where(z => circleCode.Equals("") ||
-                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode.Equals(
-                                        circleCode) && z.NominalVoltage == 11)
+                        .Where(z => (circleCode.Equals("") ||
+                                     z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode.Equals(
+                                         circleCode)) && z.NominalVoltage == 11)
                         .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SnDCode)
                         .Select(k => new
                         {
@@ -824,9 +825,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     fl33Info = _dbContext.TblFeederLine
-                        .Where(z => circleCode.Equals("") ||
-                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode.Equals(
-                                        circleCode) && z.NominalVoltage == 33)
+                        .Where(z => (circleCode.Equals("") ||
+                                     z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode.Equals(
+                                         circleCode)) && z.NominalVoltage == 33)
                         .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SnDCode)
                         .Select(k => new
                         {
@@ -850,9 +851,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     dt11Info = _dbContext.TblDistributionTransformer
-                        .Where(z => circleCode.Equals("") ||
-                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                        .CircleCode.Equals(circleCode) && z.DtToFeederLine.NominalVoltage == 11)
+                        .Where(z => (circleCode.Equals("") ||
+                                     z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                         .CircleCode.Equals(circleCode)) && z.DtToFeederLine.NominalVoltage == 11)
                         .GroupBy(z =>
                             z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SnDCode)
                         .Select(k => new
@@ -863,9 +864,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     dt33Info = _dbContext.TblDistributionTransformer
-                        .Where(z => circleCode.Equals("") ||
-                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                        .CircleCode.Equals(circleCode) && z.DtToFeederLine.NominalVoltage == 33)
+                        .Where(z => (circleCode.Equals("") ||
+                                     z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                         .CircleCode.Equals(circleCode)) && z.DtToFeederLine.NominalVoltage == 33)
                         .GroupBy(z =>
                             z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SnDCode)
                         .Select(k => new
@@ -978,8 +979,8 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     st11Info = _dbContext.TblSubstation
-                        .Where(z => snDCode.Equals("") || z.SubstationToLookUpSnD.SnDCode.Equals(snDCode) &&
-                            z.SubstationType.SubstationTypeName.Contains("/11"))
+                        .Where(z => (snDCode.Equals("") || z.SubstationToLookUpSnD.SnDCode.Equals(snDCode)) &&
+                                    z.SubstationType.SubstationTypeName.Contains("/11"))
                         .GroupBy(z => z.SubstationId)
                         .Select(k => new
                         {
@@ -989,7 +990,7 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     st33Info = _dbContext.TblSubstation.Where(z =>
-                            snDCode.Equals("") || z.SubstationToLookUpSnD.SnDCode.Equals(snDCode) &&
+                            (snDCode.Equals("") || z.SubstationToLookUpSnD.SnDCode.Equals(snDCode)) &&
                             z.SubstationType.SubstationTypeName.Contains("/33"))
                         .GroupBy(z => z.SubstationId)
                         .Select(k => new
@@ -1012,9 +1013,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     fl11Info = _dbContext.TblFeederLine
-                        .Where(z => snDCode.Equals("") ||
-                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode
-                                        .Equals(snDCode) && z.NominalVoltage == 11)
+                        .Where(z => (snDCode.Equals("") ||
+                                     z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode.Equals(snDCode)
+                            ) && z.NominalVoltage == 11)
                         .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationId)
                         .Select(k => new
                         {
@@ -1024,9 +1025,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     fl33Info = _dbContext.TblFeederLine
-                        .Where(z => snDCode.Equals("") ||
-                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode
-                                        .Equals(snDCode) && z.NominalVoltage == 33)
+                        .Where(z => (snDCode.Equals("") ||
+                                     z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode.Equals(snDCode)
+                            ) && z.NominalVoltage == 33)
                         .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationId)
                         .Select(k => new
                         {
@@ -1048,9 +1049,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     dt11Info = _dbContext.TblDistributionTransformer
-                        .Where(z => snDCode.Equals("") ||
-                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode
-                                        .Equals(snDCode) && z.DtToFeederLine.NominalVoltage == 11)
+                        .Where(z => (snDCode.Equals("") || z.DtToFeederLine.FeederLineToRoute.RouteToSubstation
+                                        .SubstationToLookUpSnD.SnDCode.Equals(snDCode)) &&
+                                    z.DtToFeederLine.NominalVoltage == 11)
                         .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationId)
                         .Select(k => new
                         {
@@ -1060,9 +1061,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     dt33Info = _dbContext.TblDistributionTransformer
-                        .Where(z => snDCode.Equals("") ||
-                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.SnDCode
-                                        .Equals(snDCode) && z.DtToFeederLine.NominalVoltage == 33)
+                        .Where(z => (snDCode.Equals("") || z.DtToFeederLine.FeederLineToRoute.RouteToSubstation
+                                        .SubstationToLookUpSnD.SnDCode.Equals(snDCode)) &&
+                                    z.DtToFeederLine.NominalVoltage == 33)
                         .GroupBy(z => z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationId)
                         .Select(k => new
                         {
@@ -1175,9 +1176,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     st11Info = _dbContext.TblSubstation
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode) &&
-                                    z.SubstationType.SubstationTypeName.Contains("/11"))
+                        .Where(z =>
+                            (zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                            && z.SubstationType.SubstationTypeName.Contains("/11"))
                         .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
@@ -1186,9 +1187,10 @@ namespace Pdb014App.Controllers
                         })
                         .ToList();
 
-                    st33Info = _dbContext.TblSubstation.Where(z =>
-                            zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode) &&
-                            z.SubstationType.SubstationTypeName.Contains("/33"))
+                    st33Info = _dbContext.TblSubstation
+                        .Where(z =>
+                            (zoneCode.Equals("") || z.SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                            && z.SubstationType.SubstationTypeName.Contains("/33"))
                         .GroupBy(z => z.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
@@ -1210,9 +1212,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     fl11Info = _dbContext.TblFeederLine
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode
-                                        .Equals(zoneCode) && z.NominalVoltage == 11)
+                        .Where(z => (zoneCode.Equals("") || z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleInfo.ZoneCode.Equals(zoneCode))
+                                    && z.NominalVoltage == 11)
                         .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
@@ -1222,9 +1224,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     fl33Info = _dbContext.TblFeederLine
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode
-                                        .Equals(zoneCode) && z.NominalVoltage == 33)
+                        .Where(z => (zoneCode.Equals("") || z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
+                                        .CircleInfo.ZoneCode.Equals(zoneCode))
+                                    && z.NominalVoltage == 33)
                         .GroupBy(z => z.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode)
                         .Select(k => new
                         {
@@ -1248,9 +1250,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     dt11Info = _dbContext.TblDistributionTransformer
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                        .CircleInfo.ZoneCode.Equals(zoneCode) && z.DtToFeederLine.NominalVoltage == 11)
+                        .Where(z => (zoneCode.Equals("") || z.DtToFeederLine.FeederLineToRoute.RouteToSubstation
+                                        .SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                                    && z.DtToFeederLine.NominalVoltage == 11)
                         .GroupBy(z =>
                             z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .ZoneCode)
@@ -1262,9 +1264,9 @@ namespace Pdb014App.Controllers
                         .ToList();
 
                     dt33Info = _dbContext.TblDistributionTransformer
-                        .Where(z => zoneCode.Equals("") ||
-                                    z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD
-                                        .CircleInfo.ZoneCode.Equals(zoneCode) && z.DtToFeederLine.NominalVoltage == 33)
+                        .Where(z => (zoneCode.Equals("") || z.DtToFeederLine.FeederLineToRoute.RouteToSubstation
+                                        .SubstationToLookUpSnD.CircleInfo.ZoneCode.Equals(zoneCode))
+                                    && z.DtToFeederLine.NominalVoltage == 33)
                         .GroupBy(z =>
                             z.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo
                                 .ZoneCode)
@@ -1299,6 +1301,7 @@ namespace Pdb014App.Controllers
                             PtCount = k.Count()
                         })
                         .ToList();
+
 
                     regions = _dbContext.LookUpZoneInfo
                         .Where(z => zoneCode.Equals("") || z.ZoneCode.Equals(zoneCode))
