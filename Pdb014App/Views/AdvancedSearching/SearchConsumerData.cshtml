@@ -227,12 +227,10 @@
                                 @Html.SortableHeaderFor(model => model.ConsumerDataToServicesPoint.ServicePointToPole.PoleNo, "ConsumerDataToServicesPoint.ServicePointToPole.PoleNo")
                             </th>
 
+                            
                             @*<th>
-                                    @Html.SortableHeaderFor(model => model.DistributionTransformerId, "")
-                                </th>*@
-                            <th>
                                 @Html.SortableHeaderFor(model => model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop, "ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop")
-                            </th>
+                            </th>*@
 
 
                             <th>
@@ -318,9 +316,9 @@
                         {
                             <tr>
                                 <td>
-                                    <a target="_blank" asp-controller="TblConsumerDatas" asp-action="Details" asp-route-id="@item.ConsumerId" asp-route-cai="@Model.RouteValue["cai"]" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Details">
+                                    <a target="_blank" asp-controller="TblConsumerDatas" asp-action="Details" asp-route-id="@item.ConsumersId" asp-route-cai="@Model.RouteValue["cai"]" class="text-success hover-dark" data-toggle="tooltip" data-placement="top" title="Details">
                                         @Html.DisplayFor(modelItem => item.ConsumerNo)
-                                        @*@Html.DisplayFor(modelItem => item.ConsumerId)*@
+                                        @*@Html.DisplayFor(modelItem => item.ConsumersId)*@
                                     </a>
                                 </td>
 
@@ -353,11 +351,8 @@
                                 </td>
 
                                 @*<td>
-                                        @Html.DisplayFor(modelItem => item.DistributionTransformerId)
-                                    </td>*@
-                                <td>
                                     @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop)
-                                </td>
+                                </td>*@
 
 
                                 <td>

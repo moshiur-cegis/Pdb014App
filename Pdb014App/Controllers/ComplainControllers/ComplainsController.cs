@@ -25,7 +25,11 @@ namespace Pdb014App.Controllers.ComplainControllers
         // GET: TblComplains
         public async Task<IActionResult> Index()
         {
-            var complains = _context.ComplainInfo.Include(t => t.ComplainStatus).Include(t => t.ComplainToSnD).Include(t => t.ComplainToUnion).Include(t => t.ComplainType);
+            var complains = _context.ComplainInfo
+                .Include(t => t.ComplainStatus)
+                .Include(t => t.ComplainToSnD)
+                .Include(t => t.ComplainToUnion)
+                .Include(t => t.ComplainType);
 
             return View(await complains.ToListAsync());
         }

@@ -5,15 +5,14 @@
     <Version>1.3.0</Version>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <Compile Remove="Views\Complains\**" />
     <Content Remove="Views\Complains\**" />
     <EmbeddedResource Remove="Views\Complains\**" />
     <None Remove="Views\Complains\**" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
-    <Compile Remove="Controllers\AdvancedSearching\SearchConsumerData.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200602112522_UpdateDtModel.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200602112522_UpdateDtModel.Designer.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200602113455_UpdateDt_01_06_2020.cs" />
@@ -24,9 +23,10 @@
     <Compile Remove="Repository\Migrations\PdbDb\20200607121556_UpdateServicePointAndConsumer_07_06_2020.Designer.cs" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
+    <Compile Remove="Controllers\AdvancedSearching\SearchConsumerData.cs" />
     <Content Remove="Views\AdvancedSearching\SearchConsumerData.cshtml" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <PackageReference Include="DotNetCore.NPOI" Version="1.2.2" />
