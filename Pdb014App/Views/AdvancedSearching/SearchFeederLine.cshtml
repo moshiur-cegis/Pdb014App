@@ -273,7 +273,7 @@
                                         @Html.DisplayFor(modelItem => item.FeederLineId)
                                     </a>
                                     <br />
-                                    <a target="_blank" asp-controller="MapViewer" asp-action="MapView"
+                                    <a target="_blank" asp-controller="MapViewer" asp-action="SearchMap"
                                        asp-route-zoneCode="@item.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode"
                                        asp-route-circleCode="@item.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode"
                                        asp-route-snDCode="@item.FeederLineToRoute.RouteToSubstation.SnDCode"

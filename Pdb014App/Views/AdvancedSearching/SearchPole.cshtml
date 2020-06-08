@@ -292,7 +292,7 @@
                                     <br />
                                     <a href="#" onclick="show_components(@item.PoleId); return false;">Components</a>
                                     <br />
-                                    <a target="_blank" asp-controller="MapViewer" asp-action="MapView"
+                                    <a target="_blank" asp-controller="MapViewer" asp-action="SearchMap"
                                        asp-route-zoneCode="@item.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode"
                                        asp-route-circleCode="@item.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode"
                                        asp-route-snDCode="@item.PoleToRoute.RouteToSubstation.SnDCode"
@@ -304,7 +304,6 @@
                                        class="text-success hover-dark" style="color: #15d !important;" data-toggle="tooltip" data-placement="top" title="View in Map.">
                                         Map
                                     </a>
-
                                 </td>
 
                                 <td>

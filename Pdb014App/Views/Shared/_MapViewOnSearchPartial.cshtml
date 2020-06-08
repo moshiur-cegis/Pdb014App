@@ -1,0 +1,1235 @@
+﻿     
+    <script>
+        var activeWidget = null;        
+
+        var app;
+
+        require([
+            "esri/Map",
+            "esri/views/MapView",            
+            "esri/widgets/Home",
+            "esri/widgets/Search",
+            "esri/widgets/BasemapGallery",
+            "esri/widgets/BasemapToggle",
+            "esri/widgets/ScaleBar",
+            "esri/widgets/Attribution",
+            "esri/widgets/LayerList",
+            "esri/widgets/Legend",
+            "esri/widgets/Expand",
+            "esri/widgets/Editor",
+            "esri/popup/content/TextContent",
+            "esri/core/watchUtils",
+            "esri/layers/MapImageLayer",
+            "esri/widgets/DistanceMeasurement2D",
+            "esri/widgets/Print",
+            "esri/symbols/PictureMarkerSymbol",
+            "esri/symbols/WebStyleSymbol",
+            "esri/geometry/geometryEngine",
+            "esri/Graphic",
+            // Calcite Maps
+            "calcite-maps/calcitemaps-v0.10",
+
+            // Calcite Maps ArcGIS Support
+            "calcite-maps/calcitemaps-arcgis-support-v0.10",
+
+            // Bootstrap
+            "bootstrap/Collapse",
+            "bootstrap/Dropdown",
+            "bootstrap/Tab",
+            // Can use @@dojo shim for Array.from for IE11
+            "@@dojo/framework/shim/array"
+        ], function (
+                Map,
+                MapView,                
+                Home,
+                Search,
+                Basemaps,
+                BasemapToggle,
+                ScaleBar,
+                Attribution,
+                LayerList,
+                Legend,
+                Expand,
+                Editor,
+                TextContent,
+                watchUtils,
+                MapImageLayer,
+                DistanceMeasurement2D,
+                Print,
+                PictureMarkerSymbol,
+                WebStyleSymbol,
+                geometryEngine,
+                Graphic,
+                CalciteMaps,
+                CalciteMapsArcGIS
+           ) {
+                /*********** App settings ********************/
+                app = {
+                    //center: [90.537777,23.737777],
+                    //zoom :7,
+                    //basemap: "streets",
+                    center: [centerLongitude, centerLatitude],
+                    zoom : defaultZoomLevel,
+                    basemap: defaultBaseMapName,
+                    viewPadding: {
+                        top: 50,
+                        bottom: 0
+                    },
+                    uiComponents: ["attribution","zoom","navigation-toggle", "compass"],
+                    mapView: null,                    
+                    containerMap: "mapViewDiv",                   
+                    activeView: null,
+                    searchWidget: null,
+                    popupWindow: {
+                        dockEnabled: true,
+                        dockOptions: {
+                            buttonEnabled: true,
+                            breakpoint: true
+                        }
+                    }
+                };
+
+                var zonePopupTemplate = {
+                    title: "Zone Details",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "ZoneName",
+                                    label: "Zone",
+                                    visible: true
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                var circlePopupTemplate = {
+                    title: "Circle Details",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "ZoneName",
+                                    label: "Zone",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "CircleName",
+                                    label: "Circle",
+                                    visible: true
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                var sndPopupTemplate = {
+                    title: "S&D Details",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "ZoneName",
+                                    label: "Zone",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "CircleName",
+                                    label: "Circle",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SnDName",
+                                    label: "S & D Name",
+                                    visible: true
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                const viewThisAction = {
+                    title: "Components",
+                    id: "view-this",
+                    className: "esri-icon-description"
+                };
+
+                //var subStationsPopupTemplate = {
+                //    title: "Substation '{SubstationName}' Details",
+                //    content: getSubstationContent,
+                //    fieldInfos: [
+                //        {
+                //            fieldName: "ZoneName",
+                //            label: "Zone",
+                //            visible: true
+                //        },
+                //        {
+                //            fieldName: "CircleName",
+                //            label: "Circle",
+                //            visible: true
+                //        },
+                //        {
+                //            fieldName: "SnDName",
+                //            label: "S & D Name",
+                //            visible: true
+                //        },
+                //        {
+                //            fieldName: "SubstationName",
+                //            label: "Substation",
+                //            visible: true
+                //        }
+                //    ],
+                //    actions: [viewThisAction]
+                //};
+
+                // Function that creates popup elements for the template
+                function getSubstationContent() {
+                    //const textElementZone = new TextContent();
+                    //const textElementCircle = new TextContent();
+                    //const textElementSnDName = new TextContent();
+                    const textElementSubstation = new TextContent();
+
+                    //textElementZone.text = "Zone: <b><span style='color:green'>{ZoneName}</span></b>";
+                    //textElementCircle.text = "Circle: <b><span style='color:green'>{CircleName}</span></b>";
+                    //textElementSnDName.text = "SnDName: <b><span style='color:green'>{SnDName}</span></b>";
+                    textElementSubstation.text = "Substation: <b><span style='color:green'>{SubstationName}</span></b>";
+                    //return [textElementZone, textElementCircle, textElementSnDName, textElementSubstation];
+                    return [textElementSubstation];
+                }
+
+
+                 var subStationsPopupTemplate = {
+                    title: "Substation '{SubstationName}' Details",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "ZoneName",
+                                    label: "Zone",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "CircleName",
+                                    label: "Circle",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SnDName",
+                                    label: "S & D Name",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SubstationName",
+                                    label: "Substation",
+                                    visible: true
+                                }
+                            ]
+                        },
+                        {
+                            type: "media",
+                            mediaInfos: [
+                            {
+                                title: "<strong>Pic-1 of Substation : {SubstationName}</strong>",
+                                type: "image",
+                                caption: "S & D Name: {SnDName}, Sub-Station: {SubstationName}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Substation_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}_1.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-2 of Substation : {SubstationName}</strong>",
+                                type: "image",
+                                caption: "S & D Name: {SnDName}, Sub-Station: {SubstationName}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Substation_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}_2.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-3 of Substation : {SubstationName}</strong>",
+                                type: "image",
+                                caption: "S & D Name: {SnDName}, Sub-Station: {SubstationName}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Substation_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}_3.jpg"
+                                }
+                            }
+                            ]
+                        }
+                    ],
+                    actions: [viewThisAction]
+                };
+
+                var polesPopupTemplate = {
+                    // autocasts as new PopupTemplate()
+                    /* ZoneId, CircleId, SnDDivId, SubStationId, RouteId, FeederLineId, PoleId, ZoneName, CircleName, SnDName, SubstationName, RouteName, Feedername, PoleNo, PreviousPoleNo, Latitude, Longitude,
+                        PoleType, PoleCondition, LineType, WireCondition, TypeOfWire, BackSpan, NoOfWireHt, NoOfWireLt, WireLength, MSJNo, SleeveNo, TwistNo, Neutral, TransformerExist, CommonPole, StreetLight, Tap*/
+                    title: "Pole No '{PoleId}' Details",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "ZoneName",
+                                    label: "Zone",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "CircleName",
+                                    label: "Circle",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SnDName",
+                                    label: "S & D Name",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SubstationName",
+                                    label: "Substation",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "RouteName",
+                                    label: "Route",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "Feedername",
+                                    label: "Feeder",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "PoleId",
+                                    label: "Pole No",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "PreviousPoleNo",
+                                    label: "Previous Pole No",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "Latitude",
+                                    label: "Latitude",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "Longitude",
+                                    label: "Longitude",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "PoleType",
+                                    label: "Pole Type",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "PoleCondition",
+                                    label: "Pole Condition",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "LineType",
+                                    label: "Line Type",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "WireCondition",
+                                    label: "Wire Condition",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "TypeOfWire",
+                                    label: "Type Of Wire",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "BackSpan",
+                                    label: "Back Span",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "NoOfWireHt",
+                                    label: "No Of Wire (HT)",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "NoOfWireLt",
+                                    label: "No Of Wire (LT)",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "WireLength",
+                                    label: "Wire Length",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "MSJNo",
+                                    label: "MSJ No",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SleeveNo",
+                                    label: "Sleeve No",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "TwistNo",
+                                    label: "Twist No",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "TransformerExist",
+                                    label: "Is Transformer Exist?",
+                                    visible: true
+                                },
+                                {
+                                    fieldName:  "Neutral",
+                                    label: "Neutral",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "CommonPole",
+                                    label: "Is Common Pole?",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "StreetLight",
+                                    label: "Street Light",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "Tap",
+                                    label: "Tap",
+                                    visible: true
+                                }
+                            ]
+                        },
+                        {
+                            type: "media",
+                            mediaInfos: [
+                            {
+                                title: "<strong>Pic-1 of Pole No : {PoleId}</strong>",
+                                type: "image",
+                                caption: "Sub-Station: {SubstationName}, Feeder: {Feedername}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Pole_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}/{RouteId}/{FeederLineId}/{PoleId}/{PoleId}_1.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-2 of Pole No : {PoleId}</strong>",
+                                type: "image",
+                                caption: "Sub-Station: {SubstationName}, Feeder: {Feedername}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Pole_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}/{RouteId}/{FeederLineId}/{PoleId}/{PoleId}_2.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-3 of Pole No : {PoleId}</strong>",
+                                type: "image",
+                                caption: "Sub-Station: {SubstationName}, Feeder: {Feedername}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Pole_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}/{RouteId}/{FeederLineId}/{PoleId}/{PoleId}_3.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-4 of Pole No : {PoleId}</strong>",
+                                type: "image",
+                                caption: "Sub-Station: {SubstationName}, Feeder: {Feedername}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Pole_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}/{RouteId}/{FeederLineId}/{PoleId}/{PoleId}_4.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-5 of Pole No : {PoleId}</strong>",
+                                type: "image",
+                                caption: "Sub-Station: {SubstationName}, Feeder: {Feedername}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Pole_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}/{RouteId}/{FeederLineId}/{PoleId}/{PoleId}_5.jpg"
+                                }
+                            }
+                            ]
+                        }
+                    ]
+                };
+                //var pole_symbol = new WebStyleSymbol({
+                //    //type: "web-style", // autocasts as new WebStyleSymbol()
+                //    name: "Powerline_Pole",
+                //    portal: {
+                //        url: "https://www.arcgis.com"
+                //    },
+                //    styleName: "EsriInfrastructureStyle"
+                //});
+
+                //var pole_symbol = {
+                //    type: "simple",
+                //    symbol: {
+                //      type: "picture-marker",
+                //      url: "https://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+                //      width: "18px",
+                //      height: "18px"
+                //    }
+                //}
+
+                /******************** Adding dynamic layer *********************/
+
+                var allLayers = new MapImageLayer({
+                    url: gisServerUrl,
+                    sublayers: [
+                         {//Zone
+                            id: 5,
+                            title: "Zone",
+                            visible: false,
+                            renderer: {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+                                symbol: {
+                                    type: "simple-fill",  // autocasts as new LineSymbol3D()
+                                    color: [145,05,07, 0.2],
+                                    style: "solid",
+                                    outline: {  // autocasts as new SimpleLineSymbol()
+                                        color: [145,05,07, 0.6],
+                                        width: 1
+                                    }
+                                }
+                            }
+                            //,popupTemplate: zonePopupTemplate
+                        },
+                        {//Circle
+                            id: 4,
+                            title: "Circle",
+                            visible: false,
+                            renderer: {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+                                symbol: {
+                                    type: "simple-fill",  // autocasts as new LineSymbol3D()
+                                    color: [45,105,07, 0.2],
+                                    style: "solid",
+                                    outline: {  // autocasts as new SimpleLineSymbol()
+                                        color: [45,105,07, 0.6],
+                                        width: 1
+                                    }
+                                }
+                            }
+                            //,popupTemplate: circlePopupTemplate
+                        },
+                        {//S & D
+                            id: 3,
+                            title: "S & D",
+                            visible: false,
+                            renderer: {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+                                symbol: {
+                                    type: "simple-fill",  // autocasts as new LineSymbol3D()
+                                    color: [245,05,07, 0.2],
+                                    style: "solid",
+                                    outline: {  // autocasts as new SimpleLineSymbol()
+                                        color: [245,05,07, 0.6],
+                                        width: 1
+                                    }
+                                }
+                            }
+                            //,popupTemplate: sndPopupTemplate
+                        },
+                        {//Sub-station
+                            id: 2,
+                            title: "Substation",
+                            visible: false,
+                            renderer: {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+                                symbol: {
+                                    type: "simple-fill",  // autocasts as new LineSymbol3D()
+                                    color: [170,240,100, 0.6],
+                                    style: "solid",
+                                    outline: {  // autocasts as new SimpleLineSymbol()
+                                        color: [170,240,100, .9],
+                                        width: 2
+                                    }
+                                }
+                            },
+                            //labelingInfo: [
+                            //    {
+                            //      labelExpression: "[SubstationName]",
+                            //      labelPlacement: "always-horizontal",
+                            //      symbol: {
+                            //        type: "text", // autocasts as new TextSymbol()
+                            //        color: [255, 255, 255, 0.85],
+                            //        font: {
+                            //          size: 12,
+                            //          weight: "bolder"
+                            //        }
+                            //      }//,
+                            //      //minScale: 18500000,
+                            //      //maxScale: 9250000
+                            //    }
+                            //],
+                            popupTemplate: subStationsPopupTemplate
+                        },
+                        {//Feeder
+                            id: 1,
+                            title: "Feeder Line",
+                            visible: false,
+                            renderer: {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+                                symbol: {
+                                    type: "simple-line",  // autocasts as new LineSymbol3D()
+                                    color: [25,15,245, 0.7],
+                                    width: "2px",
+                                    outline: {  // autocasts as new SimpleLineSymbol()
+                                        width: 0.1,
+                                        color: [25,15,245, 0.8],
+                                    },
+                                }
+                            }
+                        },
+                        {//Pole
+                            id: 0,
+                            title: "Poles",
+                            visible: false,
+                            renderer: {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+
+                                //symbol: pole_symbol
+
+                                symbol: {
+                                    type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+                                    size: 12,
+                                    color: [255,255,255, 0.9],//[255,0,20, 0.9]
+                                    outline: {  // autocasts as new SimpleLineSymbol()
+                                        width: "1px",
+                                        color: [5,155,158, 0.9],//[255,0,20, 0.9]
+                                    }
+                                }
+
+                                //symbol: {
+                                //    type: "web-style", // autocasts as new WebStyleSymbol()
+                                //    name: "school",
+                                //    portal: {
+                                //      url: "https://www.arcgis.com"
+                                //    },
+                                //    styleName: "Esri2DPointSymbolsStyle"
+                                //}
+
+                                //symbol: {
+                                //    type: "web-style", // autocasts as new WebStyleSymbol()
+                                //    name: "Light_On_Post_-_Light_on",
+                                //    portal: {
+                                //      url: "https://www.arcgis.com"
+                                //    },
+                                //    styleName: "EsriRealisticStreetSceneStyle"
+                                //}
+
+                                //symbol: {
+                                //    type: "web-style", // autocasts as new WebStyleSymbol()
+                                //    name: "Powerline_Pole",
+                                //    portal: {
+                                //      url: "https://www.arcgis.com"
+                                //    },
+                                //    styleName: "EsriInfrastructureStyle"
+                                //}
+                            },
+                            opacity: 0.75,
+                            //source: {
+                            //    type: "data-layer",
+                            //    dataSource: {
+                            //        type: "join-table",
+                            //        leftTableSource: {
+                            //        type: "map-layer",
+                            //        mapLayerId: 0
+                            //        },
+                            //        rightTableSource: {
+                            //        type: "data-layer",
+                            //        dataSource: {
+                            //            type: "table",
+                            //            workspaceId: "PdbGeoDbWorkspaceID",
+                            //            dataSourceName: "TblPole"
+                            //        }
+                            //        },
+                            //        leftTableKey: "PoleId",
+                            //        rightTableKey: "PoleId",
+                            //        joinType: "left-outer-join"
+                            //    }
+                            //},
+
+                            popupTemplate: polesPopupTemplate
+
+                        }
+                    ]
+                });
+
+                /********* Create the map and scene view and ui components **************/
+
+                // Map
+                const map = new Map({
+                    basemap: app.basemap,
+                    layers: [allLayers]
+                    //layers:[polesFeatureLayer, resultsLayer]
+                });
+
+                var minimumScale = 0;
+                var maximumScale = 0;
+
+                app.center = [centerLongitude, centerLatitude];
+                app.zoom = defaultZoomLevel;
+
+                // 2D view
+                app.mapView = new MapView({
+                    container: app.containerMap,
+                    map: map,
+                    center: app.center,
+                    scale: app.scale,
+                    extent: app.extent,
+                    zoom: app.zoom,
+                    padding: app.viewPadding,
+                    //ui: {
+                    //    components: app.uiComponents
+                    //},
+                    popup: app.popupWindow
+                });
+
+                app.mapView.constraints = {
+                   minScale: minimumScale,  // User cannot zoom out beyond a scale of 1:5000000
+                   maxScale: maximumScale,  // User can overzoom tiles
+                   rotationEnabled: false  // Disables map rotation
+                };
+
+                var homeBtnMap = new Home({
+                   view: app.mapView
+                });
+
+                // Add the home button to the top left corner of the view
+                app.mapView.ui.add(homeBtnMap, "top-left");
+                app.mapView.ui.add("topbar", "top-left");
+                app.mapView.ui.components = app.uiComponents;
+
+                var basemapToggle = new BasemapToggle({
+                    view: app.mapView,
+                    secondBasemap: "satellite"
+                });
+                app.mapView.ui.add(basemapToggle, "bottom-right");
+
+                var attribution = new Attribution({
+                    view: app.mapView
+                });
+                app.mapView.ui.add(attribution, "manual");
+                               
+                function makeLayerVisible() {
+                    allLayers.findSublayerById(0).visible = true;
+                    allLayers.findSublayerById(1).visible = true;
+                    allLayers.findSublayerById(2).visible = true;
+                    allLayers.findSublayerById(3).visible = true;
+                    allLayers.findSublayerById(4).visible = true;
+                    allLayers.findSublayerById(5).visible = true;
+                }
+
+                function addLayerByArea(layerId, queryExpression) {
+                    
+                    switch (layerId) {
+                        case 0:
+                            allLayers.findSublayerById(0).definitionExpression = queryExpression['FeederLineId'];
+                            allLayers.findSublayerById(1).definitionExpression = queryExpression['RouteId'];
+                            allLayers.findSublayerById(2).definitionExpression = queryExpression['SubStationId'];
+                            allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                            makeLayerVisible();
+                            break;
+                        case 1:
+                            allLayers.findSublayerById(0).definitionExpression = queryExpression['RouteId'];
+                            allLayers.findSublayerById(1).definitionExpression = queryExpression['RouteId'];
+                            allLayers.findSublayerById(2).definitionExpression = queryExpression['SubStationId'];
+                            allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                            makeLayerVisible();
+                            break;
+                        case 2:
+                            allLayers.findSublayerById(0).definitionExpression = queryExpression['SubStationId'];
+                            allLayers.findSublayerById(1).definitionExpression = queryExpression['SubStationId'];
+                            allLayers.findSublayerById(2).definitionExpression = queryExpression['SubStationId'];
+                            allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                            makeLayerVisible();
+                            break;
+                        case 3:
+                            allLayers.findSublayerById(0).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(1).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(2).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                            makeLayerVisible();
+                            break;
+                        case 4:
+                            allLayers.findSublayerById(0).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(1).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(2).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(3).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                            makeLayerVisible();
+                            break;
+                        case 5:
+                            allLayers.findSublayerById(0).definitionExpression = queryExpression['ZoneId'];
+                            allLayers.findSublayerById(1).definitionExpression = queryExpression['ZoneId'];
+                            allLayers.findSublayerById(2).definitionExpression = queryExpression['ZoneId'];
+                            allLayers.findSublayerById(3).definitionExpression = queryExpression['ZoneId'];
+                            allLayers.findSublayerById(4).definitionExpression = queryExpression['ZoneId'];
+                            allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                            makeLayerVisible();
+                            break;
+                        default:
+                            break;
+                        
+                    }
+                    app.mapView.center = [centerLongitude, centerLatitude];
+                    app.mapView.zoom = defaultZoomLevel;
+                    map.layers.add(allLayers);
+                }
+
+                function addLegendWithLayerList() {
+
+                    var layerList = new LayerList({
+                        view: app.mapView,
+                        container: document.createElement("div"),
+                        //showLegend: true,
+                        listItemCreatedFunction: function(event) {
+                            const item = event.item;
+                            if ((item.title == "BpdbMapService")||(item.title == "BpdbMaps")) {
+                                item.title = "Layers & Legends";
+                            }
+
+                            //set an action for zooming to the full extent of the layer
+                            item.actionsSections =
+                                [{
+                                    title: "Zoom to layer",
+                                    className: "esri-icon-zoom-out-fixed",
+                                    id: "full-extent"
+                                }];
+                            if (item.layer.type != "group") {
+                            // don't show legend twice
+                                item.panel = {
+                                    content: "legend",
+                                    open: true
+                                };
+                            }
+                        }
+                    });
+
+                    layerListExpand = new Expand({
+                        expandIconClass: "esri-icon-layer-list",  // see https://developers.arcgis.com/javascript/latest/guide/esri-icon-font/
+                        expandTooltip: "View Layers with Legends", // optional, defaults to "Expand" for English locale
+                        view: app.mapView,
+                        content: layerList.domNode
+                    });
+
+                    app.mapView.ui.add(layerListExpand, "top-right");
+                    layerListExpand.expanded = true;
+                }
+
+                function removeLayer() {
+                    for (var i = 0; i < allLayers.sublayers.length; i++ ) {
+                        allLayers.findSublayerById(i).visible = !allLayers.findSublayerById(i).visible;
+                    }
+                    app.mapView.ui.remove(layerListExpand, "top-right");
+                }
+
+                var queryExpression = [];
+                
+                app.mapView.when(function () {
+
+                    if (isLayerListAdded) {
+                        removeLayer();
+                    }
+
+                    //if (isChecked) {
+                    //    isLayerListAdded = true;
+                    //    addLayerByArea(-1, queryExpression, isChecked);
+                    //    addLegendWithLayerList();
+                    //    zoneEvent.value = "";
+                    //}
+
+                    var zoneId = event.target.value;
+                    if (zoneId != "") {
+                        queryExpression['ZoneId'] = "ZoneId = " + zoneId;
+                        addLayerByArea(5, queryExpression, isChecked);
+                        addLegendWithLayerList();
+                        isLayerListAdded = true;
+                    }
+                    
+                    var circleId = event.target.value;
+                    if (circleId != "") {
+                        queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                        queryExpression['CircleId'] = "CircleId = " + circleId;
+                        addLayerByArea(4, queryExpression, isChecked);
+                    }
+                    
+                    var snDDivId = event.target.value;
+                    if (snDDivId != "") {
+                        queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                        queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                        queryExpression['SnDDivId'] = "SnDDivId = " + snDDivId;
+                        addLayerByArea(3, queryExpression, isChecked);
+                    }
+                    
+                    var subStationId = event.target.value;
+                    if (subStationId != "") {
+                        queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                        queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                        queryExpression['SnDDivId'] = "SnDDivId = " + snDEvent.value;
+                        queryExpression['SubStationId'] = "SubStationId = " + subStationId;
+                        addLayerByArea(2, queryExpression, isChecked);
+                    }                    
+
+                    var routeId = event.target.value;
+                    if (routeId != "") {
+                        queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                        queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                        queryExpression['SnDDivId'] = "SnDDivId = " + snDEvent.value;
+                        queryExpression['SubStationId'] = "SubStationId = " + substationEvent.value;
+                        queryExpression['RouteId'] = "RouteId = " + routeId;
+                        addLayerByArea(1, queryExpression, isChecked);
+                    }
+                    
+
+                    var feederLineId = event.target.value;
+                    if (feederLineId != "") {
+                        queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                        queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                        queryExpression['SnDDivId'] = "SnDDivId = " + snDEvent.value;
+                        queryExpression['SubStationId'] = "SubStationId = " + substationEvent.value;
+                        queryExpression['RouteId'] = "RouteId = " + routeEvent.value;
+                        queryExpression['FeederLineId'] = "FeederLineId = " + feederLineId;
+                        addLayerByArea(0, queryExpression, isChecked);
+                    }
+
+                    var poleId = event.target.value;
+                    if (poleId != "") {
+                        queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                        queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                        queryExpression['SnDDivId'] = "SnDDivId = " + snDEvent.value;
+                        queryExpression['SubStationId'] = "SubStationId = " + substationEvent.value;
+                        queryExpression['RouteId'] = "RouteId = " + routeEvent.value;
+                        queryExpression['FeederLineId'] = "FeederLineId = " + feederLineId;
+                        queryExpression['FeederLineId'] = "FeederLineId = " + poleId;
+                        addLayerByArea(0, queryExpression, isChecked);
+                    }
+
+                    var print = new Print({
+                        view: app.mapView,
+                        // specify your own print service
+                        printServiceUrl: gisServerIpAddress + "/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+                        //"https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+                    },
+                    "panelPrint");
+
+                    // Add widget to the print panel of the view
+                    //app.mapView.ui.add(print, "#panelPrint");
+
+                    /*Substation Component View End*/
+                });
+
+                CalciteMapsArcGIS.setPopupPanelSync(app.mapView);
+
+                
+
+                document.getElementById("distanceButton").addEventListener("click", function () {
+                    setActiveWidget(null);
+                    if (!this.classList.contains("active-distance-button")) {
+                        //allLayers.findSublayerById(0).popupTemplate = null;
+                        setActiveWidget("distance");
+                    } else {
+                        setActiveButton(null);
+                    }
+                });
+
+                function setActiveWidget(type) {
+                    switch (type) {
+                        case "distance":
+                            activeWidget = new DistanceMeasurement2D({
+                                view: app.activeView
+                            });
+
+                            // skip the initial 'new measurement' button
+                            activeWidget.viewModel.newMeasurement();
+                            app.mapView.ui.add(activeWidget, "bottom-left");
+                            setActiveButton(document.getElementById("distanceButton"));
+                            break;
+
+                        case null:
+                            if (activeWidget) {
+                                app.mapView.ui.remove(activeWidget);
+                                activeWidget.destroy();
+                                activeWidget = null;
+                            }
+                            break;
+                    }
+                }
+
+                function setActiveButton(selectedButton) {
+                    // focus the view to activate keyboard shortcuts for sketching
+                    app.mapView.focus();
+                    var elements = document.getElementsByClassName("active-distance-button");
+
+                    for (var i = 0; i < elements.length; i++) {
+                        elements[i].classList.remove("active-distance-button");
+                    }
+                    if (selectedButton) {
+                        selectedButton.classList.add("active-distance-button");
+                    }
+                }
+
+                var scaleBar = new ScaleBar({
+                    view: app.mapView
+                });
+                app.mapView.ui.add(scaleBar, "bottom-left");
+
+                // Set the active view to scene
+                setActiveView(app.mapView);
+
+                // Create the search widget and add it to the navbar instead of view
+                app.searchWidget = new Search(
+                  {
+                    view: app.activeView
+                  },
+                  "searchWidgetDiv"
+                );
+
+                CalciteMapsArcGIS.setSearchExpandEvents(app.searchWidget);
+
+                // Create basemap widget
+                app.basemapWidget = new Basemaps({
+                  view: app.activeView,
+                  container: "basemapPanelDiv"
+                });
+
+                /******************************************************************
+                 *
+                 * Synchronize the view, search and popup
+                 *
+                 ******************************************************************/
+
+                // Views
+                function setActiveView(view) {
+                    app.activeView = view;
+                }
+
+                function syncViews(fromView, toView) {
+                    const viewPt = fromView.viewpoint.clone();
+                    fromView.container = null;
+                    if (fromView.type === "3d") {
+                        toView.container = app.containerMap;
+                    }
+                    toView.padding = app.viewPadding;
+                    toView.viewpoint = viewPt;
+                }
+
+                // Search Widget
+                function syncSearch(view) {
+                    watchUtils.whenTrueOnce(view, "ready", function () {
+                        app.searchWidget.view = view;
+                        if (app.searchWidget.selectedResult) {
+                            app.searchWidget.search(app.searchWidget.selectedResult.name);
+                        }
+                    });
+                }
+
+                // Tab - toggle between map and scene view
+                const tabs = Array.from(
+                    document.querySelectorAll(".calcite-navbar li a[data-toggle='tab']")
+                );
+                tabs.forEach(function (tab) {
+                    tab.addEventListener("click", function (event) {
+                        if (event.target.text.indexOf("Map") > -1) {
+                            syncViews(app.sceneView, app.mapView);
+                            setActiveView(app.mapView);
+                        } else {
+                            syncViews(app.mapView, app.sceneView);
+                            setActiveView(app.sceneView);
+                        }
+                        syncSearch(app.activeView);
+                    });
+                });
+
+                /******************************************************************
+                 *
+                 * Apply Calcite Maps CSS classes to change application on the fly
+                 *
+                 * For more information about the CSS styles or Sass build visit:
+                 * https://github.com/esri/calcite-maps
+                 *
+                 ******************************************************************/
+
+                const cssSelectorUi = [
+                    document.querySelector(".calcite-navbar"),
+                    document.querySelector(".calcite-panels")
+                ];
+                const cssSelectorMap = document.querySelector(".calcite-map");
+
+                // Theme - light (default) or dark theme
+                const settingsTheme = document.getElementById("settingsTheme");
+                const settingsColor = document.getElementById("settingsColor");
+                settingsTheme.addEventListener("change", function (event) {
+                    const textColor =
+                        event.target.options[event.target.selectedIndex].dataset.textcolor;
+                    const bgColor =
+                        event.target.options[event.target.selectedIndex].dataset.bgcolor;
+
+                    cssSelectorUi.forEach(function (element) {
+                        element.classList.remove(
+                            "calcite-text-dark",
+                            "calcite-text-light",
+                            "calcite-bg-dark",
+                            "calcite-bg-light",
+                            "calcite-bg-custom"
+                        );
+                        element.classList.add(textColor, bgColor);
+                        element.classList.remove(
+                            "calcite-bgcolor-dark-blue",
+                            "calcite-bgcolor-blue-75",
+                            "calcite-bgcolor-dark-green",
+                            "calcite-bgcolor-dark-brown",
+                            "calcite-bgcolor-darkest-grey",
+                            "calcite-bgcolor-lightest-grey",
+                            "calcite-bgcolor-black-75",
+                            "calcite-bgcolor-dark-red"
+                        );
+                        element.classList.add(bgColor);
+                    });
+                    settingsColor.value = "";
+                });
+
+                // Color - custom color
+                settingsColor.addEventListener("change", function (event) {
+                    const customColor = event.target.value;
+                    const textColor =
+                        event.target.options[event.target.selectedIndex].dataset.textcolor;
+                    const bgColor =
+                        event.target.options[event.target.selectedIndex].dataset.bgcolor;
+
+                    cssSelectorUi.forEach(function (element) {
+                        element.classList.remove(
+                            "calcite-text-dark",
+                            "calcite-text-light",
+                            "calcite-bg-dark",
+                            "calcite-bg-light",
+                            "calcite-bg-custom"
+                        );
+                        element.classList.add(textColor, bgColor);
+                        element.classList.remove(
+                            "calcite-bgcolor-dark-blue",
+                            "calcite-bgcolor-blue-75",
+                            "calcite-bgcolor-dark-green",
+                            "calcite-bgcolor-dark-brown",
+                            "calcite-bgcolor-darkest-grey",
+                            "calcite-bgcolor-lightest-grey",
+                            "calcite-bgcolor-black-75",
+                            "calcite-bgcolor-dark-red"
+                        );
+                        element.classList.add(customColor);
+                        if (!customColor) {
+                            settingsTheme.dispatchEvent(new Event("change"));
+                        }
+                    });
+                });
+
+                // Widgets - light (default) or dark theme
+                const settingsWidgets = document.getElementById("settingsWidgets");
+                settingsWidgets.addEventListener("change", function (event) {
+                    const theme = event.target.value;
+                    cssSelectorMap.classList.remove(
+                        "calcite-widgets-dark",
+                        "calcite-widgets-light"
+                    );
+                    cssSelectorMap.classList.add(theme);
+                });
+
+                // Layout - top or bottom nav position
+                const settingsLayout = document.getElementById("settingsLayout");
+                settingsLayout.addEventListener("change", function (event) {
+                    const layout = event.target.value;
+                    const layoutNav =
+                        event.target.options[event.target.selectedIndex].dataset.nav;
+
+                    document.body.classList.remove(
+                        "calcite-nav-bottom",
+                        "calcite-nav-top"
+                    );
+                    document.body.classList.add(layout);
+
+                    const nav = document.querySelector("nav");
+                    nav.classList.remove("navbar-fixed-bottom", "navbar-fixed-top");
+                    nav.classList.add(layoutNav);
+                    setViewPadding(layout);
+                });
+
+                // Set view padding for widgets based on navbar position
+                function setViewPadding(layout) {
+                    let padding, uiPadding;
+                    // Top
+                    if (layout === "calcite-nav-top") {
+                        padding = {
+                            padding: {
+                                top: 50,
+                                bottom: 0
+                            }
+                        };
+                        uiPadding = {
+                            padding: {
+                                top: 15,
+                                right: 15,
+                                bottom: 30,
+                                left: 15
+                            }
+                        };
+                    } else {
+                        // Bottom
+                        padding = {
+                            padding: {
+                                top: 0,
+                                bottom: 50
+                            }
+                        };
+                        uiPadding = {
+                            padding: {
+                                top: 30,
+                                right: 15,
+                                bottom: 15,
+                                left: 15
+                            }
+                        };
+                    }
+                    app.mapView.set(padding);
+                    app.mapView.ui.set(uiPadding);
+                    app.sceneView.set(padding);
+                    app.sceneView.ui.set(uiPadding);
+                    // Reset popup
+                    if (
+                        app.activeView.popup.visible &&
+                        app.activeView.popup.dockEnabled
+                    ) {
+                        app.activeView.popup.visible = false;
+                        app.activeView.popup.visible = true;
+                    }
+                }
+            });
+
+    </script>
+    @*<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>*@
+    <script src="~/map/js/ui/1.10.4/jquery-ui.js"></script>
+    <script type="text/javascript">
+
+        //$("#myModal").modal("toggle");
+
+        $(function () {
+            $("#allPanels").draggable();
+            $(".esri-legend_message").val("");
+        });
+
+        $("#allPanels").css({left: 65});
+
+    </script>
