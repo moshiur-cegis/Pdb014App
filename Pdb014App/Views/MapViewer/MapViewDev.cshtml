@@ -9,11 +9,6 @@
     LookUpMapViewGisServer gisServerDetails = null;
     LookUpMapViewApplicationServer appServerDetails = null;
     LookUpMapViewBaseMapDetail baseMapDetails = null;
-    LookUpZoneInfo zoneBasicInfo = null;
-    LookUpCircleInfo circleBasicInfo = null;
-    LookUpSnDInfo sndBasicInfo = null;
-    TblSubstation substationBasicInfo = null;
-
 
     if (ViewData["GisServer"] != null)
     {
@@ -30,158 +25,2217 @@
         baseMapDetails = ViewData["BaseMap"] as LookUpMapViewBaseMapDetail;
     }
 }
+
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport"
-          content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <!--
-    ArcGIS API for JavaScript, https://js.arcgis.com
-    For more information about the layers-mapimagelayer-definitionexpression sample, read the original sample description at developers.arcgis.com.
-    https://developers.arcgis.com/javascript/latest/sample-code/layers-mapimagelayer-definitionexpression/index.html
-    -->
-    <title>
-        MapImageLayer - Set definition expressions on sublayers - 4.14
-    </title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-    <link rel="stylesheet"
-          href="https://js.arcgis.com/4.14/esri/themes/light/main.css" />
-    <script src="https://js.arcgis.com/4.14/"></script>
+    <title>@ViewData["Title"]</title>
+
+    <!-- Calcite Bootstrap -->
+    @*<link rel="stylesheet" href="//esri.github.io/calcite-maps/dist/css/calcite-maps-bootstrap.min-v0.8.css" />*@
+    <link rel="stylesheet" href="~/map/calcite-maps-master/dist/css/calcite-maps-bootstrap.min-v0.8.css" />
+
+    <!-- Calcite Maps -->
+    @*<link rel="stylesheet" href="//esri.github.io/calcite-maps/dist/css/calcite-maps-arcgis-4.x.min-v0.8.css" />*@
+    <link rel="stylesheet" href="~/map/calcite-maps-master/dist/css/calcite-maps-arcgis-4.x.min-v0.8.css" />
+
+    <!-- ArcGIS JS 4 -->
+
+    <link rel="stylesheet" href="//js.arcgis.com/4.15/esri/themes/light/main.css" />
+    @*<link rel="stylesheet" href="~/map/arcgis_js_api/library/4.14/esri/themes/light/main.css" />*@
+
 
     <style>
         html,
         body {
-            padding: 0;
             margin: 0;
+            padding: 0;
             height: 100%;
-            width: 100%;
         }
 
-        #viewDiv {
-            position: absolute;
-            right: 0;
-            left: 0;
-            top: 0;
-            bottom: 100px;
+        #allPanels.is-active {
+            display: block;
         }
 
-        #info-div {
-            background-color: white;
-            border-radius: 8px;
-            padding: 8px;
-            opacity: 0.92;
+        #topbar {
+            background: #fff;
+            padding: 2px;
         }
-    </style>
 
-    <script>
-        require([
-            "esri/Map",
-            "esri/views/MapView",
-            "esri/layers/MapImageLayer"
-        ], function (Map, MapView, MapImageLayer) {
+        .action-button {
+            padding: 2px;
+            font-size: 12px;
+            background-color: transparent;
+            border: 1px solid #d3d3d3;
+            color: #6e6e6e;
+            height: 24px;
+            width: 24px;
+            text-align: center;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+        }
 
-            var renderer = {
-                type: "simple",  // autocasts as new SimpleRenderer()
-                symbol: {
-                    type: "simple-fill",  // autocasts as new LineSymbol3D()
-                    color: [245, 105, 07, 0.3],
-                    style: "solid",
-                    outline: {  // autocasts as new SimpleLineSymbol()
-                        color: [245, 105, 07, 0.7],
-                        width: 1
-                    }
-                }
+            .action-button:hover, .action-button:focus {
+                background: #0079c1;
+                color: #e4e4e4;
             }
 
-            /*****************************************************************
-             * Create a MapImageLayer instance pointing to a Map Service
-             * containing data about US Cities, Counties, States and Highways.
-             * Define sublayers with visibility for each layer in Map Service.
-             *****************************************************************/
-            const allLayers = new MapImageLayer({
-                url:
-                    "http://202.53.173.185:6080/arcgis/rest/services/pdb014/BpdbMaps/MapServer",
-                sublayers: [
-                    {
-                        id: 5,
-                        visible: true,
-                        //definitionExpression: "ZoneId=2",
-                        renderer: {
-                            type: "simple",  // autocasts as new SimpleRenderer()
-                            symbol: {
-                                type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                color: [245, 105, 07, 0.4],
-                                style: "solid",
-                                outline: {  // autocasts as new SimpleLineSymbol()
-                                    color: [245, 105, 07, 0.9],
-                                    width: 1
-                                }
-                            }
-                        }
-                    },
-                    {
-                        id: 1,
-                        visible: true,
-                        // definitionExpression: "ZoneId=2",
-                    },
-                    {
-                        id: 0,
-                        visible: true,
-                        //definitionExpression: "ZoneId=2",
-                    }
-                ]
-            });
+        .active-distance-button {
+            background: #0079c1;
+            color: #e4e4e4;
+        }
 
-            /*****************************************************************
-             * Add the layer to a map
-             *****************************************************************/
-            const map = new Map({
-                basemap: "streets",
-                layers: [allLayers]
-            });
+        .itemTitle {
+            font-size: 14px;
+            font-weight: bold;
+            font-family: Verdana,Arial, Helvetica;
+            color: #066493;
+        }
 
-            const view = new MapView({
-                container: "viewDiv",
-                map: map,
-                zoom: 7,
-                center: [90.537777, 23.737777]
-            });
+        .buttonTitle {
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+        }
 
-            /*****************************************************************
-             * Listen for events on when the slider values have changed.
-             * When the slider value changes, apply the new value to the
-             * MapImageLayer definitionExpression.
-             *****************************************************************/
-            view.ui.add("info-div", "top-right");
+            .buttonTitle:hover, .buttonTitle:focus {
+                color: #e4e4e4;
+            }
+    </style>
 
-            view.when(function () {
-                // change where clause when selection changes
-                document
-                    .getElementById("layer-select")
-                    .addEventListener("change", function (event) {
-                        var newValue = event.target.value;
-                        allLayers.findSublayerById(5).definitionExpression = newValue;
-                        allLayers.findSublayerById(1).definitionExpression = newValue;
-                        allLayers.findSublayerById(0).definitionExpression = newValue;
-                        map.layers.add(allLayers);
-
-                    });
-            });
-        });
-    </script>
 </head>
 
 <body>
-    <div id="viewDiv"></div>
-    <div id="info-div" class="esri-widget">
-        Filter by Zone<br /><br />
-        <select id="layer-select">
-            <option value="" selected>All</option>
-            <option value=" ZoneId = 1">Chattogram</option>
-            <option value=" ZoneId = 2">Cumilla</option>
-            <option value=" ZoneId = 3">Mymensingh</option>
-            <option value=" ZoneId = 4">Sylhet</option>
-        </select>
+    <div class="calcite-maps calcite-nav-top">
+        <!-- Navbar -->
+        <nav class="navbar calcite-navbar navbar-fixed-top calcite-text-light calcite-bg-dark">
+            <!-- Menu -->
+            <div class="dropdown calcite-dropdown calcite-text-dark calcite-bg-light"
+                 role="presentation">
+                <a class="dropdown-toggle"
+                   role="button"
+                   aria-haspopup="true"
+                   aria-expanded="false">
+                    <div class="calcite-dropdown-toggle">
+                        <span class="sr-only">Toggle dropdown menu</span> <span></span>
+                        <span></span> <span></span> <span></span>
+                    </div>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="~/?cai=dasb_01" role="button" data-target="" aria-haspopup="true" class="buttonTitle"><span class="glyphicon esri-icon-home">&nbsp;</span>Home</a>
+                    </li>
+                    <li class="active">
+                        <a class="hidden-md hidden-lg" href="#mapTab" aria-controls="mapTab" role="tab" data-toggle="tab">Map</a>
+                    </li>
+                    <li>
+                        <a class="hidden-md hidden-lg" href="#sceneTab" aria-controls="sceneTab" role="tab" data-toggle="tab">Scene</a>
+                    </li>
+                    <li>
+                        <a role="button" data-target="#panelBasemaps" aria-haspopup="true"><span class="glyphicon glyphicon-th-large"></span>Basemaps</a>
+                    </li>
+                    @*<li>
+                            <a role="button" data-target="#panelSettings" aria-haspopup="true"><span class="glyphicon glyphicon-cog"></span>Settings</a>
+                        </li>*@
+                    <li>
+                        <a role="button" data-target="#panelLocationSelect" aria-haspopup="true"><span class="glyphicon esri-icon-filter"></span>Query & Filtering</a>
+                    </li>
+                    <li>
+                        <a role="button" id="calciteToggleNavbar" aria-haspopup="true"><span class="glyphicon glyphicon-fullscreen"></span>Full Screen</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Title -->
+            <div class="calcite-title calcite-overflow-hidden">
+                <span class="calcite-title-main">Map Viewer</span>
+                <span class="calcite-title-divider hidden-xs"></span>
+                <span class="calcite-title-sub hidden-xs" id="btnHomeSpan">
+                    <a href="~/?cai=dasb_01" role="button" data-target="" aria-haspopup="true" class="buttonTitle"><span class="glyphicon esri-icon-dashboard">&nbsp;</span>Dashboard</a>
+                </span>
+                <span class="calcite-title-divider hidden-xs"></span>
+                <span class="calcite-title-sub hidden-xs" id="btnClearSpan">
+                    @*An interactive web GIS application of BPDB*@
+                    <a href="~/MapViewer/MapView?cai=map_01" role="button" data-target="" aria-haspopup="true" class="buttonTitle"><span class="glyphicon esri-icon-erase">&nbsp;</span>Clear Filtering</a>
+                </span>
+                <span class="calcite-title-divider hidden-xs"></span>
+                <span class="calcite-title-sub hidden-xs">
+                    <a role="button" data-target="#panelPrint" aria-haspopup="true" class="buttonTitle"><span class="glyphicon esri-icon-printer">&nbsp;</span>Export Map</a>
+                </span>
+            </div>
+            <!-- Nav -->
+            <ul class="nav navbar-nav calcite-nav">
+                <li class="active">
+                    <a id="mapNav"
+                       class="hidden-xs hidden-sm"
+                       href="#mapTab"
+                       aria-controls="mapTab"
+                       aria-expanded="true"
+                       role="tab"
+                       data-toggle="tab"
+                       data-tooltip="tip"
+                       title="2D View"
+                       data-placement="bottom">Map (2-D)</a>
+                </li>
+                <li>
+                    <a id="sceneNav"
+                       class="hidden-xs hidden-sm"
+                       href="#sceneTab"
+                       aria-controls="sceneTab"
+                       role="tab"
+                       data-toggle="tab"
+                       data-tooltip="tip"
+                       title="3D View"
+                       data-placement="bottom">Scene (3-D)</a>
+                </li>
+                <li>
+                    <div class="calcite-navbar-search calcite-search-expander">
+                        <div id="searchWidgetDiv"></div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <!--/.calcite-navbar -->
+        <!-- Map  -->
+        <div class="calcite-map calcite-map-absolute">
+            <div id="tabContainer" class="tab-content">
+                <div id="mapTab" class="tab-pane fade in active" role="tabpanel">
+                    <div id="mapViewDiv"></div>
+                </div>
+                <div id="sceneTab" class="tab-pane fade" role="tabpanel">
+                    <div id="sceneViewDiv"></div>
+                </div>
+            </div>
+        </div>
+        <!-- /.calcite-map -->
+        <!-- Panels -->
+
+        <div id="allPanels" class="calcite-panels calcite-text-light calcite-bg-dark panel-group">
+            @*class="calcite-panels calcite-panels-right calcite-text-light calcite-bg-dark panel-group"*@
+            <!-- Basemaps Panel -->
+            <div id="panelBasemaps" class="panel collapse">
+                <div id="headingBasemaps" class="panel-heading" role="tab">
+                    <div class="panel-title">
+                        <a class="panel-toggle collapsed"
+                           role="button"
+                           data-toggle="collapse"
+                           href="#collapseBasemaps"
+                           aria-expanded="false"
+                           aria-controls="collapseBasemaps">
+                            <span class="glyphicon glyphicon-th-large"
+                                  aria-hidden="true"></span><span class="panel-label">Basemaps</span>
+                        </a>
+                        <a class="panel-close"
+                           role="button"
+                           data-toggle="collapse"
+                           data-target="#panelBasemaps">
+                            <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+                <div id="collapseBasemaps"
+                     class="panel-collapse collapse"
+                     role="tabpanel"
+                     aria-labelledby="headingBasemaps">
+                    <div class="panel-body"><div id="basemapPanelDiv"></div></div>
+                </div>
+            </div>
+
+            <!-- Select Location Panel -->
+            <div id="panelLocationSelect" class="panel collapse">
+                <div id="headingLocationSelect" class="panel-heading">
+                    <div class="panel-title">
+                        <a class="panel-toggle"
+                           role="button"
+                           data-toggle="collapse"
+                           href="#collapseSettings"
+                           data-parent="#panelAccordion"
+                           aria-expanded="true"
+                           aria-controls="collapseSettings">
+                            <span class="glyphicon" aria-hidden="true"></span><span class="panel-label"><strong>Search Information</strong></span>
+                        </a>
+                        <a class="panel-close"
+                           role="button"
+                           data-toggle="collapse"
+                           data-target="#panelLocationSelect">
+                            <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+                <div id="collapseSettings"
+                     class="panel-collapse collapse"
+                     role="tabpanel"
+                     aria-labelledby="headingLocationSelect">
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label checkbox-inline">View All</label>
+                                <div class="col-xs-6">
+                                    <input type="checkbox" id="chkBxAllLayers">
+                                </div>
+                                <div class="col-xs-2"></div>
+                            </div>
+
+                            <!-- Widgets -->
+                            <div class="form-group" id="frmZone">
+                                <label for="ZoneSelectionWidgets" class="col-xs-4 control-label">Zone</label>
+                                <div class="col-xs-6">
+                                    <select id="ZoneCode" class="form-control" asp-items="ViewBag.ZoneList" value="@ViewBag.ZoneList" name="zoneId">
+                                        <option value="" selected="selected">-- Select Zone --</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-2"></div>
+                            </div>
+
+                            <!-- Widgets -->
+                            <div class="form-group" id="frmCircle">
+                                <label for="CircleSelectionWidgets" class="col-xs-4 control-label">Circle</label>
+                                <div class="col-xs-6">
+                                    <select id="CircleCode" class="form-control" name="circleId">
+                                        <option value="" selected="selected" disabled="disabled">-- Select Circle --</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-2"></div>
+                            </div>
+
+                            <!-- Widgets -->
+                            <div class="form-group" id="frmSnD">
+                                <label for="SnDSelectionWidgets" class="col-xs-4 control-label">S & D</label>
+                                <div class="col-xs-6">
+                                    <select id="SnDCode" class="form-control" name="snDDivId">
+                                        <option value="" selected="selected" disabled="disabled">-- Select S & D --</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-2"></div>
+                            </div>
+
+                            <!-- Widgets -->
+                            <div class="form-group" id="frmSubStation">
+                                <label for="SubStationSelectionWidgets" class="col-xs-4 control-label">Sub-Station</label>
+                                <div class="col-xs-6">
+                                    <select id="SubstationId" class="form-control" name="subStationId">
+                                        <option value="" selected="selected" disabled="disabled">-- Select Substation --</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-2"></div>
+                            </div>
+
+                            <!-- Widgets -->
+                            <div class="form-group" id="frmRoute">
+                                <label for="RouteSelectionWidgets" class="col-xs-4 control-label">Route</label>
+                                <div class="col-xs-6">
+                                    <select id="RouteCode" class="form-control" name="routeId">
+                                        <option value="" selected="selected" disabled="disabled">-- Select Route --</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-2"></div>
+                            </div>
+
+                            <!-- Widgets -->
+                            <div class="form-group" id="frmFeederLine">
+                                <label for="FeederSelectionWidgets" class="col-xs-4 control-label">Feeder Line</label>
+                                <div class="col-xs-6">
+                                    <select id="FeederLineId" class="form-control" name="feederLineId">
+                                        <option value="" selected="selected" disabled="disabled">-- Select Feeder Line --</option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel - Print -->
+            <div id="panelPrint" class="panel collapse">
+                <div id="headingPrint" class="panel-heading">
+                    <div class="panel-title">
+                        <a class="panel-toggle collapsed" role="button" data-toggle="collapse" href="#collapsePrint" aria-expanded="false" aria-controls="collapsePrint"><span class="glyphicon glyphicon-print" aria-hidden="true"></span><span class="panel-label">Print</span></a>
+                        <a class="panel-close" role="button" data-toggle="collapse" tabindex="0" href="#panelPrint"><span class="esri-icon esri-icon-close" aria-hidden="true"></span></a>
+                    </div>
+                </div>
+                <div id="collapsePrint" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingPrint">
+                    <div class="panel-body body-light">
+                        <div id="printDiv"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel Settings -->
+            <div id="panelSettings" class="panel panel-map collapse">
+                <div id="headingSettings" class="panel-heading">
+                    <div class="panel-title">
+                        <a class="panel-toggle"
+                           role="button"
+                           data-toggle="collapse"
+                           href="#collapseSettings"
+                           data-parent="#panelAccordion"
+                           aria-expanded="true"
+                           aria-controls="collapseSettings">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span><span class="panel-label">Settings</span>
+                        </a>
+                        <a class="panel-close"
+                           role="button"
+                           data-toggle="collapse"
+                           data-target="#panelSettings">
+                            <span class="esri-icon esri-icon-close" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+                <div id="collapseSettings"
+                     class="panel-collapse collapse"
+                     role="tabpanel"
+                     aria-labelledby="headingSettings">
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+                            <!-- Theme -->
+
+                            <div class="form-group">
+                                <label for="settingsTheme" class="col-xs-3 control-label">Theme</label>
+                                <div class="col-xs-9">
+                                    <select id="settingsTheme" class="form-control">
+                                        <option value="calcite-dark"
+                                                data-textcolor="calcite-text-light"
+                                                data-bgcolor="calcite-bg-dark"
+                                                selected>
+                                            Dark
+                                        </option>
+                                        <option value="calcite-light"
+                                                data-textcolor="calcite-text-dark"
+                                                data-bgcolor="calcite-bg-light">
+                                            Light
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Color -->
+
+                            <div class="form-group">
+                                <label for="settingsColor" class="col-xs-3 control-label">Color</label>
+                                <div class="col-xs-9">
+                                    <select id="settingsColor" class="form-control">
+                                        <option value="" data-theme="calcite-theme-light">
+                                            Default
+                                        </option>
+                                        <option value="calcite-bgcolor-dark-blue"
+                                                data-textcolor="calcite-text-light"
+                                                data-bgcolor="calcite-bg-custom">
+                                            Dark Blue
+                                        </option>
+                                        <option value="calcite-bgcolor-dark-green"
+                                                data-textcolor="calcite-text-light"
+                                                data-bgcolor="calcite-bg-custom">
+                                            Dark Green
+                                        </option>
+                                        <option value="calcite-bgcolor-dark-brown"
+                                                data-textcolor="calcite-text-light"
+                                                data-bgcolor="calcite-bg-custom">
+                                            Dark Brown
+                                        </option>
+                                        <option value="calcite-bgcolor-dark-red"
+                                                data-textcolor="calcite-text-light"
+                                                data-bgcolor="calcite-bg-custom">
+                                            Dark Red
+                                        </option>
+                                        <option value="calcite-bgcolor-darkest-grey"
+                                                data-textcolor="calcite-text-light"
+                                                data-bgcolor="calcite-bg-custom">
+                                            Darkest Grey
+                                        </option>
+                                        <option value="calcite-bgcolor-lightest-grey"
+                                                data-textcolor="calcite-text-dark"
+                                                data-bgcolor="calcite-bg-custom">
+                                            Lightest Grey
+                                        </option>
+                                        <option value="calcite-bgcolor-blue-75"
+                                                data-textcolor="calcite-text-light"
+                                                data-bgcolor="calcite-bg-custom">
+                                            Blue 75%
+                                        </option>
+                                        <option value="calcite-bgcolor-black-75"
+                                                data-textcolor="calcite-text-light"
+                                                data-bgcolor="calcite-bg-custom">
+                                            Black 75%
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Widgets -->
+
+                            <div class="form-group">
+                                <label for="settingsWidgets" class="col-xs-3 control-label">Widgets</label>
+                                <div class="col-xs-9">
+                                    <select id="settingsWidgets" class="form-control">
+                                        <option value="calcite-widgets-dark">Dark</option>
+                                        <option value="calcite-widgets-light" selected>
+                                            Light
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Layout -->
+
+                            <div class="form-group">
+                                <label for="settingsLayout" class="col-xs-3 control-label">Layout</label>
+                                <div class="col-xs-9">
+                                    <select id="settingsLayout" class="form-control">
+                                        <option value="calcite-nav-top"
+                                                data-nav="navbar-fixed-top"
+                                                selected>
+                                            Top
+                                        </option>
+                                        <option value="calcite-nav-bottom"
+                                                data-nav="navbar-fixed-bottom">
+                                            Bottom
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button - Distance Measurement -->
+            <div id="topbar">
+                <button class="action-button esri-icon-polyline"
+                        id="distanceButton"
+                        type="button"
+                        title="Measure distance between two or more points"></button>
+                @*<button class="action-button esri-icon-polygon"
+                    id="areaButton"
+                    type="button"
+                    title="Measure area"></button>*@
+            </div>
+        </div>
     </div>
+
+    <!-- /.calcite-panels -->
+
+    <script type="text/javascript">
+
+        var dojoConfig = {
+            packages: [
+                {
+                    name: "bootstrap",
+                    location: "//esri.github.io/calcite-maps/dist/vendor/dojo-bootstrap"
+                    //location: "~/map/calcite-maps-master/dist/vendor/dojo-bootstrap"
+                },
+                {
+                    name: "calcite-maps",
+                    location: "//esri.github.io/calcite-maps/dist/js/dojo"
+                    //location: "~/map/calcite-maps-master/dist/js/dojo"
+                }
+            ]
+        };
+
+    </script>
+
+    <!-- ArcGIS JS 4 -->
+    <script src="//js.arcgis.com/4.15/"></script>
+    @*<script src="~/map/arcgis_js_api/library/4.14"></script>*@
+
+    @*<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
+    <script src="~/lib/jquery/3.4.1/jquery.min.js"></script>
+
+    <script>
+        var activeWidget = null;
+
+        var gisServerUrl = "@((gisServerDetails.GisServerFullUrl != null) ? gisServerDetails.GisServerFullUrl : "")";
+        var gisServerIpAddress = "@((gisServerDetails.GisServerIPAddress != null) ? gisServerDetails.GisServerIPAddress : "")";
+        var applicationServerUrl = "@((appServerDetails.AppServerFullUrl != null) ? appServerDetails.AppServerFullUrl : "")";
+
+        var defaultBaseMapName = "@((baseMapDetails.BaseMapName != null) ? baseMapDetails.BaseMapName : "")";
+        var defaultZoomLevel = "@((baseMapDetails.DefaultZoomLevel != null) ? baseMapDetails.DefaultZoomLevel : 0)";
+        var centerLatitude ="@((baseMapDetails.BaseMapCenterLat != null) ? baseMapDetails.BaseMapCenterLat : 0)";
+        var centerLongitude = "@((baseMapDetails.BaseMapCenterLong != null) ? baseMapDetails.BaseMapCenterLong : 0)";
+        var minScale = "@((baseMapDetails.MinScale != null) ? baseMapDetails.MinScale : 0)";
+        var maxScale = 0;
+
+        var app;
+
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/views/SceneView",
+            "esri/widgets/Home",
+            "esri/widgets/Search",
+            "esri/widgets/BasemapGallery",
+            "esri/widgets/BasemapToggle",
+            "esri/widgets/ScaleBar",
+            "esri/widgets/Attribution",
+            "esri/widgets/LayerList",
+            "esri/widgets/Legend",
+            "esri/widgets/Expand",
+            "esri/core/watchUtils",
+            "esri/layers/MapImageLayer",
+            "esri/widgets/DistanceMeasurement2D",
+            "esri/widgets/Print",
+            "esri/symbols/PictureMarkerSymbol",
+            "esri/symbols/WebStyleSymbol",
+            "esri/geometry/geometryEngine",
+            "esri/Graphic",
+            // Calcite Maps
+            "calcite-maps/calcitemaps-v0.10",
+
+            // Calcite Maps ArcGIS Support
+            "calcite-maps/calcitemaps-arcgis-support-v0.10",
+
+            // Bootstrap
+            "bootstrap/Collapse",
+            "bootstrap/Dropdown",
+            "bootstrap/Tab",
+            // Can use @@dojo shim for Array.from for IE11
+            "@@dojo/framework/shim/array"
+        ], function (
+            Map,
+            MapView,
+            SceneView,
+            Home,
+            Search,
+            Basemaps,
+            BasemapToggle,
+            ScaleBar,
+            Attribution,
+            LayerList,
+            Legend,
+            Expand,
+            watchUtils,
+            MapImageLayer,
+            DistanceMeasurement2D,
+            Print,
+            PictureMarkerSymbol,
+            WebStyleSymbol,
+            geometryEngine,
+            Graphic,
+            CalciteMaps,
+            CalciteMapsArcGIS
+           ) {
+                /*********** App settings ********************/
+                app = {
+                    //center: [90.537777,23.737777],
+                    //zoom :7,
+                    //basemap: "streets",
+                    center: [centerLongitude, centerLatitude],
+                    zoom : defaultZoomLevel,
+                    basemap: defaultBaseMapName,
+                    viewPadding: {
+                        top: 50,
+                        bottom: 0
+                    },
+                    uiComponents: ["attribution","zoom","navigation-toggle", "compass"],
+                    mapView: null,
+                    sceneView: null,
+                    containerMap: "mapViewDiv",
+                    containerScene: "sceneViewDiv",
+                    activeView: null,
+                    searchWidget: null,
+                    popupWindow: {
+                        dockEnabled: true,
+                        dockOptions: {
+                            buttonEnabled: true,
+                            breakpoint: true
+                        }
+                    }
+                };
+
+                var zonePopupTemplate = {
+                    title: "Zone Details",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "ZoneName",
+                                    label: "Zone",
+                                    visible: true
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                var circlePopupTemplate = {
+                    title: "Circle Details",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "ZoneName",
+                                    label: "Zone",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "CircleName",
+                                    label: "Circle",
+                                    visible: true
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                var sndPopupTemplate = {
+                    title: "S&D Details",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "ZoneName",
+                                    label: "Zone",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "CircleName",
+                                    label: "Circle",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SnDName",
+                                    label: "S & D Name",
+                                    visible: true
+                                }
+                            ]
+                        }
+                    ]
+                };
+
+                const viewThisAction = {
+                  title: "Components",
+                  id: "view-this",
+                  className: "esri-icon-description"
+                };
+
+                var subStationsPopupTemplate = {
+                    title: "Substation '{SubstationName}' Details",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "ZoneName",
+                                    label: "Zone",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "CircleName",
+                                    label: "Circle",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SnDName",
+                                    label: "S & D Name",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SubstationName",
+                                    label: "Substation",
+                                    visible: true
+                                }
+                            ]
+                        },
+                        {
+                            type: "media",
+                            mediaInfos: [
+                            {
+                                title: "<strong>Pic-1 of Substation : {SubstationName}</strong>",
+                                type: "image",
+                                caption: "S & D Name: {SnDName}, Sub-Station: {SubstationName}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Substation_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}_1.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-2 of Substation : {SubstationName}</strong>",
+                                type: "image",
+                                caption: "S & D Name: {SnDName}, Sub-Station: {SubstationName}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Substation_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}_2.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-3 of Substation : {SubstationName}</strong>",
+                                type: "image",
+                                caption: "S & D Name: {SnDName}, Sub-Station: {SubstationName}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Substation_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}_3.jpg"
+                                }
+                            }
+                            ]
+                        }
+                    ],
+                    actions: [viewThisAction]
+                };
+
+                /*
+                 var subStationsPopupTemplate = {
+                    title: "Substation '{SubstationName}' Details",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "ZoneName",
+                                    label: "Zone",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "CircleName",
+                                    label: "Circle",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SnDName",
+                                    label: "S & D Name",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SubstationName",
+                                    label: "Substation",
+                                    visible: true
+                                }
+                            ]
+                        },
+                        {
+                            type: "media",
+                            mediaInfos: [
+                            {
+                                title: "<strong>Pic-1 of Substation : {SubstationName}</strong>",
+                                type: "image",
+                                caption: "S & D Name: {SnDName}, Sub-Station: {SubstationName}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Substation_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}_1.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-2 of Substation : {SubstationName}</strong>",
+                                type: "image",
+                                caption: "S & D Name: {SnDName}, Sub-Station: {SubstationName}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Substation_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}_2.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-3 of Substation : {SubstationName}</strong>",
+                                type: "image",
+                                caption: "S & D Name: {SnDName}, Sub-Station: {SubstationName}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Substation_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}_3.jpg"
+                                }
+                            }
+                            ]
+                        }
+                    ]
+                }; */
+
+                var polesPopupTemplate = {
+                    // autocasts as new PopupTemplate()
+                    /* ZoneId, CircleId, SnDDivId, SubStationId, RouteId, FeederLineId, PoleId, ZoneName, CircleName, SnDName, SubstationName, RouteName, Feedername, PoleNo, PreviousPoleNo, Latitude, Longitude,
+                        PoleType, PoleCondition, LineType, WireCondition, TypeOfWire, BackSpan, NoOfWireHt, NoOfWireLt, WireLength, MSJNo, SleeveNo, TwistNo, Neutral, TransformerExist, CommonPole, StreetLight, Tap*/
+                    title: "Pole No '{PoleId}' Details",
+                    content: [
+                        {
+                            type: "fields",
+                            fieldInfos: [
+                                {
+                                    fieldName: "ZoneName",
+                                    label: "Zone",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "CircleName",
+                                    label: "Circle",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SnDName",
+                                    label: "S & D Name",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SubstationName",
+                                    label: "Substation",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "RouteName",
+                                    label: "Route",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "Feedername",
+                                    label: "Feeder",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "PoleId",
+                                    label: "Pole No",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "PreviousPoleNo",
+                                    label: "Previous Pole No",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "Latitude",
+                                    label: "Latitude",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "Longitude",
+                                    label: "Longitude",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "PoleType",
+                                    label: "Pole Type",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "PoleCondition",
+                                    label: "Pole Condition",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "LineType",
+                                    label: "Line Type",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "WireCondition",
+                                    label: "Wire Condition",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "TypeOfWire",
+                                    label: "Type Of Wire",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "BackSpan",
+                                    label: "Back Span",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "NoOfWireHt",
+                                    label: "No Of Wire (HT)",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "NoOfWireLt",
+                                    label: "No Of Wire (LT)",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "WireLength",
+                                    label: "Wire Length",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "MSJNo",
+                                    label: "MSJ No",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "SleeveNo",
+                                    label: "Sleeve No",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "TwistNo",
+                                    label: "Twist No",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "TransformerExist",
+                                    label: "Is Transformer Exist?",
+                                    visible: true
+                                },
+                                {
+                                    fieldName:  "Neutral",
+                                    label: "Neutral",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "CommonPole",
+                                    label: "Is Common Pole?",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "StreetLight",
+                                    label: "Street Light",
+                                    visible: true
+                                },
+                                {
+                                    fieldName: "Tap",
+                                    label: "Tap",
+                                    visible: true
+                                }
+                            ]
+                        },
+                        {
+                            type: "media",
+                            mediaInfos: [
+                            {
+                                title: "<strong>Pic-1 of Pole No : {PoleId}</strong>",
+                                type: "image",
+                                caption: "Sub-Station: {SubstationName}, Feeder: {Feedername}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Pole_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}/{RouteId}/{FeederLineId}/{PoleId}/{PoleId}_1.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-2 of Pole No : {PoleId}</strong>",
+                                type: "image",
+                                caption: "Sub-Station: {SubstationName}, Feeder: {Feedername}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Pole_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}/{RouteId}/{FeederLineId}/{PoleId}/{PoleId}_2.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-3 of Pole No : {PoleId}</strong>",
+                                type: "image",
+                                caption: "Sub-Station: {SubstationName}, Feeder: {Feedername}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Pole_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}/{RouteId}/{FeederLineId}/{PoleId}/{PoleId}_3.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-4 of Pole No : {PoleId}</strong>",
+                                type: "image",
+                                caption: "Sub-Station: {SubstationName}, Feeder: {Feedername}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Pole_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}/{RouteId}/{FeederLineId}/{PoleId}/{PoleId}_4.jpg"
+                                }
+                            },
+                            {
+                                title: "<strong>Pic-5 of Pole No : {PoleId}</strong>",
+                                type: "image",
+                                caption: "Sub-Station: {SubstationName}, Feeder: {Feedername}",
+                                value: {
+                                    sourceURL: applicationServerUrl+"/images/BPDB_Web_Images/Pole_Images/{ZoneId}/{CircleId}/{SnDDivId}/{SubStationId}/{RouteId}/{FeederLineId}/{PoleId}/{PoleId}_5.jpg"
+                                }
+                            }
+                            ]
+                        }
+                    ]
+                };
+                //var pole_symbol = new WebStyleSymbol({
+                //    //type: "web-style", // autocasts as new WebStyleSymbol()
+                //    name: "Powerline_Pole",
+                //    portal: {
+                //        url: "https://www.arcgis.com"
+                //    },
+                //    styleName: "EsriInfrastructureStyle"
+                //});
+
+                //var pole_symbol = {
+                //    type: "simple",
+                //    symbol: {
+                //      type: "picture-marker",
+                //      url: "https://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+                //      width: "18px",
+                //      height: "18px"
+                //    }
+                //}
+
+                /******************** Adding dynamic layer *********************/
+
+                var allLayers = new MapImageLayer({
+                    url: gisServerUrl,
+                    sublayers: [
+                         {//Zone
+                            id: 5,
+                            title: "Zone",
+                            visible: false,
+                            renderer: {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+                                symbol: {
+                                    type: "simple-fill",  // autocasts as new LineSymbol3D()
+                                    color: [145,05,07, 0.2],
+                                    style: "solid",
+                                    outline: {  // autocasts as new SimpleLineSymbol()
+                                        color: [145,05,07, 0.6],
+                                        width: 1
+                                    }
+                                }
+                            }
+                            //,popupTemplate: zonePopupTemplate
+                        },
+                        {//Circle
+                            id: 4,
+                            title: "Circle",
+                            visible: false,
+                            renderer: {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+                                symbol: {
+                                    type: "simple-fill",  // autocasts as new LineSymbol3D()
+                                    color: [45,105,07, 0.2],
+                                    style: "solid",
+                                    outline: {  // autocasts as new SimpleLineSymbol()
+                                        color: [45,105,07, 0.6],
+                                        width: 1
+                                    }
+                                }
+                            }
+                            //,popupTemplate: circlePopupTemplate
+                        },
+                        {//S & D
+                            id: 3,
+                            title: "S & D",
+                            visible: false,
+                            renderer: {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+                                symbol: {
+                                    type: "simple-fill",  // autocasts as new LineSymbol3D()
+                                    color: [245,05,07, 0.2],
+                                    style: "solid",
+                                    outline: {  // autocasts as new SimpleLineSymbol()
+                                        color: [245,05,07, 0.6],
+                                        width: 1
+                                    }
+                                }
+                            }
+                            //,popupTemplate: sndPopupTemplate
+                        },
+                        {//Sub-station
+                            id: 2,
+                            title: "Substation",
+                            visible: false,
+                            renderer: {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+                                symbol: {
+                                    type: "simple-fill",  // autocasts as new LineSymbol3D()
+                                    color: [170,240,100, 0.6],
+                                    style: "solid",
+                                    outline: {  // autocasts as new SimpleLineSymbol()
+                                        color: [170,240,100, .9],
+                                        width: 2
+                                    }
+                                }
+                            },
+                            //labelingInfo: [
+                            //    {
+                            //      labelExpression: "[SubstationName]",
+                            //      labelPlacement: "always-horizontal",
+                            //      symbol: {
+                            //        type: "text", // autocasts as new TextSymbol()
+                            //        color: [255, 255, 255, 0.85],
+                            //        font: {
+                            //          size: 12,
+                            //          weight: "bolder"
+                            //        }
+                            //      }//,
+                            //      //minScale: 18500000,
+                            //      //maxScale: 9250000
+                            //    }
+                            //],
+                            popupTemplate: subStationsPopupTemplate
+                        },
+                        {//Feeder
+                            id: 1,
+                            title: "Feeder Line",
+                            visible: false,
+                            renderer: {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+                                symbol: {
+                                    type: "simple-line",  // autocasts as new LineSymbol3D()
+                                    color: [25,15,245, 0.7],
+                                    width: "2px",
+                                    outline: {  // autocasts as new SimpleLineSymbol()
+                                        width: 0.1,
+                                        color: [25,15,245, 0.8],
+                                    },
+                                }
+                            }
+                        },
+                        {//Pole
+                            id: 0,
+                            title: "Poles",
+                            visible: false,
+                            renderer: {
+                                type: "simple",  // autocasts as new SimpleRenderer()
+
+                                //symbol: pole_symbol
+
+                                symbol: {
+                                    type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+                                    size: 12,
+                                    color: [255,255,255, 0.9],//[255,0,20, 0.9]
+                                    outline: {  // autocasts as new SimpleLineSymbol()
+                                        width: "1px",
+                                        color: [5,155,158, 0.9],//[255,0,20, 0.9]
+                                    }
+                                }
+
+                                //symbol: {
+                                //    type: "web-style", // autocasts as new WebStyleSymbol()
+                                //    name: "school",
+                                //    portal: {
+                                //      url: "https://www.arcgis.com"
+                                //    },
+                                //    styleName: "Esri2DPointSymbolsStyle"
+                                //}
+
+                                //symbol: {
+                                //    type: "web-style", // autocasts as new WebStyleSymbol()
+                                //    name: "Light_On_Post_-_Light_on",
+                                //    portal: {
+                                //      url: "https://www.arcgis.com"
+                                //    },
+                                //    styleName: "EsriRealisticStreetSceneStyle"
+                                //}
+
+                                //symbol: {
+                                //    type: "web-style", // autocasts as new WebStyleSymbol()
+                                //    name: "Powerline_Pole",
+                                //    portal: {
+                                //      url: "https://www.arcgis.com"
+                                //    },
+                                //    styleName: "EsriInfrastructureStyle"
+                                //}
+                            },
+                            opacity: 0.75,
+                            //source: {
+                            //    type: "data-layer",
+                            //    dataSource: {
+                            //        type: "join-table",
+                            //        leftTableSource: {
+                            //        type: "map-layer",
+                            //        mapLayerId: 0
+                            //        },
+                            //        rightTableSource: {
+                            //        type: "data-layer",
+                            //        dataSource: {
+                            //            type: "table",
+                            //            workspaceId: "PdbGeoDbWorkspaceID",
+                            //            dataSourceName: "TblPole"
+                            //        }
+                            //        },
+                            //        leftTableKey: "PoleId",
+                            //        rightTableKey: "PoleId",
+                            //        joinType: "left-outer-join"
+                            //    }
+                            //},
+
+                            popupTemplate: polesPopupTemplate
+
+                        }
+                    ]
+                });
+
+                /********* Create the map and scene view and ui components **************/
+
+                // Map
+                const map = new Map({
+                    basemap: app.basemap,
+                    layers: [allLayers]
+                    //layers:[polesFeatureLayer, resultsLayer]
+                });
+
+                var minimumScale = 0;
+                var maximumScale = 0;
+
+                app.center = [centerLongitude, centerLatitude];
+                app.zoom = defaultZoomLevel;
+
+
+                // 2D view
+                app.mapView = new MapView({
+                    container: app.containerMap,
+                    map: map,
+                    center: app.center,
+                    scale: app.scale,
+                    extent: app.extent,
+                    zoom: app.zoom,
+                    padding: app.viewPadding,
+                    //ui: {
+                    //    components: app.uiComponents
+                    //},
+                    popup: app.popupWindow
+                });
+
+                app.mapView.constraints = {
+                   minScale: minimumScale,  // User cannot zoom out beyond a scale of 1:5000000
+                   maxScale: maximumScale,  // User can overzoom tiles
+                   rotationEnabled: false  // Disables map rotation
+                };
+
+                var homeBtnMap = new Home({
+                   view: app.mapView
+                });
+                // Add the home button to the top left corner of the view
+                app.mapView.ui.add(homeBtnMap, "top-left");
+                app.mapView.ui.add("topbar", "top-left");
+                app.mapView.ui.components = app.uiComponents;
+
+                var basemapToggle = new BasemapToggle({
+                    view: app.mapView,
+                    secondBasemap: "satellite"
+                });
+                app.mapView.ui.add(basemapToggle, "bottom-right");
+
+                var attribution = new Attribution({
+                    view: app.mapView
+                });
+                app.mapView.ui.add(attribution, "manual");
+
+                function ajaxDefaultBasicInfo() {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetDefaultBasicInfo")",
+                        dataType: "json",
+                        before: $("#busy-indicator").fadeIn(150),
+                        async:false,
+                        success: myCallback,
+                        error: function (ex) {
+                            window.msg.init("error", "Error... . . !", "Failed to load data " + ex.error);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    }).done(function(data){
+                            return data;
+                    });
+                }
+
+                function ajaxZoneBasicInfo(zoneCode) {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetZoneBasicInfo")",
+                        dataType: "json",
+                        data: { zoneCode: zoneCode },
+                        before: $("#busy-indicator").fadeIn(150),
+                        async:false,
+                        success: myCallback,
+                        error: function (ex) {
+                            window.msg.init("error", "Error... . . !", "Failed to load data " + ex.error);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    }).done(function(data){
+                            return data;
+                    });
+                }
+
+                function ajaxCircleBasicInfo(circleCode) {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetCircleBasicInfo")",
+                        dataType: "json",
+                        data: { circleCode: circleCode },
+                        before: $("#busy-indicator").fadeIn(150),
+                        async: false,
+                        success: myCallback,
+                        error: function (ex) {
+                            window.msg.init("error", "Error... . . !", "Failed to load data " + ex.error);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    }).done(function (data) {
+                        return data;
+                    });
+                }
+
+                function ajaxSnDBasicInfo(snDCode) {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetSnDBasicInfo")",
+                        dataType: "json",
+                        data: { snDCode: snDCode },
+                        before: $("#busy-indicator").fadeIn(150),
+                        async:false,
+                        success: myCallback,
+                        error: function (ex) {
+                            window.msg.init("error", "Error... . . !", "Failed to load data " + ex.error);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    }).done(function(data){
+                            return data;
+                    });
+                }
+
+                function ajaxSubstationBasicInfo(substationId) {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("GetSubstationBasicInfo")",
+                        dataType: "json",
+                        data: { substationId: substationId },
+                        before: $("#busy-indicator").fadeIn(150),
+                        async:false,
+                        success: myCallback,
+                        error: function (ex) {
+                            window.msg.init("error", "Error... . . !", "Failed to load data " + ex.error);
+                        },
+                        complete: $("#busy-indicator").fadeOut(150)
+                    }).done(function(data){
+                            return data;
+                    });
+                }
+
+                var layerBasicInfo;
+
+                $("#ZoneCode").on("change", function () {
+                    var zoneCode = $("#ZoneCode").val();
+                    if (zoneCode != "") {
+                        ajaxZoneBasicInfo(zoneCode);
+                    }
+                    else {
+                        ajaxDefaultBasicInfo();
+                    }
+                    return false;
+                });
+
+                $("#CircleCode").on("change", function () {
+                    var circleCode = $("#CircleCode").val();
+                    if (circleCode != "") {
+                        ajaxCircleBasicInfo(circleCode);
+                    }
+                    else {
+                        var zoneCode = $("#ZoneCode").val();
+                        if (zoneCode != "") {
+                            ajaxZoneBasicInfo(zoneCode);
+                        }
+                    }
+                    return false;
+                });
+
+                $("#SnDCode").on("change", function () {
+                    var snDCode = $("#SnDCode").val();
+                    if (snDCode != "") {
+                        ajaxSnDBasicInfo(snDCode);
+                    }
+                    else {
+                        var circleCode = $("#CircleCode").val();
+                        if (circleCode != "") {
+                            ajaxCircleBasicInfo(circleCode);
+                        }
+                    }
+                    return false;
+                });
+
+                $("#SubstationId").on("change", function () {
+                    var substationId = $("#SubstationId").val();
+                    if (substationId != "") {
+                        ajaxSubstationBasicInfo(substationId);
+                    }
+                    else {
+                        var snDCode = $("#SnDCode").val();
+                        if (snDCode != "") {
+                            ajaxSnDBasicInfo(snDCode);
+                        }
+                    }
+                    return false;
+                });
+
+                function myCallback(data) {
+                    layerBasicInfo = data;
+
+                    // Do whatever you need with result variable
+                    defaultZoomLevel = layerBasicInfo.defaultZoomLevel;
+                    centerLatitude = layerBasicInfo.centerLatitude;
+                    centerLongitude = layerBasicInfo.centerLongitude;
+                }
+
+                function makeLayerVisible() {
+                    allLayers.findSublayerById(0).visible = true;
+                    allLayers.findSublayerById(1).visible = true;
+                    allLayers.findSublayerById(2).visible = true;
+                    allLayers.findSublayerById(3).visible = true;
+                    allLayers.findSublayerById(4).visible = true;
+                    allLayers.findSublayerById(5).visible = true;
+                }
+
+                function addLayerByArea(layerId, queryExpression, isChecked) {
+
+                    if (isChecked) {
+                        for (var i = 0; i < allLayers.sublayers.length; i++) {
+                            allLayers.findSublayerById(i).definitionExpression = "";
+                            allLayers.findSublayerById(i).visible = true;
+
+                            defaultZoomLevel = "@((baseMapDetails.DefaultZoomLevel != null) ? baseMapDetails.DefaultZoomLevel : 0)";
+                            centerLatitude = "@((baseMapDetails.BaseMapCenterLat != null) ? baseMapDetails.BaseMapCenterLat : 0)";
+                            centerLongitude = "@((baseMapDetails.BaseMapCenterLong != null) ? baseMapDetails.BaseMapCenterLong : 0)";
+                        }
+                    }
+                    else {
+                        switch (layerId) {
+                            case 0:
+                                allLayers.findSublayerById(0).definitionExpression = queryExpression['FeederLineId'];
+                                allLayers.findSublayerById(1).definitionExpression = queryExpression['RouteId'];
+                                allLayers.findSublayerById(2).definitionExpression = queryExpression['SubStationId'];
+                                allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
+                                allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                                allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                                makeLayerVisible();
+                                break;
+                            case 1:
+                                allLayers.findSublayerById(0).definitionExpression = queryExpression['RouteId'];
+                                allLayers.findSublayerById(1).definitionExpression = queryExpression['RouteId'];
+                                allLayers.findSublayerById(2).definitionExpression = queryExpression['SubStationId'];
+                                allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
+                                allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                                allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                                makeLayerVisible();
+                                break;
+                            case 2:
+                                allLayers.findSublayerById(0).definitionExpression = queryExpression['SubStationId'];
+                                allLayers.findSublayerById(1).definitionExpression = queryExpression['SubStationId'];
+                                allLayers.findSublayerById(2).definitionExpression = queryExpression['SubStationId'];
+                                allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
+                                allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                                allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                                makeLayerVisible();
+                                break;
+                            case 3:
+                                allLayers.findSublayerById(0).definitionExpression = queryExpression['SnDDivId'];
+                                allLayers.findSublayerById(1).definitionExpression = queryExpression['SnDDivId'];
+                                allLayers.findSublayerById(2).definitionExpression = queryExpression['SnDDivId'];
+                                allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
+                                allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                                allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                                makeLayerVisible();
+                                break;
+                            case 4:
+                                allLayers.findSublayerById(0).definitionExpression = queryExpression['CircleId'];
+                                allLayers.findSublayerById(1).definitionExpression = queryExpression['CircleId'];
+                                allLayers.findSublayerById(2).definitionExpression = queryExpression['CircleId'];
+                                allLayers.findSublayerById(3).definitionExpression = queryExpression['CircleId'];
+                                allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                                allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                                makeLayerVisible();
+                                break;
+                            case 5:
+                                allLayers.findSublayerById(0).definitionExpression = queryExpression['ZoneId'];
+                                allLayers.findSublayerById(1).definitionExpression = queryExpression['ZoneId'];
+                                allLayers.findSublayerById(2).definitionExpression = queryExpression['ZoneId'];
+                                allLayers.findSublayerById(3).definitionExpression = queryExpression['ZoneId'];
+                                allLayers.findSublayerById(4).definitionExpression = queryExpression['ZoneId'];
+                                allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                                makeLayerVisible();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    app.mapView.center = [centerLongitude, centerLatitude];
+                    app.mapView.zoom = defaultZoomLevel;
+                    map.layers.add(allLayers);
+                }
+
+                function addLegendWithLayerList() {
+
+                    var layerList = new LayerList({
+                        view: app.mapView,
+                        container: document.createElement("div"),
+                        //showLegend: true,
+                        listItemCreatedFunction: function(event) {
+                            const item = event.item;
+                            if ((item.title == "BpdbMapService")||(item.title == "BpdbMaps")) {
+                                item.title = "Layers & Legends";
+                            }
+
+                            //set an action for zooming to the full extent of the layer
+                            item.actionsSections =
+                                [{
+                                    title: "Zoom to layer",
+                                    className: "esri-icon-zoom-out-fixed",
+                                    id: "full-extent"
+                                }];
+                            if (item.layer.type != "group") {
+                            // don't show legend twice
+                                item.panel = {
+                                    content: "legend",
+                                    open: true
+                                };
+                            }
+                        }
+                    });
+
+                    layerListExpand = new Expand({
+                        expandIconClass: "esri-icon-layer-list",  // see https://developers.arcgis.com/javascript/latest/guide/esri-icon-font/
+                        expandTooltip: "View Layers with Legends", // optional, defaults to "Expand" for English locale
+                        view: app.mapView,
+                        content: layerList.domNode
+                    });
+
+                    app.mapView.ui.add(layerListExpand, "top-right");
+                    layerListExpand.expanded = true;
+                }
+
+                function removeLayer() {
+                    for (var i = 0; i < allLayers.sublayers.length; i++ ) {
+                        allLayers.findSublayerById(i).visible = !allLayers.findSublayerById(i).visible;
+                    }
+                    app.mapView.ui.remove(layerListExpand, "top-right");
+                }
+
+                var queryExpression = [];
+                var isChecked = false;
+                var isLayerListAdded = false;
+
+                app.mapView.when(function () {
+
+                    var allLayerEvent = document.getElementById("chkBxAllLayers");
+                    var zoneEvent = document.getElementById("ZoneCode");
+                    var circleEvent = document.getElementById("CircleCode");
+                    var snDEvent = document.getElementById("SnDCode");
+                    var substationEvent = document.getElementById("SubstationId");
+                    var routeEvent = document.getElementById("RouteCode");
+                    var feederLineEvent = document.getElementById("FeederLineId");
+
+
+                    allLayerEvent.addEventListener("change", function (event) {
+                        if (isLayerListAdded) {
+                            removeLayer();
+                        }
+                        isChecked = event.target.checked;
+                        if (isChecked) {
+                            isLayerListAdded = true;
+                            addLayerByArea(-1, queryExpression, isChecked);
+                            addLegendWithLayerList();
+                            zoneEvent.value = "";
+                        }
+                        else {
+                            addLayerByArea(-1, queryExpression, isChecked);
+                        }
+                    });
+
+                    zoneEvent.addEventListener("change", function (event) {
+                        if (isLayerListAdded) {
+                            removeLayer();
+                        }
+                        var zoneId = event.target.value;
+                        if (zoneId != "") {
+                            queryExpression['ZoneId'] = "ZoneId = " + zoneId;
+                            addLayerByArea(5, queryExpression, isChecked);
+                            addLegendWithLayerList();
+                            isLayerListAdded = true;
+                        }
+                        else {
+                            addLayerByArea(-1, queryExpression, isChecked);
+                        }
+                    });
+
+                    circleEvent.addEventListener("change", function (event) {
+                        var circleId = event.target.value;
+                        if (circleId != "") {
+                            queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                            queryExpression['CircleId'] = "CircleId = " + circleId;
+                            addLayerByArea(4, queryExpression, isChecked);
+                        }
+                        else {
+                            if (zoneEvent.value != "") {
+                                queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                                addLayerByArea(5, queryExpression, isChecked);
+                            }
+                        }
+                    });
+
+                    snDEvent.addEventListener("change", function (event) {
+                        var snDDivId = event.target.value;
+                        if (snDDivId != "") {
+                            queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                            queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                            queryExpression['SnDDivId'] = "SnDDivId = " + snDDivId;
+                            addLayerByArea(3, queryExpression, isChecked);
+                        }
+                        else {
+                            if (circleEvent.value != "") {
+                                queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                                queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                                addLayerByArea(4, queryExpression, isChecked);
+                            }
+                        }
+                    });
+
+                     substationEvent.addEventListener("change", function (event) {
+                         var subStationId = event.target.value;
+                         if (subStationId != "") {
+                             queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                             queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                             queryExpression['SnDDivId'] = "SnDDivId = " + snDEvent.value;
+                             queryExpression['SubStationId'] = "SubStationId = " + subStationId;
+                             addLayerByArea(2, queryExpression, isChecked);
+                         }
+                         else {
+                             if (snDEvent.value != "") {
+                                queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                                queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                                queryExpression['SnDDivId'] = "SnDDivId = " + snDEvent.value;
+                                addLayerByArea(3, queryExpression, isChecked);
+                            }
+                         }
+                    });
+
+                    routeEvent.addEventListener("change", function (event) {
+                        var routeId = event.target.value;
+                        if (routeId != "") {
+                            queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                            queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                            queryExpression['SnDDivId'] = "SnDDivId = " + snDEvent.value;
+                            queryExpression['SubStationId'] = "SubStationId = " + substationEvent.value;
+                            queryExpression['RouteId'] = "RouteId = " + routeId;
+                            addLayerByArea(1, queryExpression, isChecked);
+                        }
+                        else {
+                            if (substationEvent.value != "") {
+                                 queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                                 queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                                 queryExpression['SnDDivId'] = "SnDDivId = " + snDEvent.value;
+                                 queryExpression['SubStationId'] = "SubStationId = " + substationEvent.value;
+                                 addLayerByArea(2, queryExpression, isChecked);
+                             }
+                        }
+                    });
+
+                    feederLineEvent.addEventListener("change", function (event) {
+                        var feederLineId = event.target.value;
+                        if (feederLineId != "") {
+                            queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                            queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                            queryExpression['SnDDivId'] = "SnDDivId = " + snDEvent.value;
+                            queryExpression['SubStationId'] = "SubStationId = " + substationEvent.value;
+                            queryExpression['RouteId'] = "RouteId = " + routeEvent.value;
+                            queryExpression['FeederLineId'] = "FeederLineId = " + feederLineId;
+                            addLayerByArea(0, queryExpression, isChecked);
+                        }
+                        else {
+                            if (routeEvent.value != "") {
+                                queryExpression['ZoneId'] = "ZoneId = " + zoneEvent.value;
+                                queryExpression['CircleId'] = "CircleId = " + circleEvent.value;
+                                queryExpression['SnDDivId'] = "SnDDivId = " + snDEvent.value;
+                                queryExpression['SubStationId'] = "SubStationId = " + substationEvent.value;
+                                queryExpression['RouteId'] = "RouteId = " + routeEvent.value;
+                                addLayerByArea(1, queryExpression, isChecked);
+                            }
+                        }
+                    });
+
+                    var print = new Print({
+                        view: app.mapView,
+                        // specify your own print service
+                        printServiceUrl: gisServerIpAddress + "/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+                        //"https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"
+                    },
+                    "panelPrint");
+
+                    // Add widget to the print panel of the view
+                    //app.mapView.ui.add(print, "#panelPrint");
+
+                });
+
+                CalciteMapsArcGIS.setPopupPanelSync(app.mapView);
+
+                // 3D view
+                app.sceneView = new SceneView({
+                    container: app.containerScene,
+                    map: map,
+                    center: app.center,
+                    scale: app.scale,
+                    extent: app.extent,
+                    padding: app.viewPadding,
+                    //ui: {
+                    //    components: app.uiComponents
+                    //},
+                    popup: app.popupWindow
+                });
+                app.sceneView.constraints = {
+                   minScale: 5000000,  // User cannot zoom out beyond a scale of 1:50000000
+                   maxScale: 0,  // User can overzoom tiles
+                   rotationEnabled: false  // Disables map rotation
+                };
+
+                // Add the home button to the top left corner of the view
+                var homeBtnScene = new Home({
+                   view: app.sceneView
+                });
+                // Add the home button to the top left corner of the view
+                app.sceneView.ui.add(homeBtnScene, "top-left");
+                app.sceneView.ui.components = app.uiComponents;
+
+                CalciteMapsArcGIS.setPopupPanelSync(app.sceneView);
+
+                document.getElementById("distanceButton").addEventListener("click", function () {
+                    setActiveWidget(null);
+                    if (!this.classList.contains("active-distance-button")) {
+                        //allLayers.findSublayerById(0).popupTemplate = null;
+                        setActiveWidget("distance");
+                    } else {
+                        setActiveButton(null);
+                    }
+                });
+
+                function setActiveWidget(type) {
+                    switch (type) {
+                        case "distance":
+                            activeWidget = new DistanceMeasurement2D({
+                                view: app.activeView
+                            });
+
+                            // skip the initial 'new measurement' button
+                            activeWidget.viewModel.newMeasurement();
+                            app.mapView.ui.add(activeWidget, "bottom-left");
+                            setActiveButton(document.getElementById("distanceButton"));
+                            break;
+
+                        case null:
+                            if (activeWidget) {
+                                app.mapView.ui.remove(activeWidget);
+                                activeWidget.destroy();
+                                activeWidget = null;
+                            }
+                            break;
+                    }
+                }
+
+                function setActiveButton(selectedButton) {
+                    // focus the view to activate keyboard shortcuts for sketching
+                    app.mapView.focus();
+                    var elements = document.getElementsByClassName("active-distance-button");
+
+                    for (var i = 0; i < elements.length; i++) {
+                        elements[i].classList.remove("active-distance-button");
+                    }
+                    if (selectedButton) {
+                        selectedButton.classList.add("active-distance-button");
+                    }
+                }
+
+                var scaleBar = new ScaleBar({
+                    view: app.mapView
+                });
+                app.mapView.ui.add(scaleBar, "bottom-left");
+
+                // Set the active view to scene
+                setActiveView(app.mapView);
+
+                // Create the search widget and add it to the navbar instead of view
+                app.searchWidget = new Search(
+                  {
+                    view: app.activeView
+                  },
+                  "searchWidgetDiv"
+                );
+
+                CalciteMapsArcGIS.setSearchExpandEvents(app.searchWidget);
+
+                // Create basemap widget
+                app.basemapWidget = new Basemaps({
+                  view: app.activeView,
+                  container: "basemapPanelDiv"
+                });
+
+                /******************************************************************
+                 *
+                 * Synchronize the view, search and popup
+                 *
+                 ******************************************************************/
+
+                // Views
+                function setActiveView(view) {
+                    app.activeView = view;
+                }
+
+                function syncViews(fromView, toView) {
+                    const viewPt = fromView.viewpoint.clone();
+                    fromView.container = null;
+                    if (fromView.type === "3d") {
+                        toView.container = app.containerMap;
+                    } else {
+                        toView.container = app.containerScene;
+                    }
+                    toView.padding = app.viewPadding;
+                    toView.viewpoint = viewPt;
+                }
+
+                // Search Widget
+                function syncSearch(view) {
+                    watchUtils.whenTrueOnce(view, "ready", function () {
+                        app.searchWidget.view = view;
+                        if (app.searchWidget.selectedResult) {
+                            app.searchWidget.search(app.searchWidget.selectedResult.name);
+                        }
+                    });
+                }
+
+                // Tab - toggle between map and scene view
+                const tabs = Array.from(
+                    document.querySelectorAll(".calcite-navbar li a[data-toggle='tab']")
+                );
+                tabs.forEach(function (tab) {
+                    tab.addEventListener("click", function (event) {
+                        if (event.target.text.indexOf("Map") > -1) {
+                            syncViews(app.sceneView, app.mapView);
+                            setActiveView(app.mapView);
+                        } else {
+                            syncViews(app.mapView, app.sceneView);
+                            setActiveView(app.sceneView);
+                        }
+                        syncSearch(app.activeView);
+                    });
+                });
+
+                /******************************************************************
+                 *
+                 * Apply Calcite Maps CSS classes to change application on the fly
+                 *
+                 * For more information about the CSS styles or Sass build visit:
+                 * https://github.com/esri/calcite-maps
+                 *
+                 ******************************************************************/
+
+                const cssSelectorUi = [
+                    document.querySelector(".calcite-navbar"),
+                    document.querySelector(".calcite-panels")
+                ];
+                const cssSelectorMap = document.querySelector(".calcite-map");
+
+                // Theme - light (default) or dark theme
+                const settingsTheme = document.getElementById("settingsTheme");
+                const settingsColor = document.getElementById("settingsColor");
+                settingsTheme.addEventListener("change", function (event) {
+                    const textColor =
+                        event.target.options[event.target.selectedIndex].dataset.textcolor;
+                    const bgColor =
+                        event.target.options[event.target.selectedIndex].dataset.bgcolor;
+
+                    cssSelectorUi.forEach(function (element) {
+                        element.classList.remove(
+                            "calcite-text-dark",
+                            "calcite-text-light",
+                            "calcite-bg-dark",
+                            "calcite-bg-light",
+                            "calcite-bg-custom"
+                        );
+                        element.classList.add(textColor, bgColor);
+                        element.classList.remove(
+                            "calcite-bgcolor-dark-blue",
+                            "calcite-bgcolor-blue-75",
+                            "calcite-bgcolor-dark-green",
+                            "calcite-bgcolor-dark-brown",
+                            "calcite-bgcolor-darkest-grey",
+                            "calcite-bgcolor-lightest-grey",
+                            "calcite-bgcolor-black-75",
+                            "calcite-bgcolor-dark-red"
+                        );
+                        element.classList.add(bgColor);
+                    });
+                    settingsColor.value = "";
+                });
+
+                // Color - custom color
+                settingsColor.addEventListener("change", function (event) {
+                    const customColor = event.target.value;
+                    const textColor =
+                        event.target.options[event.target.selectedIndex].dataset.textcolor;
+                    const bgColor =
+                        event.target.options[event.target.selectedIndex].dataset.bgcolor;
+
+                    cssSelectorUi.forEach(function (element) {
+                        element.classList.remove(
+                            "calcite-text-dark",
+                            "calcite-text-light",
+                            "calcite-bg-dark",
+                            "calcite-bg-light",
+                            "calcite-bg-custom"
+                        );
+                        element.classList.add(textColor, bgColor);
+                        element.classList.remove(
+                            "calcite-bgcolor-dark-blue",
+                            "calcite-bgcolor-blue-75",
+                            "calcite-bgcolor-dark-green",
+                            "calcite-bgcolor-dark-brown",
+                            "calcite-bgcolor-darkest-grey",
+                            "calcite-bgcolor-lightest-grey",
+                            "calcite-bgcolor-black-75",
+                            "calcite-bgcolor-dark-red"
+                        );
+                        element.classList.add(customColor);
+                        if (!customColor) {
+                            settingsTheme.dispatchEvent(new Event("change"));
+                        }
+                    });
+                });
+
+                // Widgets - light (default) or dark theme
+                const settingsWidgets = document.getElementById("settingsWidgets");
+                settingsWidgets.addEventListener("change", function (event) {
+                    const theme = event.target.value;
+                    cssSelectorMap.classList.remove(
+                        "calcite-widgets-dark",
+                        "calcite-widgets-light"
+                    );
+                    cssSelectorMap.classList.add(theme);
+                });
+
+                // Layout - top or bottom nav position
+                const settingsLayout = document.getElementById("settingsLayout");
+                settingsLayout.addEventListener("change", function (event) {
+                    const layout = event.target.value;
+                    const layoutNav =
+                        event.target.options[event.target.selectedIndex].dataset.nav;
+
+                    document.body.classList.remove(
+                        "calcite-nav-bottom",
+                        "calcite-nav-top"
+                    );
+                    document.body.classList.add(layout);
+
+                    const nav = document.querySelector("nav");
+                    nav.classList.remove("navbar-fixed-bottom", "navbar-fixed-top");
+                    nav.classList.add(layoutNav);
+                    setViewPadding(layout);
+                });
+
+                // Set view padding for widgets based on navbar position
+                function setViewPadding(layout) {
+                    let padding, uiPadding;
+                    // Top
+                    if (layout === "calcite-nav-top") {
+                        padding = {
+                            padding: {
+                                top: 50,
+                                bottom: 0
+                            }
+                        };
+                        uiPadding = {
+                            padding: {
+                                top: 15,
+                                right: 15,
+                                bottom: 30,
+                                left: 15
+                            }
+                        };
+                    } else {
+                        // Bottom
+                        padding = {
+                            padding: {
+                                top: 0,
+                                bottom: 50
+                            }
+                        };
+                        uiPadding = {
+                            padding: {
+                                top: 30,
+                                right: 15,
+                                bottom: 15,
+                                left: 15
+                            }
+                        };
+                    }
+                    app.mapView.set(padding);
+                    app.mapView.ui.set(uiPadding);
+                    app.sceneView.set(padding);
+                    app.sceneView.ui.set(uiPadding);
+                    // Reset popup
+                    if (
+                        app.activeView.popup.visible &&
+                        app.activeView.popup.dockEnabled
+                    ) {
+                        app.activeView.popup.visible = false;
+                        app.activeView.popup.visible = true;
+                    }
+                }
+            });
+
+    </script>
+    @*<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>*@
+    <script src="~/map/js/ui/1.10.4/jquery-ui.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            $("#allPanels").draggable();
+            $(".esri-legend_message").val("");
+        });
+        $("#allPanels").css({left: 65});
+
+        $('#chkBxAllLayers').on('change', function () {
+            var checked = this.checked
+
+            if (checked) {
+                $('#frmZone').css("display", "none");
+                $('#frmCircle').css("display", "none");
+                $('#frmSnD').css("display", "none");
+                $('#frmSubStation').css("display", "none");
+                $('#frmRoute').css("display", "none");
+                $('#frmFeederLine').css("display", "none");
+                getBpdbEmptyDropdownList();
+            }
+            else {
+                $('#frmZone').css("display", "block");
+                $('#frmCircle').css("display", "block");
+                $('#frmSnD').css("display", "block");
+                $('#frmSubStation').css("display", "block");
+                $('#frmRoute').css("display", "block");
+                $('#frmFeederLine').css("display", "block");
+            }
+        });
+
+        function getBpdbEmptyDropdownList() {
+            $circle = $("#CircleCode");
+            $circle.empty();
+            $circle.append('<option value="" selected="selected">-- Select Circle --</option>');
+
+            $snd = $("#SnDCode");
+            $snd.empty();
+            $snd.append('<option value="" selected="selected">-- Select SnD --</option>');
+
+            $substation = $("#SubstationId");
+            $substation.empty();
+            $substation.append('<option value="" selected="selected">-- Select Sub-Station --</option>');
+
+            $route = $("#RouteCode");
+            $route.empty();
+            $route.append('<option value="" selected="selected">-- Select Route --</option>');
+
+            $feederLineId = $("#FeederLineId");
+            $feederLineId.empty();
+            $feederLineId.append('<option value="" selected="selected">-- Select Feeder Line --</option>');
+        }
+
+        $("#ZoneCode").on("change", function () {
+            var zoneCode = $("#ZoneCode").val();
+            getBpdbEmptyDropdownList();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetCircleList")",
+                dataType: "json",
+                data: { zoneCode: zoneCode },
+                before: $("#busy-indicator").fadeIn(150),
+                success: function (circles) {
+
+                    $.each(circles, function (i, circle) {
+                        $("<option />").val(circle.value).html(circle.text).appendTo($circle);
+                    });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load circle list. " + ex.error);
+                },
+                complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+        $("#CircleCode").on("change", function () {
+            var circleCode = $("#CircleCode").val();
+                $snd = $("#SnDCode");
+                $snd.empty();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetSnDList")",
+                dataType: "json",
+                data: { circleCode: circleCode },
+                before: $("#busy-indicator").fadeIn(150),
+                success: function (snds) {
+                    $snd.append('<option value="" selected="selected">-- Select SnD --</option>');
+                    $.each(snds,
+                        function (i, snd) {
+                            $("<option />").val(snd.value).html(snd.text).appendTo($snd);
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+        $("#SnDCode").on("change", function () {
+            var sndCode = $("#SnDCode").val();
+            $substation = $("#SubstationId");
+            $substation.empty();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetSubStationList")",
+                dataType: "json",
+                data: { sndCode: sndCode },
+                before: $("#busy-indicator").fadeIn(150),
+                success: function (substations) {
+                    $substation.append('<option value="" selected="selected">-- Select Sub-Station --</option>');
+                    $.each(substations,
+                        function (i, substation) {
+                            $("<option />").val(substation.value).html(substation.text).appendTo($substation);
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+        $("#SubstationId").on("change", function () {
+            var substationId = $("#SubstationId").val();
+            $route = $("#RouteCode");
+            $route.empty();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetRouteList")",
+                dataType: "json",
+                data: { substationId: substationId },
+                before: $("#busy-indicator").fadeIn(150),
+                success: function (routes) {
+                    $route.append('<option value="" selected="selected">-- Select Route --</option>');
+                    $.each(routes,
+                        function (i, route) {
+                            $("<option />").val(route.value).html(route.text).appendTo($route);
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+        $("#RouteCode").on("change", function () {
+            var routeCode = $("#RouteCode").val();
+
+            $sourceCableId = $("#SourceCableId");
+            $targetCableId = $("#TargetCableId");
+            $feederLineId = $("#FeederLineId");
+
+            $targetCableId.empty();
+            $sourceCableId.empty();
+            $feederLineId.empty();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetFeederLineList")",
+                dataType: "json",
+                data: { routeCode: routeCode },
+                before: $("#busy-indicator").fadeIn(150),
+                success: function (routes) {
+
+                    $sourceCableId.append('<option value="" selected="selected" >-- Select Source Cable ---</option>');
+                    $targetCableId.append('<option value="" selected="selected">-- Select Target Cable -</option>');
+                    $feederLineId.append('<option value="" selected="selected">-- Select Feeder Line--</option>');
+                    $.each(routes,
+                        function (i, route) {
+                            $("<option />").val(route.value).html(route.text).appendTo($sourceCableId);
+                            $("<option />").val(route.value).html(route.text).appendTo($targetCableId);
+                            $("<option />").val(route.value).html(route.text).appendTo($feederLineId);
+                        });
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                },
+                complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });
+
+    </script>
 </body>
 </html>
