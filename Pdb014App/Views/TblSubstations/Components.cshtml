@@ -162,7 +162,7 @@
                 }
             });
 
-        ajax_load_data('@Url.Action("#", "#")', { substationId: substationId, isShowLayout: isShowLayout, isShowAction: isShowAction })
+        ajax_load_data('@Url.Action("PtList", "TblPhasePowerTransformers")', { substationId: substationId, isShowLayout: isShowLayout, isShowAction: isShowAction })
             .done(function(compList) {
                 $("#comp_info_4").html(compList);
             }).always(function () {

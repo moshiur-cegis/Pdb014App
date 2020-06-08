@@ -31,6 +31,7 @@ namespace Pdb014App.Controllers.SubstationControllers
         {
             ViewBag.IsShowLayout = isShowLayout;
             ViewBag.IsShowAction = isShowAction;
+            ViewBag.SubstationId = substationId;
 
             var niCdBattery110vDcList = _context.LookUpNiCdBattery110vDc.Include(l => l.NiCdBattery110VDcToSubstation).AsNoTracking();
 
