@@ -87,8 +87,8 @@ namespace Pdb014App.Models.PDB
         [Column("ResponsibleOfficerId", Order = 9, TypeName = "int")]
         [Display(Name = "Responsible Officer")]
         public int? ResponsibleOfficerId { get; set; }
-        [ForeignKey("ResponsibleOfficerId")]
-        public virtual TblUserProfileDetail ResponsibleOfficer { get; set; }
+        //[ForeignKey("ResponsibleOfficerId")]
+        //public virtual TblUserProfileDetail ResponsibleOfficer { get; set; }
 
 
         [Column("ResolveDate", Order = 10, TypeName = "date")]
@@ -101,8 +101,8 @@ namespace Pdb014App.Models.PDB
         [Column("ResolvingOfficerId", Order = 11, TypeName = "int")]
         [Display(Name = "Resolving Officer")]
         public int? ResolvingOfficerId { get; set; }
-        [ForeignKey("ResolvingOfficerId")]
-        public virtual TblUserProfileDetail ResolvingOfficer { get; set; }
+        //[ForeignKey("ResolvingOfficerId")]
+        //public virtual TblUserProfileDetail ResolvingOfficer { get; set; }
 
 
         [Column("UnionGeoCode", Order = 12, TypeName = "varchar(8)")]

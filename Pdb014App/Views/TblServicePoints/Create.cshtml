@@ -63,19 +63,23 @@
 
                 <div class="form-group">
                     <label asp-for="PoleId" class="control-label"></label>
-                    @*<select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>*@
-
-
                     <select name="PoleId" id="PoleId" class="form-control">
                         <option value="" selected="selected" disabled="disabled">----- Select Pole Id -----</option>
                     </select>
-
-                    @*<input asp-for="PoleId" class="form-control" />*@
                 </div>
+
+                @*<div class="form-group">
+                    <label asp-for="DistributionTransformerId" class="control-label"></label>
+                    <select name="DistributionTransformerId" id="DistributionTransformerId" class="form-control">
+                        <option value="" selected="selected" disabled="disabled">----- Select Pole Id -----</option>
+                    </select>
+                    <span asp-validation-for="ServicesPointId" class="text-danger"></span>
+                </div>*@
+
 
                 <div class="form-group">
                     <label asp-for="ServicesPointId" class="control-label"></label>
-                    <input asp-for="ServicesPointId" class="form-control" />
+                    <input asp-for="ServicesPointId" class="form-control" readonly />
                     <span asp-validation-for="ServicesPointId" class="text-danger"></span>
                 </div>
 
@@ -246,7 +250,7 @@
                         });
                 },
                 error: function (ex) {
-                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                    window.msg.init("error", "Error... . . !", "Failed to load Sub-Station list. " + ex.error);
                 },
                 //complete: $("#busy-indicator").fadeOut(150)
             });
@@ -277,7 +281,7 @@
                         });
                 },
                 error: function (ex) {
-                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                    window.msg.init("error", "Error... . . !", "Failed to load Route list. " + ex.error);
                 },
                 //complete: $("#busy-indicator").fadeOut(150)
             });
@@ -316,7 +320,7 @@
                         });
                 },
                 error: function (ex) {
-                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                    window.msg.init("error", "Error... . . !", "Failed to load FeederLine list. " + ex.error);
                 },
                 //complete: $("#busy-indicator").fadeOut(150)
             });
@@ -326,7 +330,7 @@
          $("#FeederLineId").on("change",function () {
             var feederLineId = $("#FeederLineId").val(),
 
-            $pole = $("#PoleId");
+             $pole = $("#PoleId");
              $pole.empty();
 
             $.ajax({
@@ -346,12 +350,75 @@
                             //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
                         });
 
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load Pole list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+         });
 
+        @*$("#PoleId").on("change",function () {
+            var poleId = $("#PoleId").val(),
+                $dT = $("#DistributionTransformerId");
+                $dT.empty();
 
+            
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetDtList")", 
+                dataType: "json",
+                data: { poleId: poleId },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (dts) {
+
+                    $dT.append('<option value="" selected="selected">------ Select Distribution Transformer ------</option>');
+                    $.each(dts,
+                        function (i, dt) {
+                            $("<option />").val(dt.value).html(dt.text).appendTo($dT);
+                            //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
+                        });
 
                 },
                 error: function (ex) {
-                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                    window.msg.init("error", "Error... . . !", "Failed to load Distribution TransformerId list. " + ex.error);
+                },
+                //complete: $("#busy-indicator").fadeOut(150)
+            });
+            return false;
+        });*@
+
+        $("#PoleId").on("change",function () {
+            var poleId = $("#PoleId").val(),
+                $dT = $("#DistributionTransformerId");
+
+            $("#ServicesPointId").empty();
+
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetServicePointList")",
+                dataType: "json",
+                data: { poleId: poleId },
+                //before: $("#busy-indicator").fadeIn(150),
+                success: function (sp) {
+
+                    $("#ServicesPointId").val(sp);
+                  
+                    //if (sp.length == 0) {
+                    //    $("#ServicesPointId").val(poleId + "001");
+                    //}
+                    //else {
+
+                    //    alert(parseInt(sp[0].value)+1);
+
+                    //    $("#ServicesPointId").val(parseInt(sp[0].value) + 1);
+                    //}
+
+                },
+                error: function (ex) {
+                    window.msg.init("error", "Error... . . !", "Failed to load Pole list. " + ex.error);
                 },
                 //complete: $("#busy-indicator").fadeOut(150)
             });

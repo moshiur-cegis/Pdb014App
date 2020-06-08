@@ -223,5 +223,14 @@ namespace Pdb014App.Controllers.SubstationControllers
 
             return Json(new SelectList(sndList, "RouteCode", "RouteName"));
         }
+
+        public JsonResult GetFeederLineList(string routeCode)
+        {
+            var sndList = _context.TblFeederLine
+                .Where(u => u.RouteCode.Equals(routeCode))
+                .Select(u => new { u.FeederLineId, FeederName = u.FeederName })
+                .OrderByDescending(u => u.FeederLineId).ToList();
+            return Json(new SelectList(sndList, "FeederLineId", "FeederName"));
+        }
     }
 }

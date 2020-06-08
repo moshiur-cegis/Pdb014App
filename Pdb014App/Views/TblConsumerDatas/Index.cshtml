@@ -1,10 +1,16 @@
-﻿
+﻿@using Pdb014App.Models.UserManage;
+@using Microsoft.AspNetCore.Identity
+
 @model ReflectionIT.Mvc.Paging.PagingList<Pdb014App.Models.PDB.ServicePointModels.TblConsumerData>
 @using ReflectionIT.Mvc.Paging
 @addTagHelper *, ReflectionIT.Mvc.Paging
 
+@inject SignInManager<TblUserRegistrationDetail> SignInManager
+@inject UserManager<TblUserRegistrationDetail> UserManager
 
-@*@model IEnumerable<Pdb014App.Models.PDB.ServicePointModels.TblConsumerData>*@
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
 
 @{
     ViewData["Title"] = "Index";
@@ -87,26 +93,26 @@
     </style>
 
 }
-<div class="container">
-    <h2>List of Consumer</h2>
 
-    <p>
-        <a asp-action="Create">Add New</a>
-    </p>
 
-    <div class="row">
 
-        <div class="col-12">
-            <div class="float-md-right">
-                <form method="get" class="form-inline">
-                    <input name="filter" class="form-control" placeholder="Customer No" value="@Model.RouteValue["Filter"]" />
-                    <button type="submit" class="btn btn-info">
-                        <span class="fas fa-search" aria-hidden="true"></span> Search
-                    </button>
-                </form>
-            </div>
+<div class="row">
+
+
+
+    <div class="col-12">
+        <h2>List of Consumer</h2>
+        <hr />
+        <div class="float-md-right">
+            <form method="get" class="form-inline">
+                <input name="filter" class="form-control" placeholder="Customer No" value="@Model.RouteValue["Filter"]" />
+                <button type="submit" class="btn btn-info">
+                    <span class="fas fa-search" aria-hidden="true"></span> Search
+                </button>
+            </form>
         </div>
     </div>
+</div>
     <div class="row">
         <div class="col-md-12">
             <div class="form-view" id="updatePanel">
@@ -115,17 +121,18 @@
                         <thead>
                             <tr>
                                 <th>
+                                    Action
                                     @*Consumer Id*@
-                                    @Html.SortableHeaderFor(model => model.ConsumerId)
+                                    @*@Html.SortableHeaderFor(model => model.ConsumersId)*@
                                 </th>
                                 <th>
                                     @*@Html.DisplayNameFor(model => model.ConsumerDataToServicePoint)*@
                                     Service Point Id
                                 </th>
                                 @*<th>
-            @Html.DisplayNameFor(model => model.ConsumerDataToDistributionTransformer)
-            Distribution Transformer
-        </th>*@
+                                        @Html.DisplayNameFor(model => model.ConsumerDataToDistributionTransformer)
+                                        Distribution Transformer
+                                    </th>*@
                                 <th>
                                     @*@Html.DisplayNameFor(model => model.ConsumerNo)*@
                                     @Html.SortableHeaderFor(model => model.ConsumerNo)
@@ -137,7 +144,7 @@
                                     @Html.DisplayNameFor(model => model.CustomerMobileNo)
                                 </th>
 
-                               
+
 
                                 <th>
                                     @Html.DisplayNameFor(model => model.Tariff)
@@ -265,21 +272,40 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+
+
                                     <td>
-                                        @*@Html.DisplayFor(modelItem => item.ConsumerId)*@
-                                        @*<a asp-action="Edit" asp-route-id="@item.ConsumerId" title="Edit" class="text-success hover-dark"></a>*@
-                                        <a asp-action="Edit" asp-route-id="@item.ConsumerId" title="Edit" class="text-success hover-dark">@Html.DisplayFor(modelItem => item.ConsumerId)</a>
+                                        <div class="btn-group">
+                                            <a asp-action="Edit" asp-route-id="@item.ConsumersId" class="btn btn-info" data-toggle="tooltip" data-placement="top" asp-route-cai="@Model.RouteValue["cai"]" title="Edit Service Consumer Information">
+                                                @*@Html.DisplayFor(modelItem => item.ConsumersId)*@
+                                                <span class="glyphicon glyphicon-edit"></span> Edit
+                                            </a>
+                                            @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
+                                            {
+                                                <a asp-action="Delete" asp-route-id="@item.ConsumersId" class="btn btn-info" data-toggle="tooltip" data-placement="top" asp-route-cai="@Model.RouteValue["cai"]" title="Delete Service Point Information">
+
+                                                    <span class="glyphicon glyphicon-edit"></span> Delete
+                                                </a>
+                                            }
+                                        </div>
+
+
+                                        @*<a asp-action="Edit" asp-route-id="@item.ConsumersId" title="Edit" class="text-success hover-dark">@Html.DisplayFor(modelItem => item.ConsumersId)</a>*@
                                     </td>
+
+
+
+
                                     <td>
                                         @Html.DisplayFor(modelItem => item.ConsumerDataToServicesPoint.ServicesPointId)
                                     </td>
                                     @*<td>
                                             @Html.DisplayFor(modelItem => item.ConsumerDataToDistributionTransformer.DistributionTransformerId)
                                         </td>*@
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ConsumerNo)
-                                    @*<a asp-action="Edit" asp-route-id="@item.ConsumerNo" title="Edit" class="text-success hover-dark">@Html.DisplayFor(modelItem => item.ConsumerNo)</a>*@
-                                </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ConsumerNo)
+                                        @*<a asp-action="Edit" asp-route-id="@item.ConsumerNo" title="Edit" class="text-success hover-dark">@Html.DisplayFor(modelItem => item.ConsumerNo)</a>*@
+                                    </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.CustomerName)
                                     </td>
@@ -407,9 +433,11 @@
             </div>
         </div>
     </div>
-</div>
+
 
 
 <div style="text-align: center;">
     <vc:pager paging-list="@Model" />
 </div>
+
+

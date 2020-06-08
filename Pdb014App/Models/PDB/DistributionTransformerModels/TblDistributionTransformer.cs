@@ -20,12 +20,12 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         public string DistributionTransformerId { get; set; }
 
 
-        [Column(Order = 1, TypeName = "varchar(50)")]
-        [StringLength(50)]
-        [Display(Name = "Pole Structure Mounted Surge Arrestor")]
-        public string PoleStructureMountedSurgearrestorId { get; set; }
-        [ForeignKey("PoleStructureMountedSurgearrestorId")]
-        public virtual TblPoleStructureMountedSurgeArrestor PoleStructureMountedSurgeArrestor { get; set; }
+        //[Column(Order = 1, TypeName = "varchar(50)")]
+        //[StringLength(50)]
+        //[Display(Name = "Pole Structure Mounted Surge Arrestor")]
+        //public string PoleStructureMountedSurgearrestorId { get; set; }
+        //[ForeignKey("PoleStructureMountedSurgearrestorId")]
+        //public virtual TblPoleStructureMountedSurgeArrestor PoleStructureMountedSurgeArrestor { get; set; }
 
 
         [Column(Order = 2, TypeName = "varchar(50)")]
@@ -69,26 +69,34 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "Existing Pole Numbering (if any)")]
         public string ExistingPoleNumberingifAny { get; set; }
 
-        [Column("InstalledConditionPadbsPoleMounted", Order = 11, TypeName = "nvarchar(250)")]
+
+        [Column("InstalledConditionPadbsPoleMounted", Order = 11, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Installed Condition (Pad/Pole Mounted)")]
         public string InstalledConditionPadbsPoleMounted { get; set; }
+        [ForeignKey("InstalledConditionPadbsPoleMounted")]
+        public virtual LookUpInstalledCondition InstalledConditionPadbsPoleMountedToInstalledCondition { get; set; }
 
-        [Column("InstalledPlaceIndoorbsOutdoor", Order = 12, TypeName = "nvarchar(250)")]
+        [Column("InstalledPlaceIndoorbsOutdoor", Order = 12, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Installed Place (Indoor/Outdoor)")]
         public string InstalledPlaceIndoorbsOutdoor { get; set; }
+        [ForeignKey("InstalledPlaceIndoorbsOutdoor")]
+        public virtual LookUpInstalledPlace InstalledPlaceIndoorbsOutdoorToInstalledPlace { get; set; }
+
 
         [Column("ContractNo", Order = 13, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
         [Display(Name = "Contract No.")]
         public string ContractNo { get; set; }
 
-        [Column("OwneroftheTransformerBPDBbsConsumer", Order = 14, TypeName = "nvarchar(250)")]
+        [Column("OwneroftheTransformerBPDBbsConsumer", Order = 14, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Owner of the Transformer (BPDB/Consumer)")]
         public string OwneroftheTransformerBPDBbsConsumer { get; set; }
-
+        [ForeignKey("OwneroftheTransformerBPDBbsConsumer")]
+        public virtual LookUpTransformerOwner OwneroftheTransformerBPDBbsConsumerToTransformerOwner { get; set; }
+        
         [Column("TransformerKVARating", Order = 15, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
         [Display(Name = "Transformer KVA Rating")]
@@ -144,10 +152,13 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "Rated Voltage")]
         public string RatedVoltage { get; set; }
 
-        [Column("BodyColourCondition", Order = 26, TypeName = "nvarchar(250)")]
+        [Column("BodyColourCondition", Order = 26, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Body Color Condition (if old) (Touch Painted/Newly Painted/FullyRusted/Partially Rusted)")]
         public string BodyColourCondition { get; set; }
+        [ForeignKey("BodyColourCondition")]
+        public virtual LookUpBodyColourCondition BodyColourConditiontoBodyColourCondition { get; set; }
+        
 
         [Column("NameoBodyColour", Order = 27, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -164,45 +175,64 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "Place of Oil Leakage Mark")]
         public string PlaceofOilLeakageMark { get; set; }
 
-        [Column("PlatformMaterialAnglbsChannel", Order = 30, TypeName = "nvarchar(250)")]
+
+        [Column("PlatformMaterialAnglbsChannel", Order = 30, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Platform Material (Angle/Channel)")]
         public string PlatformMaterialAnglbsChannel { get; set; }
+        [ForeignKey("PlatformMaterialAnglbsChannel")]
+        public virtual LookUpPlatformMaterial PlatformMaterialAnglbsChannelTolatformMaterial { get; set; }
 
-        [Column("PlatformStandardbsNonStandardGoodBad", Order = 31, TypeName = "nvarchar(250)")]
+        [Column("PlatformStandardbsNonStandardGoodBad", Order = 31, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Platform (Standard/Non Standard/Good/Bad)")]
         public string PlatformStandardbsNonStandardGoodBad { get; set; }
+        [ForeignKey("PlatformStandardbsNonStandardGoodBad")]
+        public virtual LookUpDtCondition PlatformStandardbsNonStandardGoodBadToCondition { get; set; }
 
-        [Column("TypeofTransformerSupportPoleLeft", Order = 32, TypeName = "nvarchar(250)")]
+
+        [Column("TypeofTransformerSupportPoleLeft", Order = 32, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Type of Transformer Support Pole (Left) (Steel/SPC/Concrete)")]
         public string TypeofTransformerSupportPoleLeft { get; set; }
+        [ForeignKey("TypeofTransformerSupportPoleLeft")]
+        public virtual LookUpSupportPoleLeftRightType TypeofTransformerSupportPoleLeftToLeftRightType { get; set; }
 
-        [Column("ConditionofTransformerSupportPoleLeft", Order = 33, TypeName = "nvarchar(250)")]
+        [Column("ConditionofTransformerSupportPoleLeft", Order = 33, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of Transformer Support Pole (Left) (Good/Broken/Rusted/Corrosion Exist)")]
         public string ConditionofTransformerSupportPoleLeft { get; set; }
+        [ForeignKey("ConditionofTransformerSupportPoleLeft")]
+        public virtual LookUpSupportPoleLeftRightCondition ConditionofTransformerSupportPoleLeftToLeftRightCondition { get; set; }
 
-        [Column("TypeofTransformerSupportPoleRight", Order = 34, TypeName = "nvarchar(250)")]
+
+
+        [Column("TypeofTransformerSupportPoleRight", Order = 34, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Type of Transformer Support Pole (Right) (Steel/SPC/Concrete)")]
         public string TypeofTransformerSupportPoleRight { get; set; }
+        [ForeignKey("TypeofTransformerSupportPoleRight")]
+        public virtual LookUpSupportPoleLeftRightType TypeofTransformerSupportPoleRightToLeftRightType { get; set; }
+        
 
-        [Column("ConditionofTransformerSupportPoleRight", Order = 35, TypeName = "nvarchar(250)")]
+        [Column("ConditionofTransformerSupportPoleRight", Order = 35, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of Transformer Support Pole (Right) (Good/Broken/Rusted/Corrosion Exist)")]
         public string ConditionofTransformerSupportPoleRight { get; set; }
+        [ForeignKey("ConditionofTransformerSupportPoleRight")]
+        public virtual LookUpSupportPoleLeftRightCondition ConditionofTransformerSupportPoleRightToLeftRightCondition { get; set; }
 
         [Column("HTBushingRPhaseOil", Order = 36, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
         [Display(Name = "H.T. Bushing-R Phase Oil Leakage (Yes/No)")]
         public string HTBushingRPhaseOil { get; set; }
 
-        [Column("HTBushingRPhaseGood", Order = 37, TypeName = "nvarchar(250)")]
+        [Column("HTBushingRPhaseGood", Order = 37, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "H.T. Bushing-R Phase Bushing (Good/Broken)")]
         public string HTBushingRPhaseGood { get; set; }
+        [ForeignKey("HTBushingRPhaseGood")]
+        public virtual LookUpDtCondition HTBushingRPhaseGoodToCondition { get; set; }
 
         [Column("HTBushingRPhaseColor", Order = 38, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -214,10 +244,12 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "H.T Bushing-Y Phase  Oil Leakage (Yes/No)")]
         public string HTBushingYPhaseOil { get; set; }
 
-        [Column("HTBushingYPhaseGood", Order = 40, TypeName = "nvarchar(250)")]
+        [Column("HTBushingYPhaseGood", Order = 40, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "H.T Bushing-Y Phase  Bushing (Good/Broken)")]
         public string HTBushingYPhaseGood { get; set; }
+        [ForeignKey("HTBushingYPhaseGood")]
+        public virtual LookUpDtCondition HTBushingYPhaseGoodToCondition { get; set; }
 
         [Column("HTBushingYPhaseColor", Order = 41, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -229,10 +261,13 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "HT Bushing-B Phase  Oil Leakage (Yes/No)")]
         public string HTBushingBPhaseOil { get; set; }
 
-        [Column("HTBushingBPhaseGood", Order = 43, TypeName = "nvarchar(250)")]
+
+        [Column("HTBushingBPhaseGood", Order = 43, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "H.T. Bushing-B Phase Bushing (Good/Broken)")]
         public string HTBushingBPhaseGood { get; set; }
+        [ForeignKey("HTBushingBPhaseGood")]
+        public virtual LookUpDtCondition HTBushingBPhaseGoodToCondition { get; set; }
 
         [Column("HTBushingBPhaseColor", Order = 44, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -244,10 +279,12 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "HT Bushing-N Phase  Oil Leakage (Yes/No)")]
         public string HTBushingNPhaseOil { get; set; }
 
-        [Column("HTBushingNPhaseGood", Order = 46, TypeName = "nvarchar(250)")]
+        [Column("HTBushingNPhaseGood", Order = 46, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "H.T. Bushing-N Phase Bushing (Good/Broken)")]
         public string HTBushingNPhaseGood { get; set; }
+        [ForeignKey("HTBushingNPhaseGood")]
+        public virtual LookUpDtCondition HTBushingNPhaseGoodToCondition { get; set; }
 
         [Column("HTBushingNPhaseColor", Order = 47, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -259,10 +296,12 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "LT. Bushing-R Phase  Oil Leakage (Yes/No)")]
         public string LTBushingRPhaseOil { get; set; }
 
-        [Column("LTBushingRPhaseGood", Order = 49, TypeName = "nvarchar(250)")]
+        [Column("LTBushingRPhaseGood", Order = 49, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "LT. Bushing-R Phase  Bushing (Good/Broken)")]
         public string LTBushingRPhaseGood { get; set; }
+        [ForeignKey("LTBushingRPhaseGood")]
+        public virtual LookUpDtCondition LTBushingRPhaseGoodToCondition { get; set; }
 
         [Column("LTBushingRPhaseColor", Order = 50, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -274,10 +313,12 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "LT Bushing-Y Phase  Oil Leakage (Yes/No)")]
         public string LTBushingYPhaseOil { get; set; }
 
-        [Column("LTBushingYPhaseGood", Order = 52, TypeName = "nvarchar(250)")]
+        [Column("LTBushingYPhaseGood", Order = 52, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "LT Bushing-Y Phase   Bushing (Good/Broken)")]
         public string LTBushingYPhaseGood { get; set; }
+        [ForeignKey("LTBushingYPhaseGood")]
+        public virtual LookUpDtCondition LTBushingYPhaseGoodToCondition { get; set; }
 
         [Column("LTBushingYPhaseColor", Order = 53, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -289,10 +330,12 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "LT Bushing-B Phase  Oil Leakage (Yes/No)")]
         public string LTBushingBPhaseOil { get; set; }
 
-        [Column("LTBushingBPhaseGood", Order = 55, TypeName = "nvarchar(250)")]
+        [Column("LTBushingBPhaseGood", Order = 55, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "LT Bushing-B Phase   Bushing (Good/Broken)")]
         public string LTBushingBPhaseGood { get; set; }
+        [ForeignKey("LTBushingBPhaseGood")]
+        public virtual LookUpDtCondition LTBushingBPhaseGoodToCondition { get; set; }
 
         [Column("LTBushingBPhaseColor", Order = 56, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -304,10 +347,12 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "LT Bushing-N Phase  Oil Leakage (Yes/No)")]
         public string LTBushingNPhaseOil { get; set; }
 
-        [Column("LTBushingNPhaseGood", Order = 58, TypeName = "nvarchar(250)")]
+        [Column("LTBushingNPhaseGood", Order = 58, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "LT Bushing-N Phase  Bushing (Good/Broken)")]
         public string LTBushingNPhaseGood { get; set; }
+        [ForeignKey("LTBushingNPhaseGood")]
+        public virtual LookUpDtCondition LTBushingNPhaseGoodToCondition { get; set; }
 
         [Column("LTBushingNPhaseColor", Order = 59, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -319,30 +364,36 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "Wire Size of HT Drop")]
         public string WireSizeofHTDrop { get; set; }
 
-        [Column("ConditionofHTDropGoodbsBad", Order = 61, TypeName = "nvarchar(250)")]
+        [Column("ConditionofHTDropGoodbsBad", Order = 61, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of HT Drop (Good/Bad)")]
         public string ConditionofHTDropGoodbsBad { get; set; }
+        [ForeignKey("ConditionofHTDropGoodbsBad")]
+        public virtual LookUpDtCondition ConditionofHTDropGoodbsBadToCondition { get; set; }
 
         [Column("WirebsCableSizeofLTDropCKT1", Order = 62, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
         [Display(Name = "Wire/Cable Size of LT Drop-CKT-1")]
         public string WirebsCableSizeofLTDropCKT1 { get; set; }
 
-        [Column("ConditionofLTDropGoodbsBadCKT1", Order = 63, TypeName = "nvarchar(250)")]
+        [Column("ConditionofLTDropGoodbsBadCKT1", Order = 63, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of LT Drop (Good/Bad)-CKT-1")]
         public string ConditionofLTDropGoodbsBadCKT1 { get; set; }
+        [ForeignKey("ConditionofLTDropGoodbsBadCKT1")]
+        public virtual LookUpDtCondition ConditionofLTDropGoodbsBadCKT1ToCondition { get; set; }
 
         [Column("WirebsCableSizeofLTDropCKT2", Order = 64, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
         [Display(Name = "Wire/Cable Size of LT Drop-CKT-2")]
         public string WirebsCableSizeofLTDropCKT2 { get; set; }
 
-        [Column("ConditionofLTDropGoodbsBadCKT2", Order = 65, TypeName = "nvarchar(250)")]
+        [Column("ConditionofLTDropGoodbsBadCKT2", Order = 65, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of LT Drop (Good/Bad)-CKT-2")]
         public string ConditionofLTDropGoodbsBadCKT2 { get; set; }
+        [ForeignKey("ConditionofLTDropGoodbsBadCKT2")]
+        public virtual LookUpDtCondition ConditionofLTDropGoodbsBadCKT2ToCondition { get; set; }
 
         [Column("EarthingLead1", Order = 66, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -359,10 +410,12 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "Earthing Lead-1 : Material ")]
         public string EarthingLead1Material { get; set; }
 
-        [Column("EarthingLead1ConditionStandard", Order = 69, TypeName = "nvarchar(250)")]
+        [Column("EarthingLead1ConditionStandard", Order = 69, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Earthing Lead-1 : Condition (Standard/Non Standard/Good/Bad)")]
         public string EarthingLead1ConditionStandard { get; set; }
+        [ForeignKey("EarthingLead1ConditionStandard")]
+        public virtual LookUpDtCondition EarthingLead1ConditionStandardToCondition { get; set; }
 
         [Column("EarthingLead2", Order = 70, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -379,10 +432,12 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "Earthing Lead-2 : Material")]
         public string EarthingLead2Material { get; set; }
 
-        [Column("EarthingLead2ConditionStandard", Order = 73, TypeName = "nvarchar(250)")]
+        [Column("EarthingLead2ConditionStandard", Order = 73, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Earthing Lead-2 : Condition (Standard/Non Standard/Good/Bad)")]
         public string EarthingLead2ConditionStandard { get; set; }
+        [ForeignKey("EarthingLead2ConditionStandard")]
+        public virtual LookUpDtCondition EarthingLead2ConditionStandardToCondition { get; set; }
 
         [Column("DayPeak", Order = 74, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -629,20 +684,26 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "Drop Out Fuse (Exist/Not Exist) B-phase")]
         public string DropOutFuseExistbsNotExistBphase { get; set; }
 
-        [Column("ConditionofDropOutFuseRphase", Order = 123, TypeName = "nvarchar(250)")]
+        [Column("ConditionofDropOutFuseRphase", Order = 123, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of Drop Out Fuse (Working/Not Working/Good/Bad) R-phase")]
         public string ConditionofDropOutFuseRphase { get; set; }
+        [ForeignKey("ConditionofDropOutFuseRphase")]
+        public virtual LookUpDtCondition ConditionofDropOutFuseRphaseToCondition { get; set; }
 
-        [Column("ConditionofDropOutFuseYphase", Order = 124, TypeName = "nvarchar(250)")]
+        [Column("ConditionofDropOutFuseYphase", Order = 124, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of Drop Out Fuse (Working/Not Working/Good/Bad) Y-phase")]
         public string ConditionofDropOutFuseYphase { get; set; }
+        [ForeignKey("ConditionofDropOutFuseYphase")]
+        public virtual LookUpDtCondition ConditionofDropOutFuseYphaseToCondition { get; set; }
 
-        [Column("ConditionofDropOutFuseBphase", Order = 125, TypeName = "nvarchar(250)")]
+        [Column("ConditionofDropOutFuseBphase", Order = 125, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of Drop Out Fuse (Working/Not Working/Good/Bad) B-phase")]
         public string ConditionofDropOutFuseBphase { get; set; }
+        [ForeignKey("ConditionofDropOutFuseBphase")]
+        public virtual LookUpDtCondition ConditionofDropOutFuseBphaseToCondition { get; set; }
 
         [Column("LightningArrestorRphase", Order = 126, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -659,30 +720,40 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "Lightning Arrestor (Exist/Not Exist) B-phase")]
         public string LightningArrestorBphase { get; set; }
 
-        [Column("ConditionofLightingArrestorRphase", Order = 129, TypeName = "nvarchar(250)")]
+        [Column("ConditionofLightingArrestorRphase", Order = 129, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of Lighting Arrestor (Working/Not Working/Good/Bad) R-phase ")]
         public string ConditionofLightingArrestorRphase { get; set; }
+        [ForeignKey("ConditionofLightingArrestorRphase")]
+        public virtual LookUpDtCondition ConditionofLightingArrestorRphaseToCondition { get; set; }
 
-        [Column("ConditionofLightingArrestorYphase", Order = 130, TypeName = "nvarchar(250)")]
+        [Column("ConditionofLightingArrestorYphase", Order = 130, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of Lighting Arrestor (Working/Not Working/Good/Bad) Y-phase ")]
         public string ConditionofLightingArrestorYphase { get; set; }
+        [ForeignKey("ConditionofLightingArrestorYphase")]
+        public virtual LookUpDtCondition ConditionofLightingArrestorYphaseToCondition { get; set; }
 
-        [Column("ConditionofLightingArrestorBphase", Order = 131, TypeName = "nvarchar(250)")]
+        [Column("ConditionofLightingArrestorBphase", Order = 131, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of Lighting Arrestor (Working/Not Working/Good/Bad) B-phase ")]
         public string ConditionofLightingArrestorBphase { get; set; }
+        [ForeignKey("ConditionofLightingArrestorBphase")]
+        public virtual LookUpDtCondition ConditionofLightingArrestorBphaseToCondition { get; set; }
+
+
 
         [Column("DistributionBoxExistbsnotExist", Order = 132, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
         [Display(Name = "Distribution Box (Exist/not exist)")]
         public string DistributionBoxExistbsnotExist { get; set; }
 
-        [Column("ConditionofDistributionBox", Order = 133, TypeName = "nvarchar(250)")]
+        [Column("ConditionofDistributionBox", Order = 133, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of Distribution Box (Working/Not Working/Good/Bad)")]
         public string ConditionofDistributionBox { get; set; }
+        [ForeignKey("ConditionofDistributionBox")]
+        public virtual LookUpDtCondition ConditionofDistributionBoxToCondition { get; set; }
 
         [Column("NoOfMCCB", Order = 134, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]
@@ -709,20 +780,19 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModel
         [Display(Name = "Ampere Rating (as per name plate) of MCCB for CKT-2")]
         public string AmpereRatingasPerNameplateOfMCCBForCKT2 { get; set; }
 
-        [Column("ConditionofMCCBforCircuit1", Order = 139, TypeName = "nvarchar(250)")]
+        [Column("ConditionofMCCBforCircuit1", Order = 139, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of MCCB for Circuit-1 (Working/Not Working/Good/Bad)")]
         public string ConditionofMCCBforCircuit1 { get; set; }
-        //[ForeignKey("ConditionofMCCBforCircuit1")]
-        //public virtual LookUpDtCondition ConditionofMCCBforCircuit1ToCondition { get; set; }
+        [ForeignKey("ConditionofMCCBforCircuit1")]
+        public virtual LookUpDtCondition ConditionofMCCBforCircuit1ToCondition { get; set; }
 
-        [Column("ConditionofMCCBforCircuit2", Order = 140, TypeName = "nvarchar(250)")]
+        [Column("ConditionofMCCBforCircuit2", Order = 140, TypeName = "varchar(6)")]
         [DataType(DataType.Text)]
         [Display(Name = "Condition of MCCB for Circuit-2 (Working/Not Working/Good/Bad)")]
         public string ConditionofMCCBforCircuit2 { get; set; }
-
-        //[ForeignKey("ConditionofMCCBforCircuit2")]
-        //public virtual LookUpDtCondition ConditionofMCCBforCircuit2ToCondition { get; set; }
+        [ForeignKey("ConditionofMCCBforCircuit2")]
+        public virtual LookUpDtCondition ConditionofMCCBforCircuit2ToCondition { get; set; }
 
         [Column("Recommendation", Order = 141, TypeName = "nvarchar(250)")]
         [DataType(DataType.Text)]

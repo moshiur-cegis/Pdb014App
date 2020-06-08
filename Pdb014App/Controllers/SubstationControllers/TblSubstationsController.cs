@@ -21,16 +21,11 @@ using ReflectionIT.Mvc.Paging;
 namespace Pdb014App.Controllers.SubstationControllers
 {
 
-
-
     public class TblSubstationsController : Controller
     {
        
         private readonly UserManager<TblUserRegistrationDetail> _userManger;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserDbContext _contextUser;
-
-
         private readonly PdbDbContext _context;
 
         public TblSubstationsController(PdbDbContext context, UserDbContext contextUser, UserManager<TblUserRegistrationDetail> UserManager)
@@ -46,9 +41,13 @@ namespace Pdb014App.Controllers.SubstationControllers
         [Authorize(Roles = "System Administrator,Super User,Zone,Circle,SnD,Substation")]
         public async Task<IActionResult> Index([FromQuery] string cai, string filter, int pageIndex = 1, string sortExpression = "SubstationId")
         {
+
+
+            // RMO User Role wise query
             var user = await _userManger.GetUserAsync(User);
             IList<string> userRole = await _userManger.GetRolesAsync(user);
-            string getSql = await new GetUserDetailsController(_contextUser).GetUserRoleWiseQuery("TblSubstation", "SubstationId", user.Id,userRole);
+            string getSql = new GetUserDetailsController(_contextUser).GetUserRoleWiseQuery("TblSubstation", "SubstationId", user.Id,userRole);
+
 
             var query = _context.TblSubstation.FromSqlRaw(getSql)
                 .Include(st => st.SubstationType)

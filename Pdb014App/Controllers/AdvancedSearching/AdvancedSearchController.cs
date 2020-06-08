@@ -2630,7 +2630,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(dt => dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationType)
                 .Include(dt => dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
                 .Include(dt => dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                .Include(dt => dt.PoleStructureMountedSurgeArrestor)
+                //.Include(dt => dt.PoleStructureMountedSurgeArrestor)
                 .AsQueryable();
 
 
@@ -3690,7 +3690,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(dt => dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationType)
                 .Include(dt => dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
                 .Include(dt => dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                .Include(dt => dt.PoleStructureMountedSurgeArrestor)
+                //.Include(dt => dt.PoleStructureMountedSurgeArrestor)
                 .AsQueryable();
 
             var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "DistributionTransformerId");

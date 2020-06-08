@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pdb014App.Repository;
 
 namespace Pdb014App.Repository.Migrations.PdbDb
 {
     [DbContext(typeof(PdbDbContext))]
-    partial class PdbDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200607094149_UpdateDt_07_06_2020")]
+    partial class UpdateDt_07_06_2020
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -819,7 +821,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("HTBushingBPhaseGood")
                         .HasColumnName("HTBushingBPhaseGood")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("HTBushingBPhaseOil")
                         .HasColumnName("HTBushingBPhaseOil")
@@ -1214,8 +1216,6 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.HasIndex("EarthingLead2ConditionStandard");
 
                     b.HasIndex("FeederLineId");
-
-                    b.HasIndex("HTBushingBPhaseGood");
 
                     b.HasIndex("HTBushingNPhaseGood");
 
@@ -4149,22 +4149,21 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
             modelBuilder.Entity("Pdb014App.Models.PDB.ServicePointModels.TblConsumerData", b =>
                 {
-                    b.Property<string>("ConsumersId")
+                    b.Property<int>("ConsumerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnName("ConsumerId")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccountNumber")
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<string>("BillGroup")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                    b.Property<int?>("BillGroup")
+                        .HasColumnType("int");
 
-                    b.Property<string>("BookNumber")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                    b.Property<int?>("BookNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("BuildingApptNo")
                         .HasColumnType("nvarchar(250)")
@@ -4200,6 +4199,10 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.Property<string>("CustomerName")
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
+
+                    b.Property<string>("DistributionTransformerId")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("InstallDate")
                         .HasColumnType("nvarchar(max)");
@@ -4301,7 +4304,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.HasKey("ConsumersId");
+                    b.HasKey("ConsumerId");
 
                     b.HasIndex("BusinessTypeId");
 
@@ -4310,6 +4313,8 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.HasIndex("ConnectionTypeId");
 
                     b.HasIndex("ConsumerTypeId");
+
+                    b.HasIndex("DistributionTransformerId");
 
                     b.HasIndex("LocationId");
 
@@ -4342,10 +4347,6 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.Property<string>("CityTown")
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
-
-                    b.Property<string>("DistributionTransformerId")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
 
                     b.Property<string>("NoOFConsumersB")
                         .HasColumnType("nvarchar(250)")
@@ -4405,8 +4406,6 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasMaxLength(250);
 
                     b.HasKey("ServicesPointId");
-
-                    b.HasIndex("DistributionTransformerId");
 
                     b.HasIndex("PoleId");
 
@@ -6608,10 +6607,6 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .WithMany()
                         .HasForeignKey("FeederLineId");
 
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "HTBushingBPhaseGoodToCondition")
-                        .WithMany()
-                        .HasForeignKey("HTBushingBPhaseGood");
-
                     b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "HTBushingNPhaseGoodToCondition")
                         .WithMany()
                         .HasForeignKey("HTBushingNPhaseGood");
@@ -7057,6 +7052,10 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .WithMany()
                         .HasForeignKey("ConsumerTypeId");
 
+                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModel.TblDistributionTransformer", "ConsumerDataToDistributionTransformer")
+                        .WithMany()
+                        .HasForeignKey("DistributionTransformerId");
+
                     b.HasOne("Pdb014App.Models.PDB.ServicePointModels.LookUpLocation", "ConsumerToLocation")
                         .WithMany()
                         .HasForeignKey("LocationId");
@@ -7090,10 +7089,6 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
             modelBuilder.Entity("Pdb014App.Models.PDB.ServicePointModels.TblServicePoint", b =>
                 {
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModel.TblDistributionTransformer", "ServicesPointToDistributionTransformer")
-                        .WithMany()
-                        .HasForeignKey("DistributionTransformerId");
-
                     b.HasOne("Pdb014App.Models.PDB.TblPole", "ServicePointToPole")
                         .WithMany()
                         .HasForeignKey("PoleId")

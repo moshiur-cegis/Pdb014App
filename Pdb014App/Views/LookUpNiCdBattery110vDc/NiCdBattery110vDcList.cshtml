@@ -16,16 +16,19 @@
     Layout = isShowLayout ? "~/Views/Shared/_Layout.cshtml" : null;
 }
 
-    <p>
-        <a asp-action="Create" class="btn btn-success">Add New</a>
-    </p>
 
+@if (isShowAction)
+{
+
+<a asp-action="Create" asp-route-id="@ViewBag.SubstationId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Insulator">Add Ni-Cd Battery 110v Dc</a>
+    <hr />
+}
 <h3>@ViewData["Title"]</h3>
 <hr>
 
 
 
-<table class="table">
+<table id="multi-form-view" class="table table-responsive multi-form-view">
     <thead>
         <tr>
             <th>

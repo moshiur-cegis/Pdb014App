@@ -17,9 +17,10 @@
             <legend>Consumer Data</legend>
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="ConsumersId" type="hidden" value="1" class="form-control" />
                 <div class="form-group">
                     <label asp-for="ServicesPointId" class="control-label"></label>
-                    <input name="ServicesPointId" value="@Url.ActionContext.RouteData.Values["id"]" class="form-control" />
+                    <input name="ServicesPointId" value="@Url.ActionContext.RouteData.Values["id"]" class="form-control" readonly/>
                     @*<select asp-for="ServicePointId" class="form-control" asp-items="ViewBag.ServicePointId"></select>*@
                 </div>
                 @*<div class="form-group">

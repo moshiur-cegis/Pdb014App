@@ -6,10 +6,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Complains\**" />
+    <Content Remove="Views\Complains\**" />
+    <EmbeddedResource Remove="Views\Complains\**" />
+    <None Remove="Views\Complains\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\AdvancedSearching\SearchConsumerData.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200602112522_UpdateDtModel.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200602112522_UpdateDtModel.Designer.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200602113455_UpdateDt_01_06_2020.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200602113455_UpdateDt_01_06_2020.Designer.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200607083604_UpdateDt_07_06_2020.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200607083604_UpdateDt_07_06_2020.Designer.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200607121556_UpdateServicePointAndConsumer_07_06_2020.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200607121556_UpdateServicePointAndConsumer_07_06_2020.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\AdvancedSearching\SearchConsumerData.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +33,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.4" />

@@ -2,37 +2,23 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*<h2>Edit</h2>
-
-    <h4>TblDistributionTransformer</h4>
-    <hr />*@
 <div class="row">
     <div class="offset-md-2 col-md-8 offset-md-2">
         <fieldset>
-            <legend>Add Distribution Transformer Information</legend>
+            <legend>Update Distribution Transformer</legend>
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="DistributionTransformerId" />
                 <div class="form-group">
-                    <label asp-for="PoleStructureMountedSurgearrestorId" class="control-label"></label>
-                    <select asp-for="PoleStructureMountedSurgearrestorId" class="form-control" asp-items="ViewBag.PoleStructureMountedSurgearrestorId">
-                        <option value="">--Select--</option>
-                    </select>
-                    <span asp-validation-for="PoleStructureMountedSurgearrestorId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="PoleId" class="control-label"></label>
-                    @*<select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>*@
-                    <input asp-for="PoleId" class="form-control" readonly/>
+                    <input asp-for="PoleId" class="form-control" readonly />
                     <span asp-validation-for="PoleId" class="text-danger"></span>
                 </div>
-                <div class="form-group" style="display:none">
+                <div class="form-group">
                     <label asp-for="FeederLineId" class="control-label"></label>
-                    @*<select asp-for="FeederLineId" class="form-control" asp-items="ViewBag.FeederLineId"></select>*@
-                    <input asp-for="FeederLineId" class="form-control" readonly/>
+                    <input asp-for="FeederLineId" class="form-control" readonly />
                     <span asp-validation-for="FeederLineId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -62,12 +48,12 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="InstalledConditionPadbsPoleMounted" class="control-label"></label>
-                    <input asp-for="InstalledConditionPadbsPoleMounted" class="form-control" />
+                    <select asp-for="InstalledConditionPadbsPoleMounted" class="form-control" asp-items="ViewBag.InstalledConditionPadbsPoleMounted"></select>
                     <span asp-validation-for="InstalledConditionPadbsPoleMounted" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="InstalledPlaceIndoorbsOutdoor" class="control-label"></label>
-                    <input asp-for="InstalledPlaceIndoorbsOutdoor" class="form-control" />
+                    <select asp-for="InstalledPlaceIndoorbsOutdoor" class="form-control" asp-items="ViewBag.InstalledPlaceIndoorbsOutdoor"></select>
                     <span asp-validation-for="InstalledPlaceIndoorbsOutdoor" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -77,7 +63,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="OwneroftheTransformerBPDBbsConsumer" class="control-label"></label>
-                    <input asp-for="OwneroftheTransformerBPDBbsConsumer" class="form-control" />
+                    <select asp-for="OwneroftheTransformerBPDBbsConsumer" class="form-control" asp-items="ViewBag.OwneroftheTransformerBPDBbsConsumer"></select>
                     <span asp-validation-for="OwneroftheTransformerBPDBbsConsumer" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -137,7 +123,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="BodyColourCondition" class="control-label"></label>
-                    <input asp-for="BodyColourCondition" class="form-control" />
+                    <select asp-for="BodyColourCondition" class="form-control" asp-items="ViewBag.BodyColourCondition"></select>
                     <span asp-validation-for="BodyColourCondition" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -157,32 +143,32 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="PlatformMaterialAnglbsChannel" class="control-label"></label>
-                    <input asp-for="PlatformMaterialAnglbsChannel" class="form-control" />
+                    <select asp-for="PlatformMaterialAnglbsChannel" class="form-control" asp-items="ViewBag.PlatformMaterialAnglbsChannel"></select>
                     <span asp-validation-for="PlatformMaterialAnglbsChannel" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="PlatformStandardbsNonStandardGoodBad" class="control-label"></label>
-                    <input asp-for="PlatformStandardbsNonStandardGoodBad" class="form-control" />
+                    <select asp-for="PlatformStandardbsNonStandardGoodBad" class="form-control" asp-items="ViewBag.PlatformStandardbsNonStandardGoodBad"></select>
                     <span asp-validation-for="PlatformStandardbsNonStandardGoodBad" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="TypeofTransformerSupportPoleLeft" class="control-label"></label>
-                    <input asp-for="TypeofTransformerSupportPoleLeft" class="form-control" />
+                    <select asp-for="TypeofTransformerSupportPoleLeft" class="form-control" asp-items="ViewBag.TypeofTransformerSupportPoleLeft"></select>
                     <span asp-validation-for="TypeofTransformerSupportPoleLeft" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofTransformerSupportPoleLeft" class="control-label"></label>
-                    <input asp-for="ConditionofTransformerSupportPoleLeft" class="form-control" />
+                    <select asp-for="ConditionofTransformerSupportPoleLeft" class="form-control" asp-items="ViewBag.ConditionofTransformerSupportPoleLeft"></select>
                     <span asp-validation-for="ConditionofTransformerSupportPoleLeft" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="TypeofTransformerSupportPoleRight" class="control-label"></label>
-                    <input asp-for="TypeofTransformerSupportPoleRight" class="form-control" />
+                    <select asp-for="TypeofTransformerSupportPoleRight" class="form-control" asp-items="ViewBag.TypeofTransformerSupportPoleRight"></select>
                     <span asp-validation-for="TypeofTransformerSupportPoleRight" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofTransformerSupportPoleRight" class="control-label"></label>
-                    <input asp-for="ConditionofTransformerSupportPoleRight" class="form-control" />
+                    <select asp-for="ConditionofTransformerSupportPoleRight" class="form-control" asp-items="ViewBag.ConditionofTransformerSupportPoleRight"></select>
                     <span asp-validation-for="ConditionofTransformerSupportPoleRight" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -192,7 +178,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="HTBushingRPhaseGood" class="control-label"></label>
-                    <input asp-for="HTBushingRPhaseGood" class="form-control" />
+                    <select asp-for="HTBushingRPhaseGood" class="form-control" asp-items="ViewBag.HTBushingRPhaseGood"></select>
                     <span asp-validation-for="HTBushingRPhaseGood" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -207,7 +193,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="HTBushingYPhaseGood" class="control-label"></label>
-                    <input asp-for="HTBushingYPhaseGood" class="form-control" />
+                    <select asp-for="HTBushingYPhaseGood" class="form-control" asp-items="ViewBag.HTBushingYPhaseGood"></select>
                     <span asp-validation-for="HTBushingYPhaseGood" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -237,7 +223,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="HTBushingNPhaseGood" class="control-label"></label>
-                    <input asp-for="HTBushingNPhaseGood" class="form-control" />
+                    <select asp-for="HTBushingNPhaseGood" class="form-control" asp-items="ViewBag.HTBushingNPhaseGood"></select>
                     <span asp-validation-for="HTBushingNPhaseGood" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -252,7 +238,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="LTBushingRPhaseGood" class="control-label"></label>
-                    <input asp-for="LTBushingRPhaseGood" class="form-control" />
+                    <select asp-for="LTBushingRPhaseGood" class="form-control" asp-items="ViewBag.LTBushingRPhaseGood"></select>
                     <span asp-validation-for="LTBushingRPhaseGood" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -267,7 +253,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="LTBushingYPhaseGood" class="control-label"></label>
-                    <input asp-for="LTBushingYPhaseGood" class="form-control" />
+                    <select asp-for="LTBushingYPhaseGood" class="form-control" asp-items="ViewBag.LTBushingYPhaseGood"></select>
                     <span asp-validation-for="LTBushingYPhaseGood" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -282,7 +268,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="LTBushingBPhaseGood" class="control-label"></label>
-                    <input asp-for="LTBushingBPhaseGood" class="form-control" />
+                    <select asp-for="LTBushingBPhaseGood" class="form-control" asp-items="ViewBag.LTBushingBPhaseGood"></select>
                     <span asp-validation-for="LTBushingBPhaseGood" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -297,7 +283,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="LTBushingNPhaseGood" class="control-label"></label>
-                    <input asp-for="LTBushingNPhaseGood" class="form-control" />
+                    <select asp-for="LTBushingNPhaseGood" class="form-control" asp-items="ViewBag.LTBushingNPhaseGood"></select>
                     <span asp-validation-for="LTBushingNPhaseGood" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -312,7 +298,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofHTDropGoodbsBad" class="control-label"></label>
-                    <input asp-for="ConditionofHTDropGoodbsBad" class="form-control" />
+                    <select asp-for="ConditionofHTDropGoodbsBad" class="form-control" asp-items="ViewBag.ConditionofHTDropGoodbsBad"></select>
                     <span asp-validation-for="ConditionofHTDropGoodbsBad" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -322,7 +308,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofLTDropGoodbsBadCKT1" class="control-label"></label>
-                    <input asp-for="ConditionofLTDropGoodbsBadCKT1" class="form-control" />
+                    <select asp-for="ConditionofLTDropGoodbsBadCKT1" class="form-control" asp-items="ViewBag.ConditionofLTDropGoodbsBadCKT1"></select>
                     <span asp-validation-for="ConditionofLTDropGoodbsBadCKT1" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -332,7 +318,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofLTDropGoodbsBadCKT2" class="control-label"></label>
-                    <input asp-for="ConditionofLTDropGoodbsBadCKT2" class="form-control" />
+                    <select asp-for="ConditionofLTDropGoodbsBadCKT2" class="form-control" asp-items="ViewBag.ConditionofLTDropGoodbsBadCKT2"></select>
                     <span asp-validation-for="ConditionofLTDropGoodbsBadCKT2" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -352,7 +338,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="EarthingLead1ConditionStandard" class="control-label"></label>
-                    <input asp-for="EarthingLead1ConditionStandard" class="form-control" />
+                    <select asp-for="EarthingLead1ConditionStandard" class="form-control" asp-items="ViewBag.EarthingLead1ConditionStandard"></select>
                     <span asp-validation-for="EarthingLead1ConditionStandard" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -372,7 +358,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="EarthingLead2ConditionStandard" class="control-label"></label>
-                    <input asp-for="EarthingLead2ConditionStandard" class="form-control" />
+                    <select asp-for="EarthingLead2ConditionStandard" class="form-control" asp-items="ViewBag.EarthingLead2ConditionStandard"></select>
                     <span asp-validation-for="EarthingLead2ConditionStandard" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -622,17 +608,17 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofDropOutFuseRphase" class="control-label"></label>
-                    <input asp-for="ConditionofDropOutFuseRphase" class="form-control" />
+                    <select asp-for="ConditionofDropOutFuseRphase" class="form-control" asp-items="ViewBag.ConditionofDropOutFuseRphase"></select>
                     <span asp-validation-for="ConditionofDropOutFuseRphase" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofDropOutFuseYphase" class="control-label"></label>
-                    <input asp-for="ConditionofDropOutFuseYphase" class="form-control" />
+                    <select asp-for="ConditionofDropOutFuseYphase" class="form-control" asp-items="ViewBag.ConditionofDropOutFuseYphase"></select>
                     <span asp-validation-for="ConditionofDropOutFuseYphase" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofDropOutFuseBphase" class="control-label"></label>
-                    <input asp-for="ConditionofDropOutFuseBphase" class="form-control" />
+                    <select asp-for="ConditionofDropOutFuseBphase" class="form-control" asp-items="ViewBag.ConditionofDropOutFuseBphase"></select>
                     <span asp-validation-for="ConditionofDropOutFuseBphase" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -652,17 +638,17 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofLightingArrestorRphase" class="control-label"></label>
-                    <input asp-for="ConditionofLightingArrestorRphase" class="form-control" />
+                    <select asp-for="ConditionofLightingArrestorRphase" class="form-control" asp-items="ViewBag.ConditionofLightingArrestorRphase"></select>
                     <span asp-validation-for="ConditionofLightingArrestorRphase" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofLightingArrestorYphase" class="control-label"></label>
-                    <input asp-for="ConditionofLightingArrestorYphase" class="form-control" />
+                    <select asp-for="ConditionofLightingArrestorYphase" class="form-control" asp-items="ViewBag.ConditionofLightingArrestorYphase"></select>
                     <span asp-validation-for="ConditionofLightingArrestorYphase" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofLightingArrestorBphase" class="control-label"></label>
-                    <input asp-for="ConditionofLightingArrestorBphase" class="form-control" />
+                    <select asp-for="ConditionofLightingArrestorBphase" class="form-control" asp-items="ViewBag.ConditionofLightingArrestorBphase"></select>
                     <span asp-validation-for="ConditionofLightingArrestorBphase" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -672,7 +658,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofDistributionBox" class="control-label"></label>
-                    <input asp-for="ConditionofDistributionBox" class="form-control" />
+                    <select asp-for="ConditionofDistributionBox" class="form-control" asp-items="ViewBag.ConditionofDistributionBox"></select>
                     <span asp-validation-for="ConditionofDistributionBox" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -702,12 +688,12 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofMCCBforCircuit1" class="control-label"></label>
-                    <input asp-for="ConditionofMCCBforCircuit1" class="form-control" />
+                    <select asp-for="ConditionofMCCBforCircuit1" class="form-control" asp-items="ViewBag.ConditionofMCCBforCircuit1"></select>
                     <span asp-validation-for="ConditionofMCCBforCircuit1" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="ConditionofMCCBforCircuit2" class="control-label"></label>
-                    <input asp-for="ConditionofMCCBforCircuit2" class="form-control" />
+                    <select asp-for="ConditionofMCCBforCircuit2" class="form-control" asp-items="ViewBag.ConditionofMCCBforCircuit2"></select>
                     <span asp-validation-for="ConditionofMCCBforCircuit2" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -716,15 +702,11 @@
                     <span asp-validation-for="Recommendation" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-success float-right m-1" />
-                    <a class="btn btn-success float-right m-1" asp-action="Index" asp-controller="TblPoles">Back to List</a>
+                    <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
             </form>
         </fieldset>
     </div>
 </div>
 
-@*<div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
 

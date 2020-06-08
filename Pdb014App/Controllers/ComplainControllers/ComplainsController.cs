@@ -25,7 +25,7 @@ namespace Pdb014App.Controllers.ComplainControllers
         // GET: TblComplains
         public async Task<IActionResult> Index()
         {
-            var complains = _context.ComplainInfo.Include(t => t.ComplainStatus).Include(t => t.ComplainToSnD).Include(t => t.ComplainToUnion).Include(t => t.ComplainType).Include(t => t.ResolvingOfficer).Include(t => t.ResponsibleOfficer);
+            var complains = _context.ComplainInfo.Include(t => t.ComplainStatus).Include(t => t.ComplainToSnD).Include(t => t.ComplainToUnion).Include(t => t.ComplainType);
 
             return View(await complains.ToListAsync());
         }
@@ -277,8 +277,8 @@ namespace Pdb014App.Controllers.ComplainControllers
                 .Include(t => t.ComplainToSnD)
                 .Include(t => t.ComplainToUnion)
                 .Include(t => t.ComplainType)
-                .Include(t => t.ResolvingOfficer)
-                .Include(t => t.ResponsibleOfficer)
+               
+
                 .FirstOrDefaultAsync(m => m.ComplainId == id);
 
             if (complain == null)
@@ -401,8 +401,6 @@ namespace Pdb014App.Controllers.ComplainControllers
                 .Include(t => t.ComplainToSnD)
                 .Include(t => t.ComplainToUnion)
                 .Include(t => t.ComplainType)
-                .Include(t => t.ResolvingOfficer)
-                .Include(t => t.ResponsibleOfficer)
                 .FirstOrDefaultAsync(m => m.ComplainId == id);
             if (tblComplain == null)
             {

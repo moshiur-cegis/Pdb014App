@@ -47,10 +47,10 @@ namespace Pdb014App.Controllers.ServicePointControllers
 
 
             // By RMO
-        public async Task<IActionResult> Index(string id, string filter, int pageIndex = 1, string sortExpression = "ConsumerId")
+        public async Task<IActionResult> Index(string id, string filter, int pageIndex = 1, string sortExpression = "ConsumersId")
         //public async Task<IActionResult> Index(int? id, string filter, int pageIndex = 1, string sortExpression = "ConsumerId")
         {
-            var qry = _context.TblConsumerData.Include(t => t.ConsumerDataToDistributionTransformer)
+            var qry = _context.TblConsumerData
                 .Include(t => t.ConsumerDataToServicesPoint).Include(t => t.ConsumerToBusinessType)
                 .Include(t => t.ConsumerToConnectionStatus).Include(t => t.ConsumerToConnectionType)
                 .Include(t => t.ConsumerToLocation).Include(t => t.ConsumerToMeterType)
@@ -70,7 +70,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
                 qry = qry.Where(p => p.ConsumerNo.Contains(filter) || p.MeterNumber.Contains(filter));
             }
 
-            var model = await PagingList.CreateAsync(qry, 10, pageIndex, sortExpression, "ConsumerId");
+            var model = await PagingList.CreateAsync(qry, 10, pageIndex, sortExpression, "ConsumersId");
 
             model.RouteValue = new RouteValueDictionary { { "filter", filter } };
 
@@ -78,7 +78,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
         }
 
         // GET: TblConsumerDatas/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -95,15 +95,9 @@ namespace Pdb014App.Controllers.ServicePointControllers
                 .Include(cd => cd.ConsumerToOperatingVoltage)
                 .Include(cd => cd.ConsumerToPhasingCode)
                 .Include(cd => cd.ConsumerToServiceCableType)
-                .Include(cd => cd.ConsumerToStructureType)
-                
-                .Include(cd => cd.ConsumerDataToServicesPoint)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToPole)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationType)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.LookUpAdminBndDistrict)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer.DtToFeederLine.FeederLineToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
-                .FirstOrDefaultAsync(m => m.ConsumerId == id);
+                .Include(cd => cd.ConsumerToStructureType)                
+                .Include(cd => cd.ConsumerDataToServicesPoint)                                                            
+                .FirstOrDefaultAsync(m => m.ConsumersId == id);
 
 
             if (tblConsumerData == null)
@@ -117,7 +111,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
         // GET: TblConsumerDatas/Create
         public IActionResult Create()
         {
-            ViewData["DistributionTransformerId"] = new SelectList(_context.TblDistributionTransformer, "DistributionTransformerId", "DistributionTransformerId");
+            //ViewData["DistributionTransformerId"] = new SelectList(_context.TblDistributionTransformer, "DistributionTransformerId", "DistributionTransformerId");
             ViewData["ServicePointId"] = new SelectList(_context.TblServicePoint, "ServicePointId", "ServicePointId");
             ViewData["BusinessTypeId"] = new SelectList(_context.LookUpBusinessType, "BusinessTypeId", "BusinessTypeName");
             ViewData["ConnectionStatusId"] = new SelectList(_context.LookUpConnectionStatus, "ConnectionStatusId", "ConnectionStatusName");
@@ -137,15 +131,33 @@ namespace Pdb014App.Controllers.ServicePointControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ConsumerId,ServicesPointId,DistributionTransformerId,CustomerName,CustomerMobileNo,ConsumerNo,Tariff,PhasingCodeId,ConsumerTypeId,OperatingVoltageId,InstallDate,ConnectionStatusId,ConnectionTypeId,MeterTypeId,MeterNumber,MeterModel,MeterManufacturer,SanctionedLoad,ConnectedLoad,BusinessTypeId,OthersBusiness,AccountNumber,SpecialCode,SpecialType,LocationId,BillGroup,BookNumber,OmfKwh,MeterReading,ServiceCableSize,ServiceCableTypeId,CustomerAddress,PlotNo,BuildingApptNo,PremiseName,SurveyDate,Latitude,Longitude,StructureId,StructureMapNo,StructureTypeId,NumberOfFloor")] TblConsumerData tblConsumerData)
+        public async Task<IActionResult> Create([Bind("ConsumersId,ServicesPointId,CustomerName,CustomerMobileNo,ConsumerNo,Tariff,PhasingCodeId,ConsumerTypeId,OperatingVoltageId,InstallDate,ConnectionStatusId,ConnectionTypeId,MeterTypeId,MeterNumber,MeterModel,MeterManufacturer,SanctionedLoad,ConnectedLoad,BusinessTypeId,OthersBusiness,AccountNumber,SpecialCode,SpecialType,LocationId,BillGroup,BookNumber,OmfKwh,MeterReading,ServiceCableSize,ServiceCableTypeId,CustomerAddress,PlotNo,BuildingApptNo,PremiseName,SurveyDate,Latitude,Longitude,StructureId,StructureMapNo,StructureTypeId,NumberOfFloor")] TblConsumerData tblConsumerData)
         {
+
+            string findId = _context.TblConsumerData.Where(i => i.ServicesPointId == tblConsumerData.ServicesPointId).OrderBy(u => u.ConsumersId).Select(u => u.ConsumersId).LastOrDefault();
+
+            if (findId == null)
+            {
+                findId = tblConsumerData.ServicesPointId + "001";
+            }
+            else
+            {
+                int value = Convert.ToInt32(findId.Substring(findId.Length - 4))+1;                
+                findId = tblConsumerData.ServicesPointId + value.ToString().Substring(value.ToString().Length - 3);
+            }
+
+
             if (ModelState.IsValid)
             {
+                tblConsumerData.ConsumersId = findId;
                 _context.Add(tblConsumerData);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                TempData["statuMessageSuccess"] = "Consumer information has been added successfully under service point id "+ tblConsumerData.ServicesPointId;
+                return RedirectToAction("Index", "TblServicePoints");
+               // return RedirectToAction(nameof(Index));
             }
-            ViewData["DistributionTransformerId"] = new SelectList(_context.TblDistributionTransformer, "DistributionTransformerId", "DistributionTransformerId", tblConsumerData.DistributionTransformerId);
+           // ViewData["DistributionTransformerId"] = new SelectList(_context.TblDistributionTransformer, "DistributionTransformerId", "DistributionTransformerId", tblConsumerData.DistributionTransformerId);
             ViewData["ServicePointId"] = new SelectList(_context.TblServicePoint, "ServicesPointId", "ServicesPointId", tblConsumerData.ServicesPointId);
             ViewData["BusinessTypeId"] = new SelectList(_context.LookUpBusinessType, "BusinessTypeId", "BusinessTypeName", tblConsumerData.BusinessTypeId);
             ViewData["ConnectionStatusId"] = new SelectList(_context.LookUpConnectionStatus, "ConnectionStatusId", "ConnectionStatusName", tblConsumerData.ConnectionStatusId);
@@ -161,7 +173,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
         }
 
         // GET: TblConsumerDatas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -174,7 +186,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
                 return NotFound();
             }
 
-            ViewData["DistributionTransformerId"] = new SelectList(_context.TblDistributionTransformer, "DistributionTransformerId", "DistributionTransformerId", tblConsumerData.DistributionTransformerId);
+            //ViewData["DistributionTransformerId"] = new SelectList(_context.TblDistributionTransformer, "DistributionTransformerId", "DistributionTransformerId", tblConsumerData.DistributionTransformerId);
             ViewData["ServicePointId"] = new SelectList(_context.TblServicePoint, "ServicesPointId", "ServicesPointId", tblConsumerData.ServicesPointId);
             ViewData["BusinessTypeId"] = new SelectList(_context.LookUpBusinessType, "BusinessTypeId", "BusinessTypeName", tblConsumerData.BusinessTypeId);
             ViewData["ConnectionStatusId"] = new SelectList(_context.LookUpConnectionStatus, "ConnectionStatusId", "ConnectionStatusName", tblConsumerData.ConnectionStatusId);
@@ -195,9 +207,9 @@ namespace Pdb014App.Controllers.ServicePointControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ConsumerId,ServicesPointId,DistributionTransformerId,CustomerName,CustomerMobileNo,ConsumerNo,Tariff,PhasingCodeId,ConsumerTypeId,OperatingVoltageId,InstallDate,ConnectionStatusId,ConnectionTypeId,MeterTypeId,MeterNumber,MeterModel,MeterManufacturer,SanctionedLoad,ConnectedLoad,BusinessTypeId,OthersBusiness,AccountNumber,SpecialCode,SpecialType,LocationId,BillGroup,BookNumber,OmfKwh,MeterReading,ServiceCableSize,ServiceCableTypeId,CustomerAddress,PlotNo,BuildingApptNo,PremiseName,SurveyDate,Latitude,Longitude,StructureId,StructureMapNo,StructureTypeId,NumberOfFloor")] TblConsumerData tblConsumerData)
+        public async Task<IActionResult> Edit(string id, [Bind("ConsumersId,ServicesPointId,CustomerName,CustomerMobileNo,ConsumerNo,Tariff,PhasingCodeId,ConsumerTypeId,OperatingVoltageId,InstallDate,ConnectionStatusId,ConnectionTypeId,MeterTypeId,MeterNumber,MeterModel,MeterManufacturer,SanctionedLoad,ConnectedLoad,BusinessTypeId,OthersBusiness,AccountNumber,SpecialCode,SpecialType,LocationId,BillGroup,BookNumber,OmfKwh,MeterReading,ServiceCableSize,ServiceCableTypeId,CustomerAddress,PlotNo,BuildingApptNo,PremiseName,SurveyDate,Latitude,Longitude,StructureId,StructureMapNo,StructureTypeId,NumberOfFloor")] TblConsumerData tblConsumerData)
         {
-            if (id != tblConsumerData.ConsumerId)
+            if (id != tblConsumerData.ConsumersId)
             {
                 return NotFound();
             }
@@ -211,7 +223,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TblConsumerDataExists(tblConsumerData.ConsumerId))
+                    if (!TblConsumerDataExists(tblConsumerData.ConsumersId))
                     {
                         return NotFound();
                     }
@@ -220,10 +232,12 @@ namespace Pdb014App.Controllers.ServicePointControllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                TempData["statuMessageSuccess"] = "Consumer information has been updated successfully under service point id " + tblConsumerData.ServicesPointId;
+                return RedirectToAction("Index", "TblServicePoints");
+                //return RedirectToAction(nameof(Index));
             }
 
-            ViewData["DistributionTransformerId"] = new SelectList(_context.TblDistributionTransformer, "DistributionTransformerId", "DistributionTransformerId", tblConsumerData.DistributionTransformerId);
+            //ViewData["DistributionTransformerId"] = new SelectList(_context.TblDistributionTransformer, "DistributionTransformerId", "DistributionTransformerId", tblConsumerData.DistributionTransformerId);
             ViewData["ServicePointId"] = new SelectList(_context.TblServicePoint, "ServicesPointId", "ServicesPointId", tblConsumerData.ServicesPointId);
             ViewData["BusinessTypeId"] = new SelectList(_context.LookUpBusinessType, "BusinessTypeId", "BusinessTypeName", tblConsumerData.BusinessTypeId);
             ViewData["ConnectionStatusId"] = new SelectList(_context.LookUpConnectionStatus, "ConnectionStatusId", "ConnectionStatusName", tblConsumerData.ConnectionStatusId);
@@ -239,7 +253,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
         }
 
         // GET: TblConsumerDatas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -247,7 +261,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
             }
 
             var tblConsumerData = await _context.TblConsumerData
-                .Include(t => t.ConsumerDataToDistributionTransformer)
+                
                 .Include(t => t.ConsumerDataToServicesPoint)
                 .Include(t => t.ConsumerToBusinessType)
                 .Include(t => t.ConsumerToConnectionStatus)
@@ -259,7 +273,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
                 .Include(t => t.ConsumerToServiceCableType)
                 .Include(t => t.ConsumerToStructureType)
                 .Include(t => t.ConsumerType)
-                .FirstOrDefaultAsync(m => m.ConsumerId == id);
+                .FirstOrDefaultAsync(m => m.ConsumersId == id);
             if (tblConsumerData == null)
             {
                 return NotFound();
@@ -271,17 +285,20 @@ namespace Pdb014App.Controllers.ServicePointControllers
         // POST: TblConsumerDatas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var tblConsumerData = await _context.TblConsumerData.FindAsync(id);
             _context.TblConsumerData.Remove(tblConsumerData);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            TempData["statuMessageSuccess"] = "Consumer information has been deleted successfully under service point id " + tblConsumerData.ServicesPointId;
+            return RedirectToAction("Index", "TblServicePoints");
+            //return RedirectToAction(nameof(Index));
         }
 
-        private bool TblConsumerDataExists(int id)
+        private bool TblConsumerDataExists(string id)
         {
-            return _context.TblConsumerData.Any(e => e.ConsumerId == id);
+            return _context.TblConsumerData.Any(e => e.ConsumersId == id);
         }
     }
 }

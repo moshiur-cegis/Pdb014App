@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pdb014App.Repository;
 
 namespace Pdb014App.Repository.Migrations.PdbDb
 {
     [DbContext(typeof(PdbDbContext))]
-    partial class PdbDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200607050549_UpdateComplainTableFK")]
+    partial class UpdateComplainTableFK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -667,7 +669,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("BodyColourCondition")
                         .HasColumnName("BodyColourCondition")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("CalculatedDayPeakkVA")
                         .HasColumnName("CalculatedDayPeakkVA")
@@ -679,59 +681,59 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("ConditionofDistributionBox")
                         .HasColumnName("ConditionofDistributionBox")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofDropOutFuseBphase")
                         .HasColumnName("ConditionofDropOutFuseBphase")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofDropOutFuseRphase")
                         .HasColumnName("ConditionofDropOutFuseRphase")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofDropOutFuseYphase")
                         .HasColumnName("ConditionofDropOutFuseYphase")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofHTDropGoodbsBad")
                         .HasColumnName("ConditionofHTDropGoodbsBad")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofLTDropGoodbsBadCKT1")
                         .HasColumnName("ConditionofLTDropGoodbsBadCKT1")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofLTDropGoodbsBadCKT2")
                         .HasColumnName("ConditionofLTDropGoodbsBadCKT2")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofLightingArrestorBphase")
                         .HasColumnName("ConditionofLightingArrestorBphase")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofLightingArrestorRphase")
                         .HasColumnName("ConditionofLightingArrestorRphase")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofLightingArrestorYphase")
                         .HasColumnName("ConditionofLightingArrestorYphase")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofMCCBforCircuit1")
                         .HasColumnName("ConditionofMCCBforCircuit1")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofMCCBforCircuit2")
                         .HasColumnName("ConditionofMCCBforCircuit2")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofTransformerSupportPoleLeft")
                         .HasColumnName("ConditionofTransformerSupportPoleLeft")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ConditionofTransformerSupportPoleRight")
                         .HasColumnName("ConditionofTransformerSupportPoleRight")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("ContractNo")
                         .HasColumnName("ContractNo")
@@ -775,7 +777,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("EarthingLead1ConditionStandard")
                         .HasColumnName("EarthingLead1ConditionStandard")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("EarthingLead1Material")
                         .HasColumnName("EarthingLead1Material")
@@ -791,7 +793,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("EarthingLead2ConditionStandard")
                         .HasColumnName("EarthingLead2ConditionStandard")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("EarthingLead2Material")
                         .HasColumnName("EarthingLead2Material")
@@ -819,7 +821,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("HTBushingBPhaseGood")
                         .HasColumnName("HTBushingBPhaseGood")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("HTBushingBPhaseOil")
                         .HasColumnName("HTBushingBPhaseOil")
@@ -831,7 +833,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("HTBushingNPhaseGood")
                         .HasColumnName("HTBushingNPhaseGood")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("HTBushingNPhaseOil")
                         .HasColumnName("HTBushingNPhaseOil")
@@ -843,7 +845,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("HTBushingRPhaseGood")
                         .HasColumnName("HTBushingRPhaseGood")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("HTBushingRPhaseOil")
                         .HasColumnName("HTBushingRPhaseOil")
@@ -855,7 +857,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("HTBushingYPhaseGood")
                         .HasColumnName("HTBushingYPhaseGood")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("HTBushingYPhaseOil")
                         .HasColumnName("HTBushingYPhaseOil")
@@ -863,11 +865,11 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("InstalledConditionPadbsPoleMounted")
                         .HasColumnName("InstalledConditionPadbsPoleMounted")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("InstalledPlaceIndoorbsOutdoor")
                         .HasColumnName("InstalledPlaceIndoorbsOutdoor")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("LTBushingBPhaseColor")
                         .HasColumnName("LTBushingBPhaseColor")
@@ -875,7 +877,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("LTBushingBPhaseGood")
                         .HasColumnName("LTBushingBPhaseGood")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("LTBushingBPhaseOil")
                         .HasColumnName("LTBushingBPhaseOil")
@@ -887,7 +889,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("LTBushingNPhaseGood")
                         .HasColumnName("LTBushingNPhaseGood")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("LTBushingNPhaseOil")
                         .HasColumnName("LTBushingNPhaseOil")
@@ -899,7 +901,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("LTBushingRPhaseGood")
                         .HasColumnName("LTBushingRPhaseGood")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("LTBushingRPhaseOil")
                         .HasColumnName("LTBushingRPhaseOil")
@@ -911,7 +913,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("LTBushingYPhaseGood")
                         .HasColumnName("LTBushingYPhaseGood")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("LTBushingYPhaseOil")
                         .HasColumnName("LTBushingYPhaseOil")
@@ -1003,7 +1005,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("OwneroftheTransformerBPDBbsConsumer")
                         .HasColumnName("OwneroftheTransformerBPDBbsConsumer")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("PlaceofOilLeakageMark")
                         .HasColumnName("PlaceofOilLeakageMark")
@@ -1011,13 +1013,17 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("PlatformMaterialAnglbsChannel")
                         .HasColumnName("PlatformMaterialAnglbsChannel")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("PlatformStandardbsNonStandardGoodBad")
                         .HasColumnName("PlatformStandardbsNonStandardGoodBad")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("PoleId")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("PoleStructureMountedSurgearrestorId")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
@@ -1107,11 +1113,11 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.Property<string>("TypeofTransformerSupportPoleLeft")
                         .HasColumnName("TypeofTransformerSupportPoleLeft")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("TypeofTransformerSupportPoleRight")
                         .HasColumnName("TypeofTransformerSupportPoleRight")
-                        .HasColumnType("varchar(6)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Voltage1")
                         .HasColumnName("Voltage1")
@@ -1179,73 +1185,11 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
                     b.HasKey("DistributionTransformerId");
 
-                    b.HasIndex("BodyColourCondition");
-
-                    b.HasIndex("ConditionofDistributionBox");
-
-                    b.HasIndex("ConditionofDropOutFuseBphase");
-
-                    b.HasIndex("ConditionofDropOutFuseRphase");
-
-                    b.HasIndex("ConditionofDropOutFuseYphase");
-
-                    b.HasIndex("ConditionofHTDropGoodbsBad");
-
-                    b.HasIndex("ConditionofLTDropGoodbsBadCKT1");
-
-                    b.HasIndex("ConditionofLTDropGoodbsBadCKT2");
-
-                    b.HasIndex("ConditionofLightingArrestorBphase");
-
-                    b.HasIndex("ConditionofLightingArrestorRphase");
-
-                    b.HasIndex("ConditionofLightingArrestorYphase");
-
-                    b.HasIndex("ConditionofMCCBforCircuit1");
-
-                    b.HasIndex("ConditionofMCCBforCircuit2");
-
-                    b.HasIndex("ConditionofTransformerSupportPoleLeft");
-
-                    b.HasIndex("ConditionofTransformerSupportPoleRight");
-
-                    b.HasIndex("EarthingLead1ConditionStandard");
-
-                    b.HasIndex("EarthingLead2ConditionStandard");
-
                     b.HasIndex("FeederLineId");
-
-                    b.HasIndex("HTBushingBPhaseGood");
-
-                    b.HasIndex("HTBushingNPhaseGood");
-
-                    b.HasIndex("HTBushingRPhaseGood");
-
-                    b.HasIndex("HTBushingYPhaseGood");
-
-                    b.HasIndex("InstalledConditionPadbsPoleMounted");
-
-                    b.HasIndex("InstalledPlaceIndoorbsOutdoor");
-
-                    b.HasIndex("LTBushingBPhaseGood");
-
-                    b.HasIndex("LTBushingNPhaseGood");
-
-                    b.HasIndex("LTBushingRPhaseGood");
-
-                    b.HasIndex("LTBushingYPhaseGood");
-
-                    b.HasIndex("OwneroftheTransformerBPDBbsConsumer");
-
-                    b.HasIndex("PlatformMaterialAnglbsChannel");
-
-                    b.HasIndex("PlatformStandardbsNonStandardGoodBad");
 
                     b.HasIndex("PoleId");
 
-                    b.HasIndex("TypeofTransformerSupportPoleLeft");
-
-                    b.HasIndex("TypeofTransformerSupportPoleRight");
+                    b.HasIndex("PoleStructureMountedSurgearrestorId");
 
                     b.ToTable("TblDistributionTransformer");
                 });
@@ -1360,142 +1304,6 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.HasIndex("DistributionTransformerId");
 
                     b.ToTable("TblPoleStructureMountedSurgearrestor");
-                });
-
-            modelBuilder.Entity("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpBodyColourCondition", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(6)")
-                        .HasMaxLength(6);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LookUpBodyColourCondition");
-                });
-
-            modelBuilder.Entity("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(6)")
-                        .HasMaxLength(6);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LookUpDtCondition");
-                });
-
-            modelBuilder.Entity("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpInstalledCondition", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(6)")
-                        .HasMaxLength(6);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LookUpInstalledCondition");
-                });
-
-            modelBuilder.Entity("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpInstalledPlace", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(6)")
-                        .HasMaxLength(6);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LookUpInstalledPlace");
-                });
-
-            modelBuilder.Entity("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpPlatformMaterial", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(6)")
-                        .HasMaxLength(6);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LookUpPlatformMaterial");
-                });
-
-            modelBuilder.Entity("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpSupportPoleLeftRightCondition", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(6)")
-                        .HasMaxLength(6);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LookUpSupportPoleLeftRightCondition");
-                });
-
-            modelBuilder.Entity("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpSupportPoleLeftRightType", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(6)")
-                        .HasMaxLength(6);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LookUpSupportPoleLeftRightType");
-                });
-
-            modelBuilder.Entity("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpTransformerOwner", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(6)")
-                        .HasMaxLength(6);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LookUpTransformerOwner");
                 });
 
             modelBuilder.Entity("Pdb014App.Models.PDB.InsulatorModels.LookUpAacInsulatorType", b =>
@@ -4149,22 +3957,21 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
             modelBuilder.Entity("Pdb014App.Models.PDB.ServicePointModels.TblConsumerData", b =>
                 {
-                    b.Property<string>("ConsumersId")
+                    b.Property<int>("ConsumerId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnName("ConsumerId")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AccountNumber")
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<string>("BillGroup")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                    b.Property<int?>("BillGroup")
+                        .HasColumnType("int");
 
-                    b.Property<string>("BookNumber")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                    b.Property<int?>("BookNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("BuildingApptNo")
                         .HasColumnType("nvarchar(250)")
@@ -4200,6 +4007,10 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.Property<string>("CustomerName")
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
+
+                    b.Property<string>("DistributionTransformerId")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("InstallDate")
                         .HasColumnType("nvarchar(max)");
@@ -4301,7 +4112,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.HasKey("ConsumersId");
+                    b.HasKey("ConsumerId");
 
                     b.HasIndex("BusinessTypeId");
 
@@ -4310,6 +4121,8 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.HasIndex("ConnectionTypeId");
 
                     b.HasIndex("ConsumerTypeId");
+
+                    b.HasIndex("DistributionTransformerId");
 
                     b.HasIndex("LocationId");
 
@@ -4342,10 +4155,6 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.Property<string>("CityTown")
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
-
-                    b.Property<string>("DistributionTransformerId")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
 
                     b.Property<string>("NoOFConsumersB")
                         .HasColumnType("nvarchar(250)")
@@ -4405,8 +4214,6 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasMaxLength(250);
 
                     b.HasKey("ServicesPointId");
-
-                    b.HasIndex("DistributionTransformerId");
 
                     b.HasIndex("PoleId");
 
@@ -6536,141 +6343,17 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
             modelBuilder.Entity("Pdb014App.Models.PDB.DistributionTransformerModel.TblDistributionTransformer", b =>
                 {
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpBodyColourCondition", "BodyColourConditiontoBodyColourCondition")
-                        .WithMany()
-                        .HasForeignKey("BodyColourCondition");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "ConditionofDistributionBoxToCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofDistributionBox");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "ConditionofDropOutFuseBphaseToCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofDropOutFuseBphase");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "ConditionofDropOutFuseRphaseToCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofDropOutFuseRphase");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "ConditionofDropOutFuseYphaseToCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofDropOutFuseYphase");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "ConditionofHTDropGoodbsBadToCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofHTDropGoodbsBad");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "ConditionofLTDropGoodbsBadCKT1ToCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofLTDropGoodbsBadCKT1");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "ConditionofLTDropGoodbsBadCKT2ToCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofLTDropGoodbsBadCKT2");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "ConditionofLightingArrestorBphaseToCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofLightingArrestorBphase");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "ConditionofLightingArrestorRphaseToCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofLightingArrestorRphase");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "ConditionofLightingArrestorYphaseToCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofLightingArrestorYphase");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "ConditionofMCCBforCircuit1ToCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofMCCBforCircuit1");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "ConditionofMCCBforCircuit2ToCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofMCCBforCircuit2");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpSupportPoleLeftRightCondition", "ConditionofTransformerSupportPoleLeftToLeftRightCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofTransformerSupportPoleLeft");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpSupportPoleLeftRightCondition", "ConditionofTransformerSupportPoleRightToLeftRightCondition")
-                        .WithMany()
-                        .HasForeignKey("ConditionofTransformerSupportPoleRight");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "EarthingLead1ConditionStandardToCondition")
-                        .WithMany()
-                        .HasForeignKey("EarthingLead1ConditionStandard");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "EarthingLead2ConditionStandardToCondition")
-                        .WithMany()
-                        .HasForeignKey("EarthingLead2ConditionStandard");
-
                     b.HasOne("Pdb014App.Models.PDB.TblFeederLine", "DtToFeederLine")
                         .WithMany()
                         .HasForeignKey("FeederLineId");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "HTBushingBPhaseGoodToCondition")
-                        .WithMany()
-                        .HasForeignKey("HTBushingBPhaseGood");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "HTBushingNPhaseGoodToCondition")
-                        .WithMany()
-                        .HasForeignKey("HTBushingNPhaseGood");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "HTBushingRPhaseGoodToCondition")
-                        .WithMany()
-                        .HasForeignKey("HTBushingRPhaseGood");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "HTBushingYPhaseGoodToCondition")
-                        .WithMany()
-                        .HasForeignKey("HTBushingYPhaseGood");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpInstalledCondition", "InstalledConditionPadbsPoleMountedToInstalledCondition")
-                        .WithMany()
-                        .HasForeignKey("InstalledConditionPadbsPoleMounted");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpInstalledPlace", "InstalledPlaceIndoorbsOutdoorToInstalledPlace")
-                        .WithMany()
-                        .HasForeignKey("InstalledPlaceIndoorbsOutdoor");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "LTBushingBPhaseGoodToCondition")
-                        .WithMany()
-                        .HasForeignKey("LTBushingBPhaseGood");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "LTBushingNPhaseGoodToCondition")
-                        .WithMany()
-                        .HasForeignKey("LTBushingNPhaseGood");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "LTBushingRPhaseGoodToCondition")
-                        .WithMany()
-                        .HasForeignKey("LTBushingRPhaseGood");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "LTBushingYPhaseGoodToCondition")
-                        .WithMany()
-                        .HasForeignKey("LTBushingYPhaseGood");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpTransformerOwner", "OwneroftheTransformerBPDBbsConsumerToTransformerOwner")
-                        .WithMany()
-                        .HasForeignKey("OwneroftheTransformerBPDBbsConsumer");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpPlatformMaterial", "PlatformMaterialAnglbsChannelTolatformMaterial")
-                        .WithMany()
-                        .HasForeignKey("PlatformMaterialAnglbsChannel");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpDtCondition", "PlatformStandardbsNonStandardGoodBadToCondition")
-                        .WithMany()
-                        .HasForeignKey("PlatformStandardbsNonStandardGoodBad");
 
                     b.HasOne("Pdb014App.Models.PDB.TblPole", "DtToPole")
                         .WithMany()
                         .HasForeignKey("PoleId");
 
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpSupportPoleLeftRightType", "TypeofTransformerSupportPoleLeftToLeftRightType")
+                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModel.TblPoleStructureMountedSurgeArrestor", "PoleStructureMountedSurgeArrestor")
                         .WithMany()
-                        .HasForeignKey("TypeofTransformerSupportPoleLeft");
-
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModels.LookUpSupportPoleLeftRightType", "TypeofTransformerSupportPoleRightToLeftRightType")
-                        .WithMany()
-                        .HasForeignKey("TypeofTransformerSupportPoleRight");
+                        .HasForeignKey("PoleStructureMountedSurgearrestorId");
                 });
 
             modelBuilder.Entity("Pdb014App.Models.PDB.DistributionTransformerModel.TblDistributionTransformerPicture", b =>
@@ -7057,6 +6740,10 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .WithMany()
                         .HasForeignKey("ConsumerTypeId");
 
+                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModel.TblDistributionTransformer", "ConsumerDataToDistributionTransformer")
+                        .WithMany()
+                        .HasForeignKey("DistributionTransformerId");
+
                     b.HasOne("Pdb014App.Models.PDB.ServicePointModels.LookUpLocation", "ConsumerToLocation")
                         .WithMany()
                         .HasForeignKey("LocationId");
@@ -7090,10 +6777,6 @@ namespace Pdb014App.Repository.Migrations.PdbDb
 
             modelBuilder.Entity("Pdb014App.Models.PDB.ServicePointModels.TblServicePoint", b =>
                 {
-                    b.HasOne("Pdb014App.Models.PDB.DistributionTransformerModel.TblDistributionTransformer", "ServicesPointToDistributionTransformer")
-                        .WithMany()
-                        .HasForeignKey("DistributionTransformerId");
-
                     b.HasOne("Pdb014App.Models.PDB.TblPole", "ServicePointToPole")
                         .WithMany()
                         .HasForeignKey("PoleId")

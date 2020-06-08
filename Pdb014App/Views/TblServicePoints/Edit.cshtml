@@ -10,14 +10,14 @@
     <h4>TblServicePoint</h4>
     <hr />*@
 <div class="row">
-    <div class="offset-md-3 col-md-6 offset-md-3">
+    <div class="offset-md-2 col-md-8 offset-md-2">
         <fieldset>
             <legend>Update Service Point Information</legend>
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @*<input type="hidden" asp-for="ServicesPointId" />*@
 
-                <div class="form-group">
+                <div class="form-group hidden">
                     <label asp-for="ServicesPointId" class="control-label"></label>
                     @*<select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>*@
                     <input asp-for="ServicesPointId" class="form-control" />
@@ -28,9 +28,19 @@
                 <div class="form-group">
                     <label asp-for="PoleId" class="control-label"></label>
                     @*<select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>*@
-                    <input asp-for="PoleId" class="form-control" />
+                    <input asp-for="PoleId" class="form-control" readonly/>
                     <span asp-validation-for="PoleId" class="text-danger"></span>
                 </div>
+
+                @*<div class="form-group">
+                    <label asp-for="DistributionTransformerId" class="control-label"></label>
+                    <select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>
+                    <input asp-for="DistributionTransformerId" class="form-control" readonly/>
+                    <span asp-validation-for="DistributionTransformerId" class="text-danger"></span>
+                </div>*@
+
+
+                
                 <div class="form-group">
                     <label asp-for="VoltageCategoryId" class="control-label"></label>
                     <select asp-for="VoltageCategoryId" class="form-control" asp-items="ViewBag.VoltageCategoryId"></select>

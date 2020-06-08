@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Pdb014App.Models.PDB.DistributionTransformerModels
 {
-    public class LookUpDtCondition
+    public class LookUpPlatformMaterial
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         [Column(Order = 0, TypeName = "varchar(6)")]
         [StringLength(6, ErrorMessage = "The {0} must be {1} characters.")]
-        [Display(Name = "Condition Id")]
+        [Display(Name = "Id")]
         public string Id { get; set; }
 
         [Required]
