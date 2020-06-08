@@ -2,729 +2,715 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@*<h2>Edit</h2>
+<h1>Edit</h1>
 
-    <h4>TblDistributionTransformer</h4>
-    <hr />*@
+<h4>TblDistributionTransformer</h4>
+<hr />
 <div class="row">
-    <div class="offset-md-2 col-md-8 offset-md-2">
-        <fieldset>
-            <legend>Add Distribution Transformer Information</legend>
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="DistributionTransformerId" />
-                <div class="form-group">
-                    <label asp-for="PoleStructureMountedSurgearrestorId" class="control-label"></label>
-                    <select asp-for="PoleStructureMountedSurgearrestorId" class="form-control" asp-items="ViewBag.PoleStructureMountedSurgearrestorId">
-                        <option value="">--Select--</option>
-                    </select>
-                    <span asp-validation-for="PoleStructureMountedSurgearrestorId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PoleId" class="control-label"></label>
-                    @*<select asp-for="PoleId" class="form-control" asp-items="ViewBag.PoleId"></select>*@
-                    <input asp-for="PoleId" class="form-control" readonly/>
-                    <span asp-validation-for="PoleId" class="text-danger"></span>
-                </div>
-                <div class="form-group" style="display:none">
-                    <label asp-for="FeederLineId" class="control-label"></label>
-                    @*<select asp-for="FeederLineId" class="form-control" asp-items="ViewBag.FeederLineId"></select>*@
-                    <input asp-for="FeederLineId" class="form-control" readonly/>
-                    <span asp-validation-for="FeederLineId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NameOf33bs11kVSubdsstation" class="control-label"></label>
-                    <input asp-for="NameOf33bs11kVSubdsstation" class="form-control" />
-                    <span asp-validation-for="NameOf33bs11kVSubdsstation" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Nameof11kVFeeder" class="control-label"></label>
-                    <input asp-for="Nameof11kVFeeder" class="form-control" />
-                    <span asp-validation-for="Nameof11kVFeeder" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="SNDIdentificationNo" class="control-label"></label>
-                    <input asp-for="SNDIdentificationNo" class="form-control" />
-                    <span asp-validation-for="SNDIdentificationNo" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NearestHoldingbsHouseNobsShop" class="control-label"></label>
-                    <input asp-for="NearestHoldingbsHouseNobsShop" class="form-control" />
-                    <span asp-validation-for="NearestHoldingbsHouseNobsShop" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ExistingPoleNumberingifAny" class="control-label"></label>
-                    <input asp-for="ExistingPoleNumberingifAny" class="form-control" />
-                    <span asp-validation-for="ExistingPoleNumberingifAny" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="InstalledConditionPadbsPoleMounted" class="control-label"></label>
-                    <input asp-for="InstalledConditionPadbsPoleMounted" class="form-control" />
-                    <span asp-validation-for="InstalledConditionPadbsPoleMounted" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="InstalledPlaceIndoorbsOutdoor" class="control-label"></label>
-                    <input asp-for="InstalledPlaceIndoorbsOutdoor" class="form-control" />
-                    <span asp-validation-for="InstalledPlaceIndoorbsOutdoor" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ContractNo" class="control-label"></label>
-                    <input asp-for="ContractNo" class="form-control" />
-                    <span asp-validation-for="ContractNo" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="OwneroftheTransformerBPDBbsConsumer" class="control-label"></label>
-                    <input asp-for="OwneroftheTransformerBPDBbsConsumer" class="form-control" />
-                    <span asp-validation-for="OwneroftheTransformerBPDBbsConsumer" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TransformerKVARating" class="control-label"></label>
-                    <input asp-for="TransformerKVARating" class="form-control" />
-                    <span asp-validation-for="TransformerKVARating" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="YearofManufacturing" class="control-label"></label>
-                    <input asp-for="YearofManufacturing" class="form-control" />
-                    <span asp-validation-for="YearofManufacturing" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NameofManufacturer" class="control-label"></label>
-                    <input asp-for="NameofManufacturer" class="form-control" />
-                    <span asp-validation-for="NameofManufacturer" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TransformerSerialNo" class="control-label"></label>
-                    <input asp-for="TransformerSerialNo" class="form-control" />
-                    <span asp-validation-for="TransformerSerialNo" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RatedHTVoltage" class="control-label"></label>
-                    <input asp-for="RatedHTVoltage" class="form-control" />
-                    <span asp-validation-for="RatedHTVoltage" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RatedLTVoltage" class="control-label"></label>
-                    <input asp-for="RatedLTVoltage" class="form-control" />
-                    <span asp-validation-for="RatedLTVoltage" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RatedHTCurrent" class="control-label"></label>
-                    <input asp-for="RatedHTCurrent" class="form-control" />
-                    <span asp-validation-for="RatedHTCurrent" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RatedLTCurrent" class="control-label"></label>
-                    <input asp-for="RatedLTCurrent" class="form-control" />
-                    <span asp-validation-for="RatedLTCurrent" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ControlVoltage" class="control-label"></label>
-                    <input asp-for="ControlVoltage" class="form-control" />
-                    <span asp-validation-for="ControlVoltage" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="MotorVoltageforspringcharge" class="control-label"></label>
-                    <input asp-for="MotorVoltageforspringcharge" class="form-control" />
-                    <span asp-validation-for="MotorVoltageforspringcharge" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RatedVoltage" class="control-label"></label>
-                    <input asp-for="RatedVoltage" class="form-control" />
-                    <span asp-validation-for="RatedVoltage" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BodyColourCondition" class="control-label"></label>
-                    <input asp-for="BodyColourCondition" class="form-control" />
-                    <span asp-validation-for="BodyColourCondition" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NameoBodyColour" class="control-label"></label>
-                    <input asp-for="NameoBodyColour" class="form-control" />
-                    <span asp-validation-for="NameoBodyColour" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="OilLeakageYesOrNo" class="control-label"></label>
-                    <input asp-for="OilLeakageYesOrNo" class="form-control" />
-                    <span asp-validation-for="OilLeakageYesOrNo" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PlaceofOilLeakageMark" class="control-label"></label>
-                    <input asp-for="PlaceofOilLeakageMark" class="form-control" />
-                    <span asp-validation-for="PlaceofOilLeakageMark" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PlatformMaterialAnglbsChannel" class="control-label"></label>
-                    <input asp-for="PlatformMaterialAnglbsChannel" class="form-control" />
-                    <span asp-validation-for="PlatformMaterialAnglbsChannel" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PlatformStandardbsNonStandardGoodBad" class="control-label"></label>
-                    <input asp-for="PlatformStandardbsNonStandardGoodBad" class="form-control" />
-                    <span asp-validation-for="PlatformStandardbsNonStandardGoodBad" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TypeofTransformerSupportPoleLeft" class="control-label"></label>
-                    <input asp-for="TypeofTransformerSupportPoleLeft" class="form-control" />
-                    <span asp-validation-for="TypeofTransformerSupportPoleLeft" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofTransformerSupportPoleLeft" class="control-label"></label>
-                    <input asp-for="ConditionofTransformerSupportPoleLeft" class="form-control" />
-                    <span asp-validation-for="ConditionofTransformerSupportPoleLeft" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TypeofTransformerSupportPoleRight" class="control-label"></label>
-                    <input asp-for="TypeofTransformerSupportPoleRight" class="form-control" />
-                    <span asp-validation-for="TypeofTransformerSupportPoleRight" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofTransformerSupportPoleRight" class="control-label"></label>
-                    <input asp-for="ConditionofTransformerSupportPoleRight" class="form-control" />
-                    <span asp-validation-for="ConditionofTransformerSupportPoleRight" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HTBushingRPhaseOil" class="control-label"></label>
-                    <input asp-for="HTBushingRPhaseOil" class="form-control" />
-                    <span asp-validation-for="HTBushingRPhaseOil" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HTBushingRPhaseGood" class="control-label"></label>
-                    <input asp-for="HTBushingRPhaseGood" class="form-control" />
-                    <span asp-validation-for="HTBushingRPhaseGood" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HTBushingRPhaseColor" class="control-label"></label>
-                    <input asp-for="HTBushingRPhaseColor" class="form-control" />
-                    <span asp-validation-for="HTBushingRPhaseColor" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HTBushingYPhaseOil" class="control-label"></label>
-                    <input asp-for="HTBushingYPhaseOil" class="form-control" />
-                    <span asp-validation-for="HTBushingYPhaseOil" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HTBushingYPhaseGood" class="control-label"></label>
-                    <input asp-for="HTBushingYPhaseGood" class="form-control" />
-                    <span asp-validation-for="HTBushingYPhaseGood" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HTBushingYPhaseColor" class="control-label"></label>
-                    <input asp-for="HTBushingYPhaseColor" class="form-control" />
-                    <span asp-validation-for="HTBushingYPhaseColor" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HTBushingBPhaseOil" class="control-label"></label>
-                    <input asp-for="HTBushingBPhaseOil" class="form-control" />
-                    <span asp-validation-for="HTBushingBPhaseOil" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HTBushingBPhaseGood" class="control-label"></label>
-                    <input asp-for="HTBushingBPhaseGood" class="form-control" />
-                    <span asp-validation-for="HTBushingBPhaseGood" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HTBushingBPhaseColor" class="control-label"></label>
-                    <input asp-for="HTBushingBPhaseColor" class="form-control" />
-                    <span asp-validation-for="HTBushingBPhaseColor" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HTBushingNPhaseOil" class="control-label"></label>
-                    <input asp-for="HTBushingNPhaseOil" class="form-control" />
-                    <span asp-validation-for="HTBushingNPhaseOil" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HTBushingNPhaseGood" class="control-label"></label>
-                    <input asp-for="HTBushingNPhaseGood" class="form-control" />
-                    <span asp-validation-for="HTBushingNPhaseGood" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="HTBushingNPhaseColor" class="control-label"></label>
-                    <input asp-for="HTBushingNPhaseColor" class="form-control" />
-                    <span asp-validation-for="HTBushingNPhaseColor" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LTBushingRPhaseOil" class="control-label"></label>
-                    <input asp-for="LTBushingRPhaseOil" class="form-control" />
-                    <span asp-validation-for="LTBushingRPhaseOil" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LTBushingRPhaseGood" class="control-label"></label>
-                    <input asp-for="LTBushingRPhaseGood" class="form-control" />
-                    <span asp-validation-for="LTBushingRPhaseGood" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LTBushingRPhaseColor" class="control-label"></label>
-                    <input asp-for="LTBushingRPhaseColor" class="form-control" />
-                    <span asp-validation-for="LTBushingRPhaseColor" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LTBushingYPhaseOil" class="control-label"></label>
-                    <input asp-for="LTBushingYPhaseOil" class="form-control" />
-                    <span asp-validation-for="LTBushingYPhaseOil" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LTBushingYPhaseGood" class="control-label"></label>
-                    <input asp-for="LTBushingYPhaseGood" class="form-control" />
-                    <span asp-validation-for="LTBushingYPhaseGood" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LTBushingYPhaseColor" class="control-label"></label>
-                    <input asp-for="LTBushingYPhaseColor" class="form-control" />
-                    <span asp-validation-for="LTBushingYPhaseColor" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LTBushingBPhaseOil" class="control-label"></label>
-                    <input asp-for="LTBushingBPhaseOil" class="form-control" />
-                    <span asp-validation-for="LTBushingBPhaseOil" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LTBushingBPhaseGood" class="control-label"></label>
-                    <input asp-for="LTBushingBPhaseGood" class="form-control" />
-                    <span asp-validation-for="LTBushingBPhaseGood" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LTBushingBPhaseColor" class="control-label"></label>
-                    <input asp-for="LTBushingBPhaseColor" class="form-control" />
-                    <span asp-validation-for="LTBushingBPhaseColor" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LTBushingNPhaseOil" class="control-label"></label>
-                    <input asp-for="LTBushingNPhaseOil" class="form-control" />
-                    <span asp-validation-for="LTBushingNPhaseOil" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LTBushingNPhaseGood" class="control-label"></label>
-                    <input asp-for="LTBushingNPhaseGood" class="form-control" />
-                    <span asp-validation-for="LTBushingNPhaseGood" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LTBushingNPhaseColor" class="control-label"></label>
-                    <input asp-for="LTBushingNPhaseColor" class="form-control" />
-                    <span asp-validation-for="LTBushingNPhaseColor" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="WireSizeofHTDrop" class="control-label"></label>
-                    <input asp-for="WireSizeofHTDrop" class="form-control" />
-                    <span asp-validation-for="WireSizeofHTDrop" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofHTDropGoodbsBad" class="control-label"></label>
-                    <input asp-for="ConditionofHTDropGoodbsBad" class="form-control" />
-                    <span asp-validation-for="ConditionofHTDropGoodbsBad" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="WirebsCableSizeofLTDropCKT1" class="control-label"></label>
-                    <input asp-for="WirebsCableSizeofLTDropCKT1" class="form-control" />
-                    <span asp-validation-for="WirebsCableSizeofLTDropCKT1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofLTDropGoodbsBadCKT1" class="control-label"></label>
-                    <input asp-for="ConditionofLTDropGoodbsBadCKT1" class="form-control" />
-                    <span asp-validation-for="ConditionofLTDropGoodbsBadCKT1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="WirebsCableSizeofLTDropCKT2" class="control-label"></label>
-                    <input asp-for="WirebsCableSizeofLTDropCKT2" class="form-control" />
-                    <span asp-validation-for="WirebsCableSizeofLTDropCKT2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofLTDropGoodbsBadCKT2" class="control-label"></label>
-                    <input asp-for="ConditionofLTDropGoodbsBadCKT2" class="form-control" />
-                    <span asp-validation-for="ConditionofLTDropGoodbsBadCKT2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EarthingLead1" class="control-label"></label>
-                    <input asp-for="EarthingLead1" class="form-control" />
-                    <span asp-validation-for="EarthingLead1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EarthingLead1Size" class="control-label"></label>
-                    <input asp-for="EarthingLead1Size" class="form-control" />
-                    <span asp-validation-for="EarthingLead1Size" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EarthingLead1Material" class="control-label"></label>
-                    <input asp-for="EarthingLead1Material" class="form-control" />
-                    <span asp-validation-for="EarthingLead1Material" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EarthingLead1ConditionStandard" class="control-label"></label>
-                    <input asp-for="EarthingLead1ConditionStandard" class="form-control" />
-                    <span asp-validation-for="EarthingLead1ConditionStandard" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EarthingLead2" class="control-label"></label>
-                    <input asp-for="EarthingLead2" class="form-control" />
-                    <span asp-validation-for="EarthingLead2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EarthingLead2Size" class="control-label"></label>
-                    <input asp-for="EarthingLead2Size" class="form-control" />
-                    <span asp-validation-for="EarthingLead2Size" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EarthingLead2Material" class="control-label"></label>
-                    <input asp-for="EarthingLead2Material" class="form-control" />
-                    <span asp-validation-for="EarthingLead2Material" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EarthingLead2ConditionStandard" class="control-label"></label>
-                    <input asp-for="EarthingLead2ConditionStandard" class="form-control" />
-                    <span asp-validation-for="EarthingLead2ConditionStandard" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DayPeak" class="control-label"></label>
-                    <input asp-for="DayPeak" class="form-control" />
-                    <span asp-validation-for="DayPeak" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DateAndtime1" class="control-label"></label>
-                    <input asp-for="DateAndtime1" class="form-control" />
-                    <span asp-validation-for="DateAndtime1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Voltage1" class="control-label"></label>
-                    <input asp-for="Voltage1" class="form-control" />
-                    <span asp-validation-for="Voltage1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RYVoltageVolt1" class="control-label"></label>
-                    <input asp-for="RYVoltageVolt1" class="form-control" />
-                    <span asp-validation-for="RYVoltageVolt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="YBVoltageVolt1" class="control-label"></label>
-                    <input asp-for="YBVoltageVolt1" class="form-control" />
-                    <span asp-validation-for="YBVoltageVolt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RBVoltageVolt1" class="control-label"></label>
-                    <input asp-for="RBVoltageVolt1" class="form-control" />
-                    <span asp-validation-for="RBVoltageVolt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RNVoltageVolt1" class="control-label"></label>
-                    <input asp-for="RNVoltageVolt1" class="form-control" />
-                    <span asp-validation-for="RNVoltageVolt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="YNVoltageVolt1" class="control-label"></label>
-                    <input asp-for="YNVoltageVolt1" class="form-control" />
-                    <span asp-validation-for="YNVoltageVolt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BNVoltageVolt1" class="control-label"></label>
-                    <input asp-for="BNVoltageVolt1" class="form-control" />
-                    <span asp-validation-for="BNVoltageVolt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LeakageVoltageBodyEarthVolt1" class="control-label"></label>
-                    <input asp-for="LeakageVoltageBodyEarthVolt1" class="form-control" />
-                    <span asp-validation-for="LeakageVoltageBodyEarthVolt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RPhaseCurrentAmps1Ckt1" class="control-label"></label>
-                    <input asp-for="RPhaseCurrentAmps1Ckt1" class="form-control" />
-                    <span asp-validation-for="RPhaseCurrentAmps1Ckt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RPhaseCurrentAmps1Ckt2" class="control-label"></label>
-                    <input asp-for="RPhaseCurrentAmps1Ckt2" class="form-control" />
-                    <span asp-validation-for="RPhaseCurrentAmps1Ckt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RPhaseCurrentAmps1Ckt3" class="control-label"></label>
-                    <input asp-for="RPhaseCurrentAmps1Ckt3" class="form-control" />
-                    <span asp-validation-for="RPhaseCurrentAmps1Ckt3" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="YPhaseCurrentAmps1Ckt1" class="control-label"></label>
-                    <input asp-for="YPhaseCurrentAmps1Ckt1" class="form-control" />
-                    <span asp-validation-for="YPhaseCurrentAmps1Ckt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="YPhaseCurrentAmps1Ckt2" class="control-label"></label>
-                    <input asp-for="YPhaseCurrentAmps1Ckt2" class="form-control" />
-                    <span asp-validation-for="YPhaseCurrentAmps1Ckt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="YPhaseCurrentAmps1Ckt3" class="control-label"></label>
-                    <input asp-for="YPhaseCurrentAmps1Ckt3" class="form-control" />
-                    <span asp-validation-for="YPhaseCurrentAmps1Ckt3" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BPhaseCurrentAmps1Ckt1" class="control-label"></label>
-                    <input asp-for="BPhaseCurrentAmps1Ckt1" class="form-control" />
-                    <span asp-validation-for="BPhaseCurrentAmps1Ckt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BPhaseCurrentAmps1Ckt2" class="control-label"></label>
-                    <input asp-for="BPhaseCurrentAmps1Ckt2" class="form-control" />
-                    <span asp-validation-for="BPhaseCurrentAmps1Ckt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BPhaseCurrentAmps1Ckt3" class="control-label"></label>
-                    <input asp-for="BPhaseCurrentAmps1Ckt3" class="form-control" />
-                    <span asp-validation-for="BPhaseCurrentAmps1Ckt3" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NeutralCurrentAmps1Ckt1" class="control-label"></label>
-                    <input asp-for="NeutralCurrentAmps1Ckt1" class="form-control" />
-                    <span asp-validation-for="NeutralCurrentAmps1Ckt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NeutralCurrentAmps1Ckt2" class="control-label"></label>
-                    <input asp-for="NeutralCurrentAmps1Ckt2" class="form-control" />
-                    <span asp-validation-for="NeutralCurrentAmps1Ckt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NeutralCurrentAmps1Ckt3" class="control-label"></label>
-                    <input asp-for="NeutralCurrentAmps1Ckt3" class="form-control" />
-                    <span asp-validation-for="NeutralCurrentAmps1Ckt3" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CalculatedDayPeakkVA" class="control-label"></label>
-                    <input asp-for="CalculatedDayPeakkVA" class="form-control" />
-                    <span asp-validation-for="CalculatedDayPeakkVA" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EveningPeak" class="control-label"></label>
-                    <input asp-for="EveningPeak" class="form-control" />
-                    <span asp-validation-for="EveningPeak" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DateAndTime2" class="control-label"></label>
-                    <input asp-for="DateAndTime2" class="form-control" />
-                    <span asp-validation-for="DateAndTime2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Voltage2" class="control-label"></label>
-                    <input asp-for="Voltage2" class="form-control" />
-                    <span asp-validation-for="Voltage2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RYVoltageVolt2" class="control-label"></label>
-                    <input asp-for="RYVoltageVolt2" class="form-control" />
-                    <span asp-validation-for="RYVoltageVolt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="YBVoltageVolt2" class="control-label"></label>
-                    <input asp-for="YBVoltageVolt2" class="form-control" />
-                    <span asp-validation-for="YBVoltageVolt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RBVoltageVolt2" class="control-label"></label>
-                    <input asp-for="RBVoltageVolt2" class="form-control" />
-                    <span asp-validation-for="RBVoltageVolt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RNVoltageVolt2" class="control-label"></label>
-                    <input asp-for="RNVoltageVolt2" class="form-control" />
-                    <span asp-validation-for="RNVoltageVolt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="YNVoltageVolt" class="control-label"></label>
-                    <input asp-for="YNVoltageVolt" class="form-control" />
-                    <span asp-validation-for="YNVoltageVolt" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BNVoltageVolt2" class="control-label"></label>
-                    <input asp-for="BNVoltageVolt2" class="form-control" />
-                    <span asp-validation-for="BNVoltageVolt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LeakageVoltageBodyEarthVolt2" class="control-label"></label>
-                    <input asp-for="LeakageVoltageBodyEarthVolt2" class="form-control" />
-                    <span asp-validation-for="LeakageVoltageBodyEarthVolt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RPhaseCurrentAmps2Ckt1" class="control-label"></label>
-                    <input asp-for="RPhaseCurrentAmps2Ckt1" class="form-control" />
-                    <span asp-validation-for="RPhaseCurrentAmps2Ckt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RPhaseCurrentAmps2Ckt2" class="control-label"></label>
-                    <input asp-for="RPhaseCurrentAmps2Ckt2" class="form-control" />
-                    <span asp-validation-for="RPhaseCurrentAmps2Ckt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="RPhaseCurrentAmps2Ckt3" class="control-label"></label>
-                    <input asp-for="RPhaseCurrentAmps2Ckt3" class="form-control" />
-                    <span asp-validation-for="RPhaseCurrentAmps2Ckt3" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="YPhaseCurrentAmps2Ckt1" class="control-label"></label>
-                    <input asp-for="YPhaseCurrentAmps2Ckt1" class="form-control" />
-                    <span asp-validation-for="YPhaseCurrentAmps2Ckt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="YPhaseCurrentAmps2Ckt2" class="control-label"></label>
-                    <input asp-for="YPhaseCurrentAmps2Ckt2" class="form-control" />
-                    <span asp-validation-for="YPhaseCurrentAmps2Ckt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="YPhaseCurrentAmps2Ckt3" class="control-label"></label>
-                    <input asp-for="YPhaseCurrentAmps2Ckt3" class="form-control" />
-                    <span asp-validation-for="YPhaseCurrentAmps2Ckt3" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BPhaseCurrentAmps2Ckt1" class="control-label"></label>
-                    <input asp-for="BPhaseCurrentAmps2Ckt1" class="form-control" />
-                    <span asp-validation-for="BPhaseCurrentAmps2Ckt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BPhaseCurrentAmps2Ckt2" class="control-label"></label>
-                    <input asp-for="BPhaseCurrentAmps2Ckt2" class="form-control" />
-                    <span asp-validation-for="BPhaseCurrentAmps2Ckt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BPhaseCurrentAmps2Ckt3" class="control-label"></label>
-                    <input asp-for="BPhaseCurrentAmps2Ckt3" class="form-control" />
-                    <span asp-validation-for="BPhaseCurrentAmps2Ckt3" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NeutralCurrentAmpsCkt1" class="control-label"></label>
-                    <input asp-for="NeutralCurrentAmpsCkt1" class="form-control" />
-                    <span asp-validation-for="NeutralCurrentAmpsCkt1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NeutralCurrentAmps2Ckt2" class="control-label"></label>
-                    <input asp-for="NeutralCurrentAmps2Ckt2" class="form-control" />
-                    <span asp-validation-for="NeutralCurrentAmps2Ckt2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NeutralCurrentAmps2Ckt3" class="control-label"></label>
-                    <input asp-for="NeutralCurrentAmps2Ckt3" class="form-control" />
-                    <span asp-validation-for="NeutralCurrentAmps2Ckt3" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CalculatedEveningPeakkVA" class="control-label"></label>
-                    <input asp-for="CalculatedEveningPeakkVA" class="form-control" />
-                    <span asp-validation-for="CalculatedEveningPeakkVA" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DropOutFuseExistbsNotExistRphase" class="control-label"></label>
-                    <input asp-for="DropOutFuseExistbsNotExistRphase" class="form-control" />
-                    <span asp-validation-for="DropOutFuseExistbsNotExistRphase" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DropOutFuseExistbsNotExistYphase" class="control-label"></label>
-                    <input asp-for="DropOutFuseExistbsNotExistYphase" class="form-control" />
-                    <span asp-validation-for="DropOutFuseExistbsNotExistYphase" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DropOutFuseExistbsNotExistBphase" class="control-label"></label>
-                    <input asp-for="DropOutFuseExistbsNotExistBphase" class="form-control" />
-                    <span asp-validation-for="DropOutFuseExistbsNotExistBphase" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofDropOutFuseRphase" class="control-label"></label>
-                    <input asp-for="ConditionofDropOutFuseRphase" class="form-control" />
-                    <span asp-validation-for="ConditionofDropOutFuseRphase" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofDropOutFuseYphase" class="control-label"></label>
-                    <input asp-for="ConditionofDropOutFuseYphase" class="form-control" />
-                    <span asp-validation-for="ConditionofDropOutFuseYphase" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofDropOutFuseBphase" class="control-label"></label>
-                    <input asp-for="ConditionofDropOutFuseBphase" class="form-control" />
-                    <span asp-validation-for="ConditionofDropOutFuseBphase" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LightningArrestorRphase" class="control-label"></label>
-                    <input asp-for="LightningArrestorRphase" class="form-control" />
-                    <span asp-validation-for="LightningArrestorRphase" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LightningArrestorYphase" class="control-label"></label>
-                    <input asp-for="LightningArrestorYphase" class="form-control" />
-                    <span asp-validation-for="LightningArrestorYphase" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LightningArrestorBphase" class="control-label"></label>
-                    <input asp-for="LightningArrestorBphase" class="form-control" />
-                    <span asp-validation-for="LightningArrestorBphase" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofLightingArrestorRphase" class="control-label"></label>
-                    <input asp-for="ConditionofLightingArrestorRphase" class="form-control" />
-                    <span asp-validation-for="ConditionofLightingArrestorRphase" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofLightingArrestorYphase" class="control-label"></label>
-                    <input asp-for="ConditionofLightingArrestorYphase" class="form-control" />
-                    <span asp-validation-for="ConditionofLightingArrestorYphase" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofLightingArrestorBphase" class="control-label"></label>
-                    <input asp-for="ConditionofLightingArrestorBphase" class="form-control" />
-                    <span asp-validation-for="ConditionofLightingArrestorBphase" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DistributionBoxExistbsnotExist" class="control-label"></label>
-                    <input asp-for="DistributionBoxExistbsnotExist" class="form-control" />
-                    <span asp-validation-for="DistributionBoxExistbsnotExist" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofDistributionBox" class="control-label"></label>
-                    <input asp-for="ConditionofDistributionBox" class="form-control" />
-                    <span asp-validation-for="ConditionofDistributionBox" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NoOfMCCB" class="control-label"></label>
-                    <input asp-for="NoOfMCCB" class="form-control" />
-                    <span asp-validation-for="NoOfMCCB" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ManufacturerTypeOriginofMCCBforCircuit1" class="control-label"></label>
-                    <input asp-for="ManufacturerTypeOriginofMCCBforCircuit1" class="form-control" />
-                    <span asp-validation-for="ManufacturerTypeOriginofMCCBforCircuit1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ManufacturerTypeOriginofMCCBforCircuit2" class="control-label"></label>
-                    <input asp-for="ManufacturerTypeOriginofMCCBforCircuit2" class="form-control" />
-                    <span asp-validation-for="ManufacturerTypeOriginofMCCBforCircuit2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="AmpereRatingasPerNamePlateofMCCBforCKT1" class="control-label"></label>
-                    <input asp-for="AmpereRatingasPerNamePlateofMCCBforCKT1" class="form-control" />
-                    <span asp-validation-for="AmpereRatingasPerNamePlateofMCCBforCKT1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="AmpereRatingasPerNameplateOfMCCBForCKT2" class="control-label"></label>
-                    <input asp-for="AmpereRatingasPerNameplateOfMCCBForCKT2" class="form-control" />
-                    <span asp-validation-for="AmpereRatingasPerNameplateOfMCCBForCKT2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofMCCBforCircuit1" class="control-label"></label>
-                    <input asp-for="ConditionofMCCBforCircuit1" class="form-control" />
-                    <span asp-validation-for="ConditionofMCCBforCircuit1" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConditionofMCCBforCircuit2" class="control-label"></label>
-                    <input asp-for="ConditionofMCCBforCircuit2" class="form-control" />
-                    <span asp-validation-for="ConditionofMCCBforCircuit2" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Recommendation" class="control-label"></label>
-                    <input asp-for="Recommendation" class="form-control" />
-                    <span asp-validation-for="Recommendation" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-success float-right m-1" />
-                    <a class="btn btn-success float-right m-1" asp-action="Index" asp-controller="TblPoles">Back to List</a>
-                </div>
-            </form>
-        </fieldset>
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="DistributionTransformerId" />
+            <div class="form-group">
+                <label asp-for="PoleId" class="control-label"></label>
+                <input asp-for="PoleId" class="form-control" readonly/>
+                <span asp-validation-for="PoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FeederLineId" class="control-label"></label>
+                <input asp-for="FeederLineId" class="form-control" readonly/>
+                <span asp-validation-for="FeederLineId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NameOf33bs11kVSubdsstation" class="control-label"></label>
+                <input asp-for="NameOf33bs11kVSubdsstation" class="form-control" />
+                <span asp-validation-for="NameOf33bs11kVSubdsstation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nameof11kVFeeder" class="control-label"></label>
+                <input asp-for="Nameof11kVFeeder" class="form-control" />
+                <span asp-validation-for="Nameof11kVFeeder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SNDIdentificationNo" class="control-label"></label>
+                <input asp-for="SNDIdentificationNo" class="form-control" />
+                <span asp-validation-for="SNDIdentificationNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NearestHoldingbsHouseNobsShop" class="control-label"></label>
+                <input asp-for="NearestHoldingbsHouseNobsShop" class="form-control" />
+                <span asp-validation-for="NearestHoldingbsHouseNobsShop" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExistingPoleNumberingifAny" class="control-label"></label>
+                <input asp-for="ExistingPoleNumberingifAny" class="form-control" />
+                <span asp-validation-for="ExistingPoleNumberingifAny" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstalledConditionPadbsPoleMounted" class="control-label"></label>
+                <select asp-for="InstalledConditionPadbsPoleMounted" class="form-control" asp-items="ViewBag.InstalledConditionPadbsPoleMounted"></select>
+                <span asp-validation-for="InstalledConditionPadbsPoleMounted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstalledPlaceIndoorbsOutdoor" class="control-label"></label>
+                <select asp-for="InstalledPlaceIndoorbsOutdoor" class="form-control" asp-items="ViewBag.InstalledPlaceIndoorbsOutdoor"></select>
+                <span asp-validation-for="InstalledPlaceIndoorbsOutdoor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContractNo" class="control-label"></label>
+                <input asp-for="ContractNo" class="form-control" />
+                <span asp-validation-for="ContractNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OwneroftheTransformerBPDBbsConsumer" class="control-label"></label>
+                <select asp-for="OwneroftheTransformerBPDBbsConsumer" class="form-control" asp-items="ViewBag.OwneroftheTransformerBPDBbsConsumer"></select>
+                <span asp-validation-for="OwneroftheTransformerBPDBbsConsumer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransformerKVARating" class="control-label"></label>
+                <input asp-for="TransformerKVARating" class="form-control" />
+                <span asp-validation-for="TransformerKVARating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YearofManufacturing" class="control-label"></label>
+                <input asp-for="YearofManufacturing" class="form-control" />
+                <span asp-validation-for="YearofManufacturing" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NameofManufacturer" class="control-label"></label>
+                <input asp-for="NameofManufacturer" class="form-control" />
+                <span asp-validation-for="NameofManufacturer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransformerSerialNo" class="control-label"></label>
+                <input asp-for="TransformerSerialNo" class="form-control" />
+                <span asp-validation-for="TransformerSerialNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedHTVoltage" class="control-label"></label>
+                <input asp-for="RatedHTVoltage" class="form-control" />
+                <span asp-validation-for="RatedHTVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedLTVoltage" class="control-label"></label>
+                <input asp-for="RatedLTVoltage" class="form-control" />
+                <span asp-validation-for="RatedLTVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedHTCurrent" class="control-label"></label>
+                <input asp-for="RatedHTCurrent" class="form-control" />
+                <span asp-validation-for="RatedHTCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedLTCurrent" class="control-label"></label>
+                <input asp-for="RatedLTCurrent" class="form-control" />
+                <span asp-validation-for="RatedLTCurrent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ControlVoltage" class="control-label"></label>
+                <input asp-for="ControlVoltage" class="form-control" />
+                <span asp-validation-for="ControlVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MotorVoltageforspringcharge" class="control-label"></label>
+                <input asp-for="MotorVoltageforspringcharge" class="form-control" />
+                <span asp-validation-for="MotorVoltageforspringcharge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RatedVoltage" class="control-label"></label>
+                <input asp-for="RatedVoltage" class="form-control" />
+                <span asp-validation-for="RatedVoltage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BodyColourCondition" class="control-label"></label>
+                <select asp-for="BodyColourCondition" class="form-control" asp-items="ViewBag.BodyColourCondition"></select>
+                <span asp-validation-for="BodyColourCondition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NameoBodyColour" class="control-label"></label>
+                <input asp-for="NameoBodyColour" class="form-control" />
+                <span asp-validation-for="NameoBodyColour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OilLeakageYesOrNo" class="control-label"></label>
+                <input asp-for="OilLeakageYesOrNo" class="form-control" />
+                <span asp-validation-for="OilLeakageYesOrNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlaceofOilLeakageMark" class="control-label"></label>
+                <input asp-for="PlaceofOilLeakageMark" class="form-control" />
+                <span asp-validation-for="PlaceofOilLeakageMark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlatformMaterialAnglbsChannel" class="control-label"></label>
+                <select asp-for="PlatformMaterialAnglbsChannel" class="form-control" asp-items="ViewBag.PlatformMaterialAnglbsChannel"></select>
+                <span asp-validation-for="PlatformMaterialAnglbsChannel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlatformStandardbsNonStandardGoodBad" class="control-label"></label>
+                <select asp-for="PlatformStandardbsNonStandardGoodBad" class="form-control" asp-items="ViewBag.PlatformStandardbsNonStandardGoodBad"></select>
+                <span asp-validation-for="PlatformStandardbsNonStandardGoodBad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeofTransformerSupportPoleLeft" class="control-label"></label>
+                <select asp-for="TypeofTransformerSupportPoleLeft" class="form-control" asp-items="ViewBag.TypeofTransformerSupportPoleLeft"></select>
+                <span asp-validation-for="TypeofTransformerSupportPoleLeft" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofTransformerSupportPoleLeft" class="control-label"></label>
+                <select asp-for="ConditionofTransformerSupportPoleLeft" class="form-control" asp-items="ViewBag.ConditionofTransformerSupportPoleLeft"></select>
+                <span asp-validation-for="ConditionofTransformerSupportPoleLeft" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeofTransformerSupportPoleRight" class="control-label"></label>
+                <select asp-for="TypeofTransformerSupportPoleRight" class="form-control" asp-items="ViewBag.TypeofTransformerSupportPoleRight"></select>
+                <span asp-validation-for="TypeofTransformerSupportPoleRight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofTransformerSupportPoleRight" class="control-label"></label>
+                <select asp-for="ConditionofTransformerSupportPoleRight" class="form-control" asp-items="ViewBag.ConditionofTransformerSupportPoleRight"></select>
+                <span asp-validation-for="ConditionofTransformerSupportPoleRight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTBushingRPhaseOil" class="control-label"></label>
+                <input asp-for="HTBushingRPhaseOil" class="form-control" />
+                <span asp-validation-for="HTBushingRPhaseOil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTBushingRPhaseGood" class="control-label"></label>
+                <select asp-for="HTBushingRPhaseGood" class="form-control" asp-items="ViewBag.HTBushingRPhaseGood"></select>
+                <span asp-validation-for="HTBushingRPhaseGood" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTBushingRPhaseColor" class="control-label"></label>
+                <input asp-for="HTBushingRPhaseColor" class="form-control" />
+                <span asp-validation-for="HTBushingRPhaseColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTBushingYPhaseOil" class="control-label"></label>
+                <input asp-for="HTBushingYPhaseOil" class="form-control" />
+                <span asp-validation-for="HTBushingYPhaseOil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTBushingYPhaseGood" class="control-label"></label>
+                <select asp-for="HTBushingYPhaseGood" class="form-control" asp-items="ViewBag.HTBushingYPhaseGood"></select>
+                <span asp-validation-for="HTBushingYPhaseGood" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTBushingYPhaseColor" class="control-label"></label>
+                <input asp-for="HTBushingYPhaseColor" class="form-control" />
+                <span asp-validation-for="HTBushingYPhaseColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTBushingBPhaseOil" class="control-label"></label>
+                <input asp-for="HTBushingBPhaseOil" class="form-control" />
+                <span asp-validation-for="HTBushingBPhaseOil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTBushingBPhaseGood" class="control-label"></label>
+                <input asp-for="HTBushingBPhaseGood" class="form-control" />
+                <span asp-validation-for="HTBushingBPhaseGood" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTBushingBPhaseColor" class="control-label"></label>
+                <input asp-for="HTBushingBPhaseColor" class="form-control" />
+                <span asp-validation-for="HTBushingBPhaseColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTBushingNPhaseOil" class="control-label"></label>
+                <input asp-for="HTBushingNPhaseOil" class="form-control" />
+                <span asp-validation-for="HTBushingNPhaseOil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTBushingNPhaseGood" class="control-label"></label>
+                <select asp-for="HTBushingNPhaseGood" class="form-control" asp-items="ViewBag.HTBushingNPhaseGood"></select>
+                <span asp-validation-for="HTBushingNPhaseGood" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HTBushingNPhaseColor" class="control-label"></label>
+                <input asp-for="HTBushingNPhaseColor" class="form-control" />
+                <span asp-validation-for="HTBushingNPhaseColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LTBushingRPhaseOil" class="control-label"></label>
+                <input asp-for="LTBushingRPhaseOil" class="form-control" />
+                <span asp-validation-for="LTBushingRPhaseOil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LTBushingRPhaseGood" class="control-label"></label>
+                <select asp-for="LTBushingRPhaseGood" class="form-control" asp-items="ViewBag.LTBushingRPhaseGood"></select>
+                <span asp-validation-for="LTBushingRPhaseGood" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LTBushingRPhaseColor" class="control-label"></label>
+                <input asp-for="LTBushingRPhaseColor" class="form-control" />
+                <span asp-validation-for="LTBushingRPhaseColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LTBushingYPhaseOil" class="control-label"></label>
+                <input asp-for="LTBushingYPhaseOil" class="form-control" />
+                <span asp-validation-for="LTBushingYPhaseOil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LTBushingYPhaseGood" class="control-label"></label>
+                <select asp-for="LTBushingYPhaseGood" class="form-control" asp-items="ViewBag.LTBushingYPhaseGood"></select>
+                <span asp-validation-for="LTBushingYPhaseGood" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LTBushingYPhaseColor" class="control-label"></label>
+                <input asp-for="LTBushingYPhaseColor" class="form-control" />
+                <span asp-validation-for="LTBushingYPhaseColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LTBushingBPhaseOil" class="control-label"></label>
+                <input asp-for="LTBushingBPhaseOil" class="form-control" />
+                <span asp-validation-for="LTBushingBPhaseOil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LTBushingBPhaseGood" class="control-label"></label>
+                <select asp-for="LTBushingBPhaseGood" class="form-control" asp-items="ViewBag.LTBushingBPhaseGood"></select>
+                <span asp-validation-for="LTBushingBPhaseGood" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LTBushingBPhaseColor" class="control-label"></label>
+                <input asp-for="LTBushingBPhaseColor" class="form-control" />
+                <span asp-validation-for="LTBushingBPhaseColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LTBushingNPhaseOil" class="control-label"></label>
+                <input asp-for="LTBushingNPhaseOil" class="form-control" />
+                <span asp-validation-for="LTBushingNPhaseOil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LTBushingNPhaseGood" class="control-label"></label>
+                <select asp-for="LTBushingNPhaseGood" class="form-control" asp-items="ViewBag.LTBushingNPhaseGood"></select>
+                <span asp-validation-for="LTBushingNPhaseGood" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LTBushingNPhaseColor" class="control-label"></label>
+                <input asp-for="LTBushingNPhaseColor" class="form-control" />
+                <span asp-validation-for="LTBushingNPhaseColor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WireSizeofHTDrop" class="control-label"></label>
+                <input asp-for="WireSizeofHTDrop" class="form-control" />
+                <span asp-validation-for="WireSizeofHTDrop" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofHTDropGoodbsBad" class="control-label"></label>
+                <select asp-for="ConditionofHTDropGoodbsBad" class="form-control" asp-items="ViewBag.ConditionofHTDropGoodbsBad"></select>
+                <span asp-validation-for="ConditionofHTDropGoodbsBad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WirebsCableSizeofLTDropCKT1" class="control-label"></label>
+                <input asp-for="WirebsCableSizeofLTDropCKT1" class="form-control" />
+                <span asp-validation-for="WirebsCableSizeofLTDropCKT1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofLTDropGoodbsBadCKT1" class="control-label"></label>
+                <select asp-for="ConditionofLTDropGoodbsBadCKT1" class="form-control" asp-items="ViewBag.ConditionofLTDropGoodbsBadCKT1"></select>
+                <span asp-validation-for="ConditionofLTDropGoodbsBadCKT1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WirebsCableSizeofLTDropCKT2" class="control-label"></label>
+                <input asp-for="WirebsCableSizeofLTDropCKT2" class="form-control" />
+                <span asp-validation-for="WirebsCableSizeofLTDropCKT2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofLTDropGoodbsBadCKT2" class="control-label"></label>
+                <select asp-for="ConditionofLTDropGoodbsBadCKT2" class="form-control" asp-items="ViewBag.ConditionofLTDropGoodbsBadCKT2"></select>
+                <span asp-validation-for="ConditionofLTDropGoodbsBadCKT2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EarthingLead1" class="control-label"></label>
+                <input asp-for="EarthingLead1" class="form-control" />
+                <span asp-validation-for="EarthingLead1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EarthingLead1Size" class="control-label"></label>
+                <input asp-for="EarthingLead1Size" class="form-control" />
+                <span asp-validation-for="EarthingLead1Size" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EarthingLead1Material" class="control-label"></label>
+                <input asp-for="EarthingLead1Material" class="form-control" />
+                <span asp-validation-for="EarthingLead1Material" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EarthingLead1ConditionStandard" class="control-label"></label>
+                <select asp-for="EarthingLead1ConditionStandard" class="form-control" asp-items="ViewBag.EarthingLead1ConditionStandard"></select>
+                <span asp-validation-for="EarthingLead1ConditionStandard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EarthingLead2" class="control-label"></label>
+                <input asp-for="EarthingLead2" class="form-control" />
+                <span asp-validation-for="EarthingLead2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EarthingLead2Size" class="control-label"></label>
+                <input asp-for="EarthingLead2Size" class="form-control" />
+                <span asp-validation-for="EarthingLead2Size" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EarthingLead2Material" class="control-label"></label>
+                <input asp-for="EarthingLead2Material" class="form-control" />
+                <span asp-validation-for="EarthingLead2Material" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EarthingLead2ConditionStandard" class="control-label"></label>
+                <select asp-for="EarthingLead2ConditionStandard" class="form-control" asp-items="ViewBag.EarthingLead2ConditionStandard"></select>
+                <span asp-validation-for="EarthingLead2ConditionStandard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DayPeak" class="control-label"></label>
+                <input asp-for="DayPeak" class="form-control" />
+                <span asp-validation-for="DayPeak" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateAndtime1" class="control-label"></label>
+                <input asp-for="DateAndtime1" class="form-control" />
+                <span asp-validation-for="DateAndtime1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Voltage1" class="control-label"></label>
+                <input asp-for="Voltage1" class="form-control" />
+                <span asp-validation-for="Voltage1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RYVoltageVolt1" class="control-label"></label>
+                <input asp-for="RYVoltageVolt1" class="form-control" />
+                <span asp-validation-for="RYVoltageVolt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YBVoltageVolt1" class="control-label"></label>
+                <input asp-for="YBVoltageVolt1" class="form-control" />
+                <span asp-validation-for="YBVoltageVolt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RBVoltageVolt1" class="control-label"></label>
+                <input asp-for="RBVoltageVolt1" class="form-control" />
+                <span asp-validation-for="RBVoltageVolt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RNVoltageVolt1" class="control-label"></label>
+                <input asp-for="RNVoltageVolt1" class="form-control" />
+                <span asp-validation-for="RNVoltageVolt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YNVoltageVolt1" class="control-label"></label>
+                <input asp-for="YNVoltageVolt1" class="form-control" />
+                <span asp-validation-for="YNVoltageVolt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BNVoltageVolt1" class="control-label"></label>
+                <input asp-for="BNVoltageVolt1" class="form-control" />
+                <span asp-validation-for="BNVoltageVolt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeakageVoltageBodyEarthVolt1" class="control-label"></label>
+                <input asp-for="LeakageVoltageBodyEarthVolt1" class="form-control" />
+                <span asp-validation-for="LeakageVoltageBodyEarthVolt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RPhaseCurrentAmps1Ckt1" class="control-label"></label>
+                <input asp-for="RPhaseCurrentAmps1Ckt1" class="form-control" />
+                <span asp-validation-for="RPhaseCurrentAmps1Ckt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RPhaseCurrentAmps1Ckt2" class="control-label"></label>
+                <input asp-for="RPhaseCurrentAmps1Ckt2" class="form-control" />
+                <span asp-validation-for="RPhaseCurrentAmps1Ckt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RPhaseCurrentAmps1Ckt3" class="control-label"></label>
+                <input asp-for="RPhaseCurrentAmps1Ckt3" class="form-control" />
+                <span asp-validation-for="RPhaseCurrentAmps1Ckt3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YPhaseCurrentAmps1Ckt1" class="control-label"></label>
+                <input asp-for="YPhaseCurrentAmps1Ckt1" class="form-control" />
+                <span asp-validation-for="YPhaseCurrentAmps1Ckt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YPhaseCurrentAmps1Ckt2" class="control-label"></label>
+                <input asp-for="YPhaseCurrentAmps1Ckt2" class="form-control" />
+                <span asp-validation-for="YPhaseCurrentAmps1Ckt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YPhaseCurrentAmps1Ckt3" class="control-label"></label>
+                <input asp-for="YPhaseCurrentAmps1Ckt3" class="form-control" />
+                <span asp-validation-for="YPhaseCurrentAmps1Ckt3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BPhaseCurrentAmps1Ckt1" class="control-label"></label>
+                <input asp-for="BPhaseCurrentAmps1Ckt1" class="form-control" />
+                <span asp-validation-for="BPhaseCurrentAmps1Ckt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BPhaseCurrentAmps1Ckt2" class="control-label"></label>
+                <input asp-for="BPhaseCurrentAmps1Ckt2" class="form-control" />
+                <span asp-validation-for="BPhaseCurrentAmps1Ckt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BPhaseCurrentAmps1Ckt3" class="control-label"></label>
+                <input asp-for="BPhaseCurrentAmps1Ckt3" class="form-control" />
+                <span asp-validation-for="BPhaseCurrentAmps1Ckt3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NeutralCurrentAmps1Ckt1" class="control-label"></label>
+                <input asp-for="NeutralCurrentAmps1Ckt1" class="form-control" />
+                <span asp-validation-for="NeutralCurrentAmps1Ckt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NeutralCurrentAmps1Ckt2" class="control-label"></label>
+                <input asp-for="NeutralCurrentAmps1Ckt2" class="form-control" />
+                <span asp-validation-for="NeutralCurrentAmps1Ckt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NeutralCurrentAmps1Ckt3" class="control-label"></label>
+                <input asp-for="NeutralCurrentAmps1Ckt3" class="form-control" />
+                <span asp-validation-for="NeutralCurrentAmps1Ckt3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CalculatedDayPeakkVA" class="control-label"></label>
+                <input asp-for="CalculatedDayPeakkVA" class="form-control" />
+                <span asp-validation-for="CalculatedDayPeakkVA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EveningPeak" class="control-label"></label>
+                <input asp-for="EveningPeak" class="form-control" />
+                <span asp-validation-for="EveningPeak" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateAndTime2" class="control-label"></label>
+                <input asp-for="DateAndTime2" class="form-control" />
+                <span asp-validation-for="DateAndTime2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Voltage2" class="control-label"></label>
+                <input asp-for="Voltage2" class="form-control" />
+                <span asp-validation-for="Voltage2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RYVoltageVolt2" class="control-label"></label>
+                <input asp-for="RYVoltageVolt2" class="form-control" />
+                <span asp-validation-for="RYVoltageVolt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YBVoltageVolt2" class="control-label"></label>
+                <input asp-for="YBVoltageVolt2" class="form-control" />
+                <span asp-validation-for="YBVoltageVolt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RBVoltageVolt2" class="control-label"></label>
+                <input asp-for="RBVoltageVolt2" class="form-control" />
+                <span asp-validation-for="RBVoltageVolt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RNVoltageVolt2" class="control-label"></label>
+                <input asp-for="RNVoltageVolt2" class="form-control" />
+                <span asp-validation-for="RNVoltageVolt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YNVoltageVolt" class="control-label"></label>
+                <input asp-for="YNVoltageVolt" class="form-control" />
+                <span asp-validation-for="YNVoltageVolt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BNVoltageVolt2" class="control-label"></label>
+                <input asp-for="BNVoltageVolt2" class="form-control" />
+                <span asp-validation-for="BNVoltageVolt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeakageVoltageBodyEarthVolt2" class="control-label"></label>
+                <input asp-for="LeakageVoltageBodyEarthVolt2" class="form-control" />
+                <span asp-validation-for="LeakageVoltageBodyEarthVolt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RPhaseCurrentAmps2Ckt1" class="control-label"></label>
+                <input asp-for="RPhaseCurrentAmps2Ckt1" class="form-control" />
+                <span asp-validation-for="RPhaseCurrentAmps2Ckt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RPhaseCurrentAmps2Ckt2" class="control-label"></label>
+                <input asp-for="RPhaseCurrentAmps2Ckt2" class="form-control" />
+                <span asp-validation-for="RPhaseCurrentAmps2Ckt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RPhaseCurrentAmps2Ckt3" class="control-label"></label>
+                <input asp-for="RPhaseCurrentAmps2Ckt3" class="form-control" />
+                <span asp-validation-for="RPhaseCurrentAmps2Ckt3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YPhaseCurrentAmps2Ckt1" class="control-label"></label>
+                <input asp-for="YPhaseCurrentAmps2Ckt1" class="form-control" />
+                <span asp-validation-for="YPhaseCurrentAmps2Ckt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YPhaseCurrentAmps2Ckt2" class="control-label"></label>
+                <input asp-for="YPhaseCurrentAmps2Ckt2" class="form-control" />
+                <span asp-validation-for="YPhaseCurrentAmps2Ckt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YPhaseCurrentAmps2Ckt3" class="control-label"></label>
+                <input asp-for="YPhaseCurrentAmps2Ckt3" class="form-control" />
+                <span asp-validation-for="YPhaseCurrentAmps2Ckt3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BPhaseCurrentAmps2Ckt1" class="control-label"></label>
+                <input asp-for="BPhaseCurrentAmps2Ckt1" class="form-control" />
+                <span asp-validation-for="BPhaseCurrentAmps2Ckt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BPhaseCurrentAmps2Ckt2" class="control-label"></label>
+                <input asp-for="BPhaseCurrentAmps2Ckt2" class="form-control" />
+                <span asp-validation-for="BPhaseCurrentAmps2Ckt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BPhaseCurrentAmps2Ckt3" class="control-label"></label>
+                <input asp-for="BPhaseCurrentAmps2Ckt3" class="form-control" />
+                <span asp-validation-for="BPhaseCurrentAmps2Ckt3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NeutralCurrentAmpsCkt1" class="control-label"></label>
+                <input asp-for="NeutralCurrentAmpsCkt1" class="form-control" />
+                <span asp-validation-for="NeutralCurrentAmpsCkt1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NeutralCurrentAmps2Ckt2" class="control-label"></label>
+                <input asp-for="NeutralCurrentAmps2Ckt2" class="form-control" />
+                <span asp-validation-for="NeutralCurrentAmps2Ckt2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NeutralCurrentAmps2Ckt3" class="control-label"></label>
+                <input asp-for="NeutralCurrentAmps2Ckt3" class="form-control" />
+                <span asp-validation-for="NeutralCurrentAmps2Ckt3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CalculatedEveningPeakkVA" class="control-label"></label>
+                <input asp-for="CalculatedEveningPeakkVA" class="form-control" />
+                <span asp-validation-for="CalculatedEveningPeakkVA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DropOutFuseExistbsNotExistRphase" class="control-label"></label>
+                <input asp-for="DropOutFuseExistbsNotExistRphase" class="form-control" />
+                <span asp-validation-for="DropOutFuseExistbsNotExistRphase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DropOutFuseExistbsNotExistYphase" class="control-label"></label>
+                <input asp-for="DropOutFuseExistbsNotExistYphase" class="form-control" />
+                <span asp-validation-for="DropOutFuseExistbsNotExistYphase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DropOutFuseExistbsNotExistBphase" class="control-label"></label>
+                <input asp-for="DropOutFuseExistbsNotExistBphase" class="form-control" />
+                <span asp-validation-for="DropOutFuseExistbsNotExistBphase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofDropOutFuseRphase" class="control-label"></label>
+                <select asp-for="ConditionofDropOutFuseRphase" class="form-control" asp-items="ViewBag.ConditionofDropOutFuseRphase"></select>
+                <span asp-validation-for="ConditionofDropOutFuseRphase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofDropOutFuseYphase" class="control-label"></label>
+                <select asp-for="ConditionofDropOutFuseYphase" class="form-control" asp-items="ViewBag.ConditionofDropOutFuseYphase"></select>
+                <span asp-validation-for="ConditionofDropOutFuseYphase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofDropOutFuseBphase" class="control-label"></label>
+                <select asp-for="ConditionofDropOutFuseBphase" class="form-control" asp-items="ViewBag.ConditionofDropOutFuseBphase"></select>
+                <span asp-validation-for="ConditionofDropOutFuseBphase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LightningArrestorRphase" class="control-label"></label>
+                <input asp-for="LightningArrestorRphase" class="form-control" />
+                <span asp-validation-for="LightningArrestorRphase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LightningArrestorYphase" class="control-label"></label>
+                <input asp-for="LightningArrestorYphase" class="form-control" />
+                <span asp-validation-for="LightningArrestorYphase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LightningArrestorBphase" class="control-label"></label>
+                <input asp-for="LightningArrestorBphase" class="form-control" />
+                <span asp-validation-for="LightningArrestorBphase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofLightingArrestorRphase" class="control-label"></label>
+                <select asp-for="ConditionofLightingArrestorRphase" class="form-control" asp-items="ViewBag.ConditionofLightingArrestorRphase"></select>
+                <span asp-validation-for="ConditionofLightingArrestorRphase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofLightingArrestorYphase" class="control-label"></label>
+                <select asp-for="ConditionofLightingArrestorYphase" class="form-control" asp-items="ViewBag.ConditionofLightingArrestorYphase"></select>
+                <span asp-validation-for="ConditionofLightingArrestorYphase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofLightingArrestorBphase" class="control-label"></label>
+                <select asp-for="ConditionofLightingArrestorBphase" class="form-control" asp-items="ViewBag.ConditionofLightingArrestorBphase"></select>
+                <span asp-validation-for="ConditionofLightingArrestorBphase" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DistributionBoxExistbsnotExist" class="control-label"></label>
+                <input asp-for="DistributionBoxExistbsnotExist" class="form-control" />
+                <span asp-validation-for="DistributionBoxExistbsnotExist" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofDistributionBox" class="control-label"></label>
+                <select asp-for="ConditionofDistributionBox" class="form-control" asp-items="ViewBag.ConditionofDistributionBox"></select>
+                <span asp-validation-for="ConditionofDistributionBox" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoOfMCCB" class="control-label"></label>
+                <input asp-for="NoOfMCCB" class="form-control" />
+                <span asp-validation-for="NoOfMCCB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManufacturerTypeOriginofMCCBforCircuit1" class="control-label"></label>
+                <input asp-for="ManufacturerTypeOriginofMCCBforCircuit1" class="form-control" />
+                <span asp-validation-for="ManufacturerTypeOriginofMCCBforCircuit1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManufacturerTypeOriginofMCCBforCircuit2" class="control-label"></label>
+                <input asp-for="ManufacturerTypeOriginofMCCBforCircuit2" class="form-control" />
+                <span asp-validation-for="ManufacturerTypeOriginofMCCBforCircuit2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AmpereRatingasPerNamePlateofMCCBforCKT1" class="control-label"></label>
+                <input asp-for="AmpereRatingasPerNamePlateofMCCBforCKT1" class="form-control" />
+                <span asp-validation-for="AmpereRatingasPerNamePlateofMCCBforCKT1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AmpereRatingasPerNameplateOfMCCBForCKT2" class="control-label"></label>
+                <input asp-for="AmpereRatingasPerNameplateOfMCCBForCKT2" class="form-control" />
+                <span asp-validation-for="AmpereRatingasPerNameplateOfMCCBForCKT2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofMCCBforCircuit1" class="control-label"></label>
+                <select asp-for="ConditionofMCCBforCircuit1" class="form-control" asp-items="ViewBag.ConditionofMCCBforCircuit1"></select>
+                <span asp-validation-for="ConditionofMCCBforCircuit1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConditionofMCCBforCircuit2" class="control-label"></label>
+                <select asp-for="ConditionofMCCBforCircuit2" class="form-control" asp-items="ViewBag.ConditionofMCCBforCircuit2"></select>
+                <span asp-validation-for="ConditionofMCCBforCircuit2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Recommendation" class="control-label"></label>
+                <input asp-for="Recommendation" class="form-control" />
+                <span asp-validation-for="Recommendation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
 </div>
 
-@*<div>
+<div>
     <a asp-action="Index">Back to List</a>
-</div>*@
+</div>
 

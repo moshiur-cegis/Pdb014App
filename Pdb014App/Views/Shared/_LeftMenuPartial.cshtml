@@ -154,9 +154,12 @@
                         <a href="#">Add</a>
                         <ul class="submenu">
                             <li><a id="a_ss_01" asp-area="" asp-controller="TblSubstations" asp-action="Create" asp-route-cai="a_ss_01">Sub-Stations</a></li>
-                            <li><a id="a_vcb_01" asp-area="" asp-controller="TblOutDoorTypeVacumnCircuitBreakers" asp-action="Create" asp-route-cai="a_vcb_01">Vacuum Circuit Breaker</a></li>
-                            <li><a id="a_bat_chr_01" asp-area="" asp-controller="LookUpBatteryChargers" asp-action="Create" asp-route-cai="a_bat_chr_01">Battery Charger</a></li>
-                            <li><a id="a_nicd_bat_01" asp-area="" asp-controller="LookUpNiCdBattery110vDc" asp-action="Create" asp-route-cai="a_nicd_bat_01">Ni-Cd Battery (110 V DC)</a></li>
+                            @*<li><a id="a_vcb_01" asp-area="" asp-controller="TblOutDoorTypeVacumnCircuitBreakers" asp-action="Create" asp-route-cai="a_vcb_01">Vacuum Circuit Breaker</a></li>
+                                <li><a id="a_bat_chr_01" asp-area="" asp-controller="LookUpBatteryChargers" asp-action="Create" asp-route-cai="a_bat_chr_01">Battery Charger</a></li>
+                                <li><a id="a_nicd_bat_01" asp-area="" asp-controller="LookUpNiCdBattery110vDc" asp-action="Create" asp-route-cai="a_nicd_bat_01">Ni-Cd Battery (110 V DC)</a></li>
+                                <li><a id="a_pow_tr_01" asp-area="" asp-controller="TblPhasePowerTransformers" asp-action="Create" asp-route-cai="a_pow_tr_01">Power Transformers</a></li>
+
+                            *@
 
                             <li><a id="a_swt_g_01" asp-area="" asp-controller="TblSwitchGears" asp-action="Create" asp-route-cai="a_swt_g_01">Switchgear</a></li>
 
@@ -202,11 +205,13 @@
                         <a href="#">Edit</a>
                         <ul class="submenu">
                             <li><a id="e_ss_01" asp-area="" asp-controller="TblSubstations" asp-action="Index" asp-route-cai="e_ss_01">Sub-Stations</a></li>
-                            <li><a id="e_vcb_01" asp-area="" asp-controller="TblOutDoorTypeVacumnCircuitBreakers" asp-action="Index" asp-route-cai="e_vcb_01">Vacuum Circuit Breaker</a></li>
-                            <li><a id="e_bat_chr_01" asp-area="" asp-controller="LookUpBatteryChargers" asp-action="Index" asp-route-cai="e_bat_chr_01">Battery Charger</a></li>
-                            <li><a id="e_nicd_bat_01" asp-area="" asp-controller="LookUpNiCdBattery110vDc" asp-action="Index" asp-route-cai="e_nicd_bat_01">Ni-Cd Battery (110 V DC)</a></li>
+                            @*<li><a id="e_vcb_01" asp-area="" asp-controller="TblOutDoorTypeVacumnCircuitBreakers" asp-action="Index" asp-route-cai="e_vcb_01">Vacuum Circuit Breaker</a></li>
+        <li><a id="e_bat_chr_01" asp-area="" asp-controller="LookUpBatteryChargers" asp-action="Index" asp-route-cai="e_bat_chr_01">Battery Charger</a></li>
+        <li><a id="e_nicd_bat_01" asp-area="" asp-controller="LookUpNiCdBattery110vDc" asp-action="Index" asp-route-cai="e_nicd_bat_01">Ni-Cd Battery (110 V DC)</a></li>*@
                             <li><a id="e_met_p_01" asp-area="" asp-controller="TblMeteringPanels" asp-action="Index" asp-route-cai="e_met_p_01">Metering Panel</a></li>
                             <li><a id="e_swt_g_01" asp-area="" asp-controller="TblSwitchGears" asp-action="Index" asp-route-cai="e_swt_g_01">Switchgear</a></li>
+
+                            @*<li><a id="e_pow_tr_01" asp-area="" asp-controller="TblPhasePowerTransformers" asp-action="Index" asp-route-cai="e_pow_tr_01">Power Transformers</a></li>*@
 
 
                             @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
@@ -254,7 +259,7 @@
                     <li>
                         <a href="#">Add</a>
                         <ul class="submenu">
-                            <li><a id="a_pow_tr_01" asp-area="" asp-controller="TblPhasePowerTransformers" asp-action="Create" asp-route-cai="a_pow_tr_01">Power Transformers</a></li>
+                          
 
 
 
@@ -268,7 +273,7 @@
                     <li>
                         <a href="#">Edit</a>
                         <ul class="submenu">
-                            <li><a id="e_pow_tr_01" asp-area="" asp-controller="TblPhasePowerTransformers" asp-action="Index" asp-route-cai="e_pow_tr_01">Power Transformers</a></li>
+                            
 
                             <li><a id="e_cur_tr_01" asp-area="" asp-controller="LookUpCurrentTransformers" asp-action="Index" asp-route-cai="e_cur_tr_01">Current Transformers</a></li>
                             <li><a id="e_aux_tr_01" asp-area="" asp-controller="LookUpAuxiliaryTransformers" asp-action="Index" asp-route-cai="e_aux_tr_01">Auxiliary Transformers</a></li>
@@ -437,8 +442,8 @@
                     <li>
                         <a href="#">Edit</a>
                         <ul class="submenu">
-                            <li><a id="e_cd_01" asp-area="" asp-controller="TblConsumerDatas" asp-action="Index" asp-route-cai="e_cd_01">Consumer Info.</a></li>
-                            <li><a id="e_sp_02" asp-area="" asp-controller="TblServicePoints" asp-action="Index" asp-route-cai="e_sp_01">Service Point</a></li>
+                            @*<li><a id="e_cd_01" asp-area="" asp-controller="TblConsumerDatas" asp-action="Index" asp-route-cai="e_cd_01">Consumer Info.</a></li>*@
+                            <li><a id="e_sp_02" asp-area="" asp-controller="TblServicePoints" asp-action="Index" asp-route-cai="e_sp_02">Service Point</a></li>
 
                             @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
                             {

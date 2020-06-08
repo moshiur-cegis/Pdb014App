@@ -24,7 +24,6 @@ namespace Pdb014App.Controllers.PoleControllers
     public class TblPolesController : Controller
     {
         private readonly UserManager<TblUserRegistrationDetail> _userManger;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserDbContext _contextUser;
 
 
@@ -74,7 +73,7 @@ namespace Pdb014App.Controllers.PoleControllers
             //string getSql = await GetQuery("TblPole", "PoleId");
             var user = await _userManger.GetUserAsync(User);
             IList<string> userRole = await _userManger.GetRolesAsync(user);
-            string getSql = await new GetUserDetailsController(_contextUser).GetUserRoleWiseQuery("TblPole", "PoleId", user.Id, userRole);
+            string getSql = new GetUserDetailsController(_contextUser).GetUserRoleWiseQuery("TblPole", "PoleId", user.Id, userRole);
 
             //string getSql = await new GetUserRoleData(_contextUser, _userManger).GetQuery("TblPole", "PoleId");
 

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pdb014App.Repository;
 
 namespace Pdb014App.Repository.Migrations.PdbDb
 {
     [DbContext(typeof(PdbDbContext))]
-    partial class PdbDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200607125043_UpdateServicePointAndConsumer_07_06_2020")]
+    partial class UpdateServicePointAndConsumer_07_06_2020
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4158,13 +4160,11 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<string>("BillGroup")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                    b.Property<int?>("BillGroup")
+                        .HasColumnType("int");
 
-                    b.Property<string>("BookNumber")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                    b.Property<int?>("BookNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("BuildingApptNo")
                         .HasColumnType("nvarchar(250)")

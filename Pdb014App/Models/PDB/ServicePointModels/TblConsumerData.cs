@@ -11,20 +11,20 @@ namespace Pdb014App.Models.PDB.ServicePointModels
 {
     public class TblConsumerData
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("ConsumerId", Order = 0, TypeName = "int")]
-        [DataType(DataType.Text)]
-        [Display(Name = "Consumer Id")]
-        public int ConsumerId { get; set; }
-
         //[Key]
         //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        //[Required]
-        //[Column(Order = 0, TypeName = "varchar(50)")]
-        //[StringLength(50, ErrorMessage = "The {0} must be {1} characters.")]
+        //[Column("ConsumerId", Order = 0, TypeName = "int")]
+        //[DataType(DataType.Text)]
         //[Display(Name = "Consumer Id")]
-        //public string ConsumersId { get; set; }
+        //public int ConsumerId { get; set; }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
+        [Column(Order = 0, TypeName = "varchar(50)")]
+        [StringLength(50, ErrorMessage = "The {0} must be {1} characters.")]
+        [Display(Name = "Consumer Id")]
+        public string ConsumersId { get; set; }
 
 
 
@@ -37,12 +37,12 @@ namespace Pdb014App.Models.PDB.ServicePointModels
         public virtual TblServicePoint ConsumerDataToServicesPoint { get; set; }
 
 
-        [Column(Order = 2, TypeName = "varchar(50)")]
-        [StringLength(50)]
-        [Display(Name = "Distribution Transformer Id")]
-        public string DistributionTransformerId { get; set; }
-        [ForeignKey("DistributionTransformerId")]
-        public virtual TblDistributionTransformer ConsumerDataToDistributionTransformer { get; set; }
+        //[Column(Order = 2, TypeName = "varchar(50)")]
+        //[StringLength(50)]
+        //[Display(Name = "Distribution Transformer Id")]
+        //public string DistributionTransformerId { get; set; }
+        //[ForeignKey("DistributionTransformerId")]
+        //public virtual TblDistributionTransformer ConsumerDataToDistributionTransformer { get; set; }
 
 
 
@@ -178,13 +178,24 @@ namespace Pdb014App.Models.PDB.ServicePointModels
         public virtual LookUpLocation ConsumerToLocation { get; set; }
 
         
-        [Column(Order = 24, TypeName = "int")]
+        //[Column(Order = 24, TypeName = "int")]
+        //[Display(Name = "Bill Group")]
+        //public int? BillGroup { get; set; }
+
+
+        [Column(Order = 24, TypeName = "nvarchar(250)")]
+        [StringLength(250)]
         [Display(Name = "Bill Group")]
-        public int? BillGroup { get; set; }
-        
-        [Column(Order = 25, TypeName = "int")]
+        public string BillGroup { get; set; }
+
+        //[Column(Order = 25, TypeName = "int")]
+        //[Display(Name = "Book Number")]
+        //public int? BookNumber { get; set; }
+
+        [Column(Order = 25, TypeName = "nvarchar(250)")]
+        [StringLength(250)]
         [Display(Name = "Book Number")]
-        public int? BookNumber { get; set; }
+        public string BookNumber { get; set; }
 
 
         [Column(Order = 26, TypeName = "nvarchar(250)")]

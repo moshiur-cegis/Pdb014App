@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Pdb014App.Models.PDB.DistributionTransformerModels
 {
-    public class LookUpDtCondition
+    public class LookUpBodyColourCondition
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -20,7 +20,7 @@ namespace Pdb014App.Models.PDB.DistributionTransformerModels
         [Required]
         [Column(Order = 1, TypeName = "nvarchar(250)")]
         [StringLength(250)]
-        [Display(Name = "Name")]
+        [Display(Name = "Condition Name")]
         public string Name { get; set; }
     }
 }

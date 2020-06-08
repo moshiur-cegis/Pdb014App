@@ -8,7 +8,7 @@
 @*<h4>Add Feeder Line Information</h4>
 <hr />*@
 <div class="row">
-    <div class="offset-md-3 col-md-6 offset-md-3">
+    <div class="offset-md-2 col-md-8 offset-md-2">
         
         <fieldset>
             <legend>Add Feeder Line Information</legend>
@@ -272,7 +272,7 @@
 
             $targetCableId.empty();
             $sourceCableId.empty();
-            $feederLineId.empty();
+            //$feederLineId.empty();
 
             $.ajax({
                 type: "POST",
@@ -280,22 +280,15 @@
                 dataType: "json",
                 data: { routeCode: routeCode },
                 //before: $("#busy-indicator").fadeIn(150),
-                success: function (routes) {
+                success: function (feederLines) {
 
+                    if (feederLines.length == 0) {
+                        $feederLineId.val(routeCode + "01");
+                    }
+                    else {
 
-                    $feederLineId.val(routes[0].value);
-                    //alert(routes);
-
-                    //$sourceCableId.append('<option value="" selected="selected" >---- select ----</option>');
-                    //$targetCableId.append('<option value="" selected="selected">---- select ----</option>');
-                    //$feederLineId.append('<option value="" selected="selected">---- select ----</option>');
-                    //$.each(routes,
-                    //    function (i, route) {
-                    //        $("<option />").val(route.value).html(route.text).appendTo($sourceCableId);
-                    //        $("<option />").val(route.value).html(route.text).appendTo($targetCableId);
-                    //        $("<option />").val(route.value).html(route.text).appendTo($feederLineId);
-                    //        //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
-                    //    });
+                        $feederLineId.val(parseInt(feederLines[0].value) + 1);
+                    }
                 },
                 error: function (ex) {
                     window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);

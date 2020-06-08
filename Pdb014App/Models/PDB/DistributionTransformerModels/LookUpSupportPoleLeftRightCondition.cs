@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Pdb014App.Models.PDB.DistributionTransformerModels
 {
-    public class LookUpDtCondition
+    public class LookUpSupportPoleLeftRightCondition
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

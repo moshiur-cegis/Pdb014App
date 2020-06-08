@@ -200,7 +200,7 @@
         $("#SnDCode").on("change",function () {
             var sndCode = $("#SnDCode").val(),
 
-                $substation = $("#SubstationId");
+            $substation = $("#SubstationId");
             $substation.empty();
             // $(".upaz-code").val(upazCode);
 
@@ -211,23 +211,19 @@
                 data: { sndCode: sndCode },
                 //before: $("#busy-indicator").fadeIn(150),
                 success: function (substations) {
-                    //alert(substations);
 
-                    var substationId = parseInt(substations[0].value) + 1;
-                    $substation.val(substationId);
-
-                    //$substation.append('<option value="" selected="selected">---- select ----</option>');
-                    //$.each(substations,
-                    //    function (i, substation) {
-                    //        $("<option />").val(substation.value).html(substation.text).appendTo($substation);
-                    //        //$unions.append('<option value="' + union.value + '">' + union.text + '</option>');
-                    //    });
-
+                    if (substations.length == 0) {
+                        $substation.val(sndCode + "01");
+                    }
+                    else {
+                        
+                        $substation.val(parseInt(substations[0].value) + 1);
+                    }
 
 
                 },
                 error: function (ex) {
-                    window.msg.init("error", "Error... . . !", "Failed to load SnD list. " + ex.error);
+                    window.msg.init("error", "Error... . . !", "Failed to load Substation list. " + ex.error);
                 },
                 //complete: $("#busy-indicator").fadeOut(150)
             });

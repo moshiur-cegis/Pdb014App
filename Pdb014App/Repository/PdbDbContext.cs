@@ -51,7 +51,16 @@ namespace Pdb014App.Repository
         public virtual DbSet<TblDistributionTransformer> TblDistributionTransformer { get; set; }
         public virtual DbSet<TblDistributionTransformerPicture> TblDistributionTransformerPicture { get; set; }
         public virtual DbSet<TblPoleStructureMountedSurgeArrestor> TblPoleStructureMountedSurgearrestor { get; set; }
-        //public virtual DbSet<LookUpDtCondition> LookUpDtCondition { get; set; }       
+
+        public virtual DbSet<LookUpBodyColourCondition> LookUpBodyColourCondition { get; set; }
+        public virtual DbSet<LookUpDtCondition> LookUpDtCondition { get; set; }
+        public virtual DbSet<LookUpInstalledCondition> LookUpInstalledCondition { get; set; }
+        public virtual DbSet<LookUpInstalledPlace> LookUpInstalledPlace { get; set; }
+        public virtual DbSet<LookUpPlatformMaterial> LookUpPlatformMaterial { get; set; }
+        public virtual DbSet<LookUpSupportPoleLeftRightCondition> LookUpSupportPoleLeftRightCondition { get; set; }
+        public virtual DbSet<LookUpSupportPoleLeftRightType> LookUpSupportPoleLeftRightType { get; set; }
+        public virtual DbSet<LookUpTransformerOwner> LookUpTransformerOwner { get; set; }
+
         #endregion
 
         #region InsulatorModels 8

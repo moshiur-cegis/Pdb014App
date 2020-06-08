@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Pdb014App.Models.PDB.DistributionTransformerModels
 {
-    public class LookUpDtCondition
+    public class LookUpInstalledCondition
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
