@@ -41,9 +41,9 @@ namespace Pdb014App.Controllers.AdvancedReport
             var fieldList = new List<ReportField>(13)
                 {
                     new ReportField {Name = "totalCount", Title = "Total Pole", Selected = true},
-                    //new ReportField {Name = "total33kCount", Title = "33KV Pole", Selected = true},
-                    //new ReportField {Name = "total11kCount", Title = "11KV Pole", Selected = true},
                     ////new ReportField {Name = "totalP4Count", Title = ".4KV Pole", Selected = true},
+                    //new ReportField {Name = "total11kCount", Title = "11KV Pole", Selected = true},
+                    //new ReportField {Name = "total33kCount", Title = "33KV Pole", Selected = true},
 
                     new ReportField {Name = "groupPoleType", Title = "Pole Type", Selected = true},
                     new ReportField {Name = "totalSpcCount", Title = "SPC", Selected = true, Visible = false, GroupName = "groupPoleType"},
@@ -109,9 +109,9 @@ namespace Pdb014App.Controllers.AdvancedReport
                 fieldList = new List<ReportField>(13)
                     {
                     new ReportField {Name = "totalCount", Title = "Total Pole", Selected = true},
-                    //new ReportField {Name = "total33kCount", Title = "33KV Pole", Selected = true},
+                    ////new ReportField {Name = "total04kCount", Title = ".4KV Pole", Selected = true},
                     //new ReportField {Name = "total11kCount", Title = "11KV Pole", Selected = true},
-                    ////new ReportField {Name = "totalP4Count", Title = ".4KV Pole", Selected = true},
+                    //new ReportField {Name = "total33kCount", Title = "33KV Pole", Selected = true},
 
                     new ReportField {Name = "groupPoleType", Title = "Pole Type", Selected = true},
                     new ReportField {Name = "totalSpcCount", Title = "SPC", Selected = true, Visible = false, GroupName = "groupPoleType"},
@@ -965,15 +965,30 @@ namespace Pdb014App.Controllers.AdvancedReport
 
             var fieldList = new List<ReportField>(13)
             {
-                new ReportField {Name = "totalCount", Title = "Total Feeder Line", Selected = true},
-                new ReportField {Name = "total33kCount", Title = "33KV Feeder Line", Selected = true},
-                new ReportField {Name = "total11kCount", Title = "11KV Feeder Line", Selected = true},
-                //new ReportField {Name = "totalP4Count", Title = ".4KV Feeder Line", Selected = true},
+                new ReportField {Name = "totalCount", Title = "Total Feeder", Selected = true},
 
-                new ReportField {Name = "totalFeederLength", Title = "Feeder Length (Km)", Selected = true},
-                new ReportField {Name = "total33kFeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
-                new ReportField {Name = "total11kFeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
-                //new ReportField {Name = "totalP4FeederLength", Title = ".4KV Feeder Length (Km)", Selected = true},
+                ////new ReportField {Name = "total04kCount", Title = ".4kV Feeder Line", Selected = true},
+                //new ReportField {Name = "total11kCount", Title = "11kV Feeder Line", Selected = true},
+                //new ReportField {Name = "total33kCount", Title = "33kV Feeder Line", Selected = true},
+
+                //new ReportField {Name = "totalFeederLength", Title = "Feeder Length (Km)", Selected = true},
+                ////new ReportField {Name = "total04kFeederLength", Title = ".4KV Feeder Length (Km)", Selected = true},
+                //new ReportField {Name = "total11kFeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
+                //new ReportField {Name = "total33kFeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
+
+
+                new ReportField {Name = "groupFT", Title = "Feeder Type", Selected = true},
+                //new ReportField {Name = "total04kCount", Title = ".4kV", Selected = true, Visible = false, GroupName = "groupFT"},
+                new ReportField {Name = "total11kCount", Title = "11kV", Selected = true, Visible = false, GroupName = "groupFT"},
+                new ReportField {Name = "total33kCount", Title = "33kV", Selected = true, Visible = false, GroupName = "groupFT"},
+
+
+                new ReportField {Name = "groupFL", Title = "Feeder Length (Km)", Selected = true},
+                //new ReportField {Name = "total04kFeederLength", Title = ".4kV", Selected = true, Visible = false, GroupName = "groupFL"},
+                new ReportField {Name = "total11kFeederLength", Title = "11kV", Selected = true, Visible = false, GroupName = "groupFL"},
+                new ReportField {Name = "total33kFeederLength", Title = "33kV", Selected = true, Visible = false, GroupName = "groupFL"},
+                new ReportField {Name = "totalFeederLength", Title = "Total", Selected = true, Visible = false, GroupName = "groupFL"},
+
 
                 //new ReportField {Name = "totalCurrentRating", Title = "Meter Current Rating", Selected = true},
                 //new ReportField {Name = "totalVoltageRating", Title = "Meter Voltage Rating", Selected = true},
@@ -1031,15 +1046,17 @@ namespace Pdb014App.Controllers.AdvancedReport
             {
                 fieldList = new List<ReportField>(13)
                 {
-                    new ReportField {Name = "totalCount", Title = "Total Feeder Line", Selected = true},
-                    new ReportField {Name = "total33kCount", Title = "33KV Feeder Line", Selected = true},
-                    new ReportField {Name = "total11kCount", Title = "11KV Feeder Line", Selected = true},
-                    //new ReportField {Name = "totalP4Count", Title = ".4KV Feeder Line", Selected = true},
+                    new ReportField {Name = "totalCount", Title = "Total Feeder", Selected = true},
 
-                    new ReportField {Name = "totalFeederLength", Title = "Feeder Length (Km)", Selected = true},
-                    new ReportField {Name = "total33kFeederLength", Title = "33KV Feeder Length (Km)", Selected = true},
-                    new ReportField {Name = "total11kFeederLength", Title = "11KV Feeder Length (Km)", Selected = true},
-                    //new ReportField {Name = "totalP4FeederLength", Title = ".4KV Feeder Length (Km)", Selected = true},
+                    new ReportField {Name = "groupFT", Title = "Feeder Type", Selected = true},
+                    new ReportField {Name = "total11kCount", Title = "11kV", Selected = true, Visible = false, GroupName = "groupFT"},
+                    new ReportField {Name = "total33kCount", Title = "33kV", Selected = true, Visible = false, GroupName = "groupFT"},
+
+                    new ReportField {Name = "groupFL", Title = "Feeder Length (Km)", Selected = true},
+                    new ReportField {Name = "total11kFeederLength", Title = "11kV", Selected = true, Visible = false, GroupName = "groupFL"},
+                    new ReportField {Name = "total33kFeederLength", Title = "33kV", Selected = true, Visible = false, GroupName = "groupFL"},
+                    new ReportField {Name = "totalFeederLength", Title = "Total", Selected = true, Visible = false, GroupName = "groupFL"},
+
 
                     //new ReportField {Name = "totalCurrentRating", Title = "Meter Current Rating", Selected = true},
                     //new ReportField {Name = "totalVoltageRating", Title = "Meter Voltage Rating", Selected = true},
@@ -1242,6 +1259,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                             totalCount = k.Count(),
                             total11kCount = k.Count(f => f.FeederType.Contains("11")),
                             total33kCount = k.Count(f => f.FeederType.Contains("33")),
+                            //total04kCount = k.Count(f => f.FeederType.Contains("4")),
 
                             totalFeederLength = Math.Round(k.Sum(f => f.FeederLength) / 1000, 0),
                             total11kFeederLength =
@@ -1320,6 +1338,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                             totalCount = k.Count(),
                             total11kCount = k.Count(f => f.FeederType.Contains("11")),
                             total33kCount = k.Count(f => f.FeederType.Contains("33")),
+                            //total04kCount = k.Count(f => f.FeederType.Contains("4")),
 
                             totalFeederLength = Math.Round(k.Sum(f => f.FeederLength) / 1000, 0),
                             total11kFeederLength =
@@ -1401,6 +1420,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                             totalCount = k.Count(),
                             total11kCount = k.Count(f => f.FeederType.Contains("11")),
                             total33kCount = k.Count(f => f.FeederType.Contains("33")),
+                            //total04kCount = k.Count(f => f.FeederType.Contains("4")),
 
                             totalFeederLength = Math.Round(k.Sum(f => f.FeederLength) / 1000, 0),
                             total11kFeederLength =
@@ -1484,6 +1504,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                             totalCount = k.Count(),
                             total11kCount = k.Count(f => f.FeederType.Contains("11")),
                             total33kCount = k.Count(f => f.FeederType.Contains("33")),
+                            //total04kCount = k.Count(f => f.FeederType.Contains("4")),
 
                             totalFeederLength = Math.Round(k.Sum(f => f.FeederLength) / 1000, 0),
                             total11kFeederLength =
@@ -1570,6 +1591,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                             totalCount = k.Count(),
                             total11kCount = k.Count(f => f.FeederType.Contains("11")),
                             total33kCount = k.Count(f => f.FeederType.Contains("33")),
+                            //total04kCount = k.Count(f => f.FeederType.Contains("4")),
 
                             totalFeederLength = Math.Round(k.Sum(f => f.FeederLength) / 1000, 0),
                             total11kFeederLength =
@@ -1645,13 +1667,23 @@ namespace Pdb014App.Controllers.AdvancedReport
             var fieldList = new List<ReportField>(8)
             {
                 new ReportField {Name = "totalCount", Title = "Total Substation", Selected = true},
-                new ReportField {Name = "total11kCount", Title = "33/11 kV Substation", Selected = true},
-                new ReportField {Name = "total33kCount", Title = "132/33 kV Substation", Selected = true},
+                //new ReportField {Name = "total11kCount", Title = "33/11 kV Substation", Selected = true},
+                //new ReportField {Name = "total33kCount", Title = "132/33 kV Substation", Selected = true},
+
+                new ReportField {Name = "groupST", Title = "Substation Type", Selected = true},
+                new ReportField {Name = "total11kCount", Title = "11kV", Selected = true, Visible = false, GroupName = "groupST"},
+                new ReportField {Name = "total33kCount", Title = "33kV", Selected = true, Visible = false, GroupName = "groupST"},
+
                 new ReportField {Name = "totalCapacity", Title = "Capacity (MVA)", Selected = true},
                 new ReportField {Name = "totalDemand", Title = "Demand (Max) (MW)", Selected = true},
-                new ReportField {Name = "totalPeakLoad", Title = "Peak Load (MW)", Selected = true},
-                new ReportField {Name = "maxPeakLoad", Title = "Max Peak Load (MW)", Selected = true},
-                new ReportField {Name = "minPeakLoad", Title = "Min Peak Load (MW)", Selected = true}
+
+                new ReportField {Name = "groupSL", Title = "Load (MW)", Selected = true},
+                new ReportField {Name = "maxPeakLoad", Title = "Max", Selected = true, Visible = false, GroupName = "groupSL"},
+                new ReportField {Name = "minPeakLoad", Title = "Min", Selected = true, Visible = false, GroupName = "groupSL"},
+                new ReportField {Name = "totalPeakLoad", Title = "Total", Selected = true, Visible = false, GroupName = "groupSL"},
+                //new ReportField {Name = "totalPeakLoad", Title = "Peak Load (MW)", Selected = true},
+                //new ReportField {Name = "maxPeakLoad", Title = "Max Peak Load (MW)", Selected = true},
+                //new ReportField {Name = "minPeakLoad", Title = "Min Peak Load (MW)", Selected = true}
             };
 
 
@@ -1692,13 +1724,20 @@ namespace Pdb014App.Controllers.AdvancedReport
                 fieldList = new List<ReportField>(5)
                 {
                     new ReportField {Name = "totalCount", Title = "Total Substation", Selected = true},
-                    new ReportField {Name = "total11kCount", Title = "33/11 kV Substation", Selected = true},
-                    new ReportField {Name = "total33kCount", Title = "132/33 kV Substation", Selected = true},
+                    //new ReportField {Name = "total11kCount", Title = "33/11 kV Substation", Selected = true},
+                    //new ReportField {Name = "total33kCount", Title = "132/33 kV Substation", Selected = true},
+
+                    new ReportField {Name = "groupST", Title = "Substation Type", Selected = true},
+                    new ReportField {Name = "total11kCount", Title = "11kV", Selected = true, Visible = false, GroupName = "groupST"},
+                    new ReportField {Name = "total33kCount", Title = "33kV", Selected = true, Visible = false, GroupName = "groupST"},
+
                     new ReportField {Name = "totalCapacity", Title = "Capacity (MVA)", Selected = true},
                     new ReportField {Name = "totalDemand", Title = "Demand (Max) (MW)", Selected = true},
-                    new ReportField {Name = "totalPeakLoad", Title = "Peak Load (MW)", Selected = true},
-                    new ReportField {Name = "maxPeakLoad", Title = "Max Peak Load (MW)", Selected = true},
-                    new ReportField {Name = "minPeakLoad", Title = "Min Peak Load (MW)", Selected = true}
+
+                    new ReportField {Name = "groupSL", Title = "Load (MW)", Selected = true},
+                    new ReportField {Name = "maxPeakLoad", Title = "Max", Selected = true, Visible = false, GroupName = "groupSL"},
+                    new ReportField {Name = "minPeakLoad", Title = "Min", Selected = true, Visible = false, GroupName = "groupSL"},
+                    new ReportField {Name = "totalPeakLoad", Title = "Total", Selected = true, Visible = false, GroupName = "groupSL"},
                 };
             }
 
@@ -2245,11 +2284,16 @@ namespace Pdb014App.Controllers.AdvancedReport
 
             var fieldList = new List<ReportField>(16)
             {
-                new ReportField {Name = "totalCount", Title = "Total DT", Selected = true},
-                //new ReportField {Name = "total33kCount", Title = "33KV DT", Selected = true},
-                //new ReportField {Name = "total11kCount", Title = "11KV DT", Selected = true},
-                ////new ReportField {Name = "totalP4Count", Title = ".4KV DT", Selected = true},
-                
+                new ReportField {Name = "totalCount", Title = "Total D/T", Selected = true},
+                ////new ReportField {Name = "total33kCount", Title = "33kV DT", Selected = true},
+                ////new ReportField {Name = "total11kCount", Title = "11kV DT", Selected = true},
+                //////new ReportField {Name = "total04kCount", Title = ".4kV DT", Selected = true},
+                    
+                new ReportField {Name = "groupFNV", Title = "Nominal Voltage", Selected = true},
+                //new ReportField {Name = "total04kCount", Title = ".4kV", Selected = true, Visible = false, GroupName = "groupFNV"},
+                new ReportField {Name = "total11kCount", Title = "11kV", Selected = true, Visible = false, GroupName = "groupFNV"},
+                new ReportField {Name = "total33kCount", Title = "33kV", Selected = true, Visible = false, GroupName = "groupFNV"},
+
                 new ReportField {Name = "groupIC", Title = "Installed Condition", Selected = true},
                 new ReportField {Name = "totalIcPadCount", Title = "Pad", Selected = true, Visible = false, GroupName = "groupIC"},
                 new ReportField {Name = "totalIcPoleMountCount", Title = "Pole Mounted", Selected = true, Visible = false, GroupName = "groupIC"},
@@ -2270,10 +2314,6 @@ namespace Pdb014App.Controllers.AdvancedReport
                 new ReportField {Name = "totalPmAngleCount", Title = "Angle", Selected = true, Visible = false, GroupName = "groupPM"},
                 new ReportField {Name = "totalPmChannelCount", Title = "Channel", Selected = true, Visible = false, GroupName = "groupPM"},
 
-
-                //new ReportField {Name = "totalNeutralDt", Title = "Has Neutral Cable", Selected = true},
-                //new ReportField {Name = "totalStreetLight", Title = "Has Street Light", Selected = true},
-                //new ReportField {Name = "totalWireLength", Title = "Wire Length (Km)", Selected = true},
             };
 
             ViewBag.ReportName = "Distribution Transformer";
@@ -2312,11 +2352,16 @@ namespace Pdb014App.Controllers.AdvancedReport
             {
                 fieldList = new List<ReportField>(16)
                 {
-                    new ReportField {Name = "totalCount", Title = "Total DT", Selected = true},
-                    //new ReportField {Name = "total33kCount", Title = "33KV DT", Selected = true},
-                    //new ReportField {Name = "total11kCount", Title = "11KV DT", Selected = true},
-                    ////new ReportField {Name = "totalP4Count", Title = ".4KV DT", Selected = true},
+                    new ReportField {Name = "totalCount", Title = "Total D/T", Selected = true},
+                    ////new ReportField {Name = "total33kCount", Title = "33kV DT", Selected = true},
+                    ////new ReportField {Name = "total11kCount", Title = "11kV DT", Selected = true},
+                    //////new ReportField {Name = "total04kCount", Title = ".4kV DT", Selected = true},
                     
+                    new ReportField {Name = "groupFNV", Title = "Nominal Voltage", Selected = true},
+                    //new ReportField {Name = "total04kCount", Title = ".4kV", Selected = true, Visible = false, GroupName = "groupFNV"},
+                    new ReportField {Name = "total11kCount", Title = "11kV", Selected = true, Visible = false, GroupName = "groupFNV"},
+                    new ReportField {Name = "total33kCount", Title = "33kV", Selected = true, Visible = false, GroupName = "groupFNV"},
+
                     new ReportField {Name = "groupIC", Title = "Installed Condition", Selected = true},
                     new ReportField {Name = "totalIcPadCount", Title = "Pad", Selected = true, Visible = false, GroupName = "groupIC"},
                     new ReportField {Name = "totalIcPoleMountCount", Title = "Pole Mounted", Selected = true, Visible = false, GroupName = "groupIC"},
@@ -2497,6 +2542,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(dt => new
                         {
                             RegionCode = dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
+                            NominalVoltage = dt.DtToFeederLine.NominalVoltage ?? 0,
                             InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null ? dt.InstalledConditionPadbsPoleMounted.ToLower() : "",
                             InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor != null ? dt.InstalledPlaceIndoorbsOutdoor.ToLower() : "",
                             Owner = dt.OwneroftheTransformerBPDBbsConsumer != null ? dt.OwneroftheTransformerBPDBbsConsumer.ToLower() : "",
@@ -2511,6 +2557,11 @@ namespace Pdb014App.Controllers.AdvancedReport
                             regionCode = k.Key,
 
                             totalCount = k.Count(),
+
+                            //total04kCount = k.Count(dt => dt.NominalVoltage == 04),
+                            total11kCount = k.Count(dt => dt.NominalVoltage == 11),
+                            total33kCount = k.Count(dt => dt.NominalVoltage == 33),
+
                             totalIcPadCount = k.Count(dt => dt.InstalledCondition.Contains("pad")),
                             totalIcPoleMountCount = k.Count(dt => dt.InstalledCondition.Contains("pole")),
 
@@ -2526,7 +2577,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                             totalPmAngleCount = k.Count(dt => dt.PlatformMaterial.Contains("angle")),
                             totalPmChannelCount = k.Count(dt => dt.PlatformMaterial.Contains("channel")),
                         })
-                        .ToList();
+                        .ToList(); ;
 
 
                     var regions = _dbContext.LookUpZoneInfo
@@ -2576,6 +2627,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(dt => new
                         {
                             RegionCode = dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleCode,
+                            NominalVoltage = dt.DtToFeederLine.NominalVoltage ?? 0,
                             InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null ? dt.InstalledConditionPadbsPoleMounted.ToLower() : "",
                             InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor != null ? dt.InstalledPlaceIndoorbsOutdoor.ToLower() : "",
                             Owner = dt.OwneroftheTransformerBPDBbsConsumer != null ? dt.OwneroftheTransformerBPDBbsConsumer.ToLower() : "",
@@ -2590,6 +2642,11 @@ namespace Pdb014App.Controllers.AdvancedReport
                             regionCode = k.Key,
 
                             totalCount = k.Count(),
+
+                            //total04kCount = k.Count(dt => dt.NominalVoltage == 04),
+                            total11kCount = k.Count(dt => dt.NominalVoltage == 11),
+                            total33kCount = k.Count(dt => dt.NominalVoltage == 33),
+
                             totalIcPadCount = k.Count(dt => dt.InstalledCondition.Contains("pad")),
                             totalIcPoleMountCount = k.Count(dt => dt.InstalledCondition.Contains("pole")),
 
@@ -2657,6 +2714,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(dt => new
                         {
                             RegionCode = dt.DtToPole.PoleToRoute.RouteToSubstation.SnDCode,
+                            NominalVoltage = dt.DtToFeederLine.NominalVoltage ?? 0,
                             InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null ? dt.InstalledConditionPadbsPoleMounted.ToLower() : "",
                             InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor != null ? dt.InstalledPlaceIndoorbsOutdoor.ToLower() : "",
                             Owner = dt.OwneroftheTransformerBPDBbsConsumer != null ? dt.OwneroftheTransformerBPDBbsConsumer.ToLower() : "",
@@ -2671,6 +2729,11 @@ namespace Pdb014App.Controllers.AdvancedReport
                             regionCode = k.Key,
 
                             totalCount = k.Count(),
+
+                            //total04kCount = k.Count(dt => dt.NominalVoltage == 04),
+                            total11kCount = k.Count(dt => dt.NominalVoltage == 11),
+                            total33kCount = k.Count(dt => dt.NominalVoltage == 33),
+
                             totalIcPadCount = k.Count(dt => dt.InstalledCondition.Contains("pad")),
                             totalIcPoleMountCount = k.Count(dt => dt.InstalledCondition.Contains("pole")),
 
@@ -2739,6 +2802,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(dt => new
                         {
                             RegionCode = dt.DtToPole.PoleToRoute.SubstationId,
+                            NominalVoltage = dt.DtToFeederLine.NominalVoltage ?? 0,
                             InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null ? dt.InstalledConditionPadbsPoleMounted.ToLower() : "",
                             InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor != null ? dt.InstalledPlaceIndoorbsOutdoor.ToLower() : "",
                             Owner = dt.OwneroftheTransformerBPDBbsConsumer != null ? dt.OwneroftheTransformerBPDBbsConsumer.ToLower() : "",
@@ -2753,6 +2817,11 @@ namespace Pdb014App.Controllers.AdvancedReport
                             regionCode = k.Key,
 
                             totalCount = k.Count(),
+
+                            //total04kCount = k.Count(dt => dt.NominalVoltage == 04),
+                            total11kCount = k.Count(dt => dt.NominalVoltage == 11),
+                            total33kCount = k.Count(dt => dt.NominalVoltage == 33),
+
                             totalIcPadCount = k.Count(dt => dt.InstalledCondition.Contains("pad")),
                             totalIcPoleMountCount = k.Count(dt => dt.InstalledCondition.Contains("pole")),
 
@@ -2824,6 +2893,7 @@ namespace Pdb014App.Controllers.AdvancedReport
                         .Select(dt => new
                         {
                             RegionCode = dt.DtToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneCode,
+                            NominalVoltage = dt.DtToFeederLine.NominalVoltage ?? 0,
                             InstalledCondition = dt.InstalledConditionPadbsPoleMounted != null ? dt.InstalledConditionPadbsPoleMounted.ToLower() : "",
                             InstalledPlace = dt.InstalledPlaceIndoorbsOutdoor != null ? dt.InstalledPlaceIndoorbsOutdoor.ToLower() : "",
                             Owner = dt.OwneroftheTransformerBPDBbsConsumer != null ? dt.OwneroftheTransformerBPDBbsConsumer.ToLower() : "",
@@ -2838,6 +2908,11 @@ namespace Pdb014App.Controllers.AdvancedReport
                             regionCode = k.Key,
 
                             totalCount = k.Count(),
+
+                            //total04kCount = k.Count(dt => dt.NominalVoltage == 04),
+                            total11kCount = k.Count(dt => dt.NominalVoltage == 11),
+                            total33kCount = k.Count(dt => dt.NominalVoltage == 33),
+
                             totalIcPadCount = k.Count(dt => dt.InstalledCondition.Contains("pad")),
                             totalIcPoleMountCount = k.Count(dt => dt.InstalledCondition.Contains("pole")),
 

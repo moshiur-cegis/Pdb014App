@@ -6,7 +6,6 @@
 
     Layout = isShowLayout == 1 ? "~/Views/Shared/_Layout.cshtml" : null;
 
-
 }
 
 <link href="~/css/site.css" rel="stylesheet" />
@@ -98,11 +97,11 @@
 </div>
 
 @*@if (isShowAction)
-{
-    <div>
-        <a class="btn btn-success float-left" asp-action="Index"></a>
-    </div>
-}*@
+    {
+        <div>
+            <a class="btn btn-success float-left" asp-action="Index"></a>
+        </div>
+    }*@
 
 <script type="text/javascript">
 
@@ -110,7 +109,6 @@
         isShowLayout =1* "@isShowLayout",
         isShowAction = 1*"@isShowAction";
 
-   
 
     if (poleId && poleId != '') {
         load_component_data();
@@ -135,7 +133,11 @@
         ajax_load_data('@Url.Action("InsulatorList", "TblInsulators")', { poleId: poleId, isShowLayout: isShowLayout, isShowAction: isShowAction })
             .done(function (compList) {
                 $("#comp_info_1").html(compList);
-            }).always(function () {
+            })
+            .fail(function () {
+                $("#comp_info_4").html("<h3 class='mt-5 text-danger font-weight-bold'>Failed to load data... . . !</h3>");
+            })
+            .always(function () {
                 --noOfomponent;
                 if (noOfomponent <= 1) {
                     $("#busy-indicator").fadeOut(150);
@@ -143,9 +145,13 @@
             });
 
         ajax_load_data('@Url.Action("GuyList", "TblGuys")', { poleId: poleId, isShowLayout: isShowLayout, isShowAction: isShowAction })
-            .done(function(compList) {
+            .done(function (compList) {
                 $("#comp_info_2").html(compList);
-            }).always(function () {
+            })
+            .fail(function () {
+                $("#comp_info_4").html("<h3 class='mt-5 text-danger font-weight-bold'>Failed to load data... . . !</h3>");
+            })
+            .always(function () {
                 --noOfomponent;
                 if (noOfomponent <= 1) {
                     $("#busy-indicator").fadeOut(150);
@@ -153,9 +159,13 @@
             });
 
         ajax_load_data('@Url.Action("CrossArmList", "TblCrossArmInfoes")', { poleId: poleId, isShowLayout: isShowLayout, isShowAction: isShowAction })
-            .done(function(compList) {
+            .done(function (compList) {
                 $("#comp_info_3").html(compList);
-            }).always(function () {
+            })
+            .fail(function () {
+                $("#comp_info_4").html("<h3 class='mt-5 text-danger font-weight-bold'>Failed to load data... . . !</h3>");
+            })
+            .always(function () {
                 --noOfomponent;
                 if (noOfomponent <= 1) {
                     $("#busy-indicator").fadeOut(150);
@@ -163,17 +173,19 @@
             });
 
         ajax_load_data('@Url.Action("DistributionTransformerList", "TblDistributionTransformers")', { poleId: poleId, isShowLayout: isShowLayout, isShowAction: isShowAction })
-            .done(function(compList) {
+            .done(function (compList) {
                 $("#comp_info_4").html(compList);
-            }).always(function () {
+            })
+            .fail(function () {
+                $("#comp_info_4").html("<h3 class='mt-5 text-danger font-weight-bold'>Failed to load data... . . !</h3>");
+            })
+            .always(function () {
                 --noOfomponent;
                 if (noOfomponent <= 1) {
                     $("#busy-indicator").fadeOut(150);
                 }
             });
 
-
-        
 
         return false;
     }
