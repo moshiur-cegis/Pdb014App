@@ -17,7 +17,7 @@
             new ReportField {Name = "circle", Title = "Circle"},
             new ReportField {Name = "snd", Title = "S&D"},
             new ReportField {Name = "substation", Title = "Substation"},
-        };
+                                                        };
 
     var fieldList = ViewBag.FieldList != null
     ? ViewBag.FieldList as List<ReportField>
@@ -85,9 +85,10 @@
                                         var grpName = fieldList[fc].Name;
                                         if (fieldList[fc].Name.StartsWith("group") && fieldList.Any(f => !string.IsNullOrEmpty(f.GroupName) && f.GroupName.Equals(grpName)))
                                         {
-                                            @*<label asp-for="@fieldList[fc].Selected">@fieldList[fc].Title <span class="multi-item"></span></label>
-                                                <ul id="field_list_@grpName" class="sub-list" style="max-height: 75px; overflow: auto; display: none;">*@
-                                            <label asp-for="@fieldList[fc].Selected">@fieldList[fc].Title <span class="multi-item active"></span></label>
+                                            <label asp-for="@fieldList[fc].Selected">
+                                                <span class="multi-item active"></span>
+                                                @fieldList[fc].Title
+                                            </label>
                                             <ul id="field_list_@grpName" class="sub-list" style="max-height: 75px; overflow: auto;">
                                                 @{
                                                     var grpFieldList = fieldList.Where(f => !string.IsNullOrEmpty(f.GroupName) && f.GroupName.Equals(grpName)).ToList();
@@ -129,7 +130,7 @@
             <fieldset>
                 <legend>▣ Report by Region</legend>
 
-                <div id="region_level" class="ml-3">
+                <div id="region_level" class="ml-3 mt-2">
                     @for (var i = 0; i < 4; i++)
                     {
                         @if (regionInfo?[i] == null)
@@ -140,13 +141,13 @@
                         <div class="custom-control-inline mr-3">
                             @if (!string.IsNullOrEmpty(regionLevel) && regionLevel.Equals(regionInfo[i].Name))
                             {
-                                <input type="radio" id="@regionInfo[i].Name" name="regionLevel" value="@regionInfo[i].Name" checked />
+                                <input type="radio" id="@regionInfo[i].Name" name="regionLevel" style="margin-bottom: 0.5rem; line-height: 1;" value="@regionInfo[i].Name" checked />
                             }
                             else
                             {
-                                <input type="radio" id="@regionInfo[i].Name" name="regionLevel" value="@regionInfo[i].Name" />
+                                <input type="radio" id="@regionInfo[i].Name" name="regionLevel" style="margin-bottom: 0.5rem; line-height: 1;" value="@regionInfo[i].Name" />
                             }
-                            <label for="@regionInfo[i].Name" style="margin: .2rem;">@regionInfo[i].Title</label>
+                            <label for="@regionInfo[i].Name" style="margin: 0 0.25rem; line-height: 1;">@regionInfo[i].Title</label>
                         </div>
                     }
                 </div>
@@ -193,15 +194,15 @@
                 </div>
 
                 @*<div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label">Route</label>
-                            <select id="RouteCode" class="form-control" asp-items="ViewBag.RouteList" value="@ViewBag.RouteCode">
-                                <option value="" selected="selected">----- all route -----</option>
-                            </select>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Route</label>
+                                <select id="RouteCode" class="form-control" asp-items="ViewBag.RouteList" value="@ViewBag.RouteCode">
+                                    <option value="" selected="selected">----- all route -----</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                </div>*@
+                    </div>*@
             </fieldset>
 
             <div>

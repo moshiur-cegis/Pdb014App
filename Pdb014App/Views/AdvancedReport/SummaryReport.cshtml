@@ -72,7 +72,10 @@
                                         var grpName = fieldList[fc].Name;
                                         if (fieldList[fc].Name.StartsWith("group") && fieldList.Any(f => !string.IsNullOrEmpty(f.GroupName) && f.GroupName.Equals(grpName)))
                                         {
-                                            <label asp-for="@fieldList[fc].Selected">@fieldList[fc].Title <span class="multi-item active"></span></label>
+                                            <label asp-for="@fieldList[fc].Selected">
+                                                <span class="multi-item active"></span>
+                                                @fieldList[fc].Title
+                                            </label>
                                             <ul id="field_list_@grpName" class="sub-list" style="max-height: 75px; overflow: auto;">
                                                 @{
                                                     var grpFieldList = fieldList.Where(f => !string.IsNullOrEmpty(f.GroupName) && f.GroupName.Equals(grpName)).ToList();
