@@ -21,87 +21,80 @@ namespace Pdb014App.Models.MapViewer.Settings
         [StringLength(100)]
         [Display(Name = "Data Source Name")]
         public string DataSourceName { get; set; }
-
-        [Required]
-        [Column(Order = 2, TypeName = "int")]
+                
+        [Column("LayerTypeId", Order = 2, TypeName = "int")]
         [Display(Name = "Layer Type")]
-        public int LayerTypeId { get; set; }
+        public int? LayerTypeId { get; set; }
         [ForeignKey("LayerTypeId")]
         public virtual LookUpMapViewLayerType LookUpLayerType { get; set; }
-                
-        [Column(Order = 3, TypeName = "int")]
+
+        [Column("LayerOrder", Order = 3, TypeName = "int")]
         [Display(Name = "Layer Order")]
         public int? LayerOrder { get; set; }
-               
-        [Column(Order = 4, TypeName = "nvarchar(100)")]
+
+        [Column("LayerTitle", Order = 4, TypeName = "nvarchar(100)")]
         [StringLength(50)]
         [Display(Name = "Layer Title")]
         public string LayerTitle { get; set; }
-                
-        [Column(Order = 5, TypeName = "nvarchar(10)")]
-        [StringLength(10)]
+
+        [Column("LayerVisibility", Order = 5)]
         [Display(Name = "Layer Visibility")]
-        public string LayerVisibility { get; set; }
-                
-        [Column(Order = 6, TypeName = "int")]
-        [Display(Name = "Default Zoom Level")]
-        public int? DefaultZoomLevel { get; set; }
-                       
-        [Column("CenterLatitude", Order = 7, TypeName = "decimal(10, 8)")]
-        [DataType(DataType.Text)]
-        [Range(0, 99.99999999, ErrorMessage = "Invalid {0}; Max 10 digits")]
-        [Display(Name = "Center Latitude")]
-        public decimal? CenterLatitude { get; set; }
-        
-        [Column("CenterLongitude", Order = 8, TypeName = "decimal(10, 8)")]
-        [DataType(DataType.Text)]
-        [Range(0, 99.99999999, ErrorMessage = "Invalid {0}; Max 10 digits")]
-        [Display(Name = "Center Longitude")]
-        public decimal? CenterLongitude { get; set; }
+        public bool LayerVisibility { get; set; }
 
-        [Column("MinScale", Order = 9, TypeName = "int")]
-        [DataType(DataType.Text)]
-        [Display(Name = "MinScale")]
-        public int? MinScale { get; set; }
+        [Column("PopupTemplateName", Order = 6, TypeName = "nvarchar(50)")]
+        [StringLength(50)]
+        [Display(Name = "Popup Template Name")]
+        public string PopupTemplateName { get; set; }
 
-        [Column("MaxScale", Order = 10, TypeName = "int")]
-        [DataType(DataType.Text)]
-        [Display(Name = "MaxScale")]
-        public int? MaxScale { get; set; }
-
-        [Column(Order = 11, TypeName = "nvarchar(250)")]
-        [StringLength(250)]
-        [Display(Name = "Popup Template Title")]
-        public string PopupTemplateTitle { get; set; }
-
-        [Column(Order = 12, TypeName = "nvarchar(50)")]
+        [Column("RendererType", Order = 7, TypeName = "nvarchar(50)")]
         [StringLength(50)]
         [Display(Name = "Renderer Type")]
         public string RendererType { get; set; }
 
-        [Column(Order = 13, TypeName = "nvarchar(50)")]
+        [Column("RendererSymbolType", Order = 8, TypeName = "nvarchar(50)")]
         [StringLength(50)]
         [Display(Name = "Renderer Symbol Type")]
         public string RendererSymbolType { get; set; }
 
-        [Column(Order = 14, TypeName = "nvarchar(70)")]
-        [StringLength(70)]
+        [Column("RendererSymbolColorR", Order = 9, TypeName = "int")]
+        [Display(Name = "Renderer Symbol Fill Color")]
+        public int? RendererSymbolColorR { get; set; }
+
+        [Column("RendererSymbolColorG", Order = 10, TypeName = "int")]
+        [Display(Name = "Renderer Symbol Fill Color")]
+        public int? RendererSymbolColorG { get; set; }
+
+        [Column("RendererSymbolColorB", Order = 11, TypeName = "int")]
+        [Display(Name = "Renderer Symbol Fill Color")]
+        public int? RendererSymbolColorB { get; set; }
+
+        [Column("RendererSymbolColorOpacity", Order = 12)]
+        [Display(Name = "Renderer Symbol Fill Color")]
+        public decimal? RendererSymbolColorOpacity { get; set; }
+
+        [Column("RendererSymbolStyle", Order = 13, TypeName = "nvarchar(50)")]
+        [StringLength(50)]
         [Display(Name = "Renderer Symbol Style")]
         public string RendererSymbolStyle { get; set; }
 
-        [Column(Order = 15, TypeName = "nvarchar(50)")]
-        [StringLength(50)]
-        [Display(Name = "Renderer Symbol Color")]
-        public string RendererSymbolColor { get; set; }
-
-        [Column(Order = 16, TypeName = "nvarchar(50)")]
-        [StringLength(50)]
+        [Column("RendererSymbolOutLineColorR", Order = 14, TypeName = "int")]
         [Display(Name = "Renderer Symbol Outline Color")]
-        public string RendererSymbolOutlineColor { get; set; }
+        public int? RendererSymbolOutLineColorR { get; set; }
 
-        [Column(Order = 17, TypeName = "nvarchar(50)")]
-        [StringLength(50)]
+        [Column("RendererSymbolOutLineColorG", Order = 15, TypeName = "int")]
+        [Display(Name = "Renderer Symbol Outline Color")]
+        public int? RendererSymbolOutLineColorG { get; set; }
+
+        [Column("RendererSymbolOutLineColorB", Order = 16, TypeName = "int")]
+        [Display(Name = "Renderer Symbol Outline Color")]
+        public int? RendererSymbolOutLineColorB { get; set; }
+
+        [Column("RendererSymbolOutLineColorOpacity", Order = 17)]
+        [Display(Name = "Renderer Symbol Fill Color")]
+        public decimal? RendererSymbolOutLineColorOpacity { get; set; }
+
+        [Column("RendererSymbolOutLineWidth", Order = 18, TypeName = "int")]
         [Display(Name = "Renderer Symbol Outline Width")]
-        public string RendererSymbolOutlineWidth { get; set; }                
+        public int? RendererSymbolOutLineWidth { get; set; }
     }
 }

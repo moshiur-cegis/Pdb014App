@@ -204,10 +204,13 @@
                         <span></span> <span></span> <span></span>
                     </div>
                 </a>
-                <ul class="dropdown-menu">                    
+                <ul class="dropdown-menu">
                     <li>
                         <a role="button" data-target="#panelBasemaps" aria-haspopup="true"><span class="glyphicon glyphicon-th-large"></span>Basemaps</a>
-                    </li>                    
+                    </li>
+                    <li>
+                        <a role="button" data-target="#panelSettings" aria-haspopup="true"><span class="glyphicon glyphicon-cog"></span>Change Themes</a>
+                    </li>
                     <li>
                         <a role="button" id="calciteToggleNavbar" aria-haspopup="true"><span class="glyphicon glyphicon-fullscreen"></span>Full Screen</a>
                     </li>
@@ -219,20 +222,50 @@
                 <span class="calcite-title-divider hidden-xs"></span>
                 <span class="calcite-title-sub hidden-xs" id="btnHomeSpan">
                     <a href="~/?cai=dasb_01" role="button" data-target="" aria-haspopup="true" class="buttonTitle"><span class="glyphicon esri-icon-dashboard">&nbsp;</span>Dashboard</a>
-                </span>                                
+                </span>
                 <span class="calcite-title-divider hidden-xs"></span>
                 <span class="calcite-title-sub hidden-xs">
                     <a role="button" data-target="#panelPrint" aria-haspopup="true" class="buttonTitle"><span class="glyphicon esri-icon-printer">&nbsp;</span>Export Map</a>
                 </span>
-            </div> 
+            </div>
         </nav>
         <!--/.calcite-navbar -->
+        <ul class="nav navbar-nav calcite-nav">
+            @*<li class="active">
+                <a id="mapNav"
+                   class="hidden-xs hidden-sm"
+                   href="#mapTab"
+                   aria-controls="mapTab"
+                   aria-expanded="true"
+                   role="tab"
+                   data-toggle="tab"
+                   data-tooltip="tip"
+                   title="2D View"
+                   data-placement="bottom">Map (2-D)</a>
+            </li>
+            <li>
+                <a id="sceneNav"
+                   class="hidden-xs hidden-sm"
+                   href="#sceneTab"
+                   aria-controls="sceneTab"
+                   role="tab"
+                   data-toggle="tab"
+                   data-tooltip="tip"
+                   title="3D View"
+                   data-placement="bottom">Scene (3-D)</a>
+            </li>*@
+            <li>
+                <div class="calcite-navbar-search calcite-search-expander">
+                    <div id="searchWidgetDiv"></div>
+                </div>
+            </li>
+        </ul>
         <!-- Map  -->
         <div class="calcite-map calcite-map-absolute">
             <div id="tabContainer" class="tab-content">
                 <div id="mapTab" class="tab-pane fade in active" role="tabpanel">
                     <div id="mapViewDiv"></div>
-                </div>                
+                </div>
             </div>
         </div>
         <!-- /.calcite-map -->
@@ -268,7 +301,7 @@
                     <div class="panel-body"><div id="basemapPanelDiv"></div></div>
                 </div>
             </div>
-                        
+
             <!-- Panel - Print -->
             <div id="panelPrint" class="panel collapse">
                 <div id="headingPrint" class="panel-heading">
@@ -429,9 +462,9 @@
                         type="button"
                         title="Measure distance between two or more points"></button>
                 @*<button class="action-button esri-icon-polygon"
-                    id="areaButton"
-                    type="button"
-                    title="Measure area"></button>*@
+                id="areaButton"
+                type="button"
+                title="Measure area"></button>*@
             </div>
         </div>
     </div>
@@ -994,10 +1027,10 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [255, 87, 51, 0.2],
+                                    color: [255, 87, 51, 0.4],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [255, 87, 51, 0.6],
+                                        color: [255, 87, 51, 0.8],
                                         width: 1
                                     }
                                 }
@@ -1012,10 +1045,10 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [05, 250, 09, 0.2],
+                                    color: [05, 250, 09, 0.4],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [05, 250, 09, 0.6],
+                                        color: [05, 250, 09, 0.8],
                                         width: 1
                                     }
                                 }
@@ -1030,10 +1063,10 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [242, 253, 02, 0.2],
+                                    color: [242, 253, 02, 0.4],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [242, 253, 02, 0.6],
+                                        color: [242, 253, 02, 0.8],
                                         width: 1
                                     }
                                 }
@@ -1217,12 +1250,12 @@
                 });
                 app.mapView.ui.add(basemapToggle, "bottom-right");
 
-                var attribution = new Attribution({
-                    view: app.mapView
-                });
-                app.mapView.ui.add(attribution, "manual");
+                //var attribution = new Attribution({
+                //    view: app.mapView
+                //});
+                //app.mapView.ui.add(attribution, "manual");
 
-                function makeLayerVisible(layerId) {
+                function makeLayerVisible() {
                     allLayers.findSublayerById(0).visible = true;
                     allLayers.findSublayerById(1).visible = true;
                     allLayers.findSublayerById(2).visible = true;

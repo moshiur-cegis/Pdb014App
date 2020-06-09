@@ -151,19 +151,13 @@
                 <ul class="dropdown-menu">
                     <li>
                         <a href="~/?cai=dasb_01" role="button" data-target="" aria-haspopup="true" class="buttonTitle"><span class="glyphicon esri-icon-home">&nbsp;</span>Home</a>
-                    </li>
-                    <li class="active">
-                        <a class="hidden-md hidden-lg" href="#mapTab" aria-controls="mapTab" role="tab" data-toggle="tab">Map</a>
-                    </li>
-                    <li>
-                        <a class="hidden-md hidden-lg" href="#sceneTab" aria-controls="sceneTab" role="tab" data-toggle="tab">Scene</a>
-                    </li>
+                    </li>                    
                     <li>
                         <a role="button" data-target="#panelBasemaps" aria-haspopup="true"><span class="glyphicon glyphicon-th-large"></span>Basemaps</a>
                     </li>
-                    @*<li>
-                            <a role="button" data-target="#panelSettings" aria-haspopup="true"><span class="glyphicon glyphicon-cog"></span>Settings</a>
-                        </li>*@
+                    <li>
+                        <a role="button" data-target="#panelSettings" aria-haspopup="true"><span class="glyphicon glyphicon-cog"></span>Change Themes</a>
+                    </li>
                     <li>
                         <a role="button" data-target="#panelLocationSelect" aria-haspopup="true"><span class="glyphicon esri-icon-filter"></span>Query & Filtering</a>
                     </li>
@@ -190,30 +184,7 @@
                 </span>
             </div>
             <!-- Nav -->
-            <ul class="nav navbar-nav calcite-nav">
-                <li class="active">
-                    <a id="mapNav"
-                       class="hidden-xs hidden-sm"
-                       href="#mapTab"
-                       aria-controls="mapTab"
-                       aria-expanded="true"
-                       role="tab"
-                       data-toggle="tab"
-                       data-tooltip="tip"
-                       title="2D View"
-                       data-placement="bottom">Map (2-D)</a>
-                </li>
-                <li>
-                    <a id="sceneNav"
-                       class="hidden-xs hidden-sm"
-                       href="#sceneTab"
-                       aria-controls="sceneTab"
-                       role="tab"
-                       data-toggle="tab"
-                       data-tooltip="tip"
-                       title="3D View"
-                       data-placement="bottom">Scene (3-D)</a>
-                </li>
+            <ul class="nav navbar-nav calcite-nav">                
                 <li>
                     <div class="calcite-navbar-search calcite-search-expander">
                         <div id="searchWidgetDiv"></div>
@@ -227,10 +198,7 @@
             <div id="tabContainer" class="tab-content">
                 <div id="mapTab" class="tab-pane fade in active" role="tabpanel">
                     <div id="mapViewDiv"></div>
-                </div>
-                <div id="sceneTab" class="tab-pane fade" role="tabpanel">
-                    <div id="sceneViewDiv"></div>
-                </div>
+                </div>                
             </div>
         </div>
         <!-- /.calcite-map -->
@@ -614,16 +582,13 @@
     </script>
 
     @*<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>*@
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>*@
     <!-- ArcGIS JS 4 -->
     <script src="//js.arcgis.com/4.15/"></script>
     @*<script src="~/map/arcgis_js_api/library/4.14"></script>*@
-
     @*<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
-
     @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>*@
     <script src="~/lib/jquery/3.4.1/jquery.min.js"></script>
-
     @*<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
 
     <script>
@@ -715,11 +680,12 @@
                         top: 50,
                         bottom: 0
                     },
-                    uiComponents: ["attribution","zoom","navigation-toggle", "compass"],
+                    //uiComponents: ["attribution","zoom","navigation-toggle", "compass"],
+                    uiComponents: ["attribution", "zoom"],
                     mapView: null,
                     sceneView: null,
                     containerMap: "mapViewDiv",
-                    containerScene: "sceneViewDiv",
+                    //containerScene: "sceneViewDiv",
                     activeView: null,
                     searchWidget: null,
                     popupWindow: {
@@ -1130,10 +1096,10 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [145,05,07, 0.2],
+                                    color: [255, 87, 51, 0.4],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [145,05,07, 0.6],
+                                        color: [255, 87, 51, 0.8],
                                         width: 1
                                     }
                                 }
@@ -1148,10 +1114,10 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [45,105,07, 0.2],
+                                    color: [05, 250, 09, 0.4],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [45,105,07, 0.6],
+                                        color: [05, 250, 09, 0.8],
                                         width: 1
                                     }
                                 }
@@ -1166,10 +1132,10 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [245,05,07, 0.2],
+                                    color: [242, 253, 02, 0.4],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [245,05,07, 0.6],
+                                        color: [242, 253, 02, 0.8],
                                         width: 1
                                     }
                                 }
@@ -1353,10 +1319,10 @@
                 });
                 app.mapView.ui.add(basemapToggle, "bottom-right");
 
-                var attribution = new Attribution({
-                    view: app.mapView
-                });
-                app.mapView.ui.add(attribution, "manual");
+                //var attribution = new Attribution({
+                //    view: app.mapView
+                //});
+                //app.mapView.ui.add(attribution, "manual");
 
                 function ajaxDefaultBasicInfo() {
                     $.ajax({

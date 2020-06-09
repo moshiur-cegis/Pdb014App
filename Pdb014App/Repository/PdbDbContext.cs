@@ -236,8 +236,6 @@ namespace Pdb014App.Repository
         #endregion
 
 
-
-
         #region User Model
         //public virtual DbSet<TblUserRegistrationDetail> TblUserRegistrationDetail { get; set; }
         //public virtual DbSet<LookUpUserActivationStatus> UserActivationStatus { get; set; }
