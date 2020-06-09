@@ -94,11 +94,11 @@
 
     <!-- Calcite Bootstrap -->
     @*<link rel="stylesheet" href="//esri.github.io/calcite-maps/dist/css/calcite-maps-bootstrap.min-v0.8.css" />*@
-    <link rel="stylesheet" href="~/map/calcite-maps-master/dist/css/calcite-maps-bootstrap.min-v0.8.css" />
+    <link rel="stylesheet" href="~/map/calcite-maps-master/dist/css/calcite-maps-bootstrap.min-v0.9.css" />
 
     <!-- Calcite Maps -->
     @*<link rel="stylesheet" href="//esri.github.io/calcite-maps/dist/css/calcite-maps-arcgis-4.x.min-v0.8.css" />*@
-    <link rel="stylesheet" href="~/map/calcite-maps-master/dist/css/calcite-maps-arcgis-4.x.min-v0.8.css" />
+    <link rel="stylesheet" href="~/map/calcite-maps-master/dist/css/calcite-maps-arcgis-4.x.min-v0.9.css" />
 
     <!-- ArcGIS JS 4 -->
     <link rel="stylesheet" href="//js.arcgis.com/4.15/esri/themes/light/main.css" />
@@ -204,25 +204,10 @@
                         <span></span> <span></span> <span></span>
                     </div>
                 </a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="~/?cai=dasb_01" role="button" data-target="" aria-haspopup="true" class="buttonTitle"><span class="glyphicon esri-icon-home">&nbsp;</span>Home</a>
-                    </li>
-                    @*<li class="active">
-                        <a class="hidden-md hidden-lg" href="#mapTab" aria-controls="mapTab" role="tab" data-toggle="tab">Map</a>
-                    </li>
-                    <li>
-                        <a class="hidden-md hidden-lg" href="#sceneTab" aria-controls="sceneTab" role="tab" data-toggle="tab">Scene</a>
-                    </li>*@
+                <ul class="dropdown-menu">                    
                     <li>
                         <a role="button" data-target="#panelBasemaps" aria-haspopup="true"><span class="glyphicon glyphicon-th-large"></span>Basemaps</a>
-                    </li>
-                    @*<li>
-                            <a role="button" data-target="#panelSettings" aria-haspopup="true"><span class="glyphicon glyphicon-cog"></span>Settings</a>
-                        </li>
-                    <li>
-                        <a role="button" data-target="#panelLocationSelect" aria-haspopup="true"><span class="glyphicon esri-icon-filter"></span>Query & Filtering</a>
-                    </li>*@
+                    </li>                    
                     <li>
                         <a role="button" id="calciteToggleNavbar" aria-haspopup="true"><span class="glyphicon glyphicon-fullscreen"></span>Full Screen</a>
                     </li>
@@ -482,8 +467,6 @@
 
     @*<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
 
-    <partial name="_MapViewOnSearchPartial" />
-
     <script type="text/javascript">
 
         var dojoConfig = {
@@ -537,9 +520,7 @@
         var exprRoute = "@((routeExpr != null) ? routeExpr : "")";
         var exprFeederLine = "@((feederLineExpr != null) ? feederLineExpr : "")";
         var exprPole = "@((poleExpr != null) ? poleExpr : "")";
-
-        console.log(exprZone);
-
+           
         var app;
 
         require([
@@ -613,11 +594,11 @@
                         top: 50,
                         bottom: 0
                     },
-                    uiComponents: ["attribution","zoom","navigation-toggle", "compass"],
+                    uiComponents: ["zoom"],
                     mapView: null,
                     sceneView: null,
                     containerMap: "mapViewDiv",
-                    containerScene: "sceneViewDiv",
+                    //containerScene: "sceneViewDiv",
                     activeView: null,
                     searchWidget: null,
                     popupWindow: {
@@ -1013,10 +994,10 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [145,05,07, 0.2],
+                                    color: [255, 87, 51, 0.2],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [145,05,07, 0.6],
+                                        color: [255, 87, 51, 0.6],
                                         width: 1
                                     }
                                 }
@@ -1031,10 +1012,10 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [45,105,07, 0.2],
+                                    color: [05, 250, 09, 0.2],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [45,105,07, 0.6],
+                                        color: [05, 250, 09, 0.6],
                                         width: 1
                                     }
                                 }
@@ -1049,10 +1030,10 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [245,05,07, 0.2],
+                                    color: [242, 253, 02, 0.2],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [245,05,07, 0.6],
+                                        color: [242, 253, 02, 0.6],
                                         width: 1
                                     }
                                 }
@@ -1067,11 +1048,11 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [170,240,100, 0.6],
+                                    color: [02, 44, 253, 0.2],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [170,240,100, .9],
-                                        width: 2
+                                        color: [02, 44, 253, .7],
+                                        width: 1
                                     }
                                 }
                             },
@@ -1250,85 +1231,73 @@
                     allLayers.findSublayerById(5).visible = true;                    
                 }
 
-                function addLayerByArea(layerId, queryExpression, isChecked) {
-                    if (isChecked) {
-                        for (var i = 0; i < allLayers.sublayers.length; i++) {
-                            allLayers.findSublayerById(i).definitionExpression = "";
-                            allLayers.findSublayerById(i).visible = true;
-
-                            defaultZoomLevel = "@((baseMapDetails.DefaultZoomLevel != null) ? baseMapDetails.DefaultZoomLevel : 0)";
-                            centerLatitude = "@((baseMapDetails.BaseMapCenterLat != null) ? baseMapDetails.BaseMapCenterLat : 0)";
-                            centerLongitude = "@((baseMapDetails.BaseMapCenterLong != null) ? baseMapDetails.BaseMapCenterLong : 0)";
-                        }
-                    }
-                    else {
-                        switch (layerId) {
-                            case 0:
-                                allLayers.findSublayerById(0).definitionExpression = queryExpression['FeederLineId'];
-                                allLayers.findSublayerById(1).definitionExpression = queryExpression['RouteId'];
-                                allLayers.findSublayerById(2).definitionExpression = queryExpression['SubStationId'];
-                                allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
-                                allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
-                                allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
-                                makeLayerVisible();                                
-                                break;
-                            case 1:
-                                allLayers.findSublayerById(0).definitionExpression = queryExpression['RouteId'];
-                                allLayers.findSublayerById(1).definitionExpression = queryExpression['RouteId'];
-                                allLayers.findSublayerById(2).definitionExpression = queryExpression['SubStationId'];
-                                allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
-                                allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
-                                allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
-                                makeLayerVisible();
-                                setZoomLevel(queryExpression['ZoneId'], queryExpression['CircleId'], queryExpression['SnDDivId'], queryExpression['SubStationId']);
-                                break;
-                            case 2:
-                                allLayers.findSublayerById(0).definitionExpression = queryExpression['SubStationId'];
-                                allLayers.findSublayerById(1).definitionExpression = queryExpression['SubStationId'];
-                                allLayers.findSublayerById(2).definitionExpression = queryExpression['SubStationId'];
-                                allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
-                                allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
-                                allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
-                                makeLayerVisible();
-                                setZoomLevel(queryExpression['ZoneId'], queryExpression['CircleId'], queryExpression['SnDDivId'], queryExpression['SubStationId']);
-                                break;
-                            case 3:
-                                allLayers.findSublayerById(0).definitionExpression = queryExpression['SnDDivId'];
-                                allLayers.findSublayerById(1).definitionExpression = queryExpression['SnDDivId'];
-                                allLayers.findSublayerById(2).definitionExpression = queryExpression['SnDDivId'];
-                                allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
-                                allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
-                                allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
-                                makeLayerVisible();
-                                setZoomLevel(queryExpression['ZoneId'], queryExpression['CircleId'], queryExpression['SnDDivId']);
-                                break;
-                            case 4:
-                                allLayers.findSublayerById(0).definitionExpression = queryExpression['CircleId'];
-                                allLayers.findSublayerById(1).definitionExpression = queryExpression['CircleId'];
-                                allLayers.findSublayerById(2).definitionExpression = queryExpression['CircleId'];
-                                allLayers.findSublayerById(3).definitionExpression = queryExpression['CircleId'];
-                                allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
-                                allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
-                                makeLayerVisible();
-                                setZoomLevel(queryExpression['ZoneId'], queryExpression['CircleId']);
-                                break;
-                            case 5:
-                                allLayers.findSublayerById(0).definitionExpression = queryExpression['ZoneId'];
-                                allLayers.findSublayerById(1).definitionExpression = queryExpression['ZoneId'];
-                                allLayers.findSublayerById(2).definitionExpression = queryExpression['ZoneId'];
-                                allLayers.findSublayerById(3).definitionExpression = queryExpression['ZoneId'];
-                                allLayers.findSublayerById(4).definitionExpression = queryExpression['ZoneId'];
-                                allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
-                                makeLayerVisible();
-                                setZoomLevel(queryExpression['ZoneId']);
-                                break;
-                            default:
-                                break;
-                        }
+                function addLayerByArea(layerId, queryExpression) {                    
+                    switch (layerId) {
+                        case 0:
+                            allLayers.findSublayerById(0).definitionExpression = queryExpression['FeederLineId'];
+                            allLayers.findSublayerById(1).definitionExpression = queryExpression['RouteId'];
+                            allLayers.findSublayerById(2).definitionExpression = queryExpression['SubStationId'];
+                            allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                            makeLayerVisible();                                
+                            break;
+                        case 1:
+                            allLayers.findSublayerById(0).definitionExpression = queryExpression['RouteId'];
+                            allLayers.findSublayerById(1).definitionExpression = queryExpression['RouteId'];
+                            allLayers.findSublayerById(2).definitionExpression = queryExpression['SubStationId'];
+                            allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                            makeLayerVisible();
+                            setZoomLevel(queryExpression['ZoneId'], queryExpression['CircleId'], queryExpression['SnDDivId'], queryExpression['SubStationId']);
+                            break;
+                        case 2:
+                            allLayers.findSublayerById(0).definitionExpression = queryExpression['SubStationId'];
+                            allLayers.findSublayerById(1).definitionExpression = queryExpression['SubStationId'];
+                            allLayers.findSublayerById(2).definitionExpression = queryExpression['SubStationId'];
+                            allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                            makeLayerVisible();
+                            setZoomLevel(queryExpression['ZoneId'], queryExpression['CircleId'], queryExpression['SnDDivId'], queryExpression['SubStationId']);
+                            break;
+                        case 3:
+                            allLayers.findSublayerById(0).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(1).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(2).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(3).definitionExpression = queryExpression['SnDDivId'];
+                            allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                            makeLayerVisible();
+                            setZoomLevel(queryExpression['ZoneId'], queryExpression['CircleId'], queryExpression['SnDDivId']);
+                            break;
+                        case 4:
+                            allLayers.findSublayerById(0).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(1).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(2).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(3).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(4).definitionExpression = queryExpression['CircleId'];
+                            allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                            makeLayerVisible();
+                            setZoomLevel(queryExpression['ZoneId'], queryExpression['CircleId']);
+                            break;
+                        case 5:
+                            allLayers.findSublayerById(0).definitionExpression = queryExpression['ZoneId'];
+                            allLayers.findSublayerById(1).definitionExpression = queryExpression['ZoneId'];
+                            allLayers.findSublayerById(2).definitionExpression = queryExpression['ZoneId'];
+                            allLayers.findSublayerById(3).definitionExpression = queryExpression['ZoneId'];
+                            allLayers.findSublayerById(4).definitionExpression = queryExpression['ZoneId'];
+                            allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
+                            makeLayerVisible();
+                            setZoomLevel(queryExpression['ZoneId']);
+                            break;
+                        default:
+                            break;
+                        
                     }
                     //app.mapView.center = [centerLongitude, centerLatitude];
                     //app.mapView.zoom = defaultZoomLevel;
-
                     map.layers.add(allLayers);
                 }
 
@@ -1354,28 +1323,13 @@
                             defaultZoomLevel = "@((zoneBasicInfo != null) ? zoneBasicInfo.DefaultZoomLevel : 0)";
                             centerLatitude = "@((zoneBasicInfo != null) ? zoneBasicInfo.CenterLatitude : 0)";
                             centerLongitude = "@((zoneBasicInfo != null) ? zoneBasicInfo.CenterLongitude : 0)";
-
-                            console.log("----ZoneBasicInfo----");
-                            console.log(defaultZoomLevel);
-                            console.log(centerLatitude);
-                            console.log(centerLongitude);
                         }
                     }
                     else {
                         defaultZoomLevel = "@((baseMapDetails != null) ? baseMapDetails.DefaultZoomLevel : 0)";
                         centerLatitude = "@((baseMapDetails != null) ? baseMapDetails.BaseMapCenterLat : 0)";
                         centerLongitude = "@((baseMapDetails != null) ? baseMapDetails.BaseMapCenterLong : 0)";
-
-                        console.log("----BaseMapDetails----");
-                        console.log(defaultZoomLevel);
-                        console.log(centerLatitude);
-                        console.log(centerLongitude);
                     }
-
-                    console.log("----Finally Viewed----");
-                    console.log(defaultZoomLevel);
-                    console.log(centerLatitude);
-                    console.log(centerLongitude);
 
                     app.mapView.center = [centerLongitude, centerLatitude];
                     app.mapView.zoom = defaultZoomLevel;
@@ -1433,7 +1387,7 @@
                     var queryExpression = [];
                     var isChecked = false;
                     var isLayerListAdded = false;
-
+                    
                     if (exprZone != "") {
                         if (exprCircle != "") {
                             if (exprSnD != "") {
@@ -1448,7 +1402,7 @@
                                                 queryExpression['RouteId'] = exprRoute;
                                                 queryExpression['FeederLineId'] = exprFeederLine;
                                                 queryExpression['PoleId'] = exprPole;
-                                                addLayerByArea(0, queryExpression, isChecked);                                                
+                                                addLayerByArea(0, queryExpression, isChecked);
                                             } else {
                                                 queryExpression['ZoneId'] = exprZone;
                                                 queryExpression['CircleId'] = exprCircle;
@@ -1473,7 +1427,7 @@
                                         queryExpression['SnDDivId'] = exprSnD;
                                         queryExpression['SubStationId'] = exprSubStation;
                                         addLayerByArea(2, queryExpression, isChecked);
-                                    }                                    
+                                    }
                                 } else {
                                     queryExpression['ZoneId'] = exprZone;
                                     queryExpression['CircleId'] = exprCircle;
@@ -1489,9 +1443,23 @@
                             queryExpression['ZoneId'] = exprZone;
                             addLayerByArea(5, queryExpression, isChecked);
                             addLegendWithLayerList();
-                            //isLayerListAdded = true;
-                        }                        
+                        }
+
+                        if (isLayerListAdded) {
+                            removeLayer();
+                        }
+                        isLayerListAdded = true;
+                        addLegendWithLayerList();
                     }
+                    else {
+
+                        if (isLayerListAdded) {
+                            removeLayer();
+                        }
+                        isLayerListAdded = true;                        
+                        addLegendWithLayerList();                        
+                    }
+                    
                     setZoomLevel(exprZone, exprCircle, exprSnD, exprSubStation);
 
                     var print = new Print({
