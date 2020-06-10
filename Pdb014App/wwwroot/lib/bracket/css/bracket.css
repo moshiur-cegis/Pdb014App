@@ -3153,7 +3153,7 @@ tbody.collapse.show {
         color: #868e96;
     }
 
-.nav-tabs {
+/*.nav-tabs {
     border-bottom: 1px solid #ddd;
 }
 
@@ -3167,7 +3167,8 @@ tbody.collapse.show {
         border-top-right-radius: 3px;
     }
 
-        .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+        .nav-tabs .nav-link:focus,
+        .nav-tabs .nav-link:hover {
             border-color: #e9ecef #e9ecef #ddd;
         }
 
@@ -3182,13 +3183,56 @@ tbody.collapse.show {
             color: #495057;
             background-color: #E9ECEF;
             border-color: #ddd #ddd #E9ECEF;
+        }*/
+
+.nav-tabs {
+    border-bottom: 0 none !important;
+}
+
+    .nav-tabs .nav-item {
+        margin-bottom: -1px;
+    }
+
+        .nav-tabs .nav-item .nav-link {
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: #123547;
+            font-weight: 400;
+            background: rgba(0, 0, 0, 0.025);
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
         }
+
+            .nav-tabs .nav-item .nav-link.disabled {
+                color: #777;
+                background-color: #eee;
+                border: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+            .nav-tabs .nav-item:focus .nav-link,
+            .nav-tabs .nav-item .nav-link:focus,
+            .nav-tabs .nav-item:hover .nav-link,
+            .nav-tabs .nav-item .nav-link:hover {
+                border: 1px solid rgba(0, 0, 0, 0.07);
+                color: #0575a5;
+/*                font-weight: 500;*/
+                background-color: #edf5f7;
+            }
+
+            .nav-tabs .nav-item .nav-link.active,
+            .nav-tabs .nav-item.show .nav-link {
+                border-color: #ddd #ddd #eaeced;
+                color: #0785c5;
+                font-weight: 500;
+                background-color: #f3f8fd;
+            }
+
 
     .nav-tabs .dropdown-menu {
         margin-top: -1px;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
     }
+
 
 .nav-pills .nav-link {
     border-radius: 3px;
@@ -3210,13 +3254,19 @@ tbody.collapse.show {
     text-align: center;
 }
 
-.tab-content > .tab-pane {
-    display: none;
+.tab-content {
+    border: 1px solid #ddd;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0 .5rem .5rem;
 }
 
-.tab-content > .active {
-    display: block;
-}
+    .tab-content > .tab-pane {
+        display: none;
+    }
+
+    .tab-content > .active {
+        display: block;
+    }
 
 .navbar {
     position: relative;

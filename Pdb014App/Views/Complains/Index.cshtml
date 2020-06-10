@@ -37,15 +37,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.ComplainPriority)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.ResponsibleOfficer)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.ResolveDate)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.ResolvingOfficer)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.ComplainToUnion)
             </th>
@@ -93,15 +93,15 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ComplainPriority)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.ResponsibleOfficer.Id)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.ResolveDate)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.ResolvingOfficer.UserFullName + ", " + item.ResolvingOfficer.UserDesignation)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.ComplainToUnion.UnionGeoCode)
                 </td>

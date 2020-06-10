@@ -9,7 +9,7 @@
     LookUpMapViewGisServer gisServerDetails = null;
     LookUpMapViewApplicationServer appServerDetails = null;
     LookUpMapViewBaseMapDetail baseMapDetails = null;
-
+    
     if (ViewData["GisServer"] != null)
     {
         gisServerDetails = ViewData["GisServer"] as LookUpMapViewGisServer;
@@ -772,7 +772,7 @@
                     actions: [viewThisAction]
                 };
 
-                /*
+                /*   
                  var subStationsPopupTemplate = {
                     title: "Substation '{SubstationName}' Details",
                     content: [
@@ -1460,7 +1460,7 @@
                             centerLongitude = "@((baseMapDetails.BaseMapCenterLong != null) ? baseMapDetails.BaseMapCenterLong : 0)";
                         }
                     }
-                    else {
+                    else {                        
                         switch (layerId) {
                             case 0:
                                 allLayers.findSublayerById(0).definitionExpression = queryExpression['FeederLineId'];
@@ -1516,7 +1516,7 @@
                                 allLayers.findSublayerById(5).definitionExpression = queryExpression['ZoneId'];
                                 makeLayerVisible();
                                 break;
-                            default:
+                            default:                                
                                 break;
                         }
                     }
@@ -2185,6 +2185,7 @@
                 data: { substationId: substationId },
                 before: $("#busy-indicator").fadeIn(150),
                 success: function (routes) {
+
                     $route.append('<option value="" selected="selected">-- Select Route --</option>');
                     $.each(routes,
                         function (i, route) {

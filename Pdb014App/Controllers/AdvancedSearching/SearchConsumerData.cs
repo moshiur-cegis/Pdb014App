@@ -20,7 +20,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
     public partial class AdvancedSearchingController : Controller
     {
 
-        public async Task<IActionResult> SearchConsumerData([FromQuery] string cai, int pageIndex = 1, string sort = "ConsumerId")
+        public async Task<IActionResult> SearchConsumerData([FromQuery] string cai, int pageIndex = 1, string sort = "ConsumersId")
         {
             ViewBag.TotalRecords = _dbContext.TblConsumerData.AsNoTracking().Count();
             ViewBag.SearchParameters = new List<List<string>>(3);
@@ -28,7 +28,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "cdt.ConsumerId", Text = "Consumer Id"},
+                //new SelectListItem {Value = "cdt.ConsumersId", Text = "Consumer Id"},
 
                 new SelectListItem {Value = "plt.PoleNo", Text = "Pole No."},
                 new SelectListItem {Value = "flt.FeederName", Text = "Feeder Line Name"},
@@ -99,7 +99,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(cd => cd.ConsumerToStructureType)
                 
                 .Include(cd => cd.ConsumerDataToServicesPoint)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer)
+                //.Include(cd => cd.ConsumerDataToDistributionTransformer)
                 .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine)
                 .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation)
                 .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationType)
@@ -107,7 +107,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "ConsumerId");
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "ConsumersId");
 
             searchResult.RouteValue = new RouteValueDictionary { { "cai", cai } };
 
@@ -118,7 +118,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
         //[HttpPost]
         [HttpGet]
-        public async Task<IActionResult> SearchConsumerData(List<string> regionList, List<List<string>> searchParameters, string cai, int pageIndex = 1, string sort = "ConsumerId")
+        public async Task<IActionResult> SearchConsumerData(List<string> regionList, List<List<string>> searchParameters, string cai, int pageIndex = 1, string sort = "ConsumersId")
         {
             ViewBag.TotalRecords = _dbContext.TblConsumerData.AsNoTracking().Count();
             ViewBag.SearchParameters = searchParameters;
@@ -126,7 +126,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             var fields = new List<SelectListItem>
             {
-                new SelectListItem {Value = "cdt.ConsumerId", Text = "Consumer Id"},
+                //new SelectListItem {Value = "cdt.ConsumersId", Text = "Consumer Id"},
 
                 new SelectListItem {Value = "plt.PoleNo", Text = "Pole No."},
                 new SelectListItem {Value = "flt.FeederName", Text = "Feeder Line Name"},
@@ -292,39 +292,38 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
                     switch (searchOption.FieldName)
                     {
-
-                        case "ConsumerId":
-                            switch (searchOption.Operator)
-                            {
-                                case "=":
-                                    tempExp = model => model.ConsumerId == int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "!=":
-                                    tempExp = model => model.ConsumerId != int.Parse(searchOption.FieldValue);
-                                    break;
-                                case ">":
-                                    tempExp = model => model.ConsumerId > int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "<":
-                                    tempExp = model => model.ConsumerId < int.Parse(searchOption.FieldValue);
-                                    break;
-                                case ">=":
-                                    tempExp = model => model.ConsumerId >= int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "<=":
-                                    tempExp = model => model.ConsumerId <= int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "null":
-                                    tempExp = model => false; //model.ConsumerId == null;
-                                    break;
-                                case "not null":
-                                    tempExp = model => true; //model.ConsumerId != null;
-                                    break;
-                                case "Like":
-                                    tempExp = model => model.ConsumerId.ToString().Contains(searchOption.FieldValue);
-                                    break;
-                            }
-                            break;
+                        //case "ConsumersId":
+                        //    switch (searchOption.Operator)
+                        //    {
+                        //        case "=":
+                        //            tempExp = model => model.ConsumersId == int.Parse(searchOption.FieldValue);
+                        //            break;
+                        //        case "!=":
+                        //            tempExp = model => model.ConsumersId != int.Parse(searchOption.FieldValue);
+                        //            break;
+                        //        case ">":
+                        //            tempExp = model => model.ConsumersId > int.Parse(searchOption.FieldValue);
+                        //            break;
+                        //        case "<":
+                        //            tempExp = model => model.ConsumersId < int.Parse(searchOption.FieldValue);
+                        //            break;
+                        //        case ">=":
+                        //            tempExp = model => model.ConsumersId >= int.Parse(searchOption.FieldValue);
+                        //            break;
+                        //        case "<=":
+                        //            tempExp = model => model.ConsumersId <= int.Parse(searchOption.FieldValue);
+                        //            break;
+                        //        case "null":
+                        //            tempExp = model => false; //model.ConsumersId == null;
+                        //            break;
+                        //        case "not null":
+                        //            tempExp = model => true; //model.ConsumersId != null;
+                        //            break;
+                        //        case "Like":
+                        //            tempExp = model => model.ConsumersId.ToString().Contains(searchOption.FieldValue);
+                        //            break;
+                        //    }
+                        //    break;
 
                         case "PoleNo":
                             switch (searchOption.Operator)
@@ -406,42 +405,42 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
                             break;
 
-                        case "NearestHoldingbsHouseNobsShop":
-                            switch (searchOption.Operator)
-                            {
-                                case "=":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop == searchOption.FieldValue;
-                                    break;
-                                case "!=":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop != searchOption.FieldValue;
-                                    break;
-                                case ">":
-                                    tempExp = model =>
-                                        int.Parse(model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop) > int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "<":
-                                    tempExp = model =>
-                                        int.Parse(model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop) < int.Parse(searchOption.FieldValue);
-                                    break;
-                                case ">=":
-                                    tempExp = model =>
-                                        int.Parse(model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop) >= int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "<=":
-                                    tempExp = model =>
-                                        int.Parse(model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop) <= int.Parse(searchOption.FieldValue);
-                                    break;
-                                case "null":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop == null;
-                                    break;
-                                case "not null":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop != null;
-                                    break;
-                                case "Like":
-                                    tempExp = model => model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop.Contains(searchOption.FieldValue);
-                                    break;
-                            }
-                            break;
+                        //case "NearestHoldingbsHouseNobsShop":
+                        //    switch (searchOption.Operator)
+                        //    {
+                        //        case "=":
+                        //            tempExp = model => model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop == searchOption.FieldValue;
+                        //            break;
+                        //        case "!=":
+                        //            tempExp = model => model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop != searchOption.FieldValue;
+                        //            break;
+                        //        case ">":
+                        //            tempExp = model =>
+                        //                int.Parse(model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop) > int.Parse(searchOption.FieldValue);
+                        //            break;
+                        //        case "<":
+                        //            tempExp = model =>
+                        //                int.Parse(model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop) < int.Parse(searchOption.FieldValue);
+                        //            break;
+                        //        case ">=":
+                        //            tempExp = model =>
+                        //                int.Parse(model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop) >= int.Parse(searchOption.FieldValue);
+                        //            break;
+                        //        case "<=":
+                        //            tempExp = model =>
+                        //                int.Parse(model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop) <= int.Parse(searchOption.FieldValue);
+                        //            break;
+                        //        case "null":
+                        //            tempExp = model => model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop == null;
+                        //            break;
+                        //        case "not null":
+                        //            tempExp = model => model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop != null;
+                        //            break;
+                        //        case "Like":
+                        //            tempExp = model => model.ConsumerDataToDistributionTransformer.NearestHoldingbsHouseNobsShop.Contains(searchOption.FieldValue);
+                        //            break;
+                        //    }
+                        //    break;
 
 
                         case "ServicePoint":
@@ -1231,26 +1230,22 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             switch (searchOption.Operator)
                             {
                                 case "=":
-                                    tempExp = model => model.BillGroup == int.Parse(searchOption.FieldValue);
+                                    tempExp = model => model.BillGroup == searchOption.FieldValue;
                                     break;
                                 case "!=":
-                                    tempExp = model => model.BillGroup != int.Parse(searchOption.FieldValue);
+                                    tempExp = model => model.BillGroup != searchOption.FieldValue;
                                     break;
                                 case ">":
-                                    tempExp = model =>
-                                        model.BillGroup > int.Parse(searchOption.FieldValue);
+                                    tempExp = model => int.Parse(model.BillGroup) > int.Parse(searchOption.FieldValue);
                                     break;
                                 case "<":
-                                    tempExp = model =>
-                                        model.BillGroup < int.Parse(searchOption.FieldValue);
+                                    tempExp = model => int.Parse(model.BillGroup) < int.Parse(searchOption.FieldValue);
                                     break;
                                 case ">=":
-                                    tempExp = model =>
-                                        model.BillGroup >= int.Parse(searchOption.FieldValue);
+                                    tempExp = model => int.Parse(model.BillGroup) >= int.Parse(searchOption.FieldValue);
                                     break;
                                 case "<=":
-                                    tempExp = model =>
-                                        model.BillGroup <= int.Parse(searchOption.FieldValue);
+                                    tempExp = model => int.Parse(model.BillGroup) <= int.Parse(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.BillGroup == null;
@@ -1269,26 +1264,22 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             switch (searchOption.Operator)
                             {
                                 case "=":
-                                    tempExp = model => model.BookNumber == int.Parse(searchOption.FieldValue);
+                                    tempExp = model => model.BookNumber == searchOption.FieldValue;
                                     break;
                                 case "!=":
-                                    tempExp = model => model.BookNumber != int.Parse(searchOption.FieldValue);
+                                    tempExp = model => model.BookNumber != searchOption.FieldValue;
                                     break;
                                 case ">":
-                                    tempExp = model =>
-                                        model.BookNumber > int.Parse(searchOption.FieldValue);
+                                    tempExp = model => int.Parse(model.BookNumber) > int.Parse(searchOption.FieldValue);
                                     break;
                                 case "<":
-                                    tempExp = model =>
-                                        model.BookNumber < int.Parse(searchOption.FieldValue);
+                                    tempExp = model => int.Parse(model.BookNumber) < int.Parse(searchOption.FieldValue);
                                     break;
                                 case ">=":
-                                    tempExp = model =>
-                                        model.BookNumber >= int.Parse(searchOption.FieldValue);
+                                    tempExp = model => int.Parse(model.BookNumber) >= int.Parse(searchOption.FieldValue);
                                     break;
                                 case "<=":
-                                    tempExp = model =>
-                                        model.BookNumber <= int.Parse(searchOption.FieldValue);
+                                    tempExp = model => int.Parse(model.BookNumber) <= int.Parse(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.BookNumber == null;
@@ -1524,7 +1515,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(cd => cd.ConsumerToStructureType)
 
                 .Include(cd => cd.ConsumerDataToServicesPoint)
-                .Include(cd => cd.ConsumerDataToDistributionTransformer)
+                //.Include(cd => cd.ConsumerDataToDistributionTransformer)
                 .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToFeederLine)
                 .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation)
                 .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationType)
@@ -1532,7 +1523,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 .Include(cd => cd.ConsumerDataToServicesPoint.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationToLookUpSnD.CircleInfo.ZoneInfo)
                 .AsQueryable();
 
-            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "ConsumerId");
+            var searchResult = await PagingList.CreateAsync(qry, 10, pageIndex, sort, "ConsumersId");
 
             searchResult.RouteValue = searchParametersRoute;
 

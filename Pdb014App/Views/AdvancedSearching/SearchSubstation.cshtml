@@ -59,7 +59,7 @@
 
                     <input type="hidden" name="cai" value="@Model.RouteValue["cai"]" />
 
-                    <fieldset style="padding-bottom: 0;">
+                    <fieldset style="padding-top:1.1rem;">
                         <legend>▣ Regional Boundaries</legend>
                         <div class="row">
                             <div class="col-md-6">
@@ -98,25 +98,32 @@
                                 </div>
                             </div>
                         </div>
-                    </fieldset>
 
-                    <div class="form-group" style="margin-top: 10px;">
-                        <input type="submit" value="Search" class="btn btn-primary float-right" />
-                    </div>
+                        @*<div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Route</label>
+                                        <select id="RouteCode" asp-for="@regionList[4]" class="form-control" asp-items="ViewBag.RouteList">
+                                            <option value="" selected="selected">----- all route -----</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </fieldset>
 
                 </div>
 
                 <div class="col-md-6">
-                    <fieldset style="padding-bottom: 10px;">
-                        <legend>▣ Search Options</legend>
 
+                    <fieldset>
+                        <legend>▣ Search Options</legend>
                         <table id="tblSearchOptions" class="table" cellpadding="0" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th style="width: 48%">Field Name</th>
                                     <th style="width: 70px">Operator</th>
                                     <th style="width: 50%">Field Value</th>
-                                    <th style="width: 70px">Join (AND/OR)</th>
+                                    <th style="width: 73px">Join</th> @*(AND/OR)*@
                                 </tr>
                             </thead>
 
@@ -141,7 +148,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <input id="fieldValue" asp-for="@searchParameters[spc][2]" class="form-control text-left field-value" />
+                                            <input id="fieldValue" asp-for="@searchParameters[spc][2]" autocomplete="off" class="form-control text-left field-value" />
                                             <div id="ac-list-@spc" class="ac-list-content"></div>
                                         </td>
                                         <td>
@@ -157,6 +164,10 @@
                         </table>
 
                     </fieldset>
+
+                    <div class="form-group" style="margin-top: 10px;">
+                        <input type="submit" value="Search" class="btn btn-primary float-right" />
+                    </div>
                 </div>
             </div>
 
@@ -246,7 +257,7 @@
                                         @Html.DisplayFor(modelItem => item.SubstationId)
                                     </a>
                                     <br />
-                                    <a target="_blank" asp-controller="MapViewer" asp-action="MapView"
+                                    <a target="_blank" asp-controller="MapViewer" asp-action="SearchMap"
                                        asp-route-zoneCode="@item.SubstationToLookUpSnD.CircleInfo.ZoneCode"
                                        asp-route-circleCode="@item.SubstationToLookUpSnD.CircleCode"
                                        asp-route-snDCode="@item.SnDCode"

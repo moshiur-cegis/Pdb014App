@@ -1,6 +1,7 @@
 ﻿@using Pdb014App.Models.MapViewer.Settings
 @using Pdb014App.Models.PDB.LookUpModels;
 @using Pdb014App.Models.PDB.SubstationModels;
+@using System.Collections;
 
 @{
     Layout = null;
@@ -9,7 +10,6 @@
     LookUpMapViewGisServer gisServerDetails = null;
     LookUpMapViewApplicationServer appServerDetails = null;
     LookUpMapViewBaseMapDetail baseMapDetails = null;
-    
 
     if (ViewData["GisServer"] != null)
     {
@@ -43,10 +43,10 @@
     <link rel="stylesheet" href="~/map/calcite-maps-master/dist/css/calcite-maps-arcgis-4.x.min-v0.8.css" />
 
     <!-- ArcGIS JS 4 -->
-
-    @*<link rel="stylesheet" href="//js.arcgis.com/4.14/esri/themes/light/main.css" />*@
-    <link rel="stylesheet" href="~/map/arcgis_js_api/library/4.14/esri/themes/light/main.css" />
-
+    <link rel="stylesheet" href="//js.arcgis.com/4.15/esri/themes/light/main.css" />
+    @*<link rel="stylesheet" href="~/map/arcgis_js_api/library/4.14/esri/themes/light/main.css" />*@
+        
+    <link href="~/css/msgstyle.css" rel="stylesheet" />
 
     <style>
         html,
@@ -58,6 +58,10 @@
 
         #allPanels.is-active {
             display: block;
+        }
+
+        #divSsComponent {
+            display: none;
         }
 
         #topbar {
@@ -103,6 +107,27 @@
             .buttonTitle:hover, .buttonTitle:focus {
                 color: #e4e4e4;
             }
+
+        #sSComponentModal {
+            position: absolute;
+        }
+
+        .modal-dialog {
+            position: fixed;
+            width: 50%;
+            margin: 0;
+            padding: 5px 10px;
+        }
+
+        .nav-tabs {
+            background-color: #333333 !important;
+            /*border: medium none;
+          border-radius: 0;*/
+        }
+
+            .nav-tabs > li.active > a {
+                background-color: rgba(0, 0, 0, 0.5) !important;
+            }
     </style>
 
 </head>
@@ -126,19 +151,13 @@
                 <ul class="dropdown-menu">
                     <li>
                         <a href="~/?cai=dasb_01" role="button" data-target="" aria-haspopup="true" class="buttonTitle"><span class="glyphicon esri-icon-home">&nbsp;</span>Home</a>
-                    </li>
-                    <li class="active">
-                        <a class="hidden-md hidden-lg" href="#mapTab" aria-controls="mapTab" role="tab" data-toggle="tab">Map</a>
-                    </li>
-                    <li>
-                        <a class="hidden-md hidden-lg" href="#sceneTab" aria-controls="sceneTab" role="tab" data-toggle="tab">Scene</a>
-                    </li>
+                    </li>                    
                     <li>
                         <a role="button" data-target="#panelBasemaps" aria-haspopup="true"><span class="glyphicon glyphicon-th-large"></span>Basemaps</a>
                     </li>
-                    @*<li>
-                            <a role="button" data-target="#panelSettings" aria-haspopup="true"><span class="glyphicon glyphicon-cog"></span>Settings</a>
-                        </li>*@
+                    <li>
+                        <a role="button" data-target="#panelSettings" aria-haspopup="true"><span class="glyphicon glyphicon-cog"></span>Change Themes</a>
+                    </li>
                     <li>
                         <a role="button" data-target="#panelLocationSelect" aria-haspopup="true"><span class="glyphicon esri-icon-filter"></span>Query & Filtering</a>
                     </li>
@@ -152,7 +171,7 @@
                 <span class="calcite-title-main">Map Viewer</span>
                 <span class="calcite-title-divider hidden-xs"></span>
                 <span class="calcite-title-sub hidden-xs" id="btnHomeSpan">
-                    <a href="~/?cai=dasb_01" role="button" data-target="" aria-haspopup="true" class="buttonTitle"><span class="glyphicon esri-icon-home">&nbsp;</span>Dashboard</a>
+                    <a href="~/?cai=dasb_01" role="button" data-target="" aria-haspopup="true" class="buttonTitle"><span class="glyphicon esri-icon-dashboard">&nbsp;</span>Dashboard</a>
                 </span>
                 <span class="calcite-title-divider hidden-xs"></span>
                 <span class="calcite-title-sub hidden-xs" id="btnClearSpan">
@@ -165,30 +184,7 @@
                 </span>
             </div>
             <!-- Nav -->
-            <ul class="nav navbar-nav calcite-nav">
-                <li class="active">
-                    <a id="mapNav"
-                       class="hidden-xs hidden-sm"
-                       href="#mapTab"
-                       aria-controls="mapTab"
-                       aria-expanded="true"
-                       role="tab"
-                       data-toggle="tab"
-                       data-tooltip="tip"
-                       title="2D View"
-                       data-placement="bottom">Map (2-D)</a>
-                </li>
-                <li>
-                    <a id="sceneNav"
-                       class="hidden-xs hidden-sm"
-                       href="#sceneTab"
-                       aria-controls="sceneTab"
-                       role="tab"
-                       data-toggle="tab"
-                       data-tooltip="tip"
-                       title="3D View"
-                       data-placement="bottom">Scene (3-D)</a>
-                </li>
+            <ul class="nav navbar-nav calcite-nav">                
                 <li>
                     <div class="calcite-navbar-search calcite-search-expander">
                         <div id="searchWidgetDiv"></div>
@@ -202,10 +198,7 @@
             <div id="tabContainer" class="tab-content">
                 <div id="mapTab" class="tab-pane fade in active" role="tabpanel">
                     <div id="mapViewDiv"></div>
-                </div>
-                <div id="sceneTab" class="tab-pane fade" role="tabpanel">
-                    <div id="sceneViewDiv"></div>
-                </div>
+                </div>                
             </div>
         </div>
         <!-- /.calcite-map -->
@@ -342,6 +335,52 @@
                                 </div>
                                 <div class="col-xs-2"></div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="sSComponentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-sm modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Substation Component Details</h4>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#ssMenu">Sub-Station Details</a></li>
+                                <li><a data-toggle="tab" href="#componentMenu">Components</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="ssMenu" class="tab-pane fade in active">
+                                    <fieldset id="tab01">
+                                        <div id="displaySubstationDetails">
+                                            This is sub-station details
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div id="componentMenu" class="tab-pane fade">
+                                    <fieldset class="show" id="tab02">
+                                        <div class="bg-light">
+                                            <div class="form-group" id="frmComponent">
+                                                <label for="ComponentSelectionWidgets" class="col-xs-4 control-label">Component</label>
+                                                <div class="col-xs-6">
+                                                    @Html.DropDownList("ddlSsComponentType", new SelectList((IEnumerable)ViewData["SsComponentTypeList"], "Value", "Text"))
+                                                </div>
+                                                <div class="col-xs-2"></div>
+                                            </div>
+                                        </div>
+                                        <div id="displayComponentDetails" class="px-3">
+
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -514,6 +553,13 @@
         </div>
     </div>
 
+    <div id="busy-indicator" class="pageloading">
+        <div class="pageloading-body">
+            <div class="loading-indicator">
+                <p>Please wait ... . . </p>
+            </div>
+        </div>
+    </div>
     <!-- /.calcite-panels -->
 
     <script type="text/javascript">
@@ -535,12 +581,15 @@
 
     </script>
 
+    @*<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>*@
     <!-- ArcGIS JS 4 -->
-    <script src="//js.arcgis.com/4.14/"></script>
+    <script src="//js.arcgis.com/4.15/"></script>
     @*<script src="~/map/arcgis_js_api/library/4.14"></script>*@
-
     @*<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>*@
     <script src="~/lib/jquery/3.4.1/jquery.min.js"></script>
+    @*<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
 
     <script>
         var activeWidget = null;
@@ -571,6 +620,8 @@
             "esri/widgets/LayerList",
             "esri/widgets/Legend",
             "esri/widgets/Expand",
+            "esri/widgets/Editor",
+            "esri/popup/content/TextContent",
             "esri/core/watchUtils",
             "esri/layers/MapImageLayer",
             "esri/widgets/DistanceMeasurement2D",
@@ -592,28 +643,30 @@
             // Can use @@dojo shim for Array.from for IE11
             "@@dojo/framework/shim/array"
         ], function (
-            Map,
-            MapView,
-            SceneView,
-            Home,
-            Search,
-            Basemaps,
-            BasemapToggle,
-            ScaleBar,
-            Attribution,
-            LayerList,
-            Legend,
-            Expand,
-            watchUtils,
-            MapImageLayer,
-            DistanceMeasurement2D,
-            Print,
-            PictureMarkerSymbol,
-            WebStyleSymbol,
-            geometryEngine,
-            Graphic,
-            CalciteMaps,
-            CalciteMapsArcGIS
+                Map,
+                MapView,
+                SceneView,
+                Home,
+                Search,
+                Basemaps,
+                BasemapToggle,
+                ScaleBar,
+                Attribution,
+                LayerList,
+                Legend,
+                Expand,
+                Editor,
+                TextContent,
+                watchUtils,
+                MapImageLayer,
+                DistanceMeasurement2D,
+                Print,
+                PictureMarkerSymbol,
+                WebStyleSymbol,
+                geometryEngine,
+                Graphic,
+                CalciteMaps,
+                CalciteMapsArcGIS
            ) {
                 /*********** App settings ********************/
                 app = {
@@ -627,11 +680,12 @@
                         top: 50,
                         bottom: 0
                     },
-                    uiComponents: ["attribution","zoom","navigation-toggle", "compass"],
+                    //uiComponents: ["attribution","zoom","navigation-toggle", "compass"],
+                    uiComponents: ["attribution", "zoom"],
                     mapView: null,
                     sceneView: null,
                     containerMap: "mapViewDiv",
-                    containerScene: "sceneViewDiv",
+                    //containerScene: "sceneViewDiv",
                     activeView: null,
                     searchWidget: null,
                     popupWindow: {
@@ -706,7 +760,57 @@
                     ]
                 };
 
-                var subStationsPopupTemplate = {
+                const viewThisAction = {
+                    title: "Components",
+                    id: "view-this",
+                    className: "esri-icon-description"
+                };
+
+                //var subStationsPopupTemplate = {
+                //    title: "Substation '{SubstationName}' Details",
+                //    content: getSubstationContent,
+                //    fieldInfos: [
+                //        {
+                //            fieldName: "ZoneName",
+                //            label: "Zone",
+                //            visible: true
+                //        },
+                //        {
+                //            fieldName: "CircleName",
+                //            label: "Circle",
+                //            visible: true
+                //        },
+                //        {
+                //            fieldName: "SnDName",
+                //            label: "S & D Name",
+                //            visible: true
+                //        },
+                //        {
+                //            fieldName: "SubstationName",
+                //            label: "Substation",
+                //            visible: true
+                //        }
+                //    ],
+                //    actions: [viewThisAction]
+                //};
+
+                // Function that creates popup elements for the template
+                function getSubstationContent() {
+                    //const textElementZone = new TextContent();
+                    //const textElementCircle = new TextContent();
+                    //const textElementSnDName = new TextContent();
+                    const textElementSubstation = new TextContent();
+
+                    //textElementZone.text = "Zone: <b><span style='color:green'>{ZoneName}</span></b>";
+                    //textElementCircle.text = "Circle: <b><span style='color:green'>{CircleName}</span></b>";
+                    //textElementSnDName.text = "SnDName: <b><span style='color:green'>{SnDName}</span></b>";
+                    textElementSubstation.text = "Substation: <b><span style='color:green'>{SubstationName}</span></b>";
+                    //return [textElementZone, textElementCircle, textElementSnDName, textElementSubstation];
+                    return [textElementSubstation];
+                }
+
+
+                 var subStationsPopupTemplate = {
                     title: "Substation '{SubstationName}' Details",
                     content: [
                         {
@@ -763,7 +867,8 @@
                             }
                             ]
                         }
-                    ]
+                    ],
+                    actions: [viewThisAction]
                 };
 
                 var polesPopupTemplate = {
@@ -991,10 +1096,10 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [145,05,07, 0.2],
+                                    color: [255, 87, 51, 0.4],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [145,05,07, 0.6],
+                                        color: [255, 87, 51, 0.8],
                                         width: 1
                                     }
                                 }
@@ -1009,10 +1114,10 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [45,105,07, 0.2],
+                                    color: [05, 250, 09, 0.4],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [45,105,07, 0.6],
+                                        color: [05, 250, 09, 0.8],
                                         width: 1
                                     }
                                 }
@@ -1027,10 +1132,10 @@
                                 type: "simple",  // autocasts as new SimpleRenderer()
                                 symbol: {
                                     type: "simple-fill",  // autocasts as new LineSymbol3D()
-                                    color: [245,05,07, 0.2],
+                                    color: [242, 253, 02, 0.4],
                                     style: "solid",
                                     outline: {  // autocasts as new SimpleLineSymbol()
-                                        color: [245,05,07, 0.6],
+                                        color: [242, 253, 02, 0.8],
                                         width: 1
                                     }
                                 }
@@ -1178,7 +1283,6 @@
                 app.center = [centerLongitude, centerLatitude];
                 app.zoom = defaultZoomLevel;
 
-
                 // 2D view
                 app.mapView = new MapView({
                     container: app.containerMap,
@@ -1203,6 +1307,7 @@
                 var homeBtnMap = new Home({
                    view: app.mapView
                 });
+
                 // Add the home button to the top left corner of the view
                 app.mapView.ui.add(homeBtnMap, "top-left");
                 app.mapView.ui.add("topbar", "top-left");
@@ -1214,10 +1319,10 @@
                 });
                 app.mapView.ui.add(basemapToggle, "bottom-right");
 
-                var attribution = new Attribution({
-                    view: app.mapView
-                });
-                app.mapView.ui.add(attribution, "manual");
+                //var attribution = new Attribution({
+                //    view: app.mapView
+                //});
+                //app.mapView.ui.add(attribution, "manual");
 
                 function ajaxDefaultBasicInfo() {
                     $.ajax({
@@ -1382,7 +1487,6 @@
                 }
 
                 function addLayerByArea(layerId, queryExpression, isChecked) {
-
                     if (isChecked) {
                         for (var i = 0; i < allLayers.sublayers.length; i++) {
                             allLayers.findSublayerById(i).definitionExpression = "";
@@ -1394,7 +1498,6 @@
                         }
                     }
                     else {
-
                         switch (layerId) {
                             case 0:
                                 allLayers.findSublayerById(0).definitionExpression = queryExpression['FeederLineId'];
@@ -1454,7 +1557,6 @@
                                 break;
                         }
                     }
-
                     app.mapView.center = [centerLongitude, centerLatitude];
                     app.mapView.zoom = defaultZoomLevel;
                     map.layers.add(allLayers);
@@ -1512,7 +1614,6 @@
                 var isLayerListAdded = false;
 
                 app.mapView.when(function () {
-
                     var allLayerEvent = document.getElementById("chkBxAllLayers");
                     var zoneEvent = document.getElementById("ZoneCode");
                     var circleEvent = document.getElementById("CircleCode");
@@ -1520,7 +1621,7 @@
                     var substationEvent = document.getElementById("SubstationId");
                     var routeEvent = document.getElementById("RouteCode");
                     var feederLineEvent = document.getElementById("FeederLineId");
-
+                    //var sSComponentDdlEvent = document.getElementById("sSComponentDdlId");
 
                     allLayerEvent.addEventListener("change", function (event) {
                         if (isLayerListAdded) {
@@ -1532,6 +1633,9 @@
                             addLayerByArea(-1, queryExpression, isChecked);
                             addLegendWithLayerList();
                             zoneEvent.value = "";
+                        }
+                        else {
+                            addLayerByArea(-1, queryExpression, isChecked);
                         }
                     });
 
@@ -1657,6 +1761,24 @@
                     // Add widget to the print panel of the view
                     //app.mapView.ui.add(print, "#panelPrint");
 
+                    /*Substation Component View Start*/
+                    function viewSsComponent() {
+                        var modalDiv = $('#sSComponentModal');
+                        modalDiv.modal({backdrop: false, show: true});
+
+                        $('.modal-dialog').draggable({
+                        handle: ".modal-header"
+                        });
+                    }
+
+                    // Event handler that fires each time an action is clicked
+                    app.mapView.popup.on("trigger-action", function(event) {
+                        if (event.action.id === "view-this") {
+                            app.mapView.popup.visible = false;
+                            viewSsComponent();
+                        }
+                    });
+                    /*Substation Component View End*/
                 });
 
                 CalciteMapsArcGIS.setPopupPanelSync(app.mapView);
@@ -1978,10 +2100,13 @@
     <script src="~/map/js/ui/1.10.4/jquery-ui.js"></script>
     <script type="text/javascript">
 
+        //$("#myModal").modal("toggle");
+
         $(function () {
             $("#allPanels").draggable();
             $(".esri-legend_message").val("");
         });
+
         $("#allPanels").css({left: 65});
 
         $('#chkBxAllLayers').on('change', function () {

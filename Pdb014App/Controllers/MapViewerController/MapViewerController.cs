@@ -22,7 +22,27 @@ namespace Pdb014App.Controllers
         {
             _context = context;
         }
-        
+
+        public IActionResult popupTabs()
+        {
+            return View();
+        }
+
+        public IActionResult popupTableJoin()
+        {
+            return View();
+        }
+
+        public IActionResult popupOnClick() 
+        {
+            return View();
+        }
+
+        public IActionResult popupEdit()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult MeasureDistance()
         {            
@@ -56,9 +76,28 @@ namespace Pdb014App.Controllers
                                                                    }).FirstOrDefault();
 
             ViewData["ZoneList"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+            
+            List<SelectListItem> SubstationComponentTypeList = new List<SelectListItem>();
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "", Text = "--Select--" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "1", Text = "Auto Circuit Recloser" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "2", Text = "Battery Charger" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "3", Text = "Ni-Cd Battery(110V DC)" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "4", Text = "Indoor/OutDoor Programmable Energy Meter" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "5", Text = "Switch" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "6", Text = "Relay" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "7", Text = "Vacumn Circuit Breaker" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "8", Text = "Switch Gear" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "9", Text = "Bus Bar" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "10", Text = "SF6 Safety & Life" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "11", Text = "Position" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "12", Text = "Termination Kits" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "13", Text = "Programmable Energy Meter" });
+            
+            ViewData["SsComponentTypeList"] = SubstationComponentTypeList;
+
             return View();
         }
-        
+
         [HttpGet]
         public IActionResult MapViewDev()
         {
@@ -148,7 +187,7 @@ namespace Pdb014App.Controllers
                                                                    .Select(s => new TblSubstation
                                                                    {
                                                                        Latitude = s.Latitude,
-                                                                       Longitude = s.Longitude,                                                                       
+                                                                       Longitude = s.Longitude,
                                                                        DefaultZoomLevel = s.DefaultZoomLevel
                                                                    }).FirstOrDefault();
             }
@@ -199,7 +238,141 @@ namespace Pdb014App.Controllers
 
             return View();
         }
-        
+
+        public IActionResult MapViewUsingPartial() {
+            ViewData["GisServer"] = _context.LookUpMapViewGisServer.Where(x => x.GisServerActivationStatus == 1)
+                                                                   .Select(s => new LookUpMapViewGisServer
+                                                                   {
+                                                                       GisServerFullUrl = s.GisServerFullUrl,
+                                                                       GisServerIPAddress = s.GisServerIPAddress
+                                                                   }).FirstOrDefault();
+
+            ViewData["ApplicationServer"] = _context.LookUpMapViewApplicationServer.Where(x => x.AppServerActivationStatus == 1)
+                                                                   .Select(s => new LookUpMapViewApplicationServer
+                                                                   {
+                                                                       AppServerFullUrl = s.AppServerFullUrl
+                                                                   }).FirstOrDefault();
+
+            ViewData["BaseMap"] = _context.LookUpMapViewBaseMapDetail.Where(x => x.BaseMapActivationStatus == 1)
+                                                                   .Select(s => new LookUpMapViewBaseMapDetail
+                                                                   {
+                                                                       BaseMapName = s.BaseMapName,
+                                                                       DefaultZoomLevel = s.DefaultZoomLevel,
+                                                                       BaseMapCenterLat = s.BaseMapCenterLat,
+                                                                       BaseMapCenterLong = s.BaseMapCenterLong,
+                                                                       MinScale = s.MinScale
+                                                                   }).FirstOrDefault();
+
+            ViewData["ZoneList"] = new SelectList(_context.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
+
+            List<SelectListItem> SubstationComponentTypeList = new List<SelectListItem>();
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "", Text = "--Select--" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "1", Text = "Auto Circuit Recloser" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "2", Text = "Battery Charger" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "3", Text = "Ni-Cd Battery(110V DC)" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "4", Text = "Indoor/OutDoor Programmable Energy Meter" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "5", Text = "Switch" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "6", Text = "Relay" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "7", Text = "Vacumn Circuit Breaker" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "8", Text = "Switch Gear" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "9", Text = "Bus Bar" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "10", Text = "SF6 Safety & Life" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "11", Text = "Position" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "12", Text = "Termination Kits" });
+            SubstationComponentTypeList.Add(new SelectListItem() { Value = "13", Text = "Programmable Energy Meter" });
+
+            ViewData["SsComponentTypeList"] = SubstationComponentTypeList;
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult SearchMap(string zoneCode, string circleCode, string snDCode, string subStationId, string routeCode, string feederLineId, string poleId)
+        {
+            if (!string.IsNullOrEmpty(zoneCode)) {
+                ViewData["ZoneBasicInfo"] = _context.LookUpZoneInfo.Where(w => w.ZoneCode == zoneCode)
+                                                                    .Select(s => new LookUpZoneInfo
+                                                                    {
+                                                                        CenterLatitude = s.CenterLatitude,
+                                                                        CenterLongitude = s.CenterLongitude,
+                                                                        MinScale = s.MinScale,
+                                                                        DefaultZoomLevel = s.DefaultZoomLevel
+                                                                    }).FirstOrDefault();                
+                ViewData["ExprZone"] = "ZoneId = " + zoneCode;                
+            }
+
+            if (!string.IsNullOrEmpty(circleCode)) {
+                ViewData["CircleBasicInfo"] = _context.LookUpCircleInfo.Where(w => w.CircleCode == circleCode)
+                                                                    .Select(s => new LookUpCircleInfo
+                                                                    {
+                                                                        CenterLatitude = s.CenterLatitude,
+                                                                        CenterLongitude = s.CenterLongitude,
+                                                                        MinScale = s.MinScale,
+                                                                        DefaultZoomLevel = s.DefaultZoomLevel
+                                                                    }).FirstOrDefault();                
+                ViewData["ExprCircle"] = "CircleId = " + circleCode;                
+            }
+
+            if (!string.IsNullOrEmpty(snDCode))  {
+                ViewData["SnDBasicInfo"] = _context.LookUpSnDInfo.Where(w => w.SnDCode == snDCode)
+                                                                    .Select(s => new LookUpSnDInfo
+                                                                    {
+                                                                        CenterLatitude = s.CenterLatitude,
+                                                                        CenterLongitude = s.CenterLongitude,
+                                                                        MinScale = s.MinScale,
+                                                                        DefaultZoomLevel = s.DefaultZoomLevel
+                                                                    }).FirstOrDefault();
+                ViewData["ExprSnDDiv"] = " SnDDivId = " + snDCode;
+            }
+
+            if (!string.IsNullOrEmpty(subStationId)) {
+                ViewData["SubStationBasicInfo"] = _context.TblSubstation.Where(w => w.SubstationId == subStationId)
+                                                                    .Select(s => new TblSubstation
+                                                                    {
+                                                                        Latitude = s.Latitude,
+                                                                        Longitude = s.Longitude,
+                                                                        DefaultZoomLevel = s.DefaultZoomLevel
+                                                                    }).FirstOrDefault();
+                ViewData["ExprSubStation"] = " SubStationId = " + subStationId;                
+            }
+
+            if (!string.IsNullOrEmpty(routeCode)) {
+                ViewData["ExprRoute"] = " RouteId = " + routeCode;
+            }
+
+            if (!string.IsNullOrEmpty(feederLineId)) {
+                ViewData["ExprFeederLine"] = " FeederLineId = " + feederLineId; ;
+            }
+
+            if (!string.IsNullOrEmpty(poleId)) {
+                ViewData["ExprPole"] = " PoleId = " + poleId; ;
+            }
+
+            ViewData["GisServer"] = _context.LookUpMapViewGisServer.Where(x => x.GisServerActivationStatus == 1)
+                                                                   .Select(s => new LookUpMapViewGisServer
+                                                                   {
+                                                                       GisServerFullUrl = s.GisServerFullUrl,
+                                                                       GisServerIPAddress = s.GisServerIPAddress
+                                                                   }).FirstOrDefault();
+
+            ViewData["ApplicationServer"] = _context.LookUpMapViewApplicationServer.Where(x => x.AppServerActivationStatus == 1)
+                                                                   .Select(s => new LookUpMapViewApplicationServer
+                                                                   {
+                                                                       AppServerFullUrl = s.AppServerFullUrl
+                                                                   }).FirstOrDefault();
+
+            ViewData["BaseMap"] = _context.LookUpMapViewBaseMapDetail.Where(x => x.BaseMapActivationStatus == 1)
+                                                                   .Select(s => new LookUpMapViewBaseMapDetail
+                                                                   {
+                                                                       BaseMapName = s.BaseMapName,
+                                                                       DefaultZoomLevel = s.DefaultZoomLevel,
+                                                                       BaseMapCenterLat = s.BaseMapCenterLat,
+                                                                       BaseMapCenterLong = s.BaseMapCenterLong,
+                                                                       MinScale = s.MinScale
+                                                                   }).FirstOrDefault();
+            return View();
+        }
+
         public JsonResult GetDefaultBasicInfo()
         {
             var basicInfo = _context.LookUpMapViewBaseMapDetail.Where(w => w.BaseMapActivationStatus == 1)

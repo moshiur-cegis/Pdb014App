@@ -16,11 +16,12 @@ namespace Pdb014App.Models.MapViewer.Settings
         [Display(Name = "Popup Field Id")]
         public int PopupFieldId { get; set; }
 
+        [Required]
         [Column(Order = 1, TypeName = "int")]       
         [Display(Name = "Data Source")]
         public int DataSourceId { get; set; }
         [ForeignKey("DataSourceId")]
-        public virtual LookUpMapViewDataSource LookUpDataSource { get; set; }
+        public virtual LookUpMapViewDataSource LookUpMapViewDataSource { get; set; }
 
         [Required]
         [Column(Order = 2, TypeName = "nvarchar(50)")]
@@ -38,10 +39,10 @@ namespace Pdb014App.Models.MapViewer.Settings
         [Display(Name = "Popup Content Type")]
         public string PopupContentType { get; set; }
                 
-        [Column(Order = 4, TypeName = "nvarchar(10)")]
+        [Column(Order = 4)]
         [StringLength(10)]
         [Display(Name = "Popup Field Visibility")]
-        public string PopupFieldVisibility { get; set; }
+        public bool PopupFieldVisibility { get; set; }
 
         [Column(Order = 5, TypeName = "int")]
         [Display(Name = "Field Status")]

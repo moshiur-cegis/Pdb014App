@@ -41,7 +41,7 @@ namespace Pdb014App.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var regionLevel = "zone";
+            var regionLevel = "Zone";
             var regionList = new List<string>(4) { "", "", "", "" };
 
             var user = await _userManager.GetUserAsync(User);
@@ -60,43 +60,43 @@ namespace Pdb014App.Controllers
 
                     if (User.IsInRole("System Administrator"))
                     {
-                        regionLevel = "zone";
+                        regionLevel = "Zone";
                     }
                     else if (User.IsInRole("Zone"))
                     {
-                        regionLevel = "circle";
+                        regionLevel = "Circle";
                     }
                     else if (User.IsInRole("Circle"))
                     {
-                        regionLevel = "snd";
+                        regionLevel = "SnD";
                     }
                     else if (User.IsInRole("SnD"))
                     {
-                        regionLevel = "substation";
+                        regionLevel = "Substation";
                     }
                     else if (User.IsInRole("Substation"))
                     {
-                        regionLevel = "substation";
+                        regionLevel = "Substation";
                     }
                     else
                     {
-                        regionLevel = "zone";
+                        //regionLevel = "Zone";
 
                         if (!string.IsNullOrEmpty(regionList[3]))
                         {
-                            regionLevel = "substation";
+                            regionLevel = "Substation";
                         }
                         else if (!string.IsNullOrEmpty(regionList[2]))
                         {
-                            regionLevel = "substation";
+                            regionLevel = "Substation";
                         }
                         else if (!string.IsNullOrEmpty(regionList[1]))
                         {
-                            regionLevel = "snd";
+                            regionLevel = "SnD";
                         }
                         else if (!string.IsNullOrEmpty(regionList[0]))
                         {
-                            regionLevel = "circle";
+                            regionLevel = "Circle";
                         }
                     }
                 }
@@ -119,7 +119,7 @@ namespace Pdb014App.Controllers
             ViewBag.CmCount = _dbContext.TblConsumerData.Count();
 
 
-            return View(GetDashboardData(regionLevel, regionList));
+            return View(GetDashboardData(regionLevel.ToLower(), regionList));
         }
 
         public async Task<IActionResult> Index_ok()
@@ -334,7 +334,7 @@ namespace Pdb014App.Controllers
         [HttpPost]
         public List<RegionWiseData> GetDashboardData(string regionLevel = "zone", List<string> regionList = null)
         {
-            regionLevel = string.IsNullOrEmpty(regionLevel) ? "zone" : regionLevel;
+            regionLevel = string.IsNullOrEmpty(regionLevel) ? "zone" : regionLevel.ToLower();
 
             string zoneCode = "", circleCode = "", snDCode = "", substationId = "";
 

@@ -15,6 +15,21 @@
     var searchRecords = Model.TotalRecordCount;
 
 
+    var rlCount = 5;
+    var regionList = ViewBag.RegionList as List<string>;
+    if (regionList == null || regionList.Count < 1)
+    {
+        regionList = new List<string>(rlCount) { "", "", "", "", "" };
+    }
+    else if (regionList.Count < rlCount)
+    {
+        for (int rc = regionList.Count; rc < rlCount; ++rc)
+        {
+            regionList.Add("");
+        }
+    }
+
+
     var spCount = 3;
     var searchParameters = ViewBag.SearchParameters as List<List<string>>;
     if (searchParameters == null || searchParameters.Count < 1)
@@ -39,65 +54,127 @@
 <div class="row">
     <div class="col-md-12">
         <form method="get" asp-controller="AdvancedSearching" asp-action="@Model.Action">
-            <fieldset style="padding-bottom: 10px;">
-                <legend>▣ Search Options</legend>
 
-                <table id="tblSearchOptions" class="table" cellpadding="0" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th style="width: 48%">Field Name</th>
-                            <th style="width: 70px">Operator</th>
-                            <th style="width: 50%">Field Value</th>
-                            <th style="width: 70px">Join (AND/OR)</th>
-                        </tr>
-                    </thead>
+            <div class="row">
+                <div class="col-md-6">
 
-                    <tbody>
+                    <input type="hidden" name="cai" value="@Model.RouteValue["cai"]" />
 
-                        @for (int spc = 0; spc < spCount; ++spc)
-                        {
-                            if (searchParameters.Count <= spc)
-                            {
-                                searchParameters.Add(new List<string>(4) { "", "", "", "" });
-                            }
-
-                            <tr>
-                                <td>
-                                    <select id="fieldName" asp-for="@searchParameters[spc][0]" class="form-control text-left field-name" asp-items="ViewBag.FieldList">
-                                        <option value="">--- Select ---</option>
+                    <fieldset style="padding-top:1.1rem;">
+                        <legend>▣ Regional Boundaries</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Zone</label>
+                                    <select id="ZoneCode" asp-for="@regionList[0]" class="form-control" asp-items="ViewBag.ZoneList">
+                                        <option value="" selected="selected">----- all zone -----</option>
                                     </select>
-                                </td>
-                                <td>
-                                    <select id="operator" asp-for="@searchParameters[spc][1]" class="form-control text-center" asp-items="ViewBag.OperatorList">
-                                        <option selected="" value=""></option>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Circle</label>
+                                    <select id="CircleCode" asp-for="@regionList[1]" class="form-control" asp-items="ViewBag.CircleList">
+                                        <option value="" selected="selected">----- all circle -----</option>
                                     </select>
-                                </td>
-                                <td>
-                                    <input id="fieldValue" asp-for="@searchParameters[spc][2]" class="form-control text-left field-value" />
-                                    <div id="ac-list-@spc" class="ac-list-content"></div>
-                                </td>
-                                <td>
-                                    <select id="joinOption" asp-for="@searchParameters[spc][3]" class="form-control text-center">
-                                        <option value="AND">AND</option>
-                                        <option value="OR">OR</option>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">S&D</label>
+                                    <select id="SnDCode" asp-for="@regionList[2]" class="form-control" asp-items="ViewBag.SnDList">
+                                        <option value="" selected="selected">----- all S&D -----</option>
                                     </select>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">Substation</label>
+                                    <select id="SubstationId" asp-for="@regionList[3]" class="form-control" asp-items="ViewBag.SubstationList">
+                                        <option value="" selected="selected">----- all substation -----</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
-                </table>
+                        @*<div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Route</label>
+                                        <select id="RouteCode" asp-for="@regionList[4]" class="form-control" asp-items="ViewBag.RouteList">
+                                            <option value="" selected="selected">----- all route -----</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </fieldset>
 
-            </fieldset>
+                </div>
 
-            <div class="form-group" style="margin-top: 10px;">
-                <input type="submit" value="Search" class="btn btn-primary float-right" />
+                <div class="col-md-6">
+
+                    <fieldset>
+                        <legend>▣ Search Options</legend>
+                        <table id="tblSearchOptions" class="table" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 48%">Field Name</th>
+                                    <th style="width: 70px">Operator</th>
+                                    <th style="width: 50%">Field Value</th>
+                                    <th style="width: 73px">Join</th> @*(AND/OR)*@
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @for (int spc = 0; spc < spCount; ++spc)
+                                {
+                                    if (searchParameters.Count <= spc)
+                                    {
+                                        searchParameters.Add(new List<string>(4) { "", "", "", "" });
+                                    }
+
+                                    <tr>
+                                        <td>
+                                            <select id="fieldName" asp-for="@searchParameters[spc][0]" class="form-control text-left field-name" asp-items="ViewBag.FieldList">
+                                                <option value="">--- Select ---</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="operator" asp-for="@searchParameters[spc][1]" class="form-control text-center" asp-items="ViewBag.OperatorList">
+                                                <option selected="" value=""></option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input id="fieldValue" asp-for="@searchParameters[spc][2]" autocomplete="off" class="form-control text-left field-value" />
+                                            <div id="ac-list-@spc" class="ac-list-content"></div>
+                                        </td>
+                                        <td>
+                                            <select id="joinOption" asp-for="@searchParameters[spc][3]" class="form-control text-center">
+                                                <option value="AND">AND</option>
+                                                <option value="OR">OR</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+
+                    </fieldset>
+
+                    <div class="form-group" style="margin-top: 10px;">
+                        <input type="submit" value="Search" class="btn btn-primary float-right" />
+                    </div>
+                </div>
             </div>
 
         </form>
     </div>
 </div>
-
 
 <div class="row">
     <div class="col-md-12">
