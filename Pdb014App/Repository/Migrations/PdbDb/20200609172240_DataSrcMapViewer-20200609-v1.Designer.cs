@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pdb014App.Repository;
 
 namespace Pdb014App.Repository.Migrations.PdbDb
 {
     [DbContext(typeof(PdbDbContext))]
-    partial class PdbDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200609172240_DataSrcMapViewer-20200609-v1")]
+    partial class DataSrcMapViewer20200609v1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,82 +114,7 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<int?>("LayerOrder")
-                        .HasColumnName("LayerOrder")
-                        .HasColumnType("int");
-
-                    b.Property<string>("LayerTitle")
-                        .HasColumnName("LayerTitle")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(50);
-
-                    b.Property<int?>("LayerTypeId")
-                        .HasColumnName("LayerTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("LayerVisibility")
-                        .HasColumnName("LayerVisibility")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PopupTemplateName")
-                        .HasColumnName("PopupTemplateName")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<int?>("RendererSymbolColorB")
-                        .HasColumnName("RendererSymbolColorB")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RendererSymbolColorG")
-                        .HasColumnName("RendererSymbolColorG")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("RendererSymbolColorOpacity")
-                        .HasColumnName("RendererSymbolColorOpacity")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("RendererSymbolColorR")
-                        .HasColumnName("RendererSymbolColorR")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RendererSymbolOutLineColorB")
-                        .HasColumnName("RendererSymbolOutLineColorB")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RendererSymbolOutLineColorG")
-                        .HasColumnName("RendererSymbolOutLineColorG")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("RendererSymbolOutLineColorOpacity")
-                        .HasColumnName("RendererSymbolOutLineColorOpacity")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("RendererSymbolOutLineColorR")
-                        .HasColumnName("RendererSymbolOutLineColorR")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RendererSymbolOutLineWidth")
-                        .HasColumnName("RendererSymbolOutLineWidth")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RendererSymbolStyle")
-                        .HasColumnName("RendererSymbolStyle")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("RendererSymbolType")
-                        .HasColumnName("RendererSymbolType")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("RendererType")
-                        .HasColumnName("RendererType")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
                     b.HasKey("DataSourceId");
-
-                    b.HasIndex("LayerTypeId");
 
                     b.ToTable("LookUpMapViewDataSource");
                 });
@@ -269,8 +196,8 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<bool>("PopupFieldVisibility")
-                        .HasColumnType("bit")
+                    b.Property<string>("PopupFieldVisibility")
+                        .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
                     b.HasKey("PopupFieldId");
@@ -6481,13 +6408,6 @@ namespace Pdb014App.Repository.Migrations.PdbDb
                     b.HasKey("SearchFieldId");
 
                     b.ToTable("TblSearchFieldList");
-                });
-
-            modelBuilder.Entity("Pdb014App.Models.MapViewer.Settings.LookUpMapViewDataSource", b =>
-                {
-                    b.HasOne("Pdb014App.Models.MapViewer.Settings.LookUpMapViewLayerType", "LookUpLayerType")
-                        .WithMany()
-                        .HasForeignKey("LayerTypeId");
                 });
 
             modelBuilder.Entity("Pdb014App.Models.MapViewer.Settings.LookUpMapViewPopUpFieldDetails", b =>

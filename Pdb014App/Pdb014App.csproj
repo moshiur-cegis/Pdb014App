@@ -14,6 +14,12 @@
     <Compile Remove="Repository\Migrations\PdbDb\20200607083604_UpdateDt_07_06_2020.Designer.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200607121556_UpdateServicePointAndConsumer_07_06_2020.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200607121556_UpdateServicePointAndConsumer_07_06_2020.Designer.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200609164844_DataSrcMapViewer-20200609.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200609164844_DataSrcMapViewer-20200609.Designer.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200609170837_DataSrcMapViewer-20200609.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200609170837_DataSrcMapViewer-20200609.Designer.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200609173347_DataSrcMapViewer-20200609-v2.cs" />
+    <Compile Remove="Repository\Migrations\PdbDb\20200609173347_DataSrcMapViewer-20200609-v2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
