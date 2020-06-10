@@ -136,9 +136,9 @@ namespace Pdb014App.Controllers.AdvancedSearching
 
             Expression<Func<TblServicePoint, bool>> searchExp = null;
 
-            string zoneCode, circleCode, snDCode, substationCode, routeCode;
+            string zoneCode, circleCode, snDCode, substationCode;
 
-            zoneCode = circleCode = snDCode = substationCode = routeCode = "";
+            zoneCode = circleCode = snDCode = substationCode = "";
 
             if (regionList != null && regionList.Count > 0 && !string.IsNullOrEmpty(regionList[0]))
             {
@@ -185,18 +185,6 @@ namespace Pdb014App.Controllers.AdvancedSearching
                             tempExp = model => model.ServicePointToPole.PoleToRoute.RouteToSubstation.SubstationId == substationCode;
                             searchExp = ExpressionExtension<TblServicePoint>.AndAlso(searchExp, tempExp);
 
-                            if (regionList.Count > 4 && !string.IsNullOrEmpty(regionList[4]))
-                            {
-                                routeCode = regionList[4];
-
-                                tempExp = model => model.ServicePointToPole.PoleToRoute.RouteCode == routeCode;
-                                searchExp = ExpressionExtension<TblServicePoint>.AndAlso(searchExp, tempExp);
-
-                                ViewBag.RouteList = new SelectList(_dbContext.LookUpRouteInfo
-                                    .Where(ri => ri.RouteToSubstation.SubstationId.Equals(substationCode))
-                                    .Select(ri => new { ri.RouteCode, ri.RouteName })
-                                    .OrderBy(ri => ri.RouteCode).ToList(), "RouteCode", "RouteName", routeCode);
-                            }
                         }
                     }
                 }
@@ -211,8 +199,7 @@ namespace Pdb014App.Controllers.AdvancedSearching
                 {"regionList[0]", zoneCode},
                 {"regionList[1]", circleCode},
                 {"regionList[2]", snDCode},
-                {"regionList[3]", substationCode},
-                {"regionList[4]", routeCode}
+                {"regionList[3]", substationCode}
             };
 
             if (searchParameters != null && searchParameters.Count > 0)
@@ -254,16 +241,16 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     tempExp = model => model.ServicesPointId != searchOption.FieldValue;
                                     break;
                                 case ">":
-                                    tempExp = model => int.Parse(model.ServicesPointId) > int.Parse(searchOption.FieldValue);
+                                    tempExp = model => Convert.ToInt16(model.ServicesPointId) > Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<":
-                                    tempExp = model => int.Parse(model.ServicesPointId) < int.Parse(searchOption.FieldValue);
+                                    tempExp = model => Convert.ToInt16(model.ServicesPointId) < Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case ">=":
-                                    tempExp = model => int.Parse(model.ServicesPointId) >= int.Parse(searchOption.FieldValue);
+                                    tempExp = model => Convert.ToInt16(model.ServicesPointId) >= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<=":
-                                    tempExp = model => int.Parse(model.ServicesPointId) <= int.Parse(searchOption.FieldValue);
+                                    tempExp = model => Convert.ToInt16(model.ServicesPointId) <= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.ServicesPointId == null;
@@ -288,19 +275,19 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.ServicePointToPole.PoleNo) > int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.ServicePointToPole.PoleNo) > Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.ServicePointToPole.PoleNo) < int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.ServicePointToPole.PoleNo) < Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.ServicePointToPole.PoleNo) >= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.ServicePointToPole.PoleNo) >= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.ServicePointToPole.PoleNo) <= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.ServicePointToPole.PoleNo) <= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.ServicePointToPole.PoleNo == null;
@@ -325,23 +312,23 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.ServicePointToPole.PoleToFeederLine.FeederName) >
-                                        int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.ServicePointToPole.PoleToFeederLine.FeederName) >
+                                        Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.ServicePointToPole.PoleToFeederLine.FeederName) <
-                                        int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.ServicePointToPole.PoleToFeederLine.FeederName) <
+                                        Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.ServicePointToPole.PoleToFeederLine.FeederName) >=
-                                        int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.ServicePointToPole.PoleToFeederLine.FeederName) >=
+                                        Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.ServicePointToPole.PoleToFeederLine.FeederName) <=
-                                        int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.ServicePointToPole.PoleToFeederLine.FeederName) <=
+                                        Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.ServicePointToPole.PoleToFeederLine.FeederName == null;
@@ -369,19 +356,19 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.ServicePointType.ServicePointTypeName) > int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.ServicePointType.ServicePointTypeName) > Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.ServicePointType.ServicePointTypeName) < int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.ServicePointType.ServicePointTypeName) < Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.ServicePointType.ServicePointTypeName) >= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.ServicePointType.ServicePointTypeName) >= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.ServicePointType.ServicePointTypeName) <= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.ServicePointType.ServicePointTypeName) <= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.ServicePointType.ServicePointTypeName == null;
@@ -406,19 +393,19 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.VoltageCategory.VoltageCategoryName) > int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.VoltageCategory.VoltageCategoryName) > Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.VoltageCategory.VoltageCategoryName) < int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.VoltageCategory.VoltageCategoryName) < Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.VoltageCategory.VoltageCategoryName) >= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.VoltageCategory.VoltageCategoryName) >= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.VoltageCategory.VoltageCategoryName) <= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.VoltageCategory.VoltageCategoryName) <= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.VoltageCategory.VoltageCategoryName == null;
@@ -444,19 +431,19 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.TransformerNumber) > int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.TransformerNumber) > Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.TransformerNumber) < int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.TransformerNumber) < Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.TransformerNumber) >= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.TransformerNumber) >= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.TransformerNumber) <= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.TransformerNumber) <= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.TransformerNumber == null;
@@ -482,19 +469,19 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.RoadName) > int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.RoadName) > Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.RoadName) < int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.RoadName) < Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.RoadName) >= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.RoadName) >= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.RoadName) <= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.RoadName) <= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.RoadName == null;
@@ -519,19 +506,19 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.VillageOrAreaName) > int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.VillageOrAreaName) > Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.VillageOrAreaName) < int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.VillageOrAreaName) < Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.VillageOrAreaName) >= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.VillageOrAreaName) >= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.VillageOrAreaName) <= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.VillageOrAreaName) <= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.VillageOrAreaName == null;
@@ -556,19 +543,19 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.Ward) > int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.Ward) > Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.Ward) < int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.Ward) < Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.Ward) >= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.Ward) >= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.Ward) <= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.Ward) <= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.Ward == null;
@@ -593,19 +580,19 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.CityTown) > int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.CityTown) > Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.CityTown) < int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.CityTown) < Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.CityTown) >= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.CityTown) >= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.CityTown) <= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.CityTown) <= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.CityTown == null;
@@ -630,19 +617,19 @@ namespace Pdb014App.Controllers.AdvancedSearching
                                     break;
                                 case ">":
                                     tempExp = model =>
-                                        int.Parse(model.PrimaryLandmark) > int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.PrimaryLandmark) > Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<":
                                     tempExp = model =>
-                                        int.Parse(model.PrimaryLandmark) < int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.PrimaryLandmark) < Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case ">=":
                                     tempExp = model =>
-                                        int.Parse(model.PrimaryLandmark) >= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.PrimaryLandmark) >= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "<=":
                                     tempExp = model =>
-                                        int.Parse(model.PrimaryLandmark) <= int.Parse(searchOption.FieldValue);
+                                        Convert.ToInt16(model.PrimaryLandmark) <= Convert.ToInt16(searchOption.FieldValue);
                                     break;
                                 case "null":
                                     tempExp = model => model.PrimaryLandmark == null;
