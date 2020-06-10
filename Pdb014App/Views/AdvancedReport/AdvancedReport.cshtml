@@ -17,7 +17,7 @@
             new ReportField {Name = "circle", Title = "Circle"},
             new ReportField {Name = "snd", Title = "S&D"},
             new ReportField {Name = "substation", Title = "Substation"},
-                                                        };
+                        };
 
     var fieldList = ViewBag.FieldList != null
     ? ViewBag.FieldList as List<ReportField>
@@ -69,8 +69,10 @@
                 @if (fieldList != null && fieldList.Count > 0)
                 {
                     <p class="tree">
-                        <label for="all_fields" style="margin: 0 4px 0 0;">▣ All Fields</label>
-                        <input type="checkbox" id="all_fields" class="all-checked" />
+                        <label for="all_fields" style="margin: 0 4px 0 0;">
+                            ▣ All Fields
+                            <input type="checkbox" id="all_fields" class="all-checked" />
+                        </label>
                     </p>
 
                     <ul id="field_list" class="tree" style=" min-height: 213px; max-height: 325px; overflow: auto;">
@@ -79,7 +81,6 @@
                             if (fieldList[fc].Visible)
                             {
                                 <li class="@fieldList[fc].GroupName">
-                                    <input type="checkbox" asp-for="@fieldList[fc].Selected" data-field-name="@fieldList[fc].Name" data-field-title="@fieldList[fc].Title" data-field-group="@fieldList[fc].GroupName" class="multi-checkbox" />
 
                                     @{
                                         var grpName = fieldList[fc].Name;
@@ -87,6 +88,7 @@
                                         {
                                             <label asp-for="@fieldList[fc].Selected">
                                                 <span class="multi-item active"></span>
+                                                <input type="checkbox" asp-for="@fieldList[fc].Selected" data-field-name="@fieldList[fc].Name" data-field-title="@fieldList[fc].Title" data-field-group="@fieldList[fc].GroupName" class="multi-checkbox" />
                                                 @fieldList[fc].Title
                                             </label>
                                             <ul id="field_list_@grpName" class="sub-list" style="max-height: 75px; overflow: auto;">
@@ -95,8 +97,10 @@
                                                     for (int gfc = 0; gfc < grpFieldList.Count; ++gfc)
                                                     {
                                                         <li class="@grpName">
-                                                            <input type="checkbox" id="grpFields_@($"{grpName}_{gfc}")" data-field-name="@grpFieldList[gfc].Name" data-field-title="@grpFieldList[gfc].Title" data-field-group="@grpFieldList[gfc].GroupName" class="multi-checkbox" />
-                                                            <label for="grpFields_@($"{grpName}_{gfc}")">@grpFieldList[gfc].Title</label>
+                                                            <label for="grpFields_@($"{grpName}_{gfc}")">
+                                                                <input type="checkbox" id="grpFields_@($"{grpName}_{gfc}")" data-field-name="@grpFieldList[gfc].Name" data-field-title="@grpFieldList[gfc].Title" data-field-group="@grpFieldList[gfc].GroupName" class="multi-checkbox" />
+                                                                @grpFieldList[gfc].Title
+                                                            </label>
                                                         </li>
                                                     }
                                                     fc += grpFieldList.Count;
@@ -105,7 +109,10 @@
                                         }
                                         else
                                         {
-                                            <label asp-for="@fieldList[fc].Selected">@fieldList[fc].Title</label>
+                                            <label asp-for="@fieldList[fc].Selected">
+                                                <input type="checkbox" asp-for="@fieldList[fc].Selected" data-field-name="@fieldList[fc].Name" data-field-title="@fieldList[fc].Title" data-field-group="@fieldList[fc].GroupName" class="multi-checkbox" />
+                                                @fieldList[fc].Title
+                                            </label>
                                         }
                                     }
                                 </li>
@@ -113,8 +120,10 @@
                             else
                             {
                                 <li class="@fieldList[fc].GroupName" style="display: none;">
-                                    <input type="checkbox" asp-for="@fieldList[fc].Selected" data-field-name="@fieldList[fc].Name" data-field-title="@fieldList[fc].Title" data-field-group="@fieldList[fc].GroupName" class="multi-checkbox" />
-                                    <label asp-for="@fieldList[fc].Selected">@fieldList[fc].Title</label>
+                                    <label asp-for="@fieldList[fc].Selected">
+                                        <input type="checkbox" asp-for="@fieldList[fc].Selected" data-field-name="@fieldList[fc].Name" data-field-title="@fieldList[fc].Title" data-field-group="@fieldList[fc].GroupName" class="multi-checkbox" />
+                                        @fieldList[fc].Title
+                                    </label>
                                 </li>
                             }
                         }

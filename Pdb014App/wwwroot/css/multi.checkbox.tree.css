@@ -5,7 +5,6 @@ ul.tree ul {
     list-style: none;
     margin: 0 auto 0.25rem auto;
     padding: 0;
-    /*overflow: auto;*/
 }
 
 p.tree {
@@ -26,7 +25,6 @@ ul.tree li {
     ul.tree li label {
         margin-bottom: 0.35rem;
         line-height: 1.15rem;
-        /*display: inline list-item;*/
     }
 
     ul.tree li input[type=checkbox] {
@@ -52,14 +50,13 @@ ul.tree li {
         width: 0.8rem;
     }
 
-
     ul.tree li span.multi-item {
         float: left;
         border: 1px solid #777;
         width: 0.85rem;
         height: 0.85rem;
-        margin: 0.1rem 0 0 -2.5rem;
-        padding: 0;
+        margin: 0.1rem 0 0 -1.6rem;
+        padding: 0.073rem 0.085rem;
         background: #fff;
     }
 
@@ -67,11 +64,12 @@ ul.tree li {
             content: "\002B";
             content: "\f067";
             float: left;
-            margin: -3px 0 0 1px;
+            line-height: 1;
+            margin: 0;
             padding: 0;
             color: #555;
             text-align: center;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-family: 'Font Awesome 5 Free';
             font-weight: 600;
         }
@@ -83,23 +81,3 @@ ul.tree li {
             content: "\f068";
         }
 
-
-
-/*ul.tree li span.multi-item::after,
-    ul.tree li label.multi-item::after {
-        content: "\002B";
-        color: #024;
-        font-weight: bold;
-        float: right;
-        margin-left: 0.15rem;
-        margin-right: 0.15rem;
-    }
-
-    ul.tree li span.multi-item.open::after,
-    ul.tree li span.multi-item.minus::after,
-    ul.tree li span.multi-item.active::after,
-    ul.tree li label.multi-item.open::after,
-    ul.tree li label.multi-item.minus::after,
-    ul.tree li label.multi-item.active::after {
-        content: "\2212";
-    }*/
