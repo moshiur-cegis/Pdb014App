@@ -22,9 +22,12 @@ namespace Pdb014App.Controllers.UserController
     {
         private readonly UserManager<TblUserRegistrationDetail> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
-        private readonly UserDbContext context;
+        private readonly PdbDbContext context;
 
-        public AdministrationController(UserManager<TblUserRegistrationDetail> userManager, UserDbContext context, RoleManager<IdentityRole> roleManager)
+        //private readonly PdbDbContext context;
+
+
+        public AdministrationController(UserManager<TblUserRegistrationDetail> userManager, PdbDbContext context, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.context = context;

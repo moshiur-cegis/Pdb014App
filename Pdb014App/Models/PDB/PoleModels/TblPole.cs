@@ -103,6 +103,9 @@ namespace Pdb014App.Models.PDB
         [Display(Name = "Longitude")]
         public decimal? Longitude { get; set; }
 
+        //[Range(22.00000000, 24.99999999, ErrorMessage = "Invalid {0}; Max 10 digits")]
+
+
         [Required]
         [Column("PoleTypeId", Order = 12, TypeName = "varchar(6)")]
         [StringLength(6)]
@@ -124,7 +127,7 @@ namespace Pdb014App.Models.PDB
         [Column("LineTypeId", Order = 14, TypeName = "int")]
         [DataType(DataType.Text)]
         [Display(Name = "Line Type")]
-        public int? LineTypeId { get; set; }
+        public int? LineTypeId { get; set; } 
 
         [ForeignKey("LineTypeId")] public virtual LookUpLineType LookUpLineType { get; set; }
 
@@ -177,7 +180,6 @@ namespace Pdb014App.Models.PDB
 
         [Column("WireLength", Order = 16, TypeName = "decimal(10, 2)")]
         [DataType(DataType.Text)]
-        [Range(0, 9999999999, ErrorMessage = "Invalid {0}; Max 10 digits")]
         [Display(Name = "WireL ength")]
         public decimal? WireLength { get; set; }
 

@@ -17,7 +17,7 @@ namespace Pdb014App.Controllers
     public class HomeController : Controller
     {
         private readonly PdbDbContext _dbContext;
-        private readonly UserDbContext _dbContextUser;
+        //private readonly UserDbContext _dbContextUser;
         private readonly UserManager<TblUserRegistrationDetail> _userManager;
 
 
@@ -32,10 +32,10 @@ namespace Pdb014App.Controllers
         //    _dbContextUser = contextUser;
         //}
 
-        public HomeController(PdbDbContext context, UserDbContext contextUser, UserManager<TblUserRegistrationDetail> userManager)
+        public HomeController(PdbDbContext context, UserManager<TblUserRegistrationDetail> userManager) //UserDbContext contextUser
         {
             _dbContext = context;
-            _dbContextUser = contextUser;
+            //_dbContextUser = contextUser;
             _userManager = userManager;
         }
 
@@ -48,7 +48,7 @@ namespace Pdb014App.Controllers
 
             if (user != null && !string.IsNullOrEmpty(user.Id))
             {
-                var userInfo = _dbContextUser.UserProfileDetail.SingleOrDefault(u => u.Id == user.Id);
+                var userInfo = _dbContext.UserProfileDetail.SingleOrDefault(u => u.Id == user.Id);
 
                 if (userInfo != null)
                 {
@@ -136,7 +136,7 @@ namespace Pdb014App.Controllers
 
             if (user != null && !string.IsNullOrEmpty(user.Id))
             {
-                var userInfo = _dbContextUser.UserProfileDetail.SingleOrDefault(u => u.Id == user.Id);
+                var userInfo = _dbContext.UserProfileDetail.SingleOrDefault(u => u.Id == user.Id);
 
                 if (userInfo != null)
                 {

@@ -2,520 +2,472 @@
 
 @{
     ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h1>Details</h1>
+
 <div>
-    <h2>Phase Power Transformer Details</h2>
+    <h4>TblPhasePowerTransformer</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ManufacturersName)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ManufacturersName)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ManufacturersAddress)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ManufacturersAddress)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.AppliedStandard)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.AppliedStandard)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DescriptionType)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DescriptionType)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.SerialNumber)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SerialNumber)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RatedPower)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RatedPower)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NumberOfPhase)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.NumberOfPhase)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RatedVoltagePhaseToPhase)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RatedVoltagePhaseToPhase)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.HighVoltageWindingPhaseToPhase)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.HighVoltageWindingPhaseToPhase)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.LowVoltageWindingPhaseToPhase)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.LowVoltageWindingPhaseToPhase)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RatedFrequency)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RatedFrequency)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RatedInsulationLevel)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RatedInsulationLevel)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.ImpulseWithStandFullWave)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.ImpulseWithStandFullWave)
-        </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ImpulseHighVoltageWinding)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ImpulseHighVoltageWinding)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ImpulseLowVoltageWinding)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ImpulseLowVoltageWinding)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.ACWithStandVoltage)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.ACWithStandVoltage)
-        </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ACHighVoltageWinding)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ACHighVoltageWinding)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ACLowVoltageWinding)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ACLowVoltageWinding)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TypeOfCooling28Or35MVA)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TypeOfCooling28Or35MVA)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.OnLoadTapChanger)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.OnLoadTapChanger)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TypeTap)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TypeTap)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TappingRangeHT)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TappingRangeHT)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.LocationOfTap)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.LocationOfTap)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.OilVolume)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.OilVolume)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.OneStepChange)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.OneStepChange)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.MotorRating)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.MotorRating)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ImpedanceVoltageAt75CAndAtNominalRatio)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ImpedanceVoltageAt75CAndAtNominalRatio)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TemperatureRiseAtRatedPowerMaxAmbientTemperature40C)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TemperatureRiseAtRatedPowerMaxAmbientTemperature40C)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FiveMva)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FiveMva)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.SixPointSixMva)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SixPointSixMva)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.OilByThermometer)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.OilByThermometer)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.WindingByResistanceMeasurement)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.WindingByResistanceMeasurement)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TemperatureGradientBetweenWindingsAndOil)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TemperatureGradientBetweenWindingsAndOil)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.ShortCircuitLevelAtTerminal)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ShortCircuitLevelAtTerminalThirtyThreeKv)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.ShortCircuitLevelAtTerminal)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ShortCircuitLevelAtTerminalThirtyThreeKv)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.ThirtyThreeKv)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ShortCircuitLevelAtTerminalEleventKv)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.ThirtyThreeKv)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ShortCircuitLevelAtTerminalEleventKv)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.EleventKv)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.EleventKv)
-        </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TransformerCore)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TransformerCore)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.TypeofCoreAndFluxEnsityAtNominalVoltage)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.TypeofCoreAndFluxEnsityAtNominalVoltage)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.TransformerBushings)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TransformeHVBushing)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.TransformerBushings)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TransformeHVBushing)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.HVBushing)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TransformeHVBushingType)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.HVBushing)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TransformeHVBushingType)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.HVBushingType)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TransformeLVBushing)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.HVBushingType)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TransformeLVBushing)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.LVBushing)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TransformeLVBushingType)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.LVBushing)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TransformeLVBushingType)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.LVBushingType)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TransformeNeutralBushing)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.LVBushingType)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TransformeNeutralBushing)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.NeutralBushing)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TransformeNeutralBushingType)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.NeutralBushing)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TransformeNeutralBushingType)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.NeutralBushingType)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ConservatorWithAirSealedBagForConstantOilPressur)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.NeutralBushingType)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ConservatorWithAirSealedBagForConstantOilPressur)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.ConservatorWithAirSealedBagForConstantOilPressurYesNo)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.ConservatorWithAirSealedBagForConstantOilPressurYesNo)
-        </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.BreatherSilicagel)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.BreatherSilicagel)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.AuxiliaryCircuitVoltageForFanetc3P4W)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.AuxiliaryCircuitVoltageForFanetc3P4W)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ControlVoltage)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ControlVoltage)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.SoundLevelIEC551)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SoundLevelIEC551)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ONAN)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ONAN)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ONAF)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ONAF)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.BushingCTParticulars)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BushingCTParticularsHVside)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.BushingCTParticulars)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BushingCTParticularsHVside)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.HVside)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BushingCTParticularsLVside)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.HVside)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BushingCTParticularsLVside)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.LVside)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BushingCTParticularsNeutralSide)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.LVside)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BushingCTParticularsNeutralSide)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.NeutralSide)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.NeutralSide)
-        </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NumberOfCoolingFan)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.NumberOfCoolingFan)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RatingOfFanMotors)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RatingOfFanMotors)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CoolingFanLossesAtFullOnafCapacityOperation)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CoolingFanLossesAtFullOnafCapacityOperation)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CoreLossAtRatedFrequencyAndRatedVoltageAtNominalTapNoLoadLoss)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CoreLossAtRatedFrequencyAndRatedVoltageAtNominalTapNoLoadLoss)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.CopperLossAtFullLoadAtRatedFrequencyAndAt75CFullLoadLoss)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CopperLossAtMaximumTap)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.CopperLossAtFullLoadAtRatedFrequencyAndAt75CFullLoadLoss)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CopperLossAtMaximumTap)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.AtMaximumTap)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CopperLossAtNominalTap)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.AtMaximumTap)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CopperLossAtNominalTap)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.AtNominalTap)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CopperLossAtMinimumTap)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.AtNominalTap)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CopperLossAtMinimumTap)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.AtMinimumTap)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Radiators)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.AtMinimumTap)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Radiators)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.RadiatorsYesNo)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.RadiatorsYesNo)
-        </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.OverallDimensions)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.OverallDimensions)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NoOfRadiators)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.NoOfRadiators)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.SupervisoryAlarmAndTripContactsYesNo)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SupervisoryAlarmAndTripContacts)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.SupervisoryAlarmAndTripContactsYesNo)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SupervisoryAlarmAndTripContacts)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.TemperatureIndicatorsYesNo)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TemperatureIndicators)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.TemperatureIndicatorsYesNo)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TemperatureIndicators)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.MakeAndType)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.MakeAndType)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.AlarmAndTripRange)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.AlarmAndTripRange)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NoOfContacts)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.NoOfContacts)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CurrentRatingOfContacts)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CurrentRatingOfContacts)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.SupervisoryAlarmContact)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SupervisoryAlarmContact)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.DimensionsAndWeightMaximumSizeForTransport)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DimensionsAndWeightTransportLMulWMulH)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.DimensionsAndWeightMaximumSizeForTransport)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DimensionsAndWeightTransportLMulWMulH)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.LMulWMulH)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DimensionsAndWeightTransportWeightOFoil)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.LMulWMulH)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DimensionsAndWeightTransportWeightOFoil)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.WeightOFoil)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DimensionsAndWeightTransportWeightofCore)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.WeightOFoil)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DimensionsAndWeightTransportWeightofCore)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.WeightofCore)
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DimensionsAndWeightTransportTotalWeight)
         </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.WeightofCore)
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DimensionsAndWeightTransportTotalWeight)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.TotalWeight)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.TotalWeight)
-        </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.SanctionedLoad)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SanctionedLoad)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.MaximumLoad)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.MaximumLoad)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PhasePowerTransformerTo33KvFeederLine)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PhasePowerTransformerTo33KvFeederLine.FeederLineId)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PhasePowerTransformerToTblSubstation)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PhasePowerTransformerToTblSubstation.SubstationId)
-        </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.PhasePowerTransformerToSourceSubstation)
-        </dt>
-        <dd class="col-sm-8">
-            @Html.DisplayFor(model => model.PhasePowerTransformerToSourceSubstation.SubstationId)
         </dd>
     </dl>
 </div>
-
 <div>
     <a asp-action="Edit" asp-route-id="@Model.PhasePowerTransformerId">Edit</a> |
     <a asp-action="Index">Back to List</a>

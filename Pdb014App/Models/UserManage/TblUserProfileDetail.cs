@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pdb014App.Models.PDB.LookUpModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -146,8 +147,8 @@ namespace Pdb014App.Models.UserManage
         [StringLength(50)]
         [Display(Name = "SnD")]
         public string SnDCode { get; set; }
-        //[ForeignKey("SnDCode")]
-        //public virtual LookUpSnDInfo UserBpdbEmployeeToLookUpSnD { get; set; }
+        [ForeignKey("SnDCode")]
+        public virtual LookUpSnDInfo UserBpdbEmployeeToLookUpSnD { get; set; }
 
 
         [Column(Order = 7, TypeName = "varchar(50)")]

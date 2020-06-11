@@ -10,7 +10,7 @@
     var isShowLayout = (ViewBag.IsShowLayout != null && ViewBag.IsShowLayout == 1);
     var isShowAction = (ViewBag.IsShowAction != null && ViewBag.IsShowAction == 1);
 
-    ViewData["Title"] = "Phase Power Transforme List";
+    ViewData["Title"] = "Phase Power Transformer List";
     Layout = isShowLayout ? "~/Views/Shared/_Layout.cshtml" : null;
 }
 
@@ -22,18 +22,31 @@
 @if (isShowAction)
 {
 
-<a asp-action="Create" asp-route-id="@ViewBag.SubstationId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Insulator">Add Phase Power Transforme</a>
+    <a asp-action="Create" asp-route-id="@ViewBag.SubstationId" target="_blank" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Add Insulator">Add Phase Power Transforme</a>
     <hr />
 }
+
 <h3>@ViewData["Title"]</h3>
 <hr>
 
 <table id="multi-form-view" class="table table-responsive multi-form-view">
     <thead>
         <tr>
+            @if (isShowAction)
+            {
+                <th>
+                    @*@Html.DisplayNameFor(model => model.CrossArmId)*@
+                    Action
+                </th>
+            }
+
             <th>
-                @Html.DisplayNameFor(model => model.PhasePowerTransformerId)
+                @Html.DisplayNameFor(model => model.FeederID33KvId)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubstationId)
+            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.ManufacturersName)
             </th>
@@ -55,505 +68,467 @@
             <th>
                 @Html.DisplayNameFor(model => model.NumberOfPhase)
             </th>
+
             @*<th>
-                    @Html.DisplayNameFor(model => model.RatedVoltagePhaseToPhase)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HighVoltageWindingPhaseToPhase)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LowVoltageWindingPhaseToPhase)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RatedFrequency)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RatedInsulationLevel)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImpulseWithStandFullWave)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImpulseHighVoltageWinding)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImpulseLowVoltageWinding)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ACWithStandVoltage)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ACHighVoltageWinding)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ACLowVoltageWinding)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TypeOfCooling28or35MVA)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OnLoadTapChanger)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TypeTap)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TappingRangeHT)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LocationOfTap)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OilVolume)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OneStepChange)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MotorRating)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImpedanceVoltageAt75CAndAtNominalRatio)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TemperatureRiseAtRatedPowerMaxAmbientTemperature40C)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FiveMva)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SixPointSixMva)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OilByThermometer)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.WindingByResistanceMeasurement)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TemperatureGradientBetweenWindingsAndOil)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ShortCircuitlevelAtTerminal)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ThirtyThreeKv)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EleventKv)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TransformerCore)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TypeofCoreAndFluxEnsityAtNominalVoltage)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TransformerBushings)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HVBushing)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HVBushingType)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LVBushing)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LVBushingType)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NeutralBushing)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NeutralBushingType)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ConservatorWithAirSealedBagForConstantOilPressurYesNo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BreatherSilicagel)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AuxiliaryCircuitVoltageForFanetc3P4W)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ControlVoltage)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SoundLevelIEC551)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ONAN)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ONAF)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BushingCTParticulars)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HVside)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LVside)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NeutralSide)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NumberofCoolingFan)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RatingOfFanMotors)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CoolingFanLossesAtFullOnafCapacityOperation)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CoreLossAtRatedFrequencyAndRatedVoltageAtNominalTapNoLoadLoss)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CopperLossAtfullloadAtRatedFrequencyAndAt75CFullLoadLoss)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AtMaximumTap)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AtNominalTap)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AtMinimumTap)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RadiatorsYesNo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OverallDimensions)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NoOfRadiators)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SupervisoryAlarmAndTripContactsYesNo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TemperatureIndicatorsYesNo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MakeAndType)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AlarmAndTripRange)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NoOfContacts)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CurrentRatingOfContacts)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SupervisoryAlarmContact)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DimensionsAndWeightMaximumSizeForTransport)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LMulWMulH)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.WeightOFoil)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.WeightofCore)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TotalWeight)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SanctionedLoad)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MaximumLoad)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhasePowerTransformerTo33KvFeederLine)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhasePowerTransformerToTblSubstation)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhasePowerTransformerToSourceSubstation)
-                </th>*@
-            <th>Action</th>
+                @Html.DisplayNameFor(model => model.RatedVoltagePhaseToPhase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HighVoltageWindingPhaseToPhase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LowVoltageWindingPhaseToPhase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedFrequency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatedInsulationLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImpulseHighVoltageWinding)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImpulseLowVoltageWinding)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ACHighVoltageWinding)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ACLowVoltageWinding)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeOfCooling28Or35MVA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OnLoadTapChanger)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeTap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TappingRangeHT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LocationOfTap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OilVolume)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OneStepChange)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MotorRating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImpedanceVoltageAt75CAndAtNominalRatio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TemperatureRiseAtRatedPowerMaxAmbientTemperature40C)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FiveMva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SixPointSixMva)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OilByThermometer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WindingByResistanceMeasurement)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TemperatureGradientBetweenWindingsAndOil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortCircuitLevelAtTerminalThirtyThreeKv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortCircuitLevelAtTerminalEleventKv)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransformerCore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeofCoreAndFluxEnsityAtNominalVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransformeHVBushing)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransformeHVBushingType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransformeLVBushing)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransformeLVBushingType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransformeNeutralBushing)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransformeNeutralBushingType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConservatorWithAirSealedBagForConstantOilPressur)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BreatherSilicagel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AuxiliaryCircuitVoltageForFanetc3P4W)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ControlVoltage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoundLevelIEC551)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ONAN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ONAF)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BushingCTParticularsHVside)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BushingCTParticularsLVside)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BushingCTParticularsNeutralSide)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfCoolingFan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RatingOfFanMotors)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoolingFanLossesAtFullOnafCapacityOperation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoreLossAtRatedFrequencyAndRatedVoltageAtNominalTapNoLoadLoss)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CopperLossAtMaximumTap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CopperLossAtNominalTap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CopperLossAtMinimumTap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Radiators)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OverallDimensions)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfRadiators)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SupervisoryAlarmAndTripContacts)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TemperatureIndicators)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MakeAndType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AlarmAndTripRange)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfContacts)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentRatingOfContacts)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SupervisoryAlarmContact)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DimensionsAndWeightTransportLMulWMulH)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DimensionsAndWeightTransportWeightOFoil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DimensionsAndWeightTransportWeightofCore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DimensionsAndWeightTransportTotalWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SanctionedLoad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaximumLoad)
+            </th>*@
+
+
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+        <tr>
+            @if (isShowAction)
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.PhasePowerTransformerId)
+                    <div class="btn-group">
+                        <a asp-action="Edit" asp-route-id="@item.PhasePowerTransformerId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Edit Phase Power Transformer">Edit</a>
+
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("System Administrator"))
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.PhasePowerTransformerId" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Delete Phase Power Transformer Information">
+
+                                <span class="glyphicon glyphicon-edit"></span> Delete
+                            </a>
+                        }
+                    </div>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ManufacturersName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ManufacturersAddress)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AppliedStandard)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DescriptionType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SerialNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RatedPower)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfPhase)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.RatedVoltagePhaseToPhase)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HighVoltageWindingPhaseToPhase)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LowVoltageWindingPhaseToPhase)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RatedFrequency)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RatedInsulationLevel)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ImpulseWithStandFullWave)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ImpulseHighVoltageWinding)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ImpulseLowVoltageWinding)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ACWithStandVoltage)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ACHighVoltageWinding)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ACLowVoltageWinding)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TypeOfCooling28or35MVA)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OnLoadTapChanger)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TypeTap)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TappingRangeHT)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LocationOfTap)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OilVolume)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OneStepChange)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MotorRating)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ImpedanceVoltageAt75CAndAtNominalRatio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TemperatureRiseAtRatedPowerMaxAmbientTemperature40C)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FiveMva)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SixPointSixMva)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OilByThermometer)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.WindingByResistanceMeasurement)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TemperatureGradientBetweenWindingsAndOil)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ShortCircuitlevelAtTerminal)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ThirtyThreeKv)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EleventKv)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TransformerCore)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TypeofCoreAndFluxEnsityAtNominalVoltage)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TransformerBushings)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HVBushing)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HVBushingType)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LVBushing)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LVBushingType)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NeutralBushing)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NeutralBushingType)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ConservatorWithAirSealedBagForConstantOilPressurYesNo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BreatherSilicagel)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AuxiliaryCircuitVoltageForFanetc3P4W)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ControlVoltage)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SoundLevelIEC551)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ONAN)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ONAF)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BushingCTParticulars)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HVside)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LVside)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NeutralSide)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NumberofCoolingFan)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RatingOfFanMotors)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CoolingFanLossesAtFullOnafCapacityOperation)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CoreLossAtRatedFrequencyAndRatedVoltageAtNominalTapNoLoadLoss)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CopperLossAtfullloadAtRatedFrequencyAndAt75CFullLoadLoss)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AtMaximumTap)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AtNominalTap)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AtMinimumTap)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RadiatorsYesNo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OverallDimensions)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NoOfRadiators)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SupervisoryAlarmAndTripContactsYesNo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TemperatureIndicatorsYesNo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MakeAndType)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AlarmAndTripRange)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NoOfContacts)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CurrentRatingOfContacts)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SupervisoryAlarmContact)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DimensionsAndWeightMaximumSizeForTransport)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LMulWMulH)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.WeightOFoil)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.WeightofCore)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TotalWeight)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SanctionedLoad)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MaximumLoad)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhasePowerTransformerTo33KvFeederLine.FeederLineId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhasePowerTransformerToTblSubstation.SubstationId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhasePowerTransformerToSourceSubstation.SubstationId)
-                    </td>*@
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.PhasePowerTransformerId">Edit</a>
-                    @*<a asp-action="Details" asp-route-id="@item.PhasePowerTransformerId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.PhasePowerTransformerId">Delete</a>*@
-                </td>
-            </tr>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.PhasePowerTransformerTo33KvFeederLine.FeederName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhasePowerTransformerToTblSubstation.SubstationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturersName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManufacturersAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppliedStandard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescriptionType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerialNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedPower)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfPhase)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.RatedVoltagePhaseToPhase)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HighVoltageWindingPhaseToPhase)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LowVoltageWindingPhaseToPhase)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedFrequency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatedInsulationLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImpulseHighVoltageWinding)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImpulseLowVoltageWinding)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ACHighVoltageWinding)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ACLowVoltageWinding)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeOfCooling28Or35MVA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OnLoadTapChanger)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeTap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TappingRangeHT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationOfTap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OilVolume)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OneStepChange)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MotorRating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImpedanceVoltageAt75CAndAtNominalRatio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TemperatureRiseAtRatedPowerMaxAmbientTemperature40C)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FiveMva)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SixPointSixMva)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OilByThermometer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WindingByResistanceMeasurement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TemperatureGradientBetweenWindingsAndOil)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortCircuitLevelAtTerminalThirtyThreeKv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortCircuitLevelAtTerminalEleventKv)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransformerCore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TypeofCoreAndFluxEnsityAtNominalVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransformeHVBushing)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransformeHVBushingType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransformeLVBushing)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransformeLVBushingType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransformeNeutralBushing)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransformeNeutralBushingType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConservatorWithAirSealedBagForConstantOilPressur)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BreatherSilicagel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuxiliaryCircuitVoltageForFanetc3P4W)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ControlVoltage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoundLevelIEC551)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ONAN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ONAF)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BushingCTParticularsHVside)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BushingCTParticularsLVside)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BushingCTParticularsNeutralSide)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfCoolingFan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatingOfFanMotors)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoolingFanLossesAtFullOnafCapacityOperation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoreLossAtRatedFrequencyAndRatedVoltageAtNominalTapNoLoadLoss)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CopperLossAtMaximumTap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CopperLossAtNominalTap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CopperLossAtMinimumTap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Radiators)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OverallDimensions)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoOfRadiators)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupervisoryAlarmAndTripContacts)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TemperatureIndicators)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MakeAndType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AlarmAndTripRange)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoOfContacts)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentRatingOfContacts)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupervisoryAlarmContact)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DimensionsAndWeightTransportLMulWMulH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DimensionsAndWeightTransportWeightOFoil)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DimensionsAndWeightTransportWeightofCore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DimensionsAndWeightTransportTotalWeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SanctionedLoad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaximumLoad)
+            </td>*@
+
+            @*<td>
+            <a asp-action="Edit" asp-route-id="@item.PhasePowerTransformerId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.PhasePowerTransformerId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.PhasePowerTransformerId">Delete</a>
+        </td>*@
+        </tr>
         }
     </tbody>
 </table>

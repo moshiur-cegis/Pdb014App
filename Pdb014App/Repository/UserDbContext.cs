@@ -36,7 +36,6 @@ namespace Pdb014App.Repository
         //TblUserProfileDetail
 
         public virtual DbSet<TblUserRegistrationDetail> TblUserRegistrationDetail { get; set; }
-
         public virtual DbSet<LookUpUserActivationStatus> UserActivationStatus { get; set; }
         public virtual DbSet<LookUpUserBpdbDivision> UserBpdbDivision { get; set; }
         public virtual DbSet<LookUpUserBpdbEmployee> UserBpdbEmployee { get; set; }

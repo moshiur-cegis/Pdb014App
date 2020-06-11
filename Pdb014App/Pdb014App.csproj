@@ -6,6 +6,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\AdvancedSearching\**" />
+    <Compile Remove="Views\AdvancedReport\**" />
+    <Compile Remove="Views\AdvancedSearching\**" />
+    <Content Remove="Controllers\AdvancedSearching\**" />
+    <Content Remove="Views\AdvancedReport\**" />
+    <Content Remove="Views\AdvancedSearching\**" />
+    <EmbeddedResource Remove="Controllers\AdvancedSearching\**" />
+    <EmbeddedResource Remove="Views\AdvancedReport\**" />
+    <EmbeddedResource Remove="Views\AdvancedSearching\**" />
+    <None Remove="Controllers\AdvancedSearching\**" />
+    <None Remove="Views\AdvancedReport\**" />
+    <None Remove="Views\AdvancedSearching\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\AdvancedReport\AdvancedReportController.cs" />
+    <Compile Remove="Controllers\AdvancedReport\AdvancedReportServicePointController.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200602112522_UpdateDtModel.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200602112522_UpdateDtModel.Designer.cs" />
     <Compile Remove="Repository\Migrations\PdbDb\20200602113455_UpdateDt_01_06_2020.cs" />

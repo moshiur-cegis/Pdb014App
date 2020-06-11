@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Pdb014App.Models.PDB.PhasePowerTransformerModel;
 using Pdb014App.Repository;
 
-
 namespace Pdb014App.Controllers.PtControllers
 {
     public class TblPhasePowerTransformersController : Controller
@@ -23,10 +22,9 @@ namespace Pdb014App.Controllers.PtControllers
         // GET: TblPhasePowerTransformers
         public async Task<IActionResult> Index()
         {
-            var pdbDbContext = _context.TblPhasePowerTransformer.Include(t => t.PhasePowerTransformerTo33KvFeederLine).Include(t => t.PhasePowerTransformerToSourceSubstation).Include(t => t.PhasePowerTransformerToTblSubstation);
+            var pdbDbContext = _context.TblPhasePowerTransformer.Include(t => t.PhasePowerTransformerTo33KvFeederLine).Include(t => t.PhasePowerTransformerToTblSubstation);
             return View(await pdbDbContext.ToListAsync());
         }
-
 
 
         public async Task<IActionResult> PtList(string substationId, int isShowLayout = 0, int isShowAction = 0)
@@ -35,7 +33,7 @@ namespace Pdb014App.Controllers.PtControllers
             ViewBag.IsShowAction = isShowAction;
             ViewBag.SubstationId = substationId;
 
-            var ptList = _context.TblPhasePowerTransformer.Include(t => t.PhasePowerTransformerTo33KvFeederLine).Include(t => t.PhasePowerTransformerToSourceSubstation).Include(t => t.PhasePowerTransformerToTblSubstation).AsNoTracking();
+            var ptList = _context.TblPhasePowerTransformer.Include(t => t.PhasePowerTransformerTo33KvFeederLine).Include(t => t.PhasePowerTransformerToTblSubstation).AsNoTracking();
 
 
             if (substationId != null)
@@ -45,6 +43,7 @@ namespace Pdb014App.Controllers.PtControllers
 
             return View(await ptList.ToListAsync());
         }
+
         // GET: TblPhasePowerTransformers/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -55,7 +54,6 @@ namespace Pdb014App.Controllers.PtControllers
 
             var tblPhasePowerTransformer = await _context.TblPhasePowerTransformer
                 .Include(t => t.PhasePowerTransformerTo33KvFeederLine)
-                .Include(t => t.PhasePowerTransformerToSourceSubstation)
                 .Include(t => t.PhasePowerTransformerToTblSubstation)
                 .FirstOrDefaultAsync(m => m.PhasePowerTransformerId == id);
             if (tblPhasePowerTransformer == null)
@@ -69,21 +67,18 @@ namespace Pdb014App.Controllers.PtControllers
         // GET: TblPhasePowerTransformers/Create
         public IActionResult Create(string id)
         {
-            ViewData["FeederID33KvId"] = new SelectList(_context.TblFeederLine.Where(i=>i.FeederLineTypeId=="1" && i.FeederLineToRoute.RouteToSubstation.SubstationId== id), "FeederLineId", "FeederName");
-            ViewData["Source132or33kVSubstationId"] = new SelectList(_context.TblSubstation.Where(i => i.SubstationTypeId == "1" && i.SubstationId== id), "SubstationId", "SubstationName");
-            ViewData["SubstationId"] = new SelectList(_context.TblSubstation.Where(i=>i.SubstationId== id), "SubstationId", "SubstationName");
+            ViewData["FeederID33KvId"] = new SelectList(_context.TblFeederLine.Where(i=> i.FeederLineToRoute.RouteToSubstation.SubstationId == id), "FeederLineId", "FeederName");
+            ViewData["SubstationId"] = new SelectList(_context.TblSubstation.Where(i=>i.SubstationId==id), "SubstationId", "SubstationName");
             return View();
         }
 
         // POST: TblPhasePowerTransformers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PhasePowerTransformerId,ManufacturersName,ManufacturersAddress,AppliedStandard,DescriptionType,SerialNumber,RatedPower,NumberofPhase,RatedVoltagePhaseToPhase,HighVoltageWindingPhaseToPhase,LowVoltageWindingPhaseToPhase,RatedFrequency,RatedInsulationLevel,ImpulseWithStandFullWave,ImpulseHighVoltageWinding,ImpulseLowVoltageWinding,ACWithStandVoltage,ACHighVoltageWinding,ACLowVoltageWinding,TypeOfCooling28or35MVA,OnLoadTapChanger,TypeTap,TappingRangeHT,LocationOfTap,OilVolume,OneStepChange,MotorRating,ImpedanceVoltageAt75CAndAtNominalRatio,TemperatureRiseAtRatedPowerMaxAmbientTemperature40C,FiveMva,SixPointSixMva,OilByThermometer,WindingByResistanceMeasurement,TemperatureGradientBetweenWindingsAndOil,ShortCircuitlevelAtTerminal,ThirtyThreeKv,EleventKv,TransformerCore,TypeofCoreAndFluxEnsityAtNominalVoltage,TransformerBushings,HVBushing,HVBushingType,LVBushing,LVBushingType,NeutralBushing,NeutralBushingType,ConservatorWithAirSealedBagForConstantOilPressurYesNo,BreatherSilicagel,AuxiliaryCircuitVoltageForFanetc3P4W,ControlVoltage,SoundLevelIEC551,ONAN,ONAF,BushingCTParticulars,HVside,LVside,NeutralSide,NumberofCoolingFan,RatingOfFanMotors,CoolingFanLossesAtFullOnafCapacityOperation,CoreLossAtRatedFrequencyAndRatedVoltageAtNominalTapNoLoadLoss,CopperLossAtfullloadAtRatedFrequencyAndAt75CFullLoadLoss,AtMaximumTap,AtNominalTap,AtMinimumTap,RadiatorsYesNo,OverallDimensions,NoOfRadiators,SupervisoryAlarmAndTripContactsYesNo,TemperatureIndicatorsYesNo,MakeAndType,AlarmAndTripRange,NoOfContacts,CurrentRatingOfContacts,SupervisoryAlarmContact,DimensionsAndWeightMaximumSizeForTransport,LMulWMulH,WeightOFoil,WeightofCore,TotalWeight,SanctionedLoad,MaximumLoad,FeederID33KvId,SubstationId,Source132or33kVSubstationId")] TblPhasePowerTransformer tblPhasePowerTransformer)
+        public async Task<IActionResult> Create([Bind("PhasePowerTransformerId,ManufacturersName,ManufacturersAddress,AppliedStandard,DescriptionType,SerialNumber,RatedPower,NumberOfPhase,RatedVoltagePhaseToPhase,HighVoltageWindingPhaseToPhase,LowVoltageWindingPhaseToPhase,RatedFrequency,RatedInsulationLevel,ImpulseHighVoltageWinding,ImpulseLowVoltageWinding,ACHighVoltageWinding,ACLowVoltageWinding,TypeOfCooling28Or35MVA,OnLoadTapChanger,TypeTap,TappingRangeHT,LocationOfTap,OilVolume,OneStepChange,MotorRating,ImpedanceVoltageAt75CAndAtNominalRatio,TemperatureRiseAtRatedPowerMaxAmbientTemperature40C,FiveMva,SixPointSixMva,OilByThermometer,WindingByResistanceMeasurement,TemperatureGradientBetweenWindingsAndOil,ShortCircuitLevelAtTerminalThirtyThreeKv,ShortCircuitLevelAtTerminalEleventKv,TransformerCore,TypeofCoreAndFluxEnsityAtNominalVoltage,TransformeHVBushing,TransformeHVBushingType,TransformeLVBushing,TransformeLVBushingType,TransformeNeutralBushing,TransformeNeutralBushingType,ConservatorWithAirSealedBagForConstantOilPressur,BreatherSilicagel,AuxiliaryCircuitVoltageForFanetc3P4W,ControlVoltage,SoundLevelIEC551,ONAN,ONAF,BushingCTParticularsHVside,BushingCTParticularsLVside,BushingCTParticularsNeutralSide,NumberOfCoolingFan,RatingOfFanMotors,CoolingFanLossesAtFullOnafCapacityOperation,CoreLossAtRatedFrequencyAndRatedVoltageAtNominalTapNoLoadLoss,CopperLossAtMaximumTap,CopperLossAtNominalTap,CopperLossAtMinimumTap,Radiators,OverallDimensions,NoOfRadiators,SupervisoryAlarmAndTripContacts,TemperatureIndicators,MakeAndType,AlarmAndTripRange,NoOfContacts,CurrentRatingOfContacts,SupervisoryAlarmContact,DimensionsAndWeightTransportLMulWMulH,DimensionsAndWeightTransportWeightOFoil,DimensionsAndWeightTransportWeightofCore,DimensionsAndWeightTransportTotalWeight,SanctionedLoad,MaximumLoad,FeederID33KvId,SubstationId")] TblPhasePowerTransformer tblPhasePowerTransformer)
         {
-
-
             string findId = _context.TblPhasePowerTransformer.Where(i => i.SubstationId == tblPhasePowerTransformer.SubstationId).OrderBy(u => u.PhasePowerTransformerId).Select(u => u.PhasePowerTransformerId).LastOrDefault();
 
             if (findId == null)
@@ -95,8 +90,6 @@ namespace Pdb014App.Controllers.PtControllers
                 findId = (Convert.ToInt64(findId) + 1).ToString();
             }
 
-
-
             if (ModelState.IsValid)
             {
                 tblPhasePowerTransformer.PhasePowerTransformerId = findId;
@@ -106,9 +99,8 @@ namespace Pdb014App.Controllers.PtControllers
                 TempData["statuMessageSuccess"] = "Phase Power Transformer has been added Successfully under substation id: " + tblPhasePowerTransformer.SubstationId;
                 return RedirectToAction("Index", "TblSubstations");
             }
-            ViewData["FeederID33KvId"] = new SelectList(_context.TblFeederLine.Where(i => i.FeederLineTypeId == "1" && i.FeederLineToRoute.RouteToSubstation.SubstationId == tblPhasePowerTransformer.SubstationId), "FeederLineId", "FeederName", tblPhasePowerTransformer.FeederID33KvId);
-            ViewData["Source132or33kVSubstationId"] = new SelectList(_context.TblSubstation.Where(i => i.SubstationTypeId == "1" && i.SubstationId == tblPhasePowerTransformer.SubstationId), "SubstationId", "SubstationName", tblPhasePowerTransformer.Source132or33kVSubstationId);
-            ViewData["SubstationId"] = new SelectList(_context.TblSubstation.Where(i => i.SubstationId == tblPhasePowerTransformer.SubstationId), "SubstationId", "SubstationName", tblPhasePowerTransformer.SubstationId);
+            ViewData["FeederID33KvId"] = new SelectList(_context.TblFeederLine.Where(i => i.FeederLineToRoute.RouteToSubstation.SubstationId == tblPhasePowerTransformer.SubstationId), "FeederLineId", "FeederName", tblPhasePowerTransformer.FeederID33KvId);
+            ViewData["SubstationId"] = new SelectList(_context.TblSubstation.Where(i =>i.SubstationId == tblPhasePowerTransformer.SubstationId), "SubstationId", "SubstationName", tblPhasePowerTransformer.SubstationId);
             return View(tblPhasePowerTransformer);
         }
 
@@ -125,18 +117,17 @@ namespace Pdb014App.Controllers.PtControllers
             {
                 return NotFound();
             }
-            ViewData["FeederID33KvId"] = new SelectList(_context.TblFeederLine.Where(i => i.FeederLineTypeId == "1" && i.FeederLineToRoute.RouteToSubstation.SubstationId == tblPhasePowerTransformer.SubstationId), "FeederLineId", "FeederName", tblPhasePowerTransformer.FeederID33KvId);
-            ViewData["Source132or33kVSubstationId"] = new SelectList(_context.TblSubstation.Where(i => i.SubstationTypeId == "1" && i.SubstationId == tblPhasePowerTransformer.SubstationId), "SubstationId", "SubstationName", tblPhasePowerTransformer.Source132or33kVSubstationId);
+            ViewData["FeederID33KvId"] = new SelectList(_context.TblFeederLine.Where(i => i.FeederLineToRoute.RouteToSubstation.SubstationId == tblPhasePowerTransformer.SubstationId), "FeederLineId", "FeederName", tblPhasePowerTransformer.FeederID33KvId);
             ViewData["SubstationId"] = new SelectList(_context.TblSubstation.Where(i => i.SubstationId == tblPhasePowerTransformer.SubstationId), "SubstationId", "SubstationName", tblPhasePowerTransformer.SubstationId);
             return View(tblPhasePowerTransformer);
         }
 
         // POST: TblPhasePowerTransformers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("PhasePowerTransformerId,ManufacturersName,ManufacturersAddress,AppliedStandard,DescriptionType,SerialNumber,RatedPower,NumberofPhase,RatedVoltagePhaseToPhase,HighVoltageWindingPhaseToPhase,LowVoltageWindingPhaseToPhase,RatedFrequency,RatedInsulationLevel,ImpulseWithStandFullWave,ImpulseHighVoltageWinding,ImpulseLowVoltageWinding,ACWithStandVoltage,ACHighVoltageWinding,ACLowVoltageWinding,TypeOfCooling28or35MVA,OnLoadTapChanger,TypeTap,TappingRangeHT,LocationOfTap,OilVolume,OneStepChange,MotorRating,ImpedanceVoltageAt75CAndAtNominalRatio,TemperatureRiseAtRatedPowerMaxAmbientTemperature40C,FiveMva,SixPointSixMva,OilByThermometer,WindingByResistanceMeasurement,TemperatureGradientBetweenWindingsAndOil,ShortCircuitlevelAtTerminal,ThirtyThreeKv,EleventKv,TransformerCore,TypeofCoreAndFluxEnsityAtNominalVoltage,TransformerBushings,HVBushing,HVBushingType,LVBushing,LVBushingType,NeutralBushing,NeutralBushingType,ConservatorWithAirSealedBagForConstantOilPressurYesNo,BreatherSilicagel,AuxiliaryCircuitVoltageForFanetc3P4W,ControlVoltage,SoundLevelIEC551,ONAN,ONAF,BushingCTParticulars,HVside,LVside,NeutralSide,NumberofCoolingFan,RatingOfFanMotors,CoolingFanLossesAtFullOnafCapacityOperation,CoreLossAtRatedFrequencyAndRatedVoltageAtNominalTapNoLoadLoss,CopperLossAtfullloadAtRatedFrequencyAndAt75CFullLoadLoss,AtMaximumTap,AtNominalTap,AtMinimumTap,RadiatorsYesNo,OverallDimensions,NoOfRadiators,SupervisoryAlarmAndTripContactsYesNo,TemperatureIndicatorsYesNo,MakeAndType,AlarmAndTripRange,NoOfContacts,CurrentRatingOfContacts,SupervisoryAlarmContact,DimensionsAndWeightMaximumSizeForTransport,LMulWMulH,WeightOFoil,WeightofCore,TotalWeight,SanctionedLoad,MaximumLoad,FeederID33KvId,SubstationId,Source132or33kVSubstationId")] TblPhasePowerTransformer tblPhasePowerTransformer)
+        public async Task<IActionResult> Edit(string id, [Bind("PhasePowerTransformerId,ManufacturersName,ManufacturersAddress,AppliedStandard,DescriptionType,SerialNumber,RatedPower,NumberOfPhase,RatedVoltagePhaseToPhase,HighVoltageWindingPhaseToPhase,LowVoltageWindingPhaseToPhase,RatedFrequency,RatedInsulationLevel,ImpulseHighVoltageWinding,ImpulseLowVoltageWinding,ACHighVoltageWinding,ACLowVoltageWinding,TypeOfCooling28Or35MVA,OnLoadTapChanger,TypeTap,TappingRangeHT,LocationOfTap,OilVolume,OneStepChange,MotorRating,ImpedanceVoltageAt75CAndAtNominalRatio,TemperatureRiseAtRatedPowerMaxAmbientTemperature40C,FiveMva,SixPointSixMva,OilByThermometer,WindingByResistanceMeasurement,TemperatureGradientBetweenWindingsAndOil,ShortCircuitLevelAtTerminalThirtyThreeKv,ShortCircuitLevelAtTerminalEleventKv,TransformerCore,TypeofCoreAndFluxEnsityAtNominalVoltage,TransformeHVBushing,TransformeHVBushingType,TransformeLVBushing,TransformeLVBushingType,TransformeNeutralBushing,TransformeNeutralBushingType,ConservatorWithAirSealedBagForConstantOilPressur,BreatherSilicagel,AuxiliaryCircuitVoltageForFanetc3P4W,ControlVoltage,SoundLevelIEC551,ONAN,ONAF,BushingCTParticularsHVside,BushingCTParticularsLVside,BushingCTParticularsNeutralSide,NumberOfCoolingFan,RatingOfFanMotors,CoolingFanLossesAtFullOnafCapacityOperation,CoreLossAtRatedFrequencyAndRatedVoltageAtNominalTapNoLoadLoss,CopperLossAtMaximumTap,CopperLossAtNominalTap,CopperLossAtMinimumTap,Radiators,OverallDimensions,NoOfRadiators,SupervisoryAlarmAndTripContacts,TemperatureIndicators,MakeAndType,AlarmAndTripRange,NoOfContacts,CurrentRatingOfContacts,SupervisoryAlarmContact,DimensionsAndWeightTransportLMulWMulH,DimensionsAndWeightTransportWeightOFoil,DimensionsAndWeightTransportWeightofCore,DimensionsAndWeightTransportTotalWeight,SanctionedLoad,MaximumLoad,FeederID33KvId,SubstationId")] TblPhasePowerTransformer tblPhasePowerTransformer)
         {
             if (id != tblPhasePowerTransformer.PhasePowerTransformerId)
             {
@@ -163,10 +154,8 @@ namespace Pdb014App.Controllers.PtControllers
                 }
                 TempData["statuMessageSuccess"] = "Phase Power Transformer has been updated Successfully under subtation id: " + tblPhasePowerTransformer.SubstationId;
                 return RedirectToAction("Index", "TblSubstations");
-                //return RedirectToAction(nameof(Index));
             }
-            ViewData["FeederID33KvId"] = new SelectList(_context.TblFeederLine.Where(i => i.FeederLineTypeId == "1" && i.FeederLineToRoute.RouteToSubstation.SubstationId == tblPhasePowerTransformer.SubstationId), "FeederLineId", "FeederName", tblPhasePowerTransformer.FeederID33KvId);
-            ViewData["Source132or33kVSubstationId"] = new SelectList(_context.TblSubstation.Where(i => i.SubstationTypeId == "1" && i.SubstationId == tblPhasePowerTransformer.SubstationId), "SubstationId", "SubstationName", tblPhasePowerTransformer.Source132or33kVSubstationId);
+            ViewData["FeederID33KvId"] = new SelectList(_context.TblFeederLine.Where(i => i.FeederLineToRoute.RouteToSubstation.SubstationId == tblPhasePowerTransformer.SubstationId), "FeederLineId", "FeederName", tblPhasePowerTransformer.FeederID33KvId);
             ViewData["SubstationId"] = new SelectList(_context.TblSubstation.Where(i => i.SubstationId == tblPhasePowerTransformer.SubstationId), "SubstationId", "SubstationName", tblPhasePowerTransformer.SubstationId);
             return View(tblPhasePowerTransformer);
         }
@@ -181,7 +170,6 @@ namespace Pdb014App.Controllers.PtControllers
 
             var tblPhasePowerTransformer = await _context.TblPhasePowerTransformer
                 .Include(t => t.PhasePowerTransformerTo33KvFeederLine)
-                .Include(t => t.PhasePowerTransformerToSourceSubstation)
                 .Include(t => t.PhasePowerTransformerToTblSubstation)
                 .FirstOrDefaultAsync(m => m.PhasePowerTransformerId == id);
             if (tblPhasePowerTransformer == null)
@@ -200,8 +188,6 @@ namespace Pdb014App.Controllers.PtControllers
             var tblPhasePowerTransformer = await _context.TblPhasePowerTransformer.FindAsync(id);
             _context.TblPhasePowerTransformer.Remove(tblPhasePowerTransformer);
             await _context.SaveChangesAsync();
-            //return RedirectToAction(nameof(Index));
-
             TempData["statuMessageSuccess"] = "Phase Power Transformer has been deleted Successfully under substation id: " + tblPhasePowerTransformer.SubstationId;
             return RedirectToAction("Index", "TblSubstations");
         }

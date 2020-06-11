@@ -25,13 +25,12 @@ namespace Pdb014App.Controllers.SubstationControllers
     {
        
         private readonly UserManager<TblUserRegistrationDetail> _userManger;
-        private readonly UserDbContext _contextUser;
+        //private readonly UserDbContext _contextUser;
         private readonly PdbDbContext _context;
 
-        public TblSubstationsController(PdbDbContext context, UserDbContext contextUser, UserManager<TblUserRegistrationDetail> UserManager)
+        public TblSubstationsController(PdbDbContext context, UserManager<TblUserRegistrationDetail> UserManager)
         {
             _context = context;            
-            _contextUser = contextUser;
             _userManger = UserManager;
         }
 
@@ -46,7 +45,7 @@ namespace Pdb014App.Controllers.SubstationControllers
             // RMO User Role wise query
             var user = await _userManger.GetUserAsync(User);
             IList<string> userRole = await _userManger.GetRolesAsync(user);
-            string getSql = new GetUserDetailsController(_contextUser).GetUserRoleWiseQuery("TblSubstation", "SubstationId", user.Id,userRole);
+            string getSql = new GetUserDetailsController(_context).GetUserRoleWiseQuery("TblSubstation", "SubstationId", user.Id,userRole);
 
 
             var query = _context.TblSubstation.FromSqlRaw(getSql)

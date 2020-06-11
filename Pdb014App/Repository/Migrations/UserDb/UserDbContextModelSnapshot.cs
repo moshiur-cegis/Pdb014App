@@ -23,15 +23,19 @@ namespace Pdb014App.Repository.Migrations.UserDb
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("RoleId");
+                        .HasColumnName("RoleId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -48,14 +52,18 @@ namespace Pdb014App.Repository.Migrations.UserDb
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoleId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -68,14 +76,18 @@ namespace Pdb014App.Repository.Migrations.UserDb
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -87,15 +99,19 @@ namespace Pdb014App.Repository.Migrations.UserDb
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
-                    b.Property<string>("ProviderDisplayName");
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -106,9 +122,11 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("RoleId");
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -119,15 +137,19 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(128)")
                         .HasMaxLength(128);
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -183,9 +205,11 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasColumnType("int");
 
                     b.Property<string>("BpdbEmpDesignation")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("BpdbEmployeeLevel")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("CircleCode")
@@ -371,14 +395,18 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("LogOutDateTime");
+                    b.Property<DateTime>("LogOutDateTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("LoginDateTime");
+                    b.Property<DateTime>("LoginDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LoginNotes")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("ServerOrIPAddress")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<int>("UserId")
@@ -405,6 +433,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasColumnType("int");
 
                     b.Property<string>("BpdbEmpDesignation")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<int?>("BpdbEmployeeId")
@@ -412,6 +441,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasColumnType("int");
 
                     b.Property<string>("BpdbEmployeeLevel")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("CircleCode")
@@ -424,9 +454,11 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasColumnType("nvarchar(450)")
                         .HasMaxLength(450);
 
-                    b.Property<bool>("IsBpdbEmployee");
+                    b.Property<bool>("IsBpdbEmployee")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsProfileSubmitted");
+                    b.Property<bool>("IsProfileSubmitted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("SecurityQuestionAnswer")
                         .HasColumnType("nvarchar(250)")
@@ -448,11 +480,14 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<string>("UserAlternateEmail");
+                    b.Property<string>("UserAlternateEmail")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserAlternateMobile");
+                    b.Property<string>("UserAlternateMobile")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UserDateOfBirth");
+                    b.Property<DateTime?>("UserDateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserDesignation")
                         .HasColumnType("nvarchar(250)")
@@ -463,6 +498,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
                         .HasMaxLength(250);
 
                     b.Property<string>("UserNID")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("UserProfession")
@@ -495,53 +531,74 @@ namespace Pdb014App.Repository.Migrations.UserDb
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("UserId");
+                        .HasColumnName("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AccessFailedCount");
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DateOfCreation");
+                    b.Property<DateTime?>("DateOfCreation")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<bool>("EmailConfirmed");
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("IsVerified");
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTime?>("LastModifiedDate");
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("LockoutEnabled");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<string>("PasswordHash");
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("SecurityStamp");
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("TwoFactorEnabled");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
 
-                    b.Property<int?>("UserActivationStatusId");
+                    b.Property<int?>("UserActivationStatusId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("UserNames")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("VerificationCode")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
@@ -561,7 +618,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -569,7 +626,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Pdb014App.Models.UserManage.TblUserRegistrationDetail")
+                    b.HasOne("Pdb014App.Models.UserManage.TblUserRegistrationDetail", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -577,7 +634,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Pdb014App.Models.UserManage.TblUserRegistrationDetail")
+                    b.HasOne("Pdb014App.Models.UserManage.TblUserRegistrationDetail", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -585,12 +642,12 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Pdb014App.Models.UserManage.TblUserRegistrationDetail")
+                    b.HasOne("Pdb014App.Models.UserManage.TblUserRegistrationDetail", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -598,7 +655,7 @@ namespace Pdb014App.Repository.Migrations.UserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Pdb014App.Models.UserManage.TblUserRegistrationDetail")
+                    b.HasOne("Pdb014App.Models.UserManage.TblUserRegistrationDetail", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -12,9 +12,9 @@ namespace Pdb014App.Controllers.UserController
     public class GetUserDetailsController : Controller
     {
 
-        public UserDbContext _contextUser;
+        public PdbDbContext _contextUser;
 
-        public GetUserDetailsController(UserDbContext contextUser)
+        public GetUserDetailsController(PdbDbContext contextUser)
         {
             _contextUser = contextUser;
         }

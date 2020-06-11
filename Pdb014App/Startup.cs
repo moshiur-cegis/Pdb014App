@@ -53,8 +53,28 @@ namespace Pdb014App
                 .AddDbContext<PdbDbContext>(options =>
                     options.UseSqlServer(dbConnStr));
 
-            services.AddDbContext<UserDbContext>(options =>
-                options.UseSqlServer(dbConnStr));
+            //services.AddDbContext<UserDbContext>(options =>
+            //    options.UseSqlServer(dbConnStr));
+
+
+            //services.AddIdentity<TblUserRegistrationDetail, IdentityRole>(options =>
+            //{
+            //    // User settings
+            //    options.User.RequireUniqueEmail = true;
+            //    options.Stores.MaxLengthForKeys = 128;
+            //    options.Password.RequireDigit = false;
+            //    options.Password.RequiredLength = 4;
+            //    options.Password.RequiredUniqueChars = 1;
+            //    options.Password.RequireLowercase = false;
+            //    options.Password.RequireNonAlphanumeric = false;
+            //    options.Password.RequireUppercase = false;
+
+            //    options.SignIn.RequireConfirmedEmail = true;
+
+            //    //options.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
+            //})
+            //    .AddEntityFrameworkStores<UserDbContext>()
+            //    .AddDefaultTokenProviders();
 
 
             services.AddIdentity<TblUserRegistrationDetail, IdentityRole>(options =>
@@ -68,12 +88,10 @@ namespace Pdb014App
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-
                 options.SignIn.RequireConfirmedEmail = true;
-
                 //options.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
             })
-                .AddEntityFrameworkStores<UserDbContext>()
+                .AddEntityFrameworkStores<PdbDbContext>()
                 .AddDefaultTokenProviders();
 
 

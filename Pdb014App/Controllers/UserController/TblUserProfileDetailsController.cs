@@ -15,13 +15,13 @@ namespace Pdb014App.Controllers.UserController
     [Authorize]
     public class TblUserProfileDetailsController : Controller
     {
-        private readonly UserDbContext _context;
+        
         private readonly UserManager<TblUserRegistrationDetail> _userManager;
         private readonly PdbDbContext _contextPDB;
 
-        public TblUserProfileDetailsController(UserDbContext context, UserManager<TblUserRegistrationDetail> userManager, PdbDbContext _contextPDB)
+        public TblUserProfileDetailsController( UserManager<TblUserRegistrationDetail> userManager, PdbDbContext _contextPDB)
         {
-            this._context = context;
+       
             this._userManager = userManager;
             this._contextPDB = _contextPDB;
         }
@@ -29,10 +29,10 @@ namespace Pdb014App.Controllers.UserController
         // GET: TblUserProfileDetails
         public async Task<IActionResult> Index()
         {
-            var userDbContext = _context.UserProfileDetail.Include(t => t.UserProfileDetailToUserBpdbEmployee).Include(t => t.UserProfileDetailToUserRegistrationDetail).Include(t => t.UserSecurityQuestion).Include(l => l.UserBpdbEmployeeUserBpdbDivision);
+            var userDbContext = _contextPDB.UserProfileDetail.Include(t => t.UserProfileDetailToUserBpdbEmployee).Include(t => t.UserProfileDetailToUserRegistrationDetail).Include(t => t.UserSecurityQuestion).Include(l => l.UserBpdbEmployeeUserBpdbDivision);
 
 
-            var user = _context.UserProfileDetail.Include(t => t.UserProfileDetailToUserBpdbEmployee).Include(t => t.UserProfileDetailToUserRegistrationDetail).Include(t => t.UserSecurityQuestion).Include(l => l.UserBpdbEmployeeUserBpdbDivision).ToList();
+            var user = _contextPDB.UserProfileDetail.Include(t => t.UserProfileDetailToUserBpdbEmployee).Include(t => t.UserProfileDetailToUserRegistrationDetail).Include(t => t.UserSecurityQuestion).Include(l => l.UserBpdbEmployeeUserBpdbDivision).ToList();
             var substration = _contextPDB.TblSubstation.ToList();
 
 
@@ -88,7 +88,7 @@ namespace Pdb014App.Controllers.UserController
                 return NotFound();
             }
 
-            var tblUserProfileDetail = await _context.UserProfileDetail
+            var tblUserProfileDetail = await _contextPDB.UserProfileDetail
                 .Include(t => t.UserProfileDetailToUserBpdbEmployee)
                 .Include(t => t.UserProfileDetailToUserRegistrationDetail)
                 .Include(t => t.UserSecurityQuestion)
@@ -111,7 +111,7 @@ namespace Pdb014App.Controllers.UserController
 
             }
 
-            var tblUserProfileDetail = await _context.UserProfileDetail
+            var tblUserProfileDetail = await _contextPDB.UserProfileDetail
                 .Include(t => t.UserProfileDetailToUserBpdbEmployee)
                 .Include(t => t.UserProfileDetailToUserRegistrationDetail)
                 .Include(t => t.UserSecurityQuestion)
@@ -141,10 +141,10 @@ namespace Pdb014App.Controllers.UserController
         // GET: TblUserProfileDetails/Create
         public IActionResult Create()
         {
-            ViewData["BpdbEmployeeId"] = new SelectList(_context.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId");
-            ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail, "Id", "Id");
-            ViewData["UserSecurityQuestionId"] = new SelectList(_context.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion");
-            ViewData["BpdbDivisionId"] = new SelectList(_context.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
+            ViewData["BpdbEmployeeId"] = new SelectList(_contextPDB.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId");
+            ViewData["Id"] = new SelectList(_contextPDB.TblUserRegistrationDetail, "Id", "Id");
+            ViewData["UserSecurityQuestionId"] = new SelectList(_contextPDB.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion");
+            ViewData["BpdbDivisionId"] = new SelectList(_contextPDB.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
             ViewData["ZoneCode"] = new SelectList(_contextPDB.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
 
 
@@ -199,16 +199,16 @@ namespace Pdb014App.Controllers.UserController
 
             if (ModelState.IsValid)
             {
-                _context.Add(tblUserProfileDetail);
-                await _context.SaveChangesAsync();
+                _contextPDB.Add(tblUserProfileDetail);
+                await _contextPDB.SaveChangesAsync();
 
                 return RedirectToAction("ProfileDetials", new { id = tblUserProfileDetail.Id });
                 //return RedirectToAction(nameof(Index));
             }
-            ViewData["BpdbEmployeeId"] = new SelectList(_context.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId", tblUserProfileDetail.BpdbEmployeeId);
-            ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail, "Id", "Id", tblUserProfileDetail.Id);
-            ViewData["UserSecurityQuestionId"] = new SelectList(_context.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion", tblUserProfileDetail.UserSecurityQuestionId);
-            ViewData["BpdbDivisionId"] = new SelectList(_context.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
+            ViewData["BpdbEmployeeId"] = new SelectList(_contextPDB.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId", tblUserProfileDetail.BpdbEmployeeId);
+            ViewData["Id"] = new SelectList(_contextPDB.TblUserRegistrationDetail, "Id", "Id", tblUserProfileDetail.Id);
+            ViewData["UserSecurityQuestionId"] = new SelectList(_contextPDB.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion", tblUserProfileDetail.UserSecurityQuestionId);
+            ViewData["BpdbDivisionId"] = new SelectList(_contextPDB.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
             ViewData["ZoneCode"] = new SelectList(_contextPDB.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
 
             return View(tblUserProfileDetail);
@@ -224,15 +224,15 @@ namespace Pdb014App.Controllers.UserController
                 return NotFound();
             }
 
-            var tblUserProfileDetail = await _context.UserProfileDetail.FindAsync(id);
+            var tblUserProfileDetail = await _contextPDB.UserProfileDetail.FindAsync(id);
             if (tblUserProfileDetail == null)
             {
                 return NotFound();
             }
-            ViewData["BpdbEmployeeId"] = new SelectList(_context.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId", tblUserProfileDetail.BpdbEmployeeId);
-            ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail.Where(i => i.Id == tblUserProfileDetail.Id), "Id", "Id", tblUserProfileDetail.Id);
-            ViewData["UserSecurityQuestionId"] = new SelectList(_context.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion", tblUserProfileDetail.UserSecurityQuestionId);
-            ViewData["BpdbDivisionId"] = new SelectList(_context.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
+            ViewData["BpdbEmployeeId"] = new SelectList(_contextPDB.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId", tblUserProfileDetail.BpdbEmployeeId);
+            ViewData["Id"] = new SelectList(_contextPDB.TblUserRegistrationDetail.Where(i => i.Id == tblUserProfileDetail.Id), "Id", "Id", tblUserProfileDetail.Id);
+            ViewData["UserSecurityQuestionId"] = new SelectList(_contextPDB.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion", tblUserProfileDetail.UserSecurityQuestionId);
+            ViewData["BpdbDivisionId"] = new SelectList(_contextPDB.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
             ViewData["ZoneCode"] = new SelectList(_contextPDB.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
             return View(tblUserProfileDetail);
         }
@@ -254,8 +254,8 @@ namespace Pdb014App.Controllers.UserController
             {
                 try
                 {
-                    _context.Update(tblUserProfileDetail);
-                    await _context.SaveChangesAsync();
+                    _contextPDB.Update(tblUserProfileDetail);
+                    await _contextPDB.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -271,10 +271,10 @@ namespace Pdb014App.Controllers.UserController
                 return RedirectToAction("ProfileDetials", new { id = tblUserProfileDetail.Id });
                 //return RedirectToAction(nameof(Index));
             }
-            ViewData["BpdbEmployeeId"] = new SelectList(_context.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId", tblUserProfileDetail.BpdbEmployeeId);
-            ViewData["Id"] = new SelectList(_context.TblUserRegistrationDetail, "Id", "Id", tblUserProfileDetail.Id);
-            ViewData["UserSecurityQuestionId"] = new SelectList(_context.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion", tblUserProfileDetail.UserSecurityQuestionId);
-            ViewData["BpdbDivisionId"] = new SelectList(_context.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
+            ViewData["BpdbEmployeeId"] = new SelectList(_contextPDB.UserBpdbEmployee, "BpdbEmployeeId", "BpdbEmployeeId", tblUserProfileDetail.BpdbEmployeeId);
+            ViewData["Id"] = new SelectList(_contextPDB.TblUserRegistrationDetail, "Id", "Id", tblUserProfileDetail.Id);
+            ViewData["UserSecurityQuestionId"] = new SelectList(_contextPDB.UserSecurityQuestion, "UserSecurityQuestionId", "UserSecurityQuestion", tblUserProfileDetail.UserSecurityQuestionId);
+            ViewData["BpdbDivisionId"] = new SelectList(_contextPDB.UserBpdbDivision, "BpdbDivisionId", "BpdbDivisionName");
             ViewData["ZoneCode"] = new SelectList(_contextPDB.LookUpZoneInfo.OrderBy(d => d.ZoneCode), "ZoneCode", "ZoneName");
             //return RedirectToAction("ProfileDetials")
 
@@ -290,7 +290,7 @@ namespace Pdb014App.Controllers.UserController
                 return NotFound();
             }
 
-            var tblUserProfileDetail = await _context.UserProfileDetail
+            var tblUserProfileDetail = await _contextPDB.UserProfileDetail
                 .Include(t => t.UserProfileDetailToUserBpdbEmployee)
                 .Include(t => t.UserProfileDetailToUserRegistrationDetail)
                 .Include(t => t.UserSecurityQuestion)
@@ -309,15 +309,15 @@ namespace Pdb014App.Controllers.UserController
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tblUserProfileDetail = await _context.UserProfileDetail.FindAsync(id);
-            _context.UserProfileDetail.Remove(tblUserProfileDetail);
-            await _context.SaveChangesAsync();
+            var tblUserProfileDetail = await _contextPDB.UserProfileDetail.FindAsync(id);
+            _contextPDB.UserProfileDetail.Remove(tblUserProfileDetail);
+            await _contextPDB.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TblUserProfileDetailExists(int id)
         {
-            return _context.UserProfileDetail.Any(e => e.UserId == id);
+            return _contextPDB.UserProfileDetail.Any(e => e.UserId == id);
         }
 
         public JsonResult GetCircleList(string zoneCode)

@@ -19,13 +19,13 @@ namespace Pdb014App.Controllers.ServicePointControllers
     public class TblServicePointsController : Controller
     {
         private readonly UserManager<TblUserRegistrationDetail> _userManger;
-        private readonly UserDbContext _contextUser;
+      
         private readonly PdbDbContext _context;
 
-        public TblServicePointsController(PdbDbContext context, UserDbContext contextUser, UserManager<TblUserRegistrationDetail> UserManager)
+        public TblServicePointsController(PdbDbContext context, UserManager<TblUserRegistrationDetail> UserManager)
         {
             _context = context;
-            _contextUser = contextUser;
+            
             _userManger = UserManager;
         }
 
@@ -38,7 +38,7 @@ namespace Pdb014App.Controllers.ServicePointControllers
 
             var user = await _userManger.GetUserAsync(User);
             IList<string> userRole = await _userManger.GetRolesAsync(user);
-            string getSql = new GetUserDetailsController(_contextUser).GetUserRoleWiseQuery("TblServicePoint", "ServicesPointId", user.Id, userRole);
+            string getSql = new GetUserDetailsController(_context).GetUserRoleWiseQuery("TblServicePoint", "ServicesPointId", user.Id, userRole);
 
             var query = _context.TblServicePoint.Include(t => t.ServicePointToPole).Include(t => t.ServicesPointToDistributionTransformer).Include(t => t.ServicePointType).Include(t => t.VoltageCategory).AsQueryable();
 

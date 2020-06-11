@@ -16,6 +16,9 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var isMsg = TempData["statuMessageSuccess"] != null ? 1 : 0;
+
 }
 
 
@@ -219,10 +222,7 @@
                                     <a class="btn btn-info" href="#" onclick="show_components(@item.SubstationId); return false;">Components</a>
                                 </td>
 
-                                <td>
-                                    @*@Html.DisplayFor(modelItem => item.SubstationId)*@
 
-                                </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.SubstationType.SubstationTypeName)
                                 </td>
@@ -292,12 +292,18 @@
     <script src="~/js/autocomplete.extend.js"></script>
 
     <script type="text/javascript">
+        var isMessage = 1 * "@isMsg";
 
-         function show_components(substationId) {
-             if (!substationId)
-                 return false;
+            if (isMessage==1)
+            {
+                msg.init("success","Success", "@TempData["statuMessageSuccess"]");
+            }
 
-             var isShowAction = 1; //By RMO
+
+            function show_components(substationId) {
+                if (!substationId)
+                    return false;
+                var isShowAction = 1; //By RMO
 
             $.ajax({
                 type: "GET",
@@ -307,14 +313,14 @@
                 before: $("#busy-indicator").fadeIn(150),
             })
                 .done(function (compInfo) {
-                    modal.init("Components Information", compInfo, true, false);
-                })
+                modal.init("Components Information", compInfo, true, false);
+            })
                 .fail(function (ex) {
-                    modal.init("Components Information", "...", false, false);
-                    msg.init("error", "Error... . . !", "Failed to load components information. " + ex.error);
-                }).always(function () {
+                modal.init("Components Information", "...", false, false);
+                msg.init("error", "Error... . . !", "Failed to load components information. " + ex.error);
+            }).always(function () {
                     $("#busy-indicator").fadeOut(150);
-                });
+            });
 
             return false;
         }

@@ -16,6 +16,7 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var isMsg = TempData["statuMessageSuccess"] != null ? 1 : 0;
 
 }
 
@@ -472,6 +473,13 @@
     <script src="~/js/autocomplete.extend.js"></script>
 
     <script type="text/javascript">
+
+            var isMessage = 1 * "@isMsg";
+
+            if (isMessage==1)
+            {
+                msg.init("success","Success", "@TempData["statuMessageSuccess"]");
+            }
 
          function show_components(poleId) {
             if (!poleId)

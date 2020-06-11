@@ -26,10 +26,11 @@ using Pdb014App.Models.MapViewer.Settings;
 using Pdb014App.Models.PDB.DistributionTransformerModels;
 using Microsoft.AspNetCore.Identity;
 using Pdb014App.Models.UserManage;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Pdb014App.Repository
 {
-    public class PdbDbContext : DbContext
+    public class PdbDbContext : IdentityDbContext<TblUserRegistrationDetail, IdentityRole, string>
     {
         public PdbDbContext(DbContextOptions<PdbDbContext> options) : base(options) { }
 
@@ -226,6 +227,7 @@ namespace Pdb014App.Repository
         public virtual DbSet<LookUpMapViewPopUpFieldDetails> LookUpMapViewPopUpFieldDetails { get; set; }
         #endregion
 
+
         #region Complain
 
         public virtual DbSet<Complain> ComplainInfo { get; set; }
@@ -237,19 +239,19 @@ namespace Pdb014App.Repository
 
 
         #region User Model
-        //public virtual DbSet<TblUserRegistrationDetail> TblUserRegistrationDetail { get; set; }
-        //public virtual DbSet<LookUpUserActivationStatus> UserActivationStatus { get; set; }
-        //public virtual DbSet<LookUpUserBpdbDivision> UserBpdbDivision { get; set; }
-        //public virtual DbSet<LookUpUserBpdbEmployee> UserBpdbEmployee { get; set; }
-        //public virtual DbSet<LookUpUserContentType> UserContentType { get; set; }
-        //public virtual DbSet<LookUpUserPermissionType> UserPermissionType { get; set; }
-        //public virtual DbSet<LookUpUserSecurityQuestion> UserSecurityQuestion { get; set; }
-        //public virtual DbSet<LookUpUsersPermittedContent> UsersPermittedContent { get; set; }
+        public virtual DbSet<TblUserRegistrationDetail> TblUserRegistrationDetail { get; set; }
+        public virtual DbSet<LookUpUserActivationStatus> UserActivationStatus { get; set; }
+        public virtual DbSet<LookUpUserBpdbDivision> UserBpdbDivision { get; set; }
+        public virtual DbSet<LookUpUserBpdbEmployee> UserBpdbEmployee { get; set; }
+        public virtual DbSet<LookUpUserContentType> UserContentType { get; set; }
+        public virtual DbSet<LookUpUserPermissionType> UserPermissionType { get; set; }
+        public virtual DbSet<LookUpUserSecurityQuestion> UserSecurityQuestion { get; set; }
+        public virtual DbSet<LookUpUsersPermittedContent> UsersPermittedContent { get; set; }
 
-        //public virtual DbSet<TblUserGrpWisePermissionDetail> UserGrpWisePermissionDetail { get; set; }
-        //public virtual DbSet<TblUserGrpWiseUsersDistribution> UserGrpWiseUsersDistribution { get; set; }
-        //public virtual DbSet<TblUserLogHistory> UserLogHistory { get; set; }
-        //public virtual DbSet<TblUserProfileDetail> UserProfileDetail { get; set; }
+        public virtual DbSet<TblUserGrpWisePermissionDetail> UserGrpWisePermissionDetail { get; set; }
+        public virtual DbSet<TblUserGrpWiseUsersDistribution> UserGrpWiseUsersDistribution { get; set; }
+        public virtual DbSet<TblUserLogHistory> UserLogHistory { get; set; }
+        public virtual DbSet<TblUserProfileDetail> UserProfileDetail { get; set; }
         #endregion
 
 
@@ -262,13 +264,13 @@ namespace Pdb014App.Repository
 
 
             #region User Model
-            //modelBuilder.Entity<TblUserRegistrationDetail>().ToTable("Users").Property(p => p.Id).HasColumnName("UserId");
-            //modelBuilder.Entity<IdentityRole>().ToTable("UserRoleList").Property(p => p.Id).HasColumnName("RoleId");
-            //modelBuilder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("UserRoles"); });
-            //modelBuilder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("UserClaims"); });
-            //modelBuilder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("UserLogins"); });
-            //modelBuilder.Entity<IdentityUserToken<string>>(entity => { entity.ToTable("UserToken"); });
-            //modelBuilder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("UserRoleClaim"); });
+            modelBuilder.Entity<TblUserRegistrationDetail>().ToTable("Users").Property(p => p.Id).HasColumnName("UserId");
+            modelBuilder.Entity<IdentityRole>().ToTable("UserRoleList").Property(p => p.Id).HasColumnName("RoleId");
+            modelBuilder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("UserRoles"); });
+            modelBuilder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("UserClaims"); });
+            modelBuilder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("UserLogins"); });
+            modelBuilder.Entity<IdentityUserToken<string>>(entity => { entity.ToTable("UserToken"); });
+            modelBuilder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("UserRoleClaim"); });
             #endregion
 
         }
